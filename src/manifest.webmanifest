@@ -1,6 +1,6 @@
 {
-  "name": "episjobadmin",
-  "short_name": "episjobadmin",
+  "name": "Epiroc SJ Admin",
+  "short_name": "EpiSJ Admin",
   "theme_color": "#ffcd00",
   "background_color": "#ffcd00",
   "display": "standalone",
