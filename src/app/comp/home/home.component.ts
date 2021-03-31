@@ -13,6 +13,8 @@ export class HomeComponent implements OnInit {
     {id:'Rigs',icon:'precision_manufacturing'},
     {id:'Technicians',icon:'handyman'},
     {id:'Files',icon:'cloud_download'},
+    {id:'Contracts',icon:'description'},
+
   ];
   constructor() { }
 
@@ -20,5 +22,8 @@ export class HomeComponent implements OnInit {
     
   }
 
+  msg(e:string){
+    alert(e)
+  }
 
 }
