@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { from } from 'rxjs'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'episjob-home',
@@ -8,22 +8,22 @@ import { from } from 'rxjs'
 })
 export class HomeComponent implements OnInit {
   buttons:any = [
-    {id:'Users',icon:'account_box'},
-    {id:'Customers',icon:'work'},
-    {id:'Rigs',icon:'precision_manufacturing'},
-    {id:'Technicians',icon:'handyman'},
-    {id:'Files',icon:'cloud_download'},
-    {id:'Contracts',icon:'description'},
+    {id:'Users',icon:'account_box', route:'users'},
+    {id:'Customers',icon:'work', route:'customers'},
+    {id:'Rigs',icon:'precision_manufacturing', route:'rigs'},
+    {id:'Technicians',icon:'handyman', route:'tech'},
+    {id:'Files',icon:'cloud_download', route:'files'},
+    {id:'Contracts',icon:'description', route:'contracts'},
 
   ];
-  constructor() { }
+  constructor(public router :Router) { }
 
   ngOnInit(): void { 
     
   }
 
-  msg(e:string){
-    alert(e)
+  nav(route:string){
+    this.router.navigate([route])
   }
 
 }

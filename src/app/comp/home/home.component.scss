@@ -1,8 +1,7 @@
 #start{
     display: grid;
-    grid-template-columns: 100%;
+    grid-template-columns: 1fr;
     grid-template-rows: auto;
-    align-items: flex-start;
 }
 
 .label{
@@ -14,10 +13,12 @@
     transform: translateY(30px) scale(2.5);
 }
 
+
 .butC{
+    max-width: 200px;
     padding: 0;
     margin: 4%;
-    height: 200px;
+    aspect-ratio: 1;
 }
 
 .but{
@@ -27,42 +28,49 @@
 
 @media only screen and (min-width: 300px) {
     #start{
-        grid-template-columns: 50% 50%;
+        grid-template-columns: repeat(2, 1fr);
         grid-template-rows: auto;
     }
 }
 
 @media only screen and (min-width: 450px) {
     #start{
-        grid-template-columns: 33.333% 33.333% 33.333%;
+        grid-template-columns: repeat(3, 1fr);
         grid-template-rows: auto;
     }
 }
 
 @media only screen and (min-width: 600px) {
     #start{
-        grid-template-columns: 25% 25% 25% 25%;
+        grid-template-columns: repeat(4, 1fr);
         grid-template-rows: auto;
     }
 }
 
 @media only screen and (min-width: 750px) {
     #start{
-        grid-template-columns: 20% 20% 20% 20% 20%;
+        grid-template-columns:repeat(5, 1fr);
         grid-template-rows: auto;
     }
 }
 
 @media only screen and (min-width: 900px) {
     #start{
-        grid-template-columns: 16.666% 16.666% 16.666% 16.666% 16.666% 16.666%;
+        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: auto;
     }
 }
 
 @media only screen and (min-width: 1050px) {
     #start{
-        grid-template-columns: 14.286% 14.286% 14.286% 14.286% 14.286% 14.286% 14.286%;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: auto;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    #start{
+        grid-template-columns: repeat(8, 1fr);
         grid-template-rows: auto;
     }
 }
