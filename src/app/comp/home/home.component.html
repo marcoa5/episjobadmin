@@ -1,6 +1,6 @@
 <div id="login"></div>
 
-<div id="start">
+<div (window:resize)="resize()" id="start" [ngStyle]="{'grid-template-columns': 'repeat('+t+', 1fr)'}">
     <div class="butC" *ngFor="let a of buttons">
         <button mat-raised-button class="but" color="accent" (click)="nav(a.route)">
             <div>

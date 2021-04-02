@@ -1,12 +1,17 @@
-<mat-toolbar color="primary" class="mt">
-  <!--<button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>-->
-  <span>{{orient? 'Epiroc Service Job Administration Tool' : 'Epiroc SJ Admin Tool'}}</span>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-    <mat-icon>account_box</mat-icon>
-  </button>
-  <span class="nomeUtente">Nessun Utente</span>
-</mat-toolbar>
-<router-outlet></router-outlet>
+<div class="mt">
+    <mat-toolbar color="primary" class="mt">
+    <!--<button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>-->
+    <span>{{orient? 'Epiroc Service Job Administration Tool' : 'Epiroc SJ Admin Tool'}}</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>account_box</mat-icon>
+    </button>
+    <span class="nomeUtente">Nessun Utente</span>
+  </mat-toolbar>
+</div>
+
+<div class="content">
+ <router-outlet></router-outlet> 
+</div>
