@@ -1,15 +1,17 @@
 <div class="subH">
-    <button mat-icon-button (click)="back()" color="accent" class="back">
+    <span>
+      <button mat-raised-button (click)="back()" color="accent" class="back">
         <mat-icon>navigate_before</mat-icon><span>Back to home</span>
-    </button>
-    <h1 class="title">Rigs</h1>  
+      </button></span>
+      <span class="head">Installed Base</span>
+    
 </div> 
 
 <div id="spin" *ngIf="!rigs">
   <mat-spinner></mat-spinner>
 </div>
 
-<div class="cont">
+<div class="cont" *ngIf="rigs">
   <mat-card class="card" *ngFor="let rig of rigs">
     <h3 class="rigT">s/n: {{rig.sn}}</h3>
     <h4>{{rig.model}}</h4>
