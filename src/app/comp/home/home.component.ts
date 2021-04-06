@@ -17,17 +17,10 @@ export class HomeComponent implements OnInit {
 
   ];
   constructor(public router :Router) { }
-  t:number | undefined;
   ngOnInit(): void { 
-    this.t= Math.floor(window.innerWidth/150)
   }
 
   nav(route:string){
     this.router.navigate([route])
-  }
-
-  resize(){
-    this.t= Math.floor(window.innerWidth/150)
-    return this.t 
   }
 }

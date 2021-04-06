@@ -1,3 +1,6 @@
+
+
+
 *{
   --alt-bar: 60px;
 }
@@ -14,9 +17,9 @@
   position: fixed; top:0;left:0;
   z-index: 2;
   height: var(--alt-bar);
-  box-shadow: 0 0 20px 0 black;
 }
 
 .content {
   padding-top: calc(var(--alt-bar) + 20px);
 }
+
