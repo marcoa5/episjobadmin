@@ -22,7 +22,7 @@ const firebaseConfig = {
 export class AppComponent {
   title = 'episjobadmin';
   orient: boolean | undefined
-
+  titolo: string | undefined
   ngOnInit(){
     firebase.default.initializeApp(firebaseConfig)
   }

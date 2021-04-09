@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackService } from '../../serv/back.service'
 import { from } from 'rxjs'
@@ -12,9 +12,13 @@ import 'firebase/database'
 })
 export class RigsComponent implements OnInit {
   rigs:any;
+
+  @Output() mTitle = new EventEmitter<string>()
+
   constructor(public router: Router, public bak:BackService) { }
 
   ngOnInit(): void {
+    this.mTitle.emit('Rigs')
     firebase.default.database().ref('MOL').once('value')
     .then(snap=>{
       this.rigs=Object.values(snap.val())
@@ -26,4 +30,7 @@ export class RigsComponent implements OnInit {
     this.bak.backP()
   }
 
+  open(a: String, b:String, c:String){
+    alert(`Modello: ${a} \n S/N: ${b} \n Cliente: ${c}`)
+  }
 }
