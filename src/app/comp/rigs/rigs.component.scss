@@ -3,48 +3,45 @@
 
 :root{
     --wid-card: 200px;
-}
-.subH {
-    position: fixed; 
-    background-color:rgb(255,205,0); 
-    width:100%;
-    height:60px;
-    top:60px;
-    left:0;
-    margin:0;
-    z-index: 3;
-    display: flex;
-    align-items:center;
+    background-color: lightgray;
 }
 
 .card{
-    width: 300px;
+    width: 250px;
     justify-self: center;
     align-self: center;
+    cursor: pointer;
+}
+
+.cardC{
+    width: 250px;
+    justify-self: center;
+    align-self: center;
+    cursor: pointer;
 }
 
 .cont{
     display: grid;
-    grid-template-columns:  repeat(auto-fill, minmax(320px, 1fr));
-    grid-template-rows: auto;
+    grid-template-columns:  repeat(auto-fill, minmax(270px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
     gap:15px;
-    padding: 10px;
+    padding: 75px 15px 15px 15px;
     background-color: lightgrey;
 }
 
 #spin{
-    margin-top: 100px;
     display:inline-flex;
-    width:100%; height:100%;
+    width:100vw; height:100vh;
+    padding-top:100px;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    background-color: lightgrey;
 }
 
 .head{
-    color: $dark-text;
+    color: $light-text;
     font-weight: 500;
     margin-left: 30px; 
-    font-size: 150%;
   }
 
 .back{
@@ -56,4 +53,27 @@
     color: $light-text;
     text-align: center;
     border-radius: 20px;
+}
+
+.subF{
+    position:fixed;
+    z-index: 2;
+    transition: 0.3s;
+    height: 60px;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+.cerca{
+    padding:0;
+}
+
+#fil{
+    background-color: $dark-text;
+    color: $light-text;
+    font-family: Arial;
+    border-radius: 20px;
+    padding:5px;
 }

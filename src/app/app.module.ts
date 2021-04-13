@@ -14,17 +14,20 @@ import { MatCardModule } from '@angular/material/card'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RigsComponent } from './comp/rigs/rigs.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInput, MatInputModule } from '@angular/material/input';
+import { SnfilterPipe } from './snfilter.pipe'
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    RigsComponent
+    RigsComponent,
+    SnfilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

@@ -1,21 +1,30 @@
-<mat-toolbar color="primary">
+<mat-toolbar (window:resize)="largh($event)"  (window:scroll)="scrolla($event)" [ngStyle]="{'top': scrollaV ? '60px' : '-250px'}" id="menuB" class="subF" color="accent" [class.mat-elevation-z7]="true">
     <span>
-      <button mat-raised-button (click)="back()" color="accent" class="back">
+      <button mat-raised-button (click)="back()" color="primary" class="back">
         <mat-icon>navigate_before</mat-icon><span>Back</span>
       </button></span>
-      <span class="head">Installed Base</span>
+        <span class="head" *ngIf="lar">Installed Base</span>
+        <span class="spacer"></span>
+        <mat-icon>search</mat-icon>
+        <span class="cerca">
+          <mat-form-field appearance="legacy" style="font-size: .75;">
+            
+            <input matInput style="font-size: 75%;" (keyup)="scrivi($event)" autocomplete="off">
+          </mat-form-field>
+        </span>
     
 </mat-toolbar> 
 
-<div id="spin" *ngIf="!rigs">
-  <mat-spinner></mat-spinner>
+<div id="spin" *ngIf="!rigs" >
+  <mat-spinner color="accent"></mat-spinner>
 </div>
 
 
 <div class="cont" *ngIf="rigs">
-  <mat-card class="card" *ngFor="let rig of rigs" (click)="open(rig.model,rig.sn, rig.customer)">
-    <h3 class="rigT">s/n: {{rig.sn}}</h3>
-    <h4>{{rig.model}}</h4>
-    <p>{{rig.customer}}</p>
-  </mat-card>
+      <mat-card class="card" *ngFor="let rig of rigs | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)">
+        <h3 class="rigT">s/n: {{rig.sn}}</h3>
+        <h4>{{rig.model}}</h4>
+        <p>{{rig.customer}}</p>
+        <p>{{rig.site || 'SITE UNKNOWN'}}</p>
+      </mat-card>
 </div>
