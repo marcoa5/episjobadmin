@@ -1,0 +1,16 @@
+<div>
+  <form class="container">
+    <mat-form-field>
+      <mat-label>UserName</mat-label>
+      <input matInput type="text">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput [type]="vis ? 'password' : 'text'">
+      <mat-icon matSuffix style="cursor:pointer" (click)="vis=!vis">{{vis? 'visibility' : 'visibility_off'}}</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="login('marco.arato@epiroc.com','Epiroc2021')">Login</button>
+
+  </form>
+</div>
+

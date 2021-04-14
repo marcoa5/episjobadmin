@@ -57,13 +57,13 @@
 
 .subF{
     position:fixed;
-    z-index: 2;
-    transition: 0.3s;
+    transition: 0.5s;
     height: 60px;
+    z-index: 2;
 }
 
 .spacer{
-    flex: 1 1 auto;
+    flex: 2 2 0;
 }
 
 .cerca{

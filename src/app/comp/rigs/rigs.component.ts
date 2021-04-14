@@ -18,7 +18,7 @@ export class RigsComponent implements OnInit {
   scrollaV:boolean =true;
   filtro:string=''
   lar:boolean|undefined;
-  
+  value:any
   constructor(public router: Router, public bak:BackService) { 
    }
 
@@ -27,8 +27,8 @@ export class RigsComponent implements OnInit {
     firebase.default.database().ref('MOL').once('value')
     .then(snap=>{
       this.rigs=Object.values(snap.val())
+      this.scrollaV = true
     })
-    
   }
 
   back(){
@@ -61,4 +61,5 @@ export class RigsComponent implements OnInit {
       this.lar=false
     }      
   }
+
 }

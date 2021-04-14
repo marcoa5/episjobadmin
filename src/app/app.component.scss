@@ -1,5 +1,4 @@
-
-
+@import '../epi.scss';
 
 *{
   --alt-bar: 60px;
@@ -23,3 +22,21 @@
   padding-top: calc(var(--alt-bar));
 }
 
+#login{
+  position: fixed; top:var(--alt-bar); left: 0px;
+  display: flex;
+  width:100%;
+  padding-top: calc(var(--alt-bar) + 15px);
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  display: flex;
+  align-items: flex-start;
+}
+
+.nomeU{
+  margin:0;
+  font-size: 12px;
+}

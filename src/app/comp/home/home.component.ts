@@ -16,11 +16,12 @@ export class HomeComponent implements OnInit {
     {id:'Contracts',icon:'description', route:'contracts'},
 
   ];
+
   constructor(public router :Router) { }
-  ngOnInit(): void { 
+  ngOnInit(): void {
   }
 
   nav(route:string){
     this.router.navigate([route])
-  }
+  }  
 }

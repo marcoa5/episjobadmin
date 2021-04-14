@@ -1,7 +1,3 @@
-*{
-    --t: calc(100%/150)
-}
-
 #start{
     display: grid;
     grid-template-columns:  repeat(auto-fill, minmax(175px,1fr));
@@ -36,53 +32,3 @@
     height: 100%;
     padding:0;
 }
-
-/*
-@media only screen and (min-width: 300px) {
-    #start{
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 450px) {
-    #start{
-        grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 600px) {
-    #start{
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 750px) {
-    #start{
-        grid-template-columns:repeat(5, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 900px) {
-    #start{
-        grid-template-columns: repeat(6, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 1050px) {
-    #start{
-        grid-template-columns: repeat(7, 1fr);
-        grid-template-rows: auto;
-    }
-}
-
-@media only screen and (min-width: 1200px) {
-    #start{
-        grid-template-columns: repeat(8, 1fr);
-        grid-template-rows: auto;
-    }
-}*/

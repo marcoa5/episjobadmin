@@ -1,18 +1,21 @@
-<mat-toolbar (window:resize)="largh($event)"  (window:scroll)="scrolla($event)" [ngStyle]="{'top': scrollaV ? '60px' : '-250px'}" id="menuB" class="subF" color="accent" [class.mat-elevation-z7]="true">
+<mat-toolbar (window:resize)="largh($event)"  (window:scroll)="scrolla($event)" [ngStyle]="{'top': scrollaV ? '60px' : '0px'}" id="menuB" class="subF" color="accent" [class.mat-elevation-z7]="true">
     <span>
       <button mat-raised-button (click)="back()" color="primary" class="back">
         <mat-icon>navigate_before</mat-icon><span>Back</span>
       </button></span>
         <span class="head" *ngIf="lar">Installed Base</span>
         <span class="spacer"></span>
-        <mat-icon>search</mat-icon>
         <span class="cerca">
           <mat-form-field appearance="legacy" style="font-size: .75;">
-            
-            <input matInput style="font-size: 75%;" (keyup)="scrivi($event)" autocomplete="off">
+            <input matInput type="text" [(ngModel)]="value" style="font-size: 75%;" (keyup)="scrivi($event)" autocomplete="off">
+            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button matSuffix mat-icon-button aria-label="Search">
+              <mat-icon>search</mat-icon>
+            </button>
           </mat-form-field>
         </span>
-    
 </mat-toolbar> 
 
 <div id="spin" *ngIf="!rigs" >

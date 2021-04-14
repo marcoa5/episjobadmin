@@ -5,13 +5,21 @@
     </button>-->
     <span>{{orient? 'Epiroc Service Job Administration Tool' : 'Epiroc SJ Admin Tool'}}</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with heart icon">
-      <mat-icon>account_box</mat-icon>
-    </button>
-    <span class="nomeUtente">Nessun Utente</span>
+    <span class="contUser">
+      <button mat-raised-button class="example-icon" color="accent" (click)="logout()">
+        <mat-icon>person</mat-icon>
+        {{userN && userN!=='null'? userN : 'Please login'}}
+      </button>
+      
+    </span>
   </mat-toolbar>
 </div>
 
-<div class="content">
- <router-outlet></router-outlet> 
+<div id="login" *ngIf="!userN || userN=='null'">
+  <mat-spinner color="accent" *ngIf="userN!='null'"></mat-spinner>
+  <episjob-login (userN)="userName($event)" *ngIf="userN=='null'"></episjob-login>
 </div>
+<div class="content" *ngIf="userN && userN!=='null'">
+  <router-outlet></router-outlet> 
+</div>
+

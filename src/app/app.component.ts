@@ -21,10 +21,22 @@ const firebaseConfig = {
 })
 export class AppComponent {
   title = 'episjobadmin';
+  userN:string | undefined;
   orient: boolean | undefined
   titolo: string | undefined
+  showFiller:boolean=false;
   ngOnInit(){
     firebase.default.initializeApp(firebaseConfig)
+    this.onResize()
+    firebase.default.auth().onAuthStateChanged(a=>{
+      if(!a) {
+        this.userN = 'null'
+      } else {
+        firebase.default.database().ref('Users/' + a.uid). once('value',s=>{
+          this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
+        })
+      }
+    })
   }
 
   @HostListener('window:resize', ['$event'])
@@ -34,5 +46,12 @@ export class AppComponent {
     } else {
       this.orient = false
     }
+  }
+  userName(a:any){
+    this.userN=a
+  }
+
+  logout(){
+    firebase.default.auth().signOut()
   }
 }

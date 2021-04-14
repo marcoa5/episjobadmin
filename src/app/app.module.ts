@@ -14,24 +14,36 @@ import { MatCardModule } from '@angular/material/card'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RigsComponent } from './comp/rigs/rigs.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
-import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatFormFieldModule, MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { SnfilterPipe } from './snfilter.pipe'
+import { FormsModule } from '@angular/forms';
+import { LoginComponent } from './comp/login/login.component'
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav'
+
+
+const appearance: MatFormFieldDefaultOptions = {
+  appearance: 'standard'
+};
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RigsComponent,
-    SnfilterPipe
+    SnfilterPipe,
+    LoginComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, FormsModule, MatSidenavModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [{
+    provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+    useValue: appearance
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
