@@ -6,9 +6,9 @@
     <span>{{orient? 'Epiroc Service Job Administration Tool' : 'Epiroc SJ Admin Tool'}}</span>
     <span class="example-spacer"></span>
     <span class="contUser">
-      <button mat-raised-button class="example-icon" color="accent" (click)="logout()">
+      <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="userExists()">
         <mat-icon>person</mat-icon>
-        {{userN && userN!=='null'? userN : 'Please login'}}
+        {{userN}}
       </button>
       
     </span>

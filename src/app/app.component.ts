@@ -54,4 +54,9 @@ export class AppComponent {
   logout(){
     firebase.default.auth().signOut()
   }
+
+  userExists(){
+    if(this.userN && this.userN!='null') return true
+    return false 
+  }
 }
