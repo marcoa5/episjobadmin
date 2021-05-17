@@ -5,6 +5,7 @@ import { BackService } from '../../serv/back.service'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
 import { createHostListener } from '@angular/compiler/src/core';
+import { MachineComponent } from '../machine/machine.component';
 
 @Component({
   selector: 'episjob-rigs',
@@ -36,7 +37,8 @@ export class RigsComponent implements OnInit {
   }
 
   open(a: String, b:String, c:String){
-    alert(`Modello: ${a}\nS/N: ${b}\nCliente: ${c}`)
+    this.router.navigate(['machine',{sn:b}])
+    //alert(`Modello: ${a}\nS/N: ${b}\nCliente: ${c}`)
   }
 
   scrolla(e:Event){
