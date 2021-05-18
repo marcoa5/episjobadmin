@@ -6,6 +6,7 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'episjob-machine',
@@ -13,15 +14,42 @@ import 'chartjs-adapter-moment';
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
+  form:any;
   valore: any;
-  myChart:any;
+  model:string='';
+  customer:string='';
+  site:string='';
   labels: any[] = [];
   data:any[]=[];
+  data1:any[]=[]
+  data2:any[]=[]
+  data3:any[]=[]
   hours:any[]=[]
   day:any;
-  constructor(public route: ActivatedRoute) { }
+  day1:any;
+  arrMin:number[]=[]
+  arrMax:number[]=[]
+  constructor(public route: ActivatedRoute, public fb: FormBuilder) { 
+    this.form = fb.group({
+      serial: [this.valore],
+      model: ['2'],
+      customer: ['3'],
+      site: ['4']
+    })
+  }
   ngOnInit(): void {
+    
     this.route.params.subscribe(r=>{
+      this.valore=r.sn
+      firebase.default.database().ref('MOL/' + r.sn).once('value',x=>{
+        this.form = this.fb.group({
+          serial: [this.valore],
+          model: [x.val().model],
+          customer: [x.val().customer],
+          site: [x.val().site]
+        })
+      })
+      
       firebase.default.database().ref('Hours/' + r.sn).once('value',f=>{
         f.forEach(g=>{
           if(g.key){
@@ -36,15 +64,35 @@ export class MachineComponent implements OnInit {
           }
         })
       })
+      firebase.default.database().ref('Hours/' + r.sn).once('value',f=>{
+        f.forEach(g=>{
+          if(g.key){
+            let anno = parseInt(g.key.substring(0,4)) 
+            let mese = parseInt(g.key.substring(4,6))-1 
+            let giorno = parseInt(g.key.substring(6,8)) 
+            this.day1 = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
+          }
+          let h={x:this.day1, y:g.val().perc1}
+          let j={x:this.day1, y:g.val().perc2}
+          let k={x:this.day1, y:g.val().perc3}
+          if(h) {
+            this.data1.push(h)
+            this.data2.push(j)
+            this.data3.push(k)
+          }
+        })
+      })
     })   
     setTimeout(() => {
-      console.log(this.data.length, this.data)
-      this.calcola()
-    }, 250);
+      this.arrMin = [this.data1[0].y,this.data2[0].y,this.data3[0].y,]
+      this.arrMax=[this.data1[this.data1.length-1].y,this.data2[this.data2.length-1].y,this.data3[this.data3.length-1].y]
+      this.calcolaOrem()
+      this.calcolaPerc1()
+    }, 500);
   }
 
-  calcola(){
-    var canvas = <HTMLCanvasElement> document.getElementById('myChart')
+  calcolaOrem(){
+    var canvas = <HTMLCanvasElement> document.getElementById('orem')
     var ctx = canvas.getContext('2d')
     if(ctx){
       var g = new Chart(ctx, {
@@ -73,10 +121,61 @@ export class MachineComponent implements OnInit {
                 }
             },
             maintainAspectRatio: false,
+            responsive: true,
         }
     });
     }
-    
+  }
+
+  calcolaPerc1(){
+    var canvas = <HTMLCanvasElement> document.getElementById('perc1')
+    var ctx = canvas.getContext('2d')
+    let col1:string='rgb(112,173,71)'
+    let col2:string='rgb(91,155,213)'
+    let col3:string='rgb(237,125,49)'
+    if(ctx){
+      var g = new Chart(ctx, {
+        type: 'line',
+        data: {
+          datasets:[{
+            label: "Perc1",
+            data:this.data1,
+            borderColor: col1,
+            pointBackgroundColor:col1,
+          },
+          {
+            label: "Perc2",
+            data:this.data2,
+            borderColor: col2,
+            pointBackgroundColor:col2,
+          },
+          {
+            label: "Perc3",
+            data:this.data3,
+            borderColor: col3,
+            pointBackgroundColor:col3,
+          }
+
+        ]
+        },
+        options: {
+            scales: {
+                x:{
+                  type:'time',
+                  time:{
+                    unit:'month'
+                  }
+                },
+                y:{
+                  min: Math.min.apply(null, this.arrMin.filter(Boolean) )-50,
+                  max: Math.max.apply(null, this.arrMax.filter(Boolean))*1+50,
+                }
+            },
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+    });
+    }
   }
 
 }

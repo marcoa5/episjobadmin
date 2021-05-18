@@ -1,8 +1,39 @@
 
-<div id="cont" *ngIf="data.length>0">
-    <p></p>
-    <canvas id="myChart"></canvas>
+<div id="cont">
+    <div class="item">
+        <h2>Rig info</h2>
+        <form class="container"  [formGroup]="form">
+            <mat-form-field class="ff">
+                <mat-label>Serial Nr</mat-label>
+                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="serial">    
+            </mat-form-field>
+            <mat-form-field class="ff">
+                <mat-label>Model</mat-label>
+                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="model">    
+            </mat-form-field>
+            <mat-form-field class="ff">
+                <mat-label>Customer</mat-label>
+                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="customer">    
+            </mat-form-field>
+            <mat-form-field class="ff">
+                <mat-label>Site</mat-label>
+                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="site">    
+            </mat-form-field>
+        </form> 
+        <h2>Running hours</h2>
+    </div>
+    <div *ngIf="data.length==0">
+        <p>no data</p>
+    </div>
+    <div class="itemc"  *ngIf="data.length!=0">
+        <div class="subitemc"><canvas class="can" id="orem"></canvas></div>
+        <div class="subitemc"><canvas  class="can" id="perc1"></canvas></div>
+        <!--<canvas  class="can" id="perc1"></canvas>-->
+    </div>
+    <div class="item">
+
+    </div>
 </div>
-<div id="cont" *ngIf="data.length==0">
-    <p>no data</p>
-</div>
+<!--
+    -->
+

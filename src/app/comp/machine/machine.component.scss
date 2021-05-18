@@ -1,9 +1,43 @@
 #cont{
-    width: 100vw;
-    height:85vh;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
 }
 
-#myChart{
+.item, .itemc{
+    box-sizing: content-box;
     width: 100%;
-    height: 100%;
 }
+
+.itemc{
+    display: flex;
+    flex-direction: row;
+}
+
+.subitemc{
+    width: 50%;
+    height: 350px;
+}
+
+can{
+    width:100%; height:100%;
+}
+
+.ff{
+    width: calc(25% - 10px);
+    padding: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .itemc{
+        display: flex;
+        flex-direction: column;
+    }
+    .subitemc{
+        width: 100%;
+    }
+    .ff{
+        width: calc(50% - 10px);
+        padding: 5px;
+    }
+  }
