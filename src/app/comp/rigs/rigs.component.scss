@@ -3,7 +3,6 @@
 
 :root{
     --wid-card: 200px;
-    background-color: lightgray;
 }
 
 .card{
@@ -11,6 +10,7 @@
     justify-self: center;
     align-self: center;
     cursor: pointer;
+    background-color: rgb(245,245,245);
 }
 
 .cardC{
@@ -26,7 +26,6 @@
     grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
     gap:15px;
     padding: 75px 15px 15px 15px;
-    background-color: lightgrey;
 }
 
 #spin{
@@ -35,7 +34,6 @@
     padding-top:100px;
     justify-content: center;
     align-items: flex-start;
-    background-color: lightgrey;
 }
 
 .head{

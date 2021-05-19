@@ -1,11 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common'
 import { Router } from '@angular/router';
 import { BackService } from '../../serv/back.service'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
-import { createHostListener } from '@angular/compiler/src/core';
-import { MachineComponent } from '../machine/machine.component';
 
 @Component({
   selector: 'episjob-rigs',

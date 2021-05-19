@@ -1,39 +1,64 @@
 
-<div id="cont">
+<button mat-raised-button (click)="back()" color="primary" class="back">
+    <mat-icon>navigate_before</mat-icon><span>Back</span>
+</button>
+<div id="cont" *ngIf="customer">
     <div class="item">
-        <h2>Rig info</h2>
+        <h2 color="accent">Rig info</h2>
         <form class="container"  [formGroup]="form">
-            <mat-form-field class="ff">
+            <mat-form-field class="ff" appearance="fill">
                 <mat-label>Serial Nr</mat-label>
-                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="serial">    
+                <input matInput type="text" autocomplete="off" formControlName="serial">    
             </mat-form-field>
-            <mat-form-field class="ff">
+            <mat-form-field class="ff" appearance="fill">
                 <mat-label>Model</mat-label>
-                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="model">    
+                <input matInput type="text" autocomplete="off" formControlName="model">    
             </mat-form-field>
-            <mat-form-field class="ff">
+            <mat-form-field class="ff" appearance="fill">
                 <mat-label>Customer</mat-label>
-                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="customer">    
+                <input matInput type="text" autocomplete="off" formControlName="customer">    
             </mat-form-field>
-            <mat-form-field class="ff">
+            <mat-form-field class="ff" appearance="fill">
                 <mat-label>Site</mat-label>
-                <input matInput type="text" autocomplete="off" [disabled]="true" formControlName="site">    
+                <input matInput type="text" autocomplete="off" formControlName="site">    
             </mat-form-field>
         </form> 
-        <h2>Running hours</h2>
+        <h2>Running hours {{dataRil? '@ ' + dataRil : ''}}</h2>
+        <form class="container"  [formGroup]="formhrs" *ngIf="data.length>1">
+            <mat-form-field class="ff" appearance="fill">
+                <mat-label>Engine Hrs</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="engh">    
+            </mat-form-field>
+            <mat-form-field class="ff" appearance="fill">
+                <mat-label>Percussion1</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="perc1h">    
+            </mat-form-field>
+            <mat-form-field class="ff" appearance="fill">
+                <mat-label>Percussion2</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="perc2h">    
+            </mat-form-field>
+            <mat-form-field class="ff" appearance="fill">
+                <mat-label>Percussion3</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="perc3h">    
+            </mat-form-field>
+        </form> 
     </div>
-    <div *ngIf="data.length==0">
-        <p>no data</p>
+    <div *ngIf="data.length<2">
+        <p>no data to display</p>
     </div>
-    <div class="itemc"  *ngIf="data.length!=0">
+    <div *ngIf="data.length>1">
+      <div class="itemc">
         <div class="subitemc"><canvas class="can" id="orem"></canvas></div>
-        <div class="subitemc"><canvas  class="can" id="perc1"></canvas></div>
-        <!--<canvas  class="can" id="perc1"></canvas>-->
+            <div class="spacer"></div>
+            <div class="subitemc"><canvas  class="can" id="perc1"></canvas></div>
+        </div>  
+        <div *ngFor="let h of data">
+            {{h.x}} | {{h.y}}
+        </div>
     </div>
+    
     <div class="item">
 
     </div>
 </div>
-<!--
-    -->
 
