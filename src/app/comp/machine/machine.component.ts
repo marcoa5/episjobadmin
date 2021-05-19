@@ -23,16 +23,14 @@ export class MachineComponent implements OnInit {
   customer:string='';
   site:string='';
   labels: any[] = [];
-  data:any[]=[];
+  data:any[]=[]
   data1:any[]=[]
-  data2:any[]=[]
-  data3:any[]=[]
   hours:any[]=[]
   day:any;
   day1:any;
-  arrMin:number[]=[]
-  arrMax:number[]=[]
   dataRil:any
+  dataSource = this.data
+  displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
   constructor(public route: ActivatedRoute, public fb: FormBuilder, public bak: BackService) { 
     this.form = fb.group({
       serial: [''],
@@ -69,38 +67,24 @@ export class MachineComponent implements OnInit {
             let giorno = parseInt(g.key.substring(6,8)) 
             this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
           }
-          let h={x:this.day, y:g.val().orem}
+          let h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
           if(h) {
             this.data.push(h)
           }
         })
       })
-      firebase.default.database().ref('Hours/' + r.sn).once('value',f=>{
-        f.forEach(g=>{
-          if(g.key){
-            let anno = parseInt(g.key.substring(0,4)) 
-            let mese = parseInt(g.key.substring(4,6))-1 
-            let giorno = parseInt(g.key.substring(6,8)) 
-            this.day1 = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
-          }
-          let h={x:this.day1, y:g.val().perc1|0}
-          let j={x:this.day1, y:g.val().perc2|0}
-          let k={x:this.day1, y:g.val().perc3|0}
-          if(h) {
-            this.data1.push(h)
-            this.data2.push(j)
-            this.data3.push(k)
-          }
-        })
-      })
+      
     })   
     setTimeout(() => {
       if(this.data.length!=0) {
-        this.arrMin = [this.data1[0].y | 0,this.data2[0].y | 0,this.data3[0].y | 0,]
-        this.arrMax=[this.data1[this.data1.length-1].y ,this.data2[this.data2.length-1].y ,this.data3[this.data3.length-1].y]
-        console.log(this.arrMin ,this.arrMax)
+        this.data.map(a=>{
+          if (parseInt(a.y1)==0) a.y1=undefined
+          if (parseInt(a.y2)==0) a.y2=undefined
+          if (parseInt(a.y3)==0) a.y3=undefined
+          return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
+        })
         if(this.data.length>1) this.calcolaOrem()
-        if(this.data.length>1 || this.data1.length>1 || this.data2.length>1 || this.data3.length>1)      this.calcolaPerc1()
+        this.calcolaPerc1()
         this.ore(this.formhrs)
         this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
       }
@@ -108,10 +92,12 @@ export class MachineComponent implements OnInit {
   }
 
   ore(a: FormGroup){
-    if (this.data.length > 1) a.get('engh')?.setValue(this.data[this.data.length-1].y)    
-    if (this.data1.length > 1) a.get('perc1h')?.setValue(this.data1[this.data1.length-1].y)
-    if (this.data1.length > 1) a.get('perc2h')?.setValue(this.data2[this.data2.length-1].y)
-    if (this.data1.length > 1) a.get('perc3h')?.setValue(this.data3[this.data3.length-1].y)
+    if (this.data.length > 1) {
+      a.get('engh')?.setValue(this.data[this.data.length-1].y)    
+      a.get('perc1h')?.setValue(this.data[this.data.length-1].y1)
+      a.get('perc2h')?.setValue(this.data[this.data.length-1].y2)
+      a.get('perc3h')?.setValue(this.data[this.data.length-1].y3)
+    }
   }
 
   calcolaOrem(){
@@ -138,10 +124,7 @@ export class MachineComponent implements OnInit {
                     unit:'month'
                   }
                 },
-                y:{
-                  min: (this.data[0].y | 0)-50,
-                  max: (this.data[this.data.length-1].y | 0)*1+50,
-                }
+                
             },
             maintainAspectRatio: false,
             responsive: true,
@@ -162,23 +145,32 @@ export class MachineComponent implements OnInit {
         data: {
           datasets:[{
             label: "Perc1",
-            data:this.data1,
+            data: this.data,
+            parsing: {
+              yAxisKey: 'y1'
+            },
             borderColor: col1,
             pointBackgroundColor:col1,
           },
           {
             label: "Perc2",
-            data:this.data2,
+            data:this.data,
+            parsing: {
+              yAxisKey: 'y2'
+            },
+            
             borderColor: col2,
-            pointBackgroundColor:col2,
+            pointBackgroundColor:col1,
           },
           {
             label: "Perc3",
-            data:this.data3,
+            data:this.data,
+            parsing: {
+              yAxisKey: 'y3'
+            },
             borderColor: col3,
-            pointBackgroundColor:col3,
+            pointBackgroundColor:col1,
           }
-
         ]
         },
         options: {
@@ -189,10 +181,6 @@ export class MachineComponent implements OnInit {
                     unit:'month'
                   }
                 },
-                y:{
-                  min: Math.min.apply(0, this.arrMin.filter(Boolean) )-50,
-                  max: Math.max.apply(0, this.arrMax.filter(Boolean))*1+50,
-                }
             },
             maintainAspectRatio: false,
             responsive: true,
@@ -204,5 +192,5 @@ export class MachineComponent implements OnInit {
   back(){
     this.bak.backP()
   }
-
 }
+ 

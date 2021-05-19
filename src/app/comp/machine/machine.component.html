@@ -47,18 +47,44 @@
         <p>no data to display</p>
     </div>
     <div *ngIf="data.length>1">
-      <div class="itemc">
-        <div class="subitemc"><canvas class="can" id="orem"></canvas></div>
+        <div class="itemc">
+            <div class="subitemc"><canvas class="can" id="orem"></canvas></div>
             <div class="spacer"></div>
             <div class="subitemc"><canvas  class="can" id="perc1"></canvas></div>
         </div>  
-        <div *ngFor="let h of data">
-            {{h.x}} | {{h.y}}
+        <div class="itemc">
+            <div class="subitemc">
+                <h2>Running hours history</h2>
+                <div class="tablecont">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+                        <ng-container matColumnDef="Date">
+                        <th mat-header-cell *matHeaderCellDef> Date </th>
+                        <td mat-cell *matCellDef="let a"> {{a.x}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Engine">
+                            <th mat-header-cell *matHeaderCellDef> Engine </th>
+                            <td mat-cell *matCellDef="let a"> {{a.y1}} </td>
+                        </ng-container>             
+                        <ng-container matColumnDef="Perc1">
+                        <th mat-header-cell *matHeaderCellDef> Perc1 </th>
+                        <td mat-cell *matCellDef="let a"> {{a.y1}} </td>
+                        </ng-container> 
+                        <ng-container matColumnDef="Perc2">
+                        <th mat-header-cell *matHeaderCellDef> Perc2 </th>
+                        <td mat-cell *matCellDef="let a"> {{a.y2}} </td>
+                        </ng-container> 
+                        <ng-container matColumnDef="Perc3">
+                        <th mat-header-cell *matHeaderCellDef> Perc3 </th>
+                        <td mat-cell *matCellDef="let a"> {{a.y3}} </td>
+                        </ng-container>          
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="subitemc"></div>
         </div>
-    </div>
-    
-    <div class="item">
-
     </div>
 </div>
 

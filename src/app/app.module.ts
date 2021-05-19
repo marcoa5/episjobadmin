@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './comp/login/login.component'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MachineComponent } from './comp/machine/machine.component'
+import { MatTableModule } from '@angular/material/table'
 
 
 const appearance: MatFormFieldDefaultOptions = {
@@ -37,7 +38,7 @@ const appearance: MatFormFieldDefaultOptions = {
     MachineComponent
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
