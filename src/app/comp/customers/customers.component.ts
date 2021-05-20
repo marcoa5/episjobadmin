@@ -27,9 +27,9 @@ export class CustomersComponent implements OnInit {
     })
   }
 
-  open(a: String, b:String, c:String){
-    this.router.navigate(['machine',{sn:b}])
-    //alert(`Modello: ${a}\nS/N: ${b}\nCliente: ${c}`)
+  open(a: String){
+    //this.router.navigate(['machine',{sn:b}])
+    alert(a)
   }
 
   scrolla(e:Event){

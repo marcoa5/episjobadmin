@@ -21,8 +21,9 @@
     height: 350px;
     padding: 5px;
     background-color: rgb(245,245,245);
-    border-radius: 10px;
+    border-radius: 5px 5px 0 0;
     margin-top: 10px;
+    border-bottom: .5px solid $dark-text;
 }
 
 .spacer{
@@ -39,7 +40,7 @@ can{
 }
 
 h2{
-    padding-top: 20px;
+    padding-top: 35px;
     color: $dark-text;
 }
 
@@ -56,6 +57,33 @@ table{
     min-height: 350px;
 }
 
+.divtxt{
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    width: 100%; overflow: hidden;
+    border-bottom: .5px solid $dark-text;
+}
+
+.txtcont{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+}
+
+.txtlabel{
+    color: rgb(130,130,130);
+    padding: 5px 10px 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.txt{
+    padding: 0px 10px 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
 @media only screen and (max-width: 600px) {
     .itemc{
         display: flex;
@@ -73,4 +101,8 @@ table{
         margin: 5px 0;
     }
 
+    .txtcont{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
   }

@@ -5,43 +5,46 @@
 <div id="cont" *ngIf="customer">
     <div class="item">
         <h2 color="accent">Rig info</h2>
-        <form class="container"  [formGroup]="form">
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Serial Nr</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="serial">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Model</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="model">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Customer</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="customer">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Site</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="site">    
-            </mat-form-field>
-        </form> 
+        
+        <div class="txtcont" >
+            <div class="divtxt" *ngIf="valore">
+                <div class="txtlabel">Serial Nr.</div>
+                <div class="txt">{{valore}}</div>
+            </div>
+            <div class="divtxt" *ngIf="model">
+                <div class="txtlabel">Model</div>
+                <div class="txt">{{model}}</div>
+            </div>
+            <div class="divtxt" *ngIf="customer" (click)="open()" style="cursor: pointer">
+                <div class="txtlabel">Customer</div>
+                <div class="txt">{{customer}}</div>
+            </div>
+            <div class="divtxt" *ngIf="site">                
+                <div class="txtlabel">Site</div>
+                <div class="txt">{{site}}</div>
+            </div>
+        </div>
         <h2>Running hours {{dataRil? '@ ' + dataRil : ''}}</h2>
-        <form class="container"  [formGroup]="formhrs" *ngIf="data.length>1">
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Engine Hrs</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="engh">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Percussion1</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="perc1h">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Percussion2</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="perc2h">    
-            </mat-form-field>
-            <mat-form-field class="ff" appearance="fill">
-                <mat-label>Percussion3</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="perc3h">    
-            </mat-form-field>
-        </form> 
+        
+        <div class="txtcont" >
+            <div class="divtxt" *ngIf="Engh">
+                <div class="txtlabel">Engine</div>
+                <div class="txt">{{Engh | number}}</div>
+            </div>
+            <div class="divtxt" *ngIf="Perc1">
+                <div class="txtlabel">Percussion1</div>
+                <div class="txt">{{Perc1 | number}}</div>
+            </div>
+            <div class="divtxt" *ngIf="Perc2">
+                <div class="txtlabel">Percussion2</div>
+                <div class="txt">{{Perc2 | number}}</div>
+            </div>
+            <div class="divtxt" *ngIf="Perc3">                
+                <div class="txtlabel">Percussion3</div>
+                <div class="txt">{{Perc3 | number}}</div>
+            </div>
+        </div>
+
     </div>
     <div *ngIf="data.length<2">
         <p>no data to display</p>

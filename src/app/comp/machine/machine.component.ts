@@ -6,7 +6,6 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { BackService } from '../../serv/back.service'
 
 @Component({
@@ -16,8 +15,6 @@ import { BackService } from '../../serv/back.service'
 })
 export class MachineComponent implements OnInit {
   disab:boolean = true
-  form:any;
-  formhrs:any;
   valore: any;
   model:string='';
   customer:string='';
@@ -29,50 +26,27 @@ export class MachineComponent implements OnInit {
   day:any;
   day1:any;
   dataRil:any
+  Engh:number=0
+  Perc1:number=0
+  Perc2:number=0
+  Perc3:number=0
+  limit:number=5;
   dataSource = this.data
   displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
-  constructor(public route: ActivatedRoute, public fb: FormBuilder, public bak: BackService) { 
-    this.form = fb.group({
-      serial: [''],
-      model: [''],
-      customer: [''],
-      site: ['']
-    })
-    this.formhrs = this.fb.group({
-      engh: [''],
-      perc1h: [''],
-      perc2h: [''],
-      perc3h: ['']
-    })
+  constructor(public route: ActivatedRoute, public bak: BackService) { 
+  
   }
   ngOnInit(): void {
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
       firebase.default.database().ref('MOL/' + r.sn).once('value',x=>{
-        this.form = this.fb.group({
-          serial: [this.valore],
-          model: [x.val().model],
-          customer: [x.val().customer],
-          site: [x.val().site]
-        })
+        this.site = x.val().site
+        this.model=x.val().model
         this.customer=x.val().customer
       })
       
-      firebase.default.database().ref('Hours/' + r.sn).once('value',f=>{
-        f.forEach(g=>{
-          if(g.key){
-            let anno = parseInt(g.key.substring(0,4)) 
-            let mese = parseInt(g.key.substring(4,6))-1 
-            let giorno = parseInt(g.key.substring(6,8)) 
-            this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
-          }
-          let h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
-          if(h) {
-            this.data.push(h)
-          }
-        })
-      })
+      this.loadData(this.valore)
       
     })   
     setTimeout(() => {
@@ -85,18 +59,36 @@ export class MachineComponent implements OnInit {
         })
         if(this.data.length>1) this.calcolaOrem()
         this.calcolaPerc1()
-        this.ore(this.formhrs)
+        this.ore()
         this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
       }
     }, 500);
   }
 
-  ore(a: FormGroup){
+  loadData(r:any){
+    console.log(this.limit)
+    firebase.default.database().ref('Hours/' + r).limitToLast(this.limit).once('value',f=>{
+      f.forEach(g=>{
+        if(g.key){
+          let anno = parseInt(g.key.substring(0,4)) 
+          let mese = parseInt(g.key.substring(4,6))-1 
+          let giorno = parseInt(g.key.substring(6,8)) 
+          this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
+        }
+        let h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
+        if(h) {
+          this.data.push(h)
+        }
+      })
+    })
+  }
+
+  ore(){
     if (this.data.length > 1) {
-      a.get('engh')?.setValue(this.data[this.data.length-1].y)    
-      a.get('perc1h')?.setValue(this.data[this.data.length-1].y1)
-      a.get('perc2h')?.setValue(this.data[this.data.length-1].y2)
-      a.get('perc3h')?.setValue(this.data[this.data.length-1].y3)
+      this.Engh=this.data[this.data.length-1].y 
+      this.Perc1=this.data[this.data.length-1].y1
+      this.Perc2=this.data[this.data.length-1].y2
+      this.Perc3=this.data[this.data.length-1].y3
     }
   }
 
@@ -192,5 +184,10 @@ export class MachineComponent implements OnInit {
   back(){
     this.bak.backP()
   }
+
+  open(){
+    alert(this.customer)
+  }
+
 }
  

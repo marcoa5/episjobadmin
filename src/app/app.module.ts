@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -49,8 +49,9 @@ const appearance: MatFormFieldDefaultOptions = {
   ],
   providers: [{
     provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-    useValue: appearance
-  }],
+    useValue: appearance,
+  },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
