@@ -3,7 +3,7 @@
       <button mat-raised-button (click)="back()" color="primary" class="back">
         <mat-icon>navigate_before</mat-icon><span>Back</span>
       </button></span>
-        <span class="head" *ngIf="lar">Installed Base</span>
+        <span class="head" *ngIf="lar">Customers List</span>
         <span class="spacer"></span>
         <span class="cerca">
           <mat-form-field appearance="legacy" style="font-size: .75;">
@@ -18,16 +18,11 @@
         </span>
 </mat-toolbar> 
 
-<div id="spin" *ngIf="!rigs" >
-  <mat-spinner color="accent"></mat-spinner>
+<div class="custcont">
+    <div class="custcard" *ngFor="let cust of customers | custfilter: filtro" [class.mat-elevation-z2]="true">
+        <p class="l1">{{cust.c1}}</p>
+        <p class="l2">{{cust.c2}}</p>
+        <p class="l3">{{cust.c3}}</p>
+    </div>   
 </div>
 
-
-<div class="cont" *ngIf="rigs">
-      <div class="card" *ngFor="let rig of rigs | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
-        <h3 class="rigT">s/n: {{rig.sn}}</h3>
-        <h4 class="l2">{{rig.model}}</h4>
-        <p class="l2">{{rig.customer}}</p>
-        <p class="l3">{{rig.site || 'SITE UNKNOWN'}}</p>
-      </div>
-</div>

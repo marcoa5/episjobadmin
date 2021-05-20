@@ -21,7 +21,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './comp/login/login.component'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MachineComponent } from './comp/machine/machine.component'
-import { MatTableModule } from '@angular/material/table'
+import { MatTableModule } from '@angular/material/table';
+import { CustomersComponent } from './comp/customers/customers.component';
+import { CustfilterPipe } from './custfilter.pipe'
 
 
 const appearance: MatFormFieldDefaultOptions = {
@@ -35,7 +37,9 @@ const appearance: MatFormFieldDefaultOptions = {
     RigsComponent,
     SnfilterPipe,
     LoginComponent,
-    MachineComponent
+    MachineComponent,
+    CustomersComponent,
+    CustfilterPipe
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,

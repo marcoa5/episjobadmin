@@ -6,11 +6,10 @@
 }
 
 .card{
-    width: 250px;
-    justify-self: center;
-    align-self: center;
-    cursor: pointer;
     background-color: rgb(245,245,245);
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .cardC{
@@ -21,11 +20,11 @@
 }
 
 .cont{
+    padding: 80px 10px 10px 10px; 
     display: grid;
-    grid-template-columns:  repeat(auto-fill, minmax(270px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
-    gap:15px;
-    padding: 75px 15px 15px 15px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-rows: repeat(auto-fill,1fr);
+    gap: 15px;
 }
 
 #spin{
@@ -50,7 +49,8 @@
     background-color: $dark-text;
     color: $light-text;
     text-align: center;
-    border-radius: 20px;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
 }
 
 .subF{
@@ -74,4 +74,15 @@
     font-family: Arial;
     border-radius: 20px;
     padding:5px;
+}
+
+
+.l2{
+    padding: 0 20px 0 20px;
+    white-space: nowrap;
+}
+
+.l3{
+    padding: 0 20px 0 20px;
+    white-space: nowrap;
 }
