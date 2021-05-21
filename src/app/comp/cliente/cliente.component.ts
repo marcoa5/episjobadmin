@@ -18,8 +18,10 @@ export class ClienteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
       this.cust1=a.cust1
-      this.cust2 = a.cust2
-      this.cust3 = a.cust3
+      firebase.default.database().ref('Customers/' + this.cust1.replace('.','')).once('value', g=>{
+        this.cust2=g.val().c2
+        this.cust3=g.val().c3
+      })
     })
     firebase.default.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).once('value',k=>{
       this.custrig=Object.values(k.val())

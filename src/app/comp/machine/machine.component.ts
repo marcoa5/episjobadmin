@@ -185,7 +185,7 @@ export class MachineComponent implements OnInit {
   }
 
   open(a:string){
-    this.router.navigate(['cliente',{cust:a}])
+    this.router.navigate(['cliente',{cust1:a}])
   }
 
 }
