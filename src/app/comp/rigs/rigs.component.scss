@@ -21,7 +21,7 @@
 .cont{
     padding: 80px 10px 10px 10px; 
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     grid-template-rows: repeat(auto-fill,1fr);
     gap: 15px;
 }

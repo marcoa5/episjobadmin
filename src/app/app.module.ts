@@ -25,8 +25,10 @@ import { MatTableModule } from '@angular/material/table';
 import { CustomersComponent } from './comp/customers/customers.component';
 import { CustfilterPipe } from './custfilter.pipe';
 import { ClienteComponent } from './comp/cliente/cliente.component';
-import { NavbargComponent } from './comp/navbarg/navbarg.component'
-
+import { NavbargComponent } from './comp/navbarg/navbarg.component';
+import { MatSelectModule } from '@angular/material/select';
+import { SjlistComponent } from './comp/sjlist/sjlist.component'
+import { MatExpansionModule } from '@angular/material/expansion'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -43,11 +45,12 @@ const appearance: MatFormFieldDefaultOptions = {
     CustomersComponent,
     CustfilterPipe,
     ClienteComponent,
-    NavbargComponent
+    NavbargComponent,
+    SjlistComponent
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

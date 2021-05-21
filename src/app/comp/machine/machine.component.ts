@@ -30,13 +30,16 @@ export class MachineComponent implements OnInit {
   Perc1:number=0
   Perc2:number=0
   Perc3:number=0
-  limit:number=5;
+  limit:any=0
   dataSource = this.data
+  g1:Chart | null | undefined
+  g2:Chart | null | undefined
   displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
   constructor(public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   
   }
   ngOnInit(): void {
+    this.limit='5'
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
@@ -44,29 +47,38 @@ export class MachineComponent implements OnInit {
         this.site = x.val().site
         this.model=x.val().model
         this.customer=x.val().customer
-      })
-      
-      this.loadData(this.valore)
-      
+      })      
     })   
-    setTimeout(() => {
-      if(this.data.length!=0) {
-        this.data.map(a=>{
-          if (parseInt(a.y1)==0) a.y1=undefined
-          if (parseInt(a.y2)==0) a.y2=undefined
-          if (parseInt(a.y3)==0) a.y3=undefined
-          return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
-        })
-        if(this.data.length>1) this.calcolaOrem()
-        if(this.data.length>1) this.calcolaPerc1()
-        this.ore()
-        this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
-      }
-    }, 500);
+    this.avv(5)
+    
   }
 
-  loadData(r:any){
-    firebase.default.database().ref('Hours/' + r).limitToLast(this.limit).once('value',f=>{
+  avv(lim:number){
+    this.loadData(this.valore,lim)
+    setTimeout(() => {
+      this.loadCharts()
+    }, 850);
+    this.dataSource=this.data
+  }
+
+  loadCharts(){
+    if(this.data.length!=0) {
+      this.data.map(a=>{
+        if (parseInt(a.y1)==0) a.y1=undefined
+        if (parseInt(a.y2)==0) a.y2=undefined
+        if (parseInt(a.y3)==0) a.y3=undefined
+        return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
+      })
+      if(this.data.length>1) this.calcolaOrem()
+      if(this.data.length>1) this.calcolaPerc1()
+      this.ore()
+      this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
+    }
+  }
+
+  loadData(r:any, lim:number){
+    this.data=[]
+    firebase.default.database().ref('Hours/' + r).limitToLast(lim).once('value',f=>{
       f.forEach(g=>{
         if(g.key){
           let anno = parseInt(g.key.substring(0,4)) 
@@ -92,10 +104,11 @@ export class MachineComponent implements OnInit {
   }
 
   calcolaOrem(){
+    if (this.g1) this.g1.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('orem')
     var ctx = canvas.getContext('2d')
     if(ctx){
-      var g = new Chart(ctx, {
+      this.g1 = new Chart(ctx, {
         type: 'line',
         data: {
           datasets:[{
@@ -125,13 +138,14 @@ export class MachineComponent implements OnInit {
   }
 
   calcolaPerc1(){
+    if (this.g2) this.g2.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('perc1')
     var ctx = canvas.getContext('2d')
     let col1:string='rgb(112,173,71)'
     let col2:string='rgb(91,155,213)'
     let col3:string='rgb(237,125,49)'
     if(ctx){
-      var g = new Chart(ctx, {
+      this.g2 = new Chart(ctx, {
         type: 'line',
         data: {
           datasets:[{

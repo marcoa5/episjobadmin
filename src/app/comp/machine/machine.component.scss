@@ -84,6 +84,18 @@ table{
     white-space: nowrap;
     overflow: hidden;
 }
+
+#nr{
+    font-size: 15px;
+    padding-top: 35px
+}
+
+.t{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 @media only screen and (max-width: 600px) {
     .itemc{
         display: flex;

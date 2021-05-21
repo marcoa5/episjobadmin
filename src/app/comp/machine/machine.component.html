@@ -1,7 +1,24 @@
 
+
+<div class="t">
+
 <button mat-raised-button (click)="back()" color="primary" class="back">
     <mat-icon>navigate_before</mat-icon><span>Back</span>
-</button>
+</button>    
+    <span>
+        <mat-form-field appearance="fill" id="nr">
+            <mat-label>Records</mat-label>
+         <mat-select [(value)]="limit" (selectionChange)="avv(limit*1)">
+           <mat-option value="5">Last 5 records</mat-option>
+           <mat-option value="10">Last 10 records</mat-option>
+           <mat-option value="25">Last 25 records</mat-option>
+           <mat-option value="50">Last 50 records</mat-option>
+           <mat-option value="10000">All records</mat-option>
+         </mat-select>
+       </mat-form-field> 
+     </span>
+</div>
+
 <div id="cont" *ngIf="customer">
     <div class="item">
         <h2 color="accent">Rig info</h2>
@@ -25,7 +42,6 @@
             </div>
         </div>
         <h2>Running hours {{dataRil? '@ ' + dataRil : ''}}</h2>
-        
         <div class="txtcont" >
             <div class="divtxt" *ngIf="Engh">
                 <div class="txtlabel">Engine</div>
@@ -58,6 +74,7 @@
         <div class="itemc">
             <div class="subitemc over">
                 <h2>Running hours history</h2>
+                    
                 <div class="tablecont">
                     <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
                         <ng-container matColumnDef="Date">
@@ -86,7 +103,9 @@
                 </div>
             </div>
             <div class="spacer"></div>
-            <div class="subitemc over"></div>
+            <div class="subitemc over">
+                <episjob-sjlist [sn]="valore" [lim]="limit"></episjob-sjlist>
+            </div>
         </div>
     </div>
 </div>
