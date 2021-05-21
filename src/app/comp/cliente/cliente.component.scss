@@ -1,0 +1,56 @@
+
+@import '../../../epi.scss';
+
+.divtxt{
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    width: 100%; overflow: hidden;
+    border-bottom: .5px solid $dark-text;
+}
+
+.txtcont{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+}
+
+.txtlabel{
+    color: rgb(130,130,130);
+    padding: 5px 10px 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.txt{
+    padding: 0px 10px 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.back{
+    margin-top: 20px;;
+}
+
+h2{
+    padding-top: 35px;
+    color: $dark-text;
+}
+
+#cont{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.custrigcont{
+    cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+
+    .txtcont{
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+    }
+  }

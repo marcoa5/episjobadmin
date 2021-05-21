@@ -23,7 +23,9 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MachineComponent } from './comp/machine/machine.component'
 import { MatTableModule } from '@angular/material/table';
 import { CustomersComponent } from './comp/customers/customers.component';
-import { CustfilterPipe } from './custfilter.pipe'
+import { CustfilterPipe } from './custfilter.pipe';
+import { ClienteComponent } from './comp/cliente/cliente.component';
+import { NavbargComponent } from './comp/navbarg/navbarg.component'
 
 
 const appearance: MatFormFieldDefaultOptions = {
@@ -39,7 +41,9 @@ const appearance: MatFormFieldDefaultOptions = {
     LoginComponent,
     MachineComponent,
     CustomersComponent,
-    CustfilterPipe
+    CustfilterPipe,
+    ClienteComponent,
+    NavbargComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,

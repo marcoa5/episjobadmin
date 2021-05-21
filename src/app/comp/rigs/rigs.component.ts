@@ -64,7 +64,6 @@ export class RigsComponent implements OnInit {
   cancella(){
     this.value=''
     this.filtro=''
-
   }
 
 }

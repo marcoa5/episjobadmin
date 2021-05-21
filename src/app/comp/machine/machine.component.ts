@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouteConfigLoadEnd } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
 import { Chart, registerables } from 'chart.js';
@@ -33,7 +33,7 @@ export class MachineComponent implements OnInit {
   limit:number=5;
   dataSource = this.data
   displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
-  constructor(public route: ActivatedRoute, public bak: BackService) { 
+  constructor(public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   
   }
   ngOnInit(): void {
@@ -58,7 +58,7 @@ export class MachineComponent implements OnInit {
           return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
         })
         if(this.data.length>1) this.calcolaOrem()
-        this.calcolaPerc1()
+        if(this.data.length>1) this.calcolaPerc1()
         this.ore()
         this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
       }
@@ -66,7 +66,6 @@ export class MachineComponent implements OnInit {
   }
 
   loadData(r:any){
-    console.log(this.limit)
     firebase.default.database().ref('Hours/' + r).limitToLast(this.limit).once('value',f=>{
       f.forEach(g=>{
         if(g.key){
@@ -185,8 +184,8 @@ export class MachineComponent implements OnInit {
     this.bak.backP()
   }
 
-  open(){
-    alert(this.customer)
+  open(a:string){
+    this.router.navigate(['cliente',{cust:a}])
   }
 
 }
