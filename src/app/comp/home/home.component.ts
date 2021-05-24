@@ -8,12 +8,12 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   buttons:any = [
-    {id:'Users',icon:'account_box', route:'users'},
-    {id:'Customers',icon:'work', route:'customers'},
-    {id:'Rigs',icon:'precision_manufacturing', route:'rigs'},
-    {id:'Technicians',icon:'handyman', route:'tech'},
-    {id:'Files',icon:'cloud_download', route:'files'},
-    {id:'Contracts',icon:'description', route:'contracts'},
+    {id:'Users',icon:'account_box', route:'users', dis:true},
+    {id:'Customers',icon:'work', route:'customers', dis:false},
+    {id:'Rigs',icon:'precision_manufacturing', route:'rigs', dis:false},
+    {id:'Technicians',icon:'handyman', route:'tech', dis:true},
+    {id:'Files',icon:'cloud_download', route:'files', dis:true},
+    {id:'Contracts',icon:'description', route:'contracts', dis:true},
 
   ];
 
