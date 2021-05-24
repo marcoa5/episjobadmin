@@ -95,7 +95,7 @@ export class MachineComponent implements OnInit {
   }
 
   ore(){
-    if (this.data.length > 1) {
+    if (this.data.length > 0) {
       this.Engh=this.data[this.data.length-1].y 
       this.Perc1=this.data[this.data.length-1].y1
       this.Perc2=this.data[this.data.length-1].y2
