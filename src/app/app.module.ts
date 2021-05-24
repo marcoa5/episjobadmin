@@ -28,7 +28,8 @@ import { ClienteComponent } from './comp/cliente/cliente.component';
 import { NavbargComponent } from './comp/navbarg/navbarg.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SjlistComponent } from './comp/sjlist/sjlist.component'
-import { MatExpansionModule } from '@angular/material/expansion'
+import { MatExpansionModule } from '@angular/material/expansion';
+import { TechniciansComponent } from './comp/technicians/technicians.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -46,7 +47,8 @@ const appearance: MatFormFieldDefaultOptions = {
     CustfilterPipe,
     ClienteComponent,
     NavbargComponent,
-    SjlistComponent
+    SjlistComponent,
+    TechniciansComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule,
