@@ -69,8 +69,8 @@ export class MachineComponent implements OnInit {
         if (parseInt(a.y3)==0) a.y3=undefined
         return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
       })
-      if(this.data.length>1) this.calcolaOrem()
-      if(this.data.length>1) this.calcolaPerc1()
+      if(this.data.length>0) this.calcolaOrem()
+      if(this.data.length>0) this.calcolaPerc1()
       this.ore()
       this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
     }
