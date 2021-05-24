@@ -62,7 +62,8 @@ export class MachineComponent implements OnInit {
   }
 
   loadCharts(){
-    if(this.data.length!=0) {
+    console.log(this.data)
+    if(this.data.length>0) {
       this.data.map(a=>{
         if (parseInt(a.y1)==0) a.y1=undefined
         if (parseInt(a.y2)==0) a.y2=undefined
