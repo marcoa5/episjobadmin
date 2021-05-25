@@ -33,4 +33,6 @@ export class CustomersComponent implements OnInit {
   filter(a:any){
     this.filtro=a
   }
+
+  
 }

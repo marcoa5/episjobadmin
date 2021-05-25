@@ -3,10 +3,16 @@
     <mat-spinner color="accent"></mat-spinner>
   </div>
 
+
   
 
 <div class="cont" *ngIf="start>0" >
-    <div class="file" *ngFor="let a of files | filefilter: filtro" [class.mat-elevation-z2]="true" (click)="open(a.uri)">
+  <mat-paginator *ngIf="filtro==''" class="pag" [length]="files.length"
+  [pageSize]="10"
+  [pageSizeOptions]="[10,25,50,100]"
+  (page)="pageEvent($event)">
+</mat-paginator>
+    <div class="file" *ngFor="let a of files1 | filefilter: filtro" [class.mat-elevation-z2]="true" (click)="open(a.uri)">
         <mat-icon>picture_as_pdf</mat-icon>
         <div class="nomeF">{{a.name}}</div>
     </div>

@@ -4,7 +4,7 @@
 
 
 .cont{
-    padding: 80px 10px 10px 10px; 
+    margin: 80px 10px 10px 10px; 
     display: grid;
     gap: 15px;
     grid-template-columns: repeat(1, 1fr);
@@ -27,6 +27,7 @@
     border-bottom: 1px solid $dark-text;
     padding:5px;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .nomeF{

@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
   cancella(){
     this.value=''
     this.filtro=''
-
+    this.filter.emit('')
   }
 
   back(){

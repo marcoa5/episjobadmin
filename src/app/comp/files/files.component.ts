@@ -10,6 +10,7 @@ import{ BackService } from '../../serv/back.service'
 })
 export class FilesComponent implements OnInit {
   files:any[]=[]
+  files1:any[]=[]
   oldPosition:number=0;
   currentPosition:number=0;
   scrollaV:boolean =true;
@@ -17,6 +18,7 @@ export class FilesComponent implements OnInit {
   lar:boolean|undefined;
   value:any
   start:number=0
+  end:number=0
   constructor(private bak: BackService) { }
 
   ngOnInit(): void {
@@ -24,55 +26,39 @@ export class FilesComponent implements OnInit {
     .then(a=>{
       a.items.map(b=>{
         b.getDownloadURL()
-        .then(c=>{
+        .then(async c=>{
           let f = {name:b.name,uri:c}
           this.files.push(f)
           if (this.files.length==a.items.length){
-            this.files.reverse()
+            await this.files.reverse()
             this.start=1
+            this.end=10
+            this.files1 = this.files.slice(this.start,this.end)
           }
         })
       })
     })
   }
-
-  scrolla(e:Event){
-    
-    this.currentPosition = window.pageYOffset
-    if(this.currentPosition>this.oldPosition){
-      this.scrollaV = false
-    } else {
-      this.scrollaV = true
-    }
-    this.oldPosition = this.currentPosition
-  }
-
-  largh(e:any){
-    if(window.innerWidth>500) {
-      this.lar = true
-    } else {
-      this.lar=false
-    }      
-  }
-
-  scrivi(e: any){
-    this.filtro=e.target.value.toString()
-  }
-
-  cancella(){
-    this.value=''
-    this.filtro=''
-  }
-
-  back(){
-    this.bak.backP()
-  }
-
   open(a:string){
     window.open(a)
   }
 
   filter(a:any){
-    this.filtro=a
+    if(a!=''){
+      this.filtro=a
+      this.files1 = this.files
+    } 
+    if (a=='') {
+      this.filtro=''
+      this.start=1
+      this.end =10
+      this.files1 = this.files.slice(1,10)
+    }
+  }
+
+  pageEvent(e:any){
+    this.start = e.pageIndex * e.pageSize +1
+    this.end = e.pageIndex* e.pageSize + e.pageSize
+    this.files1=this.files.slice(this.start,this.end)
   }
 }
