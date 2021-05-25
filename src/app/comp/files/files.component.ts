@@ -24,10 +24,8 @@ export class FilesComponent implements OnInit {
   ngOnInit(): void {
     firebase.default.storage().ref('Closed').listAll()
     .then(a=>{
-      a.items.map(b=>{
-        b.getDownloadURL()
-        .then(async c=>{
-          let f = {name:b.name,uri:c}
+      a.items.map(async b=>{
+          let f = {name:b.name}
           this.files.push(f)
           if (this.files.length==a.items.length){
             await this.files.reverse()
@@ -35,12 +33,15 @@ export class FilesComponent implements OnInit {
             this.end=10
             this.files1 = this.files.slice(this.start,this.end)
           }
-        })
       })
     })
   }
   open(a:string){
-    window.open(a)
+    firebase.default.storage().ref('Closed').child(a).getDownloadURL()
+    .then(b=>{
+      window.open(b)
+    })
+    
   }
 
   filter(a:any){
