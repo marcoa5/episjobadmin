@@ -19,6 +19,7 @@ export class FilesComponent implements OnInit {
   value:any
   start:number=0
   end:number=0
+  lungh:number[]=[10,25,50,100]
   constructor(private bak: BackService) { }
 
   ngOnInit(): void {
@@ -29,6 +30,7 @@ export class FilesComponent implements OnInit {
           this.files.push(f)
           if (this.files.length==a.items.length){
             await this.files.reverse()
+            this.lungh.push(this.files.length)
             this.start=1
             this.end=10
             this.files1 = this.files.slice(this.start,this.end)
