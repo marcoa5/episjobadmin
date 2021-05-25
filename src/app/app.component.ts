@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core'
 import * as firebase from 'firebase/app'
 import 'firebase/database'
-
+import { Location } from '@angular/common'
 const firebaseConfig = {
   apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
   authDomain: "epi-serv-job.firebaseapp.com",
@@ -25,6 +25,7 @@ export class AppComponent {
   orient: boolean | undefined
   titolo: string | undefined
   showFiller:boolean=false;
+  
   ngOnInit(){
     firebase.default.initializeApp(firebaseConfig)
     this.onResize()

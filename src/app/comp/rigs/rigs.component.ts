@@ -65,5 +65,8 @@ export class RigsComponent implements OnInit {
     this.value=''
     this.filtro=''
   }
-
+  
+  filter(a:any){
+    this.filtro=a
+  }
 }

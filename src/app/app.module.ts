@@ -29,7 +29,11 @@ import { NavbargComponent } from './comp/navbarg/navbarg.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SjlistComponent } from './comp/sjlist/sjlist.component'
 import { MatExpansionModule } from '@angular/material/expansion';
-import { TechniciansComponent } from './comp/technicians/technicians.component'
+import { TechniciansComponent } from './comp/technicians/technicians.component';
+import { FilesComponent } from './comp/files/files.component';
+import { FilefilterPipe } from './filefilter.pipe'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NavbarComponent } from './comp/navbar/navbar.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -48,10 +52,13 @@ const appearance: MatFormFieldDefaultOptions = {
     ClienteComponent,
     NavbargComponent,
     SjlistComponent,
-    TechniciansComponent
+    TechniciansComponent,
+    FilesComponent,
+    FilefilterPipe,
+    NavbarComponent
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

@@ -19,6 +19,8 @@ export class MachineComponent implements OnInit {
   model:string='';
   customer:string='';
   site:string='';
+  docBpcs:string='';
+  dataDoc:string=''
   labels: any[] = [];
   data:any[]=[]
   data1:any[]=[]
@@ -47,6 +49,11 @@ export class MachineComponent implements OnInit {
         this.site = x.val().site
         this.model=x.val().model
         this.customer=x.val().customer
+        this.docBpcs=x.val().docbpcs
+        for(let i = 7; i>0;i--){
+          if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
+        }
+
       })      
     })   
     this.avv(5)
@@ -62,7 +69,6 @@ export class MachineComponent implements OnInit {
   }
 
   loadCharts(){
-    console.log(this.data)
     if(this.data.length>0) {
       this.data.map(a=>{
         if (parseInt(a.y1)==0) a.y1=undefined

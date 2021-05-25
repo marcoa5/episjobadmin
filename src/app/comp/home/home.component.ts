@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
     {id:'Customers',icon:'work', route:'customers', dis:false},
     {id:'Rigs',icon:'precision_manufacturing', route:'rigs', dis:false},
     {id:'Technicians',icon:'handyman', route:'technicians', dis:false},
-    {id:'Files',icon:'cloud_download', route:'files', dis:true},
+    {id:'Files',icon:'cloud_download', route:'files', dis:false},
     {id:'Contracts',icon:'description', route:'contracts', dis:true},
 
   ];

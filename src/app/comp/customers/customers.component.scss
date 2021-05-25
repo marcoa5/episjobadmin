@@ -1,20 +1,6 @@
 @import '../../../epi.scss';
 
 
-.head{
-    color: $light-text;
-    font-weight: 500;
-    margin-left: 30px; 
-  }
-
-  .back{
-    margin-left: 16px; 
-}
-
-.spacer{
-    flex: 2 2 0;
-}
-
 .cerca{
     padding:0;
 }
@@ -35,12 +21,7 @@
     
 }
 
-.subF{
-    position:fixed;
-    transition: 0.5s;
-    height: 60px;
-    z-index: 2;
-}
+
 
 .l1{
     padding:10px 20px;

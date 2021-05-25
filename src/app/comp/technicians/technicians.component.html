@@ -1,3 +1,5 @@
+<episjob-navbar [title]="'Technicians list'" (filter)="filter($event)" [cerca]="false"></episjob-navbar>
+
 <div class="cont">
     <div class="tech" *ngFor="let te of tech" [class.mat-elevation-z1]="true">
         <mat-icon>engineering</mat-icon>

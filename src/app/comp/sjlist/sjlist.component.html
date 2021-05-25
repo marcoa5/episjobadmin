@@ -3,7 +3,7 @@
 
 
     <mat-accordion>
-        <mat-expansion-panel class="acc" hideToggle *ngFor="let a of sj">
+        <mat-expansion-panel class="acc" hideToggle *ngFor="let a of sj; let i = index">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Service ({{a.stdspe}}) on {{a.data11}}
@@ -14,6 +14,11 @@
           </mat-expansion-panel-header>
           <h4>Rapporto Lavoro:</h4>
           <p>{{a.rappl1}}</p>
+          <div class="SJDown" (click)="download(a.filename)">
+            <mat-icon>description</mat-icon>
+            <p class="desc">Download Service Job</p>
+          </div>
+          
         </mat-expansion-panel>
       </mat-accordion>
     

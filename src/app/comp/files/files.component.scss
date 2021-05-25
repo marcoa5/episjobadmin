@@ -1,0 +1,34 @@
+
+
+@import '../../../epi.scss';
+
+
+.cont{
+    padding: 80px 10px 10px 10px; 
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+#spin{
+    display:inline-flex;
+    width:100vw; height:100vh;
+    padding-top:100px;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.file{
+    display:flex;
+    align-items: center;
+    background-color: rgb(245,245,245);
+    color: $dark-text;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid $dark-text;
+    padding:5px;
+    cursor: pointer;
+}
+
+.nomeF{
+    margin-left: 15px;
+}

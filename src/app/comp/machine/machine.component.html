@@ -1,10 +1,6 @@
+<episjob-navbar [title]="'Equipment'" [cerca]="false"></episjob-navbar>
 
-
-<div class="t">
-
-<button mat-raised-button (click)="back()" color="primary" class="back">
-    <mat-icon>navigate_before</mat-icon><span>Back</span>
-</button>    
+<div class="t"> 
     <span>
         <mat-form-field appearance="fill" id="nr">
             <mat-label>Records</mat-label>
@@ -104,7 +100,7 @@
             </div>
             <div class="spacer"></div>
             <div class="subitemc over">
-                <episjob-sjlist [sn]="valore" [lim]="limit"></episjob-sjlist>
+                <episjob-sjlist [sn]="valore" [lim]="limit" [docBpcs]="docBpcs" [dataDoc]="dataDoc" [customer]="customer" [model]="model"></episjob-sjlist>
             </div>
         </div>
     </div>

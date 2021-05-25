@@ -7,6 +7,8 @@ import { RigsComponent } from './comp/rigs/rigs.component';
 import { CustomersComponent } from './comp/customers/customers.component'
 import { ClienteComponent } from './comp/cliente/cliente.component'
 import { TechniciansComponent } from './comp/technicians/technicians.component'
+import { FilesComponent } from './comp/files/files.component'
+
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -14,7 +16,8 @@ const routes: Routes = [
   {path: 'machine', component: MachineComponent},
   {path: 'customers', component: CustomersComponent},
   {path: 'cliente', component: ClienteComponent},
-  {path: 'technicians', component: TechniciansComponent }
+  {path: 'technicians', component: TechniciansComponent },
+  {path: 'files', component: FilesComponent }
 
 ];
 
