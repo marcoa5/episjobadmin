@@ -8,6 +8,7 @@
       <div class="card" *ngFor="let rig of rigs | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
         <h3 class="rigT">s/n: {{rig.sn}}</h3>
         <h4 class="l2">{{rig.model}}</h4>
+        <h4 class="l2">{{rig.in}}</h4>
         <p class="l2">{{rig.customer}}</p>
         <p class="l3">{{rig.site || 'SITE UNKNOWN'}}</p>
       </div>

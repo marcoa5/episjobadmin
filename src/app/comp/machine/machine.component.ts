@@ -19,6 +19,7 @@ export class MachineComponent implements OnInit {
   model:string='';
   customer:string='';
   site:string='';
+  in:string='';
   docBpcs:string='';
   dataDoc:string=''
   labels: any[] = [];
@@ -50,6 +51,7 @@ export class MachineComponent implements OnInit {
         this.model=x.val().model
         this.customer=x.val().customer
         this.docBpcs=x.val().docbpcs
+        this.in = x.val().in
         for(let i = 7; i>0;i--){
           if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
         }
