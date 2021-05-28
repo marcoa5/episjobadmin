@@ -2,28 +2,8 @@
 <div id="cont" *ngIf="cust1">
     <div class="item">
         <h2 color="accent">Customer Info</h2>
-        <div class="txtcont" >
-            <div class="divtxt" *ngIf="cust1">
-                <div class="txtlabel">Customer Name</div>
-                <div class="txt">{{cust1}}</div>
-            </div>
-            <div class="divtxt" *ngIf="cust2">
-                <div class="txtlabel">Address 1</div>
-                <div class="txt">{{cust2}}</div>
-            </div>
-            <div class="divtxt" *ngIf="cust3">                
-                <div class="txtlabel">Address 2</div>
-                <div class="txt">{{cust3}}</div>
-            </div>
-        </div>
+        <episjob-label [values]="infoLabels"></episjob-label>
         <h2 color="accent">Customer's fleet</h2>
-        <div class="txtcont" >
-            <div class="custrigcont" *ngFor="let rig of custrig" (click)="open(rig.sn)">
-                <div class="divtxt" *ngIf="cust1">
-                    <div class="txtlabel">{{rig.sn}}</div>
-                    <div class="txt">{{rig.model}}</div>
-                </div>
-            </div>
-        </div>
+        <episjob-label [values]="rigsLabels"></episjob-label>
     </div>
 </div>

@@ -33,7 +33,8 @@ import { TechniciansComponent } from './comp/technicians/technicians.component';
 import { FilesComponent } from './comp/files/files.component';
 import { FilefilterPipe } from './filefilter.pipe'
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { NavbarComponent } from './comp/navbar/navbar.component'
+import { NavbarComponent } from './comp/navbar/navbar.component';
+import { LabelComponent } from './comp/label/label.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -55,7 +56,8 @@ const appearance: MatFormFieldDefaultOptions = {
     TechniciansComponent,
     FilesComponent,
     FilefilterPipe,
-    NavbarComponent
+    NavbarComponent,
+    LabelComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,

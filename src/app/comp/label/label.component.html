@@ -1,0 +1,8 @@
+<div class="txtcont">
+    <div *ngFor="let h of values">
+        <div class="divtxt" *ngIf="h.value" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
+            <div class="txtlabel">{{h.lab}}</div>
+            <div class="txt">{{h.value}}</div>
+        </div>
+    </div>
+</div>

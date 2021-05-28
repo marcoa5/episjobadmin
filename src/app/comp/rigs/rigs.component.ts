@@ -25,6 +25,8 @@ export class RigsComponent implements OnInit {
     firebase.default.database().ref('MOL').once('value')
     .then(snap=>{
       this.rigs=Object.values(snap.val())
+      this.rigs.map(l=>{
+      })
       this.scrollaV = true
     })
   }

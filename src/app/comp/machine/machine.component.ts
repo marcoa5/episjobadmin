@@ -8,6 +8,13 @@ import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../serv/back.service'
 
+export interface hrsLabel {
+  lab: string
+  value: any
+  click: any
+  url: any
+}
+
 @Component({
   selector: 'episjob-machine',
   templateUrl: './machine.component.html',
@@ -15,7 +22,7 @@ import { BackService } from '../../serv/back.service'
 })
 export class MachineComponent implements OnInit {
   disab:boolean = true
-  valore: any;
+  valore: any='';
   model:string='';
   customer:string='';
   site:string='';
@@ -38,6 +45,8 @@ export class MachineComponent implements OnInit {
   g1:Chart | null | undefined
   g2:Chart | null | undefined
   displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
+  rigLabels: hrsLabel[]=[]
+  hrsLabels: hrsLabel[]=[]
   constructor(public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   
   }
@@ -52,6 +61,12 @@ export class MachineComponent implements OnInit {
         this.customer=x.val().customer
         this.docBpcs=x.val().docbpcs
         this.in = x.val().in
+        this.rigLabels=[
+          {value:this.valore, lab:'Serial Nr.',click:'',url:''},
+          {value:this.model, lab:'Model',click:'',url:''},
+          {value:this.customer, lab:'Customer',click:this.customer,url:'cliente'},
+          {value:this.site, lab:'Site',click:'',url:''}
+        ]
         for(let i = 7; i>0;i--){
           if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
         }
@@ -59,15 +74,30 @@ export class MachineComponent implements OnInit {
       })      
     })   
     this.avv(5)
-    
   }
 
   avv(lim:number){
     this.loadData(this.valore,lim)
     setTimeout(() => {
       this.loadCharts()
+      this.hrsLabels=[
+        {value:this.th(this.Engh),lab: 'Engine Hrs',click:'',url:''},
+        {value:this.th(this.Perc1),lab: 'Percussion 1',click:'',url:''},
+        {value:this.th(this.Perc2),lab: 'Percussion 2',click:'',url:''},
+        {value:this.th(this.Perc3),lab: 'Percussion 3',click:'',url:''}
+      ]
     }, 850);
     this.dataSource=this.data
+  }
+
+  th(a:any){
+    if(a){
+      a=a.toString()
+    let b = a.toString().length
+    if(b<4) return a
+    if(b>3 && b<7) return `${a.substring(0,b-3)}.${a.substring(b-3,b)}`
+    if(b>6 && b<10) return `${a.substring(0,b-6)}.${a.substring(b-6,b-3)}.${a.substring(b-3,b)}`
+    }
   }
 
   loadCharts(){
