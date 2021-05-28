@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { BackService }  from '../../serv/back.service'
-import * as firebase from 'firebase'
+import firebase from 'firebase'
+import 'firebase/database'
 
 @Component({
   selector: 'episjob-customers',
@@ -13,10 +14,8 @@ export class CustomersComponent implements OnInit {
   customers:any;
   constructor(public router: Router, public bak:BackService) { }
 
-  ngOnInit(): void {
-    
-    
-    firebase.default.database().ref('Customers').once('value', a=>{
+  ngOnInit(): void {     
+    firebase.database().ref('Customers').once('value', a=>{
       this.customers = Object.values(a.val())
     })
   }
@@ -32,7 +31,10 @@ export class CustomersComponent implements OnInit {
 
   filter(a:any){
     this.filtro=a
-  }
+  }  
 
-  
+  io(a:any){
+    console.log(a)
+    //console.log(e)
+  }
 }

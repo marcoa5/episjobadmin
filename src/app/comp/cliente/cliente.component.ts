@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
-import * as firebase from 'firebase'
+import firebase from 'firebase'
+import 'firebase/database'
 import { BackService } from '../../serv/back.service'
 
 export interface rigsLabel {
@@ -28,7 +29,7 @@ export class ClienteComponent implements OnInit {
     this.route.params.subscribe(a=>{
       this.cust1=a.cust1
       console.log(this.cust1.replace(/./g,''))
-      firebase.default.database().ref('Customers/' + this.cust1.replace(/./g,'')).once('value', g=>{
+      firebase.database().ref('Customers/' + this.cust1.replace(/./g,'')).once('value', g=>{
         this.cust2=g.val().c2
         this.cust3=g.val().c3
         this.infoLabels =[
@@ -38,7 +39,7 @@ export class ClienteComponent implements OnInit {
         ]
       })
     })
-    firebase.default.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).once('value',k=>{
+    firebase.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).once('value',k=>{
       this.custrig=Object.values(k.val())
       k.forEach(x=>{
         this.rigsLabels.push({value: x.val().model,lab:x.val().sn,click:x.val().sn, url:'machine'})

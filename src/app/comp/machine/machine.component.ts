@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/database'
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -55,7 +55,7 @@ export class MachineComponent implements OnInit {
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
-      firebase.default.database().ref('MOL/' + r.sn).once('value',x=>{
+      firebase.database().ref('MOL/' + r.sn).once('value',x=>{
         this.site = x.val().site
         this.model=x.val().model
         this.customer=x.val().customer
@@ -117,7 +117,7 @@ export class MachineComponent implements OnInit {
 
   loadData(r:any, lim:number){
     this.data=[]
-    firebase.default.database().ref('Hours/' + r).limitToLast(lim).once('value',f=>{
+    firebase.database().ref('Hours/' + r).limitToLast(lim).once('value',f=>{
       f.forEach(g=>{
         if(g.key){
           let anno = parseInt(g.key.substring(0,4)) 

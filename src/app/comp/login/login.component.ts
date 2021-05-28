@@ -1,6 +1,7 @@
 import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import * as firebase from 'firebase';
+import firebase from 'firebase';
+import 'firebase/auth'
 
 
 
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     //this.login('marco.arato@epiroc.com','Epiroc2021')
-    firebase.default.auth().onAuthStateChanged((a)=>{
+    firebase.auth().onAuthStateChanged((a)=>{
       //if (a) console.log(a)
     })
   }
@@ -34,9 +35,9 @@ export class LoginComponent implements OnInit {
     this.spin=true
     let una = a.get('username')?.value
     let pwd = a.get('password')?.value
-    firebase.default.auth().signInWithEmailAndPassword(una,pwd)
+    firebase.auth().signInWithEmailAndPassword(una,pwd)
     .then((a)=>{
-       firebase.default.database().ref('Users/' + a.user?.uid ).once('value')
+       firebase.database().ref('Users/' + a.user?.uid ).once('value')
        .then(snap=>{
          var b = snap.val()
          this.uN = b.Nome.substring(0,1) + b.Cognome.substring(0,1)

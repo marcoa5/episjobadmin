@@ -1,8 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackService } from '../../serv/back.service'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/database'
+import { UserposService } from '../../serv/userpos.service'
 
 @Component({
   selector: 'episjob-rigs',
@@ -17,12 +18,14 @@ export class RigsComponent implements OnInit {
   filtro:string=''
   lar:boolean|undefined;
   value:any
-  constructor(public router: Router, public bak:BackService) { 
+  pos:string|undefined
+  constructor(public router: Router, public bak:BackService, private uPos:UserposService) { 
    }
 
   ngOnInit(): void {
     this.largh(1)
-    firebase.default.database().ref('MOL').once('value')
+      
+    firebase.database().ref('MOL').once('value')
     .then(snap=>{
       this.rigs=Object.values(snap.val())
       this.rigs.map(l=>{
@@ -71,4 +74,6 @@ export class RigsComponent implements OnInit {
   filter(a:any){
     this.filtro=a
   }
+
+
 }

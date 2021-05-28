@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase'
+import firebase from 'firebase'
 import 'firebase/storage'
 import{ BackService } from '../../serv/back.service'
 
@@ -23,7 +23,7 @@ export class FilesComponent implements OnInit {
   constructor(private bak: BackService) { }
 
   ngOnInit(): void {
-    firebase.default.storage().ref('Closed').listAll()
+    firebase.storage().ref('Closed').listAll()
     .then(a=>{
       a.items.map(async b=>{
           let f = {name:b.name}
@@ -39,7 +39,7 @@ export class FilesComponent implements OnInit {
     })
   }
   open(a:string){
-    firebase.default.storage().ref('Closed').child(a).getDownloadURL()
+    firebase.storage().ref('Closed').child(a).getDownloadURL()
     .then(b=>{
       window.open(b)
     })

@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import * as firebase from 'firebase'
+import firebase from 'firebase'
+import 'firebase/storage'
+import 'firebase/database'
 import { Router } from '@angular/router'
+
 
 @Component({
   selector: 'episjob-sjlist',
@@ -21,14 +24,14 @@ export class SjlistComponent implements OnInit {
   @Input() model:string = ''
 
   ngOnInit(): void {
-    firebase.default.database().ref('Saved/' + this.sn).limitToLast(parseInt(this.lim)).once('value',h=>{
+    firebase.database().ref('Saved/' + this.sn).limitToLast(parseInt(this.lim)).once('value',h=>{
       this.dates=Object.keys(h.val())
       this.sj=Object.values(h.val())
     })
   }
 
   download(a:string){
-    firebase.default.storage().ref('Closed/' + a).getDownloadURL()
+    firebase.storage().ref('Closed/' + a).getDownloadURL()
     .then(a=>{window.open(a)})
   }
 

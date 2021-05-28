@@ -22,6 +22,7 @@ const firebaseConfig = {
 export class AppComponent {
   title = 'episjobadmin';
   userN:string | undefined;
+  userT:string |undefined;
   orient: boolean | undefined
   titolo: string | undefined
   showFiller:boolean=false;
@@ -35,6 +36,7 @@ export class AppComponent {
       } else {
         firebase.default.database().ref('Users/' + a.uid). once('value',s=>{
           this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
+          this.userT=s.val().Pos
         })
       }
     })

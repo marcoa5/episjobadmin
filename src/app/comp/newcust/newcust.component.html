@@ -1,0 +1,17 @@
+<episjob-navbar [title]="'New Customer'" [cerca]="false" [home]="true"></episjob-navbar>
+
+<form [formGroup]="newC" class="cont">
+    <mat-form-field [appearance]="appearance">
+        <mat-label>Customer Name</mat-label>
+        <input matInput type="text" placeholder="Name" formControlName="name" autocomplete="off">
+    </mat-form-field>
+    <mat-form-field [appearance]="appearance">
+        <mat-label>Customer Address1</mat-label>
+        <input matInput type="text" placeholder="Address 1" formControlName="address1" autocomplete="off">
+    </mat-form-field>
+    <mat-form-field [appearance]="appearance">
+        <mat-label>Customer Address2</mat-label>
+        <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
+    </mat-form-field>
+    <button mat-raised-button (click)=add(newC)>Add</button>
+</form>

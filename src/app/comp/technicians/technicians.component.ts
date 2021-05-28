@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase'
+import firebase from 'firebase'
+import 'firebase/database'
 
 @Component({
   selector: 'episjob-technicians',
@@ -12,7 +13,7 @@ export class TechniciansComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    firebase.default.database().ref('Tech').once('value',a=>{
+    firebase.database().ref('Tech').once('value',a=>{
       this.tech=Object.keys(a.val())
     })
   }
