@@ -17,7 +17,7 @@ export class FilesComponent implements OnInit {
   filtro:string=''
   lar:boolean|undefined;
   value:any
-  start:number=0
+  start:number=-1
   end:number=0
   lungh:number[]=[10,25,50,100]
   constructor(private bak: BackService) { }
@@ -31,7 +31,7 @@ export class FilesComponent implements OnInit {
           if (this.files.length==a.items.length){
             await this.files.reverse()
             this.lungh.push(this.files.length)
-            this.start=1
+            this.start=0
             this.end=10
             this.files1 = this.files.slice(this.start,this.end)
           }
@@ -55,12 +55,12 @@ export class FilesComponent implements OnInit {
       this.filtro=''
       this.start=1
       this.end =10
-      this.files1 = this.files.slice(1,10)
+      this.files1 = this.files.slice(0,10)
     }
   }
 
   pageEvent(e:any){
-    this.start = e.pageIndex * e.pageSize +1
+    this.start = e.pageIndex * e.pageSize 
     this.end = e.pageIndex* e.pageSize + e.pageSize
     this.files1=this.files.slice(this.start,this.end)
   }

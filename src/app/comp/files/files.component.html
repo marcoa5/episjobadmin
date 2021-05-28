@@ -1,17 +1,17 @@
 <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
-  <div id="spin" *ngIf="start==0">
+  <div id="spin" *ngIf="start<0">
     <mat-spinner color="accent"></mat-spinner>
   </div>
 
   
 
-<div class="cont" *ngIf="start>0" >
+<div class="cont" *ngIf="start>-1" >
       <mat-paginator *ngIf="filtro==''"  [length]="files.length"
       [pageSize]="10"
       [pageSizeOptions]="lungh"
       (page)="pageEvent($event)">
     </mat-paginator>
-    <div class="file" *ngFor="let a of files1 | filefilter: filtro" [class.mat-elevation-z2]="true" (click)="open(a.name)">
+    <div class="file" *ngFor="let a of files1 | filefilter: filtro ; let i = index " [class.mat-elevation-z2]="true" (click)="open(a.name)">
         <mat-icon>picture_as_pdf</mat-icon>
         <div class="nomeF">{{a.name}}</div>
     </div>
