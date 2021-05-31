@@ -36,7 +36,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavbarComponent } from './comp/navbar/navbar.component';
 import { LabelComponent } from './comp/label/label.component';
 import { NewcustComponent } from './comp/newcust/newcust.component';
-import { AddbutComponent } from './comp/addbut/addbut.component'
+import { AddbutComponent } from './comp/addbut/addbut.component';
+import { EditdelbutComponent } from './comp/editdelbut/editdelbut.component'
+import { MatDialogModule } from '@angular/material/dialog';
+import { DeldialogComponent } from './comp/dialog/deldialog/deldialog.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -61,12 +64,14 @@ const appearance: MatFormFieldDefaultOptions = {
     NavbarComponent,
     LabelComponent,
     NewcustComponent,
-    AddbutComponent
+    AddbutComponent,
+    EditdelbutComponent,
+    DeldialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatDialogModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
@@ -74,6 +79,6 @@ const appearance: MatFormFieldDefaultOptions = {
     useValue: appearance,
   },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
