@@ -12,7 +12,7 @@
               @ {{a.cantiere1}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <h4>Rapporto Lavoro:</h4>
+          <h4>Rapporto Lavoro <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
           <p>{{a.rappl1}}</p>
           <div class="SJDown" (click)="download(a.filename)">
             <mat-icon>description</mat-icon>

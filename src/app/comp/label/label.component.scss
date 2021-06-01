@@ -1,17 +1,18 @@
 @import '../../../epi.scss';
 
-.divtxt{
-    background-color: rgb(245,245,245);
-    border-radius: 5px 5px 0 0;
-    width: 100%; overflow: hidden;
-    border-bottom: .5px solid $dark-text;
-}
 
 .txtcont{
     display: grid;
     gap: 10px;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
+}
+
+.divtxt{
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    overflow: hidden;
 }
 
 .txtlabel{
@@ -23,7 +24,8 @@
 }
 
 .txt{
-    padding: 0px 10px 5px 10px;
+    max-width: 100%;
+    margin: 0px 10px 5px 10px;
     white-space: nowrap;
     overflow: hidden;
 }

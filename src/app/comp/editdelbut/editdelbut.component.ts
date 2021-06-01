@@ -46,5 +46,5 @@ export class EditdelbutComponent implements OnInit {
         this.location.back()
       }
     });
-  }
+  } 
 }
