@@ -9,6 +9,8 @@ import { ClienteComponent } from './comp/cliente/cliente.component'
 import { TechniciansComponent } from './comp/technicians/technicians.component'
 import { FilesComponent } from './comp/files/files.component'
 import { NewcustComponent } from './comp/newcust/newcust.component'
+import { NewtechComponent } from './comp/newtech/newtech.component'
+import { NewrigComponent } from './comp/newrig/newrig.component'
 
 
 const routes: Routes = [
@@ -19,7 +21,9 @@ const routes: Routes = [
   {path: 'cliente', component: ClienteComponent},
   {path: 'technicians', component: TechniciansComponent },
   {path: 'files', component: FilesComponent },
-  {path: 'newc', component: NewcustComponent }
+  {path: 'newc', component: NewcustComponent },
+  {path: 'newtech', component: NewtechComponent },
+  {path: 'newrig', component: NewrigComponent },
 
 ];
 

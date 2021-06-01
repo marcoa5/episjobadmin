@@ -17,4 +17,9 @@ export class UpddialogComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
+  contr(){
+    if(this.data.name!='') return `${this.data.name} will be updated. Proceed?`
+    return `New customer will be added. Proceed?`
+  }
 }

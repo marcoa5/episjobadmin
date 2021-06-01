@@ -1,11 +1,14 @@
+@import '../../../epi.scss';
+
 .tech{
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $dark-text;
     justify-content: center;
     padding: 10px 30px;
     border-radius: 10px 10px 0 0;
     background-color: rgb(245,245,245);
+    color: $dark-text;
 }
 
 p{margin:0}

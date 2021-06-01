@@ -43,6 +43,8 @@ import { H2Component } from './comp/util/h2/h2.component';
 import { AddCancelbuttonsComponent } from './comp/util/add-cancelbuttons/add-cancelbuttons.component';
 import { DisbuttonPipe } from './pipe/disbutton.pipe';
 import { UpddialogComponent } from './comp/dialog/upddialog/upddialog.component';
+import { NewtechComponent } from './comp/newtech/newtech.component';
+import { NewrigComponent } from './comp/newrig/newrig.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -73,6 +75,8 @@ const appearance: MatFormFieldDefaultOptions = {
     AddCancelbuttonsComponent,
     DisbuttonPipe,
     UpddialogComponent,
+    NewtechComponent,
+    NewrigComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,

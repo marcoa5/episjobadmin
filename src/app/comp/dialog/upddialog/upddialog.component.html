@@ -1,4 +1,4 @@
-<div mat-dialog-content>{{data.name}} will be updated. Proceed?</div>
+<div mat-dialog-content>{{contr()}}</div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button (click)="onNoClick()" cdkFocusInitial>No</button>
     <button mat-raised-button [mat-dialog-close]="data.name">Yes</button>

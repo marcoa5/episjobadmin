@@ -1,5 +1,5 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
-
+<episjob-editdelbut [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)"></episjob-editdelbut>
 <div class="t"> 
     <span>
         <mat-form-field appearance="fill" id="nr">
@@ -21,26 +21,6 @@
         <episjob-label [values]="rigLabels"></episjob-label>
         <episjob-h2 [data]="dataRile()"></episjob-h2>
         <episjob-label *ngIf="data.length>0" [values]="hrsLabels"></episjob-label>
-
-        <!--<div class="txtcont" >
-            <div class="divtxt" *ngIf="Engh">
-                <div class="txtlabel">Engine</div>
-                <div class="txt">{{Engh | number}}</div>
-            </div>
-            <div class="divtxt" *ngIf="Perc1">
-                <div class="txtlabel">Percussion1</div>
-                <div class="txt">{{Perc1 | number}}</div>
-            </div>
-            <div class="divtxt" *ngIf="Perc2">
-                <div class="txtlabel">Percussion2</div>
-                <div class="txt">{{Perc2 | number}}</div>
-            </div>
-            <div class="divtxt" *ngIf="Perc3">                
-                <div class="txtlabel">Percussion3</div>
-                <div class="txt">{{Perc3 | number}}</div>
-            </div>
-        </div>-->
-
     </div>
     <div *ngIf="data.length<1">
         <p>no data to display</p>

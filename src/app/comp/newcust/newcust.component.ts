@@ -27,6 +27,7 @@ export class NewcustComponent implements OnInit {
   addUpd:boolean=true
   origin:string[]=[]
   pos:string=''
+  rou:any[]=[]
   constructor(private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog) {
     this.newC = fb.group({
       name:['',[Validators.required]],
@@ -41,6 +42,7 @@ export class NewcustComponent implements OnInit {
         this.pos = b.val()
       })
     })
+    
     this.route.params.subscribe(a=>{
       if(a.c1 && a.c2 && a.c3) {
         this.origin=[a.c1,a.c2,a.c3]
@@ -50,6 +52,7 @@ export class NewcustComponent implements OnInit {
           address2: [a.c3,[Validators.required]],
         })
         this.addUpd=false
+        this.rou=['cliente',{cust1: a.c1,cust2:a.c,cust3:a.c3}]
       }
     })
   }
@@ -60,7 +63,7 @@ export class NewcustComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {name: this.origin[0]}
+        data: {name: this.origin[0]!=undefined?this.origin[0]: ''}
       });
   
       dialogRef.afterClosed().subscribe(result => {

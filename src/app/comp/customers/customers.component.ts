@@ -15,7 +15,7 @@ export class CustomersComponent implements OnInit {
   constructor(public router: Router, public bak:BackService) { }
 
   ngOnInit(): void {     
-    firebase.database().ref('Customers').once('value', a=>{
+    firebase.database().ref('Customers').on('value', a=>{
       this.customers = Object.values(a.val())
     })
   }

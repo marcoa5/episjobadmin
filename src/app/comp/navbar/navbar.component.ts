@@ -11,7 +11,7 @@ export class NavbarComponent implements OnInit {
   @Input() title:string=''
   @Input() cerca:boolean=true
   @Input() home:boolean=false
-  @Input() backB:string = ''
+  @Input() backB:any = ''
   @Output() filter = new EventEmitter()
   constructor(private router:Router) { }
   oldPosition:number=0;
@@ -46,7 +46,11 @@ export class NavbarComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate([this.backB])
+    if(typeof this.backB == 'string') {
+      this.router.navigate([this.backB])
+    }else {
+      this.router.navigate(this.backB)
+    }
   }
 
   largh(e:any){

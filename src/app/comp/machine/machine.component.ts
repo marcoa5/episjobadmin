@@ -248,5 +248,13 @@ export class MachineComponent implements OnInit {
   dataRile(){
     return `Running hours ${this.dataRil? '@ ' + this.dataRil : ''}`
   }
+
+  contr(){
+    return false
+  }
+
+  go(e:any){
+    this.router.navigate(['newrig',{name:this.valore}])
+  }
 }
  
