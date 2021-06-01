@@ -53,6 +53,8 @@ export class NewcustComponent implements OnInit {
         })
         this.addUpd=false
         this.rou=['cliente',{cust1: a.c1,cust2:a.c,cust3:a.c3}]
+      } else {
+        this.rou=['customers']
       }
     })
   }
