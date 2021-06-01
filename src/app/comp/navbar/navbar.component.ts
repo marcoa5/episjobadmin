@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { BackService } from '../../serv/back.service'
-import { Location } from '@angular/common'
 import { Router } from '@angular/router'
 
 @Component({
@@ -12,8 +11,9 @@ export class NavbarComponent implements OnInit {
   @Input() title:string=''
   @Input() cerca:boolean=true
   @Input() home:boolean=false
+  @Input() backB:string = ''
   @Output() filter = new EventEmitter()
-  constructor(private bak: BackService, private location: Location, private router:Router) { }
+  constructor(private router:Router) { }
   oldPosition:number=0;
   currentPosition:number=0;
   scrollaV:boolean =true;
@@ -46,7 +46,7 @@ export class NavbarComponent implements OnInit {
   }
 
   back(){
-    this.location.back()
+    this.router.navigate([this.backB])
   }
 
   largh(e:any){

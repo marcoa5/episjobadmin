@@ -1,4 +1,4 @@
-<episjob-navbar [title]="'Customers list'" (filter)="filter($event)"></episjob-navbar>
+<episjob-navbar [backB]="''" [title]="'Customers list'" (filter)="filter($event)"></episjob-navbar>
 
 <div class="custcont">
     <div class="custcard" *ngFor="let cust of customers | custfilter: filtro" [class.mat-elevation-z2]="true" (click)="open(cust.c1, cust.c2,cust.c3)">

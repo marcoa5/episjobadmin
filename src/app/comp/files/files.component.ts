@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase'
 import 'firebase/storage'
+import 'firebase/auth'
 import{ BackService } from '../../serv/back.service'
 
 @Component({
@@ -20,9 +21,15 @@ export class FilesComponent implements OnInit {
   start:number=-1
   end:number=0
   lungh:number[]=[10,25,50,100]
+  pos:string|undefined
   constructor(private bak: BackService) { }
 
   ngOnInit(): void {
+    firebase.auth().onAuthStateChanged(a=>{
+      firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
+        this.pos=b.val()
+      })
+    })
     firebase.storage().ref('Closed').listAll()
     .then(a=>{
       a.items.map(async b=>{

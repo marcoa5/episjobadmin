@@ -241,5 +241,12 @@ export class MachineComponent implements OnInit {
     this.router.navigate(['cliente',{cust1:a}])
   }
 
+  rigInfo(){
+    return `Rig info - ${this.valore} ${this.in!=''? '(' + this.in  + ')' : ''}`
+  }
+  
+  dataRile(){
+    return `Running hours ${this.dataRil? '@ ' + this.dataRil : ''}`
+  }
 }
  

@@ -10,9 +10,15 @@ import 'firebase/database'
 export class TechniciansComponent implements OnInit {
   tech:any[]=[]
   filtro:string=''
+  pos:string|undefined
   constructor() { }
 
   ngOnInit(): void {
+    firebase.auth().onAuthStateChanged(a=>{
+      firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
+        this.pos=b.val()
+      })
+    })
     firebase.database().ref('Tech').once('value',a=>{
       this.tech=Object.keys(a.val())
     })

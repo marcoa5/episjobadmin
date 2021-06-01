@@ -1,15 +1,11 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Location } from '@angular/common'
+import { Router } from '@angular/router'
 import firebase from 'firebase'
 import 'firebase/auth'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component';
-
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+import { UpddialogComponent } from '../dialog/upddialog/upddialog.component'
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -20,6 +16,8 @@ export class EditdelbutComponent implements OnInit {
   pos:string|undefined
   @Input() func:string|undefined
   @Input() nome:string|undefined
+  @Input() check:boolean=true
+  @Output() edit = new EventEmitter()
   constructor(private location: Location, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -47,4 +45,9 @@ export class EditdelbutComponent implements OnInit {
       }
     });
   } 
+
+  edita(){
+    this.edit.emit('edit')
+  }
+
 }

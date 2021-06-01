@@ -32,9 +32,4 @@ export class CustomersComponent implements OnInit {
   filter(a:any){
     this.filtro=a
   }  
-
-  io(a:any){
-    console.log(a)
-    //console.log(e)
-  }
 }

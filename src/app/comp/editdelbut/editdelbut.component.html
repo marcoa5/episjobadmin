@@ -1,4 +1,4 @@
 <div class="cont" *ngIf="pos=='SU'">
-    <button mat-fab color="primary"><mat-icon>edit</mat-icon></button>
-    <button mat-fab color="primary" (click)="openDialog()"><mat-icon>delete</mat-icon></button>
+    <button mat-fab color="primary" (click)="edita()"><mat-icon>edit</mat-icon></button>
+    <button mat-fab color="primary" (click)="openDialog()" [disabled]="check"><mat-icon>delete</mat-icon></button>
 </div>

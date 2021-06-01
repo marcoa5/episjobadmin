@@ -20,9 +20,5 @@ export class DeldialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  del(){
-    firebase.database().ref('Customers/' + this.data.name).remove()
-    this.dialogRef.close()
-  }
 
 }

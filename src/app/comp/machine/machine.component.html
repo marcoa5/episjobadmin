@@ -1,4 +1,4 @@
-<episjob-navbar [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
+<episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
 
 <div class="t"> 
     <span>
@@ -17,10 +17,9 @@
 
 <div id="cont" *ngIf="customer">
     <div class="item">
-        <h2 color="accent">Rig info - {{valore}} {{in!=''? '(' + in+')' : ''}}</h2>
+        <episjob-h2 [data]="rigInfo()"></episjob-h2>
         <episjob-label [values]="rigLabels"></episjob-label>
-
-        <h2>Running hours {{dataRil? '@ ' + dataRil : ''}}</h2>
+        <episjob-h2 [data]="dataRile()"></episjob-h2>
         <episjob-label *ngIf="data.length>0" [values]="hrsLabels"></episjob-label>
 
         <!--<div class="txtcont" >

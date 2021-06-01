@@ -1,12 +1,12 @@
-<episjob-navbar [title]="'Customer'" [cerca]="false" [home]="true"></episjob-navbar>
+<episjob-navbar [backB]="'customers'" [title]="'Customer'" [cerca]="false" [home]="true"></episjob-navbar>
 <div id="cont" *ngIf="cust1">
     <div class="item">
-        <h2 color="accent">Customer Info</h2> 
+        <episjob-h2 [data]="'Customer Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>
-        <h2 color="accent" *ngIf="rigsLabels!=undefined && rigsLabels.length>0">Customer's fleet</h2>
+        <episjob-h2 *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Customer Fleet'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
 </div>
 
 
-<episjob-editdelbut [nome]="cust1" [func]="'Customers'"></episjob-editdelbut> 
+<episjob-editdelbut [nome]="cust1" [func]="'Customers'" [check]="contr()" (edit)="go($event)"></episjob-editdelbut> 

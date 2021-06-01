@@ -31,7 +31,7 @@ export class ClienteComponent implements OnInit {
     })
     this.route.params.subscribe(a=>{
       this.cust1=a.cust1
-      firebase.database().ref('Customers/' + this.cust1.replace(/\./g,'')).once('value', g=>{
+      firebase.database().ref('Customers/' + this.cust1.replace(/\./g,'')).on('value', g=>{
         this.cust2=g.val().c2
         this.cust3=g.val().c3
         this.infoLabels =[
@@ -41,7 +41,7 @@ export class ClienteComponent implements OnInit {
         ]
       })
     })
-    firebase.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).once('value',k=>{
+    firebase.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).on('value',k=>{
       if(k.val()!=null){
         this.custrig=Object.values(k.val())
           k.forEach(x=>{
@@ -56,5 +56,13 @@ export class ClienteComponent implements OnInit {
     this.bak.backP()
   }
 
+  contr(){
+    if(this.rigsLabels.length==0) return false
+    return true
+  }
+
+  go(e:any){
+    this.router.navigate(['newc',{c1:this.cust1,c2:this.cust2,c3:this.cust3}])
+  }
 
 }

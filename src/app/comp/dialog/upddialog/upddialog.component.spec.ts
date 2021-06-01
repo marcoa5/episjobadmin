@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavbargComponent } from './navbarg.component';
+import { UpddialogComponent } from './upddialog.component';
 
-describe('NavbargComponent', () => {
-  let component: NavbargComponent;
-  let fixture: ComponentFixture<NavbargComponent>;
+describe('UpddialogComponent', () => {
+  let component: UpddialogComponent;
+  let fixture: ComponentFixture<UpddialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavbargComponent ]
+      declarations: [ UpddialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NavbargComponent);
+    fixture = TestBed.createComponent(UpddialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

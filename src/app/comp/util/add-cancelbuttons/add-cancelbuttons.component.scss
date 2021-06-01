@@ -1,0 +1,11 @@
+
+
+.cont{
+    padding-top:35px;
+    width: 60%;
+    max-width: 350px;
+    float: right;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+}

@@ -25,8 +25,7 @@ export class RigsComponent implements OnInit {
   ngOnInit(): void {
     this.largh(1)
       
-    firebase.database().ref('MOL').once('value')
-    .then(snap=>{
+    firebase.database().ref('MOL').on('value', snap=>{
       this.rigs=Object.values(snap.val())
       this.rigs.map(l=>{
       })

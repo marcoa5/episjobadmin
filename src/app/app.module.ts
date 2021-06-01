@@ -25,7 +25,6 @@ import { MatTableModule } from '@angular/material/table';
 import { CustomersComponent } from './comp/customers/customers.component';
 import { CustfilterPipe } from './custfilter.pipe';
 import { ClienteComponent } from './comp/cliente/cliente.component';
-import { NavbargComponent } from './comp/navbarg/navbarg.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SjlistComponent } from './comp/sjlist/sjlist.component'
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -39,7 +38,11 @@ import { NewcustComponent } from './comp/newcust/newcust.component';
 import { AddbutComponent } from './comp/addbut/addbut.component';
 import { EditdelbutComponent } from './comp/editdelbut/editdelbut.component'
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeldialogComponent } from './comp/dialog/deldialog/deldialog.component'
+import { DeldialogComponent } from './comp/dialog/deldialog/deldialog.component';
+import { H2Component } from './comp/util/h2/h2.component';
+import { AddCancelbuttonsComponent } from './comp/util/add-cancelbuttons/add-cancelbuttons.component';
+import { DisbuttonPipe } from './pipe/disbutton.pipe';
+import { UpddialogComponent } from './comp/dialog/upddialog/upddialog.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -56,7 +59,6 @@ const appearance: MatFormFieldDefaultOptions = {
     CustomersComponent,
     CustfilterPipe,
     ClienteComponent,
-    NavbargComponent,
     SjlistComponent,
     TechniciansComponent,
     FilesComponent,
@@ -67,6 +69,10 @@ const appearance: MatFormFieldDefaultOptions = {
     AddbutComponent,
     EditdelbutComponent,
     DeldialogComponent,
+    H2Component,
+    AddCancelbuttonsComponent,
+    DisbuttonPipe,
+    UpddialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,

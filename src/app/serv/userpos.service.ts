@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase'
 import 'firebase/auth'
+import 'firebase/database'
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,6 @@ export class UserposService {
   constructor() { }
 
   getPos(){
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a) return a?.uid
-      return false
-    })
+      return firebase.auth().currentUser?.uid
   }
 }

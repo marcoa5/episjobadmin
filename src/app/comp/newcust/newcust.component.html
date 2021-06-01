@@ -1,17 +1,21 @@
-<episjob-navbar [title]="'New Customer'" [cerca]="false" [home]="true"></episjob-navbar>
+<episjob-navbar [backB]="'customers'" [title]="addUpd? 'New Customer' : 'Update Customer'" [cerca]="false" [home]="true"></episjob-navbar>
 
-<form [formGroup]="newC" class="cont">
-    <mat-form-field [appearance]="appearance">
-        <mat-label>Customer Name</mat-label>
-        <input matInput type="text" placeholder="Name" formControlName="name" autocomplete="off">
-    </mat-form-field>
-    <mat-form-field [appearance]="appearance">
-        <mat-label>Customer Address1</mat-label>
-        <input matInput type="text" placeholder="Address 1" formControlName="address1" autocomplete="off">
-    </mat-form-field>
-    <mat-form-field [appearance]="appearance">
-        <mat-label>Customer Address2</mat-label>
-        <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
-    </mat-form-field>
-    <button mat-raised-button (click)=add(newC)>Add</button>
-</form>
+<div class="cont">
+    <episjob-h2 [data]="addUpd? 'Add New Customer' : 'Update Customer'"></episjob-h2>
+
+    <form [formGroup]="newC" class="formCont">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Customer Name</mat-label>
+            <input matInput type="text" placeholder="Name" formControlName="name" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Customer Address1</mat-label>
+            <input matInput type="text" placeholder="Address 1" formControlName="address1" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Customer Address2</mat-label>
+            <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
+        </mat-form-field>
+    </form>
+    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="datiC(newC)" (info)="add($event, newC)"></episjob-add-cancelbuttons>
+</div>
