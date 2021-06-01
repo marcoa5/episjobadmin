@@ -44,15 +44,15 @@ export class HomeComponent implements OnInit {
       id:'Users',
       icon:'account_box', 
       route:'users', 
-      dis:true, 
+      dis:false, 
       auth:['SU','','','']
     },
     {
       id:'Contracts',
       icon:'description', 
       route:'contracts', 
-      dis:true, 
-      auth:['SU','admin','tech','sales']
+      dis:false, 
+      auth:['SU','admin','','']
     },
   ];
 
