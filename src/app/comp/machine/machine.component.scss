@@ -3,7 +3,13 @@
 #cont{
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    margin: 10px;
+    z-index: 1;
+    padding-bottom: 30px;
+}
+
+.butt{
+    z-index: 200;
 }
 
 .item, .itemc{
@@ -16,22 +22,30 @@
     flex-direction: row;
 }
 
-.subitemc{
-    width: calc(50% - 5px);
+.subitemc, .over{
+    width: 50%;
+    flex: 1 1 1;
     height: 350px;
-    padding: 5px;
     background-color: rgb(245,245,245);
     border-radius: 5px 5px 0 0;
     margin-top: 10px;
     border-bottom: .5px solid $dark-text;
+    height: auto;
+    min-height: 350px;
+}
+
+h2{
+    color: $dark-text;
 }
 
 .spacer{
-    margin: 0 5px;
+    width:10px;
+    min-width: 10px;
 }
 
-can{
-    width:100%; height:100%;
+.can{
+    max-width:97%; 
+    min-height:100%;
 }
 
 .ff{
@@ -48,8 +62,12 @@ table{
 }
 
 .over{
-    height:auto;
+    height: auto;
     min-height: 350px;
+}
+
+.datacont{
+    margin:10px;
 }
 
 #nr{
@@ -63,14 +81,29 @@ table{
     justify-content: space-between;
 }
 
+.row{
+    display: flex;
+    flex-direction: column;
+}
+
+.subrow{
+    align-items: stretch;
+    flex: 1 1 1;
+}
+
 @media only screen and (max-width: 600px) {
     .itemc{
         display: flex;
         flex-direction: column;
     }
-    .subitemc{
-        width: calc(100% - 10px);
+    .subitemc, .over{
+        width: 100%;
     }
+    .over{
+        margin:0;
+    }
+
+
     .ff{
         width: calc(50% - 10px);
         padding: 5px;
@@ -79,4 +112,26 @@ table{
     .spacer{
         margin: 5px 0;
     }
+  }
+
+  @media only screen and (min-width: 2500px) {
+
+    .row{
+        flex-direction: row;
+    }
+    .subrow{
+        width: 100%;
+        flex: 1 1 1;
+    }
+
+    .chart{
+        height: 100%;;
+    }
+    .a1{
+        order:3;
+    }
+    .a2{
+        order:1;
+    }
+    .a3{order:2}
   }

@@ -1,14 +1,8 @@
 @import '../../../epi.scss';
 
 .cont{
-    padding: 10px;
     color: $dark-text;
 }
-
-h2{
-    padding-top:35px;
-}
-
 
 .mat-form-field + .mat-form-field {
     margin-left: 8px;
@@ -24,4 +18,8 @@ h2{
 
 .desc{
     margin: 0 0 0 5px;
+}
+
+episjob-h2{
+    padding-top: 0;
 }

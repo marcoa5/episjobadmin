@@ -1,6 +1,5 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
-<episjob-editdelbut [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)"></episjob-editdelbut>
-<div class="t"> 
+<div class="t" > 
     <span>
         <mat-form-field appearance="fill" id="nr">
             <mat-label>Records</mat-label>
@@ -17,56 +16,82 @@
 
 <div id="cont" *ngIf="customer">
     <div class="item">
-        <episjob-h2 [data]="rigInfo()"></episjob-h2>
-        <episjob-label [values]="rigLabels"></episjob-label>
-        <episjob-h2 [data]="dataRile()"></episjob-h2>
-        <episjob-label *ngIf="data.length>0" [values]="hrsLabels"></episjob-label>
+        <div class="row">
+            <div class="subrow">
+                <episjob-h2 [data]="rigInfo()"></episjob-h2>
+                <episjob-label [values]="rigLabels"></episjob-label>
+            </div>
+            <div class="spacer"></div>
+            <div class="subrow">
+                <episjob-h2 [data]="dataRile()"></episjob-h2>
+                <episjob-label *ngIf="data.length>0" [values]="hrsLabels"></episjob-label>
+            </div>           
+        </div>
     </div>
     <div *ngIf="data.length<1">
         <p>no data to display</p>
     </div>
     <div *ngIf="data.length>0">
-        <div class="itemc">
-            <div class="subitemc"><canvas class="can" id="orem"></canvas></div>
-            <div class="spacer"></div>
-            <div class="subitemc"><canvas  class="can" id="perc1"></canvas></div>
-        </div>  
-        <div class="itemc">
-            <div class="subitemc over">
-                <h2>Running hours history</h2>
-                    
-                <div class="tablecont">
-                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
-                        <ng-container matColumnDef="Date">
-                        <th mat-header-cell *matHeaderCellDef> Date </th>
-                        <td mat-cell *matCellDef="let a"> {{a.x}} </td>
-                        </ng-container>
-                        <ng-container matColumnDef="Engine">
-                            <th mat-header-cell *matHeaderCellDef> Engine </th>
-                            <td mat-cell *matCellDef="let a"> {{a.y}} </td>
-                        </ng-container>             
-                        <ng-container matColumnDef="Perc1">
-                        <th mat-header-cell *matHeaderCellDef> Perc1 </th>
-                        <td mat-cell *matCellDef="let a"> {{a.y1}} </td>
-                        </ng-container> 
-                        <ng-container matColumnDef="Perc2">
-                        <th mat-header-cell *matHeaderCellDef> Perc2 </th>
-                        <td mat-cell *matCellDef="let a"> {{a.y2}} </td>
-                        </ng-container> 
-                        <ng-container matColumnDef="Perc3">
-                        <th mat-header-cell *matHeaderCellDef> Perc3 </th>
-                        <td mat-cell *matCellDef="let a"> {{a.y3}} </td>
-                        </ng-container>          
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                    </table>
+
+        <div class="row">
+            <div class="subrow a1">
+                <div class="itemc" (resize)="res($event)">
+                    <div class="subitemc">
+                        <canvas class="can" id="orem"></canvas>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="subitemc">
+                        <canvas class="can" id="perc1"></canvas>
+                    </div>
+                </div>  
+            </div>
+            <div class="spacer a3"></div>
+            <div class="subrow a2">
+                <div class="itemc">
+                    <div class="subitemc over">
+                        <div class="datacont">
+                            <episjob-h2  [padtop]="10" [data]="'Running hours history'"></episjob-h2>
+                            <div class="tablecont">
+                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+                                    <ng-container matColumnDef="Date">
+                                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                                    <td mat-cell *matCellDef="let a"> {{a.x}} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Engine">
+                                        <th mat-header-cell *matHeaderCellDef> Engine </th>
+                                        <td mat-cell *matCellDef="let a"> {{a.y}} </td>
+                                    </ng-container>             
+                                    <ng-container matColumnDef="Perc1">
+                                    <th mat-header-cell *matHeaderCellDef> Perc1 </th>
+                                    <td mat-cell *matCellDef="let a"> {{a.y1}} </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="Perc2">
+                                    <th mat-header-cell *matHeaderCellDef> Perc2 </th>
+                                    <td mat-cell *matCellDef="let a"> {{a.y2}} </td>
+                                    </ng-container> 
+                                    <ng-container matColumnDef="Perc3">
+                                    <th mat-header-cell *matHeaderCellDef> Perc3 </th>
+                                    <td mat-cell *matCellDef="let a"> {{a.y3}} </td>
+                                    </ng-container>          
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="subitemc over">
+                        <div class="datacont">
+                            <episjob-sjlist [sn]="valore" [lim]="limit" [docBpcs]="docBpcs" [dataDoc]="dataDoc" [customer]="customer" [model]="model"></episjob-sjlist>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="spacer"></div>
-            <div class="subitemc over">
-                <episjob-sjlist [sn]="valore" [lim]="limit" [docBpcs]="docBpcs" [dataDoc]="dataDoc" [customer]="customer" [model]="model"></episjob-sjlist>
-            </div>
         </div>
+        
+        
+
     </div>
 </div>
 
+<episjob-editdelbut class="butt" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;"></episjob-editdelbut>

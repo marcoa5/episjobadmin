@@ -256,5 +256,10 @@ export class MachineComponent implements OnInit {
   go(e:any){
     this.router.navigate(['newrig',{name:this.valore}])
   }
+
+  res(e:any){
+    this.calcolaOrem()
+    this.calcolaPerc1()
+  }
 }
  

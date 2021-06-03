@@ -45,6 +45,7 @@ import { DisbuttonPipe } from './pipe/disbutton.pipe';
 import { UpddialogComponent } from './comp/dialog/upddialog/upddialog.component';
 import { NewtechComponent } from './comp/newtech/newtech.component';
 import { NewrigComponent } from './comp/newrig/newrig.component';
+import { LogoutComponent } from './comp/dialog/logout/logout.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -77,6 +78,7 @@ const appearance: MatFormFieldDefaultOptions = {
     UpddialogComponent,
     NewtechComponent,
     NewrigComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,

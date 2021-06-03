@@ -19,8 +19,10 @@ export class TechniciansComponent implements OnInit {
         this.pos=b.val()
       })
     })
-    firebase.database().ref('Tech').once('value',a=>{
-      this.tech=Object.keys(a.val())
+    firebase.database().ref('Tech').on('value',a=>{
+      a.forEach(b=>{
+        this.tech.push({l: b.key,s:b.val().s})
+      })
     })
   }
 
