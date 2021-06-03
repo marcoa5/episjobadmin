@@ -22,6 +22,7 @@ export class AddCancelbuttonsComponent implements OnInit {
 
   add(){
     if(this.type=='customer') this.info.emit('newc')
+    if(this.type=='rig') this.info.emit('newr')
   }
 
   contr():boolean{

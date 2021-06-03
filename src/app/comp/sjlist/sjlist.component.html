@@ -5,14 +5,15 @@
     <mat-accordion>
         <mat-expansion-panel class="acc" hideToggle *ngFor="let a of sj; let i = index" [class.mat-elevation-z1]="true">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Service ({{a.stdspe}}) on {{a.data11}}
+            <mat-panel-title class="of">
+              {{a.data11}} - Service ({{a.stdspe}})
             </mat-panel-title>
-            <mat-panel-description>
+            <mat-panel-description class="of">
               @ {{a.cantiere1}}
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <h4>Rapporto Lavoro <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
+          
+          <h4>Service Report <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
           <p>{{a.rappl1}}</p>
           <div class="SJDown" (click)="download(a.filename)">
             <mat-icon>description</mat-icon>

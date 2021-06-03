@@ -1,6 +1,38 @@
 <episjob-navbar [backB]="rou" [home]="true" [cerca]="false"></episjob-navbar>
 
-<div class="cont">
-    {{serial}}
+<div class="cont" *ngIf="pos=='SU'">
+    <episjob-h2 [data]="addUpd? 'Add New Equipment' : 'Update Equipment'"></episjob-h2>
+
+    <form [formGroup]="newR" class="formCont">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Serial Nr</mat-label>
+            <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Item Nr</mat-label>
+            <input matInput type="text" placeholder="Item nr" formControlName="in" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Model</mat-label>
+            <input matInput type="text" placeholder="Model" formControlName="model" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Customer</mat-label>
+            <mat-select formControlName="customer">
+                <mat-option *ngFor="let c of customers; let i = index" [value]="c">{{c}}</mat-option>
+            </mat-select>
+            <!--<input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">-->
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Site</mat-label>
+            <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
+        </mat-form-field>
+    </form>
+    <episjob-add-cancelbuttons 
+        [a1]="'Cancel'" 
+        [a2]="addUpd? 'Add' : 'Update'" 
+        [type]="'rig'" 
+        [check]="datiC(newR)" 
+        (info)="add(addUpd? 'addr':'updr', newR)">
+    </episjob-add-cancelbuttons>
 </div>
-    

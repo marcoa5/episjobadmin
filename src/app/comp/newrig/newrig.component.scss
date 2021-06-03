@@ -1,7 +1,37 @@
-@import '../../../epi.scss';
-
 .cont{
-    margin: 120px 10px 10px 10px;
-    background-color: --primary-color;
-    width:100%; height: 500px;
+    padding: 80px 10px 10px 10px;
+    //max-width: 1000px;
+}
+
+.formCont{
+    display: grid;
+    gap:15px;
+    grid-template-columns: repeat(5, minmax(100px, 1fr));
+}
+
+.row{
+    display: grid;
+    gap: 15px;
+}
+
+.d{
+    background-color: blue;
+    width:100%;height:100%;
+}
+
+
+.mat-form-field{
+    width:100%;
+}
+
+@media only screen and (max-width: 650px) {
+    .formCont{
+        grid-template-columns: repeat(2,minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .formCont{
+        grid-template-columns: repeat(1,minmax(100px, 1fr));
+    }
 }
