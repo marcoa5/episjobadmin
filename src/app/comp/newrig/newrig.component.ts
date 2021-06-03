@@ -82,7 +82,7 @@ export class NewrigComponent implements OnInit {
       })
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
     }
-    if(a=='updr'){
+    if(a=='updr' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -91,7 +91,7 @@ export class NewrigComponent implements OnInit {
       });
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
-        if(result && this.pos=='SU') {
+        if(result) {
           console.log(result)
           firebase.database().ref('MOL/' + this.serial).set({
             customer: g[3].toUpperCase(),

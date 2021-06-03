@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase'
 import 'firebase/database'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'episjob-technicians',
@@ -11,7 +12,7 @@ export class TechniciansComponent implements OnInit {
   tech:any[]=[]
   filtro:string=''
   pos:string|undefined
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -28,6 +29,10 @@ export class TechniciansComponent implements OnInit {
 
   filter(a:any){
     this.filtro=a
+  }
+
+  tec(a:string, b:string){
+    this.router.navigate(['newtech',{fn: a, sn: b}])
   }
 
 }

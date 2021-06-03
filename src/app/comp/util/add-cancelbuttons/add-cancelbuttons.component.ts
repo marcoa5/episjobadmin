@@ -11,6 +11,7 @@ export class AddCancelbuttonsComponent implements OnInit {
   @Input() type:string|undefined
   @Input() check:any[]=[]
   @Output() info = new EventEmitter()
+  @Input() del:boolean=false
   constructor(private location: Location) { }
 
   ngOnInit(): void {
@@ -23,6 +24,7 @@ export class AddCancelbuttonsComponent implements OnInit {
   add(){
     if(this.type=='customer') this.info.emit('newc')
     if(this.type=='rig') this.info.emit('newr')
+    if(this.type=='tech') this.info.emit('newt')
   }
 
   contr():boolean{

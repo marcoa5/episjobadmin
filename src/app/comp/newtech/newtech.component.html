@@ -1,3 +1,26 @@
 <episjob-navbar [title]="'New Technician'" [backB]="'technicians'" [cerca]="false"></episjob-navbar>
 
+<div class="cont" *ngIf="pos=='SU'">
+    <episjob-h2 [data]="addUpd? 'Add New Technician' : 'Update Technician'"></episjob-h2>
 
+    <form [formGroup]="newT" class="formCont">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Full Name</mat-label>
+            <input matInput type="text" placeholder="Full Name" formControlName="fn" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Short Name</mat-label>
+            <input matInput type="text" placeholder="Short Name" formControlName="sn" autocomplete="off">
+        </mat-form-field>
+    </form>
+    <episjob-add-cancelbuttons 
+        [a1]="'Cancel'" 
+        [a2]="addUpd? 'Add' : 'Update'" 
+        [type]="'tech'" 
+        [check]="datiC(newT)" 
+        (info)="add(addUpd? 'addt':'updt', newT)"
+        [del]="true"
+        >
+
+    </episjob-add-cancelbuttons>
+</div>
