@@ -11,6 +11,7 @@ export class AddCancelbuttonsComponent implements OnInit {
   @Input() type:string|undefined
   @Input() check:any[]=[]
   @Output() info = new EventEmitter()
+  @Output() dele = new EventEmitter()
   @Input() del:boolean=false
   constructor(private location: Location) { }
 
@@ -30,6 +31,10 @@ export class AddCancelbuttonsComponent implements OnInit {
   contr():boolean{
     if(this.check?.includes('')) return true
     return false
+  }
+
+  delete(){
+    if(this.type=='tech') this.dele.emit('delete')
   }
 
 }

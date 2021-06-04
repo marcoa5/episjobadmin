@@ -1,0 +1,10 @@
+<episjob-navbar [backB]="''" [title]="'Users'" (filter)="filter($event)"></episjob-navbar>
+
+
+<div class="cont">
+    <div class="card" *ngFor="let u of users | userfilter: filtro" [class.mat-elevation-z2]="true">
+        <h3 class="rigT">{{u.nome}} {{u.cognome}}</h3>
+        <h4 class="l2">Email: {{u.mail}}</h4>
+        <h4 class="l2">Position: {{u.pos}}</h4>
+      </div>
+</div>

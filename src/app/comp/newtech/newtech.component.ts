@@ -4,7 +4,9 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import firebase from 'firebase'
 import 'firebase/database'
 import { ActivatedRoute, Router } from '@angular/router'
-
+import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'episjob-newtech',
@@ -17,7 +19,7 @@ export class NewtechComponent implements OnInit {
   newT:FormGroup;
   pos:string|undefined
   origName:string|undefined
-  constructor(private fb:FormBuilder, private router:Router, private route:ActivatedRoute) { 
+  constructor(private fb:FormBuilder, private router:Router, private route:ActivatedRoute, private dialog: MatDialog, private location: Location) { 
     this.newT = fb.group({
       fn:['', [Validators.required]],
       sn:['', [Validators.required]],
@@ -43,7 +45,7 @@ export class NewtechComponent implements OnInit {
   }
 
   datiC(a:FormGroup){
-    let g = [a.get('sn')?.value,a.get('model')?.value, a.get('customer')?.value]
+    let g = [a.get('fn')?.value,a.get('sn')?.value]
     return g
   }
 
@@ -67,8 +69,22 @@ export class NewtechComponent implements OnInit {
           this.router.navigate(['technicians'])
         })
       })
-      
-      
     }
+  }
+
+  cancella(){
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(DeldialogComponent, {
+      data: {name: this.origName}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined && this.pos=='SU') {
+        firebase.database().ref('Tech/' + result).remove()
+        this.location.back()
+      }
+    });
   }
 }
