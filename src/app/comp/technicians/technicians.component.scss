@@ -25,8 +25,7 @@ p{margin:0}
 }
 
 .cont{
-    margin: 10px;
-    margin-top:80px;
+    padding: 80px 10px 30px 10px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap:15px;

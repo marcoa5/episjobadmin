@@ -26,6 +26,8 @@ export class AddCancelbuttonsComponent implements OnInit {
     if(this.type=='customer') this.info.emit('newc')
     if(this.type=='rig') this.info.emit('newr')
     if(this.type=='tech') this.info.emit('newt')
+    if(this.type=='user') this.info.emit('newu')
+
   }
 
   contr():boolean{
@@ -35,6 +37,7 @@ export class AddCancelbuttonsComponent implements OnInit {
 
   delete(){
     if(this.type=='tech') this.dele.emit('delete')
+    if(this.type=='user') this.dele.emit('delete')
   }
 
 }

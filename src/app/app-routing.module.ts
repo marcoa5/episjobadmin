@@ -12,6 +12,7 @@ import { NewcustComponent } from './comp/newcust/newcust.component'
 import { NewtechComponent } from './comp/newtech/newtech.component'
 import { NewrigComponent } from './comp/newrig/newrig.component'
 import { UsersComponent } from './comp/users/users.component'
+import { NewuserComponent } from './comp/newuser/newuser.component'
 
 
 const routes: Routes = [
@@ -26,6 +27,8 @@ const routes: Routes = [
   {path: 'newtech', component: NewtechComponent },
   {path: 'newrig', component: NewrigComponent },
   {path: 'users', component: UsersComponent },
+  {path: 'users', component: UsersComponent },
+  {path: 'newuser', component: NewuserComponent}
 
 ];
 

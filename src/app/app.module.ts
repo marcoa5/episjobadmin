@@ -48,7 +48,8 @@ import { NewrigComponent } from './comp/newrig/newrig.component';
 import { LogoutComponent } from './comp/dialog/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './comp/users/users.component';
-import { UserfilterPipe } from './pipe/userfilter.pipe'
+import { UserfilterPipe } from './pipe/userfilter.pipe';
+import { NewuserComponent } from './comp/newuser/newuser.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -84,6 +85,7 @@ const appearance: MatFormFieldDefaultOptions = {
     LogoutComponent,
     UsersComponent,
     UserfilterPipe,
+    NewuserComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,

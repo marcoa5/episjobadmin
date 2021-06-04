@@ -1,0 +1,24 @@
+
+
+.cont{
+    padding: 80px 10px 30px 10px;
+    max-width: 800px;
+}
+
+.formCont{
+    display: grid;
+    gap:15px;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+}
+
+@media only screen and (max-width: 650px) {
+    .formCont{
+        grid-template-columns: repeat(2,minmax(100px, 1fr));
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    .formCont{
+        grid-template-columns: repeat(1,minmax(100px, 1fr));
+    }
+}

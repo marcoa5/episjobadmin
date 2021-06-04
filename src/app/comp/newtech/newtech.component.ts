@@ -33,13 +33,13 @@ export class NewtechComponent implements OnInit {
       })
     })
     this.route.params.subscribe(a=>{
-      if(a) {
+      this.origName = a.fn
+      if(this.origName!=undefined) {
         this.newT = this.fb.group({
           fn:[a.fn, [Validators.required]],
           sn: [a.sn, [Validators.required]],
         })
         this.addUpd = false
-        this.origName = a.fn
       }
     })
   }
