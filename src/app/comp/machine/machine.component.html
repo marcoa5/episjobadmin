@@ -1,20 +1,19 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
-<div class="t" > 
-    <span>
-        <mat-form-field appearance="fill" id="nr">
-            <mat-label>Records</mat-label>
-         <mat-select [(value)]="limit" (selectionChange)="avv(limit*1)">
-           <mat-option value="5">Last 5 records</mat-option>
-           <mat-option value="10">Last 10 records</mat-option>
-           <mat-option value="25">Last 25 records</mat-option>
-           <mat-option value="50">Last 50 records</mat-option>
-           <mat-option value="10000">All records</mat-option>
-         </mat-select>
-       </mat-form-field> 
-     </span>
-</div>
-
 <div id="cont" *ngIf="customer">
+    <div class="t"> 
+        <span>
+            <mat-form-field appearance="fill" id="nr">
+                <mat-label>Records</mat-label>
+             <mat-select [(value)]="limit" (selectionChange)="avv(limit*1)">
+               <mat-option value="5">Last 5 records</mat-option>
+               <mat-option value="10">Last 10 records</mat-option>
+               <mat-option value="25">Last 25 records</mat-option>
+               <mat-option value="50">Last 50 records</mat-option>
+               <mat-option value="10000">All records</mat-option>
+             </mat-select>
+           </mat-form-field> 
+         </span>
+    </div>
     <div class="item">
         <div class="row">
             <div class="subrow">
