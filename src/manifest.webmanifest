@@ -1,8 +1,8 @@
 {
   "name": "Epiroc SJ Admin",
   "short_name": "EpiSJ Admin",
-  "theme_color": "#ffcd00",
-  "background_color": "#ffcd00",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

@@ -49,7 +49,10 @@ import { LogoutComponent } from './comp/dialog/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './comp/users/users.component';
 import { UserfilterPipe } from './pipe/userfilter.pipe';
-import { NewuserComponent } from './comp/newuser/newuser.component'
+import { NewuserComponent } from './comp/newuser/newuser.component';
+import { AuthComponent } from './comp/auth/auth.component'
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TablefilterPipe } from './tablefilter.pipe'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -86,10 +89,12 @@ const appearance: MatFormFieldDefaultOptions = {
     UsersComponent,
     UserfilterPipe,
     NewuserComponent,
+    AuthComponent,
+    TablefilterPipe,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatDialogModule, HttpClientModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

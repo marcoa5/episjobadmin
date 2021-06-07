@@ -1,0 +1,43 @@
+@import '../../../epi.scss';
+
+.cont{
+    margin: 80px 10px 30px 10px;    
+}
+
+.cover{
+    width:100%;
+    position:fixed;
+    top:0; left:0;
+    height: 160px;
+    background-color: white;
+    z-index: 1;
+}
+
+table{
+    max-width: 100%;
+    border-collapse: collapse;
+    resize:both;
+}
+
+td, th{
+    text-align: center; 
+    padding: 10px 0;    
+}
+
+th{
+    position: sticky;
+    top: 140px;
+    z-index: 200;
+    background-color: rgb(245,245,245);
+    border-bottom: 1px solid $dark-text;
+    border-radius: 5px 5px 0 0;
+}
+
+.c{
+    text-align: left;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding-left: 10px;
+    min-width: 0;
+}

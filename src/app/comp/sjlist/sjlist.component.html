@@ -2,8 +2,9 @@
     <episjob-h2 class="title" [padtop]="10" [data]="'Service Job History'"></episjob-h2>
 
 
-    <mat-accordion>
-        <mat-expansion-panel class="acc" hideToggle *ngFor="let a of sj; let i = index" [class.mat-elevation-z1]="true">
+    <div class="acc">
+      <mat-accordion>
+        <mat-expansion-panel hideToggle *ngFor="let a of sj; let i = index" [class.mat-elevation-z1]="true" class="acc">
           <mat-expansion-panel-header>
             <mat-panel-title class="of">
               {{a.data11}} - Service ({{a.stdspe}})
@@ -22,6 +23,8 @@
           
         </mat-expansion-panel>
       </mat-accordion>
+    </div>
+    
     
     
     

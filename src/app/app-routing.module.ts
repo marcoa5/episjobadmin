@@ -13,7 +13,7 @@ import { NewtechComponent } from './comp/newtech/newtech.component'
 import { NewrigComponent } from './comp/newrig/newrig.component'
 import { UsersComponent } from './comp/users/users.component'
 import { NewuserComponent } from './comp/newuser/newuser.component'
-
+import { AuthComponent } from './comp/auth/auth.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -28,7 +28,8 @@ const routes: Routes = [
   {path: 'newrig', component: NewrigComponent },
   {path: 'users', component: UsersComponent },
   {path: 'users', component: UsersComponent },
-  {path: 'newuser', component: NewuserComponent}
+  {path: 'newuser', component: NewuserComponent},
+  {path: 'auth', component: AuthComponent},
 
 ];
 

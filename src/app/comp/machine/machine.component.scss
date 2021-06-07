@@ -32,6 +32,7 @@
     border-bottom: .5px solid $dark-text;
     height: auto;
     min-height: 350px;
+    max-width: calc(50% - 5px);
 }
 
 h2{
@@ -46,11 +47,6 @@ h2{
 .can{
     max-width:97%; 
     min-height:100%;
-}
-
-.ff{
-    width: calc(25% - 10px);
-    padding: 5px;
 }
 
 .back{
@@ -97,16 +93,11 @@ table{
         flex-direction: column;
     }
     .subitemc, .over{
-        width: 100%;
+       width: 100%;
+       max-width: 100%;
     }
     .over{
         margin:0;
-    }
-
-
-    .ff{
-        width: calc(50% - 10px);
-        padding: 5px;
     }
 
     .spacer{

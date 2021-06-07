@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   @Input() home:boolean=false
   @Input() backB:any = ''
   @Output() filter = new EventEmitter()
+  @Input() hide:boolean=true
   constructor(private router:Router) { }
   oldPosition:number=0;
   currentPosition:number=0;
@@ -26,13 +27,16 @@ export class NavbarComponent implements OnInit {
   }
 
   scrolla(e:Event){
-    this.currentPosition = window.pageYOffset
-    if(this.currentPosition>this.oldPosition){
-      this.scrollaV = false
-    } else {
-      this.scrollaV = true
+    if(this.hide){
+      this.currentPosition = window.pageYOffset
+      if(this.currentPosition>this.oldPosition){
+        this.scrollaV = false
+      } else {
+        this.scrollaV = true
+      }
+      this.oldPosition = this.currentPosition
     }
-    this.oldPosition = this.currentPosition
+    
   }
 
   scrivi(e: any){

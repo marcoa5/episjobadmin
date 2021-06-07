@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { APP_INITIALIZER, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
@@ -47,6 +47,9 @@ export class MachineComponent implements OnInit {
   displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
   rigLabels: hrsLabel[]=[]
   hrsLabels: hrsLabel[]=[]
+  pos:string=''
+  iniz:any=''
+  ri:boolean=true
   constructor(public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   
   }
@@ -55,24 +58,47 @@ export class MachineComponent implements OnInit {
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
-      firebase.database().ref('MOL/' + r.sn).once('value',x=>{
-        this.site = x.val().site
-        this.model=x.val().model
-        this.customer=x.val().customer
-        this.docBpcs=x.val().docbpcs
-        this.in = x.val().in
-        this.rigLabels=[
-          {value:this.valore, lab:'Serial Nr.',click:'',url:''},
-          {value:this.model, lab:'Model',click:'',url:''},
-          {value:this.customer, lab:'Customer',click:this.customer,url:'cliente'},
-          {value:this.site, lab:'Site',click:'',url:''}
-        ]
-        for(let i = 7; i>0;i--){
-          if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
+    })
+    firebase.auth().onAuthStateChanged(a=>{
+      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
+        this.pos= b.val().Pos
+        this.iniz=b.val().Area
+      }).then(()=>{
+        if(this.pos=='sales'){
+          firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
+            
+            if(a.val()==1) {
+              this.ri = true
+              this.f()
+            }
+            if(a.val()==0) this.ri = false
+          })
+        } else {
+          this.f()
         }
+      })  
+       
+    })
+  }
 
-      })      
-    })   
+  f(){
+    firebase.database().ref('MOL/' + this.valore).once('value',x=>{
+      this.site = x.val().site
+      this.model=x.val().model
+      this.customer=x.val().customer
+      this.docBpcs=x.val().docbpcs
+      this.in = x.val().in
+      this.rigLabels=[
+        {value:this.valore, lab:'Serial Nr.',click:'',url:''},
+        {value:this.model, lab:'Model',click:'',url:''},
+        {value:this.customer, lab:'Customer',click:this.customer,url:'cliente'},
+        {value:this.site, lab:'Site',click:'',url:''}
+      ]
+      for(let i = 7; i>0;i--){
+        if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
+      }
+
+    })      
     this.avv(5)
   }
 

@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
       icon:'work', 
       route:'customers', 
       dis:false, 
-      auth:['SU','admin','tech','sales']
+      auth:['SU','admin','tech']
     },
     {
       id:'Equipment',
@@ -51,6 +51,13 @@ export class HomeComponent implements OnInit {
       id:'Contracts',
       icon:'description', 
       route:'contracts', 
+      dis:false, 
+      auth:['SU','admin','','']
+    },
+    {
+      id:'Auth',
+      icon:'checklist', 
+      route:'auth', 
       dis:false, 
       auth:['SU','admin','','']
     },
