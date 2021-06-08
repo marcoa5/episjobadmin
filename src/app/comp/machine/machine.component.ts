@@ -7,6 +7,9 @@ Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../serv/back.service'
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
+import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
+import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
 
 export interface hrsLabel {
   lab: string
@@ -50,7 +53,7 @@ export class MachineComponent implements OnInit {
   pos:string=''
   iniz:any=''
   ri:boolean=true
-  constructor(public route: ActivatedRoute, public bak: BackService, public router:Router) { 
+  constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   
   }
   ngOnInit(): void {
@@ -82,7 +85,7 @@ export class MachineComponent implements OnInit {
   }
 
   f(){
-    firebase.database().ref('MOL/' + this.valore).once('value',x=>{
+    firebase.database().ref('MOL/' + this.valore).on('value',x=>{
       this.site = x.val().site
       this.model=x.val().model
       this.customer=x.val().customer
@@ -143,7 +146,7 @@ export class MachineComponent implements OnInit {
 
   loadData(r:any, lim:number){
     this.data=[]
-    firebase.database().ref('Hours/' + r).limitToLast(lim).once('value',f=>{
+    firebase.database().ref('Hours/' + r).limitToLast(lim).on('value',f=>{
       f.forEach(g=>{
         if(g.key){
           let anno = parseInt(g.key.substring(0,4)) 
@@ -287,5 +290,39 @@ export class MachineComponent implements OnInit {
     this.calcolaOrem()
     this.calcolaPerc1()
   }
+
+  up(a:string,b:any, c:string){
+    if(this.pos=='SU'){
+      const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(InputhrsComponent, {
+        data: {hr: a!=undefined? a : 0}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log(result)
+        if(result!=undefined && this.pos=='SU') {
+          //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
+          firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
+        }
+      });
+    }
+  }
+
+  de(a:string){
+    const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(DeldialogComponent, {
+        data: {name: a.replace(/\-/g,'')}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result!=undefined && this.pos=='SU') {
+          firebase.database().ref(`Hours/${this.valore}/`).child(a.replace(/\-/g,'')).remove()
+        }
+      });
+    }
+  
 }
  

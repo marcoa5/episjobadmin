@@ -52,7 +52,8 @@ import { UserfilterPipe } from './pipe/userfilter.pipe';
 import { NewuserComponent } from './comp/newuser/newuser.component';
 import { AuthComponent } from './comp/auth/auth.component'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TablefilterPipe } from './tablefilter.pipe'
+import { TablefilterPipe } from './tablefilter.pipe';
+import { InputhrsComponent } from './comp/dialog/inputhrs/inputhrs.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -91,6 +92,7 @@ const appearance: MatFormFieldDefaultOptions = {
     NewuserComponent,
     AuthComponent,
     TablefilterPipe,
+    InputhrsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,
