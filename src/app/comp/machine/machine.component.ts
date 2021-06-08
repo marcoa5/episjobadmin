@@ -10,6 +10,7 @@ import { BackService } from '../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
+import { FormGroup, FormControl } from '@angular/forms'
 
 export interface hrsLabel {
   lab: string
@@ -24,6 +25,10 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
+  range = new FormGroup({
+    start: new FormControl(new Date(moment(new Date()).days(-90).format('YYYY, MM, DD'))),
+    end: new FormControl(new Date())
+  });
   disab:boolean = true
   valore: any='';
   model:string='';
@@ -102,11 +107,11 @@ export class MachineComponent implements OnInit {
       }
 
     })      
-    this.avv(5)
+    this.avv()
   }
 
-  avv(lim:number){
-    this.loadData(this.valore,lim)
+  avv(){
+    this.loadData(this.valore)
     setTimeout(() => {
       this.loadCharts()
       this.hrsLabels=[
@@ -144,18 +149,21 @@ export class MachineComponent implements OnInit {
     }
   }
 
-  loadData(r:any, lim:number){
+  loadData(r:any){
     this.data=[]
-    firebase.database().ref('Hours/' + r).limitToLast(lim).on('value',f=>{
+    firebase.database().ref('Hours/' + r).on('value',f=>{
       f.forEach(g=>{
-        if(g.key){
+        let iniz = moment(this.range.value.start).format('YYYYMMDD')
+        let fine = moment(this.range.value.end).format('YYYYMMDD')
+        var h:any
+        if(g.key && g.key>=iniz && g.key <= fine){
           let anno = parseInt(g.key.substring(0,4)) 
           let mese = parseInt(g.key.substring(4,6))-1 
           let giorno = parseInt(g.key.substring(6,8)) 
           this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
+          h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
         }
-        let h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
-        if(h) {
+        if(h!=undefined) {
           this.data.push(h)
         }
       })
@@ -301,7 +309,6 @@ export class MachineComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        console.log(result)
         if(result!=undefined && this.pos=='SU') {
           //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
           firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)

@@ -54,6 +54,8 @@ import { AuthComponent } from './comp/auth/auth.component'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TablefilterPipe } from './tablefilter.pipe';
 import { InputhrsComponent } from './comp/dialog/inputhrs/inputhrs.component'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -95,9 +97,9 @@ const appearance: MatFormFieldDefaultOptions = {
     InputhrsComponent,
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatDialogModule, HttpClientModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
