@@ -80,6 +80,9 @@ export class NewrigComponent implements OnInit {
         site: g[2].toUpperCase(),
         sn: g[0].toUpperCase()
       })
+      firebase.database().ref('RigAuth/' + g[0].toUpperCase()).set({
+        a1:0,a2:0,a3:0,a4:0,sn:g[0].toUpperCase()
+      })
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
     }
     if(a=='updr' && this.pos=='SU'){

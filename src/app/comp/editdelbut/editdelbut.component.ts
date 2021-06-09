@@ -41,6 +41,7 @@ export class EditdelbutComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined && this.pos=='SU') {
         firebase.database().ref(this.func + '/' + result).remove()
+        if(this.func=='MOL') firebase.database().ref('RigAuth/' + result).remove()
         this.location.back()
       }
     });

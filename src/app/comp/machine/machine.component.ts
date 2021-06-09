@@ -40,6 +40,7 @@ export class MachineComponent implements OnInit {
   labels: any[] = [];
   data:any[]=[]
   data1:any[]=[]
+  datafil:any[]=[]
   hours:any[]=[]
   day:any;
   day1:any;
@@ -58,11 +59,12 @@ export class MachineComponent implements OnInit {
   pos:string=''
   iniz:any=''
   ri:boolean=true
+  startd:any
+  endd:any
+  p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
-  
   }
   ngOnInit(): void {
-    this.limit='5'
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
@@ -85,7 +87,6 @@ export class MachineComponent implements OnInit {
           this.f()
         }
       })  
-       
     })
   }
 
@@ -105,23 +106,27 @@ export class MachineComponent implements OnInit {
       for(let i = 7; i>0;i--){
         if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
       }
-
     })      
     this.avv()
   }
 
   avv(){
     this.loadData(this.valore)
-    setTimeout(() => {
-      this.loadCharts()
-      this.hrsLabels=[
-        {value:this.th(this.Engh),lab: 'Engine Hrs',click:'',url:''},
-        {value:this.th(this.Perc1),lab: 'Percussion 1',click:'',url:''},
-        {value:this.th(this.Perc2),lab: 'Percussion 2',click:'',url:''},
-        {value:this.th(this.Perc3),lab: 'Percussion 3',click:'',url:''}
-      ]
-    }, 850);
-    this.dataSource=this.data
+    .then(()=>{
+      setTimeout(() => {
+        if(this.data.length>0){
+          let iniz = moment(this.range.value.start).format('YYYYMMDD')
+          let fine = moment(this.range.value.end).format('YYYYMMDD')
+          this.datafil = this.data.filter(d=>{
+            return d.x.replace(/\-/g,'') >= iniz && d.x.replace(/\-/g,'') <= fine
+          })
+          this.dataSource=this.datafil
+          this.loadCharts()
+          this.avgHrs()
+        }
+      }, 500);
+    })
+    
   }
 
   th(a:any){
@@ -135,28 +140,36 @@ export class MachineComponent implements OnInit {
   }
 
   loadCharts(){
-    if(this.data.length>0) {
-      this.data.map(a=>{
+    if(this.datafil.length>0) {
+      this.datafil.map(a=>{
         if (parseInt(a.y1)==0) a.y1=undefined
         if (parseInt(a.y2)==0) a.y2=undefined
         if (parseInt(a.y3)==0) a.y3=undefined
         return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
       })
-      if(this.data.length>0) this.calcolaOrem()
-      if(this.data.length>0) this.calcolaPerc1()
-      this.ore()
-      this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
+      setTimeout(() => {
+        if(this.datafil.length>0) this.calcolaOrem()
+        if(this.datafil.length>0) this.calcolaPerc1()        
+      }, 150);
     }
+    setTimeout(async () => {
+      this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
+      await this.ore()
+      this.hrsLabels=[
+        {value:this.th(this.Engh),lab: 'Engine Hrs',click:'',url:''},
+        {value:this.th(this.Perc1),lab: 'Percussion 1',click:'',url:''},
+        {value:this.th(this.Perc2),lab: 'Percussion 2',click:'',url:''},
+        {value:this.th(this.Perc3),lab: 'Percussion 3',click:'',url:''}
+      ]
+    }, 150);
   }
 
-  loadData(r:any){
+  async loadData(r:any){
     this.data=[]
     firebase.database().ref('Hours/' + r).on('value',f=>{
       f.forEach(g=>{
-        let iniz = moment(this.range.value.start).format('YYYYMMDD')
-        let fine = moment(this.range.value.end).format('YYYYMMDD')
         var h:any
-        if(g.key && g.key>=iniz && g.key <= fine){
+        if(g.key){
           let anno = parseInt(g.key.substring(0,4)) 
           let mese = parseInt(g.key.substring(4,6))-1 
           let giorno = parseInt(g.key.substring(6,8)) 
@@ -189,7 +202,7 @@ export class MachineComponent implements OnInit {
         data: {
           datasets:[{
             label: "Engine Hours",
-            data:this.data,
+            data:this.datafil,
             borderColor: 'rgb(66,85,99)',
             pointBackgroundColor:'rgb(66,85,99)',
             backgroundColor: 'rgb(255,205,0)',
@@ -198,13 +211,12 @@ export class MachineComponent implements OnInit {
         },
         options: {
             scales: {
-                x:{
-                  type:'time',
-                  time:{
-                    unit:'month'
-                  }
-                },
-                
+              x:{
+                type:'time',
+                time:{
+                  unit:'month'
+                }
+              },
             },
             maintainAspectRatio: false,
             responsive: true,
@@ -226,7 +238,7 @@ export class MachineComponent implements OnInit {
         data: {
           datasets:[{
             label: "Perc1",
-            data: this.data,
+            data: this.datafil,
             parsing: {
               yAxisKey: 'y1'
             },
@@ -235,7 +247,7 @@ export class MachineComponent implements OnInit {
           },
           {
             label: "Perc2",
-            data:this.data,
+            data:this.datafil,
             parsing: {
               yAxisKey: 'y2'
             },
@@ -245,7 +257,7 @@ export class MachineComponent implements OnInit {
           },
           {
             label: "Perc3",
-            data:this.data,
+            data:this.datafil,
             parsing: {
               yAxisKey: 'y3'
             },
@@ -283,7 +295,13 @@ export class MachineComponent implements OnInit {
   }
   
   dataRile(){
-    return `Running hours ${this.dataRil? '@ ' + this.dataRil : ''}`
+    let st = ''
+    if(this.p>0) st += ` (Eng: ${this.th(this.p)}/y`
+    if (this.p1>0 && this.p2==0 && this.p3==0) st += ` - Imp: ${this.th(this.p1)}/y`
+    if (this.p1>0 && this.p2>0  && this.p3==0) st += ` - Imp: ${this.th(Math.round((this.p1+this.p2)/2))}/y`
+    if (this.p1>0 && this.p2>0 && this.p3>0) st += ` - Imp: ${this.th(Math.round((this.p1+this.p2+this.p3)/3))}/y`
+    if(st!='') st += ')'
+    return `Running hours ${this.dataRil? '@ ' + this.dataRil : ''} ${st}`
   }
 
   contr(){
@@ -328,10 +346,26 @@ export class MachineComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
           firebase.database().ref(`Hours/${this.valore}/`).child(a.replace(/\-/g,'')).remove()
-          avv()
+          this.avv()
         }
       });
     }
-  
+    
+    avgHrs(){
+      let l = this.datafil.length-1
+      let days = 0
+      if (this.datafil.length>0) {
+        days=moment(new Date(this.datafil[l].x)).diff(moment(new Date(this.datafil[0].x)))/3600/24/1000
+      }
+      if(this.datafil.length>0){
+        if(this.datafil[l].y!=undefined) this.p=Math.round((this.datafil[l].y-this.datafil[0].y)/days*365)
+        if(this.datafil[l].y1!=undefined) this.p1=Math.round((this.datafil[l].y1-this.datafil[0].y1)/days*365)
+        if(this.datafil[l].y2!=undefined) this.p2=Math.round((this.datafil[l].y2-this.datafil[0].y2)/days*365)
+        if(this.datafil[l].y3!=undefined) this.p3=Math.round((this.datafil[l].y3-this.datafil[0].y3)/days*365)
+      }
+      return [this.p?this.p:'',this.p1?this.p1:'',this.p2?this.p2:'',this.p3?this.p3:'']
+    }
+    
+
 }
  

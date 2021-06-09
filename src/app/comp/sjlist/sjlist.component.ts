@@ -1,9 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import firebase from 'firebase'
 import 'firebase/storage'
 import 'firebase/database'
 import { Router } from '@angular/router'
-
+import * as moment from 'moment'
 
 @Component({
   selector: 'episjob-sjlist',
@@ -12,21 +12,36 @@ import { Router } from '@angular/router'
 })
 export class SjlistComponent implements OnInit {
   sj:any[]=[]
-  dates:any[]=[]
 
   panelOpenState:boolean=false
   constructor(private router: Router) { }
   @Input() sn:string = ''
-  @Input() lim:string = ''
+  @Input() start:any|undefined
+  @Input() end:any|undefined
   @Input() docBpcs:string = ''
   @Input() dataDoc:string = ''
   @Input() customer:string = ''
   @Input() model:string = ''
-
+  
   ngOnInit(): void {
-    firebase.database().ref('Saved/' + this.sn).limitToLast(parseInt(this.lim)).once('value',h=>{
-      this.dates=Object.keys(h.val())
-      this.sj=Object.values(h.val())
+
+  }
+
+  ngOnChanges(){
+    this.main()
+  }
+
+
+  main(){
+    firebase.database().ref('Saved/' + this.sn).once('value',h=>{
+      let iniz = moment(this.start).format('YYYYMMDD')
+      let fine = moment(this.end).format('YYYYMMDD')
+      this.sj=[]
+      h.forEach(g=>{
+        if(g.key && g.key>=iniz && g.key<=fine){
+          this.sj.push(g.val())
+        }        
+      })
     })
   }
 
