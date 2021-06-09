@@ -1,14 +1,16 @@
 
 
 .cont{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 25px;
     max-width:100%;
 }
 
-@media only screen and (max-width: 600px){
-    .cont{
-        grid-template-columns: repeat(2,1fr);
-    }
+.dd{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap:15px;
 }
+
+mat-expansion-panel {
+    width: 100%;
+    background-color: rgb(245,245,245);
+  }

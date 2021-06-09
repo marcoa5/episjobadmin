@@ -57,9 +57,14 @@ table{
     height: 100%;
 }
 
+
 .over{
     height: auto;
     min-height: 350px;
+}
+
+.mat-form-field-wrapper{
+    padding:0
 }
 
 .datacont{
@@ -74,19 +79,32 @@ table{
 .t{
     padding-top: 80px;
     display: flex;
-    align-items: center;
+    align-items: top;
     justify-content: space-between;
+    gap:15px;
 }
 
+episjob-auth-single-rig{
+    width:100%
+}
 .row{
     display: flex;
     flex-direction: column;
+}
+
+.u{
+    flex: 1 1 auto;
+    max-width: 500px;
+    display:flex;
+    justify-content: flex-start;
 }
 
 .subrow{
     align-items: stretch;
     flex: 1 1 1;
 }
+
+.ff{width:100%;}
 
 @media only screen and (max-width: 600px) {
     .itemc{
@@ -103,6 +121,12 @@ table{
 
     .spacer{
         margin: 5px 0;
+    }
+    .t{
+        flex-direction: column;
+    }
+    .u{
+        width:100%;
     }
   }
 
