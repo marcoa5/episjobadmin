@@ -375,6 +375,7 @@ export class MachineComponent implements OnInit {
     ran(a:any, b:FormGroup){
       let nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')
       b.get('start')?.setValue(nw)
+      this.avv()
     }
 
 }
