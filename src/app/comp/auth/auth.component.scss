@@ -41,3 +41,20 @@ th{
     padding-left: 10px;
     min-width: 0;
 }
+
+.poi{
+    cursor: pointer;
+    text-align: left;
+}
+
+.poi:hover {
+    background-color: rgb(245,245,245);
+}
+
+.spin{
+    display:inline-flex;
+    width:100vw; height:100vh;
+    padding-top:100px;
+    justify-content: center;
+    align-items: flex-start;
+}

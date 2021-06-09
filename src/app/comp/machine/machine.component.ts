@@ -62,6 +62,12 @@ export class MachineComponent implements OnInit {
   startd:any
   endd:any
   p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
+  buttons:any=[
+    {label: '3M', fun: {v: 3, l: 'months'}},
+    {label: '6M', fun: {v: 6, l: 'months'}},
+    {label: '1Y', fun: {v: 1, l: 'years'}},
+    {label: '5Y', fun: {v: 5, l: 'years'}},
+  ]
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
@@ -366,6 +372,10 @@ export class MachineComponent implements OnInit {
       return [this.p?this.p:'',this.p1?this.p1:'',this.p2?this.p2:'',this.p3?this.p3:'']
     }
     
+    ran(a:any, b:FormGroup){
+      let nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')
+      b.get('start')?.setValue(nw)
+    }
 
 }
  

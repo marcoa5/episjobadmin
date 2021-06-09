@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import firebase from 'firebase'
-import { observable } from 'rxjs';
+
 @Component({
   selector: 'episjob-auth',
   templateUrl: './auth.component.html',
@@ -11,7 +12,7 @@ export class AuthComponent implements OnInit {
   rigs:any[]=[]
   filtro:string=''
   wid:boolean=true
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -23,7 +24,16 @@ export class AuthComponent implements OnInit {
     .once('value',a=>{
       a.forEach(b=>{
         firebase.database().ref('RigAuth/' + b.val().sn).once('value',c=>{
-          this.rigs.push({sn: b.val().sn, customer: b.val().customer,model: b.val().model,a1: c.val().a1,a2: c.val().a2,a3: c.val().a3,a4: c.val().a4})
+          this.rigs.push({
+            sn: b.val().sn, 
+            customer: b.val().customer,
+            model: b.val().model,
+            a1: c.val().a1,
+            a2: c.val().a2,
+            a3: c.val().a3,
+            a4: c.val().a4,
+            a5: c.val().a5,
+          })
         })
       })
     })
@@ -48,5 +58,12 @@ export class AuthComponent implements OnInit {
       this.wid=true
     }
   }
+
+  go(a:String, b:string){
+    if(b=='sn') this.router.navigate(['machine', {sn: a}])
+    if(b=='cu') this.router.navigate(['cliente', {cust1: a}])
+  }
+
+
 
 }

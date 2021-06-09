@@ -63,10 +63,6 @@ table{
     min-height: 350px;
 }
 
-.mat-form-field-wrapper{
-    padding:0
-}
-
 .datacont{
     margin:10px;
 }
@@ -84,6 +80,12 @@ table{
     gap:15px;
 }
 
+.u1{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:5px;
+}
+
 episjob-auth-single-rig{
     width:100%
 }
@@ -93,10 +95,17 @@ episjob-auth-single-rig{
 }
 
 .u{
-    flex: 1 1 auto;
     max-width: 500px;
-    display:flex;
-    justify-content: flex-start;
+}
+
+.butC{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap:5px;
+}
+
+.but{
+    height: 35px;
 }
 
 .subrow{
@@ -104,9 +113,16 @@ episjob-auth-single-rig{
     flex: 1 1 1;
 }
 
-.ff{width:100%;}
+.ff{
+    width:auto;
+}
 
-@media only screen and (max-width: 600px) {
+.mat-focus-indicator{
+    margin: 0;
+    padding:0;
+}
+
+@media only screen and (max-width: 650px) {
     .itemc{
         display: flex;
         flex-direction: column;
@@ -127,6 +143,10 @@ episjob-auth-single-rig{
     }
     .u{
         width:100%;
+    }
+
+    .butC{
+        grid-template-columns: repeat(2,1fr);
     }
   }
 

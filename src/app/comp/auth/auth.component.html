@@ -1,29 +1,36 @@
 <div *ngIf="pos=='SU' || pos=='admin'">
-    <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
-    <div class="cover"></div>
-    <div class="cont" (window:resize)="res()">
-        <div class="tabcont">
-          <table style="width:100%">
-            <tr>
-               <th class="c">Serial</th> 
-               <th class="c" *ngIf="wid">Model</th> 
-               <th class="c" *ngIf="wid">Customer</th> 
-               <th>1</th> 
-               <th>2</th> 
-               <th>3</th> 
-               <th>4</th> 
-            </tr>
-            <tr *ngFor="let r of rigs | tablefilter : filtro">
-                <td class="c">{{r.sn}}</td>
-                <td class="c" *ngIf="wid">{{r.model}}</td>
-                <td class="c" *ngIf="wid">{{r.customer}}</td>
-                <td><mat-checkbox [checked]="r.a1==1? true: false" (change)="cl($event, r.sn, 'a1')"></mat-checkbox></td>
-                <td><mat-checkbox [checked]="r.a2==1? true: false" (change)="cl($event, r.sn, 'a2')"></mat-checkbox></td>
-                <td><mat-checkbox [checked]="r.a3==1? true: false" (change)="cl($event, r.sn,'a3')"></mat-checkbox></td>
-                <td><mat-checkbox [checked]="r.a4==1? true: false" (change)="cl($event, r.sn,'a4')"></mat-checkbox></td>
-            </tr>
-        </table>  
+    <div class="spin" *ngIf="rigs.length==0">
+        <mat-spinner color="accent"></mat-spinner>
+    </div>
+    <div *ngIf="rigs.length>0">
+        <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
+        <div class="cover"></div>
+        <div class="cont" (window:resize)="res()">
+            <div class="tabcont">
+              <table style="width:100%">
+                <tr>
+                   <th class="c">Serial</th> 
+                   <th class="c" *ngIf="wid">Model</th> 
+                   <th class="c" *ngIf="wid">Customer</th> 
+                   <th>1</th> 
+                   <th>2</th> 
+                   <th>3</th> 
+                   <th>4</th> 
+                   <th>5</th> 
+                </tr>
+                <tr *ngFor="let r of rigs | tablefilter : filtro">
+                    <td class="c" (click)="go(r.sn, 'sn')" class="poi">{{r.sn}}</td>
+                    <td class="c" *ngIf="wid">{{r.model}}</td>
+                    <td class="c" *ngIf="wid"  (click)="go(r.customer, 'cu')" class="poi">{{r.customer}}</td>
+                    <td><mat-checkbox [checked]="r.a1==1? true: false" (change)="cl($event, r.sn, 'a1')"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a2==1? true: false" (change)="cl($event, r.sn, 'a2')"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a3==1? true: false" (change)="cl($event, r.sn,'a3')"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a4==1? true: false" (change)="cl($event, r.sn,'a4')"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a5==1? true: false" (change)="cl($event, r.sn,'a5')"></mat-checkbox></td>
+                </tr>
+            </table>  
+            </div>
+            
         </div>
-        
     </div>
 </div>
