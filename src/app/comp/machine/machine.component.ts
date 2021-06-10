@@ -67,7 +67,11 @@ export class MachineComponent implements OnInit {
     {label: '6M', fun: {v: 6, l: 'months'}},
     {label: '1Y', fun: {v: 1, l: 'years'}},
     {label: '5Y', fun: {v: 5, l: 'years'}},
+    {label: 'All', fun: {v: '', l: ''}},
   ]
+  avg:any[]=[]
+  infoH:any
+  dataCom:string=''
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
@@ -116,10 +120,11 @@ export class MachineComponent implements OnInit {
     this.avv()
   }
 
-  avv(){
+  async avv(){
+    this.avg=[]
     this.loadData(this.valore)
     .then(()=>{
-      setTimeout(() => {
+      setTimeout(async () => {
         if(this.data.length>0){
           let iniz = moment(this.range.value.start).format('YYYYMMDD')
           let fine = moment(this.range.value.end).format('YYYYMMDD')
@@ -147,25 +152,41 @@ export class MachineComponent implements OnInit {
 
   loadCharts(){
     if(this.datafil.length>0) {
-      this.datafil.map(a=>{
-        if (parseInt(a.y1)==0) a.y1=undefined
-        if (parseInt(a.y2)==0) a.y2=undefined
-        if (parseInt(a.y3)==0) a.y3=undefined
+      this.datafil.map((a,b)=>{
+        if (parseInt(a.y1)==0 || a.y1=='') a.y1=undefined
+        if (parseInt(a.y2)==0 || a.y2=='') a.y2=undefined
+        if (parseInt(a.y3)==0 || a.y3=='') a.y3=undefined
+        if (a.y=='c') a.y=0
+        if (a.y1=='c') a.y1=0
+        if (a.y2=='c') a.y2=0
+        if (a.y3=='c') a.y3=0
         return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
       })
-      setTimeout(() => {
+        setTimeout(async () => {
         if(this.datafil.length>0) this.calcolaOrem()
-        if(this.datafil.length>0) this.calcolaPerc1()        
+        if(this.datafil.length>0) this.calcolaPerc1() 
+        await this.comD()
+        await this.dataRile()       
       }, 150);
     }
     setTimeout(async () => {
-      this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
+      await this.calcAvg()
+      if(this.data.length>1 && this.data[0].y!='c') this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
       await this.ore()
+      //let ee = this.Engh>0? (this.avg[0]!=undefined? `${this.th(this.Engh)} ${this.avg[0]}` : 0):0
+      let ee = this.Engh>0? this.th(this.Engh):0
+      let e1 = this.Perc1>0? this.th(this.Perc1):0
+      let e2= this.Perc2>0? this.th(this.Perc2):0
+      let e3 = this.Perc3>0? this.th(this.Perc3):0
+      if(ee!=0 && this.avg[0]!='' && this.avg[0]!=undefined) ee+= this.avg[0]
+      if(e1!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e1+= this.avg[1]
+      if(e2!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e2+= this.avg[1]
+      if(e3!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e3+= this.avg[1]
       this.hrsLabels=[
-        {value:this.th(this.Engh),lab: 'Engine Hrs',click:'',url:''},
-        {value:this.th(this.Perc1),lab: 'Percussion 1',click:'',url:''},
-        {value:this.th(this.Perc2),lab: 'Percussion 2',click:'',url:''},
-        {value:this.th(this.Perc3),lab: 'Percussion 3',click:'',url:''}
+        {value:ee,lab: 'Engine Hrs',click:'',url:''},
+        {value:e1,lab: 'Percussion 1',click:'',url:''},
+        {value:e2,lab: 'Percussion 2',click:'',url:''},
+        {value:e3,lab: 'Percussion 3',click:'',url:''}
       ]
     }, 150);
   }
@@ -301,13 +322,7 @@ export class MachineComponent implements OnInit {
   }
   
   dataRile(){
-    let st = ''
-    if(this.p>0) st += ` (Eng: ${this.th(this.p)}/y`
-    if (this.p1>0 && this.p2==0 && this.p3==0) st += ` - Imp: ${this.th(this.p1)}/y`
-    if (this.p1>0 && this.p2>0  && this.p3==0) st += ` - Imp: ${this.th(Math.round((this.p1+this.p2)/2))}/y`
-    if (this.p1>0 && this.p2>0 && this.p3>0) st += ` - Imp: ${this.th(Math.round((this.p1+this.p2+this.p3)/3))}/y`
-    if(st!='') st += ')'
-    return `Running hours ${this.dataRil? '@ ' + this.dataRil : ''} ${st}`
+    this.infoH = `Running hours ${this.dataRil? '@ ' + this.dataRil : ''} ${this.dataCom}`
   }
 
   contr(){
@@ -357,26 +372,48 @@ export class MachineComponent implements OnInit {
       });
     }
     
-    avgHrs(){
-      let l = this.datafil.length-1
-      let days = 0
-      if (this.datafil.length>0) {
-        days=moment(new Date(this.datafil[l].x)).diff(moment(new Date(this.datafil[0].x)))/3600/24/1000
-      }
-      if(this.datafil.length>0){
-        if(this.datafil[l].y!=undefined) this.p=Math.round((this.datafil[l].y-this.datafil[0].y)/days*365)
-        if(this.datafil[l].y1!=undefined) this.p1=Math.round((this.datafil[l].y1-this.datafil[0].y1)/days*365)
-        if(this.datafil[l].y2!=undefined) this.p2=Math.round((this.datafil[l].y2-this.datafil[0].y2)/days*365)
-        if(this.datafil[l].y3!=undefined) this.p3=Math.round((this.datafil[l].y3-this.datafil[0].y3)/days*365)
-      }
-      return [this.p?this.p:'',this.p1?this.p1:'',this.p2?this.p2:'',this.p3?this.p3:'']
+  avgHrs(){
+    this.p=0, this.p1=0,  this.p2=0,this.p3=0
+    let l = this.datafil.length-1
+    let days = 0
+    if (this.datafil.length>0) {
+      days=moment(new Date(this.datafil[l].x)).diff(moment(new Date(this.datafil[0].x)))/3600/24/1000
     }
+    if(this.datafil.length>0){
+      let im = this.datafil[0].y==undefined?0:this.datafil[0].y
+      let i1 = this.datafil[0].y1==undefined?0:this.datafil[0].y1
+      let i2 = this.datafil[0].y2==undefined?0:this.datafil[0].y2
+      let i3 = this.datafil[0].y3==undefined?0:this.datafil[0].y3
+      if(this.datafil[l].y!=undefined) this.p=Math.round((this.datafil[l].y-im)/days*365)
+      if(this.datafil[l].y1!=undefined) this.p1=Math.round((this.datafil[l].y1-i1)/days*365)
+      if(this.datafil[l].y2!=undefined) this.p2=Math.round((this.datafil[l].y2-i2)/days*365)
+      if(this.datafil[l].y3!=undefined) this.p3=Math.round((this.datafil[l].y3-i3)/days*365)
+    }
+    return [this.p?this.p:'',this.p1?this.p1:'',this.p2?this.p2:'',this.p3?this.p3:'']
+  }
     
-    ran(a:any, b:FormGroup){
-      let nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')
-      b.get('start')?.setValue(nw)
-      this.avv()
+  ran(a:any, b:FormGroup){
+    let nw=''
+    if(a.v!='') {
+      nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')
+    } else {
+      nw=moment(this.data[0].x).format('YYYY-MM-DD')
     }
+    b.get('start')?.setValue(nw)
+    this.avv()
+  }
 
+  comD() {
+      if(this.data[0].y && this.data[0].y =='c') this.dataCom = ` (Commisioning date: ${moment(this.data[0].x).format("DD/MM/YYYY")})`
+  }
+
+  calcAvg(){
+    this.avg=[]
+    this.avg[0]=this.p>0? ` (avg: ${this.th(this.p)}/y)` : ''
+    if(this.p1==0,this.p2==0,this.p3==0) this.avg[1]=''
+    if (this.p1>0 && this.p2==0 && this.p3==0) this.avg[1]=` (avg: ${this.p1}/y)`
+    if (this.p1>0 && this.p2>0 && this.p3==0) this.avg[1]=` (avg: ${this.th(Math.round((this.p1+this.p2)/2))}/y)`
+    if (this.p1>0 && this.p2>0 && this.p3>0) this.avg[1]=` (avg: ${this.th(Math.round((this.p1+this.p2+this.p3)/3))}/y)`
+  }
 }
  

@@ -31,9 +31,9 @@
             </div>
             <div class="spacer"></div>
             <div class="subrow">
-                <episjob-h2 [data]="dataRile()"></episjob-h2>
+                <episjob-h2 [data]="infoH"></episjob-h2>
                 <p *ngIf="data.length==0">No data to display</p>
-                <episjob-label *ngIf="data.length>0" [values]="hrsLabels"></episjob-label>
+                <episjob-label *ngIf="data.length>1" [values]="hrsLabels"></episjob-label>
             </div>           
         </div>
     </div>
