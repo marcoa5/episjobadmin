@@ -8,9 +8,11 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap:15px;
+    white-space: pre-wrap;
 }
 
 mat-expansion-panel {
     width: 100%;
     background-color: rgb(245,245,245);
+    
   }

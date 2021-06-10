@@ -15,6 +15,7 @@ export class AuthSingleRigComponent implements OnInit {
   a4:number=0
   a5:number=0
   appearance:MatFormFieldAppearance="fill"
+  minWidth:number = 1100;
   constructor() { }
 
   ngOnInit(): void {

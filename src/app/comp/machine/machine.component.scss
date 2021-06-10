@@ -72,36 +72,9 @@ table{
     padding-top: 80px
 }
 
-.t{
-    padding-top: 80px;
-    display: flex;
-    align-items: top;
-    justify-content: space-between;
-    gap:15px;
-}
-
-.u1{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap:5px;
-}
-
-episjob-auth-single-rig{
-    width:100%
-}
 .row{
     display: flex;
     flex-direction: column;
-}
-
-.u{
-    max-width: 500px;
-}
-
-.butC{
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap:5px;
 }
 
 .but{
@@ -113,14 +86,38 @@ episjob-auth-single-rig{
     flex: 1 1 1;
 }
 
-.ff{
-    width:auto;
-}
-
 .mat-focus-indicator{
     margin: 0;
     padding:0;
 }
+
+.t{
+    padding-top: 80px;
+    display: flex;
+    align-items: top;
+    gap:15px;
+}
+
+.spacerC{
+    flex:1 1 auto;
+}
+
+.butC{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 5px;
+    padding-bottom: 1.34375em;
+}
+
+.but{
+    height: 100%;
+    width: 50px;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
 
 @media only screen and (max-width: 650px) {
     .itemc{
@@ -138,15 +135,26 @@ episjob-auth-single-rig{
     .spacer{
         margin: 5px 0;
     }
+    
+  }
+
+  @media only screen and (max-width: 800px){
     .t{
         flex-direction: column;
+        gap:10px;
     }
-    .u{
-        width:100%;
+
+    .spacerC{
+        height: 20px;
     }
 
     .butC{
-        grid-template-columns: repeat(2,1fr);
+        justify-items: center;
+    }
+
+    .but{
+        width: 100%;
+        max-width: 120px;
     }
   }
 
