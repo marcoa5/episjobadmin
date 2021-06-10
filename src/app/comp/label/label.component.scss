@@ -11,8 +11,10 @@
 .divtxt{
     background-color: rgb(245,245,245);
     border-radius: 5px 5px 0 0;
-    //border-bottom: .5px solid $dark-text;
+    border-bottom: .5px solid $dark-text;
+    white-space: nowrap;
     overflow: hidden;
+    width: 100%;
 }
 
 .txtlabel{

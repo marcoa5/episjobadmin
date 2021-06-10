@@ -19,7 +19,6 @@ export class SjlistComponent implements OnInit {
   @Input() start:any|undefined
   @Input() end:any|undefined
   @Input() docBpcs:string = ''
-  @Input() dataDoc:string = ''
   @Input() customer:string = ''
   @Input() model:string = ''
   

@@ -57,6 +57,8 @@ import { InputhrsComponent } from './comp/dialog/inputhrs/inputhrs.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthSingleRigComponent } from './comp/auth-single-rig/auth-single-rig.component';
+import { RigTableComponent } from './comp/machine/rig-table/rig-table.component';
+import { TopMenuComponent } from './comp/machine/top-menu/top-menu.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -97,6 +99,8 @@ const appearance: MatFormFieldDefaultOptions = {
     TablefilterPipe,
     InputhrsComponent,
     AuthSingleRigComponent,
+    RigTableComponent,
+    TopMenuComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,

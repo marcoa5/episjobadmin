@@ -1,8 +1,8 @@
-import { APP_INITIALIZER, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
-import { Chart, registerables } from 'chart.js';
+import { Chart, DatasetController, registerables } from 'chart.js';
 Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
@@ -10,8 +10,8 @@ import { BackService } from '../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
-import { FormGroup, FormControl } from '@angular/forms'
-
+import { from } from 'rxjs'
+import { TransitionCheckState } from '@angular/material/checkbox';
 export interface hrsLabel {
   lab: string
   value: any
@@ -25,52 +25,35 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
-  range = new FormGroup({
-    start: new FormControl(new Date(moment(new Date()).days(-90).format('YYYY, MM, DD'))),
-    end: new FormControl(new Date())
-  });
+  
   disab:boolean = true
   valore: any='';
   model:string='';
   customer:string='';
   site:string='';
   in:string='';
-  docBpcs:string='';
-  dataDoc:string=''
+  docBpcs:string=''
   labels: any[] = [];
   data:any[]=[]
-  data1:any[]=[]
+  dataAvg:any[]=[]
   datafil:any[]=[]
-  hours:any[]=[]
-  day:any;
-  day1:any;
-  dataRil:any
-  Engh:number=0
-  Perc1:number=0
-  Perc2:number=0
-  Perc3:number=0
-  limit:any=0
+  hours:any[]|undefined
+  dataCha:any
   dataSource = this.data
   g1:Chart | null | undefined
   g2:Chart | null | undefined
-  displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
   rigLabels: hrsLabel[]=[]
   hrsLabels: hrsLabel[]=[]
   pos:string=''
   iniz:any=''
+  day:any
   ri:boolean=true
-  startd:any
-  endd:any
   p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
-  buttons:any=[
-    {label: '3M', fun: {v: 3, l: 'months'}},
-    {label: '6M', fun: {v: 6, l: 'months'}},
-    {label: '1Y', fun: {v: 1, l: 'years'}},
-    {label: '5Y', fun: {v: 5, l: 'years'}},
-    {label: 'All', fun: {v: '', l: ''}},
-  ]
+  inizio:any=moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')
+  fine:any=new Date()
   avg:any[]=[]
-  infoH:any
+  infoH:any='Running Hours'
+  infoCommisioned:string=''
   dataCom:string=''
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
@@ -86,7 +69,6 @@ export class MachineComponent implements OnInit {
       }).then(()=>{
         if(this.pos=='sales'){
           firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
-            
             if(a.val()==1) {
               this.ri = true
               this.f()
@@ -101,7 +83,7 @@ export class MachineComponent implements OnInit {
   }
 
   f(){
-    firebase.database().ref('MOL/' + this.valore).on('value',x=>{
+    firebase.database().ref('MOL/' + this.valore).once('value',x=>{
       this.site = x.val().site
       this.model=x.val().model
       this.customer=x.val().customer
@@ -113,111 +95,149 @@ export class MachineComponent implements OnInit {
         {value:this.customer, lab:'Customer',click:this.customer,url:'cliente'},
         {value:this.site, lab:'Site',click:'',url:''}
       ]
-      for(let i = 7; i>0;i--){
-        if(x.val()['dat' + i + 1]!='') this.dataDoc=x.val()['dat' + i + 3] + x.val()['dat' + i + 2] + x.val()['dat' + i + 1]
-      }
-    })      
-    this.avv()
-  }
-
-  async avv(){
-    this.avg=[]
-    this.loadData(this.valore)
-    .then(()=>{
-      setTimeout(async () => {
-        if(this.data.length>0){
-          let iniz = moment(this.range.value.start).format('YYYYMMDD')
-          let fine = moment(this.range.value.end).format('YYYYMMDD')
-          this.datafil = this.data.filter(d=>{
-            return d.x.replace(/\-/g,'') >= iniz && d.x.replace(/\-/g,'') <= fine
-          })
-          this.dataSource=this.datafil
-          this.loadCharts()
-          this.avgHrs()
-        }
-      }, 500);
     })
-    
+    .then(()=>{
+      this.loadData()
+      .then(()=>{
+        this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
+        this.infoH+=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+        if(this.data[0].y=='c') this.infoCommisioned +=` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
+        this.hrsLabels=[
+          {value:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
+          {value:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
+          {value:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
+          {value:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
+        ]      
+      })
+      .catch((a)=>{console.log(a,'no data')})
+    })      
   }
 
-  th(a:any){
-    if(a){
-      a=a.toString()
-    let b = a.toString().length
-    if(b<4) return a
-    if(b>3 && b<7) return `${a.substring(0,b-3)}.${a.substring(b-3,b)}`
-    if(b>6 && b<10) return `${a.substring(0,b-6)}.${a.substring(b-6,b-3)}.${a.substring(b-3,b)}`
-    }
+  loadData(){
+    return new Promise((res,rej)=>{
+      this.data=[]
+      firebase.database().ref('Hours/' + this.valore).on('value',f=>{
+        let r = Object.keys(f.val()).length
+        if(r==0) rej('failed')
+        f.forEach(g=>{
+          var h:any
+          if(g.key){
+            let anno = parseInt(g.key.substring(0,4)) 
+            let mese = parseInt(g.key.substring(4,6))-1 
+            let giorno = parseInt(g.key.substring(6,8)) 
+            this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
+            h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
+          }
+          if(h!=undefined) this.data.push(h)
+          if(this.data.length == r) res('ok')
+        })
+      })
+    })
   }
 
   loadCharts(){
-    if(this.datafil.length>0) {
-      this.datafil.map((a,b)=>{
-        if (parseInt(a.y1)==0 || a.y1=='') a.y1=undefined
-        if (parseInt(a.y2)==0 || a.y2=='') a.y2=undefined
-        if (parseInt(a.y3)==0 || a.y3=='') a.y3=undefined
-        if (a.y=='c') a.y=0
-        if (a.y1=='c') a.y1=0
-        if (a.y2=='c') a.y2=0
-        if (a.y3=='c') a.y3=0
-        return {x: a.x, y: a.y, y1:a.y1,y2:a.y2,y3:a.y3}
-      })
-        setTimeout(async () => {
-        if(this.datafil.length>0) this.calcolaOrem()
-        if(this.datafil.length>0) this.calcolaPerc1() 
-        await this.comD()
-        await this.dataRile()       
-      }, 150);
-    }
-    setTimeout(async () => {
-      await this.calcAvg()
-      if(this.data.length>1 && this.data[0].y!='c') this.dataRil = moment(this.data[this.data.length-1].x).format("DD/MM/YYYY")
-      await this.ore()
-      //let ee = this.Engh>0? (this.avg[0]!=undefined? `${this.th(this.Engh)} ${this.avg[0]}` : 0):0
-      let ee = this.Engh>0? this.th(this.Engh):0
-      let e1 = this.Perc1>0? this.th(this.Perc1):0
-      let e2= this.Perc2>0? this.th(this.Perc2):0
-      let e3 = this.Perc3>0? this.th(this.Perc3):0
-      if(ee!=0 && this.avg[0]!='' && this.avg[0]!=undefined) ee+= this.avg[0]
-      if(e1!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e1+= this.avg[1]
-      if(e2!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e2+= this.avg[1]
-      if(e3!=0 && this.avg[1]!='' && this.avg[1]!=undefined) e3+= this.avg[1]
-      this.hrsLabels=[
-        {value:ee,lab: 'Engine Hrs',click:'',url:''},
-        {value:e1,lab: 'Percussion 1',click:'',url:''},
-        {value:e2,lab: 'Percussion 2',click:'',url:''},
-        {value:e3,lab: 'Percussion 3',click:'',url:''}
-      ]
-    }, 150);
-  }
-
-  async loadData(r:any){
-    this.data=[]
-    firebase.database().ref('Hours/' + r).on('value',f=>{
-      f.forEach(g=>{
-        var h:any
-        if(g.key){
-          let anno = parseInt(g.key.substring(0,4)) 
-          let mese = parseInt(g.key.substring(4,6))-1 
-          let giorno = parseInt(g.key.substring(6,8)) 
-          this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
-          h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
-        }
-        if(h!=undefined) {
-          this.data.push(h)
-        }
-      })
+    this.dataCha=this.datafil.map(f=>{
+      return {
+        x: f.x,
+        y: f.y!=undefined? parseInt(f.y):'',
+        y1: f.y1!=undefined? parseInt(f.y1):'',
+        y2: f.y2!=undefined? parseInt(f.y2):'',
+        y3: f.y3!=undefined? parseInt(f.y3):''
+      }
     })
+    setTimeout(() => {
+      if(this.dataCha.length>0) {
+        this.calcolaOrem()
+        this.calcolaPerc1()
+      }
+    }, 500);
+
+  }
+  filter(i:any,f:any){
+    this.datafil = this.data.filter(d=>{
+      return new Date(d.x)>=new Date(i) && new Date(d.x)<=new Date(f)
+    })
+    this.datafil.map((item,i)=>{
+      if(this.datafil[0].y=='c') {
+        this.datafil[0]={
+          x: this.datafil[0].x,
+          y: this.datafil[1].y1>0? 0: undefined,
+          y1: this.datafil[1].y1>0? 0: undefined,
+          y2: this.datafil[1].y2>0? 0: undefined,
+          y3: this.datafil[1].y3>0? 0:undefined
+        }
+      }
+      if(item.y=='0') item.y=undefined
+      if(item.y1=='0') item.y1=undefined
+      if(item.y2=='0') item.y2=undefined
+      if(item.y3=='0') item.y3=undefined
+    })
+    this.loadCharts()
+    this.avgHrs()
   }
 
-  ore(){
-    if (this.data.length > 0) {
-      this.Engh=this.data[this.data.length-1].y 
-      this.Perc1=this.data[this.data.length-1].y1
-      this.Perc2=this.data[this.data.length-1].y2
-      this.Perc3=this.data[this.data.length-1].y3
-    }
+  res(e:any){
+    /*this.calcolaOrem()
+    this.calcolaPerc1()*/
   }
+
+  de(a:string){
+    const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(DeldialogComponent, {
+        data: {name: a.replace(/\-/g,'')}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result!=undefined && this.pos=='SU') {
+          firebase.database().ref(`Hours/${this.valore}/`).child(a.replace(/\-/g,'')).remove()
+        }
+      });
+    }
+
+    up(e:any){
+      let a:string = e[0]
+      let b:any = e[1]
+      let c:string = e[2]
+      if(this.pos=='SU'){
+        const dialogconf = new MatDialogConfig();
+        dialogconf.disableClose=false;
+        dialogconf.autoFocus=false;
+        const dialogRef = this.dialog.open(InputhrsComponent, {
+          data: {hr: a!=undefined? a : 0}
+        });
+  
+        dialogRef.afterClosed().subscribe(result => {
+          if(result!=undefined && this.pos=='SU') {
+            //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
+            firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
+          }
+        });
+      }
+    }
+
+    contr(){
+      return false
+    }
+
+    go(e:any){
+      this.router.navigate(['newrig',{name:this.valore}])
+    }
+
+    rigInfo(){
+      return `Rig info - ${this.valore} ${this.in!=''? '(' + this.in  + ')' : ''}`
+    }
+
+    th(a:any){
+      if(a){
+        a=a.toString()
+      let b = a.toString().length
+      if(b<4) return a
+      if(b>3 && b<7) return `${a.substring(0,b-3)}.${a.substring(b-3,b)}`
+      if(b>6 && b<10) return `${a.substring(0,b-6)}.${a.substring(b-6,b-3)}.${a.substring(b-3,b)}`
+      }
+    }
+
 
   calcolaOrem(){
     if (this.g1) this.g1.destroy()
@@ -229,7 +249,7 @@ export class MachineComponent implements OnInit {
         data: {
           datasets:[{
             label: "Engine Hours",
-            data:this.datafil,
+            data:this.dataCha,
             borderColor: 'rgb(66,85,99)',
             pointBackgroundColor:'rgb(66,85,99)',
             backgroundColor: 'rgb(255,205,0)',
@@ -265,7 +285,7 @@ export class MachineComponent implements OnInit {
         data: {
           datasets:[{
             label: "Perc1",
-            data: this.datafil,
+            data: this.dataCha,
             parsing: {
               yAxisKey: 'y1'
             },
@@ -274,7 +294,7 @@ export class MachineComponent implements OnInit {
           },
           {
             label: "Perc2",
-            data:this.datafil,
+            data:this.dataCha,
             parsing: {
               yAxisKey: 'y2'
             },
@@ -284,7 +304,7 @@ export class MachineComponent implements OnInit {
           },
           {
             label: "Perc3",
-            data:this.datafil,
+            data:this.dataCha,
             parsing: {
               yAxisKey: 'y3'
             },
@@ -309,111 +329,24 @@ export class MachineComponent implements OnInit {
     }
   }
 
-  back(){
-    this.bak.backP()
+  readD(e:any){
+    this.inizio=e[0]
+    this.fine=e[1]
+    this.filter(e[0],e[1])
   }
 
-  open(a:string){
-    this.router.navigate(['cliente',{cust1:a}])
-  }
-
-  rigInfo(){
-    return `Rig info - ${this.valore} ${this.in!=''? '(' + this.in  + ')' : ''}`
-  }
-  
-  dataRile(){
-    this.infoH = `Running hours ${this.dataRil? '@ ' + this.dataRil : ''} ${this.dataCom}`
-  }
-
-  contr(){
-    return false
-  }
-
-  go(e:any){
-    this.router.navigate(['newrig',{name:this.valore}])
-  }
-
-  res(e:any){
-    this.calcolaOrem()
-    this.calcolaPerc1()
-  }
-
-  up(a:string,b:any, c:string){
-    if(this.pos=='SU'){
-      const dialogconf = new MatDialogConfig();
-      dialogconf.disableClose=false;
-      dialogconf.autoFocus=false;
-      const dialogRef = this.dialog.open(InputhrsComponent, {
-        data: {hr: a!=undefined? a : 0}
-      });
-
-      dialogRef.afterClosed().subscribe(result => {
-        if(result!=undefined && this.pos=='SU') {
-          //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
-          firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
-          this.avv()
-        }
-      });
-    }
-  }
-
-  de(a:string){
-    const dialogconf = new MatDialogConfig();
-      dialogconf.disableClose=false;
-      dialogconf.autoFocus=false;
-      const dialogRef = this.dialog.open(DeldialogComponent, {
-        data: {name: a.replace(/\-/g,'')}
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if(result!=undefined && this.pos=='SU') {
-          firebase.database().ref(`Hours/${this.valore}/`).child(a.replace(/\-/g,'')).remove()
-          this.avv()
-        }
-      });
-    }
-    
   avgHrs(){
-    this.p=0, this.p1=0,  this.p2=0,this.p3=0
-    let l = this.datafil.length-1
-    let days = 0
-    if (this.datafil.length>0) {
-      days=moment(new Date(this.datafil[l].x)).diff(moment(new Date(this.datafil[0].x)))/3600/24/1000
-    }
-    if(this.datafil.length>0){
-      let im = this.datafil[0].y==undefined?0:this.datafil[0].y
-      let i1 = this.datafil[0].y1==undefined?0:this.datafil[0].y1
-      let i2 = this.datafil[0].y2==undefined?0:this.datafil[0].y2
-      let i3 = this.datafil[0].y3==undefined?0:this.datafil[0].y3
-      if(this.datafil[l].y!=undefined) this.p=Math.round((this.datafil[l].y-im)/days*365)
-      if(this.datafil[l].y1!=undefined) this.p1=Math.round((this.datafil[l].y1-i1)/days*365)
-      if(this.datafil[l].y2!=undefined) this.p2=Math.round((this.datafil[l].y2-i2)/days*365)
-      if(this.datafil[l].y3!=undefined) this.p3=Math.round((this.datafil[l].y3-i3)/days*365)
-    }
-    return [this.p?this.p:'',this.p1?this.p1:'',this.p2?this.p2:'',this.p3?this.p3:'']
-  }
+    this.dataAvg= this.datafil
+    let i = moment(new Date(this.dataAvg[0].x))
+    let f = moment(new Date(this.dataAvg[this.dataAvg.length-1].x))
+    let k = f.diff(i)/1000/60/60/24
+    let u= this.dataAvg[0].y
+    let p = this.dataAvg[this.dataAvg.length-1].y
+    let d = p-u
+    let avg=d/k*365
+    console.log(avg)
+   
     
-  ran(a:any, b:FormGroup){
-    let nw=''
-    if(a.v!='') {
-      nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')
-    } else {
-      nw=moment(this.data[0].x).format('YYYY-MM-DD')
-    }
-    b.get('start')?.setValue(nw)
-    this.avv()
-  }
-
-  comD() {
-      if(this.data[0].y && this.data[0].y =='c') this.dataCom = ` (Commisioning date: ${moment(this.data[0].x).format("DD/MM/YYYY")})`
-  }
-
-  calcAvg(){
-    this.avg=[]
-    this.avg[0]=this.p>0? ` (avg: ${this.th(this.p)}/y)` : ''
-    if(this.p1==0,this.p2==0,this.p3==0) this.avg[1]=''
-    if (this.p1>0 && this.p2==0 && this.p3==0) this.avg[1]=` (avg: ${this.p1}/y)`
-    if (this.p1>0 && this.p2>0 && this.p3==0) this.avg[1]=` (avg: ${this.th(Math.round((this.p1+this.p2)/2))}/y)`
-    if (this.p1>0 && this.p2>0 && this.p3>0) this.avg[1]=` (avg: ${this.th(Math.round((this.p1+this.p2+this.p3)/3))}/y)`
   }
 }
  

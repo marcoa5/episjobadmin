@@ -1,32 +1,10 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
 <div id="cont" *ngIf="customer && ri==true">
-    <div class="t"> 
-        <div class="dateC">
-            <mat-form-field appearance="fill" class="ff">
-                <mat-label>Date range</mat-label>
-                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-                    <input matStartDate formControlName="start" placeholder="Start date"(dateChange)="avv()">
-                    <input matEndDate formControlName="end" placeholder="End date"(dateChange)="avv()">
-                </mat-date-range-input>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
-                
-                <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-                <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="butC">
-            <button mat-raised-button *ngFor="let b of buttons" (click)="ran(b.fun, range)" class="but">{{b.label}}</button> 
-        </div>
-        <div class="spacerC"></div>
-        <div class="authC">
-            <episjob-auth-single-rig [sn]="valore" *ngIf="pos=='SU' || pos=='admin'"></episjob-auth-single-rig>
-        </div>
-    </div>
+    <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]? data[0].x:0" (date)="readD($event)"></episjob-top-menu>
     <div class="item">
         <div class="row">
             <div class="subrow">
-                <episjob-h2 [data]="rigInfo()"></episjob-h2>
+                <episjob-h2 [data]="rigInfo() + infoCommisioned"></episjob-h2>
                 <episjob-label [values]="rigLabels"></episjob-label>
             </div>
             <div class="spacer"></div>
@@ -57,38 +35,13 @@
                     <div class="subitemc over">
                         <div class="datacont">
                             <episjob-h2  [padtop]="10" [data]="'Running hours history'"></episjob-h2>
-                            <div class="tablecont">
-                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" [ngStyle]="{'cursor' : pos=='SU'? 'pointer' : 'standard'}">
-                                    <ng-container matColumnDef="Date">
-                                    <th mat-header-cell *matHeaderCellDef> Date </th>
-                                    <td mat-cell *matCellDef="let a" (click)="de(a.x)"> {{a.x}} </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="Engine">
-                                        <th mat-header-cell *matHeaderCellDef> Engine </th>
-                                        <td mat-cell *matCellDef="let a" (click)="up(a.y,a.x,'orem')"> {{a.y}} </td>
-                                    </ng-container>             
-                                    <ng-container matColumnDef="Perc1">
-                                    <th mat-header-cell *matHeaderCellDef> Perc1 </th>
-                                    <td mat-cell *matCellDef="let a" (click)="up(a.y1,a.x,'perc1')"> {{a.y1}} </td>
-                                    </ng-container> 
-                                    <ng-container matColumnDef="Perc2">
-                                    <th mat-header-cell *matHeaderCellDef> Perc2 </th>
-                                    <td mat-cell *matCellDef="let a"  (click)="up(a.y2,a.x,'perc2')"> {{a.y2}} </td>
-                                    </ng-container> 
-                                    <ng-container matColumnDef="Perc3">
-                                    <th mat-header-cell *matHeaderCellDef> Perc3 </th>
-                                    <td mat-cell *matCellDef="let a" (click)="up(a.y3,a.x,'perc3')"> {{a.y3}} </td>
-                                    </ng-container>          
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                                </table>
-                            </div>
+                            <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
                         </div>
                     </div>
                     <div class="spacer"></div>
                     <div class="subitemc over">
                         <div class="datacont">
-                            <episjob-sjlist [sn]="valore" [start]="range.value.start" [end]="range.value.end" [docBpcs]="docBpcs" [dataDoc]="dataDoc" [customer]="customer" [model]="model"></episjob-sjlist>
+                            <episjob-sjlist [sn]="valore" [start]="inizio" [end]="fine" [docBpcs]="docBpcs" [customer]="customer" [model]="model"></episjob-sjlist>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,26 @@
+<div class="tablecont">
+    <table mat-table [dataSource]="ore" class="mat-elevation-z0" [ngStyle]="{'cursor' : pos=='SU'? 'pointer' : 'standard'}">
+        <ng-container matColumnDef="Date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let a" (click)="de(a.x)"> {{a.x}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Engine">
+            <th mat-header-cell *matHeaderCellDef> Engine </th>
+            <td mat-cell *matCellDef="let a" (click)="up(a.y,a.x,'orem')"> {{a.y}} </td>
+        </ng-container>             
+        <ng-container matColumnDef="Perc1">
+        <th mat-header-cell *matHeaderCellDef> Perc1 </th>
+        <td mat-cell *matCellDef="let a" (click)="up(a.y1,a.x,'perc1')"> {{a.y1}} </td>
+        </ng-container> 
+        <ng-container matColumnDef="Perc2">
+        <th mat-header-cell *matHeaderCellDef> Perc2 </th>
+        <td mat-cell *matCellDef="let a"  (click)="up(a.y2,a.x,'perc2')"> {{a.y2}} </td>
+        </ng-container> 
+        <ng-container matColumnDef="Perc3">
+        <th mat-header-cell *matHeaderCellDef> Perc3 </th>
+        <td mat-cell *matCellDef="let a" (click)="up(a.y3,a.x,'perc3')"> {{a.y3}} </td>
+        </ng-container>          
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

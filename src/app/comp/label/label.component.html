@@ -1,14 +1,8 @@
 <div class="txtcont">
-    <div *ngFor="let h of values">
-        <div *ngIf="h.value!=0">
-            <div class="divtxt" [ngStyle]="{'border-bottom': h.value? '0.5px solid rgb(66,85,99)' : 'none'}">
-                <div  *ngIf="h.value" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
-                    <div class="txtlabel">{{h.lab}}</div>
-                    <div class="txt">{{h.value}}</div>
-                </div>
-            </div>
+    <div *ngFor="let h of values" class="divtxt" [ngStyle]="{'visibility': h.value? 'none' : 'hidden'}">
+        <div  *ngIf="h.value" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
+            <div class="txtlabel">{{h.lab}}</div>
+            <div class="txt">{{h.value}}</div>
         </div>
-        
     </div>
-    
 </div>
