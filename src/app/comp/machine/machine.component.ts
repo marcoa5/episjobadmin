@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
-import { Chart, DatasetController, registerables } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
@@ -10,8 +10,6 @@ import { BackService } from '../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
-import { from } from 'rxjs'
-import { TransitionCheckState } from '@angular/material/checkbox';
 export interface hrsLabel {
   lab: string
   value: any
@@ -55,6 +53,8 @@ export class MachineComponent implements OnInit {
   infoH:any='Running Hours'
   infoCommisioned:string=''
   dataCom:string=''
+  engAvg:string=''
+  impAvg:any[]=[]
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
@@ -100,14 +100,8 @@ export class MachineComponent implements OnInit {
       this.loadData()
       .then(()=>{
         this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
-        this.infoH+=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
-        if(this.data[0].y=='c') this.infoCommisioned +=` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
-        this.hrsLabels=[
-          {value:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
-          {value:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
-          {value:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
-          {value:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
-        ]      
+        if(this.data[0]!=undefined) this.infoH+=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+        if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned +=` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
       })
       .catch((a)=>{console.log(a,'no data')})
     })      
@@ -139,10 +133,10 @@ export class MachineComponent implements OnInit {
     this.dataCha=this.datafil.map(f=>{
       return {
         x: f.x,
-        y: f.y!=undefined? parseInt(f.y):'',
-        y1: f.y1!=undefined? parseInt(f.y1):'',
-        y2: f.y2!=undefined? parseInt(f.y2):'',
-        y3: f.y3!=undefined? parseInt(f.y3):''
+        y: f.y!=undefined? parseInt(f.y):undefined,
+        y1: f.y1!=undefined? parseInt(f.y1):undefined,
+        y2: f.y2!=undefined? parseInt(f.y2):undefined,
+        y3: f.y3!=undefined? parseInt(f.y3):undefined
       }
     })
     setTimeout(() => {
@@ -174,6 +168,12 @@ export class MachineComponent implements OnInit {
     })
     this.loadCharts()
     this.avgHrs()
+    this.hrsLabels=[
+      {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
+      {value:this.impAvg!=[] && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
+      {value:this.impAvg!=[] && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
+      {value:this.impAvg!=[] && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
+    ]  
   }
 
   res(e:any){
@@ -337,16 +337,45 @@ export class MachineComponent implements OnInit {
 
   avgHrs(){
     this.dataAvg= this.datafil
-    let i = moment(new Date(this.dataAvg[0].x))
-    let f = moment(new Date(this.dataAvg[this.dataAvg.length-1].x))
-    let k = f.diff(i)/1000/60/60/24
-    let u= this.dataAvg[0].y
-    let p = this.dataAvg[this.dataAvg.length-1].y
-    let d = p-u
-    let avg=d/k*365
-    console.log(avg)
-   
+    let avg, avg1, num, num1, den, ch
+    if(this.data[0]!=undefined && this.dataAvg[this.dataAvg.length-1]!=undefined) {
+      num = (this.dataAvg[this.dataAvg.length-1].y-this.dataAvg[0].y)
+      den=moment(new Date(this.dataAvg[this.dataAvg.length-1].x)).diff(moment(new Date(this.dataAvg[0].x)))/1000/60/60/24
+      avg=this.th((Math.round(num/den*365)))
+      if(this.dataAvg[0].y3>=0) {
+        ch=3
+        let n  =this.dataAvg.length-1
+        num1 = (this.dataAvg[n].y1*1+this.dataAvg[n].y2*1+this.dataAvg[n].y3*1-this.dataAvg[0].y1*1-this.dataAvg[0].y2*1-this.dataAvg[0].y3*1)/3
+        avg1=this.th((Math.round(num1/den*365)))
+      }else if(this.dataAvg[0].y2>=0) {
+        ch=2
+        let n  =this.dataAvg.length-1
+        num1 = (this.dataAvg[n].y1*1+this.dataAvg[n].y2*1-this.dataAvg[0].y1*1-this.dataAvg[0].y2*1)/2
+        avg1=this.th((Math.round(num1/den*365)))
+      } else if(this.dataAvg[0].y1>=0) {
+        ch=1
+        let n  =this.dataAvg.length-1
+        num1 = (this.dataAvg[n].y1*1-this.dataAvg[0].y1*1)
+        avg1=this.th((Math.round(num1/den*365)))
+      }
+
+    }
     
+    if(avg!=undefined) {
+      this.engAvg= '(Avg: ' + avg + ' h/y)'
+    } else {
+      this.engAvg = ''
+    }
+
+    if(avg1!=undefined) {
+      this.impAvg= ['(Avg: ' + avg1 + ' h/y)',ch]
+    } else {
+      this.impAvg = []
+    }
+
+
+
+
   }
 }
  
