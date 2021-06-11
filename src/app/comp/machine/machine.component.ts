@@ -71,18 +71,18 @@ export class MachineComponent implements OnInit {
           firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
             if(a.val()==1) {
               this.ri = true
-              this.f()
+              this.f(0)
             }
             if(a.val()==0) this.ri = false
           })
         } else {
-          this.f()
+          this.f(0)
         }
       })  
     })
   }
 
-  f(){
+  f(a:number){
     firebase.database().ref('MOL/' + this.valore).once('value',x=>{
       this.site = x.val().site
       this.model=x.val().model
@@ -99,7 +99,8 @@ export class MachineComponent implements OnInit {
     .then(()=>{
       this.loadData()
       .then(()=>{
-        this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
+        if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
+        if(a==1) this.filter(this.inizio,this.fine)
         if(this.data[0]!=undefined) this.infoH+=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
         if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned +=` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
       })
@@ -191,6 +192,7 @@ export class MachineComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
           firebase.database().ref(`Hours/${this.valore}/`).child(a.replace(/\-/g,'')).remove()
+          this.f(1)
         }
       });
     }
@@ -211,6 +213,7 @@ export class MachineComponent implements OnInit {
           if(result!=undefined && this.pos=='SU') {
             //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
             firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
+            this.f(1)
           }
         });
       }
