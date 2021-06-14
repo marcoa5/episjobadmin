@@ -33,7 +33,7 @@ export class RigTableComponent implements OnInit {
   }
 
   up(a:any,b:any,c:any){
-    this.action1.emit([a.replace(/\./g,''),b,c])
+    this.action1.emit([a!=undefined? a.replace(/\./g,''): 0,b,c])
   }
 
   de(a:string){
