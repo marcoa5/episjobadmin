@@ -345,23 +345,22 @@ export class MachineComponent implements OnInit {
       num = (this.dataAvg[this.dataAvg.length-1].y-this.dataAvg[0].y)
       den=moment(new Date(this.dataAvg[this.dataAvg.length-1].x)).diff(moment(new Date(this.dataAvg[0].x)))/1000/60/60/24
       avg=this.th((Math.round(num/den*365)))
-      if(this.dataAvg[0].y3>=0) {
+      if(this.dataAvg[1].y3>=0) {
         ch=3
         let n  =this.dataAvg.length-1
         num1 = (this.dataAvg[n].y1*1+this.dataAvg[n].y2*1+this.dataAvg[n].y3*1-this.dataAvg[0].y1*1-this.dataAvg[0].y2*1-this.dataAvg[0].y3*1)/3
         avg1=this.th((Math.round(num1/den*365)))
-      }else if(this.dataAvg[0].y2>=0) {
+      }else if(this.dataAvg[1].y2>=0) {
         ch=2
         let n  =this.dataAvg.length-1
         num1 = (this.dataAvg[n].y1*1+this.dataAvg[n].y2*1-this.dataAvg[0].y1*1-this.dataAvg[0].y2*1)/2
         avg1=this.th((Math.round(num1/den*365)))
-      } else if(this.dataAvg[0].y1>=0) {
+      } else if(this.dataAvg[1].y1>=0) {
         ch=1
-        let n  =this.dataAvg.length-1
+        let n =this.dataAvg.length-1
         num1 = (this.dataAvg[n].y1*1-this.dataAvg[0].y1*1)
         avg1=this.th((Math.round(num1/den*365)))
       }
-
     }
     
     if(avg!=undefined) {
