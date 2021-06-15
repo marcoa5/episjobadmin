@@ -1,27 +1,10 @@
-.cont{
-    padding: 80px 10px 80px 10px;
-    max-width: 800px;
-}
+
 
 .formCont{
     display: grid;
-    gap:15px;
     grid-template-columns: repeat(5, minmax(100px, 1fr));
-}
-
-.row{
-    display: grid;
     gap: 15px;
-}
-
-.d{
-    background-color: blue;
-    width:100%;height:100%;
-}
-
-
-.mat-form-field{
-    width:100%;
+    max-width: 800px;
 }
 
 @media only screen and (max-width: 650px) {

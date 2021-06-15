@@ -59,6 +59,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AuthSingleRigComponent } from './comp/auth-single-rig/auth-single-rig.component';
 import { RigTableComponent } from './comp/machine/rig-table/rig-table.component';
 import { TopMenuComponent } from './comp/machine/top-menu/top-menu.component';
+import { SegmentComponent } from './comp/newrig/segment/segment.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -101,6 +102,7 @@ const appearance: MatFormFieldDefaultOptions = {
     AuthSingleRigComponent,
     RigTableComponent,
     TopMenuComponent,
+    SegmentComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,
