@@ -101,7 +101,7 @@ export class MachineComponent implements OnInit {
       .then(()=>{
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
-        if(this.data[0]!=undefined) this.infoH=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+        if(this.data[0]!=undefined) this.infoH=`Running Hours @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
         if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
       })
       .catch((a)=>{console.log(a,'no data')})
@@ -124,7 +124,7 @@ export class MachineComponent implements OnInit {
             h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
           }
           if(h!=undefined) this.data.push(h)
-          if(this.data.length == r) res('ok')
+          if(this.data.length == r) {res('ok')}
         })
       })
     })
@@ -169,7 +169,7 @@ export class MachineComponent implements OnInit {
     })
     this.loadCharts()
     this.avgHrs()
-    this.hrsLabels=[
+    this.hrsLabels=[  
       {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
       {value:this.impAvg!=[] && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
       {value:this.impAvg!=[] && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
@@ -228,7 +228,7 @@ export class MachineComponent implements OnInit {
     }
 
     rigInfo(){
-      return `Rig info - ${this.valore} ${this.in!='' || this.in!=undefined? '(' + this.in  + ')' : ''}`
+      return `Rig info - ${this.valore} ${this.in!='' && this.in!=undefined? '(' + this.in  + ')' : ''}`
     }
 
     th(a:any){
@@ -341,7 +341,7 @@ export class MachineComponent implements OnInit {
   avgHrs(){
     this.dataAvg= this.datafil
     let avg, avg1, num, num1, den, ch
-    if(this.data[0]!=undefined && this.dataAvg[this.dataAvg.length-1]!=undefined) {
+    if(this.data[0]!=undefined && this.dataAvg[this.dataAvg.length-1]!=undefined && this.dataAvg.length>1) {
       num = (this.dataAvg[this.dataAvg.length-1].y-this.dataAvg[0].y)
       den=moment(new Date(this.dataAvg[this.dataAvg.length-1].x)).diff(moment(new Date(this.dataAvg[0].x)))/1000/60/60/24
       avg=this.th((Math.round(num/den*365)))
