@@ -2,25 +2,25 @@
 <form [formGroup]="seg" class="formCont">
     <mat-form-field [appearance]="appearance">
         <mat-label>Division</mat-label>
-        <mat-select formControlName="div">
+        <mat-select formControlName="div" (selectionChange)="ch(seg); divCh()">
             <mat-option *ngFor="let c of bls; let i = index" [value]="c">{{c}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field [appearance]="appearance">
         <mat-label>Family</mat-label>
-        <mat-select formControlName="fam">
+        <mat-select formControlName="fam" (selectionChange)="ch(seg)">
             <mat-option *ngFor="let f of family; let i = index" [value]="f">{{f}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field [appearance]="appearance">
         <mat-label>Sub Category</mat-label>
-        <mat-select formControlName="subC">
+        <mat-select formControlName="subC" (selectionChange)="ch(seg)">
             <mat-option *ngFor="let h of categ; let i = index" [value]="h">{{h}}</mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field [appearance]="appearance" >
         <mat-label>Segment</mat-label>
-        <mat-select formControlName="segm">
+        <mat-select formControlName="segm" (selectionChange)="ch(seg)">
             <mat-option *ngFor="let s of segments; let i = index" [value]="s">{{s}}</mat-option>
         </mat-select>
     </mat-form-field>

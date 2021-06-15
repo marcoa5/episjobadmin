@@ -31,7 +31,7 @@ export class AddCancelbuttonsComponent implements OnInit {
   }
 
   contr():boolean{
-    if(this.check?.includes('')) return true
+    if(this.check?.includes('') || this.check?.includes(0)) return true
     return false
   }
 
