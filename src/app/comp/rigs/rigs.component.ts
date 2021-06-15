@@ -39,8 +39,11 @@ export class RigsComponent implements OnInit {
             firebase.database().ref('RigAuth/').once('value',b=>{
               this.auth = b.val()
             })
-            .then(()=>{
-              this.rigs1 = this.rigs.filter(r=>this.auth[r.sn]['a'+this.iniz]==1)
+            .then((a)=>{
+              this.rigs1 = this.rigs.filter((r:any)=> {return this.auth[r.sn]['a'+this.iniz]==1})
+            })
+            .catch((err: any)=>{
+              console.log(err)
             })
           } else {
             this.rigs1 = this.rigs

@@ -3,7 +3,7 @@
   <mat-spinner color="accent"></mat-spinner>
 </div>
 
-<div class="cont" *ngIf="rigs">
+<div class="cont" *ngIf="rigs1">
       <div class="card" *ngFor="let rig of rigs1 | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
         <h3 class="rigT">s/n: {{rig.sn}}</h3>
         <h4 class="l2">{{rig.model}}</h4>

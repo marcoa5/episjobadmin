@@ -102,7 +102,7 @@ export class MachineComponent implements OnInit {
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         if(this.data[0]!=undefined) this.infoH+=` @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
-        if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned +=` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
+        if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
       })
       .catch((a)=>{console.log(a,'no data')})
     })      
