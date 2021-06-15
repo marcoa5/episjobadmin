@@ -156,10 +156,10 @@ export class MachineComponent implements OnInit {
       if(this.datafil[0].y=='c') {
         this.datafil[0]={
           x: this.datafil[0].x,
-          y: this.datafil[1].y1>0? 0: undefined,
-          y1: this.datafil[1].y1>0? 0: undefined,
-          y2: this.datafil[1].y2>0? 0: undefined,
-          y3: this.datafil[1].y3>0? 0:undefined
+          y: 0,
+          y1: 0,
+          y2: 0,
+          y3: 0
         }
       }
       if(item.y=='0') item.y=undefined
@@ -191,7 +191,7 @@ export class MachineComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
-          firebase.database().ref(`Hours/${result}/`).child(a.replace(/\-/g,'')).remove()
+          firebase.database().ref(`Hours/${this.valore}/${result}`).remove()
           this.f(1)
         }
       });
