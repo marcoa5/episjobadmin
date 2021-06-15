@@ -12,6 +12,7 @@ export class AuthComponent implements OnInit {
   rigs:any[]=[]
   filtro:string=''
   wid:boolean=true
+  elenco:string=''
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -37,7 +38,15 @@ export class AuthComponent implements OnInit {
         })
       })
     })
-    
+    setTimeout(() => {
+      this.rigs.forEach(b=>{
+        let g = Object.values(b)
+        this.elenco+=(`${g[0]};${g[1]};${g[2]};${g[3]};${g[4]};${g[5]};${g[6]};${g[7]==undefined?0:g[7]}\n`)
+      })
+    }, 2000);
+    setTimeout(() => {
+      console.log(this.elenco)
+    }, 4000);
     
     
   }
