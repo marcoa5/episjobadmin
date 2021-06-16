@@ -2,19 +2,21 @@
 <form class="container" [formGroup]="form">
   <mat-form-field>
     <mat-label>UserName</mat-label>
-    <input matInput type="text" autocomplete="off" [disabled]="spin" formControlName="username">
+    <input matInput type="text" autocomplete="off" [disabled]="spin" (keyup)="delChErr()" formControlName="username">
     <mat-error *ngIf="form.hasError('email','username')">Invalid email</mat-error>
     <mat-error *ngIf="form.hasError('required','username')">Invalid email</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput [type]="vis ? 'password' : 'text'"  [disabled]="spin"  formControlName="password">
+    <input matInput [type]="vis ? 'password' : 'text'"  [disabled]="spin" (keyup)="delChErr()" formControlName="password">
     <mat-icon matSuffix style="cursor:pointer" (click)="vis=!vis">{{vis? 'visibility' : 'visibility_off'}}</mat-icon>
     <mat-error *ngIf="form.hasError('required','password')">Invalid password</mat-error>
     <mat-error *ngIf="form.hasError('minlength','password')">Password must be at least 6 digits</mat-error>
-    
   </mat-form-field>
+  <mat-label style="color:red" *ngIf="chErr">Wrong username/password</mat-label>
   <button mat-raised-button color="primary" (click)="login(form)"  [disabled]="spin || c(form)">Login</button>
+  <button mat-raised-button color="primary" (click)="reset(form.value.username)"  [disabled]="form.hasError('email','username') || form.hasError('required','username')">Reset Password</button>
+  
   <div class="spin" *ngIf="spin">
     <span><mat-spinner style="zoom: .2;"></mat-spinner></span>
     <span>Logging in...</span>

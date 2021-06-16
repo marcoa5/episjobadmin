@@ -92,7 +92,7 @@ export class MachineComponent implements OnInit {
       this.rigLabels=[
         {value:this.valore, lab:'Serial Nr.',click:'',url:''},
         {value:this.model, lab:'Model',click:'',url:''},
-        {value:this.customer, lab:'Customer',click:this.customer,url:'cliente'},
+        {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.customer:'',url: this.pos!='sales'?'cliente':''},
         {value:this.site, lab:'Site',click:'',url:''}
       ]
     })

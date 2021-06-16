@@ -2,6 +2,9 @@ import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import firebase from 'firebase';
 import 'firebase/auth'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { ResetPwdComponent } from '../dialog/reset-pwd/reset-pwd.component'
+import { Router } from '@angular/router'
 
 
 
@@ -17,7 +20,8 @@ export class LoginComponent implements OnInit {
   stile:string="standard"
   spin:boolean=false
   form:any
-  constructor(fb: FormBuilder) {
+  chErr:boolean=false
+  constructor(fb: FormBuilder,private dialog: MatDialog, private router:Router) {
     this.form = fb.group({
       username: ['',[Validators.required, Validators.email]],
       password: ['',[Validators.required,Validators.minLength(6)]]
@@ -42,17 +46,29 @@ export class LoginComponent implements OnInit {
          var b = snap.val()
          this.uN = b.Nome.substring(0,1) + b.Cognome.substring(0,1)
          this.userN.emit(this.uN)
+         if(b.Pos=='sales') this.router.navigate(['rigs'])
          this.spin=false
+
        })
        .catch(err=>{
-         if(err) console.log(err)
-         this.spin=false
+        if(err) {
+          console.log(err)
+        }
+        this.spin=false
        })
     })
     .catch(err=>{
-      if (err) console.error(err)
-      this.spin=false
+      if (err) {
+        
+        this.chErr=true
+        this.spin=false
+        console.error(err)
+      }
     })
+  }
+
+  delChErr(){
+    this.chErr=false
   }
 
   c(a:FormGroup){
@@ -61,5 +77,24 @@ export class LoginComponent implements OnInit {
     if(b||d) return true
     return false
   }
+
+  reset(a:any){
+    const dialogconf = new MatDialogConfig();
+        dialogconf.disableClose=false;
+        dialogconf.autoFocus=false;
+        const dialogRef = this.dialog.open(ResetPwdComponent, {
+          data: {mail: a}
+        });
+  
+        dialogRef.afterClosed().subscribe(result => {
+          if(result!=undefined) {
+            firebase.auth().sendPasswordResetEmail(result)
+            .then(()=>alert(`Email sent to: ${result}`))
+            .catch((err)=>console.log(err))
+          }
+        })
+  }
+
+
 
 }

@@ -12,12 +12,20 @@ import 'firebase/database'
 export class CustomersComponent implements OnInit {
   filtro:any=''
   customers:any;
+  pos:string='';
   constructor(public router: Router, public bak:BackService) { }
 
-  ngOnInit(): void {     
-    firebase.database().ref('Customers').on('value', a=>{
-      this.customers = Object.values(a.val())
-    })
+  ngOnInit(): void {
+    firebase.auth().onAuthStateChanged(a=>{
+      firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
+        this.pos=b.val()
+      })
+    })     
+    if(this.pos!='sales'){
+      firebase.database().ref('Customers').on('value', a=>{
+        this.customers = Object.values(a.val())
+      })
+    }
   }
 
   open(a: String, b:string, c:string){

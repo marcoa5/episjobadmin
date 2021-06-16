@@ -10,9 +10,13 @@ import firebase from 'firebase'
 export class AuthComponent implements OnInit {
   pos:string|undefined
   rigs:any[]=[]
+  rigs1:any[]=[]
   filtro:string=''
   wid:boolean=true
   elenco:string=''
+  start:number=0
+  end:number=10
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -35,24 +39,24 @@ export class AuthComponent implements OnInit {
             a4: c.val().a4,
             a5: c.val().a5,
           })
+        }).then(()=>{
+          this.rigs1=this.rigs.slice(this.start,this.end)
         })
       })
     })
-    setTimeout(() => {
-      this.rigs.forEach(b=>{
-        let g = Object.values(b)
-        this.elenco+=(`${g[0]};${g[1]};${g[2]};${g[3]};${g[4]};${g[5]};${g[6]};${g[7]==undefined?0:g[7]}\n`)
-      })
-    }, 2000);
-    setTimeout(() => {
-      console.log(this.elenco)
-    }, 4000);
-    
-    
   }
 
-  filter(e:any){
-    this.filtro=e
+  filter(a:any){
+    if(a!=''){
+      this.filtro=a
+      this.rigs1 = this.rigs
+    } 
+    if (a=='') {
+      this.filtro=''
+      this.start=1
+      this.end =10
+      this.rigs1 = this.rigs.slice(0,10)
+    }
   }
 
   cl(e:any, a:string, b:string){
@@ -73,6 +77,16 @@ export class AuthComponent implements OnInit {
     if(b=='cu') this.router.navigate(['cliente', {cust1: a}])
   }
 
+  checkWidth(){
+    if(window.innerWidth>650) return true
+    return false
+  }
+
+  pageEvent(e:any){
+    this.start = e.pageIndex * e.pageSize 
+    this.end = e.pageIndex* e.pageSize + e.pageSize
+    this.rigs1=this.rigs.slice(this.start,this.end)
+  }
 
 
 }

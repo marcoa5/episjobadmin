@@ -7,7 +7,7 @@
     
 
   <div class="cont" *ngIf="start>-1" >
-        <mat-paginator *ngIf="filtro==''"  [length]="files.length"
+      <mat-paginator *ngIf="filtro==''"  [length]="files.length"
         [pageSize]="10"
         [pageSizeOptions]="lungh"
         (page)="pageEvent($event)">

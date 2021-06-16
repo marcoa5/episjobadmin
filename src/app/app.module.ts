@@ -60,6 +60,7 @@ import { AuthSingleRigComponent } from './comp/auth-single-rig/auth-single-rig.c
 import { RigTableComponent } from './comp/machine/rig-table/rig-table.component';
 import { TopMenuComponent } from './comp/machine/top-menu/top-menu.component';
 import { SegmentComponent } from './comp/newrig/segment/segment.component';
+import { ResetPwdComponent } from './comp/dialog/reset-pwd/reset-pwd.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -103,6 +104,7 @@ const appearance: MatFormFieldDefaultOptions = {
     RigTableComponent,
     TopMenuComponent,
     SegmentComponent,
+    ResetPwdComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,

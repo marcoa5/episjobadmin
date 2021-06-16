@@ -8,7 +8,7 @@
     width:100%;
     position:fixed;
     top:0; left:0;
-    height: 160px;
+    height: 230px;
     background-color: white;
     z-index: 1;
 }
@@ -26,7 +26,7 @@ td, th{
 
 th{
     position: sticky;
-    top: 140px;
+    top: 210px;
     z-index: 200;
     background-color: rgb(245,245,245);
     border-bottom: 1px solid $dark-text;
@@ -57,4 +57,10 @@ th{
     padding-top:100px;
     justify-content: center;
     align-items: flex-start;
+}
+
+.nav{
+    position:sticky;
+    top:140px;
+    z-index: 200;
 }
