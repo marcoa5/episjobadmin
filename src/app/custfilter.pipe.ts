@@ -8,8 +8,9 @@ export class CustfilterPipe implements PipeTransform {
   transform(items: any[], filter: string) {
     if(!items || !filter || filter=='') return items
     return items.filter(i=>{
+      console.log(i.c1)
       if(i.c1.toLowerCase().includes(filter.toLowerCase())){
-        return true
+        return i.c1
       }
       return false
     })

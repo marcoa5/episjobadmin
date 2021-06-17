@@ -17,5 +17,5 @@
             <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
         </mat-form-field>
     </form>
-    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="datiC(newC)" (info)="add($event, newC)"></episjob-add-cancelbuttons>
+    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="datiC(newC)" (info)="add(addUpd? 'addc':'updc', newC)"></episjob-add-cancelbuttons>
 </div>

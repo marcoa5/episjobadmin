@@ -11,7 +11,7 @@ export class TablefilterPipe implements PipeTransform {
         if(i.sn.toLowerCase().includes(filter.toLowerCase()) ||
         i.model.toLowerCase().includes(filter.toLowerCase()) ||
         i.customer.toLowerCase().includes(filter.toLowerCase())
-        ) return true
+        ) return i
       return false
     })
   }

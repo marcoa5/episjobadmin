@@ -87,7 +87,7 @@ export class NewrigComponent implements OnInit {
       firebase.database().ref('MOL/' + g[0].toUpperCase()).set({
         customer: g[3].toUpperCase(),
         in: g[4].toUpperCase()? g[4].toUpperCase(): '',
-        model: g[1].toUpperCase(),
+        model: g[1],
         site: g[2].toUpperCase(),
         sn: g[0].toUpperCase()
       })
@@ -112,7 +112,7 @@ export class NewrigComponent implements OnInit {
           firebase.database().ref('MOL/' + this.serial).set({
             customer: g[3].toUpperCase(),
             in: g[4].toUpperCase(),
-            model: g[1].toUpperCase(),
+            model: g[1],
             site: g[2].toUpperCase(),
             sn: g[0].toUpperCase()
           })

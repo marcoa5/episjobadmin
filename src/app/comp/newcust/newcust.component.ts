@@ -60,7 +60,12 @@ export class NewcustComponent implements OnInit {
   }
 
   add(e:any, a:FormGroup){
-    if(e=='newc'){
+    let g:cl ={
+      c1: a.get('name')?.value.toUpperCase(),
+      c2: a.get('address1')?.value.toUpperCase(),
+      c3: a.get('address2')?.value.toUpperCase()
+    }
+    if(e=='updc'){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -70,43 +75,24 @@ export class NewcustComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
-          let g:cl ={
-            c1: a.get('name')?.value,
-            c2: a.get('address1')?.value,
-            c3: a.get('address2')?.value
-          }
-          if(this.origin[0]==undefined) {
-            firebase.database().ref('Customers/'+g.c1.toUpperCase().replace(/\./g,'')).set({
-              c1: g.c1.toUpperCase(),
-              c2: g.c2.toUpperCase(),
-              c3: g.c3.toUpperCase()
-            }).then(()=>{
-              this.location.back()
-            })
-            .catch(err=> console.log(err))
-          }else {
-            firebase.database().ref('Customers/'+ this.origin[0].replace(/\./g,'')).remove()
-            .then(()=>{
-              firebase.database().ref('Customers/' + g.c1.toUpperCase().replace(/\./g,'')).set({
-                c1: g.c1?.toUpperCase(),
-                c2: g.c2?.toUpperCase(),
-                c3: g.c3?.toUpperCase()
+          firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
+          .then(()=>{
+            if(this.origin[0]!=g.c1){
+              firebase.database().ref('MOL/').orderByChild('customer').equalTo(this.origin[0].toUpperCase()).once('value',f=>{
+                Object.keys(f.val()).forEach(e=>{
+                  firebase.database().ref('MOL/' + e + '/customer').set(g.c1)
+                })
               })
-              .then(()=>{
-                if(this.origin[0]!=g.c1){
-                  firebase.database().ref('MOL/').orderByChild('customer').equalTo(this.origin[0].toUpperCase()).once('value',f=>{
-                    Object.keys(f.val()).forEach(e=>{
-                      firebase.database().ref('MOL/' + e + '/customer').set(g.c1.toUpperCase())
-                    })
-                  })
-                }
-                this.router.navigate(['customers'])
-              })
-            })
-          
-          }
+            }
+            this.location.back()
+          })
+          .catch(err=> console.log(err))
         }
-      });
+      })
+    } else if(e=='addc'){
+        firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
+        .then(()=>{this.location.back()})
+        .catch(err=> console.log(err))
     }
   }
 
