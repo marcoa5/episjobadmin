@@ -13,19 +13,25 @@ export class CustomersComponent implements OnInit {
   filtro:any=''
   customers:any;
   pos:string='';
+  ind:number=0
   constructor(public router: Router, public bak:BackService) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
-        this.pos=b.val()
+      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
+        this.pos=b.val().Pos
+        this.ind=b.val().Area
+      }).then(()=>{
+        if(this.pos!='sales'){
+          firebase.database().ref('Customers').on('value', a=>{
+            this.customers = Object.values(a.val())
+          })
+        } else {
+          
+        }
       })
-    })     
-    if(this.pos!='sales'){
-      firebase.database().ref('Customers').on('value', a=>{
-        this.customers = Object.values(a.val())
-      })
-    }
+    })
+    
   }
 
   open(a: String, b:string, c:string){

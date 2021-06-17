@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
       icon:'work', 
       route:'customers', 
       dis:false, 
-      auth:['SU','admin','tech']
+      auth:['SU','admin','tech','sales']
     },
     {
       id:'Equipment',
