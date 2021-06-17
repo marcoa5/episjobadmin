@@ -65,7 +65,7 @@ export class NewcustComponent implements OnInit {
       c2: a.get('address1')?.value.toUpperCase(),
       c3: a.get('address2')?.value.toUpperCase()
     }
-    if(e=='updc'){
+    if(e=='updc' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -89,7 +89,7 @@ export class NewcustComponent implements OnInit {
           .catch(err=> console.log(err))
         }
       })
-    } else if(e=='addc'){
+    } else if(e=='addc' && this.pos=='SU'){
         firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
         .then(()=>{this.location.back()})
         .catch(err=> console.log(err))
