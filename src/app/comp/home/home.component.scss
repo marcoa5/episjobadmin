@@ -1,3 +1,7 @@
+*{
+    --alt-bar: 60px;
+  }
+
 #start{
     display: grid;
     grid-template-columns:  repeat(auto-fill, minmax(150px,1fr));
@@ -28,3 +32,12 @@
     height: 100%;
     padding:0;
 }
+
+.spin{
+    position: fixed; top:var(--alt-bar); left: 0px;
+    display: flex;
+    width:100%;
+    padding-top: calc(var(--alt-bar) + 15px);
+    justify-content: center;
+    align-items: center;
+  }

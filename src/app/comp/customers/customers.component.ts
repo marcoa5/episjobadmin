@@ -20,14 +20,18 @@ export class CustomersComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos=b.val().Pos
-        this.ind=b.val().Area
-      }).then(()=>{
+        this.ind=b.val().Area.toString()
+        console.log(this.ind)
+      })
+      .then(()=>{
         if(this.pos!='sales'){
-          firebase.database().ref('Customers').on('value', a=>{
-            this.customers = Object.values(a.val())
+          firebase.database().ref('Customers').on('value', g=>{
+            this.customers = Object.values(g.val())
           })
         } else {
-          
+          firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',u=>{
+            console.log(Object.keys(u.val()))
+          })
         }
       })
     })

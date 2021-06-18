@@ -11,6 +11,7 @@ import 'firebase/database'
 })
 export class HomeComponent implements OnInit {
   pos:string=''
+  spin:boolean=true
   buttons:any = [
     {
       id:'Customers',
@@ -69,6 +70,9 @@ export class HomeComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
         this.pos=b.val()
+      })
+      .then(()=>{
+        this.spin=false
       })
     })
   }
