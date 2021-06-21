@@ -195,7 +195,8 @@ export class MachineComponent implements OnInit {
   }
 
   de(a:string){
-    const dialogconf = new MatDialogConfig();
+    if(this.pos=='SU'){
+      const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(DeldialogComponent, {
@@ -208,6 +209,7 @@ export class MachineComponent implements OnInit {
         }
       });
     }
+  }
 
     up(e:any){
       let a:string = e[0]
