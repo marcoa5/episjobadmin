@@ -17,6 +17,7 @@
                    <th class="c">Serial</th> 
                    <th class="c" *ngIf="wid">Model</th> 
                    <th class="c" *ngIf="wid">Customer</th> 
+                   <th class="c" *ngIf="wid">Site</th> 
                    <th>1</th> 
                    <th>2</th> 
                    <th>3</th> 
@@ -27,6 +28,7 @@
                     <td class="c" (click)="go(r.sn, 'sn')" class="poi">{{r.sn}}</td>
                     <td class="c" *ngIf="wid">{{r.model}}</td>
                     <td class="c" *ngIf="wid"  (click)="go(r.customer, 'cu')" class="poi">{{r.customer}}</td>
+                    <td class="c" *ngIf="wid">{{r.site}}</td>
                     <td><mat-checkbox [checked]="r.a1==1? true: false" (change)="cl($event, r.sn, 'a1')"></mat-checkbox></td>
                     <td><mat-checkbox [checked]="r.a2==1? true: false" (change)="cl($event, r.sn, 'a2')"></mat-checkbox></td>
                     <td><mat-checkbox [checked]="r.a3==1? true: false" (change)="cl($event, r.sn,'a3')"></mat-checkbox></td>

@@ -1,23 +1,27 @@
 @import '../../../epi.scss';
 
 .cont{
-    margin: 80px 10px 30px 10px;    
+    margin: 80px 10px 30px 10px;   
+     
 }
 
-.cover{
+/*.cover{
     width:100%;
     position:fixed;
     top:0; left:0;
     height: 230px;
     background-color: white;
     z-index: 1;
-}
+}*/
 
 table{
     max-width: 100%;
     border-collapse: collapse;
     resize:both;
+    position: sticky;
+    top: 210px;
 }
+
 
 td, th{
     text-align: center; 
@@ -25,8 +29,8 @@ td, th{
 }
 
 th{
-    position: sticky;
-    top: 210px;
+    /*position: sticky;
+    top: 210px;*/
     z-index: 200;
     background-color: rgb(245,245,245);
     border-bottom: 1px solid $dark-text;

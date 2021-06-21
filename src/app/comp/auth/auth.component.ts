@@ -33,6 +33,7 @@ export class AuthComponent implements OnInit {
             sn: b.val().sn, 
             customer: b.val().customer,
             model: b.val().model,
+            site: b.val().site,
             a1: c.val().a1,
             a2: c.val().a2,
             a3: c.val().a3,
