@@ -64,7 +64,7 @@ export class AuthComponent implements OnInit {
 
   cl(e:any, a:string, b:string){
     let g = e.checked? 1 : 0
-    firebase.database().ref('RigAuth/' + a).child(b).set(g)
+    firebase.database().ref('RigAuth/' + a).child(b).set(g.toString())
   }
 
   res(){

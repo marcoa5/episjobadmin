@@ -32,7 +32,6 @@ export class CustomersComponent implements OnInit {
             
           })
         } else {
-          
           firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{
             Object.keys(a.val()).map(b=>{
               firebase.database().ref('MOL').child(b).child('customer').once('value',c=>{

@@ -11,6 +11,8 @@ import { BackService } from '../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
+import { Location } from '@angular/common'
+
 export interface hrsLabel {
   lab: string
   value: any
@@ -57,7 +59,7 @@ export class MachineComponent implements OnInit {
   engAvg:string=''
   impAvg:any[]=[]
   lr:string=''
-  constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
+  constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
     Chart.register()
@@ -207,6 +209,7 @@ export class MachineComponent implements OnInit {
         if(result!=undefined && this.pos=='SU') {
           firebase.database().ref(`Hours/${this.valore}/${result}`).remove()
           this.f(1)
+          this.location.back()
         }
       });
     }
@@ -229,6 +232,7 @@ export class MachineComponent implements OnInit {
             //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
             firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
             this.f(1)
+            this.location.back()
           }
         });
       }
