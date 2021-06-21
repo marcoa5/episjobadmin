@@ -232,7 +232,6 @@ export class MachineComponent implements OnInit {
             //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
             firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
             this.f(1)
-            this.location.back()
           }
         });
       }
