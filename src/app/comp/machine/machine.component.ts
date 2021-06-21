@@ -55,6 +55,7 @@ export class MachineComponent implements OnInit {
   dataCom:string=''
   engAvg:string=''
   impAvg:any[]=[]
+  lr:string=''
   constructor(private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
@@ -101,11 +102,22 @@ export class MachineComponent implements OnInit {
       .then(()=>{
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
-        if(this.data[0]!=undefined) this.infoH=`Running Hours @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+        //if(this.data[0]!=undefined) this.infoH=`Running Hours ${this.lr}`
         if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
+        this.lastRead()
       })
       .catch((a)=>{console.log(a,'no data')})
     })      
+  }
+
+  lastRead(){
+    if(this.checkComm()==1 && this.datafil[0].y=='c') {
+      this.infoH= 'Running Hours'
+    } else if(this.checkComm()>0 && this.datafil[0].y!='c') {
+      this.infoH = `Running Hours @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+    } else {
+      this.infoH= 'Running Hours'
+    }
   }
 
   loadData(){
@@ -245,7 +257,8 @@ export class MachineComponent implements OnInit {
   calcolaOrem(){
     if (this.g1) this.g1.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('orem')
-    var ctx = canvas.getContext('2d')
+    var ctx 
+    if (canvas!=null) ctx = canvas.getContext('2d')
     if(ctx){
       this.g1 = new Chart(ctx, {
         type: 'line',
@@ -278,7 +291,8 @@ export class MachineComponent implements OnInit {
   calcolaPerc1(){
     if (this.g2) this.g2.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('perc1')
-    var ctx = canvas.getContext('2d')
+    var ctx 
+    if (canvas!=null) ctx = canvas.getContext('2d')
     let col1:string='rgb(112,173,71)'
     let col2:string='rgb(91,155,213)'
     let col3:string='rgb(237,125,49)'
@@ -336,6 +350,7 @@ export class MachineComponent implements OnInit {
     this.inizio=e[0]
     this.fine=e[1]
     this.filter(e[0],e[1])
+    this.lastRead()
   }
 
   avgHrs(){
@@ -374,10 +389,12 @@ export class MachineComponent implements OnInit {
     } else {
       this.impAvg = []
     }
+  }
 
-
-
-
+  checkComm() : number{
+    if(this.datafil.length==1) return 1
+    if(this.datafil.length==0) return 0
+    return 2
   }
 }
  
