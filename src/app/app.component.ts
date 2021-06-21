@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase/app'
 import 'firebase/database'
-import { Location } from '@angular/common'
+
 const firebaseConfig = {
   apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
   authDomain: "epi-serv-job.firebaseapp.com",
@@ -28,13 +28,13 @@ export class AppComponent {
   showFiller:boolean=false;
   
   ngOnInit(){
-    firebase.default.initializeApp(firebaseConfig)
+    firebase.initializeApp(firebaseConfig)
     this.onResize()
-    firebase.default.auth().onAuthStateChanged(a=>{
+    firebase.auth().onAuthStateChanged(a=>{
       if(!a) {
         this.userN = 'null'
       } else {
-        firebase.default.database().ref('Users/' + a.uid). once('value',s=>{
+        firebase.database().ref('Users/' + a.uid). once('value',s=>{
           this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
           this.userT=s.val().Pos
         })
@@ -55,7 +55,7 @@ export class AppComponent {
   }
 
   logout(){
-    firebase.default.auth().signOut()
+    firebase.auth().signOut()
   }
 
   userExists(){

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'

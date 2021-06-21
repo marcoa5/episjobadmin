@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import firebase from 'firebase'
-import 'firebase/storage'
+import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/database'
+import 'firebase/storage'
 import{ BackService } from '../../serv/back.service'
 
 @Component({

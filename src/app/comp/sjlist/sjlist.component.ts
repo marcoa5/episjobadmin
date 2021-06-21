@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import firebase from 'firebase'
-import 'firebase/storage'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 import { Router } from '@angular/router'
 import * as moment from 'moment'

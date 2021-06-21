@@ -1,11 +1,10 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Location } from '@angular/common'
-import { Router } from '@angular/router'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/database'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component';
-import { UpddialogComponent } from '../dialog/upddialog/upddialog.component'
 
 @Component({
   selector: 'episjob-editdelbut',

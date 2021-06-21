@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackService } from '../../serv/back.service'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 import { UserposService } from '../../serv/userpos.service'
 

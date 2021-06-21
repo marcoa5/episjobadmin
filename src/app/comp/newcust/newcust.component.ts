@@ -5,9 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog'
 import { UpddialogComponent } from '../dialog/upddialog/upddialog.component'
-import firebase from 'firebase'
-import 'firebase/database'
+import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/database'
 
 export interface cl {
   c1: string

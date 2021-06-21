@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { Router } from '@angular/router'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 
 @Component({

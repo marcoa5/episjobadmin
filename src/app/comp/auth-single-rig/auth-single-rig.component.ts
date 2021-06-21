@@ -1,6 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/database'
+
 @Component({
   selector: 'episjob-auth-single-rig',
   templateUrl: './auth-single-rig.component.html',

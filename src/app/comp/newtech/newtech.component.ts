@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'

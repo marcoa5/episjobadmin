@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { VirtualTimeScheduler } from 'rxjs';
-
 
 @Component({
   selector: 'episjob-rig-table',

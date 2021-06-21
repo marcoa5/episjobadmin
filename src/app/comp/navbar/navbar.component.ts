@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BackService } from '../../serv/back.service'
 import { Router } from '@angular/router'
 
 @Component({

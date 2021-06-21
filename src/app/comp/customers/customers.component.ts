@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { BackService }  from '../../serv/back.service'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/database'
 
 @Component({
@@ -30,30 +31,22 @@ export class CustomersComponent implements OnInit {
             this.customers = Object.values(g.val())
             
           })
-        } /*else {
-          firebase.database().ref('Customers/').once('value',kj=>{
-            this.custSales = kj.val()
-            //console.log(this.custSales)
-          })
-          .then(()=>{
-            firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',u=>{
-              u.forEach(g=>{
-                firebase.database().ref('MOL/' + g.key).child('customer').once('value',hg=>{
-                  let fre = hg.val().replace('/00','')
-                  firebase.database().ref('Customers/').child(fre.replace(/\./g,'')).once('value',tr=>{
-                    let f:any = (Object.values(tr.val())[0])
-                    let s = f.toString()
-                    console.log(s)
-                    if(tr.val()!=null && !JSON.stringify(this.customers).includes(s)) {
-                      this.customers.push(tr.val())
-                    }
-                  })
-                  .catch(()=>{})
+        } else {
+          
+          firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{
+            Object.keys(a.val()).map(b=>{
+              firebase.database().ref('MOL').child(b).child('customer').once('value',c=>{
+                let nb=c.val().replace(/\./g,'').replace('/00','').replace('/','').replace(' & ','')
+                firebase.database().ref('Customers').child(nb).once('value',d=>{
+                  if(d.val()!==null && !this.custSales.includes(nb)) {
+                    this.custSales.push(nb)
+                    this.customers.push(d.val())
+                  }
                 })
               })
             })
           })
-        }*/
+        } 
       })
     })
   }
