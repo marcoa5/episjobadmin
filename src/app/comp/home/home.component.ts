@@ -62,6 +62,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','admin','','']
     },
+    {
+      id:'Report',
+      icon:'receipt_long', 
+      route:'report', 
+      dis:false, 
+      auth:['SU','admin','','']
+    },
   ];
 
   constructor(public router :Router) { }

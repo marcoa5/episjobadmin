@@ -14,6 +14,7 @@ import { NewrigComponent } from './comp/newrig/newrig.component'
 import { UsersComponent } from './comp/users/users.component'
 import { NewuserComponent } from './comp/newuser/newuser.component'
 import { AuthComponent } from './comp/auth/auth.component'
+import { ReportComponent } from './comp/report/report.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent },
   {path: 'newuser', component: NewuserComponent},
   {path: 'auth', component: AuthComponent},
+  {path: 'report', component: ReportComponent},
 
 ];
 
