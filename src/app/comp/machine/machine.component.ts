@@ -127,20 +127,22 @@ export class MachineComponent implements OnInit {
     return new Promise((res,rej)=>{
       this.data=[]
       firebase.database().ref('Hours/' + this.valore).on('value',f=>{
-        let r = Object.keys(f.val()).length
-        if(r==0) rej('failed')
-        f.forEach(g=>{
-          var h:any
-          if(g.key){
-            let anno = parseInt(g.key.substring(0,4)) 
-            let mese = parseInt(g.key.substring(4,6))-1 
-            let giorno = parseInt(g.key.substring(6,8)) 
-            this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
-            h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
-          }
-          if(h!=undefined) this.data.push(h)
-          if(this.data.length == r) {res('ok')}
-        })
+        if(f.val()!=null || f.val()!=undefined){
+          let r = Object.keys(f.val()).length
+          if(r==0) rej('failed')
+          f.forEach(g=>{
+            var h:any
+            if(g.key){
+              let anno = parseInt(g.key.substring(0,4)) 
+              let mese = parseInt(g.key.substring(4,6))-1 
+              let giorno = parseInt(g.key.substring(6,8)) 
+              this.day = moment(new Date(anno,mese,giorno)).format("YYYY-MM-DD")
+              h={x:this.day, y:g.val().orem, y1:g.val().perc1, y2:g.val().perc2, y3:g.val().perc3}
+            }
+            if(h!=undefined) this.data.push(h)
+            if(this.data.length == r) {res('ok')}
+          })
+        }
       })
     })
   }

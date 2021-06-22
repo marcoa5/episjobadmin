@@ -70,6 +70,7 @@ export class SegmentComponent implements OnInit {
       this.seg.get('subC')?.setValue(this.values[0].subCat)
       this.seg.get('segm')?.setValue(this.values[0].segment)
     }
+    this.ch(this.seg)
   }
 
   ch(a: FormGroup){

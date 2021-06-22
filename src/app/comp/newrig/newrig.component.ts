@@ -67,12 +67,13 @@ export class NewrigComponent implements OnInit {
         })
       } else {
         this.rou=['rigs']
-      }      
+      }
     })
     firebase.database().ref('Customers').on('value',a=>{
       a.forEach(b=>{
         this.customers.push(b.val().c1)
-      })})
+      })
+    })
   }
 
   datiC(a:FormGroup){
@@ -100,7 +101,6 @@ export class NewrigComponent implements OnInit {
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
     }
     if(a=='updr' && this.pos=='SU'){
-      console.log(this.serial)
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -117,8 +117,8 @@ export class NewrigComponent implements OnInit {
             site: g[2].toUpperCase(),
             sn: g[0].toUpperCase()
           })
-          //this.childAdd['sn']=g[0].toUpperCase()
-          //firebase.database().ref('Categ/'+ this.serial).set(this.childAdd)
+          this.childAdd['sn']=g[0].toUpperCase()
+          firebase.database().ref('Categ/'+ this.serial).set(this.childAdd)
           this.router.navigate(['machine', {sn: this.serial}])
         }
       })
