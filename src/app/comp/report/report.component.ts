@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import firebase from 'firebase/app';
+import 'firebase/database'
 
 @Component({
   selector: 'episjob-report',
@@ -7,15 +9,9 @@ import { HttpClient } from '@angular/common/http'
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-
+  users: any[]=[]
   constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-  }
-
-  test(){
-    this.http.get('api/status').subscribe(a=>{
-      console.log(a)
-    })
   }
 }

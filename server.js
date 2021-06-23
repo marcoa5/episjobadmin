@@ -1,31 +1,38 @@
 var express = require("express");
-// Use body-parser
 var bodyParser = require("body-parser");
-
-// Create new instance of the express server
+const admin = require('firebase-admin')
+const ServiceAccount = require('./key.json')
+const port = process.env.PORT || 8080
 var app = express();
 
-// Define the JSON parser as a default way 
-// to consume and produce data through the 
-// exposed APIs
-app.use(bodyParser.json());
-
-// Create link to Angular build directory
-// The `ng build` command will save the result
-// under the `dist` folder.
-var distDir = __dirname + "/dist/episjobadmin";
-app.use(express.static(distDir));
-
-// Init the server
-var server = app.listen(process.env.PORT || 8080, function () {
-    var port = server.address().port;
-    console.log("App now running on port", port);
+admin.initializeApp({
+    credential: admin.credential.cert(ServiceAccount),
+    databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com"
 });
 
-/*  "/api/status"
- *   GET: Get server status
- *   PS: it's just an example, not mandatory
- */
+
+var distDir = __dirname + "/dist/episjobadmin";
+app.use(express.static(distDir))
+
 app.get("/api/status", function (req, res) {
     res.status(200).json({ status: "UP" });
 });
+
+app.get("/api/getusers", function (req,res){
+    admin.auth().listUsers(1000)
+    .then(a=>{
+        res.status(200).json(a)
+    })
+    
+});
+
+/*app.get('/api/*', (req,res)=>{
+    res.status(200).json({response: '404 - Page not Found'})
+})*/
+
+
+app.listen(port, function () {
+    console.log("App now running on port", port);
+});
+
+
