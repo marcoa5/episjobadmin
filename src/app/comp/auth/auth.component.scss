@@ -2,17 +2,15 @@
 
 .cont{
     margin: 80px 10px 30px 10px;   
-     
 }
 
-/*.cover{
+.cover{
     width:100%;
     position:fixed;
     top:0; left:0;
-    height: 230px;
     background-color: white;
     z-index: 1;
-}*/
+}
 
 table{
     max-width: 100%;
@@ -22,19 +20,22 @@ table{
     top: 210px;
 }
 
+th{
+    border-bottom: 1px solid black;
+}
 
 td, th{
     text-align: center; 
     padding: 10px 0;    
 }
 
-th{
-    /*position: sticky;
-    top: 210px;*/
-    z-index: 200;
+.title{
+    position: sticky;
+    top: 210px;
     background-color: rgb(245,245,245);
-    border-bottom: 1px solid $dark-text;
+    //border-bottom: 1px solid $dark-text;
     border-radius: 5px 5px 0 0;
+    z-index: 200;
 }
 
 .c{

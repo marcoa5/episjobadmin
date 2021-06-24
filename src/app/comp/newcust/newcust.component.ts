@@ -70,11 +70,12 @@ export class NewcustComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {name: this.origin[0]!=undefined?this.origin[0]: ''}
+        data: {name: this.origin[0]!=undefined?this.origin[0].replace(/\./g,''): ''}
       });
   
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
+          firebase.database().ref('Customers/'+this.origin[0].replace(/\./g,'')).remove()
           firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
           .then(()=>{
             if(this.origin[0]!=g.c1){
@@ -84,7 +85,7 @@ export class NewcustComponent implements OnInit {
                 })
               })
             }
-            this.location.back()
+            this.router.navigate(['cliente',{cust1:g.c1.replace(/\./g,'')}])
           })
           .catch(err=> console.log(err))
         }

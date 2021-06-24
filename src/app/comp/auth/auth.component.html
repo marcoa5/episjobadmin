@@ -4,7 +4,7 @@
     </div>
     <div *ngIf="rigs.length>0 && checkWidth()">
         <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
-        <div class="cover"></div>
+        <div class="cover" [ngStyle]="{'height': filtro==''?'205px' : '145px'}"></div>
         <div class="cont" (window:resize)="res()">
             <mat-paginator *ngIf="filtro==''"  [length]="rigs.length"
                 [pageSize]="10"
@@ -13,11 +13,11 @@
             </mat-paginator>
             <div class="tabcont">
               <table style="width:100%">
-                <tr>
-                   <th class="c">Serial</th> 
+                <tr class="title" [ngStyle]="{'top': filtro==''? '210px': '140px'}">
+                   <th class="c" >Serial</th> 
                    <th class="c" *ngIf="wid">Model</th> 
                    <th class="c" *ngIf="wid">Customer</th> 
-                   <th class="c" *ngIf="wid">Site</th> 
+                   <th class="c"*ngIf="wid">Site</th> 
                    <th>1</th> 
                    <th>2</th> 
                    <th>3</th> 

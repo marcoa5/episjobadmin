@@ -29,6 +29,19 @@ export class ClienteComponent implements OnInit {
   constructor(public route: ActivatedRoute, private bak: BackService, private router: Router) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(a=>{
+      this.cust1=a.cust1
+      firebase.database().ref('Customers/').child(this.cust1.replace(/\./g,'').replace('/','')).on('value', g=>{
+        this.cust2=g.val().c2
+        this.cust3=g.val().c3
+        this.infoLabels =[
+          {value:this.cust1,lab:'Customer Name',click:'', url:''},
+          {value:g.val().c2,lab:'Address 1',click:'', url:''},
+          {value:g.val().c3,lab:'Address 2',click:'', url:''}
+        ]
+      })
+    })
+
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos=b.val().Pos
@@ -50,19 +63,7 @@ export class ClienteComponent implements OnInit {
           })
       })
     })
-    this.route.params.subscribe(a=>{
-      this.cust1=a.cust1
-      firebase.database().ref('Customers/' + this.cust1.replace(/\./g,'')).on('value', g=>{
-        this.cust2=g.val().c2
-        this.cust3=g.val().c3
-        this.infoLabels =[
-          {value:this.cust1,lab:'Customer Name',click:'', url:''},
-          {value:g.val().c2,lab:'Address 1',click:'', url:''},
-          {value:g.val().c3,lab:'Address 2',click:'', url:''}
-        ]
-      })
-    })
-    }
+  }
 
   back(){
     this.bak.backP()
