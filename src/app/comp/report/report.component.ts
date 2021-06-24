@@ -14,4 +14,10 @@ export class ReportComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  test(){
+    this.http.get('api/getusers').subscribe(a=>{
+      console.log(a)
+    })
+  }
 }

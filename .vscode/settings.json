@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/3d404f3a-5bac-4ecd-9a09-a8b63591c213/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/episjobadmin",
+    "appService.deploySubpath": "."
+}
