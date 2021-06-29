@@ -31,17 +31,25 @@ export class AuthComponent implements OnInit {
     .once('value',a=>{
       a.forEach(b=>{
         firebase.database().ref('RigAuth/' + b.val().sn).once('value',c=>{
-          this.rigs.push({
-            sn: b.val().sn, 
-            customer: b.val().customer,
-            model: b.val().model,
-            site: b.val().site,
-            a1: c.val().a1,
-            a2: c.val().a2,
-            a3: c.val().a3,
-            a4: c.val().a4,
-            a5: c.val().a5,
-          })
+          try{
+            this.rigs.push({
+              sn: b.val().sn, 
+              customer: b.val().customer,
+              model: b.val().model,
+              site: b.val().site,
+              a1: c.val().a1,
+              a2: c.val().a2,
+              a3: c.val().a3,
+              a4: c.val().a4,
+              a5: c.val().a5,
+              a98: c.val().a98,
+              a99: c.val().a99,
+            })
+          }
+          catch{
+            console.log(b.val())
+          }
+          
         }).then(()=>{
           this.rigs1=this.rigs.slice(this.start,this.end)
         })

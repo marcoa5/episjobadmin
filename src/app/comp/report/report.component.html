@@ -1,6 +1,24 @@
 <episjob-navbar [title]="'Reports'" [cerca]="false"></episjob-navbar>
+
+
+
 <div class="cont">
 
-    <button mat-raised-button (click)="test()">prova</button>
-    <button mat-raised-button (click)="test()">prova1</button>
+
+    <button mat-raised-button (click)="report()">Download</button>
+
+    <table id="excel-table">
+        <tr>
+            <th *ngFor="let f of ths">{{f}}</th>
+        </tr>
+        <tr *ngFor="let g of sns">
+            <td>{{g.matricola}}</td>
+            <td>{{g.data}}</td>
+            <td [attr.colspan]="g.orem=='Commissioning'? 4 : 1">{{(g.orem==0 || g.orem=='0')? '' : g.orem}}</td>
+            <td *ngIf="g.orem=='Commissioning'? false : true">{{(g.perc1==0 || g.perc1=='0'? '' : g.perc1)}}</td>
+            <td *ngIf="g.orem=='Commissioning'? false : true">{{(g.perc2==0 || g.perc2=='0'? '' : g.perc2)}}</td>
+            <td *ngIf="g.orem=='Commissioning'? false : true">{{(g.perc3==0 || g.perc3=='0'? '' : g.perc3)}}</td>
+        </tr>
+        
+    </table>
 </div>

@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
       id:'Contracts',
       icon:'description', 
       route:'contracts', 
-      dis:false, 
+      dis:true, 
       auth:['SU','admin','','']
     },
     {
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
       id:'Report',
       icon:'receipt_long', 
       route:'report', 
-      dis:false, 
+      dis:true, 
       auth:['SU','admin','','']
     },
   ];
