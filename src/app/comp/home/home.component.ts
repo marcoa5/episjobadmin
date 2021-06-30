@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   spin:boolean=true
   buttons:any = [
     {
-      id:'Customers',
+      id:'Companies',
       icon:'work', 
       route:'customers', 
       dis:false, 
