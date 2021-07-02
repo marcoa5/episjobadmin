@@ -10,8 +10,8 @@ export class RigTableComponent implements OnInit {
   @Input() pos:string=''
   @Output() action1 = new EventEmitter()
   @Output() action2 = new EventEmitter()
-  displayedColumns: string[] = ['Date', 'Engine', 'Perc1', 'Perc2', 'Perc3'];
   ore:any
+  displayedColumns: string[]=['Date', 'Engine']
   constructor() { }
 
   ngOnInit(): void {
@@ -19,6 +19,8 @@ export class RigTableComponent implements OnInit {
   }
 
   ngOnChanges(){
+    this.ore=[]
+    this.displayedColumns=['Date', 'Engine']
     this.ore = this.dataSource.map((i: { x:any,y: any; y1: any; y2: any; y3: any; })=>{
       return {
         x: i.x,
@@ -28,6 +30,16 @@ export class RigTableComponent implements OnInit {
         y3: this.th(i.y3),
       }
     })
+
+    if(this.ore[0].y=='c') this.ore[0].y=0
+    if(this.ore[0].y1=='c') this.ore[0].y1=0
+    if(this.ore[0].y2=='c') this.ore[0].y2=0
+    if(this.ore[0].y3=='c') this.ore[0].y3=0
+    if(this.ore[1] && (this.ore[1].y1!=undefined && this.ore[1].y1!='0')) this.displayedColumns.push('Perc1')
+    if(this.ore[1] && (this.ore[1].y2!=undefined && this.ore[1].y2!='0')) this.displayedColumns.push('Perc2')
+    if(this.ore[1] && (this.ore[1].y3!=undefined && this.ore[1].y3!='0')) this.displayedColumns.push('Perc3')
+    console.log(this.ore)
+
   }
 
   up(a:any,b:any,c:any){

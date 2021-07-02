@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { UserposService } from '../../serv/userpos.service'
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'episjob-rigs',
@@ -14,6 +15,7 @@ import { UserposService } from '../../serv/userpos.service'
 export class RigsComponent implements OnInit {
   rigs:any[] =[];
   rigs1:any[] =[];
+  cat:any
   oldPosition:number=0;
   currentPosition:number=0;
   scrollaV:boolean =true;
@@ -34,7 +36,7 @@ export class RigsComponent implements OnInit {
         this.iniz=b.val().Area
       })
       .then(()=>{
-        firebase.database().ref('MOL').on('value', snap=>{
+        firebase.database().ref('MOL').once('value', snap=>{
           this.rigs=Object.values(snap.val())
           if(this.pos=='sales'){
             firebase.database().ref('RigAuth/').once('value',b=>{
@@ -51,9 +53,36 @@ export class RigsComponent implements OnInit {
           }
           this.scrollaV = true
         })
-      })
+        .then(()=>{
+          firebase.database().ref('Categ').once('value',h=>{
+            Object.values(h.val()).map(g=>{
+              let e:any = g
+              this.rigs1.map(v=>{
+                if(v.sn ==e.sn) {
+                  v.div=e.div
+                  v.subCat = e.subCat
+                  v.path1 = "../../../assets/Rigs/" + e.subCat + ".png"
+                  this.imageExists(v.path1, (fd)=>{
+                    if(fd==true) {
+                      v.path = "../../../assets/Rigs/" + e.subCat + ".png"
+                    } else {
+                      v.path=''
+                    }
+                  })
+                }
+              })
+            })
+          })
+        })
+      }) 
     })
-    
+  }
+
+  imageExists(url: string, callback: (arg0: boolean) => void) {
+    var img = new Image();
+    img.onerror = function() { callback(false); };
+    img.onload = function() { callback(true); };
+    img.src = url;
   }
 
   back(){

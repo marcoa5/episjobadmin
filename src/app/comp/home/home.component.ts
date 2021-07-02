@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
       id:'Report',
       icon:'receipt_long', 
       route:'report', 
-      dis:true, 
+      dis:false, 
       auth:['SU','admin','','']
     },
   ];

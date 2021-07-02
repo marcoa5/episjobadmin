@@ -6,10 +6,17 @@
 <div class="cont" *ngIf="rigs1">
       <div class="card" *ngFor="let rig of rigs1 | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
         <h3 class="rigT">s/n: {{rig.sn}}</h3>
-        <h4 class="l2">{{rig.model}}</h4>
-        <h4 class="l2">{{rig.in}}</h4>
-        <p class="l2">{{rig.customer}}</p>
-        <p class="l3">{{rig.site || 'SITE UNKNOWN'}}</p>
+        <div class="gr">
+          <div class="te">
+            <h4 class="l2">{{rig.model}}</h4>
+            <h4 class="l2">{{rig.in}}</h4>
+            <p class="l2">{{rig.customer}}</p>
+            <p class="l3">{{rig.site || 'SITE UNKNOWN'}}</p>  
+          </div>
+          <div class="cat"*ngIf="rig.path!=''">
+            <img [src]="rig.path!=undefined?rig.path : ''" width=100 >
+          </div>
+        </div>
       </div>
 </div>
 

@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import firebase from 'firebase/app'
+import 'firebase/database'
 import * as moment from 'moment'
-import firebase from 'firebase/app';
-import * as XLSX from 'xlsx'
-import { validateBasis } from '@angular/flex-layout';
 
 @Component({
   selector: 'episjob-report',
@@ -10,39 +9,41 @@ import { validateBasis } from '@angular/flex-layout';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  users: any[]=[]
-  sns:any[]=[]
-  ths:any[]=[]
+  rigs:any[]=[]
+  mac: any
   constructor() { }
 
   ngOnInit(): void {
-    firebase.database().ref('Hours').once('value',a=>{
-      console.log(JSON.parse(a.val()))
-      const ws: XLSX.WorkSheet =XLSX.utils.json_to_sheet(Object.values(a.val()))
-      const wb: XLSX.WorkBook = XLSX.utils.book_new()
-      XLSX.utils.book_append_sheet(wb, ws, 'Export')
-      XLSX.writeFile(wb, 'test.xlsx')
 
-      /*let len = a.val()
-      a.forEach(b=>{
-        b.forEach(c=>{
-          this.sns.push({
-            matricola:b.key,
-            data:new Date(moment(c.key).format('YYYY-MM-DD')),
-            orem:c.val().orem=='c'? 'Commissioning': c.val().orem,
-            perc1:c.val().orem=='c'? '': c.val().perc1,
-            perc2:c.val().orem=='c'? '': c.val().perc2,
-            perc3:c.val().orem=='c'? '': c.val().perc3,
-          })
-          this.ths=['Serial nr','Date','Eng Hrs', 'Perc 1', 'Perc 2', 'Perc 3']
-        })
-      })*/
-    })
   }
 
-  report(){
-    
-
+  all(){
+    firebase.database().ref('MOL').once('value',a=>{
+      //this.rigs = Object.values(a.val())
+      Object.keys(a.val()).map(b=>{
+        firebase.database().ref('Hours/'+b).limitToLast(1).once('value',c=>{
+          let g, lastread, ore:any
+          if (c.val()!=null) {
+            ore = Object.values(c.val())[0]
+            g = Object.keys(c.val())[0]
+            let f = `${g.substring(0,4)}-${g.substring(4,6)}-${g.substring(6,8)}`
+            lastread = moment(new Date(f)).format('DD/MM/YYYY')
+          }
+          this.rigs.push({
+            sn: a.val()[b].sn,
+            in: a.val()[b].in,
+            site: a.val()[b].site,
+            model: a.val()[b].model,
+            customer: a.val()[b].customer,
+            lastread: lastread?lastread:'',
+            orem: lastread?ore.orem:'',
+            perc1: lastread?ore.perc1:'',
+            perc2: lastread?ore.perc2:'',
+            perc3: lastread?ore.perc3:'',
+          })
+        })
+      })
+    })
   }
   
 }

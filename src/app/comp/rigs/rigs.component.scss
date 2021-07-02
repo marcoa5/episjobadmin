@@ -76,3 +76,12 @@
     overflow: hidden;
 }
 
+.gr{
+   display: grid;
+   grid-template-columns: 65% 35%; 
+}
+
+img{
+    position: absolute;
+}
+
