@@ -1,4 +1,6 @@
-<div class="txtcont">
+<episjob-spin *ngIf="values.length==0"></episjob-spin>
+
+<div class="txtcont" *ngIf="values.length>0">
     <div *ngFor="let h of values" class="divtxt" [ngStyle]="{'visibility': h.value? 'none' : 'hidden'}">
         <div  *ngIf="h.value" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
             <div class="txtlabel">{{h.lab}}</div>

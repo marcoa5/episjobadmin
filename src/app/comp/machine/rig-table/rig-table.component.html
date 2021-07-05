@@ -1,4 +1,6 @@
-<div class="tablecont">
+<episjob-spin *ngIf="!dataSource"></episjob-spin>
+
+<div class="tablecont" *ngIf="dataSource">
     <table mat-table [dataSource]="ore" class="mat-elevation-z0" [ngStyle]="{'cursor' : pos=='SU'? 'pointer' : 'standard'}">
         <ng-container matColumnDef="Date">
         <th mat-header-cell *matHeaderCellDef> Date </th>

@@ -1,7 +1,6 @@
 <div *ngIf="pos=='SU' || pos=='admin'">
-    <div class="spin" *ngIf="rigs.length==0">
-        <mat-spinner color="accent"></mat-spinner>
-    </div>
+
+    <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
         <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
         <div class="cover" [ngStyle]="{'height': filtro==''?'210px' : '145px'}"></div>

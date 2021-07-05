@@ -1,11 +1,6 @@
 <div *ngIf="pos=='SU' || pos=='admin'">
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
-    <div id="spin" *ngIf="start<0">
-      <mat-spinner color="accent"></mat-spinner>
-    </div>
-
-    
-
+  <episjob-spin *ngIf="start<0"></episjob-spin>>
   <div class="cont" *ngIf="start>-1" >
       <mat-paginator *ngIf="filtro==''"  [length]="files.length"
         [pageSize]="10"

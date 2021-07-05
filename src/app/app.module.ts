@@ -62,6 +62,7 @@ import { TopMenuComponent } from './comp/machine/top-menu/top-menu.component';
 import { SegmentComponent } from './comp/newrig/segment/segment.component';
 import { ResetPwdComponent } from './comp/dialog/reset-pwd/reset-pwd.component';
 import { ReportComponent } from './comp/report/report.component';
+import { SpinComponent } from './comp/util/spin/spin.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -107,6 +108,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SegmentComponent,
     ResetPwdComponent,
     ReportComponent,
+    SpinComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,

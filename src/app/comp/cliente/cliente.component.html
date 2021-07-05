@@ -1,5 +1,7 @@
 <episjob-navbar [backB]="'customers'" [title]="'Customer'" [cerca]="false" [home]="true"></episjob-navbar>
-<div id="cont" *ngIf="cust1">
+<episjob-spin *ngIf="cust1==''"></episjob-spin>
+
+<div id="cont" *ngIf="cust1!=''">
     <div class="item">
         <episjob-h2 [data]="'Customer Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>

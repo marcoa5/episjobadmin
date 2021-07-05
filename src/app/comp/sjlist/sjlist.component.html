@@ -1,8 +1,8 @@
 <div class="cont">
     <episjob-h2 class="title" [padtop]="10" [data]="'Service Job History'"></episjob-h2>
+    <episjob-spin *ngIf="sj.length==0"></episjob-spin>
 
-
-    <div class="acc">
+    <div class="acc" *ngIf="sj.length>0">
       <mat-accordion>
         <mat-expansion-panel hideToggle *ngFor="let a of sj; let i = index" [class.mat-elevation-z1]="true" class="acc">
           <mat-expansion-panel-header>
