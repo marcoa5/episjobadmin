@@ -26,7 +26,7 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
-  
+  cCom:any=0;
   disab:boolean = true
   valore: any='';
   model:string='';
@@ -108,15 +108,16 @@ export class MachineComponent implements OnInit {
         //if(this.data[0]!=undefined) this.infoH=`Running Hours ${this.lr}`
         if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
         this.lastRead()
+        this.checkComm()
       })
       .catch((a)=>{console.log(a,'no data')})
     })      
   }
 
   lastRead(){
-    if(this.checkComm()==1 && this.datafil[0].y=='c') {
+    if(this.cCom==1 && this.datafil[0].y=='c') {
       this.infoH= 'Running Hours'
-    } else if(this.checkComm()>0 && this.datafil[0].y!='c') {
+    } else if(this.cCom>0 && this.datafil[0].y!='c') {
       this.infoH = `Running Hours @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
     } else {
       this.infoH= 'Running Hours'
@@ -169,30 +170,32 @@ export class MachineComponent implements OnInit {
     this.datafil = this.data.filter(d=>{
       return new Date(d.x)>=new Date(i) && new Date(d.x)<=new Date(f)
     })
-    this.datafil.map((item,i)=>{
-      if(this.datafil[0].y=='c') {
-        this.datafil[0]={
-          x: this.datafil[0].x,
-          y: 0,
-          y1: this.datafil[1].y1>0? 0 : undefined,
-          y2: this.datafil[1].y2>0? 0 : undefined,
-          y3: this.datafil[1].y1>0? 0 : undefined,
+    if(this.datafil.length>0){
+      this.datafil.map((item,i)=>{
+        if(this.datafil[0].y=='c') {
+          this.datafil[0]={
+            x: this.datafil[0].x,
+            y: 0,
+            y1: this.datafil[1].y1>0? 0 : undefined,
+            y2: this.datafil[1].y2>0? 0 : undefined,
+            y3: this.datafil[1].y1>0? 0 : undefined,
+          }
         }
+        if(item.y=='0') item.y=undefined
+        if(item.y1=='0') item.y1=undefined
+        if(item.y2=='0') item.y2=undefined
+        if(item.y3=='0') item.y3=undefined
+      })
+      this.loadCharts()
+      this.avgHrs()
+      if (this.data.length>0){
+        this.hrsLabels=[  
+          {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
+          {value:this.impAvg!=[] && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
+          {value:this.impAvg!=[] && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
+          {value:this.impAvg!=[] && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
+        ]  
       }
-      if(item.y=='0') item.y=undefined
-      if(item.y1=='0') item.y1=undefined
-      if(item.y2=='0') item.y2=undefined
-      if(item.y3=='0') item.y3=undefined
-    })
-    this.loadCharts()
-    this.avgHrs()
-    if (this.data.length>0){
-      this.hrsLabels=[  
-        {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
-        {value:this.impAvg!=[] && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
-        {value:this.impAvg!=[] && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
-        {value:this.impAvg!=[] && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
-      ]  
     }
     
   }
@@ -255,7 +258,7 @@ export class MachineComponent implements OnInit {
     }
 
     th(a:any){
-      if(a && a.toString()=='c') return 'Commissioning'
+      if(a && a.toString()=='c') return 0
       if(a){
         a=a.toString()
       let b = a.toString().length
@@ -358,11 +361,13 @@ export class MachineComponent implements OnInit {
     }
   }
 
-  readD(e:any){
+  async readD(e:any){
     this.inizio=e[0]
     this.fine=e[1]
-    this.filter(e[0],e[1])
+    await this.filter(e[0],e[1])
+    this.checkComm()
     this.lastRead()
+    
   }
 
   avgHrs(){
@@ -403,10 +408,12 @@ export class MachineComponent implements OnInit {
     }
   }
 
-  checkComm() : number{
-    if(this.datafil.length==1) return 1
-    if(this.datafil.length==0) return 0
-    return 2
+  checkComm() {
+    if(this.datafil){
+      this.cCom=  this.datafil.length
+    } else {
+      this.cCom=0
+    }
   }
 }
  

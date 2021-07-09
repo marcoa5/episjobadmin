@@ -10,15 +10,15 @@
             <div class="spacer"></div>
             <div class="subrow">
                 <episjob-h2 [data]="infoH"></episjob-h2>
-                <p *ngIf="!checkComm()">No data to display</p>
-                <episjob-label *ngIf="checkComm()" [values]="hrsLabels"></episjob-label>
+                <p *ngIf="cCom==0">No data to display</p>
+                <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
             </div>           
         </div>
     </div>
     
     <div>
         <div class="row">
-            <div class="subrow a1" *ngIf="checkComm()>1">
+            <div class="subrow a1" *ngIf="cCom>1">
                 <div class="itemc" (resize)="res($event)">
                     <div class="subitemc">
                         <canvas class="can" id="orem"></canvas>
@@ -30,11 +30,11 @@
                 </div>  
             </div>
             <div class="spacer a3"></div>
-            <div class="subrow a2" *ngIf="checkComm()>0">
+            <div class="subrow a2" *ngIf="cCom>0">
                 <div class="itemc">
                     <div class="subitemc over">
                         <div class="datacont">
-                            <episjob-h2  [padtop]="10" [data]="'Running hours history'"></episjob-h2>
+                            <episjob-h2  padtop="10" data="Running hours history"></episjob-h2>
                             <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
                         </div>
                     </div>

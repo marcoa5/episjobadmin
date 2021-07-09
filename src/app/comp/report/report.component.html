@@ -5,7 +5,19 @@
 <div class="cont">
     <episjob-h2 [data]="'Export Report'" [padtop]="0"></episjob-h2>
     <button mat-raised-button color="primary" (click)="all()">Export All Rigs</button>
-    <table>
+    <table id="ex">
+        <tr>
+            <th>Serial</th>
+            <th>p/n</th>
+            <th>Model</th>
+            <th>Customer</th>
+            <th>Site</th>
+            <th>LastRead</th>
+            <th>Eng</th>
+            <th>Perc1</th>
+            <th>Perc2</th>
+            <th>Perc3</th>
+        </tr>
         <tr *ngFor="let c of rigs">
             <td>{{c.sn}}</td>
             <td>{{c.in}}</td>

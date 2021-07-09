@@ -35,10 +35,9 @@ export class RigTableComponent implements OnInit {
     if(this.ore[0].y1=='c') this.ore[0].y1=0
     if(this.ore[0].y2=='c') this.ore[0].y2=0
     if(this.ore[0].y3=='c') this.ore[0].y3=0
-    if(this.ore[1] && (this.ore[1].y1!=undefined && this.ore[1].y1!='0')) this.displayedColumns.push('Perc1')
-    if(this.ore[1] && (this.ore[1].y2!=undefined && this.ore[1].y2!='0')) this.displayedColumns.push('Perc2')
-    if(this.ore[1] && (this.ore[1].y3!=undefined && this.ore[1].y3!='0')) this.displayedColumns.push('Perc3')
-
+    if((this.ore[1] && this.ore[1].y1!=undefined && this.ore[1].y1!='0') || (this.ore[0].y1!='0' && this.ore[0].y1!=undefined)) this.displayedColumns.push('Perc1')
+    if((this.ore[1] && this.ore[1].y2!=undefined && this.ore[1].y2!='0') || (this.ore[0].y2!='0'  && this.ore[0].y2!=undefined)) this.displayedColumns.push('Perc2')
+    if((this.ore[1] && this.ore[1].y3!=undefined && this.ore[1].y3!='0')|| (this.ore[0].y3!='0'  && this.ore[0].y3!=undefined)) this.displayedColumns.push('Perc3')  
   }
 
   up(a:any,b:any,c:any){

@@ -31,7 +31,7 @@ export class ClienteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
       this.cust1=a.cust1
-      firebase.database().ref('Customers/').child(this.cust1.replace(/\./g,'').replace('/','')).on('value', g=>{
+      firebase.database().ref('Customers/').child(this.cust1.replace(/\./g,'').replace('/','').replace(' & ','').replace('& ','').replace(' &','')).on('value', g=>{
         this.cust2=g.val().c2
         this.cust3=g.val().c3
         this.infoLabels =[

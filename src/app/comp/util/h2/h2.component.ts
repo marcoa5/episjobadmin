@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class H2Component implements OnInit {
   @Input() data:string|undefined
-  @Input() padtop:number=35
+  @Input() padtop:any=35
   constructor() { }
 
   ngOnInit(): void {
