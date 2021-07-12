@@ -186,6 +186,7 @@ export class MachineComponent implements OnInit {
         if(item.y2=='0') item.y2=undefined
         if(item.y3=='0') item.y3=undefined
       })
+      console.log(this.datafil)
       this.loadCharts()
       this.avgHrs()
       if (this.data.length>0){
@@ -217,7 +218,7 @@ export class MachineComponent implements OnInit {
         if(result!=undefined && this.pos=='SU') {
           firebase.database().ref(`Hours/${this.valore}/${result}`).remove()
           this.f(1)
-          this.location.back()
+          //this.location.back()
         }
       });
     }
