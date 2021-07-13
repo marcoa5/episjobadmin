@@ -85,8 +85,8 @@ export class NewuserComponent implements OnInit {
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
     .set('Mail',b.get('mail')?.value)
-    .set('Pos','pos')
-    .set('km',this.userpos?this.userpos:'tech')
+    .set('Pos',this.userpos?this.userpos:'tech')
+    .set('km','0.05')
     this.http.get('https://episjobadmin.web.app/createuser',{params:params}).subscribe(a=>{
       console.log(a)
     })
