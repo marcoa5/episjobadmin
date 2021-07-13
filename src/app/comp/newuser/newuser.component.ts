@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import { HttpClient, HttpParams} from '@angular/common/http'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -31,7 +32,7 @@ export class NewuserComponent implements OnInit {
   userF:FormGroup
   appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
+  constructor(private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
       cognome: ['', [Validators.required]],
@@ -68,13 +69,27 @@ export class NewuserComponent implements OnInit {
     })
   }
 
+
   datiC(a:FormGroup){
     let g= [a.get('nome')?.value,a.get('cognome')?.value,a.get('mail')?.valid || a.get('mail')?.disabled? a.get('mail')?.value:'',this.userpos]
     return g
   }
 
   add(a:string, b:FormGroup){
-    console.log(a)
+    console.log(a, b.get('nome')?.value, 
+    b.get('cognome')?.value, 
+    b.get('mail')?.value, 
+    this.userpos)
+
+    let params = new HttpParams()
+    .set('Nome', b.get('nome')?.value)
+    .set('Cognome',b.get('cognome')?.value)
+    .set('Mail',b.get('mail')?.value)
+    .set('Pos','pos')
+    .set('km',this.userpos?this.userpos:'tech')
+    this.http.get('https://episjobadmin.web.app/createuser',{params:params}).subscribe(a=>{
+      console.log(a)
+    })
   }
 
   cancella(){
