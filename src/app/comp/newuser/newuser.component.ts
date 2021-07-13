@@ -87,7 +87,7 @@ export class NewuserComponent implements OnInit {
     .set('Mail',b.get('mail')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
     .set('km','0.05')
-    this.http.get('https://episjobadmin.web.app/createuser',{params:params}).subscribe(a=>{
+    this.http.get('https://episjobreq.herokuapp.com/createuser',{params:params}).subscribe(a=>{
       console.log(a)
     })
   }

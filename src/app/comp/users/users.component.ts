@@ -16,7 +16,7 @@ export class UsersComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:3001/getusers').subscribe(a=>{
+    this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
       console.log(a)
       Object.values(a).forEach(b=>{
         firebase.database().ref('Users/' + b.uid).on('value',c=>{
