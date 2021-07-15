@@ -12,6 +12,8 @@ import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
 import { Location } from '@angular/common'
+import { database } from 'firebase-admin';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 export interface hrsLabel {
   lab: string
@@ -109,8 +111,9 @@ export class MachineComponent implements OnInit {
         if(a==1) this.filter(this.inizio,this.fine)
         //if(this.data[0]!=undefined) this.infoH=`Running Hours ${this.lr}`
         if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
-        this.lastRead()
         this.checkComm()
+        this.lastRead()
+
       })
       .catch((a)=>{console.log(a,'no data')})
     })      
@@ -188,7 +191,6 @@ export class MachineComponent implements OnInit {
         if(item.y2=='0') item.y2=undefined
         if(item.y3=='0') item.y3=undefined
       })
-      console.log(this.datafil)
       this.loadCharts()
       this.avgHrs()
       if (this.data.length>0){
@@ -369,8 +371,9 @@ export class MachineComponent implements OnInit {
     this.fine=e[1]
     await this.filter(e[0],e[1])
     this.checkComm()
-    this.lastRead()
-    
+    .then(()=>{
+      this.lastRead()
+    })
   }
 
   avgHrs(){
@@ -379,7 +382,7 @@ export class MachineComponent implements OnInit {
     if(this.data[0]!=undefined && this.dataAvg[this.dataAvg.length-1]!=undefined && this.dataAvg.length>1) {
       num = (this.dataAvg[this.dataAvg.length-1].y-this.dataAvg[0].y)
       den=moment(new Date(this.dataAvg[this.dataAvg.length-1].x)).diff(moment(new Date(this.dataAvg[0].x)))/1000/60/60/24
-      avg=this.th((Math.round(num/den*365)))
+      avg=num==0?0:this.th((Math.round(num/den*365)))
       if(this.dataAvg[1].y3>=0) {
         ch=3
         let n  =this.dataAvg.length-1
@@ -412,11 +415,15 @@ export class MachineComponent implements OnInit {
   }
 
   checkComm() {
-    if(this.datafil){
-      this.cCom=  this.datafil.length
-    } else {
-      this.cCom=0
-    }
+    return new Promise((res,rej)=>{
+      if(this.datafil){
+        this.cCom=  this.datafil.length
+        res('ok')
+      } else {
+        this.cCom=0
+        res('ok')
+      }
+    })
   }
 }
  

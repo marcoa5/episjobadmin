@@ -19,8 +19,8 @@ export class UpddialogComponent implements OnInit {
   }
 
   contr(){
-    if(this.data.name!='') return `${this.data.name} will be updated. Proceed?`
-    if(this.data.sn!='') return `${this.data.sn} will be updated. Proceed?`
+    if(this.data.cust && this.data.cust!='') return `${this.data.cust} will be updated. Proceed?`
+    if(this.data.sn && this.data.sn!='') return `${this.data.sn} will be updated. Proceed?`
     return `New customer will be added. Proceed?`
   }
 }

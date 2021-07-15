@@ -13,6 +13,7 @@ export interface cl {
   c1: string
   c2: string
   c3: string
+  id: string
 }
 
 @Component({
@@ -44,15 +45,15 @@ export class NewcustComponent implements OnInit {
     })
     
     this.route.params.subscribe(a=>{
-      if(a.c1 && a.c2 && a.c3) {
-        this.origin=[a.c1,a.c2,a.c3]
+      if(a.id && a.c1 && a.c2 && a.c3) {
+        this.origin=[a.id,a.c1,a.c2,a.c3]
         this.newC = this.fb.group({
           name:[a.c1,[Validators.required]],
           address1: [a.c2,[Validators.required]],
           address2: [a.c3,[Validators.required]],
         })
         this.addUpd=false
-        this.rou=['cliente',{cust1: a.c1,cust2:a.c,cust3:a.c3}]
+        this.rou=['cliente',{id: a.id}]
       } else {
         this.rou=['customers']
       }
@@ -63,35 +64,38 @@ export class NewcustComponent implements OnInit {
     let g:cl ={
       c1: a.get('name')?.value.toUpperCase(),
       c2: a.get('address1')?.value.toUpperCase(),
-      c3: a.get('address2')?.value.toUpperCase()
+      c3: a.get('address2')?.value.toUpperCase(),
+      id: this.origin[0]!=''? this.origin[0] : this.makeid(60)
     }
     if(e=='updc' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {name: this.origin[0]!=undefined?this.origin[0].replace(/\./g,''): ''}
+        data: {cust: this.origin[1]!=undefined?this.origin[1]: '', name: this.origin[0]}
       });
   
       dialogRef.afterClosed().subscribe(result => {
         if(result!=undefined && this.pos=='SU') {
-          firebase.database().ref('Customers/'+this.origin[0].replace(/\./g,'')).remove()
-          firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
+          //firebase.database().ref('Customers/'+this.origin[0]).remove()
+          firebase.database().ref('CustomerC/').child(this.origin[0]).set(g)
           .then(()=>{
-            if(this.origin[0]!=g.c1){
-              firebase.database().ref('MOL/').orderByChild('customer').equalTo(this.origin[0].toUpperCase()).once('value',f=>{
+            if(this.origin[1]!=g.c1){
+              firebase.database().ref('MOL/').orderByChild('customer').equalTo(this.origin[1]).once('value',f=>{
                 Object.keys(f.val()).forEach(e=>{
                   firebase.database().ref('MOL/' + e + '/customer').set(g.c1)
                 })
               })
             }
-            this.router.navigate(['cliente',{cust1:g.c1.replace(/\./g,'')}])
+            this.router.navigate(['cliente',{id:this.origin[0]}])
           })
           .catch(err=> console.log(err))
         }
       })
     } else if(e=='addc' && this.pos=='SU'){
-        firebase.database().ref('Customers/'+g.c1.replace(/\./g,'')).set(g)
+        let newId = this.makeid(60)
+        g.id = newId
+        firebase.database().ref('CustomerC/').child(newId).set(g)
         .then(()=>{this.location.back()})
         .catch(err=> console.log(err))
     }
@@ -105,8 +109,19 @@ export class NewcustComponent implements OnInit {
     let g:cl ={
       c1: a.get('name')?.value,
       c2: a.get('address1')?.value,
-      c3:a.get('address2')?.value
+      c3:a.get('address2')?.value,
+      id: this.origin[0]
     }
     return [g.c1? g.c1:'',g.c2?g.c2:'',g.c3?g.c3:'']
   }
+
+  makeid(length:number) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 }

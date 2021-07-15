@@ -19,7 +19,7 @@
         <mat-form-field [appearance]="appearance">
             <mat-label>Customer</mat-label>
             <mat-select formControlName="customer">
-                <mat-option *ngFor="let c of customers; let i = index" [value]="c">{{c}}</mat-option>
+                <mat-option *ngFor="let c of customers" [value]="c.id">{{c.c1}}</mat-option>
             </mat-select>
             <!--<input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">-->
         </mat-form-field>

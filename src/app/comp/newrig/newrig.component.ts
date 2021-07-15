@@ -25,7 +25,7 @@ export class NewrigComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   newR:FormGroup;
   addUpd:boolean = true
-  customers:string[]=[]
+  customers:any[]=[]
   pos:string|undefined
   constructor(private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
@@ -54,7 +54,7 @@ export class NewrigComponent implements OnInit {
             sn:[a.val().sn,  [Validators.required]],
             model:[a.val().model, [Validators.required]],
             site:[a.val().site],
-            customer:[a.val().customer,[Validators.required]],
+            customer:[a.val().custid,[Validators.required]],
             in: [a.val().in]
           })
           this.newR.controls['sn'].disable()
@@ -69,9 +69,20 @@ export class NewrigComponent implements OnInit {
         this.rou=['rigs']
       }
     })
-    firebase.database().ref('Customers').on('value',a=>{
+    firebase.database().ref('CustomerC').once('value',a=>{
       a.forEach(b=>{
-        this.customers.push(b.val().c1)
+        this.customers.push({id: b.val().id, c1: b.val().c1})
+      })
+    })
+    .then(()=>{
+      this.customers.sort((a: any, b: any) => {
+        if (a['c1'] < b['c1']) {
+          return -1;
+        } else if (a['c1'] > b['c1']) {
+          return 1;
+        } else {
+          return 0;
+        }
       })
     })
   }
@@ -84,10 +95,11 @@ export class NewrigComponent implements OnInit {
 
   add(a:any,b:FormGroup){
     let g:string[] = [b.get('sn')?.value,b.get('model')?.value,b.get('site')?.value, b.get('customer')?.value, b.get('in')?.value]
-    //let c:string[] = 
+    Object.values(this.customers).map(f=>{if(f.id==g[3]) g[5]=(f.c1)})
     if(a=='addr' && this.pos=='SU'){
       firebase.database().ref('MOL/' + g[0].toUpperCase()).set({
-        customer: g[3].toUpperCase(),
+        custid: g[3],
+        customer: g[5].toUpperCase(),
         in: g[4].toUpperCase()? g[4].toUpperCase(): '',
         model: g[1],
         site: g[2].toUpperCase(),
@@ -105,13 +117,14 @@ export class NewrigComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {name: this.serial}
+        data: {sn: this.serial}
       });
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result) {
           firebase.database().ref('MOL/' + this.serial).set({
-            customer: g[3].toUpperCase(),
+            customer: g[5].toUpperCase(),
+            custid: g[3],
             in: g[4].toUpperCase(),
             model: g[1],
             site: g[2].toUpperCase(),

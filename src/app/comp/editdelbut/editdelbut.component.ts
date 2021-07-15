@@ -15,6 +15,8 @@ export class EditdelbutComponent implements OnInit {
   pos:string|undefined
   @Input() func:string|undefined
   @Input() nome:string|undefined
+  @Input() seriale:string|undefined
+  @Input() id:string|undefined
   @Input() check:boolean=true
   @Output() edit = new EventEmitter()
   constructor(private location: Location, public dialog: MatDialog) { }
@@ -34,7 +36,7 @@ export class EditdelbutComponent implements OnInit {
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
     const dialogRef = this.dialog.open(DeldialogComponent, {
-      data: {name: this.nome}
+      data: {sn: this.nome, name: this.nome, custid:this.id}
     });
 
     dialogRef.afterClosed().subscribe(result => {

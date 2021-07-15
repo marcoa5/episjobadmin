@@ -77,7 +77,7 @@ export class ClienteComponent implements OnInit {
   }
 
   go(e:any){
-    this.router.navigate(['newc',{c1:this.cust1,c2:this.cust2,c3:this.cust3}])
+    this.router.navigate(['newc',{id:this.id,c1:this.cust1,c2:this.cust2,c3:this.cust3}])
   }
 
 }
