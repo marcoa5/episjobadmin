@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','','']
     },
     {
-      id:'Visit',
+      id:'Visit (BETA)',
       icon:'recent_actors', 
       route:'visit', 
       dis:false, 
