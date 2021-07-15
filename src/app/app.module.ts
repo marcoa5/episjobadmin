@@ -63,6 +63,8 @@ import { SegmentComponent } from './comp/newrig/segment/segment.component';
 import { ResetPwdComponent } from './comp/dialog/reset-pwd/reset-pwd.component';
 import { ReportComponent } from './comp/report/report.component';
 import { SpinComponent } from './comp/util/spin/spin.component';
+import { SortCustPipe } from './pipe/sort-cust.pipe';
+import { VisitComponent } from './comp/visit/visit.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -109,6 +111,8 @@ const appearance: MatFormFieldDefaultOptions = {
     ResetPwdComponent,
     ReportComponent,
     SpinComponent,
+    SortCustPipe,
+    VisitComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,

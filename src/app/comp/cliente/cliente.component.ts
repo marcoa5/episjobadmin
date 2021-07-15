@@ -21,6 +21,7 @@ export class ClienteComponent implements OnInit {
   pos:string=''
   area:any=''
   cust1:string=''
+  id:string=''
   cust2: string|undefined
   cust3: string|undefined
   custrig:any[]|undefined
@@ -30,14 +31,15 @@ export class ClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
-      this.cust1=a.cust1
-      firebase.database().ref('Customers/').child(this.cust1.replace(/\./g,'').replace('/','').replace(' & ','').replace('& ','').replace(' &','')).on('value', g=>{
+      this.id=a.id
+      firebase.database().ref('CustomerC').child(this.id).on('value', g=>{
+        this.cust1=g.val().c1
         this.cust2=g.val().c2
         this.cust3=g.val().c3
         this.infoLabels =[
           {value:this.cust1,lab:'Customer Name',click:'', url:''},
-          {value:g.val().c2,lab:'Address 1',click:'', url:''},
-          {value:g.val().c3,lab:'Address 2',click:'', url:''}
+          {value:this.cust2,lab:'Address 1',click:'', url:''},
+          {value:this.cust3,lab:'Address 2',click:'', url:''}
         ]
       })
     })
@@ -47,7 +49,7 @@ export class ClienteComponent implements OnInit {
         this.pos=b.val().Pos
         this.area=b.val().Area
       }).then(()=>{
-        firebase.database().ref('MOL').orderByChild('customer').equalTo(this.cust1).on('value',k=>{
+        firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).on('value',k=>{
           if(k.val()!=null){
             this.custrig=Object.values(k.val())
               k.forEach(x=>{

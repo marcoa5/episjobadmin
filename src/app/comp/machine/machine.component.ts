@@ -31,6 +31,7 @@ export class MachineComponent implements OnInit {
   valore: any='';
   model:string='';
   customer:string='';
+  id:string='';
   site:string='';
   in:string='';
   docBpcs:string=''
@@ -91,12 +92,13 @@ export class MachineComponent implements OnInit {
       this.site = x.val().site
       this.model=x.val().model
       this.customer=x.val().customer
+      this.id = x.val().custid
       this.docBpcs=x.val().docbpcs
       this.in = x.val().in
       this.rigLabels=[
         {value:this.valore, lab:'Serial Nr.',click:'',url:''},
         {value:this.model, lab:'Model',click:'',url:''},
-        {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.customer:'',url: this.pos!='sales'?'cliente':''},
+        {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.id:'',url: this.pos!='sales'?'cliente':''},
         {value:this.site, lab:'Site',click:'',url:''}
       ]
     })

@@ -16,7 +16,7 @@ export class LabelComponent implements OnInit {
 
   open(a:string, b:string){
     if(a && b=='machine') this.router.navigate(['/' + b,{sn:a}])
-    if(a && b=='cliente') this.router.navigate(['/' + b,{cust1:a}])
+    if(a && b=='cliente') this.router.navigate(['/' + b,{id:a}])
   }
 
 }

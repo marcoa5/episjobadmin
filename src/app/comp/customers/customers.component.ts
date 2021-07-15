@@ -27,16 +27,16 @@ export class CustomersComponent implements OnInit {
       })
       .then(()=>{
         if(this.pos!='sales'){
-          firebase.database().ref('Customers').on('value', g=>{
+          firebase.database().ref('CustomerC').once('value', g=>{
             this.customers = Object.values(g.val())
-            
           })
         } else {
           firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{
             Object.keys(a.val()).map(b=>{
-              firebase.database().ref('MOL').child(b).child('customer').once('value',c=>{
-                let nb=c.val().replace(/\./g,'').replace('/00','').replace('/','').replace(' & ','')
-                firebase.database().ref('Customers').child(nb).once('value',d=>{
+              firebase.database().ref('MOL').child(b).child('custid').once('value',c=>{
+                if(c.val()==null) console.log(b)
+                let nb=c.val()//.replace(/\./g,'').replace('/00','').replace('/','').replace(' & ','')
+                firebase.database().ref('CustomerC').child(nb).once('value',d=>{
                   if(d.val()!==null && !this.custSales.includes(nb)) {
                     this.custSales.push(nb)
                     this.customers.push(d.val())
@@ -50,8 +50,8 @@ export class CustomersComponent implements OnInit {
     })
   }
 
-  open(a: String, b:string, c:string){
-    this.router.navigate(['cliente',{cust1:a, cust2:b, cust3:c}])
+  open(a: String, b:string, c:string, d:string){
+    this.router.navigate(['cliente',{id:d}])
   }
 
   
@@ -62,4 +62,14 @@ export class CustomersComponent implements OnInit {
   filter(a:any){
     this.filtro=a
   }  
+
+  makeid(length:number) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 }

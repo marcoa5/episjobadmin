@@ -4,7 +4,7 @@
 
 
 <div class="custcont" *ngIf="customers.length>0">
-    <div class="custcard" *ngFor="let cust of customers | custfilter: filtro" [class.mat-elevation-z2]="true" (click)="open(cust.c1, cust.c2,cust.c3)">
+    <div class="custcard" *ngFor="let cust of customers | custfilter: filtro | sortCust: 'c1'" [class.mat-elevation-z2]="true" (click)="open(cust.c1, cust.c2,cust.c3, cust.id)">
         <p class="l1">{{cust.c1}}</p>
         <p class="l2">{{cust.c2}}</p>
         <p class="l3">{{cust.c3}}</p>

@@ -15,6 +15,7 @@ import { UsersComponent } from './comp/users/users.component'
 import { NewuserComponent } from './comp/newuser/newuser.component'
 import { AuthComponent } from './comp/auth/auth.component'
 import { ReportComponent } from './comp/report/report.component'
+import { VisitComponent } from './comp/visit/visit.component'
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -32,6 +33,7 @@ const routes: Routes = [
   {path: 'newuser', component: NewuserComponent},
   {path: 'auth', component: AuthComponent},
   {path: 'report', component: ReportComponent},
+  {path: 'visit', component: VisitComponent},
 
 ];
 
