@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { HttpClient, HttpParams} from '@angular/common/http'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -32,7 +32,7 @@ export class NewuserComponent implements OnInit {
   userF:FormGroup
   appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
-  constructor(private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
+  constructor(private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
       cognome: ['', [Validators.required]],
@@ -80,7 +80,6 @@ export class NewuserComponent implements OnInit {
     b.get('cognome')?.value, 
     b.get('mail')?.value, 
     this.userpos)
-
     let params = new HttpParams()
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
@@ -90,6 +89,9 @@ export class NewuserComponent implements OnInit {
     this.http.get('https://episjobreq.herokuapp.com/createuser',{params:params}).subscribe(a=>{
       console.log(a)
     })
+    setTimeout(() => {
+      this.location.back()
+    }, 200);
   }
 
   cancella(){
@@ -102,9 +104,14 @@ export class NewuserComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined && this.pos=='SU') {
-        console.log(result.id)
-        //firebase.database().ref('Tech/' + result).remove()
-        this.location.back()
+        let params = new HttpParams()
+        .set('id', result.id)
+        this.http.get('https://episjobreq.herokuapp.com/delete',{params:params}).subscribe(a=>{
+          console.log(a)
+        })
+        setTimeout(() => {
+          this.location.back()
+        }, 200);
       }
     });
   }

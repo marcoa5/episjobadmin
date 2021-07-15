@@ -17,7 +17,6 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
-      console.log(a)
       Object.values(a).forEach(b=>{
         firebase.database().ref('Users/' + b.uid).on('value',c=>{
           this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid})
