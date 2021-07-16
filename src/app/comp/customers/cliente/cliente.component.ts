@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { BackService } from '../../serv/back.service'
+import { BackService } from '../../../serv/back.service'
 
 export interface rigsLabel {
   lab: string

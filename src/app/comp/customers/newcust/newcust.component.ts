@@ -4,7 +4,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog'
-import { UpddialogComponent } from '../dialog/upddialog/upddialog.component'
+import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -65,7 +65,7 @@ export class NewcustComponent implements OnInit {
       c1: a.get('name')?.value.toUpperCase(),
       c2: a.get('address1')?.value.toUpperCase(),
       c3: a.get('address2')?.value.toUpperCase(),
-      id: this.origin[0]!=''? this.origin[0] : this.makeid(60)
+      id: this.origin[0]!=''? this.origin[0] : this.makeid(10)
     }
     if(e=='updc' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
@@ -93,7 +93,7 @@ export class NewcustComponent implements OnInit {
         }
       })
     } else if(e=='addc' && this.pos=='SU'){
-        let newId = this.makeid(60)
+        let newId = this.makeid(10)
         g.id = newId
         firebase.database().ref('CustomerC/').child(newId).set(g)
         .then(()=>{this.location.back()})

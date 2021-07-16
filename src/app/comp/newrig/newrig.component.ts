@@ -7,7 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { UpddialogComponent } from '../dialog/upddialog/upddialog.component'
+import { UpddialogComponent } from '../util/upddialog/upddialog.component'
 
 
 @Component({

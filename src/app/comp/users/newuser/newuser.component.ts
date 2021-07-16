@@ -6,7 +6,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'
-import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
+import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
 

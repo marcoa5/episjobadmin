@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './comp/home/home.component';
-import { MachineComponent } from './comp/machine/machine.component';
+import { MachineComponent } from './comp/rigs/machine/machine.component';
 import { RigsComponent } from './comp/rigs/rigs.component';
 import { CustomersComponent } from './comp/customers/customers.component'
-import { ClienteComponent } from './comp/cliente/cliente.component'
+import { ClienteComponent } from './comp/customers/cliente/cliente.component'
 import { TechniciansComponent } from './comp/technicians/technicians.component'
 import { FilesComponent } from './comp/files/files.component'
-import { NewcustComponent } from './comp/newcust/newcust.component'
-import { NewtechComponent } from './comp/newtech/newtech.component'
+import { NewcustComponent } from './comp/customers/newcust/newcust.component'
+import { NewtechComponent } from './comp/technicians/newtech/newtech.component'
 import { NewrigComponent } from './comp/newrig/newrig.component'
 import { UsersComponent } from './comp/users/users.component'
-import { NewuserComponent } from './comp/newuser/newuser.component'
+import { NewuserComponent } from './comp/users/newuser/newuser.component'
 import { AuthComponent } from './comp/auth/auth.component'
 import { ReportComponent } from './comp/report/report.component'
 import { VisitComponent } from './comp/visit/visit.component'

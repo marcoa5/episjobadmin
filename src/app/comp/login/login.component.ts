@@ -4,7 +4,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
-import { ResetPwdComponent } from '../dialog/reset-pwd/reset-pwd.component'
+import { ResetPwdComponent } from '../util/reset-pwd/reset-pwd.component'
 import { Router } from '@angular/router'
 
 

@@ -7,10 +7,10 @@ import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
-import { BackService } from '../../serv/back.service'
+import { BackService } from '../../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
-import { InputhrsComponent } from '../dialog/inputhrs/inputhrs.component'
-import { DeldialogComponent } from '../dialog/deldialog/deldialog.component'
+import { InputhrsComponent } from '../../util/inputhrs/inputhrs.component'
+import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { Location } from '@angular/common'
 import { database } from 'firebase-admin';
 import { ErrorStateMatcher } from '@angular/material/core';
