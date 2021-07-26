@@ -1,0 +1,38 @@
+[debug] [2021-07-26T14:46:50.327Z] ----------------------------------------------------------------------
+[debug] [2021-07-26T14:46:50.329Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Iycma\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-07-26T14:46:50.329Z] CLI Version:   9.14.0
+[debug] [2021-07-26T14:46:50.329Z] Platform:      win32
+[debug] [2021-07-26T14:46:50.329Z] Node Version:  v14.17.1
+[debug] [2021-07-26T14:46:50.330Z] Time:          Mon Jul 26 2021 16:46:50 GMT+0200 (Ora legale dell’Europa centrale)
+[debug] [2021-07-26T14:46:50.330Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-07-26T14:46:50.333Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-07-26T14:46:50.356Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-07-26T14:46:50.356Z] > authorizing via signed-in user (episerjob@gmail.com)
+[debug] [2021-07-26T14:46:50.356Z] [iam] checking project episjobadmin for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-07-26T14:46:50.357Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-07-26T14:46:50.357Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-07-26T14:46:50.562Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","date":"Mon, 26 Jul 2021 14:46:50 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-26T14:46:50.573Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/episjobadmin:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2021-07-26T14:46:50.837Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-07-26T14:46:50.837Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2021-07-26T14:46:51.366Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 26 Jul 2021 14:46:51 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=582","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-26T14:46:51.368Z] > refreshing access token with scopes: []
+[debug] [2021-07-26T14:46:51.368Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-07-26T14:46:51.490Z] <<< HTTP RESPONSE 200 {"cache-control":"no-cache, no-store, max-age=0, must-revalidate","date":"Mon, 26 Jul 2021 14:46:51 GMT","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-26T14:46:51.497Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/episjobadmin [none]
+[debug] [2021-07-26T14:46:51.799Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/episjobadmin 200
+[debug] [2021-07-26T14:46:51.799Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/episjobadmin {"projectId":"episjobadmin","projectNumber":"519562224364","displayName":"episjobadmin","name":"projects/episjobadmin","resources":{"hostingSite":"episjobadmin"},"state":"ACTIVE"}
+[info] 
+[info] === Deploying to 'episjobadmin'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2021-07-26T14:46:51.802Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-07-26T14:46:51.802Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-07-26T14:46:51.942Z] <<< HTTP RESPONSE 200 {"date":"Mon, 26 Jul 2021 14:46:51 GMT","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","pragma":"no-cache","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-07-26T14:46:51.949Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/episjobadmin/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}

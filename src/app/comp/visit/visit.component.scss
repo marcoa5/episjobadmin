@@ -1,0 +1,16 @@
+
+
+.cont{
+    padding: 80px 10px 30px 10px;
+}
+
+.infoData{
+    width:100%;
+}
+
+.inp{
+    max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    gap: 15px;
+}

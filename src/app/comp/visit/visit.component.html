@@ -1,6 +1,35 @@
-<mat-form-field appearance="fill">
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+<episjob-navbar title="Visit" [cerca]="false"></episjob-navbar>
+
+<div class="cont">
+    <form [formGroup]="input" class="inp">
+        <mat-form-field [appearance]="appearance" class="infoData">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="data" (dateChange)="ok($event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>  
+          <mat-form-field [appearance]="appearance" class="infoData">
+            <mat-label>Choose a customer</mat-label>
+            <input 
+              matInput 
+              type="text" 
+              formControlName="cust" 
+              [matAutocomplete]="auto"
+              (keyup)="chg($event.target)"
+            >
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="chg($event.option)">
+                <mat-option *ngFor="let c of filteredOptions | async" [value]="c">
+                  {{c}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field> 
+          <mat-form-field [appearance]="appearance" class="infoData">
+            <mat-label>Address Line 1</mat-label>
+            <input matInput type="text" formControlName="c2" autocomplete="off">
+          </mat-form-field> 
+          <mat-form-field [appearance]="appearance" class="infoData" >
+            <mat-label>Address Line 2</mat-label>
+            <input matInput type="text" formControlName="c3" autocomplete="off">
+          </mat-form-field> 
+    </form>
+</div>
