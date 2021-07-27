@@ -19,7 +19,7 @@ export class VisitComponent implements OnInit {
   oggi:any
   customers: string[]=[]
   filteredOptions: Observable<any[]> | undefined;
-  appearance:MatFormFieldAppearance='legacy'
+  appearance:MatFormFieldAppearance='fill'
   constructor(private fb: FormBuilder) {
     this.oggi=new Date()
 

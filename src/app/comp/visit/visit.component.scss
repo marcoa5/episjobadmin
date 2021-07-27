@@ -9,8 +9,19 @@
 }
 
 .inp{
-    max-width: 600px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    grid-template-columns: repeat(1, minmax(150px, 1fr));
     gap: 15px;
+}
+
+@media only screen and (min-width: 601px) {
+    .inp{
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+    }
+}
+
+@media only screen and (min-width: 1201px) {
+    .inp{
+        grid-template-columns: repeat(4, minmax(150px, 1fr));
+    }
 }
