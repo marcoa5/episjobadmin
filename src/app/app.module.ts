@@ -66,6 +66,7 @@ import { SpinComponent } from './comp/util/spin/spin.component';
 import { SortCustPipe } from './pipe/sort-cust.pipe';
 import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatBadgeModule } from '@angular/material/badge'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -116,7 +117,7 @@ const appearance: MatFormFieldDefaultOptions = {
     VisitComponent,
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

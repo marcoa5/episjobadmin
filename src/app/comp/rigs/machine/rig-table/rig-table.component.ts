@@ -10,7 +10,10 @@ export class RigTableComponent implements OnInit {
   @Input() pos:string=''
   @Output() action1 = new EventEmitter()
   @Output() action2 = new EventEmitter()
-  ore:any
+  inizio:number = 1
+  fine: number = 5
+  ore:any[]=[]
+  oreSl:any[]=[]
   displayedColumns: string[]=['Date', 'Engine']
   constructor() { }
 
@@ -19,7 +22,6 @@ export class RigTableComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.ore=[]
     this.displayedColumns=['Date', 'Engine']
     this.ore = this.dataSource.map((i: { x:any,y: any; y1: any; y2: any; y3: any; })=>{
       return {
@@ -38,6 +40,7 @@ export class RigTableComponent implements OnInit {
     if((this.ore[1] && this.ore[1].y1!=undefined && this.ore[1].y1!='0') || (this.ore[0].y1!='0' && this.ore[0].y1!=undefined)) this.displayedColumns.push('Perc1')
     if((this.ore[1] && this.ore[1].y2!=undefined && this.ore[1].y2!='0') || (this.ore[0].y2!='0'  && this.ore[0].y2!=undefined)) this.displayedColumns.push('Perc2')
     if((this.ore[1] && this.ore[1].y3!=undefined && this.ore[1].y3!='0')|| (this.ore[0].y3!='0'  && this.ore[0].y3!=undefined)) this.displayedColumns.push('Perc3')  
+    this.oreSl = this.ore.slice(this.inizio-1,this.fine)
   }
 
   up(a:any,b:any,c:any){
@@ -57,5 +60,11 @@ export class RigTableComponent implements OnInit {
     if(b>3 && b<7) return `${a.substring(0,b-3)}.${a.substring(b-3,b)}`
     if(b>6 && b<10) return `${a.substring(0,b-6)}.${a.substring(b-6,b-3)}.${a.substring(b-3,b)}`
     }
+  }
+
+  split(e:any){
+    this.inizio = e.pageIndex * e.pageSize +1
+    this.fine = this.inizio + e.pageSize-1
+    this.oreSl = this.ore.slice(this.inizio-1,this.fine)
   }
 }
