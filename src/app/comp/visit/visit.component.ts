@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, Validators, Form, FormControl } from '@angular/
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
 import 'firebase/database'
-import { Observable } from 'rxjs'
+import { from,Observable } from 'rxjs'
 import {map, observeOn, startWith} from 'rxjs/operators';
 
 @Component({
@@ -21,6 +21,8 @@ export class VisitComponent implements OnInit {
   filteredOptions: Observable<any[]> | undefined;
   appearance:MatFormFieldAppearance='fill'
   icon:boolean=false
+  con:string[]=[]
+  contacts: Observable<any[]> | undefined;
   constructor(private fb: FormBuilder) {
     this.oggi=new Date()
 
@@ -31,6 +33,10 @@ export class VisitComponent implements OnInit {
       ad2: new FormControl({value: '', disabled: false}, Validators.required),
       c2: new FormControl({value: '', disabled: false}, Validators.required),
       c3: new FormControl({value: '', disabled: false}, Validators.required),
+      name: new FormControl({value: '', disabled: false}, Validators.required),
+      role: new FormControl({value: '', disabled: false}, Validators.required),
+      phone: new FormControl({value: '', disabled: false}, Validators.required),
+      mail: new FormControl({value: '', disabled: false}, Validators.required),
     })
   }
 
@@ -41,11 +47,17 @@ export class VisitComponent implements OnInit {
     })
     .then(()=>{
       this.customers.sort()
+      this.con = ['a','b','c','d','e','f']
       this.filteredOptions = this.input.controls.cust.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+      this.contacts=this.input.controls.name.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filterN(value))
+      )
     })
+    
   }
    
   ok(a:any){
@@ -75,8 +87,32 @@ export class VisitComponent implements OnInit {
     }
   }
 
+  chgCon(e:any){
+
+  }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.customers.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  private _filterN(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.con.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  size(){
+    if(window.innerWidth>600) return 35
+    return 10
+  }
+
+  g(): boolean{
+    if(this.input.controls.name.value!='')return true
+    return false
+  }
+
+  f(){
+    if(this.input.controls.cust.value!='') return true
+    return false
   }
 }

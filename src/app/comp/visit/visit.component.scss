@@ -8,23 +8,29 @@
     width:100%;
 }
 
-.inp{
+.gr{
     display: grid;
-    grid-template-columns: repeat(1, minmax(150px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(2,minmax(300px, 1fr));
+    gap: 20px;
 }
 
-@media only screen and (min-width: 601px) {
-    .inp{
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-    }
+.ad{
+    display: grid;
+    grid-template-columns: repeat(2,minmax(140px, 1fr));
+    gap: 10px;
 }
 
-@media only screen and (min-width: 1201px) {
-    .inp{
-        grid-template-columns: repeat(4, minmax(150px, 1fr));
-    }
+.addIcon{
+    cursor: pointer;
 }
+
+@media screen and (max-width: 600px){
+    .gr, .ad{
+        display: inline;
+    }    
+}
+
+
 
 .ico{
     color:rgb(122, 189, 22);

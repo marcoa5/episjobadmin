@@ -46,7 +46,6 @@ export class SjlistComponent implements OnInit {
     })
     .then(()=>{
       this.sjSl = this.sj.slice(this.inizio, this.fine)
-      console.log(this.sjSl)
     })
   }
 
