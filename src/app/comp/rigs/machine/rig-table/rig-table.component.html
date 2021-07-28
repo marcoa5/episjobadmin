@@ -5,7 +5,7 @@
         *ngIf="ore.length>5"
         [length]="ore.length"
         [pageSize]="5"
-        [pageSizeOptions]="[5,10,20]"
+        [pageSizeOptions]="ore.length>20? [5,10,20,ore.length]: (ore.length>10?[5,10,ore.length]:[5,ore.length])"
         (page)="split($event)">
     </mat-paginator>
     

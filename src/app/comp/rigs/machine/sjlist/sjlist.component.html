@@ -4,7 +4,7 @@
     <div class="acc" *ngIf="sj.length>0">
       <mat-paginator [length]="sj.length"
               [pageSize]="5"
-              [pageSizeOptions]="[5, 10, 20]"
+              [pageSizeOptions]="sj.length>20? [5,10,20,sj.length]: (sj.length>10?[5,10,sj.length]:[5,sj.length])"
               *ngIf="sj.length>5"
               (page)="split($event)">
       </mat-paginator>
