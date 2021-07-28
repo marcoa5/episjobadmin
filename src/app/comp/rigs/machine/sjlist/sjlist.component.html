@@ -2,8 +2,14 @@
     <episjob-h2 class="title" [padtop]="10" [data]="'Service Job History'"></episjob-h2>
 
     <div class="acc" *ngIf="sj.length>0">
+      <mat-paginator [length]="sj.length"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 20]"
+              *ngIf="sj.length>5"
+              (page)="split($event)">
+      </mat-paginator>
       <mat-accordion>
-        <mat-expansion-panel hideToggle *ngFor="let a of sj; let i = index" [class.mat-elevation-z1]="true" class="acc">
+        <mat-expansion-panel hideToggle *ngFor="let a of sjSl; let i = index" [class.mat-elevation-z1]="true" class="acc">
           <mat-expansion-panel-header>
             <mat-panel-title class="of">
               {{a.data11}} - Service ({{a.stdspe}})

@@ -12,7 +12,9 @@ import * as moment from 'moment'
 })
 export class SjlistComponent implements OnInit {
   sj:any[]=[]
-
+  sjSl:any[]=[]
+  inizio: number = 0
+  fine: number = 5
   panelOpenState:boolean=false
   constructor(private router: Router) { }
   @Input() sn:string = ''
@@ -42,11 +44,21 @@ export class SjlistComponent implements OnInit {
         }        
       })
     })
+    .then(()=>{
+      this.sjSl = this.sj.slice(this.inizio, this.fine)
+      console.log(this.sjSl)
+    })
   }
 
   download(a:string){
     firebase.storage().ref('Closed/' + a).getDownloadURL()
     .then(a=>{window.open(a)})
+  }
+
+  split(e:any){
+    this.inizio = e.pageIndex * e.pageSize +1
+    this.fine = this.inizio + e.pageSize-1
+    this.sjSl = this.sj.slice(this.inizio-1,this.fine)
   }
 
 }
