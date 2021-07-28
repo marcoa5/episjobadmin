@@ -20,6 +20,7 @@ export class VisitComponent implements OnInit {
   customers: string[]=[]
   filteredOptions: Observable<any[]> | undefined;
   appearance:MatFormFieldAppearance='fill'
+  icon:boolean=false
   constructor(private fb: FormBuilder) {
     this.oggi=new Date()
 
@@ -61,12 +62,14 @@ export class VisitComponent implements OnInit {
             this.input.controls.c3.setValue(m.val().c3)
             this.input.controls.c2.disable()
             this.input.controls.c3.disable()
+            this.icon=true
           })
         } else {
           this.input.controls.c2.setValue('')
           this.input.controls.c3.setValue('')
           this.input.controls.c2.enable()
           this.input.controls.c3.enable()
+          this.icon=false
         }
       })
     }
