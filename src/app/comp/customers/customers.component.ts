@@ -13,6 +13,7 @@ import 'firebase/database'
 export class CustomersComponent implements OnInit {
   filtro:any=''
   customers:any[]=[];
+  _customers:any[]=[];
   pos:string='';
   ind:number=0
   custSales:string[]=[]
@@ -27,15 +28,30 @@ export class CustomersComponent implements OnInit {
       })
       .then(()=>{
         if(this.pos!='sales'){
-          firebase.database().ref('CustomerC').once('value', g=>{
-            this.customers = Object.values(g.val())
+          let hasRig:any[] = []
+          firebase.database().ref('MOL').once('value',l=>{
+            l.forEach(t=>{
+              hasRig.push(t.val().custid)
+            })
           })
+          .then(()=>{
+            firebase.database().ref('CustomerC').once('value', g=>{
+              this._customers = Object.values(g.val())
+            })
+            .then(()=>{
+              this.customers  =this._customers.filter(f=>{
+                return hasRig.includes(f.id)
+              })
+            })
+          })
+          
         } else {
           firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{
             Object.keys(a.val()).map(b=>{
               firebase.database().ref('MOL').child(b).child('custid').once('value',c=>{
                 if(c.val()==null) console.log(b)
-                let nb=c.val()//.replace(/\./g,'').replace('/00','').replace('/','').replace(' & ','')
+                let nb=c.val()
+                console.log(nb)
                 firebase.database().ref('CustomerC').child(nb).once('value',d=>{
                   if(d.val()!==null && !this.custSales.includes(nb)) {
                     this.custSales.push(nb)

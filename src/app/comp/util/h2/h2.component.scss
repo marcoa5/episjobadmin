@@ -1,6 +1,13 @@
 @import '../../../../epi.scss';
 
 .h2{
+    display: flex;
     padding-top: 35px;
     color: $dark-text;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dist{
+    width: 50px;
 }

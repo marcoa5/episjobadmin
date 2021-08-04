@@ -66,7 +66,11 @@ import { SpinComponent } from './comp/util/spin/spin.component';
 import { SortCustPipe } from './pipe/sort-cust.pipe';
 import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
-import { MatBadgeModule } from '@angular/material/badge'
+import { MatBadgeModule } from '@angular/material/badge';
+import { MainComponent } from './comp/visit/main/main.component'
+import { MatTabsModule } from '@angular/material/tabs';
+import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
+import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component'
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -115,10 +119,13 @@ const appearance: MatFormFieldDefaultOptions = {
     SpinComponent,
     SortCustPipe,
     VisitComponent,
+    MainComponent,
+    NewvisitComponent,
+    ComdatedialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatTabsModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

@@ -12,8 +12,7 @@ import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../../util/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { Location } from '@angular/common'
-import { database } from 'firebase-admin';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
 
 export interface hrsLabel {
   lab: string
@@ -61,6 +60,7 @@ export class MachineComponent implements OnInit {
   dataCom:string=''
   engAvg:string=''
   impAvg:any[]=[]
+  showAdd:boolean=false
   lr:string=''
   constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
@@ -109,14 +109,19 @@ export class MachineComponent implements OnInit {
       .then(()=>{
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
-        //if(this.data[0]!=undefined) this.infoH=`Running Hours ${this.lr}`
-        if(this.data[0].y=='c' && this.data[0]!=undefined) this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`    
+        if(this.data[0].y=='c' && this.data[0]!=undefined) {
+          this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
+          this.showAdd=false
+        }  
+        if(this.data[0].y!='c' && this.data[0]!=undefined) {
+          //this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
+          this.showAdd=true
+        }
         this.checkComm()
         this.lastRead()
-
       })
-      .catch((a)=>{console.log(a,'no data')})
-    })      
+      .catch((h)=>{console.log(h,'no data')})
+    }) 
   }
 
   lastRead(){
@@ -133,6 +138,7 @@ export class MachineComponent implements OnInit {
     return new Promise((res,rej)=>{
       this.data=[]
       firebase.database().ref('Hours/' + this.valore).on('value',f=>{
+        if(f.val()==null) this.showAdd=true
         if(f.val()!=null || f.val()!=undefined){
           let r = Object.keys(f.val()).length
           if(r==0) rej('failed')
@@ -169,8 +175,8 @@ export class MachineComponent implements OnInit {
         this.calcolaPerc1()
       }
     }, 500);
-
   }
+
   filter(i:any,f:any){
     this.datafil = this.data.filter(d=>{
       return new Date(d.x)>=new Date(i) && new Date(d.x)<=new Date(f)
@@ -181,9 +187,9 @@ export class MachineComponent implements OnInit {
           this.datafil[0]={
             x: this.datafil[0].x,
             y: 0,
-            y1: this.datafil[1].y1>0? 0 : undefined,
-            y2: this.datafil[1].y2>0? 0 : undefined,
-            y3: this.datafil[1].y1>0? 0 : undefined,
+            y1: (this.datafil[1] && this.datafil[1].y1>0)? 0 : 0,
+            y2: (this.datafil[1] && this.datafil[1].y2>0)? 0 : undefined,
+            y3: (this.datafil[1] && this.datafil[1].y3>0)? 0 : undefined,
           }
         }
         if(item.y=='0') item.y=undefined
@@ -424,6 +430,37 @@ export class MachineComponent implements OnInit {
         res('ok')
       }
     })
+  }
+
+  addCD(a:any){
+    if(this.pos=='SU'){
+      const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(ComdatedialogComponent, {
+        data: {sn: this.valore}
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result!=undefined && this.pos=='SU') {
+          let r1 = moment(result).format('YYYYMMDD')
+          let r2
+          if(this.data[0] !=null) r2 = this.data[0].x.replace(/\-/g,'')
+          
+          if(r2!=undefined && parseInt(r1)>parseInt(r2)) {
+            alert('Wrong commissioning date')
+          } else {
+            firebase.database().ref('Hours').child(this.valore).child(r1).set({
+              orem: 'c',
+              perc1: 'c',
+              perc2: 'c',
+              perc3: 'c',
+            })
+            this.f(1)
+          }
+        }
+      });
+    }
   }
 }
  

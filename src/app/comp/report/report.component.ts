@@ -43,7 +43,7 @@ export class ReportComponent implements OnInit {
         let r = Object.keys(a.val())
         this.length = r.length
         await Object.keys(a.val()).map(async b=>{
-          await firebase.database().ref('Hours/'+b).limitToLast(1).once('value',c=>{
+          await firebase.database().ref('Hours/'+b).once('value',c=>{
             let g, lastread, ore:any
             if (c.val()!=null) {
               ore = Object.values(c.val())[0]

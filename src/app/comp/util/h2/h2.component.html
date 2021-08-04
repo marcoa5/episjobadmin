@@ -1,1 +1,10 @@
-<h2 class="h2" [ngStyle]="{'padding-top':padtop + 'px'}">{{data}}</h2>
+<h2 class="h2" [ngStyle]="{'padding-top':padtop + 'px'}">
+    {{data}}
+    <span class="dist"></span>
+    <span *ngIf="pos=='SU'">
+        <button mat-raised-button *ngIf="showAdd" (click)="add()">
+            <mat-icon matSuffix>add_circle</mat-icon>
+            Comm. Date
+        </button>    
+    </span>
+</h2>

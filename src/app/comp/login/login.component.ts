@@ -30,10 +30,7 @@ export class LoginComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    //this.login('marco.arato@epiroc.com','Epiroc2021')
-    firebase.auth().onAuthStateChanged((a)=>{
-      //if (a) console.log(a)
-    })
+
   }
 
   login(a: FormGroup){
@@ -47,7 +44,6 @@ export class LoginComponent implements OnInit {
          var b = snap.val()
          this.uN = b.Nome.substring(0,1) + b.Cognome.substring(0,1)
          this.userN.emit(this.uN)
-         if(b.Pos=='sales') this.router.navigate(['rigs'])
          this.spin=false
 
        })

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import firebase from 'firebase/app';
 
 @Component({
   selector: 'episjob-h2',
@@ -8,10 +9,22 @@ import { Component, Input, OnInit } from '@angular/core';
 export class H2Component implements OnInit {
   @Input() data:string|undefined
   @Input() padtop:any=35
+  @Input() showAdd:boolean= false
+  @Output() addCD = new EventEmitter()
+  pos:string=''
   constructor() { }
 
   ngOnInit(): void {
-
+    firebase.auth().onAuthStateChanged(a=>{
+      if(a) {
+        firebase.database().ref('Users').child(a.uid).once('value',b=>{
+          this.pos=b.val().Pos
+        })
+      }
+    })
   }
 
+  add(){
+    this.addCD.emit('ok')
+  }
 }
