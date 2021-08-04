@@ -16,21 +16,21 @@ import { RigsComponent } from './comp/rigs/rigs.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatFormFieldModule, MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
 import { MatInput, MatInputModule } from '@angular/material/input';
-import { SnfilterPipe } from './snfilter.pipe'
+import { SnfilterPipe } from './pipe/snfilter.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './comp/login/login.component'
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MachineComponent } from './comp/rigs/machine/machine.component'
 import { MatTableModule } from '@angular/material/table';
 import { CustomersComponent } from './comp/customers/customers.component';
-import { CustfilterPipe } from './custfilter.pipe';
+import { CustfilterPipe } from './pipe/custfilter.pipe';
 import { ClienteComponent } from './comp/customers/cliente/cliente.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SjlistComponent } from './comp/rigs/machine/sjlist/sjlist.component'
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TechniciansComponent } from './comp/technicians/technicians.component';
 import { FilesComponent } from './comp/files/files.component';
-import { FilefilterPipe } from './filefilter.pipe'
+import { FilefilterPipe } from './pipe/filefilter.pipe'
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavbarComponent } from './comp/util/navbar/navbar.component';
 import { LabelComponent } from './comp/util/label/label.component';
@@ -52,7 +52,7 @@ import { UserfilterPipe } from './pipe/userfilter.pipe';
 import { NewuserComponent } from './comp/users/newuser/newuser.component';
 import { AuthComponent } from './comp/auth/auth.component'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { TablefilterPipe } from './tablefilter.pipe';
+import { TablefilterPipe } from './pipe/tablefilter.pipe';
 import { InputhrsComponent } from './comp/util/inputhrs/inputhrs.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
