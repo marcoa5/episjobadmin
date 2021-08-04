@@ -2,7 +2,7 @@
 <episjob-spin *ngIf="rigs1.length==0"></episjob-spin>
 
 <div class="cont" *ngIf="rigs1.length>0">
-      <div class="card" *ngFor="let rig of rigs1 | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
+      <div class="card" episjobElevation *ngFor="let rig of rigs1 | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer)" [class.mat-elevation-z2]="true">
         <h3 class="rigT">s/n: {{rig.sn}}</h3>
         <div class="gr">
           <div class="te">

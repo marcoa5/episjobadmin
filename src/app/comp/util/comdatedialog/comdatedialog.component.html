@@ -6,6 +6,6 @@
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-    <button mat-raised-button [mat-dialog-close]="dat.value" [disabled]="chOk">Ok</button>
+    <button mat-raised-button color="primary"  (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="dat.value" [disabled]="chOk">Ok</button>
 </div>

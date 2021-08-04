@@ -1,8 +1,32 @@
 <form [formGroup]="newV" class="cont">
     <mat-form-field [appearance]="appearance">
         <mat-label>Choose a date</mat-label>
-        <input formControlName="date" matInput [matDatepicker]="picker">
+        <input formControlName="date" matInput [matDatepicker]="picker" autocomplete="off">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <mat-form-field [appearance]="appearance" *ngIf="enCust()">
+        <mat-label>Choose a customer</mat-label>
+        <input type="text"
+            formControlName="cust1"
+            placeholder="Pick one"
+            aria-label="Number"
+            matInput
+            [matAutocomplete]="auto"
+            (keyup)="chg($event.target)"
+            >
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="chg($event.option)">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+        <mat-form-field [appearance]="appearance" >
+            <mat-label>Address 1</mat-label>
+            <input type="text" formControlName="cust2" matInput autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Address 2</mat-label>
+            <input type="text" formControlName="cust3" matInput autocomplete="off">
+        </mat-form-field>
 </form>

@@ -1,4 +1,4 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,11 +15,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RigsComponent } from './comp/rigs/rigs.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatFormFieldModule, MatFormFieldDefaultOptions, MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { SnfilterPipe } from './pipe/snfilter.pipe'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './comp/login/login.component'
-import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MachineComponent } from './comp/rigs/machine/machine.component'
 import { MatTableModule } from '@angular/material/table';
 import { CustomersComponent } from './comp/customers/customers.component';
@@ -70,7 +70,21 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MainComponent } from './comp/visit/main/main.component'
 import { MatTabsModule } from '@angular/material/tabs';
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
-import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component'
+import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
+import { ElevationDirective } from './dir/elevation.directive';
+import { MAT_DATE_LOCALE} from '@angular/material/core';
+
+export const MY_FORMATS = {
+  parse: {
+      dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+      dateInput: 'DD/MM/YYYY',
+      monthYearLabel: 'MM YYYY',
+      dateA11yLabel: 'DD/MM/YYYY',
+      monthYearA11yLabel: 'MM YYYY',
+  },
+};
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'standard'
@@ -122,6 +136,7 @@ const appearance: MatFormFieldDefaultOptions = {
     MainComponent,
     NewvisitComponent,
     ComdatedialogComponent,
+    ElevationDirective,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
@@ -130,8 +145,8 @@ const appearance: MatFormFieldDefaultOptions = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
-    provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-    useValue: appearance,
+    provide: MAT_DATE_LOCALE,
+    useValue: 'it',
   },
   ],
   bootstrap: [AppComponent],

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core'
 import firebase from 'firebase/app'
 import 'firebase/database'
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
+import { LogoutComponent } from './comp/util/logout/logout.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
@@ -26,6 +28,10 @@ export class AppComponent {
   orient: boolean | undefined
   titolo: string | undefined
   showFiller:boolean=false;
+  nome:string = ''
+  cognome:string = ''
+  screenSize:boolean=true
+  constructor(private dialog:MatDialog){}
   
   ngOnInit(){
     firebase.initializeApp(firebaseConfig)
@@ -37,6 +43,8 @@ export class AppComponent {
         firebase.database().ref('Users/' + a.uid). once('value',s=>{
           this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
           this.userT=s.val().Pos
+          this.nome = s.val().Nome
+          this.cognome = s.val().Cognome
         })
       }
     })
@@ -49,13 +57,28 @@ export class AppComponent {
     } else {
       this.orient = false
     }
+
+    if(window.innerWidth>450) {
+      this.screenSize =true
+    } else {
+      this.screenSize =false
+    }
   }
   userName(a:any){
     this.userN=a
   }
 
   logout(){
-    firebase.auth().signOut()
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(LogoutComponent, {
+      data: {name: this.nome}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) firebase.auth().signOut()
+    })
   }
 
   userExists(){

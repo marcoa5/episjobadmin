@@ -5,7 +5,7 @@
     <span class="contUser">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="userExists()">
         <mat-icon>person</mat-icon>
-        {{userN}}
+        {{screenSize? nome + ' ' + cognome: userN}}
       </button>
       
     </span>
