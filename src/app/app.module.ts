@@ -73,6 +73,12 @@ import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
 import { ElevationDirective } from './dir/elevation.directive';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
+import { NewvisitcontDirective } from './dir/newvisitcont.directive';
+import { NewvisitsubcontDirective } from './dir/newvisitsubcont.directive';
+import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
+import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
+import { NewvisiticoDirective } from './dir/newvisitico.directive';
+import { VisitfieldComponent } from './comp/util/visitfield/visitfield.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -137,6 +143,12 @@ const appearance: MatFormFieldDefaultOptions = {
     NewvisitComponent,
     ComdatedialogComponent,
     ElevationDirective,
+    NewvisitcontDirective,
+    NewvisitsubcontDirective,
+    NewvisitfieldDirective,
+    NewvisitspacerDirective,
+    NewvisiticoDirective,
+    VisitfieldComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,

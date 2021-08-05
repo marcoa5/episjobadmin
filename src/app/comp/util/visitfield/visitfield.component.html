@@ -1,0 +1,29 @@
+<form [formGroup]="form" episjobNewvisitcont>
+    <episjob-h2 *ngIf="title" [data]="title" padtop="10"></episjob-h2>
+    <div episjobNewvisitsubcont>
+      <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='date'">
+        <mat-label>{{label}}</mat-label>
+        <input formControlName="field" matInput [matDatepicker]="picker" autocomplete="off" (dateChange)="send()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='text'">
+        <mat-label>{{label}}</mat-label>
+        <input formControlName="field" matInput type="text" autocomplete="off" (change)="send()">
+      </mat-form-field>
+
+      <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='textAuto'">
+        <mat-label>{{label}}</mat-label>
+        <input type="text" formControlName="field" placeholder="placeholder" matInput [matAutocomplete]="auto" (change)="send()">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="send()">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+      <div episjobNewvisitspacer></div>
+      <mat-icon matSuffix episjobNewvisitico [ngStyle]="{'color':!form.controls.field.invalid?'green':'red'}">{{!form.controls.field.invalid? 'check': 'cancel'}}</mat-icon>
+    </div>
+</form>

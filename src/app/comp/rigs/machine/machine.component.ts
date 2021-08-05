@@ -462,5 +462,9 @@ export class MachineComponent implements OnInit {
       });
     }
   }
+
+  open(e:any){
+    if(e=="mol")  window.open('https://mol.epiroc.com/search-criteria/search?snmin=' + this.valore, "_blank");
+  }
 }
  

@@ -10,7 +10,9 @@ export class H2Component implements OnInit {
   @Input() data:string|undefined
   @Input() padtop:any=35
   @Input() showAdd:boolean= false
+  @Input() showMol:boolean=false
   @Output() addCD = new EventEmitter()
+  @Output() mol = new EventEmitter()
   pos:string=''
   constructor() { }
 
@@ -26,5 +28,9 @@ export class H2Component implements OnInit {
 
   add(){
     this.addCD.emit('ok')
+  }
+
+  openMol(){
+    this.mol.emit('mol')
   }
 }
