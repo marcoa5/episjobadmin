@@ -1,8 +1,9 @@
+<episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
+
 <div *ngIf="pos=='SU' || pos=='admin'">
 
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
-        <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
         <div class="cover" [ngStyle]="{'height': filtro==''?'210px' : '145px'}"></div>
         <div class="cont" (window:resize)="res()">
             <mat-paginator *ngIf="filtro==''"  [length]="rigs.length"
@@ -47,3 +48,6 @@
         <p>Screen too small</p>
     </div>
 </div>
+
+
+<div *ngIf="pos!='SU' && pos!='admin' && pos!=undefined" class="cont">Restricted Area</div>

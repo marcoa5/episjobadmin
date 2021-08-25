@@ -78,7 +78,7 @@ import { NewvisitsubcontDirective } from './dir/newvisitsubcont.directive';
 import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
 import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
-import { VisitfieldComponent } from './comp/util/visitfield/visitfield.component';
+import { VisitfieldComponent } from './comp/visit/visitfield/visitfield.component';
 
 export const MY_FORMATS = {
   parse: {

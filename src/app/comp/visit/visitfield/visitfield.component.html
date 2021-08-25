@@ -1,22 +1,26 @@
 <form [formGroup]="form" episjobNewvisitcont>
-    <episjob-h2 *ngIf="title" [data]="title" padtop="10"></episjob-h2>
     <div episjobNewvisitsubcont>
       <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='date'">
         <mat-label>{{label}}</mat-label>
-        <input formControlName="field" matInput [matDatepicker]="picker" autocomplete="off" (dateChange)="send()">
+        <input formControlName="field" matInput [matDatepicker]="picker" autocomplete="off" [placeholder]="placeholder">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='text'">
         <mat-label>{{label}}</mat-label>
-        <input formControlName="field" matInput type="text" autocomplete="off" (change)="send()">
+        <input formControlName="field" [placeholder]="placeholder" matInput type="text" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='textarea'">
+        <mat-label>{{label}}</mat-label>
+        <textarea formControlName="field" [placeholder]="placeholder" matInput autocomplete="off" cdkTextareaAutosize cdkAutosizeMaxRows="17" rows="17"></textarea>
       </mat-form-field>
 
       <mat-form-field [appearance]="appearance" episjobNewvisitfield *ngIf="type=='textAuto'">
         <mat-label>{{label}}</mat-label>
-        <input type="text" formControlName="field" placeholder="placeholder" matInput [matAutocomplete]="auto" (change)="send()">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="send()">
+        <input type="text" formControlName="field" [placeholder]="placeholder" matInput [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
             <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                 {{option}}
             </mat-option>

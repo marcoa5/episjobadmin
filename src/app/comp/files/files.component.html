@@ -1,5 +1,6 @@
-<div *ngIf="pos=='SU' || pos=='admin'">
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
+<div *ngIf="pos=='SU' || pos=='admin'">
+
   <episjob-spin *ngIf="start<0"></episjob-spin>>
   <div class="cont" *ngIf="start>-1" >
       <mat-paginator *ngIf="filtro==''"  [length]="files.length"
@@ -13,3 +14,5 @@
       </div>
   </div>
 </div>
+
+<div *ngIf="pos!='SU' && pos!='admin' && pos!=undefined" class="cont">Restricted Area</div>

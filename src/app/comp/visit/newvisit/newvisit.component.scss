@@ -1,0 +1,17 @@
+.cont{
+    display: grid;
+    grid-template-columns: none;
+    gap:0;
+    align-items: flex-start;
+}
+
+.butCon{
+    margin-right:60px;
+}
+
+@media  screen and (min-width: 1000px) {
+    .cont{
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0 50px;
+    }
+}

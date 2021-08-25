@@ -103,20 +103,30 @@ export class MachineComponent implements OnInit {
         {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.id:'',url: this.pos!='sales'?'cliente':''},
         {value:this.site, lab:'Site',click:'',url:''}
       ]
-    })
+      if (this.in) this.rigLabels[1]=({value: this.in, lab:'Part Nr.',click:'', url:''})
+
+    }) 
     .then(()=>{
       this.loadData()
       .then(()=>{
+      if(this.data[0].y=='c' && this.data[0]!=undefined) {
+        this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
+        this.showAdd=false
+      }
+      if(this.data[0].y!='c' && this.data[0]!=undefined) {
+        this.showAdd=true
+      }
+
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
-        if(this.data[0].y=='c' && this.data[0]!=undefined) {
+        /*if(this.data[0].y=='c' && this.data[0]!=undefined) {
           this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
           this.showAdd=false
         }  
         if(this.data[0].y!='c' && this.data[0]!=undefined) {
           //this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
           this.showAdd=true
-        }
+        }*/
         this.checkComm()
         this.lastRead()
       })
