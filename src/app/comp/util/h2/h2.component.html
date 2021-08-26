@@ -2,13 +2,13 @@
     {{data}}
     <span class="dist"></span>
     <span *ngIf="pos=='SU'">
-        <button mat-raised-button color="primary" *ngIf="showAdd" (click)="add()">
+        <button mat-stroked-button color="accent" *ngIf="showAdd" (click)="add()">
             <mat-icon matSuffix>add_circle</mat-icon>
             Comm. Date
         </button>    
     </span>
     <span>
-        <button mat-raised-button style="max-height: 31px;" color="primary" *ngIf="showMol" (click)="openMol()">
+        <button mat-stroked-button color="accent" *ngIf="showMol" (click)="openMol()">
             <mat-icon matSuffix>link</mat-icon>
             Open M.O.L.
         </button>    

@@ -10,7 +10,7 @@ import * as moment from 'moment'
 })
 export class TopMenuComponent implements OnInit {
   range = new FormGroup({
-    start: new FormControl(new Date(moment(new Date()).days(-90).format('YYYY, MM, DD'))),
+    start: new FormControl(new Date(moment(new Date()).subtract(3,'months').format('YYYY, MM, DD'))),
     end: new FormControl(new Date())
   });
 
@@ -31,6 +31,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   ran(a:any, b:FormGroup){
+    this.range.controls.end.setValue(new Date())
     let nw=''
     if(a.v!='') {
       nw = moment(this.range.value.end).subtract(a.v,a.l).format('YYYY-MM-DD')

@@ -26,7 +26,7 @@ export class RigTableComponent implements OnInit {
     this.displayedColumns=['Date', 'Engine']
     this.ore = this.dataSource.map((i: { x:any,y: any; y1: any; y2: any; y3: any; })=>{
       return {
-        x: moment(i.x).format("DD/MM/YYYY"),
+        x: i.x,
         y: this.th(i.y),
         y1: this.th(i.y1),
         y2: this.th(i.y2),
@@ -49,9 +49,7 @@ export class RigTableComponent implements OnInit {
   }
 
   de(a:string){
-    let b= moment(a).format("YYYY-MM-DD")
-    alert(b)
-    //this.action2.emit(a)
+    this.action2.emit(a)
   }
 
   th(a:any){

@@ -138,7 +138,7 @@ export class MachineComponent implements OnInit {
     if(this.cCom==1 && this.datafil[0].y=='c') {
       this.infoH= 'Running Hours'
     } else if(this.cCom>0 && this.datafil[0].y!='c') {
-      this.infoH = `Running Hours @ Last Read: ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
+      this.infoH = `Running Hours @ ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
     } else {
       this.infoH= 'Running Hours'
     }

@@ -67,9 +67,7 @@ import { SortCustPipe } from './pipe/sort-cust.pipe';
 import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatBadgeModule } from '@angular/material/badge';
-import { MainComponent } from './comp/visit/main/main.component'
 import { MatTabsModule } from '@angular/material/tabs';
-import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
 import { ElevationDirective } from './dir/elevation.directive';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
@@ -78,7 +76,7 @@ import { NewvisitsubcontDirective } from './dir/newvisitsubcont.directive';
 import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
 import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
-import { VisitfieldComponent } from './comp/visit/visitfield/visitfield.component';
+import { DateconvPipe } from './pipe/dateconv.pipe';
 
 export const MY_FORMATS = {
   parse: {
@@ -139,8 +137,6 @@ const appearance: MatFormFieldDefaultOptions = {
     SpinComponent,
     SortCustPipe,
     VisitComponent,
-    MainComponent,
-    NewvisitComponent,
     ComdatedialogComponent,
     ElevationDirective,
     NewvisitcontDirective,
@@ -148,7 +144,8 @@ const appearance: MatFormFieldDefaultOptions = {
     NewvisitfieldDirective,
     NewvisitspacerDirective,
     NewvisiticoDirective,
-    VisitfieldComponent,
+    DateconvPipe,
+
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
