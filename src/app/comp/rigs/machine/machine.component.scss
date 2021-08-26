@@ -23,8 +23,7 @@
 }
 
 .subitemc, .over{
-    width: 50%;
-    flex: 1 1 1;
+    flex: 1 1;
     height: 350px;
     background-color: rgb(245,245,245);
     border-radius: 5px 5px 0 0;
@@ -56,6 +55,7 @@ h2{
 .over{
     height: auto;
     min-height: 350px;
+    margin-top:35px;
 }
 
 .datacont{
@@ -87,6 +87,7 @@ h2{
 }
 
 
+
 @media only screen and (max-width: 650px) {
     .itemc{
         display: flex;
@@ -98,6 +99,7 @@ h2{
     }
     .over{
         margin:0;
+        margin-top:35px;
     }
 
     .spacer{
