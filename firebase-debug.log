@@ -1,0 +1,14 @@
+[debug] [2021-08-27T13:17:58.215Z] ----------------------------------------------------------------------
+[debug] [2021-08-27T13:17:58.217Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Iycma\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-08-27T13:17:58.217Z] CLI Version:   9.16.6
+[debug] [2021-08-27T13:17:58.217Z] Platform:      win32
+[debug] [2021-08-27T13:17:58.217Z] Node Version:  v14.17.1
+[debug] [2021-08-27T13:17:58.218Z] Time:          Fri Aug 27 2021 15:17:58 GMT+0200 (Ora legale dell’Europa centrale)
+[debug] [2021-08-27T13:17:58.218Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-08-27T13:17:58.261Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-08-27T13:17:58.261Z] > authorizing via signed-in user (episerjob@gmail.com)
+[debug] [2021-08-27T13:17:58.262Z] [iam] checking project episjobadmin for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-08-27T13:17:58.263Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-08-27T13:17:58.263Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>

@@ -67,7 +67,6 @@ import { SortCustPipe } from './pipe/sort-cust.pipe';
 import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatBadgeModule } from '@angular/material/badge';
-import { MatTabsModule } from '@angular/material/tabs';
 import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
 import { ElevationDirective } from './dir/elevation.directive';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
@@ -78,6 +77,8 @@ import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
 import { DateconvPipe } from './pipe/dateconv.pipe';
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
+import { MatStepperModule } from '@angular/material/stepper'
+import { MatRadioModule } from '@angular/material/radio'
 
 export const MY_FORMATS = {
   parse: {
@@ -151,7 +152,7 @@ const appearance: MatFormFieldDefaultOptions = {
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatTabsModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

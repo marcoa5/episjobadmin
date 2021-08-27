@@ -1,1 +1,55 @@
-<button mat-fab>+</button>Add New Visit
+<mat-vertical-stepper linear=true orientation="vertical">
+  <mat-step [stepControl]="dateFormGroup">
+    <form [formGroup]="dateFormGroup">
+      <ng-template matStepLabel>Select Date</ng-template>
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" required formControlName="date"> 
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="newCustFormGroup">
+    <form [formGroup]="newCustFormGroup">
+      <ng-template matStepLabel>Customer</ng-template>
+        <div style="margin: 20px 0">
+            <mat-radio-group aria-label="Select an option" formControlName="ch1" class="radio">
+                <mat-radio-button value="1" class="radioB" [checked]="true">Existing customer</mat-radio-button>
+                <mat-radio-button value="2" class="radioB">Potential Customer</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <form [formGroup]="custFormGroup" *ngIf="newCustFormGroup.controls.ch1.value==1" style="display:grid; grid-template-rows: 10;max-width: 300px;">
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Select Customer</mat-label>
+                <mat-select (selectionChange)="a($event)">
+                  <mat-option *ngFor="let c of customers" [value]="c.id">
+                    {{c.c1}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Select Customer</mat-label>
+                <input matInput type="text" formControlName="c2">
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious (click)="b('ok')">Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+        <form [formGroup]="custFormGroup" *ngIf="newCustFormGroup.controls.ch1.value==2">
+            <mat-form-field appearance="fill">
+                <mat-label>Type New Customer</mat-label>
+                <input matInput formControlName="c1" placeholder="Ex. 1 Main St, New York, NY" required>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </form>
+    </form>
+  </mat-step>
+</mat-vertical-stepper>
