@@ -1,5 +1,5 @@
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
-<div *ngIf="pos=='SU' || pos=='admin'">
+<div *ngIf="pos=='SU' || pos=='admin' || pos=='tech'">
 
   <episjob-spin *ngIf="start<0"></episjob-spin>>
   <div class="cont" *ngIf="start>-1" >
@@ -15,4 +15,4 @@
   </div>
 </div>
 
-<div *ngIf="pos!='SU' && pos!='admin' && pos!=undefined" class="cont">Restricted Area</div>
+<div *ngIf="pos!='SU' && pos!='admin' && pos!='tech' && pos!=undefined" class="cont">Restricted Area</div>

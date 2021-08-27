@@ -77,6 +77,7 @@ import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
 import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
 import { DateconvPipe } from './pipe/dateconv.pipe';
+import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -145,6 +146,7 @@ const appearance: MatFormFieldDefaultOptions = {
     NewvisitspacerDirective,
     NewvisiticoDirective,
     DateconvPipe,
+    NewvisitComponent,
 
   ],
   imports: [
