@@ -1,55 +1,104 @@
-<mat-vertical-stepper linear=true orientation="vertical">
-  <mat-step [stepControl]="dateFormGroup">
+<mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)">
+    <mat-step [stepControl]="dateFormGroup">
     <form [formGroup]="dateFormGroup">
       <ng-template matStepLabel>Select Date</ng-template>
-      <mat-form-field [appearance]="appearance">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" required formControlName="date"> 
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext>Next</button>
+      <div class="cont dateCont">
+        <mat-form-field [appearance]="appearance">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" required formControlName="date"> 
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="butt">
+        <button mat-raised-button matStepperNext color="primary">Next</button>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="newCustFormGroup">
-    <form [formGroup]="newCustFormGroup">
+  <mat-step [stepControl]="custFormGroup">
       <ng-template matStepLabel>Customer</ng-template>
-        <div style="margin: 20px 0">
-            <mat-radio-group aria-label="Select an option" formControlName="ch1" class="radio">
-                <mat-radio-button value="1" class="radioB" [checked]="true">Existing customer</mat-radio-button>
-                <mat-radio-button value="2" class="radioB">Potential Customer</mat-radio-button>
-            </mat-radio-group>
-        </div>
-        <form [formGroup]="custFormGroup" *ngIf="newCustFormGroup.controls.ch1.value==1" style="display:grid; grid-template-rows: 10;max-width: 300px;">
+        <form [formGroup]="custFormGroup" class="custForm">
+          <div class="cont custCont">
             <mat-form-field [appearance]="appearance">
-                <mat-label>Select Customer</mat-label>
-                <mat-select (selectionChange)="a($event)">
-                  <mat-option *ngFor="let c of customers" [value]="c.id">
-                    {{c.c1}}
-                  </mat-option>
-                </mat-select>
+              <mat-label>Customer Name</mat-label>
+              <input matInput type="text" placeholder="Customer Name" formControlName="c1" autocomplete="off" (keyup)="clearCust()">
             </mat-form-field>
             <mat-form-field [appearance]="appearance">
-                <mat-label>Select Customer</mat-label>
-                <input matInput type="text" formControlName="c2">
+              <mat-label>Customer Address 1</mat-label>
+              <input matInput type="text" placeholder="Customer Address 1" formControlName="c2">
             </mat-form-field>
-            <div>
-                <button mat-button matStepperPrevious (click)="b('ok')">Back</button>
-                <button mat-button matStepperNext>Next</button>
+            <mat-form-field [appearance]="appearance">
+              <mat-label>Customer Address 2</mat-label>
+              <input matInput type="text" placeholder="Customer Address 2" formControlName="c3">
+            </mat-form-field>
+          </div>
+
+            <mat-list class="list" *ngIf="chList() && listVis">
+              <div mat-subheader>Customers List</div>
+              <mat-list-item *ngFor="let c of customers1" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" (click)="addC(c.c1,c.c2,c.c3,c.id)">
+                <mat-icon mat-list-icon>business</mat-icon>
+                <div mat-line>{{c.c1}}</div>
+                <div mat-line> {{c.c2}} | {{c.c2}} </div>
+              </mat-list-item>
+            </mat-list>
+            <div class="butt">
+                <button mat-raised-button matStepperPrevious color="primary">Back</button>
+                <button mat-raised-button matStepperNext color="primary">Next</button>
             </div>
         </form>
-        <form [formGroup]="custFormGroup" *ngIf="newCustFormGroup.controls.ch1.value==2">
-            <mat-form-field appearance="fill">
-                <mat-label>Type New Customer</mat-label>
-                <input matInput formControlName="c1" placeholder="Ex. 1 Main St, New York, NY" required>
-            </mat-form-field>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </form>
+  </mat-step>
+  <mat-step [stepControl]="contactFormGroup">
+    <ng-template matStepLabel>Contact</ng-template>
+    <form [formGroup]="contactFormGroup">
+    <div class="cont">
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name">
+      </mat-form-field>
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Position</mat-label>
+        <input matInput type="text" autocomplete="off" placeholder="Position within the company" formControlName="pos">
+      </mat-form-field>
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Phone</mat-label>
+        <input matInput type="text" autocomplete="off" placeholder="Phone nr." formControlName="phone">
+      </mat-form-field>
+      <mat-form-field [appearance]="appearance">
+        <mat-label>Mail</mat-label>
+        <input matInput type="email" autocomplete="off" placeholder="Email address" formControlName="mail">
+      </mat-form-field>
+    </div>
+    <div *ngIf="contacts.length>0">
+      <mat-divider></mat-divider>
+      <mat-list class="list">
+        <div mat-subheader>Existing Contacts for {{cuNa}}</div>
+        <mat-list-item *ngFor="let c of contacts" (click)="conCon(c.name, c.pos, c.phone, c.mail)" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}">
+          <mat-icon mat-list-icon>person</mat-icon>
+          <div mat-line>{{c.name}}</div>
+          <div mat-line> {{c.pos}} | {{c.phone}} | {{c.mail}} </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </form>
+  <div class="butt">
+    <button mat-raised-button matStepperPrevious color="primary">Back</button>
+    <button mat-raised-button matStepperNext color="primary">Next</button>
+  </div>
+  </mat-step>
+  <mat-step [stepControl]="visitNotes">
+    <ng-template matStepLabel>Notes</ng-template>
+    <form [formGroup]="visitNotes">
+      <div class="cont notesCont">
+        <mat-form-field [appearance]="appearance">
+          <textarea placeholder="Type notes here..." matInput formControlName="notes" rows="15"></textarea>
+        </mat-form-field>
+      </div>
     </form>
+    <div class="butt">
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <button mat-raised-button matStepperNext color="primary" *ngIf="go()">Submit</button>
+    </div>
+
   </mat-step>
 </mat-vertical-stepper>
+

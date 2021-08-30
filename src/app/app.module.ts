@@ -79,6 +79,7 @@ import { DateconvPipe } from './pipe/dateconv.pipe';
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatRadioModule } from '@angular/material/radio'
+import { MatListModule } from '@angular/material/list'
 
 export const MY_FORMATS = {
   parse: {
@@ -151,7 +152,7 @@ const appearance: MatFormFieldDefaultOptions = {
 
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
