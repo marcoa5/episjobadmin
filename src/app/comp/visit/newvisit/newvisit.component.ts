@@ -23,7 +23,7 @@ export interface contact{
 }
 
 export interface info{
-  date: Date
+  date: string
   cuId:string
   c1: string
   c2:string
@@ -293,7 +293,7 @@ export class NewvisitComponent implements OnInit {
 
   submit(){
     let info:info={
-      date: this.dateFormGroup.controls.date.value,
+      date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
       cuId: this.cId?this.cId[0].id:'',
       c1: this.custFormGroup.controls.c1.value,
       c2: this.custFormGroup.controls.c2.value,
@@ -314,8 +314,18 @@ export class NewvisitComponent implements OnInit {
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result=='ok'){
-          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1).child(this.userName).child(moment(info.date).format("YYYYMMDD")).set(info)
-          .then(()=>this.location.back())
+          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1).child(this.userName).child(info.date).set(info)
+          .then(()=>{
+            firebase.database().ref('Contacts').child(info.cuId).child(info.name).set({
+              pos: info.pos,
+              mail: info.mail,
+              phone:info.phone,
+              name: info.name
+            })
+            .then(()=>{
+              this.location.back()
+            })
+          })
         }
       })
   }
