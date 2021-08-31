@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CheckboxControlValueAccessor, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
@@ -56,6 +56,7 @@ export class NewvisitComponent implements OnInit {
   contacts1: contact[]=[]
   cuNa:string|undefined
   listVis:boolean=true
+  listVisCont:boolean=true
   val:boolean=false
   userName:string=''
   constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder) { }
@@ -165,6 +166,23 @@ export class NewvisitComponent implements OnInit {
     this.contactFormGroup.controls.name.valueChanges.subscribe(v=>{
       this.filterCont(v)
     })
+  }
+
+  checkCont(v:any) {
+    let p = this.contacts.filter(a=>{
+      if(a.name.toLowerCase()==v.target.value.toLowerCase()) return true
+      return false
+    })
+      if(p.length==1){
+        this.listVisCont=false
+        this.conCon(p[0].name,p[0].pos,p[0].phone,p[0].mail)
+      } else {
+        this.listVisCont=true
+        let v = this.contactFormGroup.controls
+        v.mail.setValue('')
+        v.phone.setValue('')
+        v.pos.setValue('')
+      }
   }
 
   filterCont(v:string){

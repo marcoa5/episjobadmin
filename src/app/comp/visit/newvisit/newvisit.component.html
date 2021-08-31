@@ -54,9 +54,9 @@
     <div class="cont contCont">
       <mat-form-field [appearance]="appearance" class="contItem1">
         <mat-label>Name</mat-label>
-        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name">
+        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name" (keyup)="checkCont($event)">
       </mat-form-field>
-      <mat-list class="list" class="contItem5">
+      <mat-list class="list" class="contItem5" *ngIf="listVisCont">
         <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
         <mat-list-item *ngFor="let c of contacts1" (click)="conCon(c.name, c.pos, c.phone, c.mail)" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}">
           <mat-icon mat-list-icon>person</mat-icon>
@@ -104,3 +104,4 @@
   </mat-step>
 </mat-vertical-stepper>
 
+{{listVisCont}}
