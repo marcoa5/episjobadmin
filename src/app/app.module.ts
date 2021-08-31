@@ -80,7 +80,8 @@ import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatListModule } from '@angular/material/list';
-import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component'
+import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component';
+import { PotentialComponent } from './comp/potential/potential.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -151,6 +152,7 @@ const appearance: MatFormFieldDefaultOptions = {
     DateconvPipe,
     NewvisitComponent,
     SavevisitComponent,
+    PotentialComponent,
 
   ],
   imports: [

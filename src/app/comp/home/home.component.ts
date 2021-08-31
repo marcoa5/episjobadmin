@@ -76,6 +76,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','admin','sales','']
     },
+    {
+      id:'Potential',
+      icon:'trending_up', 
+      route:'potential', 
+      dis:false, 
+      auth:['SU','admin','sales','']
+    },
   ];
 
   constructor(public router :Router) { }
