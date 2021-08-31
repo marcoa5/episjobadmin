@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
-
+import * as moment from 'moment'
+import { Location } from '@angular/common'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
+import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.component';
 
 export interface customer{
   id: string,
@@ -17,6 +20,19 @@ export interface contact{
   phone: string,
   mail: string,
   pos: string,
+}
+
+export interface info{
+  date: Date
+  cuId:string
+  c1: string
+  c2:string
+  c3: string
+  name: string
+  pos:string
+  phone:string
+  mail: string
+  notes: string
 }
 
 @Component({
@@ -33,16 +49,28 @@ export class NewvisitComponent implements OnInit {
   visitNotes!: FormGroup;
   custFormGroup!: FormGroup;
   contactFormGroup!: FormGroup;
-  customers: customer[] |undefined
+  customers!: customer[] |undefined
   customers1: customer[] |undefined
-  cId: customer[] |undefined
+  cId: customer[]|undefined
   contacts: contact[]=[]
+  contacts1: contact[]=[]
   cuNa:string|undefined
   listVis:boolean=true
   val:boolean=false
-  constructor(private _formBuilder: FormBuilder) { }
+  userName:string=''
+  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    firebase.auth().onAuthStateChanged(a=>{
+      console.log(a)
+      if(a) {
+        firebase.database().ref('Users').child(a.uid).once('value',b=>{
+          this.userName=b.val().Nome + " " + b.val().Cognome
+        })
+      }
+    })
+
+
     firebase.database().ref('CustomerC').once('value',a=>{
       this.customers=Object.values(a.val())
       this.customers.sort((a, b)=> {
@@ -58,6 +86,7 @@ export class NewvisitComponent implements OnInit {
     .then(()=>{
       this.customers1=this.customers
       this.custChange()
+      this.contChange()
     })
 
     this.dateFormGroup = this._formBuilder.group({
@@ -123,20 +152,42 @@ export class NewvisitComponent implements OnInit {
           })
         }
       })
+      .then(()=>this.contacts1=this.contacts)
     }
   }
 
   custChange(){
     this.custFormGroup.controls.c1.valueChanges.subscribe(v=>{
-      if(v!=''){
-        this.customers1 = this.customers?.filter(i=>{
-          if(i.c1.toLowerCase().includes(v.toLowerCase()) || i.c2.toLowerCase().includes(v.toLowerCase()) || i.c3.toLowerCase().includes(v.toLowerCase())) return true
-          return false
-        })
-      } else {
-        this.customers1 = this.customers
-      }
+      this.filterCust(v)
     })
+  }
+
+  contChange(){
+    this.contactFormGroup.controls.name.valueChanges.subscribe(v=>{
+      this.filterCont(v)
+    })
+  }
+
+  filterCont(v:string){
+    if(v!=''){
+      this.contacts1 = this.contacts?.filter(i=>{
+        if(i.name.toLowerCase().includes(v.toLowerCase()) || i.pos.toLowerCase().includes(v.toLowerCase())) return true
+        return false
+      })
+    } else {
+      this.contacts1 = this.contacts
+    }
+  }
+
+  filterCust(v:string){
+    if(v!=''){
+      this.customers1 = this.customers?.filter(i=>{
+        if(i.c1.toLowerCase().includes(v.toLowerCase()) || i.c2.toLowerCase().includes(v.toLowerCase()) || i.c3.toLowerCase().includes(v.toLowerCase())) return true
+        return false
+      })
+    } else {
+      this.customers1 = this.customers
+    }
   }
 
   addC(c1:string,c2:string,c3:string,id:string){
@@ -148,6 +199,7 @@ export class NewvisitComponent implements OnInit {
     g.c2.disable()
     g.c3.disable()
     this.listVis=false
+    this.clearCust()
   }
 
   clearCust(){
@@ -165,11 +217,11 @@ export class NewvisitComponent implements OnInit {
       this.listVis=true
       this.conCus('','')
     }
+    console.log(this.cId)
   }
 
   conCus(c2:string,c3:string){
     let con = this.custFormGroup.controls
-    
     if(c2=='') {
       con.c2.setValue('')
       con.c2.enable()
@@ -193,7 +245,6 @@ export class NewvisitComponent implements OnInit {
     return false
     } 
     return false
-    
   }
 
   conCon(name:String, pos:string,phone:string,mail:string){
@@ -224,6 +275,7 @@ export class NewvisitComponent implements OnInit {
       this.conCus('','')
       this.conCon('','','','')
       this.conNotes('')
+
     }
     if(r==1) {
       this.conCon('','','','')
@@ -240,6 +292,31 @@ export class NewvisitComponent implements OnInit {
   }
 
   submit(){
-    
+    let info:info={
+      date: this.dateFormGroup.controls.date.value,
+      cuId: this.cId?this.cId[0].id:'',
+      c1: this.custFormGroup.controls.c1.value,
+      c2: this.custFormGroup.controls.c2.value,
+      c3: this.custFormGroup.controls.c3.value,
+      name: this.contactFormGroup.controls.name.value,
+      pos: this.contactFormGroup.controls.pos.value,
+      phone: this.contactFormGroup.controls.phone.value,
+      mail: this.contactFormGroup.controls.mail.value,
+      notes: this.visitNotes.controls.notes.value,
+    }
+
+    const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(SavevisitComponent, {
+        data: {sn: ''}
+      });
+      // ADD check per modifica matricola
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=='ok'){
+          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1).child(this.userName).child(moment(info.date).format("YYYYMMDD")).set(info)
+          .then(()=>this.location.back())
+        }
+      })
   }
 }

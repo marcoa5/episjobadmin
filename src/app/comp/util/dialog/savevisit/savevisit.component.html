@@ -1,0 +1,6 @@
+<div mat-dialog-title>Submit Visit Data</div>
+<div mat-dialog-content>Visit data will be submitted, proceed?</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">Yes</button>
+</div>
