@@ -273,6 +273,7 @@ export class NewvisitComponent implements OnInit {
     r.pos.setValue(pos)
     r.phone.setValue(phone)
     r.mail.setValue(mail)
+    if(name!='') this.listVisCont=false
     if(name=='') this.contacts=[]
   }
 
