@@ -58,7 +58,7 @@ export class AppComponent {
       this.orient = false
     }
 
-    if(window.innerWidth>450) {
+    if(window.innerWidth>500) {
       this.screenSize =true
     } else {
       this.screenSize =false
