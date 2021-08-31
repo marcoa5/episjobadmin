@@ -1,6 +1,6 @@
 <div class="mt">
     <mat-toolbar color="primary" class="mt" [class.mat-elevation-z8]="true">
-    <span>{{orient? 'Epiroc Italia Admin Tool' : 'Epiroc Italia'}}</span>
+    <span>{{screenSize? 'Epiroc Italia Admin Tool' : 'Epiroc Italia'}}</span>
     <span class="example-spacer"></span>
     <span class="contUser">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="userExists()">
