@@ -62,7 +62,6 @@ export class NewvisitComponent implements OnInit {
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
-      console.log(a)
       if(a) {
         firebase.database().ref('Users').child(a.uid).once('value',b=>{
           this.userName=b.val().Nome + " " + b.val().Cognome
@@ -217,7 +216,6 @@ export class NewvisitComponent implements OnInit {
       this.listVis=true
       this.conCus('','')
     }
-    console.log(this.cId)
   }
 
   conCus(c2:string,c3:string){
