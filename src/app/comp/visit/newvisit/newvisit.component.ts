@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {CheckboxControlValueAccessor, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
@@ -51,7 +51,7 @@ export class NewvisitComponent implements OnInit {
   contactFormGroup!: FormGroup;
   customers!: customer[] |undefined
   customers1: customer[] |undefined
-  cId: customer[]|undefined
+  cId: customer[]=[]
   contacts: contact[]=[]
   contacts1: contact[]=[]
   cuNa:string|undefined
@@ -158,6 +158,8 @@ export class NewvisitComponent implements OnInit {
 
   custChange(){
     this.custFormGroup.controls.c1.valueChanges.subscribe(v=>{
+      this.contacts=[]
+      this.contacts1=[]
       this.filterCust(v)
     })
   }
@@ -221,18 +223,20 @@ export class NewvisitComponent implements OnInit {
 
   clearCust(){
     let con = this.custFormGroup.controls
-    this.cId = this.customers?.filter(v=>{
-      if(v.c1.toLowerCase()==con.c1.value.toLowerCase()) return true
-      return false
-    })
-    if(this.cId?.length==1) {
-      this.listVis=false
-      con.c1.setValue(this.cId[0].c1)
-      this.conCus(this.cId[0].c2,this.cId[0].c3)
-      this.cuId(this.cId[0].id)
-    } else {
-      this.listVis=true
-      this.conCus('','')
+    if(this.customers){
+      this.cId = this.customers?.filter(v=>{
+        if(v.c1.toLowerCase()==con.c1.value.toLowerCase()) return true
+        return false
+      })
+      if(this.cId?.length==1) {
+        this.listVis=false
+        con.c1.setValue(this.cId[0].c1)
+        this.conCus(this.cId[0].c2,this.cId[0].c3)
+        this.cuId(this.cId[0].id)
+      } else {
+        this.listVis=true
+        this.conCus('','')
+      }
     }
   }
 
@@ -310,7 +314,7 @@ export class NewvisitComponent implements OnInit {
   submit(){
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
-      cuId: this.cId?this.cId[0].id:'',
+      cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid(10),
       c1: this.custFormGroup.controls.c1.value,
       c2: this.custFormGroup.controls.c2.value,
       c3: this.custFormGroup.controls.c3.value,
@@ -339,10 +343,31 @@ export class NewvisitComponent implements OnInit {
               name: info.name
             })
             .then(()=>{
+              if(info.cuId.substring(0,8)=='00000POT'){
+                firebase.database().ref('CustomerC').child(info.cuId).set({
+                  c1: info.c1,
+                  c2: info.c2,
+                  c3:info.c3,
+                  id: info.cuId
+                })
+              }
+              setTimeout(() => {
               this.location.back()
+                
+              }, 250);
             })
           })
         }
       })
+  }
+
+  makeid(length:number) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
   }
 }

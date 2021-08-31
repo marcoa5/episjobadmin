@@ -5,13 +5,13 @@
       <div class="cont dateCont">
         <mat-form-field [appearance]="appearance" class="dateItem1">
           <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" required formControlName="date"> 
+          <input matInput [matDatepicker]="picker" formControlName="date"> 
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </div>
       <div class="butt">
-        <button mat-raised-button matStepperNext color="primary">Next</button>
+        <button mat-raised-button matStepperNext color="primary" *ngIf="!dateFormGroup.invalid">Next</button>
       </div>
     </form>
   </mat-step>
@@ -33,18 +33,18 @@
             </mat-list>
             <mat-form-field [appearance]="appearance" class="custItem2">
               <mat-label>Customer Address 1</mat-label>
-              <input matInput type="text" placeholder="Customer Address 1" formControlName="c2">
+              <input matInput type="text" placeholder="Customer Address 1" formControlName="c2"  autocomplete="off">
             </mat-form-field>
             <mat-form-field [appearance]="appearance"  class="custItem3">
               <mat-label>Customer Address 2</mat-label>
-              <input matInput type="text" placeholder="Customer Address 2" formControlName="c3">
+              <input matInput type="text" placeholder="Customer Address 2" formControlName="c3"  autocomplete="off">
             </mat-form-field>
           </div>
 
             
             <div class="butt">
                 <button mat-raised-button matStepperPrevious color="primary">Back</button>
-                <button mat-raised-button matStepperNext color="primary">Next</button>
+                <button mat-raised-button matStepperNext color="primary" *ngIf="!custFormGroup.invalid">Next</button>
             </div>
         </form>
   </mat-step>
@@ -54,7 +54,7 @@
     <div class="cont contCont">
       <mat-form-field [appearance]="appearance" class="contItem1">
         <mat-label>Name</mat-label>
-        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name" (keyup)="checkCont($event)">
+        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name" (keyup)="checkCont($event)"  autocomplete="off">
       </mat-form-field>
       <mat-list class="list" class="contItem5" *ngIf="listVisCont">
         <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
@@ -84,7 +84,7 @@
   </form>
   <div class="butt">
     <button mat-raised-button matStepperPrevious color="primary">Back</button>
-    <button mat-raised-button matStepperNext color="primary">Next</button>
+    <button mat-raised-button matStepperNext color="primary" *ngIf="!contactFormGroup.invalid">Next</button>
   </div>
   </mat-step>
   <mat-step [stepControl]="visitNotes">

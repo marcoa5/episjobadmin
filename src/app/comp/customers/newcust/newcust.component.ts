@@ -123,5 +123,5 @@ export class NewcustComponent implements OnInit {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
-}
+  }
 }
