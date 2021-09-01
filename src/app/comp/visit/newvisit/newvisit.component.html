@@ -102,7 +102,7 @@
         <mat-list class="list notesItem2" *ngIf="lisComVis">
           <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
           <mat-list-item *ngFor="let c of comuni" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" (click)="conPlace(c)">
-            <mat-icon mat-list-icon>person</mat-icon>
+            <mat-icon mat-list-icon>location_on</mat-icon>
             <div mat-line>{{c}}</div>
           </mat-list-item>
         </mat-list>
