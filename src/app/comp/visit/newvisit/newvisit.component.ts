@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
@@ -7,6 +7,7 @@ import * as moment from 'moment'
 import { Location } from '@angular/common'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.component';
+import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 
 export interface customer{
   id: string,
@@ -33,6 +34,7 @@ export interface info{
   phone:string
   mail: string
   notes: string
+  place: string
 }
 
 @Component({
@@ -59,6 +61,9 @@ export class NewvisitComponent implements OnInit {
   listVisCont:boolean=true
   val:boolean=false
   userName:string=''
+  comuni: string[]=[]
+  _comuni: string[]=[]
+  lisComVis:boolean=false
   constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -69,6 +74,10 @@ export class NewvisitComponent implements OnInit {
         })
       }
     })
+
+    firebase.database().ref('Comuni').once('value', a=>{
+      if(a.val()!=null) this._comuni = Object.keys(a.val())
+    }).then(()=>this.comuni=this._comuni)
 
 
     firebase.database().ref('CustomerC').once('value',a=>{
@@ -87,6 +96,7 @@ export class NewvisitComponent implements OnInit {
       this.customers1=this.customers
       this.custChange()
       this.contChange()
+      this.placeChange()
     })
 
     this.dateFormGroup = this._formBuilder.group({
@@ -96,7 +106,7 @@ export class NewvisitComponent implements OnInit {
       name: ['',Validators.required],
       pos: ['',Validators.required],
       phone: ['',Validators.required],
-      mail: ['',Validators.required],
+      mail: ['',[Validators.required, Validators.email]],
     })
     this.custFormGroup = this._formBuilder.group({
       c1: ['', Validators.required],
@@ -104,7 +114,8 @@ export class NewvisitComponent implements OnInit {
       c3: [{value:'',disabled: false}, Validators.required],
     });
     this.visitNotes = this._formBuilder.group({
-      notes: ['',Validators.required]
+      notes: ['',Validators.required],
+      place: ['',Validators.required]
     })
   }
 
@@ -313,6 +324,8 @@ export class NewvisitComponent implements OnInit {
   }
 
   submit(){
+
+    console.log(this.visitNotes.controls.place.value)
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
       cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid(10),
@@ -324,6 +337,7 @@ export class NewvisitComponent implements OnInit {
       phone: this.contactFormGroup.controls.phone.value,
       mail: this.contactFormGroup.controls.mail.value,
       notes: this.visitNotes.controls.notes.value,
+      place: this.visitNotes.controls.place.value,
     }
 
     const dialogconf = new MatDialogConfig();
@@ -370,5 +384,43 @@ export class NewvisitComponent implements OnInit {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+  }
+
+  placeChange(){
+    this.visitNotes.controls.place.valueChanges.subscribe(v=>{
+      if(v.length>2) {
+        this.filterPlace(v.toLowerCase())
+      } else {
+        this.lisComVis = false
+        this.comuni=this._comuni
+      }
+    })
+  }
+
+  filterPlace(v:string){
+    this.lisComVis=true
+    this.comuni = this._comuni.filter(a=>{
+      if (a.toLowerCase().includes(v.toLowerCase())) return true
+      return false
+    })
+  }
+
+  checkPlace(v:any){
+    let r = this.comuni.filter(b=>{
+      if(b.toLowerCase()==v.target.value.toLowerCase()) {
+        return true
+      }
+      return false
+    })
+    if(r.length==1) {
+      this.conPlace(r.toString())
+    } else {
+      this.visitNotes.controls.place.setErrors({})
+    }
+  }
+
+  conPlace(a:string){
+    this.visitNotes.controls.place.setValue(a)
+    this.lisComVis=false
   }
 }

@@ -22,6 +22,7 @@
             <mat-form-field [appearance]="appearance" class="custItem1">
               <mat-label>Customer Name</mat-label>
               <input matInput type="text" placeholder="Customer Name" formControlName="c1" autocomplete="off" (keyup)="clearCust()">
+            <mat-error>Choose a customer from the list or type a new name</mat-error>
             </mat-form-field>
             <mat-list class="list custItem4" *ngIf="chList() && listVis">
               <!--<div mat-subheader>Customers List</div>-->
@@ -34,10 +35,12 @@
             <mat-form-field [appearance]="appearance" class="custItem2">
               <mat-label>Customer Address 1</mat-label>
               <input matInput type="text" placeholder="Customer Address 1" formControlName="c2"  autocomplete="off">
+              <mat-error>Type Address Line 1</mat-error>
             </mat-form-field>
             <mat-form-field [appearance]="appearance"  class="custItem3">
               <mat-label>Customer Address 2</mat-label>
               <input matInput type="text" placeholder="Customer Address 2" formControlName="c3"  autocomplete="off">
+              <mat-error>Type Address Line 2</mat-error>
             </mat-form-field>
           </div>
 
@@ -55,6 +58,7 @@
       <mat-form-field [appearance]="appearance" class="contItem1">
         <mat-label>Name</mat-label>
         <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name" (keyup)="checkCont($event)"  autocomplete="off">
+        <mat-error>Type Contact Name</mat-error>
       </mat-form-field>
       <mat-list class="list" class="contItem5" *ngIf="listVisCont">
         <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
@@ -67,14 +71,17 @@
       <mat-form-field [appearance]="appearance" class="contItem2">
         <mat-label>Position</mat-label>
         <input matInput type="text" autocomplete="off" placeholder="Position within the company" formControlName="pos">
+        <mat-error>Type Contact Position</mat-error>
       </mat-form-field>
       <mat-form-field [appearance]="appearance" class="contItem3">
         <mat-label>Phone</mat-label>
         <input matInput type="text" autocomplete="off" placeholder="Phone nr." formControlName="phone">
+        <mat-error>Type Contact Phone Nr</mat-error>
       </mat-form-field>
       <mat-form-field [appearance]="appearance" class="contItem4">
         <mat-label>Mail</mat-label>
         <input matInput type="email" autocomplete="off" placeholder="Email address" formControlName="mail">
+        <mat-error>Type a valid Mail address</mat-error>
       </mat-form-field>
     </div>
   </form>
@@ -88,6 +95,18 @@
     <form [formGroup]="visitNotes">
       <div class="notesCont">
         <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-list class="list notesItem2" *ngIf="lisComVis">
+          <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
+          <mat-list-item *ngFor="let c of comuni" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" (click)="conPlace(c)">
+            <mat-icon mat-list-icon>person</mat-icon>
+            <div mat-line>{{c}}</div>
+          </mat-list-item>
+        </mat-list>
+        <mat-form-field [appearance]="appearance" class="notesItem3">
           <textarea placeholder="Type notes here..." matInput formControlName="notes" rows="15"></textarea>
         </mat-form-field>
       </div>

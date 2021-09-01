@@ -55,7 +55,15 @@
     max-width: 750px;
   }
 
-  .notesItem1, .dateItem1{
+  .notesCont{
+    grid-template-areas: 
+    "notesItem1"
+    "notesItem2"
+    "notesItem3";
+    
+  }
+
+  .notesItem1, .notesItem2, .notesItem3, .dateItem1{
     width: 100%;
   }
 
