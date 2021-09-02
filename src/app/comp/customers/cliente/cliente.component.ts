@@ -27,6 +27,7 @@ export class ClienteComponent implements OnInit {
   custrig:any[]|undefined
   infoLabels:rigsLabel[]=[]
   rigsLabels:rigsLabel[]=[]
+  infoContacts:rigsLabel[]=[]
   constructor(public route: ActivatedRoute, private bak: BackService, private router: Router) { }
 
   ngOnInit(): void {
@@ -41,6 +42,15 @@ export class ClienteComponent implements OnInit {
           {value:this.cust2,lab:'Address 1',click:'', url:''},
           {value:this.cust3,lab:'Address 2',click:'', url:''}
         ]
+      })
+      firebase.database().ref('Contacts').child(this.id).once('value',a=>{
+        if(a.val()!=null){
+          a.forEach(b=>{
+            this.infoContacts.push(
+              {value: b.val().name + ' (' + b.val().pos + ')', lab:'Name',click:'', url:''}
+            )
+          })
+        }
       })
     })
 

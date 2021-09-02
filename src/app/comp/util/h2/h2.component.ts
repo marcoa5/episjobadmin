@@ -11,8 +11,10 @@ export class H2Component implements OnInit {
   @Input() padtop:any=35
   @Input() showAdd:boolean= false
   @Input() showMol:boolean=false
+  @Input() icon:string=''
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
+
   pos:string=''
   constructor() { }
 

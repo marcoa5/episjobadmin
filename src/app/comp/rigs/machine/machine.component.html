@@ -4,12 +4,12 @@
     <div class="item">
         <div class="row">
             <div class="subrow">
-                <episjob-h2 data="Machine Info" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
+                <episjob-h2 icon="precision_manufacturing" data="Machine Info" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
                 <episjob-label [values]="rigLabels"></episjob-label>
             </div>
             <div class="spacer"></div>
             <div class="subrow a3" *ngIf="cCom!=0">
-                <episjob-h2 [data]="infoH"></episjob-h2>
+                <episjob-h2 icon="update" [data]="infoH"></episjob-h2>
                 <p *ngIf="cCom==0">No data to display</p>
                 <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
             </div>           
@@ -34,7 +34,7 @@
                 <div class="itemc">
                     <div class="subitemc over">
                         <div class="datacont">
-                            <episjob-h2  padtop="10" data="Running Hours History"></episjob-h2>
+                            <episjob-h2 icon="update" padtop="10" data="Running Hours History"></episjob-h2>
                             <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
                         </div>
                     </div>

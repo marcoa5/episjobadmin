@@ -1,7 +1,7 @@
 <episjob-navbar [title]="addUpd? 'New Technician': 'Edit Technician'" [backB]="'technicians'" [home]="true" [cerca]="false"></episjob-navbar>
 
 <div class="cont" *ngIf="pos=='SU'">
-    <episjob-h2 [data]="addUpd? 'Add New Technician' : 'Edit Technician'"></episjob-h2>
+    <episjob-h2 icon="engineering" [data]="addUpd? 'Add New Technician' : 'Edit Technician'"></episjob-h2>
 
     <form [formGroup]="newT" class="formCont">
         <mat-form-field [appearance]="appearance">

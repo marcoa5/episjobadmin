@@ -1,8 +1,9 @@
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
 <div *ngIf="pos=='SU' || pos=='admin' || pos=='tech'">
-
   <episjob-spin *ngIf="start<0"></episjob-spin>>
   <div class="cont" *ngIf="start>-1" >
+
+    <episjob-h2 icon="file" data="Service Jobs list"></episjob-h2>
       <mat-paginator *ngIf="filtro==''"  [length]="files.length"
         [pageSize]="10"
         [pageSizeOptions]="lungh"

@@ -2,15 +2,19 @@
     <episjob-navbar [title]="'Technicians list'" (filter)="filter($event)" [cerca]="false"></episjob-navbar>
     <episjob-addbut [fun]="'newtech'"></episjob-addbut>
     <episjob-spin *ngIf="tech.length==0"></episjob-spin>
-    <div class="cont" *ngIf="tech.length>0">
-        <div class="tech" *ngFor="let te of tech" [class.mat-elevation-z4]="true" (click)="tec(te.l,te.s)">
-            <mat-icon>engineering</mat-icon>
-            <div class="spacer"></div>
-            <div class="nome">
-                <h4>{{te.l}}</h4>
-                <p>Short: {{te.s}}</p>
-            </div>
+    <div class="mainCont" *ngIf="tech.length>0">
+        <episjob-h2 icon="engineering" data="Technicians list"></episjob-h2>
+        <div class="cont">
+            <div class="tech" *ngFor="let te of tech" [class.mat-elevation-z4]="true" (click)="tec(te.l,te.s)">
+                <mat-icon>engineering</mat-icon>
+                <div class="spacer"></div>
+                <div class="nome">
+                    <h4>{{te.l}}</h4>
+                    <p>Short: {{te.s}}</p>
+                </div>
+            </div>  
         </div>
+        
     </div>
 </div>
 
