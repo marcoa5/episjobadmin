@@ -47,7 +47,7 @@ export class ClienteComponent implements OnInit {
         if(a.val()!=null){
           a.forEach(b=>{
             this.infoContacts.push(
-              {value: b.val().name + ' (' + b.val().pos + ')', lab:'Name',click:'', url:''}
+              {value: b.val().name, lab:b.val().pos,click:'', url:''}
             )
           })
         }
