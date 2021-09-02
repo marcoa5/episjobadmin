@@ -3,7 +3,7 @@
 
 <div id="cont" *ngIf="cust1!=''">
     <div class="item">
-        <episjob-h2 icon="work_outline" [data]="'Customer Info'"></episjob-h2> 
+        <episjob-h2 padtop=0 icon="work_outline" [data]="'Customer Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>
         <episjob-h2 icon="person" [data]="'Customer Contacts'" *ngIf="infoContacts.length>0"></episjob-h2> 
         <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0"></episjob-label>
