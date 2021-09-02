@@ -1,1 +1,21 @@
-<p>potential works!</p>
+<episjob-navbar [cerca]="false" title="Potential"></episjob-navbar>
+<div class="mainCont">
+    <form [formGroup]="ttmPot">
+        <div class="cont" *ngFor="let f of families; let i = index">
+            <div class="note">
+                <mat-label>{{f.bl}} | {{f.fam}}</mat-label>
+            </div>
+            <div class="pot">
+                <mat-form-field [appearance]="appearance">
+                    <input matInput type="text">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <input matInput type="text">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <input matInput type="text">
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>

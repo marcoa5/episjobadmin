@@ -288,8 +288,9 @@ export class NewvisitComponent implements OnInit {
     if(name=='') this.contacts=[]
   }
 
-  conNotes(a:string){
+  conNotes(a:string,b:string){
     this.visitNotes.controls.notes.setValue(a)
+    this.visitNotes.controls.place.setValue(b)
   }
 
   back(e:FormGroup){
@@ -306,15 +307,17 @@ export class NewvisitComponent implements OnInit {
       this.custFormGroup.controls.c1.setValue('')
       this.conCus('','')
       this.conCon('','','','')
-      this.conNotes('')
-
+      this.conNotes('','')
+      this.listVis=true
+      this.listVisCont=true
     }
     if(r==1) {
       this.conCon('','','','')
-      this.conNotes('')
+      this.conNotes('','')
+      this.listVisCont=true
     }
     if(r==2){
-      this.conNotes('')
+      this.conNotes('','')
     }
   }
 
@@ -324,8 +327,6 @@ export class NewvisitComponent implements OnInit {
   }
 
   submit(){
-
-    console.log(this.visitNotes.controls.place.value)
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
       cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid(10),
@@ -349,7 +350,7 @@ export class NewvisitComponent implements OnInit {
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result=='ok'){
-          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1).child(this.userName).child(info.date).set(info)
+          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userName).child(info.date).set(info)
           .then(()=>{
             firebase.database().ref('Contacts').child(info.cuId).child(info.name).set({
               pos: info.pos,

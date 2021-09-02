@@ -1,0 +1,23 @@
+.cont{
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(2, calc(50% - 15px));
+    grid-template-rows: auto;
+    gap:15px
+
+}
+
+.mainCont{
+    margin: 80px 10px 30px 10px;
+}
+
+.note{
+    
+}
+
+.pot{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 3fr);
+    grid-template-rows: auto;
+    gap:5px;
+}
