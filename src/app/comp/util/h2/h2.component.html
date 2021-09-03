@@ -1,20 +1,23 @@
-<h2 class="h2" [ngStyle]="{'padding-top':padtop + 'px'}">
-<mat-icon *ngIf="icon!=''">{{icon}}</mat-icon>
-<span class="dist1"*ngIf="icon!=''"></span>
-
-
-{{data}}
-    <span class="dist"></span>
-    <span *ngIf="pos=='SU'">
-        <button mat-stroked-button color="accent" *ngIf="showAdd" (click)="add()">
-            <mat-icon matSuffix>add_circle</mat-icon>
-            Comm. Date
-        </button>    
-    </span>
-    <span>
-        <button mat-stroked-button color="accent" *ngIf="showMol" (click)="openMol()">
-            <mat-icon matSuffix>link</mat-icon>
-            Open M.O.L.
-        </button>    
-    </span>
-</h2>
+<div class="cont" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
+    <h2 class="h2" >
+        <mat-icon *ngIf="icon!=''">{{icon}}</mat-icon>
+        <span class="dist1"*ngIf="icon!=''"></span>
+        
+        
+        {{data}}
+            <span class="dist"></span>
+            <span *ngIf="pos=='SU'">
+                <button mat-stroked-button color="accent" *ngIf="showAdd" (click)="add()">
+                    <mat-icon matSuffix>add_circle</mat-icon>
+                    C.Date
+                </button>    
+            </span>
+            <span>
+                <button mat-stroked-button color="accent" *ngIf="showMol" (click)="openMol()">
+                    <mat-icon matSuffix>link</mat-icon>
+                    MOL
+                </button>    
+            </span>
+        </h2>
+        
+</div>

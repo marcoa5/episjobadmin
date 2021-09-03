@@ -1,6 +1,6 @@
 <episjob-spin *ngIf="!dataSource"></episjob-spin>
 
-<div class="tablecont" *ngIf="dataSource">
+<div class="tablecont" *ngIf="dataSource" [class.mat-elevation-z2]="true">
     <mat-paginator 
         *ngIf="ore.length>5"
         [length]="ore.length"

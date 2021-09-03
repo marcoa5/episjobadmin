@@ -1,5 +1,4 @@
-<div class="cont">
-    <episjob-h2 icon="content_paste" class="title" [padtop]="10" [data]="'Service Job History'"></episjob-h2>
+<div class="cont" [class.mat-elevation-z2]="true">
 
     <div class="acc" *ngIf="sj.length>0">
       <mat-paginator [length]="sj.length"

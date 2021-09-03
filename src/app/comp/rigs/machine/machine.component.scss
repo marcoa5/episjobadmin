@@ -1,62 +1,27 @@
 @import '../../../../epi.scss';
 
-#cont{
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
-    z-index: 1;
-    padding: 80px 0 30px;
+.cont{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) minmax(250px, 1fr));
+    grid-template-rows: auto;
+    gap:30px;
 }
 
 .butt{
     z-index: 200;
 }
 
-.item, .itemc{
-    box-sizing: content-box;
-    width: 100%;
+#mainCont{
+    padding: 80px 10px 30px 10px;
 }
 
-.itemc{
-    display: flex;
-    flex-direction: row;
+.item{
+    max-height: 450px;
 }
-
-.subitemc, .over{
-    flex: 1 1;
-    height: 350px;
-    background-color: rgb(245,245,245);
-    border-radius: 5px 5px 0 0;
-    margin-top: 10px;
-    border-bottom: .5px solid $dark-text;
-    height: auto;
-    min-height: 350px;
-    max-width: calc(50% - 5px);
-}
-
-h2{
-    color: $dark-text;
-}
-
-.spacer{
-    width:10px;
-    min-width: 10px;
-}
-
 .can{
-    max-width:97%; 
-    min-height:100%;
+    max-height: 350px;
 }
 
-.back{
-    margin-top: 20px;;
-}
-
-.over{
-    height: auto;
-    min-height: 350px;
-    margin-top:35px;
-}
 
 .datacont{
     margin:10px;
@@ -76,72 +41,8 @@ h2{
     height: 35px;
 }
 
-.subrow{
-    align-items: stretch;
-    flex: 1 1 1;
-}
-
-.mat-focus-indicator{
-    margin: 0;
-    padding:0;
-}
-
-
-
-@media only screen and (max-width: 650px) {
-    .itemc{
-        display: flex;
-        flex-direction: column;
+@media only screen and (max-width: 850px) {
+    .cont {
+    grid-template-columns: minmax(250px, 1fr);
     }
-    .subitemc, .over{
-       width: 100%;
-       max-width: 100%;
-    }
-    .over{
-        margin:0;
-        margin-top:35px;
-    }
-
-    .spacer{
-        margin: 5px 0;
-    }
-    
-  }
-
-  @media only screen and (max-width: 850px){
-
-    .spacerC{
-        height: 20px;
-    }
-
-    .butC{
-        justify-items: center;
-    }
-
-    .but{
-        width: 100%;
-        max-width: 120px;
-    }
-  }
-
-  @media only screen and (min-width: 1900px) {
-
-    .row{
-        flex-direction: row;
-    }
-    .subrow{
-        width: 100%;
-        flex: 1 1 1;
-    }
-
-    .chart{
-        height: 100%;;
-    }
-    .a1{
-        order:3;
-    }
-    .a2{
-        order:1;
-    }
-    .a3{order:2}
   }
