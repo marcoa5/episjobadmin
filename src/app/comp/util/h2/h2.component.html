@@ -2,11 +2,9 @@
     <mat-icon *ngIf="icon!=''">{{icon}}</mat-icon>
     <h2>{{data}}</h2>
     <div class="butt">
-        <button mat-icon-button color="accent" *ngIf="showMol" (click)="openMol()">
-            <mat-icon matSuffix>link</mat-icon>
-        </button>       
-        <button mat-icon-button color="accent" *ngIf="showAdd && pos=='SU'" (click)="add()">
-            <mat-icon matSuffix>add_circle</mat-icon>
-        </button>
+        <mat-icon matSuffix *ngIf="showMol" (click)="openMol()">link</mat-icon>
+    
+        <mat-icon matSuffix *ngIf="showAdd && pos=='SU'" (click)="add()">add_circle</mat-icon>
+
     </div>
 </div>

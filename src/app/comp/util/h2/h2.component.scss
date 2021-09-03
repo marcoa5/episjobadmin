@@ -10,14 +10,6 @@
     gap:10px
 }
 
-.dist{
-    width: 50px;
-}
-
-.dist1{
-    width: 15px;
-}
-
 h2{
     margin:0;
 }
@@ -25,7 +17,10 @@ h2{
 .butt{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    cursor: pointer;
 }
+
+
 
 .cont{
     color: $light-text;
@@ -36,6 +31,6 @@ h2{
     border-top-right-radius: 10px;
     margin-bottom: 15px;
     padding: 5px 15px;
-    background-color: $dark-text;;
+    background-color: $dark-text;
     //background-color: rgb(200, 200, 200);
 }

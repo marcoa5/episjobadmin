@@ -20,9 +20,6 @@
     "item1";
 }
 
-.butt{
-    z-index: 200;
-}
 
 #mainCont{
     padding: 80px 10px 30px 10px;
@@ -31,7 +28,6 @@
 
 .can{
     max-height: 350px;
-    max-width:100%;
 }
 
 
@@ -50,7 +46,7 @@
 .item3{grid-area: item3;}
 .item4{grid-area: item4;}
 .item5{grid-area: item5;}
-.item6{grid-area: item6;}
+.item6{grid-area: item6;overflow:hidden}
 
 @media only screen and (min-width: 1900px) {
     .cont {
@@ -65,7 +61,6 @@
 @media only screen and (max-width: 850px) {
 .cont {
     grid-template-columns: 1fr;
-
     grid-template-areas:
     "item1"
     "item2"
