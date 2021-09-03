@@ -11,8 +11,7 @@
         <p *ngIf="cCom==0">No data to display</p>
         <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
     </div>   
-      
-        
+    
     <div class="item"  *ngIf="cCom!=0">
         <episjob-h2 icon="update" data="Engine Hours"></episjob-h2>
         <canvas class="can" id="orem" [class.mat-elevation-z2]="true"></canvas>
@@ -21,17 +20,15 @@
         <episjob-h2 icon="update" data="Percussion Hours"></episjob-h2>
         <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"></canvas>
     </div>
-    
     <div class="item"  *ngIf="cCom!=0">
-        <episjob-h2 icon="update" padtop="10" data="Running Hours History"></episjob-h2>
+        <episjob-h2 icon="update" data="Running Hours History"></episjob-h2>
         <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
     </div>
     <div class="item" *ngIf="cCom!=0">
-        <episjob-h2 icon="content_paste" class="title" [padtop]="10" [data]="'Service Job History'"></episjob-h2>
+        <episjob-h2 icon="content_paste" class="title" [data]="'Service Job History'"></episjob-h2>
         <episjob-sjlist [sn]="valore" [start]="inizio" [end]="fine" [docBpcs]="docBpcs" [customer]="customer" [model]="model"></episjob-sjlist>
     </div>
 </div>
-
             
 
 <episjob-editdelbut class="butt" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;"></episjob-editdelbut>

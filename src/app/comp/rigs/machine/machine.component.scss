@@ -41,6 +41,11 @@
     height: 35px;
 }
 
+.it{
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
 @media only screen and (max-width: 850px) {
     .cont {
     grid-template-columns: minmax(250px, 1fr);
