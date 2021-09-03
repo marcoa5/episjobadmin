@@ -1,34 +1,36 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
-<div id="mainCont" *ngIf="customer && ri==true">
-    <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]? data[0].x:0" (date)="readD($event)"></episjob-top-menu>
-<div class="cont" [ngStyle]="{'grid-template-columns': cCom!=0? 'minmax(250px, 1fr) minmax(250px, 1fr)':'minmax(250px, 1fr)'}">
-    <div class="item">
-        <episjob-h2 icon="precision_manufacturing" data="Machine Info" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
-        <episjob-label [values]="rigLabels"></episjob-label>
-    </div>
-    <div class="item" *ngIf="cCom!=0">
-        <episjob-h2 icon="update" [data]="infoH"></episjob-h2>
-        <p *ngIf="cCom==0">No data to display</p>
-        <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
-    </div>   
+<div (window:resize)="onResize()">
     
-    <div class="item"  *ngIf="cCom!=0">
-        <episjob-h2 icon="update" data="Engine Hours"></episjob-h2>
-        <canvas class="can" id="orem" [class.mat-elevation-z2]="true"></canvas>
-    </div>
-    <div class="item"  *ngIf="cCom!=0">
-        <episjob-h2 icon="update" data="Percussion Hours"></episjob-h2>
-        <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"></canvas>
-    </div>
-    <div class="item"  *ngIf="cCom!=0">
-        <episjob-h2 icon="update" data="Running Hours History"></episjob-h2>
-        <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
-    </div>
-    <div class="item" *ngIf="cCom!=0">
-        <episjob-h2 icon="content_paste" class="title" [data]="'Service Job History'"></episjob-h2>
-        <episjob-sjlist [sn]="valore" [start]="inizio" [end]="fine" [docBpcs]="docBpcs" [customer]="customer" [model]="model"></episjob-sjlist>
+    <div id="mainCont" *ngIf="customer && ri==true">
+        <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]? data[0].x:0" (date)="readD($event)"></episjob-top-menu>
+        <div [class.cont]="cCom!=0" [class.contMod]="cCom==0">
+            <div class="item1">
+                <episjob-h2 icon="precision_manufacturing" data="Machine Info" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
+                <episjob-label [values]="rigLabels"></episjob-label>
+            </div>
+            <div class="item2" *ngIf="cCom!=0">
+                <episjob-h2 icon="update" [data]="infoH"></episjob-h2>
+                <p *ngIf="cCom==0">No data to display</p>
+                <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
+            </div>   
+            <div class="item3"  *ngIf="cCom!=0">
+                <episjob-h2 icon="update" data="Engine Hours"></episjob-h2>
+                <canvas class="can" id="orem" [class.mat-elevation-z2]="true"></canvas>
+            </div>
+            <div class="item4"  *ngIf="cCom!=0">
+                <episjob-h2 icon="update" data="Percussion Hours"></episjob-h2>
+                <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"></canvas>
+            </div>
+            <div class="item5"  *ngIf="cCom!=0">
+                <episjob-h2 icon="update" data="Running Hours History"></episjob-h2>
+                <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)"></episjob-rig-table>
+            </div>
+            <div class="item6" *ngIf="cCom!=0">
+                <episjob-h2 icon="content_paste" class="title" [data]="'Service Job History'"></episjob-h2>
+                <episjob-sjlist [sn]="valore" [start]="inizio" [end]="fine" [docBpcs]="docBpcs" [customer]="customer" [model]="model"></episjob-sjlist>
+            </div>
+        </div>
     </div>
 </div>
-            
 
 <episjob-editdelbut class="butt" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;"></episjob-editdelbut>

@@ -2,9 +2,22 @@
 
 .cont{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr) minmax(250px, 1fr));
-    grid-template-rows: auto;
-    gap:30px;
+    row-gap: 0;
+    column-gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "item1 item2"
+    "item3 item4"
+    "item5 item6";
+}
+
+.contMod{
+    display: grid;
+    row-gap: 0;
+    column-gap: 30px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    "item1";
 }
 
 .butt{
@@ -15,11 +28,10 @@
     padding: 80px 10px 30px 10px;
 }
 
-.item{
-    max-height: 450px;
-}
+
 .can{
     max-height: 350px;
+    max-width:100%;
 }
 
 
@@ -27,27 +39,39 @@
     margin:10px;
 }
 
-#nr{
-    font-size: 15px;
-    padding-top: 80px
-}
-
-.row{
-    display: flex;
-    flex-direction: column;
-}
 
 .but{
     height: 35px;
 }
 
-.it{
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
+
+.item1{grid-area: item1;}
+.item2{grid-area: item2;}
+.item3{grid-area: item3;}
+.item4{grid-area: item4;}
+.item5{grid-area: item5;}
+.item6{grid-area: item6;}
+
+@media only screen and (min-width: 1900px) {
+    .cont {
+    grid-template-columns: repeat(4, 1fr);
+
+    grid-template-areas:
+    "item1 item1 item2 item2"
+    "item3 item4 item5 item6";
+    }
 }
 
 @media only screen and (max-width: 850px) {
-    .cont {
-    grid-template-columns: minmax(250px, 1fr);
-    }
-  }
+.cont {
+    grid-template-columns: 1fr;
+
+    grid-template-areas:
+    "item1"
+    "item2"
+    "item3"
+    "item4"
+    "item5"
+    "item6";
+}
+}

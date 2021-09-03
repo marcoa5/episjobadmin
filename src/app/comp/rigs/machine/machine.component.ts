@@ -92,6 +92,7 @@ export class MachineComponent implements OnInit {
   f(a:number){
     firebase.database().ref('MOL/' + this.valore).once('value',x=>{
       this.site = x.val().site
+      console.log(this.site)
       this.model=x.val().model
       this.customer=x.val().customer
       this.id = x.val().custid
@@ -101,8 +102,8 @@ export class MachineComponent implements OnInit {
         {value:this.valore, lab:'Serial Nr.',click:'',url:''},
         {value:this.model, lab:'Model',click:'',url:''},
         {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.id:'',url: this.pos!='sales'?'cliente':''},
-        {value:this.site, lab:'Site',click:'',url:''}
       ]
+      if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
       if (this.in) this.rigLabels[1]=({value: this.in, lab:'Part Nr.',click:'', url:''})
 
     }) 
@@ -475,6 +476,11 @@ export class MachineComponent implements OnInit {
 
   open(e:any){
     if(e=="mol")  window.open('https://mol.epiroc.com/search-criteria/search?snmin=' + this.valore, "_blank");
+  }
+
+  onResize(){
+    /*this.calcolaPerc1()
+    this.calcolaOrem()*/
   }
 }
  

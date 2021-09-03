@@ -14,7 +14,6 @@
     border-bottom: .5px solid $dark-text;
     white-space: nowrap;
     overflow: hidden;
-    width: 100%;
 }
 
 .txtlabel{
@@ -32,9 +31,3 @@
     overflow: hidden;
 }
 
-@media only screen and (min-width: 600px) {
-    .txtcont{
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr) minmax(150px, 1fr));
-        grid-template-rows: auto;
-    }
-  }
