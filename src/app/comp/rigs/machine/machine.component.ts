@@ -135,13 +135,14 @@ export class MachineComponent implements OnInit {
   }
 
   lastRead(){
-    if(this.cCom==1 && this.datafil[0].y=='c') {
-      this.infoH= 'Running Hours'
-    } else if(this.cCom>0 && this.datafil[0].y!='c') {
-      this.infoH = `Running Hours @ ${moment(this.data[this.data.length-1].x).format('DD/MM/YYYY')}`
-    } else {
-      this.infoH= 'Running Hours'
-    }
+    if(this.cCom>0 && this.datafil[0].y!='c') {
+      this.hrsLabels.push({
+        value:moment(this.data[this.data.length-1].x).format('DD/MM/YYYY'),
+        lab: 'Last Read',
+        click:'',
+        url:''
+      })
+    } 
   }
 
   loadData(){

@@ -3,11 +3,11 @@
 
 <div id="cont" *ngIf="cust1!=''">
     <div class="item">
-        <episjob-h2 padtop=0 icon="work_outline" [data]="'Customer Info'"></episjob-h2> 
+        <episjob-h2 padtop=0 icon="work_outline" [data]="'Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>
-        <episjob-h2 icon="person" [data]="'Customer Contacts'" *ngIf="infoContacts.length>0"></episjob-h2> 
+        <episjob-h2 icon="person" [data]="'Contacts'" *ngIf="infoContacts.length>0"></episjob-h2> 
         <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0"></episjob-label>
-        <episjob-h2 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Customer Fleet'"></episjob-h2> 
+        <episjob-h2 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
 </div>
