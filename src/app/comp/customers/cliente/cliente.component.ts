@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDrawerContainer } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { Observable } from 'rxjs';
 import { BackService } from '../../../serv/back.service'
 
 export interface rigsLabel {
@@ -28,7 +30,7 @@ export class ClienteComponent implements OnInit {
   infoLabels:rigsLabel[]=[]
   rigsLabels:rigsLabel[]=[]
   infoContacts:rigsLabel[]=[]
-  constructor(public route: ActivatedRoute, private bak: BackService, private router: Router) { }
+  constructor(public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
@@ -54,6 +56,8 @@ export class ClienteComponent implements OnInit {
       })
     })
 
+    
+
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos=b.val().Pos
@@ -77,9 +81,6 @@ export class ClienteComponent implements OnInit {
     })
   }
 
-  back(){
-    this.bak.backP()
-  }
 
   contr(){
     if(this.rigsLabels.length==0) return false

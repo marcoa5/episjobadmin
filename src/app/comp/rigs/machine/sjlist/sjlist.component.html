@@ -1,10 +1,10 @@
 <div class="cont" [class.mat-elevation-z2]="true">
 
-    <div class="acc" *ngIf="sj.length>0">
-      <mat-paginator [length]="sj.length"
+    <div class="acc" *ngIf="sjSl.length>0">
+      <mat-paginator [length]="list.length"
               [pageSize]="5"
-              [pageSizeOptions]="sj.length>20? [5,10,20,sj.length]: (sj.length>10?[5,10,sj.length]:[5,sj.length])"
-              *ngIf="sj.length>5"
+              [pageSizeOptions]="list.length>20? [5,10,20,list.length]: (list.length>10?[5,10,list.length]:[5,list.length])"
+              *ngIf="list.length>5"
               (page)="split($event)">
       </mat-paginator>
       <mat-accordion>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -17,15 +17,12 @@ export class SjlistComponent implements OnInit {
   fine: number = 5
   panelOpenState:boolean=false
   constructor(private router: Router) { }
-  @Input() sn:string = ''
-  @Input() start:any|undefined
-  @Input() end:any|undefined
-  @Input() docBpcs:string = ''
+  @Input() list:any[] = []
   @Input() customer:string = ''
   @Input() model:string = ''
   
   ngOnInit(): void {
-
+    
   }
 
   ngOnChanges(){
@@ -34,19 +31,8 @@ export class SjlistComponent implements OnInit {
 
 
   main(){
-    firebase.database().ref('Saved/' + this.sn).once('value',h=>{
-      let iniz = moment(this.start).format('YYYYMMDD')
-      let fine = moment(this.end).format('YYYYMMDD')
-      this.sj=[]
-      h.forEach(g=>{
-        if(g.key && g.key>=iniz && g.key<=fine){
-          this.sj.push(g.val())
-        }        
-      })
-    })
-    .then(()=>{
-      this.sjSl = this.sj.slice(this.inizio, this.fine)
-    })
+    this.sjSl = this.list.slice(this.inizio, this.fine)
+
   }
 
   download(a:string){
@@ -57,7 +43,7 @@ export class SjlistComponent implements OnInit {
   split(e:any){
     this.inizio = e.pageIndex * e.pageSize +1
     this.fine = this.inizio + e.pageSize-1
-    this.sjSl = this.sj.slice(this.inizio-1,this.fine)
+    this.sjSl = this.list.slice(this.inizio-1,this.fine)
   }
 
 }

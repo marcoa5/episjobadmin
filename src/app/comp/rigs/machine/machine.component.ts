@@ -62,6 +62,7 @@ export class MachineComponent implements OnInit {
   impAvg:any[]=[]
   showAdd:boolean=false
   lr:string=''
+  sjList:string[]=[]
   constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
   }
   ngOnInit(): void {
@@ -219,7 +220,16 @@ export class MachineComponent implements OnInit {
         ]  
       }
     }
-    
+    firebase.database().ref('Saved/' + this.valore).once('value',h=>{
+      let iniz = moment(i).format('YYYYMMDD')
+      let fine = moment(f).format('YYYYMMDD')
+      this.sjList=[]
+      h.forEach(g=>{
+        if(g.key && g.key>=iniz && g.key<=fine){
+          this.sjList.push(g.val())
+        }        
+      })
+    })
   }
 
   res(e:any){
