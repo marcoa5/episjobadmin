@@ -13,11 +13,11 @@
                 <p *ngIf="cCom==0">No data to display</p>
                 <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
             </div>   
-            <div class="item3"  *ngIf="cCom!=0">
+            <div class="item3 contCan"  *ngIf="cCom!=0">
                 <episjob-h2 icon="update" data="Engine Hours"></episjob-h2>
                 <canvas class="can" id="orem" [class.mat-elevation-z2]="true"></canvas>
             </div>
-            <div class="item4"  *ngIf="cCom!=0">
+            <div class="item4 contCan"  *ngIf="cCom!=0">
                 <episjob-h2 icon="update" data="Percussion Hours"></episjob-h2>
                 <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"></canvas>
             </div>

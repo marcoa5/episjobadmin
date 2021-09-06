@@ -15,11 +15,11 @@ export class TopMenuComponent implements OnInit {
   });
 
   buttons:any=[
-    {label: '3M', fun: {v: 3, l: 'months'}},
-    {label: '6M', fun: {v: 6, l: 'months'}},
-    {label: '1Y', fun: {v: 1, l: 'years'}},
-    {label: '5Y', fun: {v: 5, l: 'years'}},
-    {label: 'All', fun: {v: '', l: ''}},
+    {label: '3M', fun: {v: 3, l: 'months'}, tt: 'Last three months'},
+    {label: '6M', fun: {v: 6, l: 'months'}, tt: 'Last six months'},
+    {label: '1Y', fun: {v: 1, l: 'years'}, tt: 'Last year'},
+    {label: '5Y', fun: {v: 5, l: 'years'}, tt: 'Last five years'},
+    {label: 'All', fun: {v: '', l: ''}, tt: 'All data'},
   ]
   @Input() valore:string=''
   @Input() pos:string=''

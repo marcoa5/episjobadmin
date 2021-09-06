@@ -12,13 +12,26 @@
 
 h2{
     margin:0;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.butt{
+.butt1, .butt2{
     display: grid;
-    grid-template-columns: 1fr 1fr;
     cursor: pointer;
+    justify-items: flex-end;
+    grid-template-columns: 1fr;
 }
+
+.butt1{
+    grid-template-columns: 1fr;
+}
+
+.butt2{
+    grid-template-columns: 1fr 1fr;
+}
+
+
 
 
 
@@ -26,7 +39,7 @@ h2{
     color: $light-text;
     display: grid;
     align-items: center;
-    grid-template-columns: 45px 6fr 1fr;
+    grid-template-columns: 45px 6fr 100px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-bottom: 15px;

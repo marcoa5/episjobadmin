@@ -1,10 +1,10 @@
 <mat-toolbar (window:resize)="largh($event)"  (window:scroll)="scrolla($event)" [ngStyle]="{'top': scrollaV ? '60px' : '0px'}" id="menuB" class="subF" color="accent" [class.mat-elevation-z7]="true">
     <span>
-      <button mat-raised-button (click)="back()" color="primary" class="back">
-        <mat-icon>navigate_before</mat-icon><span>Back</span>
+      <button mat-raised-button (click)="back()" color="primary" class="back" matTooltip="Back">
+        <mat-icon>navigate_before</mat-icon>
       </button>
-      <button mat-raised-button (click)="homeNav()" color="primary" class="back" *ngIf="home">
-        <mat-icon>home</mat-icon><span>Home</span>
+      <button mat-raised-button (click)="homeNav()" color="primary" class="back" *ngIf="home" matTooltip="Home Page">
+        <mat-icon>home</mat-icon>
       </button>
     </span>
         <span class="head" *ngIf="lar">{{title}}</span>

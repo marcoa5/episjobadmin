@@ -15,7 +15,7 @@
             </mat-form-field>
         </div>
         <div class="butC">
-            <button mat-raised-button *ngFor="let b of buttons" (click)="ran(b.fun, range)" class="but">{{b.label}}</button> 
+            <button mat-raised-button *ngFor="let b of buttons" (click)="ran(b.fun, range)" class="but" [matTooltip]="b.tt" matTooltipPosition="below">{{b.label}}</button> 
         </div>
         <div class="spacerC"></div>
         <div class="authC">

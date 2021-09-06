@@ -92,7 +92,6 @@ export class MachineComponent implements OnInit {
   f(a:number){
     firebase.database().ref('MOL/' + this.valore).once('value',x=>{
       this.site = x.val().site
-      console.log(this.site)
       this.model=x.val().model
       this.customer=x.val().customer
       this.id = x.val().custid

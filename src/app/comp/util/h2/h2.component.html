@@ -1,10 +1,8 @@
 <div class="cont" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
     <mat-icon *ngIf="icon!=''">{{icon}}</mat-icon>
     <h2>{{data}}</h2>
-    <div class="butt">
-        <mat-icon matSuffix *ngIf="showMol" (click)="openMol()">link</mat-icon>
-    
-        <mat-icon matSuffix *ngIf="showAdd && pos=='SU'" (click)="add()">add_circle</mat-icon>
-
+    <div class="butt1" [class.butt2]="showAdd && pos=='SU'">
+        <mat-icon matSuffix *ngIf="showAdd && pos=='SU'" (click)="add()" matTooltip="Add Commissioning Date" matTooltipPosition="below">add_circle</mat-icon>
+        <mat-icon matSuffix *ngIf="showMol" (click)="openMol()" matTooltip="Open MOL" matTooltipPosition="below">link</mat-icon>
     </div>
 </div>

@@ -82,6 +82,8 @@ import { MatRadioModule } from '@angular/material/radio'
 import { MatListModule } from '@angular/material/list';
 import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component';
 import { PotentialComponent } from './comp/potential/potential.component'
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { LabFilterPipe } from './pipe/lab-filter.pipe'
 
 export const MY_FORMATS = {
   parse: {
@@ -153,10 +155,11 @@ const appearance: MatFormFieldDefaultOptions = {
     NewvisitComponent,
     SavevisitComponent,
     PotentialComponent,
+    LabFilterPipe,
 
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule,
+    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })

@@ -9,7 +9,7 @@ import { Router } from '@angular/router'
 export class LabelComponent implements OnInit {
 
   constructor(private router:Router) { }
-  @Input() values:any=[]
+  @Input() values:any[]=[]
   
   ngOnInit(): void {
   }
