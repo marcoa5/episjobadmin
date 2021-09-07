@@ -1,0 +1,26 @@
+<episjob-navbar [cerca]="false" [home]="true" [backB]="rou" [title]="newItem? 'New Contact':'Update Contact'"></episjob-navbar>
+
+<div class="cont">
+    <episjob-h2 icon="person" [data]="newItem? 'New Contact':'Update Contact'"></episjob-h2>
+    <form [formGroup]="custForm" class="formCont">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Name and Surname</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="name">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Position</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="pos">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Phone Nr.</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="phone">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="mail">
+        </mat-form-field>
+    </form>
+    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="newItem? 'Add' : 'Update'" [type]="'customer'"></episjob-add-cancelbuttons>
+
+
+</div>

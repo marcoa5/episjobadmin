@@ -13,6 +13,7 @@ import { DeldialogComponent } from '../util/deldialog/deldialog.component';
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() cont:boolean=false
   @Input() func:string|undefined
   @Input() nome:string|undefined
   @Input() seriale:string|undefined
@@ -51,6 +52,10 @@ export class EditdelbutComponent implements OnInit {
 
   edita(){
     this.edit.emit('edit')
+  }
+
+  contact(){
+    this.edit.emit('contact')
   }
 
 }

@@ -63,6 +63,17 @@ export class CustomersComponent implements OnInit {
         } 
       })
     })
+    setTimeout(() => {
+      this.customers.sort((a: any, b: any) => {
+        if (a['c1'] < b['c1']) {
+          return -1;
+        } else if (a['c1'] > b['c1']) {
+          return 1;
+        } else {
+          return 0;
+        }
+      })
+    }, 300);
   }
 
   open(a: String, b:string, c:string, d:string){

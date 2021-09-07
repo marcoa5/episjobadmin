@@ -83,7 +83,8 @@ import { MatListModule } from '@angular/material/list';
 import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component';
 import { PotentialComponent } from './comp/potential/potential.component'
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { LabFilterPipe } from './pipe/lab-filter.pipe'
+import { LabFilterPipe } from './pipe/lab-filter.pipe';
+import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -156,6 +157,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SavevisitComponent,
     PotentialComponent,
     LabFilterPipe,
+    ContactComponent,
 
   ],
   imports: [
