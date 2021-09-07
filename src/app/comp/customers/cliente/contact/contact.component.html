@@ -17,10 +17,11 @@
         </mat-form-field>
         <mat-form-field [appearance]="appearance">
             <mat-label>Email Address</mat-label>
-            <input matInput type="text" autocomplete="off" formControlName="mail">
+            <input matInput type="email" autocomplete="off" formControlName="mail">
+            <mat-error>Write a valid email address</mat-error>
         </mat-form-field>
     </form>
-    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="newItem? 'Add' : 'Update'" [type]="'customer'"></episjob-add-cancelbuttons>
-
+    <episjob-add-cancelbuttons  [a1]="'Cancel'"  [a2]="newItem? 'Add' : 'Update'" [type]="'customer'"></episjob-add-cancelbuttons>
+    {{custForm.invalid}}
 
 </div>
