@@ -10,8 +10,12 @@ export class LabelComponent implements OnInit {
 
   constructor(private router:Router) { }
   @Input() values:any[]=[]
-  
+  valuesN:any[]=[]
   ngOnInit(): void {
+  }
+
+  ngOnChanges(){
+    this.valuesN=this.values
   }
 
   open(a:string, b:string){

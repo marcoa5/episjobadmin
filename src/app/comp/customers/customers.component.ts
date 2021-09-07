@@ -51,7 +51,6 @@ export class CustomersComponent implements OnInit {
               firebase.database().ref('MOL').child(b).child('custid').once('value',c=>{
                 if(c.val()==null) console.log(b)
                 let nb=c.val()
-                console.log(nb)
                 firebase.database().ref('CustomerC').child(nb).once('value',d=>{
                   if(d.val()!==null && !this.custSales.includes(nb)) {
                     this.custSales.push(nb)
