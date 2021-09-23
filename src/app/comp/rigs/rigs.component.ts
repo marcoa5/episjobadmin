@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { UserposService } from '../../serv/userpos.service'
+import { auth } from 'firebase-admin';
 
 @Component({
   selector: 'episjob-rigs',
@@ -42,10 +43,14 @@ export class RigsComponent implements OnInit {
               this.auth = b.val()
             })
             .then((a)=>{
-              this.rigs1 = this.rigs.filter((r:any)=> {return this.auth[r.sn]['a'+this.iniz]==1})
+              console.log(this.auth)
+              this.rigs1 = this.rigs.filter((r:any)=> {
+                if(this.auth[r.sn]) return this.auth[r.sn]['a'+this.iniz]==1
+                return false
+              })
             })
             .catch((err: any)=>{
-              console.log(err)
+              console.log(err,)
             })
           } else {
             this.rigs1 = this.rigs

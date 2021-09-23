@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -84,7 +83,7 @@ import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.compo
 import { PotentialComponent } from './comp/potential/potential.component'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LabFilterPipe } from './pipe/lab-filter.pipe';
-import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
+import { ContactComponent } from './comp/customers/cliente/contact/contact.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -158,7 +157,6 @@ const appearance: MatFormFieldDefaultOptions = {
     PotentialComponent,
     LabFilterPipe,
     ContactComponent,
-
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
