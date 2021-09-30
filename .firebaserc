@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "epi-serv-job"
-  },
-  "targets": {
-    "epi-serv-job": {
-      "hosting": {
-        "ei": [
-          "eitool"
-        ]
-      }
-    }
+    "default": "episjobadmin"
   }
 }
