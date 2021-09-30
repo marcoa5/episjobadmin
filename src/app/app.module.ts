@@ -84,6 +84,8 @@ import { PotentialComponent } from './comp/potential/potential.component'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LabFilterPipe } from './pipe/lab-filter.pipe';
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component';
+import { ImifabiComponent } from './comp/rigs/machine/imifabi/imifabi.component';
+import { CopyComponent } from './comp/util/dialog/copy/copy.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -157,6 +159,8 @@ const appearance: MatFormFieldDefaultOptions = {
     PotentialComponent,
     LabFilterPipe,
     ContactComponent,
+    ImifabiComponent,
+    CopyComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

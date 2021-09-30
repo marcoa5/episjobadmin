@@ -11,6 +11,7 @@ import 'firebase/database'
 })
 export class HomeComponent implements OnInit {
   pos:string=''
+  nome:string|null=''
   spin:boolean=true
   buttons:any = [
     {
@@ -87,12 +88,24 @@ export class HomeComponent implements OnInit {
 
   constructor(public router :Router) { }
   ngOnInit(): void {
-
+    const messaging = firebase.messaging()
+    messaging.onMessage(p => {
+      console.log('Received foreground message ', p)
+    })
     firebase.auth().onAuthStateChanged(a=>{
+      if(a!=null) this.nome = a.email
       firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
         this.pos=b.val()
       })
       .then(()=>{
+        messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
+        .then(t=>{
+          firebase.database().ref('Tokens').child(t).set({
+            token: t,
+            pos: this.pos,
+            name: this.nome
+          })
+        })
         this.spin=false
       })
     })

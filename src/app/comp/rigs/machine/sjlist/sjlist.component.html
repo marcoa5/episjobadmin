@@ -1,12 +1,7 @@
 <div class="cont" [class.mat-elevation-z2]="true">
 
-    <div class="acc" *ngIf="sjSl.length>0">
-      <mat-paginator [length]="list.length"
-              [pageSize]="5"
-              [pageSizeOptions]="list.length>20? [5,10,20,list.length]: (list.length>10?[5,10,list.length]:[5,list.length])"
-              *ngIf="list.length>5"
-              (page)="split($event)">
-      </mat-paginator>
+    <div class="acc" *ngIf="sjSl.length>0" >
+
       <mat-accordion>
         <mat-expansion-panel hideToggle *ngFor="let a of sjSl; let i = index" [class.mat-elevation-z1]="true" class="acc">
           <mat-expansion-panel-header>
@@ -27,13 +22,14 @@
           
         </mat-expansion-panel>
       </mat-accordion>
-    </div>
-    
-    
-    
-    
-    
-    
+      <mat-paginator [length]="list.length"
+        [pageSize]="5"
+        [pageSizeOptions]="list.length>20? [5,10,20,list.length]: (list.length>10?[5,10,list.length]:[5,list.length])"
+        *ngIf="list.length>5"
+        (page)="split($event)"
+        >
+      </mat-paginator>
+    </div>  
 </div>
 
 

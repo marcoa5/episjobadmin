@@ -34,7 +34,7 @@ export class ClienteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
       this.id=a.id
-      firebase.database().ref('CustomerC').child(this.id).on('value', g=>{
+      firebase.database().ref('CustomerC').child(this.id).once('value', g=>{
         this.cust1=g.val().c1
         this.cust2=g.val().c2
         this.cust3=g.val().c3
@@ -81,6 +81,8 @@ export class ClienteComponent implements OnInit {
         })
       })
     })
+    
+    
   }
 
   contr(){

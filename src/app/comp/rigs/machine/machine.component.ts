@@ -13,6 +13,9 @@ import { InputhrsComponent } from '../../util/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { Location } from '@angular/common'
 import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
+import {Clipboard} from '@angular/cdk/clipboard';
+import { CopyComponent } from '../../util/dialog/copy/copy.component';
+
 
 export interface hrsLabel {
   lab: string
@@ -62,8 +65,9 @@ export class MachineComponent implements OnInit {
   impAvg:any[]=[]
   showAdd:boolean=false
   lr:string=''
-  sjList:string[]=[]
-  constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router) { 
+  chSj: boolean=false
+  sjList:any[]=[]
+  constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
   }
   ngOnInit(): void {
     Chart.register()
@@ -100,11 +104,12 @@ export class MachineComponent implements OnInit {
       this.in = x.val().in
       this.rigLabels=[
         {value:this.valore, lab:'Serial Nr.',click:'',url:''},
-        {value:this.model, lab:'Model',click:'',url:''},
+        //{value:this.model, lab:'Model',click:'',url:''},
         {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.id:'',url: this.pos!='sales'?'cliente':''},
       ]
       if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-      if (this.in) this.rigLabels[1]=({value: this.in, lab:'Part Nr.',click:'', url:''})
+      //arr.splice(2, 0, "Lene");
+      if (this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
 
     }) 
     .then(()=>{
@@ -229,6 +234,9 @@ export class MachineComponent implements OnInit {
           this.sjList.push(g.val())
         }        
       })
+    })
+    .then(()=>{
+      this.chsjList()
     })
   }
 
@@ -492,5 +500,34 @@ export class MachineComponent implements OnInit {
     /*this.calcolaPerc1()
     this.calcolaOrem()*/
   }
+
+  chsjList(){
+    this.sjList.map(e=>{
+      if(e.imiFabi) this.chSj=true
+    })
+  }
+  
+  dlData(e:any){
+    let y:any[]=[`Date;Serial Nr;Machine;Family;Hours;Technician`]
+    this.sjList.map(x=>{
+      if(x.imiFabi){
+        let r:string = x.imiFabi
+        let as = r.slice(0,-1)
+        let ws = as.split('@')
+        ws.map(rf=>{
+          let d= `${x.data11.substring(6,10)}-${x.data11.substring(3,5)}-${x.data11.substring(0,2)}`
+          y.push(`${d};${x.matricola};${x.prodotto1};${rf.split(';')[0]};${rf.split(';')[1]};${x.tecnico11}`)
+        })
+      }
+    })
+    this.clipboard.copy(y.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(CopyComponent, {
+      data: {}
+    });
+  }
+
 }
  

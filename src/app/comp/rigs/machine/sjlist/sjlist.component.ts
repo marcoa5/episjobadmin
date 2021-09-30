@@ -22,7 +22,7 @@ export class SjlistComponent implements OnInit {
   @Input() model:string = ''
   
   ngOnInit(): void {
-    
+
   }
 
   ngOnChanges(){
@@ -31,7 +31,7 @@ export class SjlistComponent implements OnInit {
 
 
   main(){
-    this.sjSl = this.list.slice(this.inizio, this.fine)
+    this.sjSl = this.list.slice(this.inizio, this.fine).reverse()
 
   }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
 
 @Component({
   selector: 'episjob-rig-table',
@@ -43,7 +42,8 @@ export class RigTableComponent implements OnInit {
       if((this.ore[1] && this.ore[1].y3!=undefined && this.ore[1].y3!='0')|| (this.ore[0].y3!='0'  && this.ore[0].y3!=undefined)) this.displayedColumns.push('Perc3')
     }
       
-    this.oreSl = this.ore.slice(this.inizio-1,this.fine)
+    this.oreSl = this.ore.slice(this.inizio-1,this.fine).reverse()
+    
   }
 
   up(a:any,b:any,c:any){

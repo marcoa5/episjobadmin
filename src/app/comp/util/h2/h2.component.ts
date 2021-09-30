@@ -11,9 +11,11 @@ export class H2Component implements OnInit {
   @Input() padtop:any=35
   @Input() showAdd:boolean= false
   @Input() showMol:boolean=false
+  @Input() showDL:boolean=false
   @Input() icon:string=''
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
+  @Output() copy = new EventEmitter()
 
   pos:string=''
   constructor() { }
@@ -34,5 +36,9 @@ export class H2Component implements OnInit {
 
   openMol(){
     this.mol.emit('mol')
+  }
+
+  copyData(){
+    this.copy.emit('copy')
   }
 }

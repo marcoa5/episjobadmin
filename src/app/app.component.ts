@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core'
 import firebase from 'firebase/app'
 import 'firebase/database'
+import 'firebase/messaging'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
 
@@ -12,9 +13,10 @@ const firebaseConfig = {
   projectId: "epi-serv-job",
   storageBucket: "epi-serv-job.appspot.com",
   messagingSenderId: "793133030101",
-  appId: "1:793133030101:web:a79f477c42cb9e0a53a05c",
-  measurementId: "G-C2CPM0MBH8"
+  appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
+  measurementId: "G-Y0638WJK1X"
 };
+
 
 @Component({
   selector: 'app-root',

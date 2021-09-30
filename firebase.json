@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "public": "dist/episjobadmin",
+    "target": "ei",
+    "public": "dist",
     "ignore": [
       "firebase.json",
       "**/.*",
