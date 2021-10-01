@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import * as moment from 'moment'
+
 @Component({
   selector: 'episjob-imifabi',
   templateUrl: './imifabi.component.html',
@@ -19,8 +20,10 @@ export class ImifabiComponent implements OnInit {
   }
 
   ngOnChanges(){
+    this._dettOre=[]
+    this.dettOre=[]
     if(this.list.length>0){
-      this.list.map(x=>{
+      this.list.forEach(x=>{
         if(x.imiFabi) {
           let r = x.data11
           let anno = r.substring(6,10)
@@ -29,7 +32,7 @@ export class ImifabiComponent implements OnInit {
           let d = moment(new Date(anno, mese, giorno)).format('YYYY-MM-DD')
           let ore = x.imiFabi.split('@')
           ore.pop()
-          ore.map((g: string)=>{
+          ore.forEach((g: string)=>{
             let f = g.split(';')
             this._dettOre.push({data:d, fam: f[0], hrs: f[1]})
           })

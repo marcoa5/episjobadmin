@@ -10,8 +10,7 @@ export class RigTableComponent implements OnInit {
   @Input() pos:string=''
   @Output() action1 = new EventEmitter()
   @Output() action2 = new EventEmitter()
-  inizio:number = 1
-  fine: number = 5
+  @Input() sortDA:boolean = true
   ore:any[]=[]
   oreSl:any[]=[]
   displayedColumns: string[]=['Date', 'Engine']
@@ -23,6 +22,7 @@ export class RigTableComponent implements OnInit {
 
   ngOnChanges(){
     this.displayedColumns=['Date', 'Engine']
+    this.dataSource.reverse()
     this.ore = this.dataSource.map((i: { x:any,y: any; y1: any; y2: any; y3: any; })=>{
       return {
         x: i.x,
@@ -42,8 +42,7 @@ export class RigTableComponent implements OnInit {
       if((this.ore[1] && this.ore[1].y3!=undefined && this.ore[1].y3!='0')|| (this.ore[0].y3!='0'  && this.ore[0].y3!=undefined)) this.displayedColumns.push('Perc3')
     }
       
-    this.oreSl = this.ore.slice(this.inizio-1,this.fine).reverse()
-    
+    this.oreSl = this.ore//.slice(this.inizio-1,this.fine)
   }
 
   up(a:any,b:any,c:any){
@@ -65,9 +64,9 @@ export class RigTableComponent implements OnInit {
     }
   }
 
-  split(e:any){
+  /*split(e:any){
     this.inizio = e.pageIndex * e.pageSize +1
     this.fine = this.inizio + e.pageSize-1
     this.oreSl = this.ore.slice(this.inizio-1,this.fine)
-  }
+  }*/
 }

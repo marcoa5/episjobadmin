@@ -2,6 +2,9 @@
 
 .cont{
     color: $dark-text;
+    overflow-y: auto;
+    width:100%;
+    height: 350px;
 }
 
 mat-paginator{
@@ -16,6 +19,7 @@ mat-paginator{
     //margin-bottom: 10px;
     min-width: 10px;
     overflow:hidden;
+    
 }
 
 .SJDown{
@@ -35,4 +39,30 @@ episjob-h2{
 .of{
     overflow: hidden;
     white-space: nowrap;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px $dark-text; 
+    border-radius: 10px;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: $light-text; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(156, 125, 0); 
+  }
+
+@media only screen and (max-width: 850px) {
+    .cont{
+        height:100%;
+        overflow-y: visible;
+    }
 }

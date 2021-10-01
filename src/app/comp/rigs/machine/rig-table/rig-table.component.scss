@@ -1,8 +1,40 @@
+@import '../../../../../epi.scss';
+
 table{
     width: 100%;
-    height: 100%;
+    
 }
 
 mat-paginator{
     margin-bottom:10px;
 }
+
+.tablecont{
+    height: 350px;
+    overflow-y: auto;
+}
+
+th{
+    position: sticky;
+    top:0;
+    background-color: white;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px $dark-text; 
+    border-radius: 10px;
+  }
+   
+  ::-webkit-scrollbar-thumb {
+    background: $light-text; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(156, 125, 0); 
+  }

@@ -12,10 +12,12 @@ export class H2Component implements OnInit {
   @Input() showAdd:boolean= false
   @Input() showMol:boolean=false
   @Input() showDL:boolean=false
+  @Input() showSort:boolean=false
   @Input() icon:string=''
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
   @Output() copy = new EventEmitter()
+  @Output() sort = new EventEmitter()
 
   pos:string=''
   constructor() { }
@@ -40,5 +42,9 @@ export class H2Component implements OnInit {
 
   copyData(){
     this.copy.emit('copy')
+  }
+
+  sortData(){
+    this.sort.emit('sort')
   }
 }

@@ -20,19 +20,20 @@ export class SjlistComponent implements OnInit {
   @Input() list:any[] = []
   @Input() customer:string = ''
   @Input() model:string = ''
+  @Input() sortDA:boolean=true
   
   ngOnInit(): void {
 
   }
 
   ngOnChanges(){
+    this.list.reverse()
     this.main()
   }
 
 
   main(){
-    this.sjSl = this.list.slice(this.inizio, this.fine).reverse()
-
+    this.sjSl = this.list//.slice(this.inizio, this.fine)
   }
 
   download(a:string){
@@ -40,10 +41,10 @@ export class SjlistComponent implements OnInit {
     .then(a=>{window.open(a)})
   }
 
-  split(e:any){
+  /*split(e:any){
     this.inizio = e.pageIndex * e.pageSize +1
     this.fine = this.inizio + e.pageSize-1
     this.sjSl = this.list.slice(this.inizio-1,this.fine)
-  }
+  }*/
 
 }

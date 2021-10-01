@@ -15,6 +15,7 @@ import { Location } from '@angular/common'
 import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
+import { ImifabiComponent } from './imifabi/imifabi.component';
 
 
 export interface hrsLabel {
@@ -67,6 +68,8 @@ export class MachineComponent implements OnInit {
   lr:string=''
   chSj: boolean=false
   sjList:any[]=[]
+  sortT:boolean=true
+  sortSJ:boolean=true
   constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
   }
   ngOnInit(): void {
@@ -125,14 +128,6 @@ export class MachineComponent implements OnInit {
 
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
-        /*if(this.data[0].y=='c' && this.data[0]!=undefined) {
-          this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
-          this.showAdd=false
-        }  
-        if(this.data[0].y!='c' && this.data[0]!=undefined) {
-          //this.infoCommisioned =` - (Comm. Date: ${moment(this.data[0].x).format('DD/MM/YYYY')})`
-          this.showAdd=true
-        }*/
         this.checkComm()
         this.lastRead()
       })
@@ -199,7 +194,7 @@ export class MachineComponent implements OnInit {
       return new Date(d.x)>=new Date(i) && new Date(d.x)<=new Date(f)
     })
     if(this.datafil.length>0){
-      this.datafil.map((item,i)=>{
+      this.datafil.forEach((item,i)=>{
         if(this.datafil[0].y=='c') {
           this.datafil[0]={
             x: this.datafil[0].x,
@@ -208,7 +203,7 @@ export class MachineComponent implements OnInit {
             y2: (this.datafil[1] && this.datafil[1].y2>0)? 0 : undefined,
             y3: (this.datafil[1] && this.datafil[1].y3>0)? 0 : undefined,
           }
-        }
+      }
         if(item.y=='0') item.y=undefined
         if(item.y1=='0') item.y1=undefined
         if(item.y2=='0') item.y2=undefined
@@ -225,6 +220,7 @@ export class MachineComponent implements OnInit {
         ]  
       }
     }
+    
     firebase.database().ref('Saved/' + this.valore).once('value',h=>{
       let iniz = moment(i).format('YYYYMMDD')
       let fine = moment(f).format('YYYYMMDD')
@@ -234,9 +230,6 @@ export class MachineComponent implements OnInit {
           this.sjList.push(g.val())
         }        
       })
-    })
-    .then(()=>{
-      this.chsjList()
     })
   }
 
@@ -404,7 +397,7 @@ export class MachineComponent implements OnInit {
   async readD(e:any){
     this.inizio=e[0]
     this.fine=e[1]
-    await this.filter(e[0],e[1])
+    await this.filter(e[0],e[1]) 
     this.checkComm()
     .then(()=>{
       this.lastRead()
@@ -501,10 +494,13 @@ export class MachineComponent implements OnInit {
     this.calcolaOrem()*/
   }
 
-  chsjList(){
-    this.sjList.map(e=>{
-      if(e.imiFabi) this.chSj=true
+  chsjList():boolean{
+    let check=0
+    this.sjList.forEach(e=>{
+      if(e.imiFabi!='') check=1
     })
+    if(check==1) return true
+    return false
   }
   
   dlData(e:any){
@@ -514,7 +510,7 @@ export class MachineComponent implements OnInit {
         let r:string = x.imiFabi
         let as = r.slice(0,-1)
         let ws = as.split('@')
-        ws.map(rf=>{
+        ws.forEach(rf=>{
           let d= `${x.data11.substring(6,10)}-${x.data11.substring(3,5)}-${x.data11.substring(0,2)}`
           y.push(`${d};${x.matricola};${x.prodotto1};${rf.split(';')[0]};${rf.split(';')[1]};${x.tecnico11}`)
         })
@@ -529,5 +525,12 @@ export class MachineComponent implements OnInit {
     });
   }
 
+  sortDataTable(e:any){
+    this.sortT=!this.sortT
+  }
+
+  sortDataSJ(e:any){
+    this.sortSJ=!this.sortSJ
+  }
 }
  

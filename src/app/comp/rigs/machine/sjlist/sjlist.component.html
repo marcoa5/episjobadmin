@@ -1,35 +1,32 @@
-<div class="cont" [class.mat-elevation-z2]="true">
-
-    <div class="acc" *ngIf="sjSl.length>0" >
-
-      <mat-accordion>
-        <mat-expansion-panel hideToggle *ngFor="let a of sjSl; let i = index" [class.mat-elevation-z1]="true" class="acc">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="of">
-              {{a.data11}} - Service ({{a.stdspe}})
-            </mat-panel-title>
-            <mat-panel-description class="of">
-              @ {{a.cantiere1}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          
-          <h4>Service Report <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
-          <p>{{a.rappl1}}</p>
-          <div class="SJDown" (click)="download(a.filename)">
-            <mat-icon>description</mat-icon>
-            <p class="desc">Download Service Job</p>
-          </div>
-          
-        </mat-expansion-panel>
-      </mat-accordion>
-      <mat-paginator [length]="list.length"
+<div class="cont" *ngIf="sjSl.length>0">
+  <mat-accordion>
+    <mat-expansion-panel hideToggle *ngFor="let a of sjSl; let i = index" class="acc">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="of">
+          {{a.data11}} - Service ({{a.stdspe}})
+        </mat-panel-title>
+        <mat-panel-description class="of">
+          @ {{a.cantiere1}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <h4>Service Report <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
+      <p>{{a.rappl1}}</p>
+      <div class="SJDown" (click)="download(a.filename)">
+        <mat-icon>description</mat-icon>
+        <p class="desc">Download Service Job</p>
+      </div>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+      <!--<mat-paginator [length]="list.length"
         [pageSize]="5"
         [pageSizeOptions]="list.length>20? [5,10,20,list.length]: (list.length>10?[5,10,list.length]:[5,list.length])"
         *ngIf="list.length>5"
         (page)="split($event)"
         >
-      </mat-paginator>
-    </div>  
+      </mat-paginator>-->
+
 </div>
 
 
