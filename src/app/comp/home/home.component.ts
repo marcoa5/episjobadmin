@@ -101,7 +101,7 @@ export class HomeComponent implements OnInit {
       .then(()=>{
         messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
         .then(t=>{
-          firebase.database().ref('Tokens').child(t).set({
+          firebase.database().ref('Tokens').child(t.substring(0,10) + ' - ' + this.nome).set({
             token: t,
             pos: this.pos,
             name: this.nome,
