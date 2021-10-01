@@ -105,9 +105,10 @@ export class HomeComponent implements OnInit {
             token: t,
             pos: this.pos,
             name: this.nome,
-            date: moment(new Date()).format('YYYY-MM-DD'),
+            date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
           })
         })
+        .catch(err=>alert(err))
         this.spin=false
       })
     })
@@ -122,3 +123,4 @@ export class HomeComponent implements OnInit {
     return true
   }
 }
+ 
