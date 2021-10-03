@@ -43,7 +43,7 @@ import { AddCancelbuttonsComponent } from './comp/util/add-cancelbuttons/add-can
 import { DisbuttonPipe } from './pipe/disbutton.pipe';
 import { UpddialogComponent } from './comp/util/upddialog/upddialog.component';
 import { NewtechComponent } from './comp/technicians/newtech/newtech.component';
-import { NewrigComponent } from './comp/newrig/newrig.component';
+import { NewrigComponent } from './comp/rigs/newrig/newrig.component';
 import { LogoutComponent } from './comp/util/logout/logout.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsersComponent } from './comp/users/users.component';
@@ -58,7 +58,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AuthSingleRigComponent } from './comp/rigs/machine/auth-single-rig/auth-single-rig.component';
 import { RigTableComponent } from './comp/rigs/machine/rig-table/rig-table.component';
 import { TopMenuComponent } from './comp/rigs/machine/top-menu/top-menu.component';
-import { SegmentComponent } from './comp/newrig/segment/segment.component';
+import { SegmentComponent } from './comp/rigs/newrig/segment/segment.component';
 import { ResetPwdComponent } from './comp/util/reset-pwd/reset-pwd.component';
 import { ReportComponent } from './comp/report/report.component';
 import { SpinComponent } from './comp/util/spin/spin.component';
