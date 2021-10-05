@@ -16,13 +16,13 @@ firebase.initializeApp({
 
   messaging.onBackgroundMessage((payload) => {
     console.log('Received background message ', payload);
-    /*const notificationTitle = payload.notification.title;
+    const notificationTitle = payload.data.score;
     const notificationOptions = {
-      body: payload.notification.body,
+      body: payload.data.time,
       icon: 'https://companiesmarketcap.com/img/company-logos/256/EPI-A.ST.png'
     };
   
     self.registration.showNotification(notificationTitle,
-      notificationOptions);*/
+      notificationOptions);
   });
   

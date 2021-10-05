@@ -20,14 +20,14 @@ export class HomeComponent implements OnInit {
       icon:'work', 
       route:'customers', 
       dis:false, 
-      auth:['SU','admin','tech','sales']
+      auth:['SU','admin','tech','sales','customer']
     },
     {
       id:'Equipment',
       icon:'precision_manufacturing', 
       route:'rigs', 
       dis:false, 
-      auth:['SU','admin','tech','sales']
+      auth:['SU','admin','tech','sales','customer']
     },
     {
       id:'Technicians',
@@ -89,6 +89,7 @@ export class HomeComponent implements OnInit {
 
   constructor(public router :Router) { }
   ngOnInit(): void {
+    let tokens:any[]=[]
     const messaging = firebase.messaging()
     messaging.onMessage(p => {
       console.log('Received foreground message ', p)

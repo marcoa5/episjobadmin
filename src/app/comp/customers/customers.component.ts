@@ -27,7 +27,7 @@ export class CustomersComponent implements OnInit {
         this.ind=b.val().Area?.toString()
       })
       .then(()=>{
-        if(this.pos!='sales'){
+        if(this.pos!='sales' && this.pos!='customer'){
           let hasRig:any[] = []
           firebase.database().ref('MOL').once('value',l=>{
             l.forEach(t=>{

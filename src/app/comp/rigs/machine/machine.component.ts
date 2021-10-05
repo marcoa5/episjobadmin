@@ -82,7 +82,7 @@ export class MachineComponent implements OnInit {
         this.pos= b.val().Pos
         this.iniz=b.val().Area
       }).then(()=>{
-        if(this.pos=='sales'){
+        if(this.pos=='sales' || this.pos=='customer'){
           firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
             if(a.val()==1) {
               this.ri = true
@@ -108,7 +108,7 @@ export class MachineComponent implements OnInit {
       this.rigLabels=[
         {value:this.valore, lab:'Serial Nr.',click:'',url:''},
         //{value:this.model, lab:'Model',click:'',url:''},
-        {value:this.customer, lab:'Customer',click: this.pos!='sales'? this.id:'',url: this.pos!='sales'?'cliente':''},
+        {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
       ]
       if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
       //arr.splice(2, 0, "Lene");
