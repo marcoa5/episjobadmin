@@ -7,7 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { UpddialogComponent } from '../util/upddialog/upddialog.component'
+import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
 
 
 @Component({
@@ -125,7 +125,7 @@ export class NewrigComponent implements OnInit {
           firebase.database().ref('MOL/' + this.serial).set({
             customer: g[5].toUpperCase(),
             custid: g[3],
-            in: g[4].toUpperCase(),
+            in: g[4].toUpperCase()? g[4].toUpperCase():'',
             model: g[1],
             site: g[2].toUpperCase(),
             sn: g[0].toUpperCase()
