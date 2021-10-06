@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
           if(result!=undefined) {
             firebase.auth().sendPasswordResetEmail(result)
-            .then(()=>alert(`Email sent to: ${result}`))
+            .then(()=>console.log(`Email sent to: ${result}`))
             .catch((err)=>console.log(err))
           }
         })

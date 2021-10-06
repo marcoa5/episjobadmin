@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit {
             date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
           })
         })
-        .catch(err=>alert(err))
+        .catch(err=>console.log(err))
         this.spin=false
       })
     })

@@ -270,7 +270,6 @@ export class MachineComponent implements OnInit {
   
         dialogRef.afterClosed().subscribe(result => {
           if(result!=undefined && this.pos=='SU') {
-            //alert(`Hours/${this.valore}/${b.replace(/\-/g,'')}`)
             firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
             this.f(1)
           }

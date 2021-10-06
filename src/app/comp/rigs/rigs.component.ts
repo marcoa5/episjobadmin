@@ -94,7 +94,6 @@ export class RigsComponent implements OnInit {
 
   open(a: String, b:String, c:String){
     this.router.navigate(['machine',{sn:b}])
-    //alert(`Modello: ${a}\nS/N: ${b}\nCliente: ${c}`)
   }
 
   scrolla(e:Event){
