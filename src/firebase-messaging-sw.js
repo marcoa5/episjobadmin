@@ -19,7 +19,11 @@ firebase.initializeApp({
     const notificationTitle = payload.data.score;
     const notificationOptions = {
       body: payload.data.time,
-      icon: 'https://companiesmarketcap.com/img/company-logos/256/EPI-A.ST.png'
+      icon: 'gs://epi-serv-job.appspot.com/logo.png',
+      actions: [{
+        action: "./files",
+        title: "Go to page"
+      }]
     };
   
     self.registration.showNotification(notificationTitle,
