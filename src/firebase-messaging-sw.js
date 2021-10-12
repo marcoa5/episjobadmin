@@ -19,15 +19,18 @@ firebase.initializeApp({
     const notificationTitle = payload.data.score;
     const notificationOptions = {
       body: payload.data.time,
-      //icon: 'gs://epi-serv-job.appspot.com/logo.png',
       badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
+      icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
       actions: [{
-        action: "http://localhost:4200/files",
-        title: "Go to page"
+        action: "files",
+        title: "Go to file list"
       }]
     };
   
-    self.registration.showNotification(notificationTitle,
-      notificationOptions);
+    self.registration.showNotification(notificationTitle, notificationOptions)
+    self.addEventListener('notificationclick', function(event) {  
+      event.notification.close();
+      clients.openWindow('./files')
+    }, false);
   });
   
