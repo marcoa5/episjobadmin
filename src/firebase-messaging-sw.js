@@ -20,9 +20,9 @@ firebase.initializeApp({
     const notificationOptions = {
       body: payload.data.time,
       //icon: 'gs://epi-serv-job.appspot.com/logo.png',
-      badge: 'gs://epi-serv-job.appspot.com/logo96.png',
+      badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
       actions: [{
-        action: "./files",
+        action: "http://localhost:4200/files",
         title: "Go to page"
       }]
     };
