@@ -19,7 +19,8 @@ firebase.initializeApp({
     const notificationTitle = payload.data.score;
     const notificationOptions = {
       body: payload.data.time,
-      icon: 'gs://epi-serv-job.appspot.com/logo.png',
+      //icon: 'gs://epi-serv-job.appspot.com/logo.png',
+      badge: 'gs://epi-serv-job.appspot.com/logo96.png',
       actions: [{
         action: "./files",
         title: "Go to page"
