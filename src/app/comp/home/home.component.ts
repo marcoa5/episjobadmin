@@ -51,13 +51,6 @@ export class HomeComponent implements OnInit {
       auth:['SU','','','']
     },
     {
-      id:'Contracts',
-      icon:'description', 
-      route:'contracts', 
-      dis:true, 
-      auth:['SU','admin','','']
-    },
-    {
       id:'Auth',
       icon:'checklist', 
       route:'auth', 
@@ -72,6 +65,13 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','','']
     },
     {
+      id:'Contracts',
+      icon:'description', 
+      route:'contracts', 
+      dis:true, 
+      auth:['SU','admin','','']
+    },
+    /*{
       id:'Visit',
       icon:'recent_actors', 
       route:'visit', 
@@ -84,7 +84,7 @@ export class HomeComponent implements OnInit {
       route:'potential', 
       dis:false, 
       auth:['SU','admin','sales','']
-    },
+    },*/
   ];
 
   constructor(public router :Router) { }
