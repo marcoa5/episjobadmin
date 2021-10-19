@@ -1,0 +1,22 @@
+.cont{
+    display: grid;
+    align-items: center;
+    grid-template-columns: minmax(150px, 1fr) 2fr;
+    grid-template-rows: auto;
+}
+
+.mainCont{
+    margin: 80px 10px 30px 10px;
+}
+
+.ff{
+    width:100%;
+    min-width: 0;
+}
+
+.pot{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto;
+    gap:5px;
+}
