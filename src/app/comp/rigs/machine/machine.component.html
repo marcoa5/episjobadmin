@@ -39,4 +39,4 @@
     </div>
 
 </div>
-<episjob-editdelbut class="butt" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;"></episjob-editdelbut>
+<episjob-editdelbut class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)"></episjob-editdelbut>

@@ -4,6 +4,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import 'firebase/storage'
 import{ BackService } from '../../serv/back.service'
+import { MatPaginatorIntl } from '@angular/material/paginator'
 
 @Component({
   selector: 'episjob-files',
@@ -23,9 +24,10 @@ export class FilesComponent implements OnInit {
   end:number=0
   lungh:number[]=[10,25,50,100]
   pos:string|undefined
-  constructor(private bak: BackService) { }
+  constructor(private bak: BackService, private paginator:MatPaginatorIntl) { }
 
   ngOnInit(): void {
+    this.paginator.itemsPerPageLabel = '#'
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
         this.pos=b.val()

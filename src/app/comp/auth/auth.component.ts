@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
+import { MatPaginatorIntl } from '@angular/material/paginator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -19,9 +20,10 @@ export class AuthComponent implements OnInit {
   start:number=0
   end:number=10
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private paginator: MatPaginatorIntl) { }
 
   ngOnInit(): void {
+    this.paginator.itemsPerPageLabel='#'
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos = b.val()
@@ -84,8 +86,18 @@ export class AuthComponent implements OnInit {
   }
 
   go(a:String, b:string){
+    let custId:string=''
     if(b=='sn') this.router.navigate(['machine', {sn: a}])
-    if(b=='cu') this.router.navigate(['cliente', {cust1: a}])
+    firebase.database().ref('CustomerC').once('value',h=>{
+      let g:any = Object.values(h.val())
+      g.forEach((r: any)=>{
+        //console.log(a,r.c1)
+        if(r.c1==a) custId=r.id
+      })
+    })
+    .then(()=>{
+      if(b=='cu' && custId!='') this.router.navigate(['cliente', {id: custId}])
+    })
   }
 
   checkWidth(){

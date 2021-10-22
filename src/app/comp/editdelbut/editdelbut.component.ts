@@ -5,6 +5,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../util/deldialog/deldialog.component';
+import { AddhrsComponent } from '../util/dialog/addhrs/addhrs.component'
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -13,6 +14,7 @@ import { DeldialogComponent } from '../util/deldialog/deldialog.component';
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() addHr:boolean=false
   @Input() cont:boolean=false
   @Input() func:string|undefined
   @Input() nome:string|undefined
@@ -20,6 +22,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() id:string|undefined
   @Input() check:boolean=true
   @Output() edit = new EventEmitter()
+  @Output() addH = new EventEmitter()
   constructor(private location: Location, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -57,5 +60,21 @@ export class EditdelbutComponent implements OnInit {
   contact(){
     this.edit.emit('contact')
   }
+
+  hrsAdd(){
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(AddhrsComponent, {
+      data: {sn: this.nome}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        this.addH.emit(result)
+      }
+    })
+  }
+  
 
 }

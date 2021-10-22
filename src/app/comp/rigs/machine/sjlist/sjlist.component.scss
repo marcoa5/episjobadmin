@@ -37,8 +37,29 @@ episjob-h2{
 }
 
 .of{
-    overflow: hidden;
     white-space: nowrap;
+    display: grid;
+    grid-template-columns: 30% 25% 45%;
+    gap: 5px;
+    justify-items: center;
+    margin:0;
+    overflow: hidden;
+}
+
+.ofc{
+    text-align: center;
+    overflow:hidden;
+}
+
+.ofc1{
+    justify-self: left;
+    overflow:hidden;
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 20% 70%;
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 850px) {
@@ -47,3 +68,4 @@ episjob-h2{
         overflow-y: visible;
     }
 }
+

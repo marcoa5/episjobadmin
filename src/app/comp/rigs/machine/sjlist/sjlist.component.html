@@ -3,14 +3,24 @@
     <mat-expansion-panel hideToggle *ngFor="let a of sjSl; let i = index" class="acc">
       <mat-expansion-panel-header>
         <mat-panel-title class="of">
-          {{a.data11}} - Service ({{a.stdspe}})
+          <span class="ofc1"><div>{{a.data11}}</div></span>
+          <span class="ofc1"><div>{{width()? 'Doc': ''}}# {{a.docbpcs}}</div></span>
+          <span class="ofc1"><div>{{a.tecnico11}}</div></span>
         </mat-panel-title>
-        <mat-panel-description class="of">
-          @ {{a.cantiere1}}
-        </mat-panel-description>
+        <!--<mat-panel-description class="of"> </mat-panel-description>-->
       </mat-expansion-panel-header>
       
-      <h4>Service Report <span *ngIf="a.tecnico11">({{a.tecnico11}})</span>:</h4>
+      <h4>
+        <div class="row">
+          <span>Type: </span><span>{{a.stdspe}}</span>
+        </div> 
+        <div *ngIf="a.tecnico11"  class="row">
+          <span>{{width()? 'Technician: ': 'Tech: '}}</span><span>{{a.tecnico11}}</span>
+        </div>
+        <div *ngIf="a.cantiere1"  class="row">
+          <span>Site: </span><span>{{a.cantiere1}}</span>
+        </div>
+      </h4>
       <p>{{a.rappl1}}</p>
       <div class="SJDown" (click)="download(a.filename)">
         <mat-icon>description</mat-icon>

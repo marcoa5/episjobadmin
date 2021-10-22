@@ -1,8 +1,8 @@
 <div class="mt">
     <mat-toolbar color="primary" class="mt" [class.mat-elevation-z8]="true">
-    <img [src]="screenSize? '../assets/icons/Logo_full_grey.png' : '../assets/icons/Logo_cut_grey.png' ">
+    <img style="margin-left: 10px" height="25px" src="../assets/icons/Logo.svg">
     <span class="example-spacer"></span>
-    <span class="bold">{{screenSize? 'Admin Tool' : 'Epiroc Italia'}}</span>
+    <!--<span class="bold">{{screenSize? 'Admin Tool' : ''}}</span>-->
     <span class="example-spacer"></span>
     <span class="contUser">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="userExists()">

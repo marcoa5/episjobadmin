@@ -14,8 +14,7 @@ import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { Location } from '@angular/common'
 import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
-import { CopyComponent } from '../../util/dialog/copy/copy.component';
-import { ImifabiComponent } from './imifabi/imifabi.component';
+import { CopyComponent } from '../../util/dialog/copy/copy.component'
 
 
 export interface hrsLabel {
@@ -70,6 +69,7 @@ export class MachineComponent implements OnInit {
   sjList:any[]=[]
   sortT:boolean=true
   sortSJ:boolean=true
+  name:string=''
   constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
   }
   ngOnInit(): void {
@@ -81,6 +81,7 @@ export class MachineComponent implements OnInit {
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos= b.val().Pos
         this.iniz=b.val().Area
+        this.name=b.val().Nome + ' ' + b.val().Cognome
       }).then(()=>{
         if(this.pos=='sales' || this.pos=='customer'){
           firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
@@ -530,6 +531,17 @@ export class MachineComponent implements OnInit {
 
   sortDataSJ(e:any){
     this.sortSJ=!this.sortSJ
+  }
+
+  updH(e:any){
+    firebase.database().ref('Hours').child(e[0]).child(moment(e[1]).format('YYYYMMDD')).set({
+      orem: e[2],
+      perc1: e[3]>0?e[3]:'',
+      perc2: e[4]>0?e[4]:'',
+      perc3: e[5]>0?e[5]:'',
+      editby: this.name
+    })
+    .then(()=>{this.f(1)})
   }
 }
  

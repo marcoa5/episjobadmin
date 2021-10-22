@@ -63,21 +63,21 @@ import { ResetPwdComponent } from './comp/util/reset-pwd/reset-pwd.component';
 import { ReportComponent } from './comp/report/report.component';
 import { SpinComponent } from './comp/util/spin/spin.component';
 import { SortCustPipe } from './pipe/sort-cust.pipe';
-//import { VisitComponent } from './comp/visit/visit.component';
+import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatBadgeModule } from '@angular/material/badge';
 import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
 import { ElevationDirective } from './dir/elevation.directive';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
-/*import { NewvisitcontDirective } from './dir/newvisitcont.directive';
+import { NewvisitcontDirective } from './dir/newvisitcont.directive';
 import { NewvisitsubcontDirective } from './dir/newvisitsubcont.directive';
 import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
 import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
 import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component';
-import { PotentialComponent } from './comp/potential/potential.component'*/
+import { PotentialComponent } from './comp/potential/potential.component'
 import { DateconvPipe } from './pipe/dateconv.pipe';
-//import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
+import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatListModule } from '@angular/material/list';
@@ -87,6 +87,7 @@ import { LabFilterPipe } from './pipe/lab-filter.pipe';
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component';
 import { ImifabiComponent } from './comp/rigs/machine/imifabi/imifabi.component';
 import { CopyComponent } from './comp/util/dialog/copy/copy.component';
+import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -146,22 +147,23 @@ const appearance: MatFormFieldDefaultOptions = {
     ReportComponent,
     SpinComponent,
     SortCustPipe,
-    //VisitComponent,
+    VisitComponent,
     ComdatedialogComponent,
     ElevationDirective,
-    //NewvisitcontDirective,
-    //NewvisitsubcontDirective,
-    //NewvisitfieldDirective,
-    //NewvisitspacerDirective,
-    //NewvisiticoDirective,
+    NewvisitcontDirective,
+    NewvisitsubcontDirective,
+    NewvisitfieldDirective,
+    NewvisitspacerDirective,
+    NewvisiticoDirective,
     DateconvPipe,
-    //NewvisitComponent,
-    //SavevisitComponent,
-    //PotentialComponent,
+    NewvisitComponent,
+    SavevisitComponent,
+    PotentialComponent,
     LabFilterPipe,
     ContactComponent,
     ImifabiComponent,
     CopyComponent,
+    AddhrsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
