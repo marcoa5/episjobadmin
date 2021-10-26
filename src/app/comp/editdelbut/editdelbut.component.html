@@ -1,6 +1,6 @@
 <div class="cont" >
-    <button *ngIf="addHr" mat-fab color="primary" (click)="hrsAdd()" [class.mat-elevation-z8]="true"><mat-icon>more_time</mat-icon></button>
-    <button *ngIf="cont" mat-fab color="primary" (click)="contact()" [class.mat-elevation-z8]="true"><mat-icon>person</mat-icon></button>
-    <button *ngIf="pos=='SU'" mat-fab color="primary" (click)="edita()" [class.mat-elevation-z8]="true"><mat-icon>edit</mat-icon></button>
-    <button *ngIf="pos=='SU'" mat-fab color="primary" (click)="openDialog()" [disabled]="check" [class.mat-elevation-z8]="true"><mat-icon>delete</mat-icon></button>
+    <button *ngIf="addHr" mat-fab color="primary" (click)="hrsAdd()" [class.mat-elevation-z8]="true" matTooltipPosition="left" matTooltip="Add Running Hours"><mat-icon>more_time</mat-icon></button>
+    <button *ngIf="cont" mat-fab color="primary" (click)="contact()" [class.mat-elevation-z8]="true"  matTooltipPosition="left" matTooltip="Add Contact"><mat-icon>person</mat-icon></button>
+    <button *ngIf="pos=='SU'" mat-fab color="primary" (click)="edita()" [class.mat-elevation-z8]="true"  matTooltipPosition="left" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
+    <button *ngIf="pos=='SU'" mat-fab color="primary" (click)="openDialog()" [disabled]="check" [class.mat-elevation-z8]="true" matTooltipPosition="left" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
 </div>

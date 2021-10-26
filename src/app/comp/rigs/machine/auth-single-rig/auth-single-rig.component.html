@@ -6,11 +6,11 @@
             {{title()}}
           </mat-expansion-panel-header>
           <div class="dd">
-            <mat-checkbox [checked]="a1==1? true : false" (change)="ch(1, $event)">{{largh>minWidth? 'Area 1' : 1}}</mat-checkbox>
-            <mat-checkbox [checked]="a2==1? true : false" (change)="ch(2, $event)">{{largh>minWidth? 'Area 2' : 2}}</mat-checkbox>
-            <mat-checkbox [checked]="a3==1? true : false" (change)="ch(3, $event)">{{largh>minWidth? 'Area 3' : 3}}</mat-checkbox>
-            <mat-checkbox [checked]="a4==1? true : false" (change)="ch(4, $event)">{{largh>minWidth? 'Area 4' : 4}}</mat-checkbox>
-            <mat-checkbox [checked]="a5==1? true : false" (change)="ch(5, $event)">{{largh>minWidth? 'Area 5' : 5}}</mat-checkbox>
+            <mat-checkbox *ngFor="let s of salesMen" [checked]="a[s.area]==1? true : false" (change)="ch(s.area, $event)" [matTooltip]="s.name">{{largh>minWidth? 'Area ' + s.area : s.area}}</mat-checkbox>
+            <!--<mat-checkbox [checked]="a2==1? true : false" (change)="ch(2, $event)" [matTooltip]="sales1">{{largh>minWidth? 'Area 2' : 2}}</mat-checkbox>
+            <mat-checkbox [checked]="a3==1? true : false" (change)="ch(3, $event)" [matTooltip]="sales1">{{largh>minWidth? 'Area 3' : 3}}</mat-checkbox>
+            <mat-checkbox [checked]="a4==1? true : false" (change)="ch(4, $event)" [matTooltip]="sales1">{{largh>minWidth? 'Area 4' : 4}}</mat-checkbox>
+            <mat-checkbox [checked]="a5==1? true : false" (change)="ch(5, $event)" [matTooltip]="sales1">{{largh>minWidth? 'Area 5' : 5}}</mat-checkbox>-->
         
           </div>
         </mat-expansion-panel>

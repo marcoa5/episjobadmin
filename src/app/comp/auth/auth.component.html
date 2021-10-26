@@ -26,18 +26,18 @@
                    <th>98</th> 
                    <th>99</th> 
                 </tr>
-                <tr *ngFor="let r of rigs1 | tablefilter : filtro">
+                <tr *ngFor="let r of rigs1 | tablefilter : filtro ; let i= index ">
                     <td class="c" (click)="go(r.sn, 'sn')" class="poi">{{r.sn}}</td>
                     <td class="c" *ngIf="wid">{{r.model}}</td>
                     <td class="c" *ngIf="wid"  (click)="go(r.customer, 'cu')" class="poi">{{r.customer}}</td>
                     <td class="c" *ngIf="wid">{{r.site}}</td>
-                    <td><mat-checkbox [checked]="r.a1==1? true: false" (change)="cl($event, r.sn, 'a1')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a2==1? true: false" (change)="cl($event, r.sn, 'a2')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a3==1? true: false" (change)="cl($event, r.sn,'a3')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a4==1? true: false" (change)="cl($event, r.sn,'a4')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a5==1? true: false" (change)="cl($event, r.sn,'a5')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a98==1? true: false" (change)="cl($event, r.sn,'a98')"></mat-checkbox></td>
-                    <td><mat-checkbox [checked]="r.a99==1? true: false" (change)="cl($event, r.sn,'a99')"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a1==1? true: false" (change)="cl($event, r.sn, 'a1', i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a2==1? true: false" (change)="cl($event, r.sn, 'a2',i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a3==1? true: false" (change)="cl($event, r.sn,'a3',i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a4==1? true: false" (change)="cl($event, r.sn,'a4',i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a5==1? true: false" (change)="cl($event, r.sn,'a5',i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a98==1? true: false" (change)="cl($event, r.sn,'a98',i)"></mat-checkbox></td>
+                    <td><mat-checkbox [checked]="r.a99==1? true: false" (change)="cl($event, r.sn,'a99',i)"></mat-checkbox></td>
                 </tr>
             </table>  
             </div>

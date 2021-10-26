@@ -51,12 +51,12 @@ export class AuthComponent implements OnInit {
           catch{
             console.log(b.val())
           }
-          
         }).then(()=>{
           this.rigs1=this.rigs.slice(this.start,this.end)
         })
       })
     })
+    
   }
 
   filter(a:any){
@@ -72,8 +72,12 @@ export class AuthComponent implements OnInit {
     }
   }
 
-  cl(e:any, a:string, b:string){
+  cl(e:any, a:string, b:string, i:number){
     let g = e.checked? 1 : 0
+    this.rigs1[i][b]=g
+    this.rigs.forEach(x=>{
+      if(x.sn==a){x[b]=g}
+    })
     firebase.database().ref('RigAuth/' + a).child(b).set(g.toString())
   }
 

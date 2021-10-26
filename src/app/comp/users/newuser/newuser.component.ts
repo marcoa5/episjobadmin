@@ -86,7 +86,7 @@ export class NewuserComponent implements OnInit {
     .set('Mail',b.get('mail')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
     .set('km','0.05')
-    this.http.get('https://episjobreq.herokuapp.com/createuser',{params:params}).subscribe(a=>{
+    this.http.get('https://episjobreq.azurewebsites.net/createuser',{params:params}).subscribe(a=>{
       console.log(a)
     })
     setTimeout(() => {
@@ -106,7 +106,7 @@ export class NewuserComponent implements OnInit {
       if(result!=undefined && this.pos=='SU') {
         let params = new HttpParams()
         .set('id', result.id)
-        this.http.get('https://episjobreq.herokuapp.com/delete',{params:params}).subscribe(a=>{
+        this.http.get('https://episjobreq.azurewebsites.net/delete',{params:params}).subscribe(a=>{
           console.log(a)
         })
         setTimeout(() => {

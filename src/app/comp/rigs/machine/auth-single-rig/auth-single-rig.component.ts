@@ -12,23 +12,26 @@ import 'firebase/database'
 export class AuthSingleRigComponent implements OnInit {
   largh:number=0
   @Input() sn:string|undefined
-  a1:number=0
-  a2:number=0
-  a3:number=0
-  a4:number=0
-  a5:number=0
+  a:number[]=[0,0,0,0,0]
   appearance:MatFormFieldAppearance="fill"
   minWidth:number = 1100;
+  salesMen=[
+    {name: 'Claudio Cossu', area:1},
+    {name: 'Valentino Rizzieri', area:2},
+    {name: 'Federico Angheben', area:3},
+    {name: 'Antonio Marchiò', area:4},
+    {name: 'Salvatore Di Benedetto', area:5},
+  ]
   constructor() { }
 
   ngOnInit(): void {
     this.largh=window.innerWidth
-    firebase.database().ref('RigAuth/' + this.sn).once('value',a=>{
-      this.a1 = a.val().a1?a.val().a1:0
-      this.a2 = a.val().a2?a.val().a2:0
-      this.a3 = a.val().a3?a.val().a3:0
-      this.a4 = a.val().a4?a.val().a4:0
-      this.a5 = a.val().a5?a.val().a5:0
+    firebase.database().ref('RigAuth/' + this.sn).on('value',a=>{
+      this.a[1] = a.val().a1?a.val().a1:0
+      this.a[2] = a.val().a2?a.val().a2:0
+      this.a[3] = a.val().a3?a.val().a3:0
+      this.a[4] = a.val().a4?a.val().a4:0
+      this.a[5] = a.val().a5?a.val().a5:0
     })
   }
 
@@ -37,7 +40,7 @@ export class AuthSingleRigComponent implements OnInit {
   }
 
   ch(a:number, e:any){
-    firebase.database().ref('RigAuth/' + this.sn).child('a' + a).set(e.checked==true? 1 : 0)
+    firebase.database().ref('RigAuth/' + this.sn).child('a' + a).set(e.checked==true? '1' : '0')
   }
 
   title(){
