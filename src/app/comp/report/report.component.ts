@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import * as moment from 'moment'
 import * as XLSX from 'xlsx'
+import { from, Observable } from 'rxjs'
 
 @Component({
   selector: 'episjob-report',
@@ -70,5 +71,4 @@ export class ReportComponent implements OnInit {
       })
     })
   }
-  
 }
