@@ -2,13 +2,49 @@
 .cont{
     padding: 80px 10px 30px 10px;
 }
-table{
+#ex{
     width:100%;
     border-collapse: collapse;
     display: none;
 }
-td{
+#ex td{
     text-align: center;
     border: 1px solid black
 }
 
+.contS{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+.alCenter{
+    text-align: center;
+}
+
+.w14{
+    width:14%;
+}
+
+.w10{width:12%}
+
+.w85{width:8%}
+
+.w20{
+    width:18%
+}
+
+.contT th{
+    font-weight: 900;
+}
+
+.contT td{
+    white-space: nowrap;
+    overflow:hidden;
+    margin-right: 5px;
+}
+
+.contT{
+    margin-top: 20px;
+    width:100%;
+}

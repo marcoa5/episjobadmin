@@ -88,6 +88,7 @@ import { ContactComponent } from './comp/customers/cliente/contact/contact.compo
 import { ImifabiComponent } from './comp/rigs/machine/imifabi/imifabi.component';
 import { CopyComponent } from './comp/util/dialog/copy/copy.component';
 import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
+import { ThousandsPipe } from './pipe/thousands.pipe';
 
 export const MY_FORMATS = {
   parse: {
@@ -164,6 +165,7 @@ const appearance: MatFormFieldDefaultOptions = {
     ImifabiComponent,
     CopyComponent,
     AddhrsComponent,
+    ThousandsPipe,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

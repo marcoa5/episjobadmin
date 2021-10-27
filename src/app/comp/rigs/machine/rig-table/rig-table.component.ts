@@ -41,8 +41,8 @@ export class RigTableComponent implements OnInit {
       if((this.ore[1] && this.ore[1].y2!=undefined && this.ore[1].y2!='0') || (this.ore[0].y2!='0'  && this.ore[0].y2!=undefined)) this.displayedColumns.push('Perc2')
       if((this.ore[1] && this.ore[1].y3!=undefined && this.ore[1].y3!='0')|| (this.ore[0].y3!='0'  && this.ore[0].y3!=undefined)) this.displayedColumns.push('Perc3')
     }
-      
     this.oreSl = this.ore//.slice(this.inizio-1,this.fine)
+    
   }
 
   up(a:any,b:any,c:any){
