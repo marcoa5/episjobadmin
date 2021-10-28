@@ -1,5 +1,4 @@
 @import '../../../epi.scss';
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Filled");
 
 .cont{
     padding: 80px 10px 30px 10px;
@@ -42,24 +41,32 @@
 }
 
 .contT th{
-    font-weight: 900;
-    text-align: center;
     background-color: $dark-text;
     color: $light-text;
+    position: sticky;
+    top: 118px;
+    border: 1px solid $light-text;
+    padding: 6px 0;
+}
+
+.mat-sort-header-container{
+    justify-content: center;
 }
 
 .contT td{
-    //white-space: nowrap;
+    white-space: nowrap;
     overflow:hidden;
     margin: 2px;
     border-radius: 5px;
+    text-align: center;
+    border: 1px solid lightgrey;
+    padding: 2px 5px;
 }
 
 .contT{
     margin-top: 20px;
     width:calc(100vw - 20px);
-    //table-layout: fixed;
-    border-collapse: separate;
+    border-collapse: collapse;
 }
 
 .backCG{
@@ -84,3 +91,8 @@ mat-icon{
     height:15px;
     border: 1px solid grey;
 }
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+  }

@@ -89,6 +89,7 @@ import { ImifabiComponent } from './comp/rigs/machine/imifabi/imifabi.component'
 import { CopyComponent } from './comp/util/dialog/copy/copy.component';
 import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
 import { ThousandsPipe } from './pipe/thousands.pipe';
+import { MatSortModule } from '@angular/material/sort'
 
 export const MY_FORMATS = {
   parse: {
@@ -168,7 +169,7 @@ const appearance: MatFormFieldDefaultOptions = {
     ThousandsPipe,
   ],
   imports: [
-    BrowserModule, FormsModule, MatSidenavModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
+    BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
