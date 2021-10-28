@@ -21,7 +21,7 @@ export class ReportComponent implements OnInit {
   isThinking: boolean=false
   machineData:any=[]
   isMobile:boolean=true
-  displayedColumns:any=['Serial Number', 'Item Number','Model','Company','Site','Service Int', 'Service Step','Hours to next service', 'Service pred date','Prev day hours' ]
+  displayedColumns:any=['Serial Number', 'Item Number','Model','Company','Site','Engine Hrs','Service Int', 'Service Step','Hours to next service','.', 'Service pred date','Prev day hours' ]
   constructor(private http: HttpClient, private clip: Clipboard) { }
 
   ngOnInit(): void {
@@ -100,17 +100,17 @@ export class ReportComponent implements OnInit {
           } else {
             fa.serviceStepABC = ''
           }
+          if(fa.serviceStep>0) fa.machineHrs = fa.serviceStep - fa.hoursLeftToService
         })
         this.isThinking=false
         this.machineData=d
       }
     })
     }
-    
   }
 
   onResize(){
-    if(window.innerWidth<800) {
+    if(window.innerWidth<100) {
       this.isMobile=true
     } else {
       this.isMobile=false
@@ -118,16 +118,38 @@ export class ReportComponent implements OnInit {
   }
 
   tableCopy(){
-    let table:string=''
-    Object.values(this.machineData).forEach((el:any)=>{
-      table += Object.values(el).toString()+'\n'
+    let table:string=this.displayedColumns.toString().replace(/,/g,'\t') + '\n'
+    //['Serial Number', 'Item Number','Model','Company','Site','Engine Hrs','Service Int', 'Service Step','Hours to next service', 'Service pred date','Prev day hours' ]
+    this.machineData.forEach((e:any)=>{
+      console.log(e.serviceStep)
+      e.machineSerialNr!=undefined? table += e.machineSerialNr.toString() + '\t' : '\t'
+      e.machineItemNumber!=undefined? table += e.machineItemNumber.toString() + '\t' :'\t'
+      e.machineItemNumber!=undefined? table += e.machineModel.toString() + '\t' :'\t'
+      e.machineCompany!=undefined? table += e.machineCompany.toString() + '\t' : '\t'
+      e.machineSite!=undefined? table += e.machineSite.toString() + '\t' : '\t'
+      e.machineHrs!=undefined? table += e.machineHrs.toString() + '\t' : '\t'
+      e.serviceStep!=undefined? table += e.serviceStep.toString() + '\t':'\t'
+      e.serviceStepABC!=undefined? table += e.serviceStepABC.toString() + '\t': '\t'
+      e.hoursLeftToService!=undefined? table += e.hoursLeftToService.toString() + '\t' : '\t'
+      e.hoursLeftToService!=undefined? table += e.hoursLeftToService.toString() + '\t' : '\t'
+      e.servicePredictedDate!=undefined? table += e.servicePredictedDate.toString() + '\t' :'\t'
+      e.LastDayEngineHours!=undefined? table += e.LastDayEngineHours.toString() + '\t\n' : '\t'
     })
+    /*Object.values(this.machineData).forEach((el:any)=>{
+      table += Object.values(el).toString()+'\n'
+    })*/
     setTimeout(() => {
       this.clip.copy(table.replace(/,/g,'\t'))
     }, 500);
    
   }
   
+  sfondo(a:any){
+    if(a<=50) return 'backCR'
+    if(a>50 && a<=100) return 'backCY'
+    if(a>100) return 'backCG'
+    return ''
+  }
 }
 
 
