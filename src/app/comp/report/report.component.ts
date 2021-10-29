@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
+import { rawListeners } from 'process';
 
 
 @Component({
@@ -14,7 +15,7 @@ import {Sort} from '@angular/material/sort';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
-  @ViewChild('contT')
+  str:string=''
   certiqN:any
   filt:boolean=true
   contT:ElementRef|undefined
@@ -605,6 +606,7 @@ export class ReportComponent implements OnInit {
 ]
   pos:string=''
   sortedData:any[]=[]
+  _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev day hours' ]
   constructor(private http: HttpClient, private clip: Clipboard) {
   }
@@ -618,6 +620,7 @@ export class ReportComponent implements OnInit {
         })
       }
     })
+    
   }
 
   all(){
@@ -672,10 +675,10 @@ export class ReportComponent implements OnInit {
 
   certiq(){
     if(!this.isMobile){
-    this.info=[]
+    //this.info=[]
     this.sortedData=[]
     this.isThinking=true
-    let params = new HttpParams().set("day",moment(new Date()).format('YYYY-MM-DD'))
+    /*let params = new HttpParams().set("day",moment(new Date()).format('YYYY-MM-DD'))
     this.http.get('https://episjobreq.herokuapp.com/certiq/',{params:params}).subscribe(a=>{
       if(a){
         let b = Object.values(a)
@@ -695,7 +698,7 @@ export class ReportComponent implements OnInit {
             fa.serviceStepABC = ''
           }
         })
-        this.info=d.slice()
+        this.info=d.slice()*/
         this.isThinking=false
         
         firebase.database().ref('Certiq/notes').on('value',df=>{
@@ -714,8 +717,8 @@ export class ReportComponent implements OnInit {
           this.sortedData=this.info.slice()
         }, 500);
       }
-    })
-    }   
+    /*})
+    }*/
     
   }
 
@@ -770,15 +773,26 @@ export class ReportComponent implements OnInit {
   }
 
   filtra(){
-    if(this.filt){
-      this.sortedData = this.sortedData.filter((rt:any)=>{
-        if(rt.machineNote!=1) return true
-        return false
+    let r=this.str.toLowerCase()
+    if(this.filt && r.length<3){this.sortedData=this.info}
+    if(this.filt && r.length>2){
+      this.sortedData=this.info.filter((er:any)=>{
+        return (er.machineSerialNr.toLowerCase().includes(r) || er.machineCompany.toLowerCase().includes(r) || er.machineModel.toLowerCase().includes(r))
       })
-    } else {
-      this.sortedData=this.info.slice()
     }
-    this.filt=!this.filt
+    if(!this.filt && r.length<3){
+      this.sortedData=this.info.filter((er:any)=>{return er.machineNote!=1})
+    }
+    if(!this.filt && r.length>2){
+      this.sortedData=this.info.filter((er:any)=>{
+        return er.machineNote!=1 && (er.machineSerialNr.toLowerCase().includes(r) || er.machineCompany.toLowerCase().includes(r) || er.machineModel.toLowerCase().includes(r))
+      })
+    }
+  }
+
+  width(){
+    if(window.innerWidth>600) return true
+    return false
   }
 }
 

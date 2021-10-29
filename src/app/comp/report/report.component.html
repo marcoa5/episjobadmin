@@ -3,7 +3,7 @@
 
 <div class="cont" (window:resize)="onResize()">
     
-    <episjob-h2 icon="file_download" [data]="'Export Report'" [padtop]="0"></episjob-h2>
+    <!--<episjob-h2 icon="file_download" [data]="'Export Report'" [padtop]="0"></episjob-h2>
     <button mat-raised-button color="primary" (click)="all()">Export All Rigs</button>
     <table id="ex">
         <tr>
@@ -32,66 +32,23 @@
         </tr>
     </table>
     <div style="height:50px"></div>
-    <mat-divider ></mat-divider>
+    <mat-divider ></mat-divider>-->
 
-    <div  *ngIf="!isMobile && pos=='SU'" >
-        <!--<episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0"></episjob-h2>
-        
-        
-        <div *ngIf="machineData.length>0">
-            <table #contT cellspacing="5px" mat-table [dataSource]="machineData" class="mat-elevation-z8 contT">
-            <ng-container matColumnDef="Serial Number">
-                <th mat-header-cell *matHeaderCellDef class="alCenter">Serial Number</th>
-                <td mat-cell *matCellDef="let rig" class="alCenter w85"> {{rig.machineSerialNr}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Model">
-                <th mat-header-cell *matHeaderCellDef>Model</th>
-                <td mat-cell *matCellDef="let rig" class=" alCenter w14" > {{rig.machineModel}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Company" >
-                <th mat-header-cell *matHeaderCellDef>Company</th>
-                <td mat-cell *matCellDef="let rig" class="alCenter w20" > {{rig.machineCompany}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Site" >
-                <th mat-header-cell *matHeaderCellDef>Site</th>
-                <td mat-cell *matCellDef="let rig" class="alCenter w10" > {{rig.machineSite}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Engine Hrs" >
-                <th mat-header-cell *matHeaderCellDef>Engine Hrs</th>
-                <td mat-cell *matCellDef="let rig" class="alCenter w85" > {{rig.machineHrs}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Service Int" >
-                <th mat-header-cell *matHeaderCellDef class="alCenter">Next Service Int</th>
-                <td mat-cell *matCellDef="let rig" class="alCenter w85"  > {{rig.serviceStep | thousands}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Hours to next service" >
-                <th mat-header-cell *matHeaderCellDef class="alCenter" (click)="sort()">Next service in</th>
-                <td mat-cell *matCellDef="let rig"  class="alCenter w85"> 
-                    {{rig.hoursLeftToService}}
-                    
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="." >
-                <th mat-header-cell *matHeaderCellDef class="alCenter"></th>
-                <td mat-cell *matCellDef="let rig"  class="w2" > 
-                    <div *ngIf="rig.hoursLeftToService>0" class="circ" [ngStyle]="{'background-color': rig.hoursLeftToService<=50? 'indianred' : rig.hoursLeftToService>50 && rig.hoursLeftToService<=100? 'gold':'lightgreen'}"></div> 
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="Service pred date" >
-                <th mat-header-cell *matHeaderCellDef class="alCenter">Next Service Date</th>
-                <td mat-cell *matCellDef="let rig"  class="alCenter w85" > {{rig.servicePredictedDate | dateconv}} </td>
-            </ng-container>
-            <ng-container matColumnDef="Prev day hours">
-                <th mat-header-cell *matHeaderCellDef class="alCenter">Prev day hours</th>
-                <td mat-cell *matCellDef="let rig"  class="alCenter w85" > {{rig.LastDayEngineHours}} </td>
-            </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>-->
+    <div  *ngIf="pos=='SU' || pos=='admin'" >
         <episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0"></episjob-h2>
-        <button mat-raised-button color="primary" (click)="certiq()">Certiq Report</button>
-        <button mat-raised-button color="primary" (click)="filtra()" *ngIf="sortedData.length>0">Filter SA</button>
+        <div >
+            <button class="but" mat-raised-button color="primary" (click)="certiq()">Download Report</button>
+        </div>
+        <div class="filC" *ngIf="info.length>1">
+            <!--<button class="but" mat-raised-button color="primary" (click)="filt=!filt;filtra();" *ngIf="sortedData.length>0">{{filt?'Only SA':'Show all'}}</button>-->
+
+            <mat-checkbox class="chb" (change)="filt=!filt;filtra();">{{width()?'Select only machines with SA' : 'Only SA'}}</mat-checkbox>            
+            <mat-form-field class="but" >
+                <mat-label>Filter data</mat-label>
+                <input matInput autocomplete="off" [(ngModel)]="str" (input)="filtra()">
+                <button mat-icon-button matSuffix (click)="str='';filtra()"><mat-icon>close</mat-icon></button>
+            </mat-form-field>
+        </div>
         <div class="contS" *ngIf="isThinking">
             <mat-spinner color="accent"></mat-spinner>
         </div>
@@ -113,7 +70,7 @@
                     </tr>
                 </thead>
               
-                <tr *ngFor="let rig of sortedData">
+                <tr *ngFor="let rig of sortedData" [class.mat-elevation-z8]="true">
                     <td [ngStyle]="{'background-color':rig.machineNote==4?'indianred':rig.machineNote==3?'lightgreen':rig.machineNote==5?'gold':'white'}">
                         <select (change)="salva($event, rig.machineSerialNr)" [value]="rig.machineNote">
                             <option value=1>No SA</option>

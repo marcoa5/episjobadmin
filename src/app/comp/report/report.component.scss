@@ -66,6 +66,7 @@
     margin-top: 20px;
     width:calc(100vw - 20px);
     border-collapse: collapse;
+    color: $dark-text;
 }
 
 .backCG{
@@ -96,27 +97,53 @@ mat-icon{
     justify-content:center;
   }
 
+.filC{
+    margin-top: 15px;
+    display: flex;
+    justify-content: end;
+    align-items: baseline;
+}
+
+.chb{
+    margin-right: 45px;
+}
+
+.spacer{
+    flex: 1 1 auto;
+}
+
+.but{
+    max-height: 50px;
+    min-width: unset;
+}
+
 @media only screen and (max-width: 1200px)  {
 
 .contT, thead, tbody, th, td, tr { 
     display: block; 
 }
+
 .contT thead tr { 
     position: absolute;
     top: -9999px;
     left: -9999px;
 }
-.contT tr { border: 1px solid $dark-text; }
+.contT tr { 
+    margin: 2px;
+    margin-bottom: 15px;
+}
 
 .contT td { 
     /* Behave  like a "row" */
     border: none;
-    border-bottom: 1px solid #eee; 
+    
     position: relative;
     margin:0; padding:0;
     padding-left: 45%; 
     text-align:left;
     min-height: 21px;
+    font-style: italic;
+    padding: 3px 0 3px 45%; 
 }
 
 .contT tr:nth-of-type(odd) { 
@@ -134,11 +161,13 @@ mat-icon{
     position: absolute;
     /* Top/left values mimic padding */
     top: 0;
-    left: 10px;
+    left: 0;
     width: 40%; 
-    padding-right: 10px; 
+    padding: 3px 10px; 
     white-space: nowrap;
+    font-style:normal;
 }
+.contT td:nth-of-type(1) { background-color: white; color:$dark-text}
 .contT td:nth-of-type(1):before { content: "Notes"; }
 .contT td:nth-of-type(2):before { content: "Prev Date Hrs"; }
 .contT td:nth-of-type(3):before { content: "Serivice Status"; }
