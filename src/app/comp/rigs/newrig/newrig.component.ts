@@ -25,6 +25,7 @@ export class NewrigComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   newR:FormGroup;
   addUpd:boolean = true
+  segment:boolean = true
   customers:any[]=[]
   pos:string|undefined
   constructor(private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
@@ -88,7 +89,8 @@ export class NewrigComponent implements OnInit {
   }
 
   datiC(a:FormGroup){
-    let g = [a.get('sn')?.value,a.get('model')?.value, a.get('customer')?.value]
+    console.log(this.newR.controls.sn.invalid,a.get('sn')?.invalid)
+    let g = [(a.get('sn')?.invalid)?'':a.get('sn')?.value,a.get('model')?.value, a.get('customer')?.value]
     g.push(this.child)
     return g
   }
@@ -138,7 +140,15 @@ export class NewrigComponent implements OnInit {
     }
   }
   vai(e:any){
-    this.child=e[0]
-    this.childAdd=e[1]
+    this.segment = e
   }
+
+  chExist(e:any){
+    console.log(this.newR)
+    console.log(e.target.value, this.newR.controls.sn.value)
+    firebase.database().ref('MOL').child(e.target.value.toUpperCase()).once('value',r=>{
+      if(r.val()) this.newR.controls.sn.setErrors({already:true})
+    })
+  }
+
 }

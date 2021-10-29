@@ -69,12 +69,6 @@ export class NewuserComponent implements OnInit {
     })
   }
 
-
-  datiC(a:FormGroup){
-    let g= [a.get('nome')?.value,a.get('cognome')?.value,a.get('mail')?.valid || a.get('mail')?.disabled? a.get('mail')?.value:'',this.userpos]
-    return g
-  }
-
   add(a:string, b:FormGroup){
     console.log(a, b.get('nome')?.value, 
     b.get('cognome')?.value, 
@@ -116,4 +110,7 @@ export class NewuserComponent implements OnInit {
     });
   }
 
+  ch(){
+    console.log(this.userF)
+  }
 }

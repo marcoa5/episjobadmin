@@ -21,7 +21,5 @@
             <mat-error>Write a valid email address</mat-error>
         </mat-form-field>
     </form>
-    <episjob-add-cancelbuttons  [a1]="'Cancel'"  [a2]="newItem? 'Add' : 'Update'" [type]="'customer'"></episjob-add-cancelbuttons>
-    {{custForm.invalid}}
-
+    <episjob-add-cancelbuttons  [a1]="'Cancel'" [check]="custForm.invalid" [a2]="newItem? 'Add' : 'Update'" [type]="'customer'"></episjob-add-cancelbuttons>
 </div>

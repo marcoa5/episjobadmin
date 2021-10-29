@@ -57,7 +57,6 @@
     white-space: nowrap;
     overflow:hidden;
     margin: 2px;
-    border-radius: 5px;
     text-align: center;
     border: 1px solid lightgrey;
     padding: 2px 5px;
@@ -96,3 +95,59 @@ mat-icon{
     display:flex;
     justify-content:center;
   }
+
+@media only screen and (max-width: 1200px)  {
+
+.contT, thead, tbody, th, td, tr { 
+    display: block; 
+}
+.contT thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+.contT tr { border: 1px solid $dark-text; }
+
+.contT td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    margin:0; padding:0;
+    padding-left: 45%; 
+    text-align:left;
+    min-height: 21px;
+}
+
+.contT tr:nth-of-type(odd) { 
+    background: $dark-text;
+    color: $light-text; 
+  }
+  
+  .contT tr:nth-of-type(even) { 
+    background: $light-text;
+    color: $dark-text; 
+  }
+
+.contT td:before { 
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 0;
+    left: 10px;
+    width: 40%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+}
+.contT td:nth-of-type(1):before { content: "Notes"; }
+.contT td:nth-of-type(2):before { content: "Prev Date Hrs"; }
+.contT td:nth-of-type(3):before { content: "Serivice Status"; }
+.contT td:nth-of-type(4):before { content: "Service Pred Date"; }
+.contT td:nth-of-type(5):before { content: "Serial"; }
+.contT td:nth-of-type(6):before { content: "Model"; }
+.contT td:nth-of-type(7):before { content: "Customer"; }
+.contT td:nth-of-type(8):before { content: "Site"; }
+.contT td:nth-of-type(9):before { content: "Engine Hrs"; }
+.contT td:nth-of-type(10):before { content: "Service Step"; }
+.contT td:nth-of-type(11):before { content: "Next Service In"; }
+}

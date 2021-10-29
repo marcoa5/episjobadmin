@@ -17,7 +17,7 @@
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 
         [type]="'tech'" 
-        [check]="datiC(newT)" 
+        [check]="newT.invalid" 
         (info)="add(addUpd? 'addt':'updt', newT)"
         [del]="!addUpd"
         (dele)="cancella()"

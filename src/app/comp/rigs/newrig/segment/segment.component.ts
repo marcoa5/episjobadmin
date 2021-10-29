@@ -74,18 +74,10 @@ export class SegmentComponent implements OnInit {
   }
 
   ch(a: FormGroup){
-    let b = [a.get('div')?.value,a.get('fam')?.value,a.get('segm')?.value,a.get('subC')?.value]
-    let g = {
-      div: a.get('div')?.value,
-      fam: a.get('fam')?.value,
-      segment:a.get('segm')?.value,
-      subCat: a.get('subC')?.value
-    }
-
-    if(b.includes('')){
-      this.check.emit([0, g]) 
-    } else{
-      this.check.emit([1, g])
+    if(a.invalid) {
+      this.check.emit(true)
+    } else {
+      this.check.emit(false)
     }
   }
 

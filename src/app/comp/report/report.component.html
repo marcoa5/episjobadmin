@@ -97,22 +97,24 @@
         </div>
         <div *ngIf="sortedData.length>0">
             <table matSort (matSortChange)="sortData($event)" class="contT">
-                <tr>
-                  <th>Notes</th>
-                  <th mat-sort-header="serial" >Serial Nr</th>
-                  <th mat-sort-header="model">Model</th>
-                  <th mat-sort-header="company">Company</th>
-                  <th mat-sort-header="site">Site</th>
-                  <th mat-sort-header="hrs">Engine Hrs</th>
-                  <th mat-sort-header="step">Service Int</th>
-                  <th mat-sort-header="next">Next Service in</th>
-                  <th mat-sort-header="."></th>
-                  <th mat-sort-header="pred">Service Pred Date</th>
-                  <th mat-sort-header="day">Prev Day Hrs</th>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Notes</th>
+                        <th mat-sort-header="day">Prev Day Hrs</th>
+                        <th mat-sort-header="."></th>
+                        <th mat-sort-header="pred">Service Pred Date</th>
+                        <th mat-sort-header="serial" >Serial Nr</th>
+                        <th mat-sort-header="model">Model</th>
+                        <th mat-sort-header="company">Company</th>
+                        <th mat-sort-header="site">Site</th>
+                        <th mat-sort-header="hrs">Engine Hrs</th>
+                        <th mat-sort-header="step">Service Int</th>
+                        <th mat-sort-header="next">Next Service in</th>
+                    </tr>
+                </thead>
               
                 <tr *ngFor="let rig of sortedData">
-                    <td>
+                    <td [ngStyle]="{'background-color':rig.machineNote==4?'indianred':rig.machineNote==3?'lightgreen':rig.machineNote==5?'gold':'white'}">
                         <select (change)="salva($event, rig.machineSerialNr)" [value]="rig.machineNote">
                             <option value=1>No SA</option>
                             <option value=2>SA</option>
@@ -121,6 +123,10 @@
                             <option value=5>Done</option>
                         </select>
                     </td>
+                  <td>{{rig.LastDayEngineHours}}</td>
+                  <td><div *ngIf="rig.hoursLeftToService>0" class="circ" [ngStyle]="{'background-color': rig.hoursLeftToService<=50? 'indianred' : rig.hoursLeftToService>50 && rig.hoursLeftToService<=100? 'gold':'lightgreen'}"></div></td>
+                  <td>{{rig.servicePredictedDate|dateconv}}</td>
+
                   <td>{{rig.machineSerialNr}}</td>
                   <td>{{rig.machineModel}}</td>
                   <td>{{rig.machineCompany}}</td>
@@ -128,9 +134,6 @@
                   <td>{{rig.machineHrs}}</td>
                   <td>{{rig.serviceStep}}</td>
                   <td>{{rig.hoursLeftToService}}</td>
-                  <td><div *ngIf="rig.hoursLeftToService>0" class="circ" [ngStyle]="{'background-color': rig.hoursLeftToService<=50? 'indianred' : rig.hoursLeftToService>50 && rig.hoursLeftToService<=100? 'gold':'lightgreen'}"></div></td>
-                  <td>{{rig.servicePredictedDate|dateconv}}</td>
-                  <td>{{rig.LastDayEngineHours}}</td>
     
                 </tr>
               </table>

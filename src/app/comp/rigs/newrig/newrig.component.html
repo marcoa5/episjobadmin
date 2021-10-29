@@ -6,7 +6,8 @@
     <form [formGroup]="newR" class="formCont">
         <mat-form-field [appearance]="appearance">
             <mat-label>Serial Nr</mat-label>
-            <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off">
+            <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off" (blur)="chExist($event)">
+            <mat-error *ngIf="newR.controls.sn.hasError('already')">S/n already exists</mat-error>
         </mat-form-field>
         <mat-form-field [appearance]="appearance">
             <mat-label>Item Nr</mat-label>
@@ -33,7 +34,7 @@
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 
         [type]="'rig'" 
-        [check]="datiC(newR)" 
+        [check]="newR.invalid || segment" 
         (info)="add(addUpd? 'addr':'updr', newR)">
     </episjob-add-cancelbuttons>
 </div>

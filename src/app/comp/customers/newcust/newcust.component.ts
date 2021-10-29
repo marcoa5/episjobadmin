@@ -105,15 +105,6 @@ export class NewcustComponent implements OnInit {
     this.location.back()
   }
 
-  datiC( a:FormGroup){
-    let g:cl ={
-      c1: a.get('name')?.value,
-      c2: a.get('address1')?.value,
-      c3:a.get('address2')?.value,
-      id: this.origin[0]
-    }
-    return [g.c1? g.c1:'',g.c2?g.c2:'',g.c3?g.c3:'']
-  }
 
   makeid(length:number) {
     var result           = '';

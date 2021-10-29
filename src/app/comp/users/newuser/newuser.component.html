@@ -18,7 +18,7 @@
             </mat-form-field>
             <mat-form-field [appearance]="appearance" id="nr">
                 <mat-label>Pos</mat-label>
-             <mat-select [(value)]="userpos">
+             <mat-select [(value)]="userpos" formControlName="posiz">
                <mat-option value="SU">Super User</mat-option>
                <mat-option value="admin">Administrator</mat-option>
                <mat-option value="tech">Technician</mat-option>
@@ -31,7 +31,7 @@
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 
         [type]="'user'" 
-        [check]="datiC(userF)" 
+        [check]="userF.invalid" 
         (info)="add(addUpd? 'addu':'updu', userF)"
         [del]="!addUpd"
         (dele)="cancella()"

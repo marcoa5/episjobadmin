@@ -1,5 +1,5 @@
 <div class="cont" [ngStyle]="{'grid-template-columns' :  del? 'repeat(3,1fr)' : 'repeat(2,1fr)'}">
     <button mat-raised-button (click)="back()" color="primary">{{a1}}</button>
     <button mat-raised-button (click)="delete()" color="primary" *ngIf="del">Delete</button>
-    <button mat-raised-button (click)="add()" color="primary" [disabled]="contr()">{{a2}}</button>
+    <button mat-raised-button (click)="add()" color="primary" [disabled]="check">{{a2}}</button>
 </div>

@@ -695,8 +695,9 @@ export class ReportComponent implements OnInit {
             fa.serviceStepABC = ''
           }
         })
-        this.isThinking=false
         this.info=d.slice()
+        this.isThinking=false
+        
         firebase.database().ref('Certiq/notes').on('value',df=>{
           this.certiqN=df.val()
         })
@@ -714,7 +715,7 @@ export class ReportComponent implements OnInit {
         }, 500);
       }
     })
-    }     
+    }   
     
   }
 
@@ -734,7 +735,7 @@ export class ReportComponent implements OnInit {
   }
 
   sortData(sort: Sort) {
-    const data = this.info.slice();
+    const data = this.sortedData;
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       return;
@@ -760,8 +761,8 @@ export class ReportComponent implements OnInit {
   }
 
   salva(e:any,b:string){
-    this.machineData.forEach((el: any) => {
-      if(el.machineSerialNr==b) el.machineNote=e.event.target
+    this.sortedData.forEach((el: any) => {
+      if(el.machineSerialNr==b) el.machineNote=e.target.value
     });
     firebase.database().ref('Certiq').child('notes').child(b).set({
       note: e.target.value
