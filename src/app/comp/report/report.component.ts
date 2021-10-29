@@ -675,10 +675,10 @@ export class ReportComponent implements OnInit {
 
   certiq(){
     if(!this.isMobile){
-    //this.info=[]
+    this.info=[]
     this.sortedData=[]
     this.isThinking=true
-    /*let params = new HttpParams().set("day",moment(new Date()).format('YYYY-MM-DD'))
+    let params = new HttpParams().set("day",moment(new Date()).format('YYYY-MM-DD'))
     this.http.get('https://episjobreq.herokuapp.com/certiq/',{params:params}).subscribe(a=>{
       if(a){
         let b = Object.values(a)
@@ -698,7 +698,7 @@ export class ReportComponent implements OnInit {
             fa.serviceStepABC = ''
           }
         })
-        this.info=d.slice()*/
+        this.info=d.slice()
         this.isThinking=false
         
         firebase.database().ref('Certiq/notes').on('value',df=>{
@@ -717,8 +717,8 @@ export class ReportComponent implements OnInit {
           this.sortedData=this.info.slice()
         }, 500);
       }
-    /*})
-    }*/
+    })
+    }
     
   }
 
