@@ -46,4 +46,7 @@ export class TopMenuComponent implements OnInit {
     this.date.emit([new Date(a),new Date(b)])
   }
 
+  prev(e:any){
+    e.preventDefault()
+  }
 }

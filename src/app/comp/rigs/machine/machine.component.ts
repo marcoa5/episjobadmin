@@ -15,6 +15,7 @@ import { Location } from '@angular/common'
 import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
+import { SjlistComponent } from './sjlist/sjlist.component';
 
 
 export interface hrsLabel {
@@ -225,9 +226,10 @@ export class MachineComponent implements OnInit {
     firebase.database().ref('Saved/' + this.valore).once('value',h=>{
       let iniz = moment(i).format('YYYYMMDD')
       let fine = moment(f).format('YYYYMMDD')
+      if(fine<iniz) fine=(parseInt(iniz)+1).toString()
       this.sjList=[]
       h.forEach(g=>{
-        if(g.key && g.key>=iniz && g.key<=fine){
+        if(g.key && g.key.substring(0,8)>=iniz && g.key.substring(0,8)<=fine){
           this.sjList.push(g.val())
         }        
       })
