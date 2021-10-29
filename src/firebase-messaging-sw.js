@@ -21,10 +21,6 @@ firebase.initializeApp({
       body: payload.data.time,
       badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
       icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
-      actions: [{
-        action: "files",
-        title: "Go to file list"
-      }]
     };
   
     self.registration.showNotification(notificationTitle, notificationOptions)
