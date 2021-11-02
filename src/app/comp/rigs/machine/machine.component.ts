@@ -192,8 +192,11 @@ export class MachineComponent implements OnInit {
   }
 
   filter(i:any,f:any){
+    let a1=moment(new Date(i)).format('YYYYMMDD')
+    let a2=moment(new Date(f)).format('YYYYMMDD')
     this.datafil = this.data.filter(d=>{
-      return new Date(d.x)>=new Date(i) && new Date(d.x)<=new Date(f)
+      let a3=moment(new Date(d.x)).format('YYYYMMDD')
+      return a3>=a1 && a3<=a2
     })
     if(this.datafil.length>0){
       this.datafil.forEach((item,i)=>{

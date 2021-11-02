@@ -144,9 +144,12 @@ mat-icon{
     min-height: 21px;
     font-style: italic;
     padding: 3px 0 3px 45%; 
+    background-color: rgb(245,245,245);
+    border-radius: 5% 5% 0 0;
+    border-bottom: .5px solid $dark-text;
 }
 
-.contT tr:nth-of-type(odd) { 
+/*.contT tr:nth-of-type(odd) { 
     background: $dark-text;
     color: $light-text; 
   }
@@ -154,7 +157,7 @@ mat-icon{
   .contT tr:nth-of-type(even) { 
     background: $light-text;
     color: $dark-text; 
-  }
+  }*/
 
 .contT td:before { 
     /* Now like a table header */

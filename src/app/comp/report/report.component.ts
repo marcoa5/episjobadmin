@@ -7,6 +7,8 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
 import { rawListeners } from 'process';
+import { moveMessagePortToContext } from 'worker_threads';
+import { until } from 'selenium-webdriver';
 
 
 @Component({
@@ -29,7 +31,7 @@ export class ReportComponent implements OnInit {
   isMobile:boolean=true
   isAsc:boolean=true
   info: any=[
-    {
+    /*{
         "machineItemNumber": "8992009970",
         "machineCompany": "Manfredi Technique srl (Cave Gioia)",
         "machineSite": "Carrara",
@@ -64,550 +66,12 @@ export class ReportComponent implements OnInit {
         "hoursLeftToService": 111,
         "servicePredictedDate": "2021-12-15T15:40:17.504Z",
         "machineHrs": 4389
-    },
-    {
-        "machineItemNumber": "8992009994",
-        "machineCompany": "Cava Giardinello srl",
-        "machineSite": "Termini Imerese",
-        "machineModel": "FlexiROC T40",
-        "machineSerialNr": "TMG16SED0279",
-        "LastDayEngineHours": 7,
-        "serviceStep": "7000 (B-500)",
-        "hoursLeftToService": 237,
-        "servicePredictedDate": "2022-01-03T06:07:49.819Z",
-        "machineHrs": 6763
-    },
-    {
-        "machineItemNumber": "8992010129",
-        "machineCompany": "Minerali Industriali srl",
-        "machineSite": "Sondalo",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG16SED0386",
-        "LastDayEngineHours": 0,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 173,
-        "servicePredictedDate": "2021-05-18T11:19:53Z",
-        "machineHrs": 1077
-    },
-    {
-        "machineItemNumber": "8992010226",
-        "machineCompany": "TeamNetwork srl",
-        "machineSite": "Augusta",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG16SED0399",
-        "LastDayEngineHours": 0,
-        "serviceStep": "5000 (B-500)",
-        "hoursLeftToService": 113,
-        "servicePredictedDate": "2021-12-05T14:39:57.319Z",
-        "machineHrs": 4887
-    },
-    {
-        "machineItemNumber": "8992010198",
-        "machineCompany": "Sei Epc Italia spa",
-        "machineSite": "Sardegna",
-        "machineModel": "FlexiROC T40",
-        "machineSerialNr": "TMG16SED0414",
-        "LastDayEngineHours": 0,
-        "serviceStep": "5250 (A-250)",
-        "hoursLeftToService": 212,
-        "servicePredictedDate": "2022-05-25T07:21:58Z",
-        "machineHrs": 5038
-    },
-    {
-        "machineItemNumber": "8992010335",
-        "machineCompany": "Rocca Mar srl",
-        "machineSite": "Millesimo",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG16SED0514",
-        "LastDayEngineHours": 0,
-        "serviceStepABC": ""
-    },
-    {
-        "machineItemNumber": "8992010516",
-        "machineCompany": "Italcave spa",
-        "machineSite": "Taranto",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG17SED0198",
-        "LastDayEngineHours": 7,
-        "serviceStep": "2500 (B-500)",
-        "hoursLeftToService": 32,
-        "servicePredictedDate": "2021-11-19T10:14:22.738Z",
-        "machineHrs": 2468
-    },
-    {
-        "machineItemNumber": "8992010517",
-        "machineCompany": "Italcave spa",
-        "machineSite": "Taranto",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG17SED0204",
-        "LastDayEngineHours": 0,
-        "serviceStep": "2500 (B-500)",
-        "hoursLeftToService": 71,
-        "servicePredictedDate": "2021-12-06T19:34:15.784Z",
-        "machineHrs": 2429
-    },
-    {
-        "machineItemNumber": "8992010747",
-        "machineCompany": "Sacef 73 srl",
-        "machineSite": "Rezzato",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG17SED0383",
-        "LastDayEngineHours": 0,
-        "serviceStep": "2750 (A-250)",
-        "hoursLeftToService": 119,
-        "servicePredictedDate": "2022-02-24T02:03:00Z",
-        "machineHrs": 2631
-    },
-    {
-        "machineItemNumber": "8992010810",
-        "machineCompany": "F.E.A. sas",
-        "machineSite": "Bari",
-        "machineModel": "FlexiROC T40",
-        "machineSerialNr": "TMG17SED0443",
-        "LastDayEngineHours": 0,
-        "serviceStep": "3500 (B-500)",
-        "hoursLeftToService": 47,
-        "servicePredictedDate": "2021-11-19T07:02:50.269Z",
-        "machineHrs": 3453
-    },
-    {
-        "machineItemNumber": "8992010749",
-        "machineCompany": "Unicalce spa",
-        "machineSite": "Genova",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG17SED0475",
-        "LastDayEngineHours": 1,
-        "serviceStep": "4250 (A-250)",
-        "hoursLeftToService": 17,
-        "servicePredictedDate": "2021-11-04T14:14:34.584Z",
-        "machineHrs": 4233
-    },
-    {
-        "machineItemNumber": "8992010946",
-        "machineCompany": "Ston srl",
-        "machineSite": "Roccarainola",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG17SED0619",
-        "LastDayEngineHours": 0,
-        "serviceStep": "750 (A-250)",
-        "hoursLeftToService": 125,
-        "servicePredictedDate": "2021-11-03T02:17:18.081Z",
-        "machineHrs": 625
-    },
-    {
-        "machineItemNumber": "8992011020",
-        "machineCompany": "F.E.A. sas",
-        "machineSite": "Bari",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG17SED0681",
-        "LastDayEngineHours": 0,
-        "serviceStep": "2250 (A-250)",
-        "hoursLeftToService": 86,
-        "servicePredictedDate": "2021-09-18T05:56:20Z",
-        "machineHrs": 2164
-    },
-    {
-        "machineItemNumber": "8992011041",
-        "machineCompany": "S.e.ma.c. srl ",
-        "machineSite": "Roccarainola",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG17SED0685",
-        "LastDayEngineHours": 0,
-        "serviceStep": "4250 (A-250)",
-        "hoursLeftToService": 81,
-        "servicePredictedDate": "2021-09-25T21:18:16.251Z",
-        "machineHrs": 4169
-    },
-    {
-        "machineItemNumber": "8992011261",
-        "machineCompany": "Fassa srl",
-        "machineSite": "Dolcè",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG18SED0269",
-        "LastDayEngineHours": 5,
-        "serviceStep": "4000 (B-500)",
-        "hoursLeftToService": 266,
-        "servicePredictedDate": "2022-01-05T08:04:48.982Z",
-        "machineHrs": 3734
-    },
-    {
-        "machineItemNumber": "8992011401",
-        "machineCompany": "Sei Epc Italia spa",
-        "machineSite": "Orvieto",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG18SED0361",
-        "LastDayEngineHours": 9,
-        "serviceStep": "4250 (A-250)",
-        "hoursLeftToService": 65,
-        "servicePredictedDate": "2021-11-23T00:42:30.021Z",
-        "machineHrs": 4185
-    },
-    {
-        "machineItemNumber": "8992011503",
-        "machineCompany": "F.E.A. sas",
-        "machineSite": "Bari",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG18SED0573",
-        "LastDayEngineHours": 0,
-        "serviceStep": "2250 (A-250)",
-        "hoursLeftToService": 20,
-        "servicePredictedDate": "2021-07-13T21:32:13Z",
-        "machineHrs": 2230
-    },
-    {
-        "machineItemNumber": "8992011579",
-        "machineCompany": "Granulati Calcarei Redipuglia",
-        "machineSite": "Ronchi dei Legionari",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG18SED0624",
-        "LastDayEngineHours": 1,
-        "serviceStep": "3000 (C-1500)",
-        "hoursLeftToService": 192,
-        "servicePredictedDate": "2022-02-03T17:27:04.965Z",
-        "machineHrs": 2808
-    },
-    {
-        "machineItemNumber": "8992011790",
-        "machineCompany": "Sei Epc Italia spa",
-        "machineSite": "Sardegna",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG19SED0109",
-        "LastDayEngineHours": 7,
-        "serviceStep": "2000 (B-500)",
-        "hoursLeftToService": 91,
-        "servicePredictedDate": "2021-12-02T13:20:52.886Z",
-        "machineHrs": 1909
-    },
-    {
-        "machineItemNumber": "8992011902",
-        "machineCompany": "Unicalce spa",
-        "machineSite": "San Pellegrino",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG19SED0159",
-        "LastDayEngineHours": 6,
-        "serviceStep": "3250 (A-250)",
-        "hoursLeftToService": 170,
-        "servicePredictedDate": "2021-12-23T19:08:52.18Z",
-        "machineHrs": 3080
-    },
-    {
-        "machineItemNumber": "8992011924",
-        "machineCompany": "Tecnocom Rent srl",
-        "machineSite": "Lavis",
-        "machineModel": "FlexiROC T15 R",
-        "machineSerialNr": "TMG19SED0126",
-        "LastDayEngineHours": 7,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 169,
-        "servicePredictedDate": "2022-04-15T07:08:36Z",
-        "machineHrs": 1081
-    },
-    {
-        "machineItemNumber": "8992011925",
-        "machineCompany": "Pellegrini Consolidamenti srl",
-        "machineSite": "Narni",
-        "machineModel": "FlexiROC T15 R",
-        "machineSerialNr": "TMG19SED0127",
-        "LastDayEngineHours": 0,
-        "serviceStep": "500 (B-500)",
-        "hoursLeftToService": 181,
-        "servicePredictedDate": "2022-04-27T01:23:34Z",
-        "machineHrs": 319
-    },
-    {
-        "machineItemNumber": "8992012032",
-        "machineCompany": "Transbagger Gmbh",
-        "machineSite": "Campo Tures",
-        "machineModel": "FlexiROC T30",
-        "machineSerialNr": "TMG19SED0285",
-        "LastDayEngineHours": 0,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 38,
-        "servicePredictedDate": "2021-07-31T23:56:40Z",
-        "machineHrs": 1212
-    },
-    {
-        "machineItemNumber": "8992012156",
-        "machineCompany": "Cava Nuova Bartolina srl",
-        "machineSite": "Gavorrano",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG19SED0439",
-        "LastDayEngineHours": 6,
-        "serviceStep": "1500 (C-1500)",
-        "hoursLeftToService": 165,
-        "servicePredictedDate": "2022-01-19T01:38:38.995Z",
-        "machineHrs": 1335
-    },
-    {
-        "machineItemNumber": "8992012078",
-        "machineCompany": "Sales spa",
-        "machineSite": "Venturina",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG19SED0468",
-        "LastDayEngineHours": 8,
-        "serviceStep": "2250 (A-250)",
-        "hoursLeftToService": 162,
-        "servicePredictedDate": "2022-01-08T07:20:14.182Z",
-        "machineHrs": 2088
-    },
-    {
-        "machineItemNumber": "8992012211",
-        "machineCompany": "IMI srl",
-        "machineSite": "Roccarainola",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG19SED0486",
-        "LastDayEngineHours": 0,
-        "serviceStep": "1000 (B-500)",
-        "hoursLeftToService": 280,
-        "servicePredictedDate": "2022-08-04T15:59:00Z",
-        "machineHrs": 720
-    },
-    {
-        "machineItemNumber": "8992012229",
-        "machineCompany": "Cave di Campiglia spa",
-        "machineSite": "Campiglia Marittima",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG19SED0497",
-        "LastDayEngineHours": 7,
-        "serviceStep": "1750 (A-250)",
-        "hoursLeftToService": 60,
-        "servicePredictedDate": "2021-12-27T15:28:58Z",
-        "machineHrs": 1690
-    },
-    {
-        "machineItemNumber": "8992012368",
-        "machineCompany": "Vernia srl",
-        "machineSite": "San Giuliano M.se",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG19SED0565",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 240,
-        "servicePredictedDate": "2022-06-25T08:21:16Z",
-        "machineHrs": 10
-    },
-    {
-        "machineItemNumber": "8992012335",
-        "machineCompany": "Cava di Sarone srl",
-        "machineSite": "Sarone di Caneva",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG19SED0567",
-        "LastDayEngineHours": 3,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 176,
-        "servicePredictedDate": "2022-01-25T23:33:36.239Z",
-        "machineHrs": 1074
-    },
-    {
-        "machineItemNumber": "8992012482",
-        "machineCompany": "Fassa srl",
-        "machineSite": "Gavardo",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG20SED0068",
-        "LastDayEngineHours": 9,
-        "serviceStep": "2500 (B-500)",
-        "hoursLeftToService": 231,
-        "servicePredictedDate": "2021-12-28T19:58:50.786Z",
-        "machineHrs": 2269
-    },
-    {
-        "machineItemNumber": "8992012483",
-        "machineCompany": "Fassa srl",
-        "machineSite": "Sabbio Chiese",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG20SED0085",
-        "LastDayEngineHours": 0,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 119,
-        "servicePredictedDate": "2022-01-04T14:19:32.123Z",
-        "machineHrs": 1131
-    },
-    {
-        "machineItemNumber": "8992012486",
-        "machineCompany": "Nuova Ima srl",
-        "machineSite": "Pieve d'Alpago",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG20SED0092",
-        "LastDayEngineHours": 1,
-        "serviceStep": "500 (B-500)",
-        "hoursLeftToService": 245,
-        "servicePredictedDate": "2022-06-29T17:57:11Z",
-        "machineHrs": 255
-    },
-    {
-        "machineItemNumber": "8992012681",
-        "machineCompany": "Carminati Flli Spa",
-        "machineSite": "Bevera di Ventimiglia",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG20SED0267",
-        "LastDayEngineHours": 7,
-        "serviceStep": "1000 (B-500)",
-        "hoursLeftToService": 167,
-        "servicePredictedDate": "2022-04-12T14:21:14Z",
-        "machineHrs": 833
-    },
-    {
-        "machineItemNumber": "8992012784",
-        "machineCompany": "Sei Epc Italia spa",
-        "machineSite": "Maddaloni",
-        "machineModel": "FlexiROC T40",
-        "machineSerialNr": "TMG20SED0378",
-        "LastDayEngineHours": 0,
-        "serviceStep": "1000 (B-500)",
-        "hoursLeftToService": 223,
-        "servicePredictedDate": "2022-01-30T03:11:39.626Z",
-        "machineHrs": 777
-    },
-    {
-        "machineItemNumber": "8992012808",
-        "machineCompany": "Scavi e Demolizioni srl",
-        "machineSite": "Tanca Farrà",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG20SED0381",
-        "LastDayEngineHours": 5,
-        "serviceStep": "750 (A-250)",
-        "hoursLeftToService": 219,
-        "servicePredictedDate": "2022-02-19T20:51:18.527Z",
-        "machineHrs": 531
-    },
-    {
-        "machineItemNumber": "8992012893",
-        "machineCompany": "Giuggia Costruzioni srl",
-        "machineSite": "Villanova Mondovì",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG20SED0460",
-        "LastDayEngineHours": 0,
-        "serviceStep": "500 (B-500)",
-        "hoursLeftToService": 127,
-        "servicePredictedDate": "2022-01-14T22:14:41.96Z",
-        "machineHrs": 373
-    },
-    {
-        "machineItemNumber": "8992012782",
-        "machineCompany": "Salcef spa",
-        "machineSite": "Roma",
-        "machineModel": "FlexiROC T15 R",
-        "machineSerialNr": "TMG20SED0366",
-        "LastDayEngineHours": 0,
-        "serviceStep": "500 (B-500)",
-        "hoursLeftToService": 58,
-        "servicePredictedDate": "2021-12-24T21:51:52.2Z",
-        "machineHrs": 442
-    },
-    {
-        "machineItemNumber": "8992012901",
-        "machineCompany": "Efi srl",
-        "machineSite": "Caldarola",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG20SED0488",
-        "LastDayEngineHours": 0,
-        "serviceStep": "500 (B-500)",
-        "hoursLeftToService": 141,
-        "servicePredictedDate": "2022-03-18T02:21:13Z",
-        "machineHrs": 359
-    },
-    {
-        "machineItemNumber": "8992013017",
-        "machineCompany": "Italsud Salerno srl",
-        "machineSite": "Salza Irpina",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG20SED0525",
-        "LastDayEngineHours": 6,
-        "serviceStep": "1250 (A-250)",
-        "hoursLeftToService": 104,
-        "servicePredictedDate": "2021-11-29T08:01:23.826Z",
-        "machineHrs": 1146
-    },
-    {
-        "machineItemNumber": "8992013193",
-        "machineCompany": "In.Pro.Mar srl",
-        "machineSite": "Orosei",
-        "machineModel": "FlexiROC T15 R",
-        "machineSerialNr": "TMG21SED0140",
-        "LastDayEngineHours": 6,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 144,
-        "servicePredictedDate": "2022-03-21T20:39:17.6Z",
-        "machineHrs": 106
-    },
-    {
-        "machineItemNumber": "8992013299",
-        "machineCompany": "F.E.A. sas",
-        "machineSite": "Bari",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG21SED0193",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 246,
-        "servicePredictedDate": "2022-05-26T10:52:59Z",
-        "machineHrs": 4
-    },
-    {
-        "machineItemNumber": "8999448100",
-        "machineCompany": "Notari Spa",
-        "machineSite": "Sordio",
-        "machineModel": "Boomer S2",
-        "machineSerialNr": "TMG20URE0127",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 155,
-        "servicePredictedDate": "2021-09-23T10:59:22Z",
-        "machineHrs": 95
-    },
-    {
-        "machineItemNumber": "8992013323",
-        "machineCompany": "Marmi Molvina srl",
-        "machineSite": "Nuvolera",
-        "machineModel": "SmartROC T35",
-        "machineSerialNr": "TMG21SED0321",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 74,
-        "servicePredictedDate": "2022-01-06T17:57:38.941Z",
-        "machineHrs": 176
-    },
-    {
-        "machineItemNumber": "8992013357",
-        "machineCompany": "Ceca srl",
-        "machineSite": "Roccarainola",
-        "machineModel": "SmartROC T40",
-        "machineSerialNr": "TMG21SED0356",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 244,
-        "servicePredictedDate": "2022-06-28T01:57:14Z",
-        "machineHrs": 6
-    },
-    {
-        "machineItemNumber": "8992013511",
-        "machineCompany": "Sibelco Italia spa",
-        "machineSite": "Robilante",
-        "machineModel": "SmartROC T45 - 10",
-        "machineSerialNr": "TMG21SED0449",
-        "LastDayEngineHours": 6,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 76,
-        "servicePredictedDate": "2021-12-09T10:40:30.171Z",
-        "machineHrs": 174
-    },
-    {
-        "machineItemNumber": "8997798800",
-        "machineCompany": "Imi Fabi spa",
-        "machineSite": "Lanzada",
-        "machineModel": "ST14 Battery",
-        "machineSerialNr": "TMG20URE0457",
-        "LastDayEngineHours": 0,
-        "serviceStep": 125,
-        "hoursLeftToService": 17,
-        "servicePredictedDate": "2021-11-13T07:29:38.88Z",
-        "machineHrs": 108,
-        "serviceStepABC": ""
-    }
+    }*/
 ]
   pos:string=''
   sortedData:any[]=[]
   _sortedData:any[]=[]
-  displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev day hours' ]
+  displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
   constructor(private http: HttpClient, private clip: Clipboard) {
   }
 
@@ -678,7 +142,7 @@ export class ReportComponent implements OnInit {
     this.info=[]
     this.sortedData=[]
     this.isThinking=true
-    let params = new HttpParams().set("day",moment(new Date()).format('YYYY-MM-DD'))
+    let params = new HttpParams().set("day",moment(this.chD()).format('YYYY-MM-DD'))
     this.http.get('https://episjobreq.herokuapp.com/certiq/',{params:params}).subscribe(a=>{
       if(a){
         let b = Object.values(a)
@@ -717,8 +181,7 @@ export class ReportComponent implements OnInit {
           this.sortedData=this.info.slice()
         }, 500);
       }
-    })
-    }
+    })}
     
   }
 
@@ -791,12 +254,68 @@ export class ReportComponent implements OnInit {
   }
 
   width(){
-    if(window.innerWidth>600) return true
+    if(window.innerWidth<1200) return true
     return false
   }
+
+  chD(): Date{
+    let r:boolean=false
+    let d: Date=new Date()
+    d=new Date(moment(d).add(-1,'days').format('YYYY-MM-DD'))
+
+    do{
+      r=dayType(d)
+      d=new Date(moment(d).add(-1,'days').format('YYYY-MM-DD'))
+    } while (r==false)
+    return new Date(moment(d).add(+1,'days').format('YYYY-MM-DD'))
+  }
+
+  lastWorkingDay(){
+    return moment(this.chD()).format('DD-MM-YY')
+  }
+  
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
+function dayType(a: any): any{
+  let y = parseInt(moment(a).format('YYYY'))
+  let holy: string[]=[
+    moment(new Date(y, 0,1)).format('YYYY-MM-DD'),
+    moment(new Date(y,0,6)).format('YYYY-MM-DD'),
+    moment(new Date(y,3,25)).format('YYYY-MM-DD'),
+    moment(new Date(y,4,1)).format('YYYY-MM-DD'),
+    moment(new Date(y,5,2)).format('YYYY-MM-DD'),
+    moment(new Date(y,7,15)).format('YYYY-MM-DD'),
+    moment(new Date(y,10,1)).format('YYYY-MM-DD'),
+    moment(new Date(y,11,8)).format('YYYY-MM-DD'),
+    moment(new Date(y,11,24)).format('YYYY-MM-DD'),
+    moment(new Date(y,11,25)).format('YYYY-MM-DD'),
+    moment(new Date(y,11,31)).format('YYYY-MM-DD'),
+  ]
+  holy.push(moment(Easter(y)).format('YYYY-MM-DD'))
+  holy.push(moment(new Date(moment(Easter(y)).add(1,'days').format('YYYY-MM-DD'))).format('YYYY-MM-DD'))
+  if(holy.includes(moment(a).format('YYYY-MM-DD'))) return false
+
+  if(a.getDay()==0 || a.getDay()==6) return false
+  return true
+  
+}
+
+function Easter(Y:number):Date {
+  var C = Math.floor(Y/100);
+  var N = Y - 19*Math.floor(Y/19);
+  var K = Math.floor((C - 17)/25);
+  var I = C - Math.floor(C/4) - Math.floor((C - K)/3) + 19*N + 15;
+  I = I - 30*Math.floor((I/30));
+  I = I - Math.floor(I/28)*(1 - Math.floor(I/28)*Math.floor(29/(I + 1))*Math.floor((21 - N)/11));
+  var J = Y + Math.floor(Y/4) + I + 2 - C + Math.floor(C/4);
+  J = J - 7*Math.floor(J/7);
+  var L = I - J;
+  var M = 3 + Math.floor((L + 40)/44);
+  var D = L + 28 - 31*Math.floor(M/4);
+  return new Date(Y,M-1,D)
 }
 

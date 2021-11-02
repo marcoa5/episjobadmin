@@ -57,7 +57,7 @@
                 <thead>
                     <tr>
                         <th>Notes</th>
-                        <th mat-sort-header="day">Prev Day Hrs</th>
+                        <th mat-sort-header="day">Hrs on<br>{{lastWorkingDay()}}</th>
                         <th mat-sort-header="."></th>
                         <th mat-sort-header="pred">Service Pred Date</th>
                         <th mat-sort-header="serial" >Serial Nr</th>
@@ -70,7 +70,7 @@
                     </tr>
                 </thead>
               
-                <tr *ngFor="let rig of sortedData" [class.mat-elevation-z8]="true">
+                <tr *ngFor="let rig of sortedData" [ngClass]="{'mat-elevation-z8': width()}"[class.mat-elevation-z8]="true">
                     <td [ngStyle]="{'background-color':rig.machineNote==4?'indianred':rig.machineNote==3?'lightgreen':rig.machineNote==5?'gold':'white'}">
                         <select (change)="salva($event, rig.machineSerialNr)" [value]="rig.machineNote">
                             <option value=1>No SA</option>
@@ -95,6 +95,5 @@
                 </tr>
               </table>
         </div>
-        
     </div>
 </div> 
