@@ -2,13 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/database'
 import * as moment from 'moment'
-import * as XLSX from 'xlsx'
+//import * as XLSX from 'xlsx'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
-import { rawListeners } from 'process';
+/*import { rawListeners } from 'process';
 import { moveMessagePortToContext } from 'worker_threads';
-import { until } from 'selenium-webdriver';
+import { until } from 'selenium-webdriver';*/
 
 
 @Component({
@@ -87,7 +87,7 @@ export class ReportComponent implements OnInit {
     
   }
 
-  all(){
+  /*all(){
     this.export()
     .then(()=>{
       const wb = XLSX.utils.book_new()
@@ -135,7 +135,7 @@ export class ReportComponent implements OnInit {
         })
       })
     })
-  }
+  }*/
 
   certiq(){
     if(!this.isMobile){
@@ -293,6 +293,7 @@ function dayType(a: any): any{
     moment(new Date(y,11,8)).format('YYYY-MM-DD'),
     moment(new Date(y,11,24)).format('YYYY-MM-DD'),
     moment(new Date(y,11,25)).format('YYYY-MM-DD'),
+    moment(new Date(y,11,26)).format('YYYY-MM-DD'),
     moment(new Date(y,11,31)).format('YYYY-MM-DD'),
   ]
   holy.push(moment(Easter(y)).format('YYYY-MM-DD'))

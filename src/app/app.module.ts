@@ -89,7 +89,8 @@ import { ImifabiComponent } from './comp/rigs/machine/imifabi/imifabi.component'
 import { CopyComponent } from './comp/util/dialog/copy/copy.component';
 import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
 import { ThousandsPipe } from './pipe/thousands.pipe';
-import { MatSortModule } from '@angular/material/sort'
+import { MatSortModule } from '@angular/material/sort';
+import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -167,6 +168,7 @@ const appearance: MatFormFieldDefaultOptions = {
     CopyComponent,
     AddhrsComponent,
     ThousandsPipe,
+    VisitlistComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

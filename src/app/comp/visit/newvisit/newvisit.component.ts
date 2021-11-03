@@ -61,6 +61,7 @@ export class NewvisitComponent implements OnInit {
   listVisCont:boolean=true
   val:boolean=false
   userName:string=''
+  userId:string=''
   comuni: string[]=[]
   _comuni: string[]=[]
   lisComVis:boolean=false
@@ -70,6 +71,7 @@ export class NewvisitComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       if(a) {
         firebase.database().ref('Users').child(a.uid).once('value',b=>{
+          this.userId=a.uid
           this.userName=b.val().Nome + " " + b.val().Cognome
         })
       }
@@ -350,7 +352,7 @@ export class NewvisitComponent implements OnInit {
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result=='ok'){
-          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userName).child(info.date).set(info)
+          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userId+'-'+this.userName).child(info.date).set(info)
           .then(()=>{
             firebase.database().ref('Contacts').child(info.cuId).child(info.name).set({
               pos: info.pos,

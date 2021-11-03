@@ -1,0 +1,88 @@
+@import '../../../../epi.scss';
+
+
+.day{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    padding:5px;
+    aspect-ratio: 1;
+}
+
+.daysCont, .header{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: auto;
+    gap:5px;
+}
+.header p{
+    text-align: center;
+    margin: 0;
+}
+
+.cont{
+    padding: 0 10px 30px 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:15px;
+}
+
+
+
+.g{
+    color: $dark-text;
+    cursor: pointer;
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    overflow: hidden;
+}
+
+
+
+.selectorCont{
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dayNr{
+    justify-self: center;
+    align-self: center;
+    margin:0;
+    font-size: 80%;
+}
+
+.visitNr{
+    justify-self: center;
+    align-self: center;
+    margin:0;
+    grid-column: 2 /span 2;
+    grid-row:3;
+    background-color: $dark-text;
+    color: $light-text;
+    width:100%;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.visitNr1{
+    grid-column: 1 /span 4;
+
+    
+}
+
+.listCont{
+    
+}
+.holy{
+    color:red;
+}
+@media only screen and (max-width: 700px)  {
+    .cont{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
