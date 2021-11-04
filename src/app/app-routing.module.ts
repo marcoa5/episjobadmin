@@ -18,6 +18,7 @@ import { ReportComponent } from './comp/report/report.component'
 import { VisitComponent } from './comp/visit/visit.component'
 import { PotentialComponent } from './comp/potential/potential.component'
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
+import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -38,6 +39,8 @@ const routes: Routes = [
   {path: 'visit', component: VisitComponent},
   {path: 'potential', component: PotentialComponent},
   {path: 'contact', component:ContactComponent},
+  {path: 'newvisit', component:NewvisitComponent},
+
 ];
 
 @NgModule({

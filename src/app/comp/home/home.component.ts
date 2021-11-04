@@ -76,15 +76,15 @@ export class HomeComponent implements OnInit {
       icon:'recent_actors', 
       route:'visit', 
       dis:false, 
-      auth:['SU','admin','sales','']
+      auth:['SU','adminS','sales','']
     },
-    {
+    /*{
       id:'Potential',
       icon:'trending_up', 
       route:'potential', 
       dis:false, 
       auth:['SU','admin','sales','']
-    },
+    },*/
   ];
 
   constructor(public router :Router) { }

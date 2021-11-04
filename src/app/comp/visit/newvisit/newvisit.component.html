@@ -1,21 +1,24 @@
-<episjob-h2 padtop=0 icon="event_available" data="New Customer Visit"></episjob-h2>
+<episjob-navbar title="New Visit" [cerca]="false" [backB]="'visit'"></episjob-navbar>
+
+<div class="contG">
+  <episjob-h2 icon="event_available" data="New Customer Visit"></episjob-h2>
 
 <mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)">
     <mat-step [stepControl]="dateFormGroup">
-    <form [formGroup]="dateFormGroup">
       <ng-template matStepLabel>Select Date</ng-template>
-      <div class="cont dateCont">
-        <mat-form-field [appearance]="appearance" class="dateItem1">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="date"> 
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </div>
-      <div class="butt">
-        <button mat-raised-button matStepperNext color="primary" *ngIf="!dateFormGroup.invalid">Next</button>
-      </div>
-    </form>
+      <form [formGroup]="dateFormGroup">
+        <div class="cont dateCont">
+          <mat-form-field [appearance]="appearance" class="dateItem1">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="date"> 
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="butt">
+          <button mat-raised-button matStepperNext color="primary" *ngIf="!dateFormGroup.invalid">Next</button>
+        </div>
+      </form>
   </mat-step>
   <mat-step [stepControl]="custFormGroup">
       <ng-template matStepLabel>Customer</ng-template>
@@ -120,3 +123,4 @@
 
   </mat-step>
 </mat-vertical-stepper>
+</div>

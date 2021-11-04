@@ -1,3 +1,6 @@
+.contG{
+  margin: 80px 10px 30px 10px;
+}
 .radio {
     display: flex;
     flex-direction: column;
@@ -92,6 +95,11 @@
   .contItem3{grid-area: contItem3;}
   .contItem4{grid-area: contItem4;}
   .contItem5{grid-area: contItem5;}
+
+
+  .dateCont, .custCont, .contCont, .notesCont{
+    margin-top: 15px;
+  }
 
   @media screen and (min-width: 750px) {
     .custCont{

@@ -42,7 +42,7 @@
         <div class="filC" *ngIf="info.length>1">
             <!--<button class="but" mat-raised-button color="primary" (click)="filt=!filt;filtra();" *ngIf="sortedData.length>0">{{filt?'Only SA':'Show all'}}</button>-->
 
-            <mat-checkbox class="chb" (change)="filt=!filt;filtra();">{{width()?'Select only machines with SA' : 'Only SA'}}</mat-checkbox>            
+            <mat-checkbox class="chb" (change)="filt=!filt;filtra();">{{!width()?'Select only machines with Service Agreement' : 'Only SA'}}</mat-checkbox>            
             <mat-form-field class="but" >
                 <mat-label>Filter data</mat-label>
                 <input matInput autocomplete="off" [(ngModel)]="str" (input)="filtra()">

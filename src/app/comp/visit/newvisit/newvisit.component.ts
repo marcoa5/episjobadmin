@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import firebase from 'firebase/app';
+import { ActivatedRoute } from '@angular/router'
 import * as moment from 'moment'
 import { Location } from '@angular/common'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
@@ -65,7 +66,9 @@ export class NewvisitComponent implements OnInit {
   comuni: string[]=[]
   _comuni: string[]=[]
   lisComVis:boolean=false
-  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder) { }
+  infoDate:Date=new Date()
+  disDate:boolean=false
+  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -102,7 +105,7 @@ export class NewvisitComponent implements OnInit {
     })
 
     this.dateFormGroup = this._formBuilder.group({
-      date: [new Date(), Validators.required]
+      date: [this.infoDate, Validators.required]
     });
     this.contactFormGroup=this._formBuilder.group({
       name: ['',Validators.required],
@@ -118,6 +121,13 @@ export class NewvisitComponent implements OnInit {
     this.visitNotes = this._formBuilder.group({
       notes: ['',Validators.required],
       place: ['',Validators.required]
+    })
+
+    this.route.params.subscribe(a=>{
+      if(a) {
+        this.dateFormGroup.controls.date.setValue(new Date(a.date))
+        this.dateFormGroup.controls.date.disable()
+      }
     })
   }
 
@@ -352,7 +362,8 @@ export class NewvisitComponent implements OnInit {
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result=='ok'){
-          firebase.database().ref('CustVisit').child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userId+'-'+this.userName).child(info.date).set(info)
+          firebase.database().ref('CustVisit').child(moment(this.dateFormGroup.controls.date.value).format("YYYYMMDD")).child(this.userId+'-'+this.userName).child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).set(info)
+          /*child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userId+'-'+this.userName).child(info.date)*/
           .then(()=>{
             firebase.database().ref('Contacts').child(info.cuId).child(info.name).set({
               pos: info.pos,

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
 import * as moment from 'moment'
-import { FlexAlignStyleBuilder } from '@angular/flex-layout';
+
 @Component({
   selector: 'episjob-visitlist',
   templateUrl: './visitlist.component.html',
@@ -17,8 +18,11 @@ export class VisitlistComponent implements OnInit {
   days:any[]=[]
   _days:any[]=[]
   dailyList:any[]=[]
+  today:string=''
   m:any = {m: new Date().getMonth()+1,y: new Date().getFullYear(), ext:moment(new Date()).format('MMMM YYYY')}
-  constructor() { }
+  chDailyList:boolean=false
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -28,81 +32,107 @@ export class VisitlistComponent implements OnInit {
           this.userId=a.uid
         })
         .then(()=>{
-          firebase.database().ref('CustVisit').once('value',a=>{
-            a.forEach(b=>{
-              b.forEach(c=>{
-                if(this.userId==c.key?.substring(0,28)){
-                  c.forEach(d=>{
-                    this.visits.push(d.val())
-                  })
-                }
-              })
-            })
-          }).then(()=>{
-            this.giorni(this.m.m,this.m.y).then((a:any)=>this.days=a)
-          })
+          this.giorni(this.m.m,this.m.y).then((a:any)=>this.days=a)
+          this.today=moment(new Date()).format('DD/MM/YYYY')
+          this.gio(new Date())
         })
       }
     })
+    
   }
 
   giorni(m:number, y:number){
     this._days=[]
     this.dailyList=[]
     let i =new Date(y,m-1,1)
-    let f= new Date(y,m,0)
-    let ch = i.getDay()-1
+    let ch = i.getDay()-1>=0?i.getDay()-1:6
     let ch1 = new Date(y,m,0).getDate()
     return new Promise((res,rej)=>{
-      let vList: { [x: string]: { date: any; c1: string; }; }
       for(let r=1; r<(i.getDay()==0?7:i.getDay());r++) this._days.push({n:'',day:'',visits:'' })
       for(let o = 1; o<new Date(y,m,0).getDate()+1;o++){
       this._days.push({n:o,day: new Date(y,m-1,o),visits:'', holy:dayType(new Date(y,m-1,o))})
-        let count=1
-        this.visits.forEach((el: { date: any; c1:string }) => {
-          if(moment(new Date(y,m-1,o)).format('YYYY-MM-DD')==el.date){
-            this._days[o-1].visits=count
-            count++
-          }
+      firebase.database().ref('CustVisit').child(moment(new Date(y,m-1,o)).format('YYYYMMDD')).once('value',a=>{
+        a.forEach(b=>{
+          if(this.pos=='sales' && this.userId==b.key?.substring(0,28)) this._days[o-1+ch].visits='ok'
+          if(this.pos!='sales') this._days[o-1+ch].visits='ok'
         })
-        if(this._days.length == ch+ch1) {
-          console.log(this._days)
-          res(this._days)
-        }
+        //if(a.val()!=null) this._days[o-1+ch].visits='ok'
+      })
+      if(this._days.length == ch+ch1) {
+        //console.log(this._days)
+        res(this._days)
+      }
       }
     })  
   }
 
-  gio(d:any){
+  gio(d:Date){
+    this.chDailyList=false
+    console.log(d)
     this.dailyList=[]
-    if(d.day!=undefined) {
-      this.visits.forEach((el: { date: string; }) => {
+    if(d!=undefined) {
+      this.today=moment(d).format('DD/MM/YYYY')
+      firebase.database().ref('CustVisit').child(moment(d).format('YYYYMMDD')).once('value',a=>{
+        if(a.val()!=null) {
+          a.forEach(b=>{
+            b.forEach(c=>{
+              this.dailyList.push(c.val())
+            })
+          })
+        }
+      })
+      .then(()=>this.chDailyList=true)
+      /*this.visits.forEach((el: { date: string; }) => {
         if(el.date==moment(d.day).format('YYYY-MM-DD')) this.dailyList.push(el)
-      });
+      });*/
     }
   }
 
   moveMonth(a:string){
     let data = new Date(this.m.y,this.m.m-1,1)
+    let currM = moment(new Date()).format('MM')
     if(a=='+') {
       this.m.m = moment(new Date(data)).add(1,'months').format('MM')
       this.m.y=moment(new Date(data)).add(1,'months').format('YYYY')
       this.m.ext = moment(new Date(data)).add(1,'months').format('MMMM YYYY')
+      
     }
     if(a=='-') {
       this.m.m = moment(new Date(data)).add(-1,'months').format('MM')
       this.m.y=moment(new Date(data)).add(-1,'months').format('YYYY')
       this.m.ext = moment(new Date(data)).add(-1,'months').format('MMMM YYYY')
+      
     }
     this.giorni(this.m.m,this.m.y)    
     .then((a:any)=>{
       this.days=a
+      if(currM==this.m.m) {
+        this.today = moment(new Date()).format('DD/MM/YYYY')
+        this.gio(new Date())
+      } else {
+        this.today = moment(new Date(this.m.y, this.m.m-1,1)).format('DD/MM/YYYY')
+        this.gio(new Date(this.m.y, this.m.m-1,1))
+      }
+      
     })
   }
 
   aa():boolean{
     const box = document.querySelector('.calCont')
     if(box && box.clientWidth<400) return true
+    return false
+  }
+
+  newVisit(a:string){
+    let d = a.substring(0,2)
+    let m = a.substring(3,5)
+    let y= a.substring(6,10)
+    let da = y+'-'+m+'-'+d
+    this.router.navigate(['newvisit',{date:da}])
+  }
+
+  chDay(a:Date):boolean{
+    if(moment(a).format('DD/MM/YYYY')==this.today) return true
     return false
   }
 }
