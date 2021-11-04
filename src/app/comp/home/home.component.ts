@@ -20,14 +20,14 @@ export class HomeComponent implements OnInit {
       icon:'work', 
       route:'customers', 
       dis:false, 
-      auth:['SU','admin','tech','sales','customer']
+      auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
       id:'Equipment',
       icon:'precision_manufacturing', 
       route:'rigs', 
       dis:false, 
-      auth:['SU','admin','tech','sales','customer']
+      auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
       id:'Technicians',
@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
       icon:'cloud_download', 
       route:'files', 
       dis:false, 
-      auth:['SU','admin','tech','']
+      auth:['SU','admin','adminS','tech','']
     },
     {
       id:'Users',
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
       icon:'checklist', 
       route:'auth', 
       dis:false, 
-      auth:['SU','admin','','']
+      auth:['SU','admin','adminS','','']
     },
     {
       id:'Report',
@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
       icon:'description', 
       route:'contracts', 
       dis:true, 
-      auth:['SU','admin','','']
+      auth:['SU','admin','adminS','','']
     },
     {
       id:'Visit',

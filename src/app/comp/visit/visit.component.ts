@@ -21,7 +21,7 @@ export class VisitComponent implements OnInit {
   }
    
   auth(){
-    if (this.pos=='SU' || this.pos=='admin' || this.pos=='sales') return true
+    if (this.pos=='SU' || this.pos=='adminS' || this.pos=='sales') return true
     return false
   }
 }

@@ -9,7 +9,7 @@ import { Location } from '@angular/common'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.component';
 import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
-
+import { Router } from '@angular/router'
 export interface customer{
   id: string,
   c1: string,
@@ -68,7 +68,7 @@ export class NewvisitComponent implements OnInit {
   lisComVis:boolean=false
   infoDate:Date=new Date()
   disDate:boolean=false
-  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -124,7 +124,7 @@ export class NewvisitComponent implements OnInit {
     })
 
     this.route.params.subscribe(a=>{
-      if(a) {
+      if(a && a.date) {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
         this.dateFormGroup.controls.date.disable()
       }
@@ -381,7 +381,7 @@ export class NewvisitComponent implements OnInit {
                 })
               }
               setTimeout(() => {
-              this.location.back()
+              this.router.navigate(['visit',{date:info.date}])
                 
               }, 250);
             })

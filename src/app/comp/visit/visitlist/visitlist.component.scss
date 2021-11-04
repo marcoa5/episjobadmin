@@ -28,7 +28,9 @@
     gap:15px;
 }
 
-
+.calCont{
+    margin-bottom: 30px;
+}
 
 
 .g{
@@ -52,6 +54,11 @@
 }
 .spinner{
     margin:auto;
+}
+
+.butCont{
+    display: flex;
+    justify-content: center;
 }
 
 .selectorCont{
@@ -84,11 +91,22 @@
     white-space: nowrap;
 }
 
+.editCont{
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+}
 
 .addNew{
     width: 100% !important;
-    margin:0; padding:0; 
+    margin:auto; padding:0;
+    margin-top: 15px; 
 }
+
+mat-panel-title{
+    width:40%;
+}
+
 .holy{
     color:red;
 }

@@ -4,6 +4,9 @@ import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/auth'
 import * as moment from 'moment'
+import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
+import { DeldialogComponent } from '../../util/deldialog/deldialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'episjob-visitlist',
@@ -18,11 +21,11 @@ export class VisitlistComponent implements OnInit {
   days:any[]=[]
   _days:any[]=[]
   dailyList:any[]=[]
-  today:string=''
+  today:string=moment(new Date()).format('DD/MM/YYYY')
   m:any = {m: new Date().getMonth()+1,y: new Date().getFullYear(), ext:moment(new Date()).format('MMMM YYYY')}
   chDailyList:boolean=false
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dialog:MatDialog, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -32,9 +35,23 @@ export class VisitlistComponent implements OnInit {
           this.userId=a.uid
         })
         .then(()=>{
+          console.log(this.m.m,this.m.y)
+
+          this.route.params.subscribe(a=>{
+            
+            if(a.date) {
+              this.m.m=new Date(a.date).getMonth()+1
+              this.m.y=new Date(a.date).getFullYear()
+              this.m.ext=moment(new Date(a.date)).format('MMMM YYYY')
+              this.today=moment(new Date(a.date)).format('DD/MM/YYYY')
+              this.gio(new Date(a.date))
+            } else {
+              this.gio(new Date())
+            }
+
+          })
           this.giorni(this.m.m,this.m.y).then((a:any)=>this.days=a)
-          this.today=moment(new Date()).format('DD/MM/YYYY')
-          this.gio(new Date())
+          
         })
       }
     })
@@ -68,23 +85,32 @@ export class VisitlistComponent implements OnInit {
 
   gio(d:Date){
     this.chDailyList=false
-    console.log(d)
     this.dailyList=[]
     if(d!=undefined) {
       this.today=moment(d).format('DD/MM/YYYY')
       firebase.database().ref('CustVisit').child(moment(d).format('YYYYMMDD')).once('value',a=>{
         if(a.val()!=null) {
           a.forEach(b=>{
-            b.forEach(c=>{
-              this.dailyList.push(c.val())
-            })
+            if(this.userId==b.key?.substring(0,28) && this.pos=='sales'){
+              b.forEach(c=>{
+                this.dailyList.push(c.val())
+              })
+            } else if(this.pos=='SU' || this.pos=='adminS'){
+              b.forEach(c=>{
+                let g= c.val()
+                g.sam=b.key?.substring(29,1000)
+                g.a1=a.key
+                g.a2=b.key
+                g.a3=c.key
+                this.dailyList.push(g)
+              })
+            }
           })
         }
       })
-      .then(()=>this.chDailyList=true)
-      /*this.visits.forEach((el: { date: string; }) => {
-        if(el.date==moment(d.day).format('YYYY-MM-DD')) this.dailyList.push(el)
-      });*/
+      .then(()=>{
+        this.chDailyList=true;
+      })
     }
   }
 
@@ -134,6 +160,30 @@ export class VisitlistComponent implements OnInit {
   chDay(a:Date):boolean{
     if(moment(a).format('DD/MM/YYYY')==this.today) return true
     return false
+  }
+
+  deleteVisit(a:any, t:String){
+    let d = parseInt(t.substring(0,2))
+    let m = parseInt(t.substring(3,5))
+    let y = parseInt(t.substring(6,10))
+
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(DeldialogComponent, {
+      data: {name: 'Visit to ' + a.c1}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        firebase.database().ref('CustVisit').child(a.a1).child(a.a2).child(a.a3).remove()
+        this.giorni(m,y).then((a:any)=>{
+        this.days=a
+        this.today=moment(new Date(y,m-1,d)).format('DD/MM/YYYY')
+    })
+      }
+    })
+    
   }
 }
 
