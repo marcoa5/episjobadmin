@@ -142,8 +142,11 @@ export class ReportComponent implements OnInit {
     this.info=[]
     this.sortedData=[]
     this.isThinking=true
+    console.log(moment(this.chD()).format('YYYY-MM-DD'))
     let params = new HttpParams().set("day",moment(this.chD()).format('YYYY-MM-DD'))
-    this.http.get('https://episjobreq.herokuapp.com/certiq/',{params:params}).subscribe(a=>{
+    console.log(params)
+    
+    this.http.get('http://localhost:3001/certiq/',{params:params}).subscribe(a=>{
       if(a){
         let b = Object.values(a)
         let d=b.filter(el=>{

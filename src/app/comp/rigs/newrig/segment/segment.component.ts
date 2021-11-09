@@ -9,10 +9,26 @@ import firebase from 'firebase'
 })
 export class SegmentComponent implements OnInit {
   @Output() check = new EventEmitter()
+  @Output() data = new EventEmitter()
   @Input() values: any
   appearance:MatFormFieldAppearance='fill'
   con:string='s'
   seg:FormGroup
+
+  info:any={
+    Surface:{
+      CrushingScreening:['Crusher','Screener'],
+      Cutting:['DSI'],
+      Drilling:['Coprod','DSI','DTH', 'Pneumatic TH', 'TH'],
+      Exploration: ['Surface Exploration']
+    },
+    Underground: {
+      Drilling:['Bolting','Face Drilling','Production Drilling','RBM',],
+      Exploration:['Underground Exploration'],
+      MaterialHandling:['Continuous Loader','Loader','Locomotive','Truck'],
+      Electrification:['Charger'],
+    }
+  }
   bls:string[]=[
     'Surface',
     'Underground'
@@ -23,6 +39,7 @@ export class SegmentComponent implements OnInit {
     'Drilling',
     'Exploration',
     'Material Handling',
+    'Electrification',
   ]
   segments:string[]=[
     'Construction',
@@ -33,6 +50,7 @@ export class SegmentComponent implements OnInit {
   ]
   categ:string[]=[
     'Bolting',
+    'Charger',
     'Continuous Loader',
     'Coprod',
     'Crusher',
@@ -48,7 +66,8 @@ export class SegmentComponent implements OnInit {
     'Screener',
     'TH',
     'Truck',
-    'Underground Exploration'
+    'Underground Exploration',
+    
   ]
   constructor(private fb: FormBuilder) {
     this.seg = fb.group({
@@ -78,6 +97,7 @@ export class SegmentComponent implements OnInit {
       this.check.emit(true)
     } else {
       this.check.emit(false)
+      this.data.emit(a)
     }
   }
 
@@ -87,6 +107,27 @@ export class SegmentComponent implements OnInit {
     } else {
       this.con= 'u'
     }    
+  }
+
+  step(e:any){
+    //console.log(this.seg.controls.fam.value)
+    //console.log(this.info[e.source.ngControl.value][this.seg.controls.fam.value])
+    let n = e.source.ngControl.name
+    switch(n){
+      case 'div':
+        this.seg.controls.fam.setValue('')
+        this.seg.controls.subC.setValue('')
+        this.seg.controls.segm.setValue('')
+        this.family=Object.keys(this.info[e.source.ngControl.value])
+        break
+      case 'fam':
+        this.seg.controls.subC.setValue('')
+        this.seg.controls.segm.setValue('')
+        this.categ=Object.values(this.info[this.seg.controls.div.value][e.source.ngControl.value])
+        break
+      case 'subC':
+        this.seg.controls.segm.setValue('')
+    }
   }
 
 }

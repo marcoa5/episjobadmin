@@ -5,7 +5,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { UserposService } from '../../serv/userpos.service'
-import { auth } from 'firebase-admin';
 
 @Component({
   selector: 'episjob-rigs',

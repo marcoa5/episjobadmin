@@ -17,7 +17,7 @@ import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
 })
 export class NewrigComponent implements OnInit {
   child:number=0
-  childAdd:any
+  childAdd:any=[]
   serial:string=''
   rigCat:any[]=[]
   rou:any[]=[]
@@ -89,7 +89,7 @@ export class NewrigComponent implements OnInit {
   }
 
   datiC(a:FormGroup){
-    console.log(this.newR.controls.sn.invalid,a.get('sn')?.invalid)
+    //console.log(this.newR.controls.sn.invalid,a.get('sn')?.invalid)
     let g = [(a.get('sn')?.invalid)?'':a.get('sn')?.value,a.get('model')?.value, a.get('customer')?.value]
     g.push(this.child)
     return g
@@ -111,7 +111,7 @@ export class NewrigComponent implements OnInit {
         a1:'0',a2:'0',a3:'0',a4:'0',a5:'0',sn:g[0].toUpperCase()
       })
       this.childAdd['sn']=g[0].toUpperCase()
-      firebase.database().ref('Categ/'+ g[0].toUpperCase()).set(this.childAdd)
+      firebase.database().ref('Categ/').child(g[0].toUpperCase()).set(this.childAdd)
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
     }
     if(a=='updr' && this.pos=='SU'){
@@ -144,11 +144,15 @@ export class NewrigComponent implements OnInit {
   }
 
   chExist(e:any){
-    console.log(this.newR)
-    console.log(e.target.value, this.newR.controls.sn.value)
     firebase.database().ref('MOL').child(e.target.value.toUpperCase()).once('value',r=>{
       if(r.val()) this.newR.controls.sn.setErrors({already:true})
     })
   }
-
+  
+  getData(e:any){
+    this.childAdd['div']=e.value.div
+    this.childAdd['fam']=e.value.fam
+    this.childAdd['segment']=e.value.segm
+    this.childAdd['subCat']=e.value.subC
+  }
 }

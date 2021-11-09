@@ -27,11 +27,13 @@ export class AuthSingleRigComponent implements OnInit {
   ngOnInit(): void {
     this.largh=window.innerWidth
     firebase.database().ref('RigAuth/' + this.sn).on('value',a=>{
-      this.a[1] = a.val().a1?a.val().a1:0
-      this.a[2] = a.val().a2?a.val().a2:0
-      this.a[3] = a.val().a3?a.val().a3:0
-      this.a[4] = a.val().a4?a.val().a4:0
-      this.a[5] = a.val().a5?a.val().a5:0
+      if(a.val()!=null){
+        this.a[1] = a.val().a1?a.val().a1:0
+        this.a[2] = a.val().a2?a.val().a2:0
+        this.a[3] = a.val().a3?a.val().a3:0
+        this.a[4] = a.val().a4?a.val().a4:0
+        this.a[5] = a.val().a5?a.val().a5:0
+      }
     })
   }
 

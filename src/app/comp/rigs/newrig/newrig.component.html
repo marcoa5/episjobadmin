@@ -29,7 +29,7 @@
             <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
         </mat-form-field>
     </form>
-    <episjob-segment (check)="vai($event)" [values]="rigCat"></episjob-segment>
+    <episjob-segment (check)="vai($event)" [values]="rigCat" (data)="getData($event)"></episjob-segment>
     <episjob-add-cancelbuttons 
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 

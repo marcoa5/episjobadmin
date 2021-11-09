@@ -4,7 +4,52 @@
   <episjob-h2 icon="event_available" data="New Customer Visit"></episjob-h2>
 
 <mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)">
-    <mat-step [stepControl]="dateFormGroup">
+    
+  <mat-step [stepControl]="custPotential">
+    <ng-template matStepLabel>Potential</ng-template>
+    <form [formGroup]="custPotential">
+      <div class="potCont">
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance" class="notesItem1">
+          <mat-label>Place</mat-label>
+          <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
+          <mat-error>Choose a place from the list</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="butt">
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <button mat-raised-button matStepperNext color="primary" >Submit</button>
+    </div>
+
+  </mat-step>
+  
+  <!--DATE-->
+  <mat-step [stepControl]="dateFormGroup">
       <ng-template matStepLabel>Select Date</ng-template>
       <form [formGroup]="dateFormGroup">
         <div class="cont dateCont">
@@ -118,9 +163,12 @@
     </form>
     <div class="butt">
       <button mat-raised-button matStepperPrevious color="primary">Back</button>
-      <button mat-raised-button matStepperNext color="primary" *ngIf="go()" (click)=submit()>Submit</button>
+      <button mat-raised-button matStepperNext color="primary" *ngIf="!visitNotes.invalid">Next</button>
     </div>
 
   </mat-step>
+
+  <!--POTENTIAL-->
+  
 </mat-vertical-stepper>
 </div>

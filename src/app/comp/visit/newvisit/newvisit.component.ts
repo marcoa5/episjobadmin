@@ -52,6 +52,7 @@ export class NewvisitComponent implements OnInit {
   visitNotes!: FormGroup;
   custFormGroup!: FormGroup;
   contactFormGroup!: FormGroup;
+  custPotential!:FormGroup
   customers!: customer[] |undefined
   customers1: customer[] |undefined
   cId: customer[]=[]
@@ -334,8 +335,8 @@ export class NewvisitComponent implements OnInit {
   }
 
   go(){
-    if(!this.custFormGroup.invalid && !this.contactFormGroup.invalid && !this.dateFormGroup.invalid && !this.visitNotes.invalid) return true
-    return false
+    return !this.custFormGroup.invalid && !this.contactFormGroup.invalid && !this.dateFormGroup.invalid && !this.visitNotes.invalid
+    
   }
 
   submit(){
