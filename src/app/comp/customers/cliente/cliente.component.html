@@ -10,6 +10,7 @@
         <episjob-h2 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
+    <episjob-potential [custId]="id" *ngIf="dev"></episjob-potential>
 </div>
 
 <episjob-editdelbut [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)"></episjob-editdelbut> 

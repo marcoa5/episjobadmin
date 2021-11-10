@@ -10,6 +10,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.component';
 import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 import { Router } from '@angular/router'
+
 export interface customer{
   id: string,
   c1: string,
@@ -50,6 +51,7 @@ export class NewvisitComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   dateFormGroup!: FormGroup;
   visitNotes!: FormGroup;
+  potential:any;
   custFormGroup!: FormGroup;
   contactFormGroup!: FormGroup;
   custPotential!:FormGroup
@@ -123,7 +125,9 @@ export class NewvisitComponent implements OnInit {
       notes: ['',Validators.required],
       place: ['',Validators.required]
     })
-
+    /*this.custPotential=this._formBuilder.group({
+      RDD: [0,[Validators.required, Validators.required]]
+    })*/
     this.route.params.subscribe(a=>{
       if(a && a.date) {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
@@ -437,5 +441,9 @@ export class NewvisitComponent implements OnInit {
   conPlace(a:string){
     this.visitNotes.controls.place.setValue(a)
     this.lisComVis=false
+  }
+
+  currency(e:any){
+    //e.target.value += ' kEUR' 
   }
 }

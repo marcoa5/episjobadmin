@@ -16,7 +16,6 @@ import { NewuserComponent } from './comp/users/newuser/newuser.component'
 import { AuthComponent } from './comp/auth/auth.component'
 import { ReportComponent } from './comp/report/report.component'
 import { VisitComponent } from './comp/visit/visit.component'
-import { PotentialComponent } from './comp/potential/potential.component'
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 
@@ -37,7 +36,6 @@ const routes: Routes = [
   {path: 'auth', component: AuthComponent},
   {path: 'report', component: ReportComponent},
   {path: 'visit', component: VisitComponent},
-  {path: 'potential', component: PotentialComponent},
   {path: 'contact', component:ContactComponent},
   {path: 'newvisit', component:NewvisitComponent},
 

@@ -49,8 +49,11 @@
                 <button mat-icon-button matSuffix (click)="str='';filtra()"><mat-icon>close</mat-icon></button>
             </mat-form-field>
         </div>
-        <div class="contS" *ngIf="isThinking">
+        <div class="contS" *ngIf="isThinking && errore==''">
             <mat-spinner color="accent"></mat-spinner>
+        </div>
+        <div class="contS" *ngIf="errore!=''">
+            {{errore}}
         </div>
         <div *ngIf="sortedData.length>0">
             <table matSort (matSortChange)="sortData($event)" class="contT">

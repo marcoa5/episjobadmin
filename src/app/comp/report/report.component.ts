@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, enableProdMode, isDevMode, OnInit, ViewChild } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/database'
 import * as moment from 'moment'
@@ -30,6 +30,7 @@ export class ReportComponent implements OnInit {
   machineData:any=[]
   isMobile:boolean=true
   isAsc:boolean=true
+  errore:string=''
   info: any=[
     /*{
         "machineItemNumber": "8992009970",
@@ -142,11 +143,10 @@ export class ReportComponent implements OnInit {
     this.info=[]
     this.sortedData=[]
     this.isThinking=true
-    console.log(moment(this.chD()).format('YYYY-MM-DD'))
     let params = new HttpParams().set("day",moment(this.chD()).format('YYYY-MM-DD'))
-    console.log(params)
-    
-    this.http.get('http://localhost:3001/certiq/',{params:params}).subscribe(a=>{
+    let url:string = 'https://episjobreq.herokuapp.com/certiq/'
+    if(isDevMode()) url='http://localhost:3001/certiq'
+    this.http.get(url,{params:params}).subscribe(a=> {
       if(a){
         let b = Object.values(a)
         let d=b.filter(el=>{
@@ -184,7 +184,12 @@ export class ReportComponent implements OnInit {
           this.sortedData=this.info.slice()
         }, 500);
       }
-    })}
+    },
+    error =>{
+      this.errore= `Data not available. ${error.message}`
+      console.log(error)
+    }
+  )}  
     
   }
 

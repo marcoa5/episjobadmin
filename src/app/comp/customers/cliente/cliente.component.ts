@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, isDevMode, OnInit } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
@@ -29,6 +29,7 @@ export class ClienteComponent implements OnInit {
   _rigsLabels:rigsLabel[]=[]
   rigsLabels:rigsLabel[]=[]
   infoContacts:rigsLabel[]=[]
+  dev:boolean=isDevMode()
   constructor(public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
