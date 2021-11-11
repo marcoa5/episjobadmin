@@ -75,7 +75,7 @@ import { NewvisitfieldDirective } from './dir/newvisitfield.directive';
 import { NewvisitspacerDirective } from './dir/newvisitspacer.directive';
 import { NewvisiticoDirective } from './dir/newvisitico.directive';
 import { SavevisitComponent } from './comp/util/dialog/savevisit/savevisit.component';
-import { PotentialComponent } from './comp/potential/potential.component'
+import { PotentialComponent } from './comp/edipotential/potential/potential.component'
 import { DateconvPipe } from './pipe/dateconv.pipe';
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
@@ -90,7 +90,8 @@ import { CopyComponent } from './comp/util/dialog/copy/copy.component';
 import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
 import { ThousandsPipe } from './pipe/thousands.pipe';
 import { MatSortModule } from '@angular/material/sort';
-import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
+import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component';
+import { EdipotentialComponent } from './comp/edipotential/edipotential.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -169,6 +170,7 @@ const appearance: MatFormFieldDefaultOptions = {
     AddhrsComponent,
     ThousandsPipe,
     VisitlistComponent,
+    EdipotentialComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

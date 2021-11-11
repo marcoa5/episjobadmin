@@ -1,5 +1,5 @@
 import { Component, isDevMode, OnInit } from '@angular/core';
-
+import * as moment from 'moment'
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -29,10 +29,12 @@ export class ClienteComponent implements OnInit {
   _rigsLabels:rigsLabel[]=[]
   rigsLabels:rigsLabel[]=[]
   infoContacts:rigsLabel[]=[]
-  dev:boolean=isDevMode()
+  dev:boolean=true
+  anno:string=new Date().getFullYear().toString()
   constructor(public route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
+    this.anno=returnRefYear(returnQ().quarter,returnQ().year).toString()
     this.route.params.subscribe(a=>{
       this.id=a.id
       firebase.database().ref('CustomerC').child(this.id).once('value', g=>{
@@ -96,4 +98,26 @@ export class ClienteComponent implements OnInit {
     if(e=='contact') this.router.navigate(['contact', {id:'new', custId: this.id}])
   }
 
+  
+}
+
+function returnQ(){
+  let oggi = new Date()
+  let anno = oggi.getFullYear()
+  let diff= moment(oggi).format('MMDD')
+  let q2=moment(new Date(anno,3,1)).format('MMDD')
+  let q3=moment(new Date(anno,6,1)).format('MMDD')
+  let q4=moment(new Date(anno,9,1)).format('MMDD')
+  if(diff<q2) return {quarter:1,year:anno}
+  if(diff<q3) return {quarter:2,year:anno}
+  if(diff<q4) return {quarter:3,year:anno}
+  return {quarter:4,year:anno}
+}
+
+function returnRefYear(a:number,b:number){
+  if(a>3) {
+    return b+1
+  } else {
+    return b
+  }
 }

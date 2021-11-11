@@ -1,5 +1,3 @@
-<episjob-spin *ngIf="values.length==0"></episjob-spin>
-
 <div class="txtcont" *ngIf="values.length>0">
     <div *ngFor="let h of valuesN | labFilter" class="divtxt">
         <div (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">

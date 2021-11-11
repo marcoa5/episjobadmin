@@ -9,8 +9,11 @@
         <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0"></episjob-label>
         <episjob-h2 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
+        <div *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
+            <episjob-h2 icon="trending_up" [data]="'Sales Potential ' + anno"></episjob-h2> 
+            <episjob-potential [custId]="id"></episjob-potential>
+        </div>
     </div>
-    <episjob-potential [custId]="id" *ngIf="dev"></episjob-potential>
 </div>
 
 <episjob-editdelbut [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)"></episjob-editdelbut> 

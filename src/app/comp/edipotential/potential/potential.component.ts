@@ -49,18 +49,20 @@ export class PotentialComponent implements OnInit {
   }
 
   ngOnChanges(){
-    firebase.database().ref('CustomerC').child(this.custId).child('c1').once('value',a=>{
-      if(a.val()) this.name = a.val()
-    })
-    .then(()=>{
-      firebase.database().ref('Potential').child(this.custId + '-' + this.name.replace(/&/g,'').replace(/\./g,'')).child(this.refYear).once('value',a=>{
-        if(a.val()) {
-          a.forEach(b=>{
-            this.custPot.controls['' + b.key].setValue(b.val())
-          })
-        }
+    if(this.custId){
+      firebase.database().ref('CustomerC').child(this.custId).child('c1').once('value',a=>{
+        if(a.val()) this.name = a.val()
       })
-    })
+      .then(()=>{
+        firebase.database().ref('Potential').child(this.custId + '-' + this.name.replace(/&/g,'').replace(/\./g,'')).child(this.refYear).once('value',a=>{
+          if(a.val()) {
+            a.forEach(b=>{
+              this.custPot.controls['' + b.key].setValue(b.val())
+            })
+          }
+        })
+      })
+    }
   }
 
   totalPot(){
