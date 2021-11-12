@@ -1,0 +1,6 @@
+<div mat-dialog-title>Save potential customer</div>
+<div mat-dialog-content>New Customer data will be submitted, proceed?</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">Yes</button>
+</div>

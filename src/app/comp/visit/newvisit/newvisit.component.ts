@@ -131,7 +131,7 @@ export class NewvisitComponent implements OnInit {
     this.route.params.subscribe(a=>{
       if(a && a.date) {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
-        this.dateFormGroup.controls.date.disable()
+        //this.dateFormGroup.controls.date.disable()
       }
     })
   }
@@ -347,9 +347,9 @@ export class NewvisitComponent implements OnInit {
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
       cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid(10),
-      c1: this.custFormGroup.controls.c1.value,
-      c2: this.custFormGroup.controls.c2.value,
-      c3: this.custFormGroup.controls.c3.value,
+      c1: this.custFormGroup.controls.c1.value.toUpperCase(),
+      c2: this.custFormGroup.controls.c2.value.toUpperCase(),
+      c3: this.custFormGroup.controls.c3.value.toUpperCase(),
       name: this.contactFormGroup.controls.name.value,
       pos: this.contactFormGroup.controls.pos.value,
       phone: this.contactFormGroup.controls.phone.value,
@@ -379,9 +379,9 @@ export class NewvisitComponent implements OnInit {
             .then(()=>{
               if(info.cuId.substring(0,8)=='00000POT'){
                 firebase.database().ref('CustomerC').child(info.cuId).set({
-                  c1: info.c1,
-                  c2: info.c2,
-                  c3:info.c3,
+                  c1: info.c1.toUpperCase(),
+                  c2: info.c2.toUpperCase(),
+                  c3:info.c3.toUpperCase(),
                   id: info.cuId
                 })
               }

@@ -91,7 +91,8 @@ import { AddhrsComponent } from './comp/util/dialog/addhrs/addhrs.component';
 import { ThousandsPipe } from './pipe/thousands.pipe';
 import { MatSortModule } from '@angular/material/sort';
 import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component';
-import { EdipotentialComponent } from './comp/edipotential/edipotential.component'
+import { EdipotentialComponent } from './comp/edipotential/edipotential.component';
+import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -171,6 +172,7 @@ const appearance: MatFormFieldDefaultOptions = {
     ThousandsPipe,
     VisitlistComponent,
     EdipotentialComponent,
+    SaveaccountComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

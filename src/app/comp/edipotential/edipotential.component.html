@@ -1,5 +1,6 @@
 <episjob-navbar title="Sales Potential" [cerca]="false"></episjob-navbar>
-<div class="cont">
+<div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
+  <episjob-h2 data="Select Customer" icon="work"></episjob-h2>
     <form [formGroup]="custFormGroup" class="custForm">
         <div class="custCont">
           <mat-form-field [appearance]="appearance" class="custItem1">
@@ -25,7 +26,11 @@
             <input matInput type="text" placeholder="Customer Address 2" formControlName="c3"  autocomplete="off">
             <mat-error>Type Address Line 2</mat-error>
           </mat-form-field>
+          <div  class="addB custItem5">
+            <button mat-raised-button color="primary" (click)="addCust()" *ngIf="!custFormGroup.invalid && !cuId">Add new account</button>
+          </div>
         </div>
-      </form>
-    <episjob-potential [custId]="cuId"></episjob-potential>
+      </form><episjob-h2 [data]="'Sales Potential'" icon="trending_up" *ngIf="cuId"></episjob-h2>
+    <episjob-potential [custId]="cuId" *ngIf="cuId"></episjob-potential>
 </div>
+<div class="cont" *ngIf="pos && pos!='SU' && pos!='adminS' && pos!='sales'">Restricted Area</div>

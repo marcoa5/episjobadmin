@@ -1,4 +1,4 @@
-<div *ngIf="pos=='SU' || pos=='sales' || pos=='admin'">
+<div *ngIf="pos=='SU' || pos=='sales' || pos=='adminS'">
     <h4>{{'Potential ' + refYear + ': ' + (custPot.controls.SED.value*1+custPot.controls.URE.value*1+custPot.controls.RDD.value*1+custPot.controls.REX.value*1+custPot.controls.RGU.value*1+custPot.controls.HAT.value*1+custPot.controls.PSD.value*1) + ' k€'}}</h4>
 <div class="mainCont">
     <form [formGroup]="custPot" class="potCont">

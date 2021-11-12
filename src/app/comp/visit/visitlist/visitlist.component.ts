@@ -35,10 +35,7 @@ export class VisitlistComponent implements OnInit {
           this.userId=a.uid
         })
         .then(()=>{
-          console.log(this.m.m,this.m.y)
-
           this.route.params.subscribe(a=>{
-            
             if(a.date) {
               this.m.m=new Date(a.date).getMonth()+1
               this.m.y=new Date(a.date).getFullYear()
