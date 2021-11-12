@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import firebase from 'firebase/app'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SaveaccountComponent } from '../util/dialog/saveaccount/saveaccount.component'
-
+import { GetPotYearService } from '../../serv/get-pot-year.service'
 export interface customer{
   id: string,
   c1: string,
@@ -27,7 +27,7 @@ export class EdipotentialComponent implements OnInit {
   listVis:boolean=true
   pos:string=''
   appearance:MatFormFieldAppearance='fill'
-  constructor(private route: ActivatedRoute, private fb: FormBuilder, private dialog: MatDialog) { 
+  constructor(private route: ActivatedRoute, private fb: FormBuilder, private dialog: MatDialog, private anno: GetPotYearService) { 
     this.custFormGroup=fb.group({
       c1: ['', Validators.required],
       c2: [{value:'',disabled: false}, Validators.required],
@@ -174,4 +174,7 @@ export class EdipotentialComponent implements OnInit {
     return this.cuId
   }
   
+  getY(){
+    return this.anno.getPotYear()
+  }
 }

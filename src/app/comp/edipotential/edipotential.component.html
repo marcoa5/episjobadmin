@@ -30,7 +30,7 @@
             <button mat-raised-button color="primary" (click)="addCust()" *ngIf="!custFormGroup.invalid && !cuId">Add new account</button>
           </div>
         </div>
-      </form><episjob-h2 [data]="'Sales Potential'" icon="trending_up" *ngIf="cuId"></episjob-h2>
+      </form><episjob-h2 [data]="'Sales Potential ' + getY()" icon="trending_up" *ngIf="cuId"></episjob-h2>
     <episjob-potential [custId]="cuId" *ngIf="cuId"></episjob-potential>
 </div>
 <div class="cont" *ngIf="pos && pos!='SU' && pos!='adminS' && pos!='sales'">Restricted Area</div>

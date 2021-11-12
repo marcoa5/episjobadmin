@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { GetPotYearService } from '../../../serv/get-pot-year.service'
 
 export interface rigsLabel {
   lab: string
@@ -31,10 +32,10 @@ export class ClienteComponent implements OnInit {
   infoContacts:rigsLabel[]=[]
   dev:boolean=true
   anno:string=new Date().getFullYear().toString()
-  constructor(public route: ActivatedRoute, private router: Router) {}
+  constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService) {}
 
   ngOnInit(): void {
-    this.anno=returnRefYear(returnQ().quarter,returnQ().year).toString()
+    this.anno=this.year.getPotYear().toString()
     this.route.params.subscribe(a=>{
       this.id=a.id
       firebase.database().ref('CustomerC').child(this.id).once('value', g=>{
