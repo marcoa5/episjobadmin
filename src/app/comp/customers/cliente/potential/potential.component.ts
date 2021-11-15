@@ -4,7 +4,7 @@ import 'firebase/database'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import * as moment from 'moment';
-import { GetPotYearService } from '../../../serv/get-pot-year.service';
+import { GetPotYearService } from '../../../../serv/get-pot-year.service';
 
 export interface fam{
   bl?: string

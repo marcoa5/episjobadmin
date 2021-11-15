@@ -1,6 +1,6 @@
 #spin{
     display:inline-flex;
-    width:100vw; height:50vh;
+    width:calc(100vW - 50px);
     padding-top:100px;
     justify-content: center;
     align-items: flex-start;

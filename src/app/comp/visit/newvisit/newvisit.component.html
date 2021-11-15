@@ -132,26 +132,32 @@
             <div mat-line>{{c}}</div>
           </mat-list-item>
         </mat-list>
+        <h4>Notes</h4>
         <mat-form-field [appearance]="appearance" class="notesItem3">
           <textarea placeholder="Type notes here..." matInput formControlName="notes" rows="15"></textarea>
         </mat-form-field>
+        <h4>To Do List</h4>
+        <div class="todoCont"></div>
+        <button mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+        <episjob-potential [custId]="cId[0]?cId[0].id:''"></episjob-potential>
+
       </div>
+
     </form>
     <div class="butt">
       <button mat-raised-button matStepperPrevious color="primary">Back</button>
-      <button mat-raised-button matStepperNext color="primary" *ngIf="!visitNotes.invalid">Next</button>
+      <button mat-raised-button matStepperNext color="primary" *ngIf="!visitNotes.invalid" (click)="submit()">Submit</button>
     </div>
 
   </mat-step>
 
   <!--POTENTIAL-->
-  <mat-step [stepControl]="potential">
+  <!--<mat-step [stepControl]="potential">
     <ng-template matStepLabel>Potential (values in k€)</ng-template>
-    <episjob-potential [custId]="cId[0]?cId[0].id:''"></episjob-potential>
     <div class="butt">
       <button mat-raised-button matStepperPrevious color="primary">Back</button>
       <button mat-raised-button matStepperNext color="primary" (click)=submit()>Submit</button>
     </div>
-  </mat-step>
+  </mat-step>-->
 </mat-vertical-stepper>
 </div>

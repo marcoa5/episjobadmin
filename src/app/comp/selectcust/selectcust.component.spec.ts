@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EdipotentialComponent } from './edipotential.component';
+import { SelectcustComponent } from './selectcust.component';
 
-describe('EdipotentialComponent', () => {
-  let component: EdipotentialComponent;
-  let fixture: ComponentFixture<EdipotentialComponent>;
+describe('SelectcustComponent', () => {
+  let component: SelectcustComponent;
+  let fixture: ComponentFixture<SelectcustComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EdipotentialComponent ]
+      declarations: [ SelectcustComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EdipotentialComponent);
+    fixture = TestBed.createComponent(SelectcustComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { ActivatedRoute } from '@angular/router';
@@ -6,6 +6,7 @@ import firebase from 'firebase/app'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SaveaccountComponent } from '../util/dialog/saveaccount/saveaccount.component'
 import { GetPotYearService } from '../../serv/get-pot-year.service'
+
 export interface customer{
   id: string,
   c1: string,
@@ -13,13 +14,29 @@ export interface customer{
   c3: string
 }
 
+
 @Component({
-  selector: 'episjob-edipotential',
-  templateUrl: './edipotential.component.html',
-  styleUrls: ['./edipotential.component.scss']
+  selector: 'episjob-selectcust',
+  templateUrl: './selectcust.component.html',
+  styleUrls: ['./selectcust.component.scss']
 })
-export class EdipotentialComponent implements OnInit {
-  cuId:string=''
+export class SelectcustComponent implements OnInit {
+  @Output() cusId = new EventEmitter()
+  //cuId:string=''
+  private _cuId:string='';
+  public get cuId():string {
+      return this._cuId;
+  }
+
+  public set cuId(a) {
+      this._cuId=a;
+      if(this._cuId) {
+        this.cusId.emit(this.cuId)
+        console.log(this._cuId)
+      } else {
+        this.cusId.emit('')
+      }
+  }
   cId: customer[]=[]
   custFormGroup!:FormGroup
   customers!: customer[] |undefined
@@ -173,8 +190,5 @@ export class EdipotentialComponent implements OnInit {
     if(this.cuId && this.cuId.substring(0,8)=='00000POT') return this.cuId.substring(9,20)
     return this.cuId
   }
-  
-  getY(){
-    return this.anno.getPotYear()
-  }
+
 }

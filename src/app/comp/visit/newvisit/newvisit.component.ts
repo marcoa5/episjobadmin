@@ -123,7 +123,13 @@ export class NewvisitComponent implements OnInit {
     });
     this.visitNotes = this._formBuilder.group({
       notes: ['',Validators.required],
-      place: ['',Validators.required]
+      place: ['',Validators.required],
+      todo1: [''],
+      todo1Date: [''],      
+      todo2: [''],
+      todo2Date: [''],      
+      todo3: [''],
+      todo3Date: [''],
     })
     /*this.custPotential=this._formBuilder.group({
       RDD: [0,[Validators.required, Validators.required]]
@@ -358,6 +364,11 @@ export class NewvisitComponent implements OnInit {
       place: this.visitNotes.controls.place.value,
     }
 
+    let todo={
+      
+    }
+
+
     const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -445,5 +456,12 @@ export class NewvisitComponent implements OnInit {
 
   currency(e:any){
     //e.target.value += ' kEUR' 
+  }
+
+  setToDo(n:number){
+    if(this.visitNotes.controls['todo' + n].value!='') {
+      this.visitNotes.controls['todo' + n + 'Date'].setErrors({Required:true})
+      this.visitNotes.controls['todo' + n + 'Date'].invalid
+    }
   }
 }

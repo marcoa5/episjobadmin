@@ -27,23 +27,24 @@ export class CustomersComponent implements OnInit {
         this.ind=b.val().Area?.toString()
       })
       .then(()=>{
-        if(this.pos!='sales' && this.pos!='customer'){
-          let hasRig:any[] = []
+        if(this.pos!='customer'){
+          /*let hasRig:any[] = []
           firebase.database().ref('MOL').once('value',l=>{
             l.forEach(t=>{
               hasRig.push(t.val().custid)
             })
           })
-          .then(()=>{
+          .then(()=>{*/
             firebase.database().ref('CustomerC').once('value', g=>{
               this._customers = Object.values(g.val())
             })
             .then(()=>{
-              this.customers  =this._customers.filter(f=>{
+              /*this.customers  =this._customers.filter(f=>{
                 return hasRig.includes(f.id)
-              })
+              })*/
+              this.customers=this._customers
             })
-          })
+          //})
           
         } else {
           firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{

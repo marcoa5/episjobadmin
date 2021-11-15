@@ -1,0 +1,61 @@
+
+.cont{
+    margin: 80px 10px 30px 10px;
+}
+
+.custItem1{
+    grid-area: custItem1;
+  }
+
+  .custItem2{
+    grid-area: custItem2;
+  }
+
+  .custItem3{
+    grid-area: custItem3;
+  }
+
+  .custItem4{
+    grid-area: custItem4;
+  }
+
+  .custItem5{
+    grid-area: custItem5;
+  }
+
+  .list{
+    max-height: 250px;
+    overflow-y: scroll;
+    margin-bottom: 15px;
+    max-width: 750px;
+  }
+
+.custCont{
+    display: grid;
+    gap:10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    max-width: 750px;
+    grid-template-areas: 
+    "custItem1"
+    "custItem4"
+    "custItem2"
+    "custItem3"
+    "custItem5";
+  }
+  
+  .addB{
+    display: flex;
+    justify-content: flex-end;
+    max-height: 51.31px;
+  }
+  @media screen and (min-width: 750px) {
+    .custCont{
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      gap: 15px;
+      grid-template-areas: 
+      "custItem1 custItem2 custItem3 custitem5"
+      "custItem4 custItem4 custItem4 custItem4";
+    }
+}

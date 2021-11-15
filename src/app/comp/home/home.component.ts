@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
     },
     {
       id:'Auth',
-      icon:'checklist', 
+      icon:'done_all', 
       route:'auth', 
       dis:false, 
       auth:['SU','admin','adminS','','']
@@ -71,13 +71,20 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','adminS','sales','']
     },
-    {
+    /*{
       id:'Potential',
       icon:'trending_up', 
       route:'potential', 
       dis:false, 
       auth:['SU','adminS','sales','']
     },
+    {
+      id:'To Do',
+      icon:'checklist', 
+      route:'todo', 
+      dis:false, 
+      auth:['SU','adminS','sales','']
+    },*/
     {
       id:'Contracts',
       icon:'description', 

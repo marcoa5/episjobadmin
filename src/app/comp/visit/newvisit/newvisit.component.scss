@@ -11,6 +11,12 @@
     margin: 5px;
   }
 
+  .todoCont{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
   .list{
     max-height: 250px;
     overflow-y: scroll;
@@ -128,4 +134,15 @@
     .potCont{
       grid-template-columns: repeat(2, 1fr);
     }
+
+    .todoCont{
+      grid-template-columns: calc(70% - 7.5px) calc(30% - 7.5px);
+    }
+  }
+
+  @media screen and (min-width: 500px) {
+    .todoCont{
+      grid-template-columns: calc(60% - 7.5px) calc(40% - 7.5px);
+    }
+
   }

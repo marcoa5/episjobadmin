@@ -18,7 +18,6 @@ import { ReportComponent } from './comp/report/report.component'
 import { VisitComponent } from './comp/visit/visit.component'
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
-import { EdipotentialComponent } from './comp/edipotential/edipotential.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -39,7 +38,6 @@ const routes: Routes = [
   {path: 'visit', component: VisitComponent},
   {path: 'contact', component:ContactComponent},
   {path: 'newvisit', component:NewvisitComponent},
-  {path: 'potential', component:EdipotentialComponent},
 
 ];
 

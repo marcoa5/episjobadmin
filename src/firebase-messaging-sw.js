@@ -14,19 +14,24 @@ firebase.initializeApp({
 
   const messaging = firebase.messaging()
 
-  messaging.onBackgroundMessage((payload) => {
-    console.log('Received background message ', payload);
-    const notificationTitle = payload.data.score;
-    const notificationOptions = {
-      body: payload.data.time,
-      badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
-      icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
-    };
-  
-    self.registration.showNotification(notificationTitle, notificationOptions)
-    self.addEventListener('notificationclick', function(event) {  
-      event.notification.close();
-      clients.openWindow('./files')
-    }, false);
-  });
+  try{
+    messaging.onBackgroundMessage((payload) => {
+      console.log('Received background message ', payload);
+      const notificationTitle = payload.data.score;
+      const notificationOptions = {
+        body: payload.data.time,
+        badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
+        icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
+      };
+    
+      self.registration.showNotification(notificationTitle, notificationOptions)
+      self.addEventListener('notificationclick', function(event) {  
+        event.notification.close();
+        clients.openWindow('./files')
+      }, false);
+      })
+    }
+  catch (a){
+    console.log('Errore')
+  }
   
