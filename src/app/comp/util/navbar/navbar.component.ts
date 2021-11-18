@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   scrollaV:boolean =true;
   filtro:string=''
   lar:boolean|undefined;
-  value:any
+  value:string=''
   ngOnInit(): void {
     this.largh(1)
     this.scrollaV= true

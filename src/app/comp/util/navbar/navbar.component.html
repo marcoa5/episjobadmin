@@ -12,7 +12,7 @@
         <span class="cerca" *ngIf="cerca">
           <mat-form-field appearance="legacy" style="font-size: .75;">
             <input matInput type="text" [(ngModel)]="value" style="font-size: 75%;" (keyup)="scrivi($event)" autocomplete="off">
-            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="cancella()">
+            <button mat-button [ngClass]="{'hidd':value==''}" matSuffix mat-icon-button aria-label="Clear" (click)="cancella()">
               <mat-icon>close</mat-icon>
             </button>
             <button mat-button matSuffix mat-icon-button aria-label="Search">

@@ -12,11 +12,9 @@ firebase.initializeApp({
     measurementId: "G-Y0638WJK1X"
   });
 
-  const messaging = null;
   if (firebase.messaging.isSupported()){
-    messaging = firebase.messaging()
-    messaging = firebase.messaging()
-
+    const messaging = firebase.messaging()
+    
     messaging.onBackgroundMessage((payload) => {
       console.log('Received background message ', payload);
       const notificationTitle = payload.data.score;

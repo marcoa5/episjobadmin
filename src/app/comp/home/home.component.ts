@@ -97,28 +97,35 @@ export class HomeComponent implements OnInit {
   constructor(public router :Router) { }
   ngOnInit(): void {
     let tokens:any[]=[]
-    const messaging = firebase.messaging()
-    messaging.onMessage(p => {
-      console.log('Received foreground message ', p)
-    })
+
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/'+a?.uid).once('value',b=>{
         this.pos=b.val().Pos
         this.nome=b.val().Nome + ' ' + b.val().Cognome
       })
       .then(()=>{
-        messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
-        .then(t=>{
-          firebase.database().ref('Tokens').child(t.substring(0,10) + ' - ' + this.nome).set({
-            token: t,
-            pos: this.pos,
-            name: this.nome,
-            date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
-          })
-        })
-        .catch(err=>console.log(err))
         this.spin=false
-      })
+        if(firebase.messaging.isSupported()){
+          const messaging = firebase.messaging()
+          messaging.onMessage(p => {
+            console.log('Received foreground message ', p)
+          })
+        
+          
+            messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
+            .then(t=>{
+              firebase.database().ref('Tokens').child(t.substring(0,10) + ' - ' + this.nome).set({
+                token: t,
+                pos: this.pos,
+                name: this.nome,
+                date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
+              })
+            })
+            .catch(err=>console.log(err))
+            
+          }    
+        }
+      )
     })
   }
 
