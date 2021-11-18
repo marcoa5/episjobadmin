@@ -1,0 +1,38 @@
+@import '../../../epi.scss';
+
+.cont{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    gap:5px;
+}
+.day{
+    box-sizing: border-box;
+    padding: 1vmin;
+    font-size: 2.5vmin;
+    width: 100%; 
+    min-height: 50px;
+    height:calc((100vmin - 300px) / 6);
+    color: $dark-text;
+    cursor: pointer;
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    overflow: hidden;
+}
+
+.holy{
+    color: red;
+}
+
+.month{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 3vmin;
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    margin-bottom: 15px;
+    font-weight: 900;
+}
