@@ -12,9 +12,11 @@ firebase.initializeApp({
     measurementId: "G-Y0638WJK1X"
   });
 
-  const messaging = firebase.messaging()
+  const messaging = null;
+  if (firebase.messaging.isSupported()){
+    messaging = firebase.messaging()
+    messaging = firebase.messaging()
 
-  try{
     messaging.onBackgroundMessage((payload) => {
       console.log('Received background message ', payload);
       const notificationTitle = payload.data.score;
@@ -30,8 +32,8 @@ firebase.initializeApp({
         clients.openWindow('./files')
       }, false);
       })
-    }
-  catch (a){
-    console.log('Errore')
   }
+  
+    
+
   
