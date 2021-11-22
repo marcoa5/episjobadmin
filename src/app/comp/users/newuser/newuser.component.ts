@@ -70,6 +70,8 @@ export class NewuserComponent implements OnInit {
   }
 
   add(a:string, b:FormGroup){
+    let url = 'http://localhost:3001/' //'https://episjobreq.herokuapp.com/'
+
     console.log(a, b.get('nome')?.value, 
     b.get('cognome')?.value, 
     b.get('mail')?.value, 
@@ -77,15 +79,20 @@ export class NewuserComponent implements OnInit {
     let params = new HttpParams()
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
-    .set('Mail',b.get('mail')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
-    .set('km','0.05')
-    this.http.get('https://episjobreq.herokuapp.com/createuser',{params:params}).subscribe(a=>{
-      console.log(a)
-    })
-    setTimeout(() => {
-      this.location.back()
-    }, 200);
+    .set('id', this.id)
+    if(a=='addu') {
+        this.http.get(url + 'createuser',{params:params}).subscribe(a=>{
+          console.log(a)
+          this.location.back()
+        })
+    } else if(a=='updu'){
+      this.http.get(url + 'updateuser',{params:params}).subscribe(a=>{
+        console.log(a)
+        this.location.back()
+      })
+
+    }
   }
 
   cancella(){

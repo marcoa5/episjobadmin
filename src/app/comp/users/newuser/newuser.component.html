@@ -1,7 +1,7 @@
 <div *ngIf="pos=='SU'">
     <episjob-navbar [backB]="'users'" [home]="true" [title]="addUpd? 'New User' : 'Update User'" [cerca]="false"></episjob-navbar>
     <div class="cont">
-        <episjob-h2 [data]="addUpd? 'Add New User' : 'Update User'"></episjob-h2>
+        <episjob-h2 icon="account_circle" [data]="addUpd? 'Add New User' : 'Update User'"></episjob-h2>
         <form class="formCont" [formGroup]="userF">
             <mat-form-field [appearance]="appearance">
                 <mat-label>Nome</mat-label>
