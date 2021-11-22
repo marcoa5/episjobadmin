@@ -14,6 +14,7 @@ export class CalComponent implements OnInit {
 
   ngOnInit(): void {
     this.days(new Date(this.day))
+
   }
 
   days(d:Date){
