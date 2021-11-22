@@ -70,12 +70,9 @@ export class NewuserComponent implements OnInit {
   }
 
   add(a:string, b:FormGroup){
-    let url = 'http://localhost:3001/' //'https://episjobreq.herokuapp.com/'
+    let url = 'https://episjobreq.herokuapp.com/'
 
-    console.log(a, b.get('nome')?.value, 
-    b.get('cognome')?.value, 
-    b.get('mail')?.value, 
-    this.userpos)
+    //console.log(a, b.get('nome')?.value, b.get('cognome')?.value, b.get('mail')?.value, this.userpos)
     let params = new HttpParams()
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
@@ -84,15 +81,15 @@ export class NewuserComponent implements OnInit {
     if(a=='addu') {
         this.http.get(url + 'createuser',{params:params}).subscribe(a=>{
           console.log(a)
-          this.location.back()
         })
     } else if(a=='updu'){
       this.http.get(url + 'updateuser',{params:params}).subscribe(a=>{
         console.log(a)
-        this.location.back()
       })
-
     }
+    setTimeout(() => {
+      this.location.back()
+    }, 200);
   }
 
   cancella(){
