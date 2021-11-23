@@ -1,12 +1,19 @@
 <div class="mainCont">
-    <episjob-h2 icon="event" data="Calendar" padtop=0></episjob-h2>
     <div class="month">
         <button mat-icon-button (click)="moveMonth('-')"><mat-icon>arrow_left</mat-icon></button>
         <div>{{mese()}}</div>
         <button mat-icon-button (click)="moveMonth('+')"><mat-icon>arrow_right</mat-icon></button>
     </div>
     <div class="cont">
-        <div *ngFor="let d of month" [ngClass]="{'day': d.n!='', 'holy': !d.d}" [ngStyle]="{'background-color':d.n==''?'white':'none'}">
+        <div *ngFor="let h of headers" class="head">{{h}}</div>
+        <div 
+            *ngFor="let d of month" 
+            class="none"
+            [ngClass]="{'none':d.n=='', 'day': d.n!='', 'holy': !d.d, 'sel': chDay(d.full)}" 
+            [ngStyle]="{'background-color':d.n==''?'white':'none'}"
+            (click)="changeDay(d.full)"
+            [class.mat-elevation-z1]="d.n!=''"
+            >
             {{d.n}}
         </div>
     </div>  

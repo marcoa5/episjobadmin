@@ -4,20 +4,28 @@
     width:100%;
     max-height: 100%;
     height:100%;
+    overflow: hidden;
+}
+
+.none{
+    border: 1px dashed lightgrey;
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid lightgrey;
+
 }
 
 .cont{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: 20px repeat(6, 1fr);
     width: 100%;
-    height: 100%;
+    height:100%;
+    max-height: calc(100% - 65px);
     gap:5px;
 }
 .day{
     box-sizing: border-box;
     padding: 1vmin;
-    font-size: 2vmax;
     width: 100%; 
     min-height: 50px;
     height:100%;
@@ -37,10 +45,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 3vmin;
-    background-color: rgb(245,245,245);
+    background-color: $dark-text;
+    color: $light-text;
     border-radius: 5px 5px 0 0;
-    border-bottom: .5px solid $dark-text;
     margin-bottom: 15px;
     font-weight: 900;
 }
+
+.sel{
+    background-color: $light-text;
+    font-weight: 900;
+}
+
+.head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $dark-text;
+    border-radius: 5px 5px 0 0;
+    color: $light-text;
+}
+
