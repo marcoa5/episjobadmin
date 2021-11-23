@@ -77,15 +77,12 @@ export class NewuserComponent implements OnInit {
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
+    .set('km', '0.06')
     .set('id', this.id)
     if(a=='addu') {
-        this.http.get(url + 'createuser',{params:params}).subscribe(a=>{
-          console.log(a)
-        })
+        this.http.get(url + 'createuser',{params:params}).subscribe(()=>{console.log('added')})
     } else if(a=='updu'){
-      this.http.get(url + 'updateuser',{params:params}).subscribe(a=>{
-        console.log(a)
-      })
+      this.http.get(url + 'updateuser',{params:params}).subscribe(()=>{console.log('updated')})
     }
     setTimeout(() => {
       this.location.back()
