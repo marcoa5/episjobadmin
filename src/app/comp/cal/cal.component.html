@@ -14,7 +14,8 @@
             (click)="changeDay(d.full)"
             [class.mat-elevation-z1]="d.n!=''"
             >
-            {{d.n}}
+            <div>{{d.n}}</div>
+            <div class="visit" *ngIf="d.visit!=''"></div>
         </div>
     </div>  
 </div>

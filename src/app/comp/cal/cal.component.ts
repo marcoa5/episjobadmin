@@ -1,6 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { DaytypeService } from '../../serv/daytype.service'
+import firebase from 'firebase/app'
+import 'firebase/database'
+import 'firebase/messaging'
 
 @Component({
   selector: 'episjob-cal',
@@ -11,28 +14,33 @@ export class CalComponent implements OnInit {
   day:string=moment(new Date).format('YYYY-MM-DD')
   month:any[]=[]
   headers:string[]=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+  visits:any[]=[]
   constructor(private holy:DaytypeService) { }
 
   ngOnInit(): void {
     this.days(new Date(this.day))
+    .then(a=>this.getVisits(a))
 
   }
 
   days(d:Date){
-    this.month=[]
-    let g = d.getDate()
-    let m = d.getMonth()
-    let a = d.getFullYear()
-    let i = new Date(a,m,0).getDay()+1
-    for(let z=1;z<i;z++){
-      this.month.push({n:'', d:'', full: ''})
+    return new Promise((res,rej)=>{
+      this.month=[]
+      let g = d.getDate()
+      let m = d.getMonth()
+      let a = d.getFullYear()
+      let i = new Date(a,m,0).getDay()+1
+      for(let z=1;z<i;z++){
+        this.month.push({n:'', d:'', full: '', visit:''})
+      }
+      for(let z=1;z<new Date(a,m+1,0).getDate()+1;z++){
+        this.month.push({n:z,d:this.chDate(new Date(a,m,z)), full: new Date(a,m,z), visit:''})
+      }
+      for(let z=this.month.length+1;z<43;z++){
+        this.month.push({n:'', d:'', full: '', visit:''})
+        if(this.month.length==42) res([m+1,a])
     }
-    for(let z=1;z<new Date(a,m+1,0).getDate()+1;z++){
-      this.month.push({n:z,d:this.chDate(new Date(a,m,z)), full: new Date(a,m,z)})
-    }
-    for(let z=this.month.length+1;z<43;z++){
-      this.month.push({n:'', d:'', full: ''})
-    }
+    })
   }
 
   chDate(a: Date){
@@ -44,18 +52,50 @@ export class CalComponent implements OnInit {
   }
 
   moveMonth(a:string){
+    let newYear=0
+    let yearToday =new Date().getFullYear() 
     let monthToday=new Date().getMonth()+1
+    let dayToday=new Date().getDate()
     let newMonth
     if(a=='+') {
       newMonth=parseInt(moment(this.day).add(1,'months').format('MM'))
-      if(monthToday==newMonth){
-        this.day=moment(this.day).add(1,'months').format('YYYY-MM-DD')
+      newYear=parseInt(moment(this.day).add(1,'months').format('YYYY'))
+      if(monthToday==newMonth && yearToday==newYear){
+        this.day=moment(new Date(newYear, newMonth-1, dayToday)).format('YYYY-MM-DD')
+      } else {
+        this.day=moment(new Date(newYear, newMonth-1, 1)).format('YYYY-MM-DD')
       }
     }
     if(a=='-') {
-      this.day=moment(this.day).add(-1,'months').format('YYYY-MM-DD')
+      newMonth=parseInt(moment(this.day).subtract(1,'months').format('MM'))
+      newYear=parseInt(moment(this.day).subtract(1,'months').format('YYYY'))
+      if(monthToday==newMonth && yearToday==newYear){
+        this.day=moment(new Date(newYear, newMonth-1, dayToday)).format('YYYY-MM-DD')
+      } else {
+        this.day=moment(new Date(newYear, newMonth-1, 1)).format('YYYY-MM-DD')
+      }
     }
-    this.days(new Date(this.day))
+    this.days(new Date(this.day)).then(a=>this.getVisits(a))
+  }
+
+  getVisits(a:any){
+    let i = moment(new Date(a[1],a[0]-1,1)).format('YYYYMMDD')
+    let f= moment(new Date(a[1],a[0],0)).format('YYYYMMDD')
+    firebase.database().ref('CustVisit').orderByKey().startAt(i).endAt(f).once('value',a=>{
+      if(a!=null){
+        this.visits=a.val()
+        a.forEach(b=>{
+          let anno = b.key?.substring(0,4)
+          let mese = b.key?.substring(4,6)
+          let giorno = b.key?.substring(6,8)
+          let nuovo = `${anno}-${mese}-${giorno}`
+          this.month.forEach(f=>{
+            if(moment(f.full).format('YYYY-MM-DD')==nuovo) f.visit='1'            
+          });
+        })
+      }
+    })
+    .then(()=>console.log(this.month))
   }
 
   changeDay(a:Date){
