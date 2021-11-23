@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { DaytypeService } from '../../serv/daytype.service'
+import { DaytypeService } from '../../../serv/daytype.service'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/messaging'
@@ -79,6 +79,7 @@ export class CalComponent implements OnInit {
   }
 
   getVisits(a:any){
+    this.visits=[]
     let i = moment(new Date(a[1],a[0]-1,1)).format('YYYYMMDD')
     let f= moment(new Date(a[1],a[0],0)).format('YYYYMMDD')
     firebase.database().ref('CustVisit').orderByKey().startAt(i).endAt(f).once('value',a=>{
@@ -95,7 +96,6 @@ export class CalComponent implements OnInit {
         })
       }
     })
-    .then(()=>console.log(this.month))
   }
 
   changeDay(a:Date){

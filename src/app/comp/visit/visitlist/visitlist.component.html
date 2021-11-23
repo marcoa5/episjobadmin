@@ -1,36 +1,4 @@
 <div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
-    <div class="calCont">
-        <episjob-h2 data="Calendar" icon="today" padtop="0"></episjob-h2>
-        <div class="selectorCont">
-            <button mat-icon-button (click)="moveMonth('-')">
-                <mat-icon>navigate_before</mat-icon>
-            </button>
-            {{m.ext}}
-            <button mat-icon-button (click)="moveMonth('+')">
-                <mat-icon>navigate_next</mat-icon>
-            </button>
-            
-        </div>
-        <div class="header">
-          <p>Mon</p>
-          <p>Tue</p>
-          <p>Wed</p>
-          <p>Thu</p>
-          <p>Fri</p>
-          <p>Sat</p>
-          <p>Sun</p>
-        </div>
-        <div class="daysCont">
-            <div class="day" 
-                *ngFor="let d of days" 
-                [ngClass]="{'g': d.n!='', 'holy':!d.holy, 'sel':chDay(d.day)}" 
-                (click)="gio(d.day)"
-                [class.mat-elevation-z1]="d.n!=''">
-                <p class="dayNr">{{d.n}}</p>
-                <div class="visitNr" *ngIf="d.visits!=''"></div>
-            </div>
-        </div>
-    </div>
     <div class="listCont">
         <episjob-h2 [data]="'Visits ' + today" icon="list" padtop="0"></episjob-h2>
         <div calss="contW" *ngIf="!chDailyList">
