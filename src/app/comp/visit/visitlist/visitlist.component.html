@@ -1,7 +1,9 @@
 <div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
     <div class="listCont">
         <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
-        {{day}}
-        <button (click)="newV()">New</button>
+        <div class="newVisit" [class.mat-elevation-z1]="true" (click)="newV()">
+          <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
+          <div>Add new visit</div>
+        </div>
     </div>
 </div>
