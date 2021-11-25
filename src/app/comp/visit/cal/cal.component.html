@@ -1,12 +1,12 @@
 <div class="mainCont">
     <episjob-h2 data="Calendar" icon="today" padtop="0"></episjob-h2>
-    <div class="month">
+    <div class="month" [class.mat-elevation-z1]="true">
         <button mat-icon-button (click)="moveMonth('-')"><mat-icon>arrow_left</mat-icon></button>
         <div>{{mese()}}</div>
         <button mat-icon-button (click)="moveMonth('+')"><mat-icon>arrow_right</mat-icon></button>
     </div>
     <div class="cont">
-        <div *ngFor="let h of headers" class="head">{{h}}</div>
+        <div *ngFor="let h of headers" class="head" [class.mat-elevation-z1]="true">{{h}}</div>
         <div 
             *ngFor="let d of month" 
             class="none"

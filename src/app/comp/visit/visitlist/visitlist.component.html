@@ -1,35 +1,7 @@
 <div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
     <div class="listCont">
-        <episjob-h2 [data]="'Visits ' + today" icon="list" padtop="0"></episjob-h2>
-        <div calss="contW" *ngIf="!chDailyList">
-            <mat-spinner class="spinner" [diameter]="40"></mat-spinner>
-        </div>
-        <div class="content" *ngIf="dailyList.length>0">
-          <mat-accordion>
-            <mat-expansion-panel hideToggle *ngFor="let da of dailyList">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{da.c1}}
-                </mat-panel-title>
-                <mat-panel-description>
-                  {{da.sam}}
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <p>Contact: <strong>{{da.name}}</strong></p>
-              <p>Place: <strong>{{da.place}}</strong></p>
-              <p>Notes: <strong>{{da.notes}}</strong></p>
-              <div class="editCont">
-                <button mat-icon-button (click)="deleteVisit(da, today)">Delete <mat-icon>delete</mat-icon></button>
-              </div>
-              
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-        <div *ngIf="dailyList.length==0">
-          No visits
-        </div>
-        <div class="butCont">
-          <button mat-raised-button class="addNew" (click)="newVisit(today)" color="primary"><mat-icon>add_circle</mat-icon>Add visit on {{today}}</button>
-        </div>
+        <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
+        {{day}}
+        <button (click)="newV()">New</button>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import * as moment from 'moment';
 import { DaytypeService } from '../../../serv/daytype.service'
 import firebase from 'firebase/app'
@@ -15,6 +15,9 @@ export class CalComponent implements OnInit {
   month:any[]=[]
   headers:string[]=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
   visits:any[]=[]
+  @Input() pos:string|undefined
+  @Input() userId:string|undefined
+  @Output() today= new EventEmitter()
   constructor(private holy:DaytypeService) { }
 
   ngOnInit(): void {
@@ -84,15 +87,17 @@ export class CalComponent implements OnInit {
     let f= moment(new Date(a[1],a[0],0)).format('YYYYMMDD')
     firebase.database().ref('CustVisit').orderByKey().startAt(i).endAt(f).once('value',a=>{
       if(a!=null){
-        this.visits=a.val()
         a.forEach(b=>{
           let anno = b.key?.substring(0,4)
           let mese = b.key?.substring(4,6)
           let giorno = b.key?.substring(6,8)
           let nuovo = `${anno}-${mese}-${giorno}`
-          this.month.forEach(f=>{
-            if(moment(f.full).format('YYYY-MM-DD')==nuovo) f.visit='1'            
-          });
+          let id= Object.keys(b.val()).toString().substring(0,28)
+          if((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && id==this.userId)) {
+            this.month.forEach(gt=>{
+              if(moment(gt.full).format('YYYY-MM-DD')==nuovo) gt.visit='1'
+            })
+          }
         })
       }
     })
@@ -100,6 +105,7 @@ export class CalComponent implements OnInit {
 
   changeDay(a:Date){
     this.day=moment(a).format('YYYY-MM-DD')
+    this.today.emit(this.day)
   }
 
   chDay(a:Date): boolean{
