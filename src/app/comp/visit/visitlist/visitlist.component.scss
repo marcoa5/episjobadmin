@@ -1,117 +1,61 @@
 @import '../../../../epi.scss';
 
 
-.day{
-    box-sizing: content-box;
-    display: grid;
-    grid-template-columns: repeat(4, 25%);
-    grid-template-rows: repeat(4, 25%);
-    padding:5px;
-    aspect-ratio: 1;
-}
-
-.daysCont, .header{
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: auto;
-    gap:5px;
-}
-.header p{
-    text-align: center;
-    margin: 0;
-}
-
 .cont{
-    padding: 0 10px 30px 10px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap:15px;
+    width:100%;
+    height:100%;
+    //max-height: min(calc(100vh - 140px), 450px);
 }
 
-.calCont{
-    margin-bottom: 30px;
+.listSubCont{
+    height: 100%;
+    max-height: calc(100% - 115px);
+    overflow-y: auto;
 }
-
-
-.g{
+@media screen and (max-width: 920px){
+    .listSubCont{
+        max-height: none;
+    }
+}
+.newVisit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: $dark-text;
+    background-color: $light-text;
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 15px;
+    font-weight: 900;
     cursor: pointer;
+}
+
+.divtxt{
     background-color: rgb(245,245,245);
     border-radius: 5px 5px 0 0;
     border-bottom: .5px solid $dark-text;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.txtlabel{
+    color: rgb(130,130,130);
+    margin: 5px 10px 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
     overflow: hidden;
 }
 
-.sel{
-    background-color: $light-text;
-}
-
-.contW{
-    width:100%;
+.txt{
+    margin: 0px 10px 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
     display: flex;
-    justify-content: center;
-    margin-top: 15px;
-}
-.spinner{
-    margin:auto;
+    justify-content: space-between;
 }
 
-.butCont{
-    display: flex;
-    justify-content: center;
-}
-
-.selectorCont{
-    display: grid;
-    grid-template-columns: 10% 80% 10%;
-    justify-items: center;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.dayNr{
-    justify-self: center;
-    align-self: center;
-    margin:0; padding:0;
-}
-
-.visitNr{
-    width:100%; height:100%;
-    justify-self: center;
-    align-self: center;
-    margin:0;
-    grid-column: 4 /span 4;
-    grid-row:4;
-    background-color: $dark-text;
-    color: $light-text;
-    width:100%;
-    text-align: center;
-    border-radius: 50%;
+.lt{
     overflow: hidden;
     white-space: nowrap;
-}
-
-.editCont{
-    width: 90%;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.addNew{
-    width: 100% !important;
-    margin:auto; padding:0;
-    margin-top: 15px; 
-}
-
-mat-panel-title{
-    width:40%;
-}
-
-.holy{
-    color:red;
-}
-@media only screen and (max-width: 700px)  {
-    .cont{
-        grid-template-columns: repeat(1, 1fr);
-    }
 }

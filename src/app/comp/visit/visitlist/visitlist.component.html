@@ -1,67 +1,15 @@
 <div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
-    <div class="calCont">
-        <episjob-h2 data="Calendar" icon="today" padtop="0"></episjob-h2>
-        <div class="selectorCont">
-            <button mat-icon-button (click)="moveMonth('-')">
-                <mat-icon>navigate_before</mat-icon>
-            </button>
-            {{m.ext}}
-            <button mat-icon-button (click)="moveMonth('+')">
-                <mat-icon>navigate_next</mat-icon>
-            </button>
-            
-        </div>
-        <div class="header">
-          <p>Mon</p>
-          <p>Tue</p>
-          <p>Wed</p>
-          <p>Thu</p>
-          <p>Fri</p>
-          <p>Sat</p>
-          <p>Sun</p>
-        </div>
-        <div class="daysCont">
-            <div class="day" 
-                *ngFor="let d of days" 
-                [ngClass]="{'g': d.n!='', 'holy':!d.holy, 'sel':chDay(d.day)}" 
-                (click)="gio(d.day)"
-                [class.mat-elevation-z1]="d.n!=''">
-                <p class="dayNr">{{d.n}}</p>
-                <div class="visitNr" *ngIf="d.visits!=''"></div>
-            </div>
-        </div>
+    <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
+    <div class="newVisit" [class.mat-elevation-z1]="true" (click)="newV()">
+      <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
+      <div>Add new visit</div>
     </div>
-    <div class="listCont">
-        <episjob-h2 [data]="'Visits ' + today" icon="list" padtop="0"></episjob-h2>
-        <div calss="contW" *ngIf="!chDailyList">
-            <mat-spinner class="spinner" [diameter]="40"></mat-spinner>
+    <div class="listSubCont">
+      <div [class.mat-elevation-z1]="true" class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
+        <div>
+            <div class="txtlabel">{{v.sam}}</div>
+            <div class="txt">{{v.c1}}</div>
         </div>
-        <div class="content" *ngIf="dailyList.length>0">
-          <mat-accordion>
-            <mat-expansion-panel hideToggle *ngFor="let da of dailyList">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  {{da.c1}}
-                </mat-panel-title>
-                <mat-panel-description>
-                  {{da.sam}}
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <p>Contact: <strong>{{da.name}}</strong></p>
-              <p>Place: <strong>{{da.place}}</strong></p>
-              <p>Notes: <strong>{{da.notes}}</strong></p>
-              <div class="editCont">
-                <button mat-icon-button (click)="deleteVisit(da, today)">Delete <mat-icon>delete</mat-icon></button>
-              </div>
-              
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-        <div *ngIf="dailyList.length==0">
-          No visits
-        </div>
-        <div class="butCont">
-          <button mat-raised-button class="addNew" (click)="newVisit(today)" color="primary"><mat-icon>add_circle</mat-icon>Add visit on {{today}}</button>
-        </div>
-    </div>
+      </div>
+  </div>
 </div>
