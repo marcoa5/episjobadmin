@@ -1,0 +1,20 @@
+[debug] [2021-11-26T13:37:34.447Z] ----------------------------------------------------------------------
+[debug] [2021-11-26T13:37:34.451Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Iycma\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-11-26T13:37:34.452Z] CLI Version:   9.20.0
+[debug] [2021-11-26T13:37:34.452Z] Platform:      win32
+[debug] [2021-11-26T13:37:34.452Z] Node Version:  v14.17.1
+[debug] [2021-11-26T13:37:34.454Z] Time:          Fri Nov 26 2021 14:37:34 GMT+0100 (Ora standard dell’Europa centrale)
+[debug] [2021-11-26T13:37:34.455Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-11-26T13:37:34.461Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2021-11-26T13:37:34.602Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-11-26T13:37:34.602Z] > authorizing via signed-in user (episerjob@gmail.com)
+[debug] [2021-11-26T13:37:34.603Z] [iam] checking project episjobadmin for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-11-26T13:37:34.606Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-11-26T13:37:34.607Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-11-26T13:37:35.379Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2021-11-26T13:37:35.379Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2021-11-26T13:37:36.127Z] <<< HTTP RESPONSE 200 {"pragma":"no-cache","date":"Fri, 26 Nov 2021 13:37:35 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-11-26T13:37:36.143Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/episjobadmin:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
