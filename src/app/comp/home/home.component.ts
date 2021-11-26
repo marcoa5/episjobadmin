@@ -110,8 +110,6 @@ export class HomeComponent implements OnInit {
           messaging.onMessage(p => {
             console.log('Received foreground message ', p)
           })
-        
-          
             messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
             .then(t=>{
               firebase.database().ref('Tokens').child(t.substring(0,10) + ' - ' + this.nome).set({
@@ -119,6 +117,7 @@ export class HomeComponent implements OnInit {
                 pos: this.pos,
                 name: this.nome,
                 date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
+                id:a?.uid,
               })
             })
             .catch(err=>console.log(err))
