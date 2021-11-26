@@ -37,6 +37,7 @@ export interface info{
   mail: string
   notes: string
   place: string
+  sam: string
 }
 
 @Component({
@@ -362,6 +363,7 @@ export class NewvisitComponent implements OnInit {
       mail: this.contactFormGroup.controls.mail.value,
       notes: this.visitNotes.controls.notes.value,
       place: this.visitNotes.controls.place.value,
+      sam: this.userName,
     }
 
     let todo={

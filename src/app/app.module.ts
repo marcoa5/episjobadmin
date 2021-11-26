@@ -94,7 +94,8 @@ import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component';
 import { TodoComponent } from './comp/customers/cliente/todo/todo.component'
 import { SelectcustComponent } from './comp/selectcust/selectcust.component';
-import { CalComponent } from './comp/visit/cal/cal.component'
+import { CalComponent } from './comp/visit/cal/cal.component';
+import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -177,6 +178,7 @@ const appearance: MatFormFieldDefaultOptions = {
     TodoComponent,
     SelectcustComponent,
     CalComponent,
+    VisitdetailsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
