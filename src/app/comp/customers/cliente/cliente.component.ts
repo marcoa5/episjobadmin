@@ -33,6 +33,7 @@ export class ClienteComponent implements OnInit {
   dev:boolean=true
   anno:string=new Date().getFullYear().toString()
   userId:string=''
+  listV:any[]=[]
   constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService) {}
 
   ngOnInit(): void {
@@ -68,6 +69,19 @@ export class ClienteComponent implements OnInit {
           this.area=b.val().Area
         }
       }).then(()=>{
+        let ref=firebase.database().ref('CustVisit')
+        ref.once('value',a=>{
+          a.forEach(b=>{
+            b.forEach(c=>{
+              c.forEach(d=>{
+                if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == b.val().substring(0,28)))){
+                  this.listV.push(d.val())
+                }
+              })
+            })
+          })
+        })
+        .then(()=>this.listV.reverse())
         this.rigsLabels=[]
         firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).once('value',k=>{
           if(k.val()!=null){
@@ -89,6 +103,8 @@ export class ClienteComponent implements OnInit {
         })
       })
     })
+
+    
     
     
   }

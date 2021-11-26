@@ -1,1 +1,8 @@
-<p>visits works!</p>
+<div class="cont">
+    <div *ngFor="let v of list" class="divtxt" (click)="openVisit(v)">
+        <div>
+            <div class="txtlabel">{{v.sam}}</div>
+            <div class="txt">{{v.date}}</div>
+        </div>
+      </div>
+</div>

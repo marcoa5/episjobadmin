@@ -1,21 +1,28 @@
 import { Component, Input, OnInit } from '@angular/core';
-import firebase from 'firebase/app'
+import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
+import { VisitdetailsComponent } from 'src/app/comp/util/dialog/visitdetails/visitdetails.component';
+
 @Component({
   selector: 'episjob-visits',
   templateUrl: './visits.component.html',
   styleUrls: ['./visits.component.scss']
 })
 export class VisitsComponent implements OnInit {
-  @Input() userId:string=''
-  @Input() pos:string=''
-  @Input() custId:string=''
-  constructor() { }
+  @Input() list:any=[]
+  
+  constructor(private dialog:MatDialog) { }
 
   ngOnInit(): void {
-    console.log(this.userId,this.pos, this.custId)
-    firebase.database().ref('CustVisit').child('cuId').once('value',a=>{
-      console.log(a.val())
-    })
+    console.log(this.list)
+  }
+
+  openVisit(a:any){
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(VisitdetailsComponent, {
+      data: a
+    });
   }
 
 }

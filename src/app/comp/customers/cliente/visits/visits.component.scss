@@ -1,0 +1,36 @@
+@import '../../../../../epi.scss';
+
+.cont{
+    max-height:min(100%, 250px);
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-rows: auto;
+    gap: 10px;
+}
+
+.divtxt{
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    height: 51px;
+}
+
+.txtlabel{
+    color: rgb(130,130,130);
+    margin: 5px 10px 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.txt{
+    margin: 0px 10px 5px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
