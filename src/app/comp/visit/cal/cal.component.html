@@ -6,14 +6,13 @@
         <button mat-icon-button (click)="moveMonth('+')"><mat-icon>arrow_right</mat-icon></button>
     </div>
     <div class="cont">
-        <div *ngFor="let h of headers" class="head" [class.mat-elevation-z1]="true">{{h}}</div>
+        <div *ngFor="let h of headers" class="head">{{h}}</div>
         <div 
             *ngFor="let d of month" 
             class="none"
             [ngClass]="{'none':d.n=='', 'day': d.n!='', 'holy': !d.d, 'sel': chDay(d.full)}" 
             [ngStyle]="{'background-color':d.n==''?'white':'none'}"
             (click)="changeDay(d.full)"
-            [class.mat-elevation-z1]="d.n!=''"
             >
             <div class="daynr">{{d.n}}</div>
             <div class="visit" *ngIf="d.visit!=''"></div>

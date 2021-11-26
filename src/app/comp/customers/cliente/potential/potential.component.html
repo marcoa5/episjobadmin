@@ -2,9 +2,9 @@
     <h4>{{'Potential ' + refYear + ': ' + (custPot.controls.SED.value*1+custPot.controls.URE.value*1+custPot.controls.RDD.value*1+custPot.controls.REX.value*1+custPot.controls.RGU.value*1+custPot.controls.HAT.value*1+custPot.controls.PSD.value*1) + ' k€'}}</h4>
 <div class="mainCont">
     <form [formGroup]="custPot" class="potCont">
-        <mat-form-field [appearance]="appearance" class="nr">
+        <mat-form-field [appearance]="appearance" >
             <mat-label>SED</mat-label>
-            <input matInput type="number" min="0" step="5" placeholder="Potential in kEUR" formControlName="SED" autocomplete="off" (input)="savePot($event)">
+            <input class="nr" matInput type="number" min="0" step="5" placeholder="Potential in kEUR" formControlName="SED" autocomplete="off" (input)="savePot($event)">
         </mat-form-field>
 
         <mat-form-field [appearance]="appearance">

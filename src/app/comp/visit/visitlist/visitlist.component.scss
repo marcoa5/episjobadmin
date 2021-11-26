@@ -9,14 +9,22 @@
 
 .listSubCont{
     height: 100%;
-    max-height: calc(100% - 115px);
-    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: auto;
+    gap: 10px;
 }
 @media screen and (max-width: 920px){
     .listSubCont{
         max-height: none;
     }
 }
+
+.listCont{
+    max-height: calc(100% - 115px);
+    overflow-y: auto;
+}
+
 .newVisit{
     display: flex;
     align-items: center;
@@ -24,9 +32,9 @@
     color: $dark-text;
     background-color: $light-text;
     border-radius: 5px 5px 0 0;
-    margin-bottom: 15px;
     font-weight: 900;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .divtxt{
@@ -35,8 +43,8 @@
     border-bottom: .5px solid $dark-text;
     white-space: nowrap;
     overflow: hidden;
-    margin-bottom: 10px;
     cursor: pointer;
+    height: 51px;
 }
 
 .txtlabel{

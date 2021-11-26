@@ -1,15 +1,17 @@
 <div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
-    <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
-    <div class="newVisit" [class.mat-elevation-z1]="true" (click)="newV()">
-      <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
-      <div>Add new visit</div>
-    </div>
+  <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
+  <div class="newVisit" [class.mat-elevation-z1]="true" (click)="newV()">
+    <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
+    <div>Add new visit</div>
+  </div>
+  <div class="listCont">
     <div class="listSubCont">
-      <div [class.mat-elevation-z1]="true" class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
+      <div class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
         <div>
             <div class="txtlabel">{{v.sam}}</div>
             <div class="txt">{{v.c1}}</div>
         </div>
       </div>
+    </div>
   </div>
 </div>

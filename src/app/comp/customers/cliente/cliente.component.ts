@@ -32,6 +32,7 @@ export class ClienteComponent implements OnInit {
   infoContacts:rigsLabel[]=[]
   dev:boolean=true
   anno:string=new Date().getFullYear().toString()
+  userId:string=''
   constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService) {}
 
   ngOnInit(): void {
@@ -61,8 +62,11 @@ export class ClienteComponent implements OnInit {
 
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        this.pos=b.val().Pos
-        this.area=b.val().Area
+        if(b.key && b.val()){
+          this.pos=b.val().Pos
+          this.userId=b.key
+          this.area=b.val().Area
+        }
       }).then(()=>{
         this.rigsLabels=[]
         firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).once('value',k=>{
