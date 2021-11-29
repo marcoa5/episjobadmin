@@ -1,7 +1,21 @@
+<div *ngIf="pos=='SU' || pos=='admin' || pos=='adminS'">
+    <div mat-dialog-title>Notifications</div>
+    <div class="ch">
+        <div>
+            <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, 'sj')">SJ Notifications</mat-checkbox>
+        </div>
+        <div>
+            <mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, 'visit')">Visit Notifications</mat-checkbox>
+        </div>
+    </div>
+</div>
+<div class="spacer"></div>
 <div mat-dialog-title>Logout</div>
-<div mat-dialog-content>{{data.name}}, are you sure you want to logout?</div>
-
+<div mat-dialog-content>{{data.name}}, click here to logout? 
+    <button mat-icon-button (click)="logout()" color="accent">
+        <mat-icon>logout</mat-icon>
+    </button>
+</div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="'a'">Yes</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Close</button>
 </div>

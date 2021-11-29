@@ -1,3 +1,23 @@
-.cont{
-    min-width: 300px;
+@import '../../../../../epi.scss';
+
+.divtxt{
+    margin-top: 15px;
+    background-color: rgb(245,245,245);
+    border-radius: 5px 5px 0 0;
+    border-bottom: .5px solid $dark-text;
+    //white-space: nowrap;
+    overflow: hidden;
+}
+
+.txtlabel{
+    color: rgb(130,130,130);
+    margin: 5px 10px 0 10px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.txt{
+    margin: 0px 10px 5px 10px;
+    
 }

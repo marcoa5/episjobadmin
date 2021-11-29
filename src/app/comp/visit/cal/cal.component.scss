@@ -6,14 +6,13 @@
 }
 .mainCont{
     width:100%;
-    max-height: 100%;
     height:100%;
-    overflow: hidden;
+    max-height: 100%;
+    //overflow: hidden;
 }
 
 .none, .day, .holY{
-    min-height: 45px;
-
+    //min-height: 40px;
 }
 
 .none{
@@ -24,23 +23,23 @@
 }
 
 .cont{
-    width: 100%;
-    height:100%;
+    box-sizing: border-box;
     max-height: calc(100% - 115px);
     display: grid;
+    gap: 5px;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 20px repeat(6, 1fr);
-
-    gap:5px;
+    grid-template-rows: repeat(7, 1fr);
+    overflow: hidden;
+    width: 100%;
+    height:100%;
 }
 .day{
     display: grid;
     grid-template-columns: repeat(3, 33.3333%);
     grid-template-rows: 50% 50%;
-    box-sizing: border-box;
     padding: .2vmin;
-    width: 100%; 
-    height:100%;
+    //width: 100%; 
+    //height:100%;
     color: $dark-text;
     cursor: pointer;
     background-color: rgb(245,245,245);

@@ -1,8 +1,9 @@
 .cont{
+    display: inline;
     margin: 80px 10px 30px 10px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(auto-fill, min(calc(100vh - 140px), 450px));
+    grid-template-rows: repeat(auto-fit, min(calc(100vh - 150px), 450px));
     gap:15px;
     max-width: 1400px;
 }
@@ -10,7 +11,7 @@
 @media screen and (max-width: 920px){
     .cont{
         grid-template-columns: repeat(1, 1fr);
-        grid-template-rows: repeat(auto-fill, min(calc(100vh - 140px), 450px));
+        grid-template-rows: repeat(auto-fit, min(calc(100vh - 140px), 450px));
         gap:30px;
     }
 }

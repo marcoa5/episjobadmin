@@ -77,10 +77,6 @@ export class AppComponent {
     const dialogRef = this.dialog.open(LogoutComponent, {
       data: {name: this.nome}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined) firebase.auth().signOut()
-    })
   }
 
   userExists(){
