@@ -11,25 +11,36 @@ firebase.initializeApp({
     appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
     measurementId: "G-Y0638WJK1X"
   });
+  var url=''
+  self.addEventListener('notificationclick', function(event) {
+    event.notification.close()
+    var promise=new Promise(function(resolve){
+      setTimeout(resolve,500)
+    }).then(function(){
+      clients.openWindow('https://episjobadmin.web.app/' + url)
+    })
+    event.waitUntil(promise)
+  })
 
   if (firebase.messaging.isSupported()){
     const messaging = firebase.messaging()
     
     messaging.onBackgroundMessage((payload) => {
-      console.log('Received background message ', payload);
-      const notificationTitle = payload.data.score;
+      url=payload.data.url
+      console.log('Received background message ', payload.data.title);
+      const notificationTitle = payload.data.title;
       const notificationOptions = {
-        body: payload.data.time,
+        body: payload.data.body,
         badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
         icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
-      };
+        //tag: payload.data.title.substring(0,9)=='New Visit'? 'visit' : 'sj',
+        //requireInteraction: true
+      };      
+      
+      return self.registration.showNotification(notificationTitle, notificationOptions);
+    })
+
     
-      self.registration.showNotification(notificationTitle, notificationOptions)
-      self.addEventListener('notificationclick', function(event) {  
-        event.notification.close();
-        clients.openWindow('./files')
-      }, false);
-      })
   }
   
     

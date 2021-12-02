@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router'
 import firebase from 'firebase/app'
 import * as moment from 'moment';
 //import 'firebase/database'
@@ -12,10 +13,15 @@ import * as moment from 'moment';
 export class VisitComponent implements OnInit {
   pos:string|undefined
   day: string=moment(new Date()).format('YYYY-MM-DD')
+  
   userId:string=''
-  constructor() {}
+  ref:boolean=false
+  constructor(private route:ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.route.params.subscribe(a=>{
+      if(a.day) this.day=a.day
+    })
      firebase.auth().onAuthStateChanged(a=>{
       if(a) {
         this.userId=a.uid
@@ -33,5 +39,14 @@ export class VisitComponent implements OnInit {
 
   chDay(e:any){
     this.day=e
+  }
+
+  refresh(){
+    let prev = this.day
+    this.day=''
+    setTimeout(() => {
+      this.day=prev
+    }, 5);
+    
   }
 }

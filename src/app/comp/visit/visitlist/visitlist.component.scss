@@ -7,22 +7,14 @@
     //max-height: min(calc(100vh - 140px), 450px);
 }
 
-.listSubCont{
-    height: 100%;
+.listCont{
+    max-height: calc(100% - 110px);
+    overflow-y: auto;
+    //height: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-rows: auto;
     gap: 10px;
-}
-@media screen and (max-width: 920px){
-    .listSubCont{
-        max-height: none;
-    }
-}
-
-.listCont{
-    max-height: calc(100% - 115px);
-    overflow-y: auto;
 }
 
 .newVisit{

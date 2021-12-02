@@ -36,6 +36,7 @@ export class AppComponent {
   constructor(private dialog:MatDialog){}
   
   ngOnInit(){
+
     firebase.initializeApp(firebaseConfig)
     this.onResize()
     firebase.auth().onAuthStateChanged(a=>{

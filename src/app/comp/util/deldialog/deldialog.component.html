@@ -1,5 +1,5 @@
 <div mat-dialog-title>Delete</div>
-<div mat-dialog-content>{{data.name}} will be deleted. Proceed?</div>
+<div mat-dialog-content>{{data.desc? data.desc : data .name}} will be deleted. Proceed?</div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="data.id? data: (data.custid? data.custid : data.name)">Yes</button>

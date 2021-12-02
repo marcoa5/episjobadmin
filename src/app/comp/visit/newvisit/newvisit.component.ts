@@ -38,6 +38,7 @@ export interface info{
   notes: string
   place: string
   sam: string
+  share: string[]
 }
 
 @Component({
@@ -75,6 +76,8 @@ export class NewvisitComponent implements OnInit {
   constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
+
+    
     firebase.auth().onAuthStateChanged(a=>{
       if(a) {
         firebase.database().ref('Users').child(a.uid).once('value',b=>{
@@ -364,6 +367,7 @@ export class NewvisitComponent implements OnInit {
       notes: this.visitNotes.controls.notes.value,
       place: this.visitNotes.controls.place.value,
       sam: this.userName,
+      share: [this.userId],
     }
 
     let todo={
@@ -399,7 +403,7 @@ export class NewvisitComponent implements OnInit {
                 })
               }
               setTimeout(() => {
-              this.router.navigate(['visit',{date:info.date}])
+              this.router.navigate(['visit',{day:info.date}])
                 
               }, 250);
             })

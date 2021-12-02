@@ -5,7 +5,11 @@
         <div class="txtlabel">{{notes.lab}}</div>
         <div class="txt">{{notes.value}}</div>
     </div>
+    <div class="del">
+        Delete Visit 
+        <button mat-icon-button (click)="del()"><mat-icon>delete</mat-icon></button>
+    </div>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="onNoClick()">ok</button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="onNoClick()">ok</button>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
@@ -18,6 +18,7 @@ export class VisitlistComponent implements OnInit {
   @Input() day:string=''
   @Input() pos:string=''
   @Input() userId:string=''
+  @Output() refresh=new EventEmitter()
   today:string=moment(new Date()).format('DD/MM/YYYY')
   listV:any|undefined
   constructor(private router: Router, private dialog:MatDialog, private route:ActivatedRoute) { }
@@ -34,7 +35,9 @@ export class VisitlistComponent implements OnInit {
       a.forEach(b=>{
         b.forEach(c=>{
           if((b.key?.substring(0,28)==this.userId && this.pos=='sales') || (this.pos=='SU' || this.pos=='adminS')){
-            this.listV.push(c.val())
+            let gty = c.val()
+            gty['url']= a.key+'/'+b.key+'/'+c.key
+            this.listV.push(gty)
           }
         })
       })
@@ -52,5 +55,11 @@ export class VisitlistComponent implements OnInit {
     const dialogRef = this.dialog.open(VisitdetailsComponent, {
       data: a
     });
+
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result=='delete') {
+        this.refresh.emit('ref')
+      }
+    })
   }
 }

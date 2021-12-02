@@ -15,15 +15,27 @@ export class CalComponent implements OnInit {
   month:any[]=[]
   headers:string[]=['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
   visits:any[]=[]
+  @Input() date:string|undefined
   @Input() pos:string|undefined
   @Input() userId:string|undefined
+  @Input() refresh:boolean=false
   @Output() today= new EventEmitter()
   constructor(private holy:DaytypeService) { }
 
   ngOnInit(): void {
+    this.start()  
+  }
+
+  ngOnChanges(){
+    if(this.date!=undefined && this.date!=this.day) {
+      this.day=this.date
+      this.start()
+    }
+  }
+
+  start(){
     this.days(new Date(this.day))
     .then(a=>this.getVisits(a))
-
   }
 
   days(d:Date){

@@ -5,13 +5,11 @@
     <div>Add new visit</div>
   </div>
   <div class="listCont">
-    <div class="listSubCont">
       <div class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
         <div>
             <div class="txtlabel">{{v.sam}}</div>
             <div class="txt">{{v.c1}}</div>
         </div>
       </div>
-    </div>
   </div>
 </div>
