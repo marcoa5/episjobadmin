@@ -86,11 +86,11 @@ export class HomeComponent implements OnInit {
       auth:['SU','adminS','sales','']
     },*/
     {
-      id:'Contracts',
-      icon:'description', 
-      route:'contracts', 
-      dis:true, 
-      auth:['SU','admin','adminS','','']
+      id:'Parts Request',
+      icon:'construction', 
+      route:'parts', 
+      //dis:true, 
+      auth:['SU','admin','adminS','tech','']
     },
   ];
 
@@ -112,7 +112,7 @@ export class HomeComponent implements OnInit {
           })
             messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
             .then(t=>{
-              firebase.database().ref('Tokens').child(t.substring(0,10) + ' - ' + this.nome).set({
+              firebase.database().ref('Tokens').child(a!.uid).child(t).set({
                 token: t,
                 pos: this.pos,
                 name: this.nome,

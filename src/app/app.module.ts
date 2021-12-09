@@ -97,7 +97,10 @@ import { SelectcustComponent } from './comp/selectcust/selectcust.component';
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
 import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
-import { NewcontactComponent } from './comp/util/dialog/newcontact/newcontact.component'
+import { NewcontactComponent } from './comp/util/dialog/newcontact/newcontact.component';
+import { PartsComponent } from './comp/parts/parts.component';
+import { NewpartsrequestComponent } from './comp/parts/newpartsrequest/newpartsrequest.component';
+import { RequestlistComponent } from './comp/parts/requestlist/requestlist.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -183,6 +186,9 @@ const appearance: MatFormFieldDefaultOptions = {
     VisitdetailsComponent,
     VisitsComponent,
     NewcontactComponent,
+    PartsComponent,
+    NewpartsrequestComponent,
+    RequestlistComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
