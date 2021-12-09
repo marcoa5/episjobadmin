@@ -21,8 +21,7 @@ export class NewpartsrequestComponent implements OnInit {
   ngOnInit(): void {
     firebase.database().ref('MOL').once('value',a=>{
       if(a.val()!=null){
-        this.rigs=Object.values(a.val())
-        console.log(a.val())
+        this._rigs=Object.values(a.val())
       }
     })
     .then(()=>{
@@ -32,10 +31,14 @@ export class NewpartsrequestComponent implements OnInit {
 
   filter(){
     let f = this.newRequest.controls.search.value
-    console.log(f)
-    this.rigs=this._rigs.filter(a=>{
-      
-    })
+    if(f.length>2){
+      this.rigs=this._rigs.filter(a=>{
+        if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
+        return false
+      }) 
+    } else {
+      this.rigs= this._rigs
+    }
   }
 
 

@@ -120,8 +120,7 @@ export class HomeComponent implements OnInit {
                 id:a?.uid,
               })
             })
-            .catch(err=>console.log(err))
-            
+            .catch(err=>console.log(err)) 
           }    
         }
       )

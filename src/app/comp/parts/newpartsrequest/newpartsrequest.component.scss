@@ -4,7 +4,23 @@
 }
 
 .list{
-    max-height: 250px;
+    max-height: 200px;
     overflow-y: scroll;
+}
 
+.text{
+    font-size: 9pt;
+    margin:0;
+}
+
+.line{
+    max-height: 30px;
+}
+
+.icon{
+    scale: .5;
+}
+
+.mat-list.item.content{
+    align-items: flex-start;
 }

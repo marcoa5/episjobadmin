@@ -5,9 +5,13 @@
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
         <mat-list class="list">
-            <mat-list-item *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}">
-              <mat-icon mat-list-icon>precision_manufacturing</mat-icon>
-              <div mat-line>{{r.sn}} | {{r.model}} | {{r.customer}}</div>
+            <mat-list-item *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line">
+              <mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>
+              <div mat-line>
+                  <p class="text">
+                      {{r.sn}}  |  {{r.model}}  |  {{r.customer}}
+                  </p>
+                </div>
             </mat-list-item>
         </mat-list>
 </form>
