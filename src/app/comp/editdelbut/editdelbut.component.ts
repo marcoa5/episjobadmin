@@ -6,6 +6,7 @@ import 'firebase/database'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../util/deldialog/deldialog.component';
 import { AddhrsComponent } from '../util/dialog/addhrs/addhrs.component'
+import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -23,6 +24,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() check:boolean=true
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
+  @Output() newCont = new EventEmitter()
   constructor(private location: Location, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -58,7 +60,18 @@ export class EditdelbutComponent implements OnInit {
   }
 
   contact(){
-    this.edit.emit('contact')
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(NewcontactComponent, {
+      data: {id: this.id, type: 'new'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        this.newCont.emit(result)
+      }
+    })
   }
 
   hrsAdd(){

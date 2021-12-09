@@ -8,7 +8,7 @@
     </div>
     <div class="item2" *ngIf="infoContacts.length>0">
         <episjob-h2 padtop=0 icon="person" [data]="'Contacts'"></episjob-h2> 
-        <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0"></episjob-label>
+        <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0" (newCont)="contact($event)"></episjob-label>
     </div>
     <div class="item3">
         <episjob-h2 padtop=0 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
@@ -28,4 +28,4 @@
     </div>
 </div>
 
-<episjob-editdelbut [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)"></episjob-editdelbut> 
+<episjob-editdelbut [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)" (newCont)="contact($event)"></episjob-editdelbut> 

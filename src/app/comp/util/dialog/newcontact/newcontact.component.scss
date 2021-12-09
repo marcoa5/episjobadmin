@@ -1,0 +1,6 @@
+
+
+.cont{
+    display: grid;
+    grid-column: repeat(auto-fill, minmax(300px, 1fr));
+}

@@ -96,7 +96,8 @@ import { TodoComponent } from './comp/customers/cliente/todo/todo.component'
 import { SelectcustComponent } from './comp/selectcust/selectcust.component';
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
-import { VisitsComponent } from './comp/customers/cliente/visits/visits.component'
+import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
+import { NewcontactComponent } from './comp/util/dialog/newcontact/newcontact.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -181,6 +182,7 @@ const appearance: MatFormFieldDefaultOptions = {
     CalComponent,
     VisitdetailsComponent,
     VisitsComponent,
+    NewcontactComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

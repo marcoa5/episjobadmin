@@ -50,15 +50,7 @@ export class ClienteComponent implements OnInit {
           {value:this.cust3,lab:'Address 2',click:'', url:''}
         ]
       })
-      firebase.database().ref('Contacts').child(this.id).once('value',a=>{
-        if(a.val()!=null){
-          a.forEach(b=>{
-            this.infoContacts.push(
-              {value: b.val().name, lab:b.val().pos,click:'', url:''}
-            )
-          })
-        }
-      })
+      this.updateContacts()
     })
 
     firebase.auth().onAuthStateChanged(a=>{
@@ -103,10 +95,19 @@ export class ClienteComponent implements OnInit {
         })
       })
     })
+  }
 
-    
-    
-    
+  updateContacts(){
+    this.infoContacts=[]
+    firebase.database().ref('Contacts').child(this.id).once('value',a=>{
+      if(a.val()!=null){
+        a.forEach(b=>{
+          this.infoContacts.push(
+            {value: b.val().name, lab:b.val().pos,click:{custId: this.id, name: b.val().name, pos: b.val().pos, phone: b.val().phone, mail: b.val().mail}, url:'contact'}
+          )
+        })
+      }
+    })
   }
 
   contr(){
@@ -119,7 +120,9 @@ export class ClienteComponent implements OnInit {
     if(e=='contact') this.router.navigate(['contact', {id:'new', custId: this.id}])
   }
 
-  
+  contact(e:any){
+    if(e=='created' || e=='deleted') this.updateContacts()
+  }
 }
 
 function returnQ(){
@@ -141,4 +144,6 @@ function returnRefYear(a:number,b:number){
   } else {
     return b
   }
+
+  
 }

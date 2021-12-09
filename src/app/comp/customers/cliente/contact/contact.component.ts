@@ -26,7 +26,6 @@ export class ContactComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    console.log(typeof this.checkD())
     this.route.params.subscribe(a=>{
       if(a.id=='new') this.newItem=true
       if(a.id=='upd') this.newItem=false

@@ -28,7 +28,7 @@
     display: grid;
     gap: 5px;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 20px repeat(6, 1fr);
+    grid-template-rows: 20px repeat(6, minmax(30px, 1fr));
     overflow: hidden;
     width: 100%;
     height:100%;
