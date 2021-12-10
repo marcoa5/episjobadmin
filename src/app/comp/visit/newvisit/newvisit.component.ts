@@ -411,7 +411,8 @@ export class NewvisitComponent implements OnInit {
                 })
               })
               .then(()=>{
-                this.notif.newNotification(users,'New Visit by ' + this.userName + ' to ' + info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit')
+                if(users.includes(this.userId)) users.splice(users.indexOf(this.userId),1)
+                this.notif.newNotification(users,'New Visit by ' + this.userName + ' to ' + info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit', './visit;day=' + info.date)
               })
               setTimeout(() => {
               this.router.navigate(['visit',{day:info.date}])

@@ -1,4 +1,4 @@
-import { not } from '@angular/compiler/src/output/output_ast';
+import { Router } from '@angular/router'
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase/app'
 import * as moment from 'moment'
@@ -9,7 +9,7 @@ import * as moment from 'moment'
 })
 export class NotificationListComponent implements OnInit {
   notif:any[]=[]
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
     let ora = moment(new Date()).subtract(30, 'days').format('YYYYMMDD')
@@ -37,5 +37,9 @@ export class NotificationListComponent implements OnInit {
 
   del(a:any){
     firebase.database().ref('Notif').child(a.userId).child(a.date).remove()
+  }
+
+  go(a:any){
+    this.router.navigate([a.url])
   }
 }

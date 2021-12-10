@@ -9,7 +9,7 @@ export class NotifService {
 
   constructor() { }
 
-  newNotification(userId:string[], text: string, auth: string, service: string){
+  newNotification(userId:string[], text: string, auth: string, service: string, url:string){
     userId.forEach(a=>{
       firebase.database().ref('Users').child(a).child(service).once('value',s=>{
         if(s.val()!=null && s.val()==1) {
