@@ -19,6 +19,7 @@ import { VisitComponent } from './comp/visit/visit.component'
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component'
 import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { PartsComponent } from './comp/parts/parts.component';
+import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -40,7 +41,7 @@ const routes: Routes = [
   {path: 'contact', component:ContactComponent},
   {path: 'newvisit', component:NewvisitComponent},
   {path: 'parts', component:PartsComponent},
-
+  {path: 'notif', component:NotificationListComponent}
 ];
 
 @NgModule({

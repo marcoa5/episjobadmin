@@ -10,7 +10,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.component';
 import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 import { Router } from '@angular/router'
-
+import { NotifService } from '../../../serv/notif.service'
 export interface customer{
   id: string,
   c1: string,
@@ -73,7 +73,7 @@ export class NewvisitComponent implements OnInit {
   lisComVis:boolean=false
   infoDate:Date=new Date()
   disDate:boolean=false
-  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router) { }
+  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService) { }
 
   ngOnInit(): void {
 
@@ -402,6 +402,17 @@ export class NewvisitComponent implements OnInit {
                   id: info.cuId
                 })
               }
+              let users:string[]=[]
+              firebase.database().ref('Users').once('value',a=>{
+                a.forEach(b=>{
+                  if(b.val().Pos=='SU' || b.val().Pos=='adminS') {
+                    if(b.key) users.push(b.key)
+                  }
+                })
+              })
+              .then(()=>{
+                this.notif.newNotification(users,'New Visit by ' + this.userName + ' to ' + info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit')
+              })
               setTimeout(() => {
               this.router.navigate(['visit',{day:info.date}])
                 
@@ -410,6 +421,7 @@ export class NewvisitComponent implements OnInit {
           })
         }
       })
+    
   }
 
   makeid(length:number) {

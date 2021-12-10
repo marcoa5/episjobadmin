@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HostListener } from '@angular/core'
+import { Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/messaging'
@@ -33,10 +34,11 @@ export class AppComponent {
   nome:string = ''
   cognome:string = ''
   screenSize:boolean=true
-  constructor(private dialog:MatDialog){}
+  userId:string=''
+  constructor(private dialog:MatDialog, public router: Router){}
   
+  not:number=0
   ngOnInit(){
-
     firebase.initializeApp(firebaseConfig)
     this.onResize()
     firebase.auth().onAuthStateChanged(a=>{
@@ -48,6 +50,13 @@ export class AppComponent {
           this.userT=s.val().Pos
           this.nome = s.val().Nome
           this.cognome = s.val().Cognome
+          this.userId= s.key? s.key:''
+          firebase.database().ref('Notif').child(this.userId).on('value',a=>{
+            this.not=0
+            a.forEach(b=>{
+              if(b.val().status==0) this.not++
+            })
+          })
         })
       }
     })
@@ -84,4 +93,10 @@ export class AppComponent {
     if(this.userN && this.userN!='null') return true
     return false 
   }
+
+  navNot(){
+    this.router.navigate(['notif'])
+  }
+
+  
 }

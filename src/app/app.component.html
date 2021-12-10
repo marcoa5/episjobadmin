@@ -4,6 +4,11 @@
     <span class="example-spacer"></span>
     <!--<span class="bold">{{screenSize? 'Admin Tool' : ''}}</span>-->
     <span class="example-spacer"></span>
+    <span class="notif">
+      <button mat-raised-button class="example-icon" (click)="navNot()" color="accent" [matBadge]="not" matBadgeColor="warn" [matBadgeHidden]="not==0">
+        <mat-icon>mail_outline</mat-icon>
+      </button>
+    </span>
     <span class="contUser">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="userExists()">
         <mat-icon>person</mat-icon>

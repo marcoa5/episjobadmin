@@ -18,25 +18,24 @@ firebase.initializeApp({
     var promise=new Promise(function(resolve){
       setTimeout(resolve,500)
     }).then(function(){
-      clients.openWindow('https://episjobadmin.web.app/' + url)
+      clients.openWindow('./' + url)
     })
     event.waitUntil(promise)
   })
 
   if (firebase.messaging.isSupported()){
     messaging.onBackgroundMessage((payload) => {
-      if(payload.data.type=='visit'){
-        let p = JSON.parse(payload.data.info)
-        url = 'visit;day=' + p.date
-        const notificationTitle = 'New visit by ' + p.sam;
+      if(payload.data.type=='general'){
+        url = 'notif'
+        const notificationTitle = 'You have ' + (payload.data.count=='1'? payload.data.count + ' new message' : payload.data.count + ' new messages');
         const notificationOptions = {
-          body: p.c1,
+          body: payload.data.text,
           badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
           icon: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
-          //tag: payload.data.title.substring(0,9)=='New Visit'? 'visit' : 'sj',
+          tag: 'not',
           requireInteraction: true
         };      
-      self.registration.showNotification(notificationTitle, notificationOptions)
+        self.registration.showNotification(notificationTitle, notificationOptions)
       }
 
       if(payload.data.type=='sj'){
