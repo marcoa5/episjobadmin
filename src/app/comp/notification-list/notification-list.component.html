@@ -4,9 +4,12 @@
     <div *ngIf="notif.length>0">
         <div *ngFor="let n of notif" class="notList" [ngClass]="{'unr':n.status==0}">
             <!--<div class="item"><input type="checkbox"></div>-->
-            <div class="item bod" [ngStyle]="{'font-weight': n.status==0? '900' : '100'}" (click)="go(n)">{{n.text}}</div>
-            <div class="item"><button mat-icon-button (click)="read(n)"><mat-icon>{{n.status==0? 'email':'drafts'}}</mat-icon></button></div>
-            <div class="item"><button mat-icon-button (click)="del(n)"><mat-icon>delete</mat-icon></button></div>
+            <div class="text" (click)="go(n)">
+                <div class="t" [ngStyle]="{'font-weight': n.status==0? '600' : '400'}">{{n.title}}</div>
+                <div class="t" [ngStyle]="{'font-weight': n.status==0? '400' : '100'}">{{n.text}}</div>
+            </div>
+            <div class="button"><button mat-icon-button (click)="read(n)"><mat-icon>{{n.status==0? 'email':'drafts'}}</mat-icon></button></div>
+            <div class="button"><button mat-icon-button (click)="del(n)"><mat-icon>delete</mat-icon></button></div>
     
         </div>
     </div>

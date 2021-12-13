@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
-
+import firebase from 'firebase'
 @Component({
   selector: 'episjob-navbar',
   templateUrl: './navbar.component.html',
@@ -57,11 +57,16 @@ export class NavbarComponent implements OnInit {
   }
 
   largh(e:any){
-    if(window.innerWidth>500) {
+    if(window.innerWidth>350) {
       this.lar = true
     } else {
       this.lar=false
-    }      
+    } 
+  }
+
+  chLar(){
+    if(window.innerWidth>550) return true
+    return false
   }
 
   homeNav(){

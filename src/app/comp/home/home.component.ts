@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
       auth:['SU','adminS','sales','']
     },*/
     {
-      id:'Parts Request',
+      id:'Parts',
       icon:'construction', 
       route:'parts', 
       //dis:true, 

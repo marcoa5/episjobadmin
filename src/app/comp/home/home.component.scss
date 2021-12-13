@@ -10,13 +10,24 @@
     padding: 10px 10px 20px 10px;
 }
 
+@media screen and (max-width: 335px) {
+    #start{
+        grid-template-columns:  repeat(auto-fill, minmax(120px,1fr));
+    }    
+    .label{
+        font-size: 100%;
+    }
+}
+
 .label{
     margin: 40px 0 0 0; 
     font-size: 150%;
 }
 
+
+
 .butIcon{
-    transform: translateY(30px) scale(2.5);
+    transform: translateY(30px) scale(2);
 }
 
 .butC{

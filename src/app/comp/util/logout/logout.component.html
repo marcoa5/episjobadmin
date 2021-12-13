@@ -1,16 +1,19 @@
-<div *ngIf="pos=='SU' || pos=='admin' || pos=='adminS'">
-    <div mat-dialog-title>Notifications</div>
-    <div class="ch">
-        <div>
-            <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, 'sj')">SJ Notifications</mat-checkbox>
-        </div>
-        <div>
-            <mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, 'visit')">Visit Notifications</mat-checkbox>
+<div  *ngIf="pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales'">
+    <div>
+        <div mat-dialog-title>Notifications</div>
+        <div class="ch">
+            <div>
+                <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, 'sj')">SJ Notifications</mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, 'visit')">Visit Notifications</mat-checkbox>
+            </div>
         </div>
     </div>
+    <div class="spacer"></div>
+    <mat-divider></mat-divider>
 </div>
-<div class="spacer"></div>
-<mat-divider></mat-divider>
+
 <div mat-dialog-title>Logout</div>
 <div mat-dialog-content>{{data.name}}, click here to logout 
     <button mat-icon-button (click)="logout()" color="accent">

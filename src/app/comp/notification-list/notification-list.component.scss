@@ -12,21 +12,33 @@
     border-radius: 5px 0;
     margin-bottom: 5px;
     border-bottom: 1px solid $dark-text;
+    color: $dark-text;
+    cursor: pointer;
 }
 
-.item{
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 5px;
+.t{
+    align-self: center;
+    justify-self: flex-start;
+}
+
+.text{
     overflow: hidden;
     white-space: nowrap;
-    color: $dark-text;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
 }
 
-.bod{
-    justify-content: flex-start;
+@media screen and (max-width:750px) {
+    .text{
+        flex-direction: column;
+        gap:0px;
+    }
+    .t{
+        justify-self: center;
+        align-self: flex-start;
+    }
 }
 
 .unr{
