@@ -8,6 +8,7 @@ import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
 import { DeldialogComponent } from '../../util/deldialog/deldialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { VisitdetailsComponent } from '../../util/dialog/visitdetails/visitdetails.component';
+import { MatChip } from '@angular/material/chips';
 
 @Component({
   selector: 'episjob-visitlist',
@@ -62,4 +63,5 @@ export class VisitlistComponent implements OnInit {
       }
     })
   }
+
 }

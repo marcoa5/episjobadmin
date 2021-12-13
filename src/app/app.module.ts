@@ -102,6 +102,7 @@ import { PartsComponent } from './comp/parts/parts.component';
 import { NewpartsrequestComponent } from './comp/parts/newpartsrequest/newpartsrequest.component';
 import { RequestlistComponent } from './comp/parts/requestlist/requestlist.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component'
+import { MatChipsModule } from '@angular/material/chips'
 
 export const MY_FORMATS = {
   parse: {
@@ -194,7 +195,7 @@ const appearance: MatFormFieldDefaultOptions = {
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule,
+    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
