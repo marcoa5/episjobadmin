@@ -1,6 +1,6 @@
-<div mat-dialog-title>Commissioning Date</div>
+<div mat-dialog-title>{{data.cust!='Notes'? 'Commissioning Date' : 'Notes'}}</div>
 <div mat-dialog-content>{{contr()}}</div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button (click)="onNoClick()" cdkFocusInitial>No</button>
-    <button mat-raised-button [mat-dialog-close]="data.name? data.name : data.sn">Yes</button>
+    <button mat-raised-button [mat-dialog-close]="data.name? data.name : (data.cust=='Notes'? 'upd' : data.sn)">Yes</button>
 </div>

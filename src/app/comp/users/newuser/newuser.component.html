@@ -27,6 +27,7 @@
                <mat-option value="customer">Customer</mat-option>
              </mat-select>
            </mat-form-field> 
+           <mat-checkbox formControlName="cV" (change)="chSel($event)">Can visit customers</mat-checkbox>
         </form>
         <episjob-add-cancelbuttons 
         [a1]="'Cancel'" 

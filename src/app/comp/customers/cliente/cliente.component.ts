@@ -62,18 +62,21 @@ export class ClienteComponent implements OnInit {
         }
       }).then(()=>{
         let ref=firebase.database().ref('CustVisit')
-        ref.once('value',a=>{
+        ref.on('value',a=>{
+        this.listV=[]
           a.forEach(b=>{
             b.forEach(c=>{
               c.forEach(d=>{
                 if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == b.val().substring(0,28)))){
-                  this.listV.push(d.val())
+                  let gty = d.val()
+                  gty['url']= b.key+'/'+c.key + '/' + d.key
+                  this.listV.push(gty)
+                  this.listV.reverse()
                 }
               })
             })
           })
         })
-        .then(()=>this.listV.reverse())
         this.rigsLabels=[]
         firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).once('value',k=>{
           if(k.val()!=null){

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { DeldialogComponent } from '../../deldialog/deldialog.component'
 import firebase from 'firebase/app'
+import { UpddialogComponent } from '../../upddialog/upddialog.component';
 
 @Component({
   selector: 'episjob-visitdetails',
@@ -10,26 +11,55 @@ import firebase from 'firebase/app'
 })
 export class VisitdetailsComponent implements OnInit {
   val:any[]=[]
-  notes:any={}
+  notes:any=''
   url:string = ''
+  newNotes:string=''
+  attList:string[]=[]
   constructor(public dialogRef: MatDialogRef<VisitdetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public dialog:MatDialog) { 
     
   }
 
   ngOnInit(): void {
-    
+    this.attList = this.data.epiAtt.map((a:any)=>{
+      return a.name
+    })
+    this.attList.push(this.data.sam)
+    this.data.cusAtt.forEach((a:any)=>{
+      this.attList.push(a)
+    })
     this.val=[
       {lab: 'Customer Name', value: this.data.c1, click:''},
-      {lab: 'Contact', value: this.data.name, click:''},
       {lab: 'Place', value: this.data.place, click:''},
-      //{lab: 'Notes', value: this.data.notes, click:''},
+      {lab: 'Date', value: this.data.date, click:''}
     ]
-    this.notes={lab: 'Notes', value: this.data.notes}
-    this.url = this.data.url
+    this.notes= this.data.notes
+    this.newNotes=this.notes
+    //this.url = this.data.url
+  }
+
+  test(e:any){
+    this.newNotes=e.target.value
   }
 
   onNoClick(){
-    this.dialogRef.close();
+    if(this.notes!=this.newNotes){
+      const dialogconf = new MatDialogConfig();
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(UpddialogComponent, {
+        data: {cust: 'Notes', desc: 'Visit'}
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result=='upd'){
+          firebase.database().ref('CustVisit').child(this.data.url).child('notes').set(this.newNotes)
+          .then(()=>this.dialogRef.close())
+        } else{
+          this.dialogRef.close()
+        }
+      })
+    } else {
+      this.dialogRef.close()
+    }
   }
   
   del(){

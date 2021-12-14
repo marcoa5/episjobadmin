@@ -1,11 +1,20 @@
 @import '../../../../epi.scss';
 
 
-.txtcont{
+.txtcontFill, .txtcontFit{
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     grid-template-rows: auto;
+
+}
+
+.txtcontFill{
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+
+}
+
+.txtcontFit{
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .divtxt{

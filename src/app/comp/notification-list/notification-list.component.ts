@@ -40,7 +40,7 @@ export class NotificationListComponent implements OnInit {
   }
 
   go(a:any){
-    if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
-    this.router.navigate([a.url])
+    /*if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
+    this.router.navigate([a.url])*/
   }
 }

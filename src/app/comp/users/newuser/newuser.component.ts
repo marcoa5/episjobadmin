@@ -16,6 +16,7 @@ export interface utente {
   cognome?: string|''
   mail?: string|''
   posiz?: string|''
+  cV?: boolean
 }
 
 @Component({
@@ -32,12 +33,14 @@ export class NewuserComponent implements OnInit {
   userF:FormGroup
   appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
+  userVisit:boolean = false
   constructor(private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
       cognome: ['', [Validators.required]],
       mail: ['', [Validators.required, Validators.email]],
       posiz: ['', [Validators.required]],
+      cV: [false]
     })
    }
 
@@ -54,13 +57,17 @@ export class NewuserComponent implements OnInit {
         this.addUpd=false
         this.id=a.id
         this.mail=a.mail
+        
         firebase.database().ref('Users/' + this.id).on('value',b=>{
+          let oi=b.val().userVisit!=undefined? b.val().userVisit : false
           this.data={
             mail:this.mail,
             nome: b.val().Nome, 
             cognome: b.val().Cognome,
-            posiz: b.val().Pos
+            posiz: b.val().Pos,
+            cV: oi
           }
+          this.userVisit = oi
           this.userpos = b.val().Pos
           this.userF.setValue(this.data)
           this.userF.get('mail')?.disable()
@@ -79,6 +86,7 @@ export class NewuserComponent implements OnInit {
     .set('Pos',this.userpos?this.userpos:'tech')
     .set('km', '0.06')
     .set('id', this.id)
+    .set('userVisit', this.userVisit + '')
     if(a=='addu') {
         this.http.get(url + 'createuser',{params:params}).subscribe(()=>{console.log('added')})
     } else if(a=='updu'){
@@ -113,5 +121,9 @@ export class NewuserComponent implements OnInit {
 
   ch(){
     console.log(this.userF)
+  }
+
+  chSel(e:any){
+    this.userVisit=!this.userVisit
   }
 }

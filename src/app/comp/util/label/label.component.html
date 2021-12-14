@@ -1,4 +1,4 @@
-<div class="txtcont" *ngIf="values.length>0">
+<div [ngClass]="{'txtcontFill':fillfit=='fill','txtcontFit':fillfit=='fit'}"  *ngIf="values.length>0">
     <div *ngFor="let h of valuesN | labFilter" class="divtxt">
         <div (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
             <div class="txtlabel">{{h.lab}}</div>

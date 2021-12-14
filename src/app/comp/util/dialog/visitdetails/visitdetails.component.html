@@ -1,10 +1,20 @@
 <div mat-dialog-title>Visit Details</div>
 <div mat-dialog-content class="cont">
-    <episjob-label [values]="val"></episjob-label>
-    <div class="divtxt">
-        <div class="txtlabel">{{notes.lab}}</div>
-        <div class="txt">{{notes.value}}</div>
+    <episjob-label [values]="val" fillfit="fit"></episjob-label>
+    <h4>Partecipants</h4>
+
+    <div class="list">
+        <mat-chip-list [selectable]="false">
+            <mat-chip *ngFor="let a of attList" [value]="a">
+                {{a}}
+            </mat-chip>
+        </mat-chip-list>
     </div>
+    <h4>Notes</h4>
+    
+    <mat-form-field appearance="fill" class="textA">
+        <textarea matInput placeholder="Notes" [value]="notes" (input)="test($event)" rows="5"></textarea>
+    </mat-form-field> 
     <div class="del">
         Delete Visit 
         <button mat-icon-button (click)="del()"><mat-icon>delete</mat-icon></button>

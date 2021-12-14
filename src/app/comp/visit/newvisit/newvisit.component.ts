@@ -11,6 +11,8 @@ import { SavevisitComponent } from '../../util/dialog/savevisit/savevisit.compon
 import { _fixedSizeVirtualScrollStrategyFactory } from '@angular/cdk/scrolling';
 import { Router } from '@angular/router'
 import { NotifService } from '../../../serv/notif.service'
+import { MatChip } from '@angular/material/chips';
+import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
 export interface customer{
   id: string,
   c1: string,
@@ -31,14 +33,15 @@ export interface info{
   c1: string
   c2:string
   c3: string
-  name: string
+  /*name: string
   pos:string
   phone:string
-  mail: string
+  mail: string*/
   notes: string
   place: string
   sam: string
-  share: string[]
+  epiAtt: any[]
+  cusAtt: string[]
 }
 
 @Component({
@@ -73,6 +76,10 @@ export class NewvisitComponent implements OnInit {
   lisComVis:boolean=false
   infoDate:Date=new Date()
   disDate:boolean=false
+  epiAtt:any[]=[]
+  epiList:any[]=[]
+  custList:string[]=[]
+  custAtt:string[]=[]
   constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService) { }
 
   ngOnInit(): void {
@@ -86,7 +93,13 @@ export class NewvisitComponent implements OnInit {
         })
       }
     })
-
+    firebase.database().ref('Users').once('value',h=>{
+      h.forEach(d=>{
+        let r = d.val().userVisit
+        if((r=='true' || r==true) && d.key!=this.userId) this.epiAtt.push({name: `${d.val().Nome} ${d.val().Cognome}`, id: d.key})
+      })
+    })
+    
     firebase.database().ref('Comuni').once('value', a=>{
       if(a.val()!=null) this._comuni = Object.keys(a.val())
     }).then(()=>this.comuni=this._comuni)
@@ -107,7 +120,6 @@ export class NewvisitComponent implements OnInit {
     .then(()=>{
       this.customers1=this.customers
       this.custChange()
-      this.contChange()
       this.placeChange()
     })
 
@@ -115,10 +127,10 @@ export class NewvisitComponent implements OnInit {
       date: [this.infoDate, Validators.required]
     });
     this.contactFormGroup=this._formBuilder.group({
-      name: ['',Validators.required],
+      /*name: ['',Validators.required],
       pos: ['',Validators.required],
       phone: ['',Validators.required],
-      mail: ['',[Validators.required, Validators.email]],
+      mail: ['',[Validators.required, Validators.email]],*/
     })
     this.custFormGroup = this._formBuilder.group({
       c1: ['', Validators.required],
@@ -135,13 +147,9 @@ export class NewvisitComponent implements OnInit {
       todo3: [''],
       todo3Date: [''],
     })
-    /*this.custPotential=this._formBuilder.group({
-      RDD: [0,[Validators.required, Validators.required]]
-    })*/
     this.route.params.subscribe(a=>{
       if(a && a.date) {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
-        //this.dateFormGroup.controls.date.disable()
       }
     })
   }
@@ -173,67 +181,12 @@ export class NewvisitComponent implements OnInit {
     }
   }
 
-  cuId(id:string){
-    this.contacts=[]
-    if(id!=''){
-      firebase.database().ref('Contacts').child(id).once('value',a=>{
-        if(a.val()!=null){
-          this.contacts=Object.values(a.val())
-          this.contacts.sort((a, b)=> {
-          if (a.name < b.name) {
-              return -1;
-            }
-            if (a.name > b.name) {
-              return 1;
-            }
-              return 0
-          })
-        }
-      })
-      .then(()=>this.contacts1=this.contacts)
-    }
-  }
+
 
   custChange(){
     this.custFormGroup.controls.c1.valueChanges.subscribe(v=>{
-      this.contacts=[]
-      this.contacts1=[]
       this.filterCust(v)
     })
-  }
-
-  contChange(){
-    this.contactFormGroup.controls.name.valueChanges.subscribe(v=>{
-      this.filterCont(v)
-    })
-  }
-
-  checkCont(v:any) {
-    let p = this.contacts.filter(a=>{
-      if(a.name.toLowerCase()==v.target.value.toLowerCase()) return true
-      return false
-    })
-      if(p.length==1){
-        this.listVisCont=false
-        this.conCon(p[0].name,p[0].pos,p[0].phone,p[0].mail)
-      } else {
-        this.listVisCont=true
-        let v = this.contactFormGroup.controls
-        v.mail.setValue('')
-        v.phone.setValue('')
-        v.pos.setValue('')
-      }
-  }
-
-  filterCont(v:string){
-    if(v!=''){
-      this.contacts1 = this.contacts?.filter(i=>{
-        if(i.name.toLowerCase().includes(v.toLowerCase()) || i.pos.toLowerCase().includes(v.toLowerCase())) return true
-        return false
-      })
-    } else {
-      this.contacts1 = this.contacts
-    }
   }
 
   filterCust(v:string){
@@ -252,7 +205,7 @@ export class NewvisitComponent implements OnInit {
     g.c1.setValue(c1)
     g.c2.setValue(c2)
     g.c3.setValue(c3)
-    this.cuId(id)
+    //this.cuId(id)
     g.c2.disable()
     g.c3.disable()
     this.listVis=false
@@ -305,16 +258,6 @@ export class NewvisitComponent implements OnInit {
     return false
   }
 
-  conCon(name:String, pos:string,phone:string,mail:string){
-    let r = this.contactFormGroup.controls
-    r.name.setValue(name)
-    r.pos.setValue(pos)
-    r.phone.setValue(phone)
-    r.mail.setValue(mail)
-    if(name!='') this.listVisCont=false
-    if(name=='') this.contacts=[]
-  }
-
   conNotes(a:string,b:string){
     this.visitNotes.controls.notes.setValue(a)
     this.visitNotes.controls.place.setValue(b)
@@ -333,13 +276,11 @@ export class NewvisitComponent implements OnInit {
     if(r==0) {
       this.custFormGroup.controls.c1.setValue('')
       this.conCus('','')
-      this.conCon('','','','')
       this.conNotes('','')
       this.listVis=true
       this.listVisCont=true
     }
     if(r==1) {
-      this.conCon('','','','')
       this.conNotes('','')
       this.listVisCont=true
     }
@@ -349,7 +290,7 @@ export class NewvisitComponent implements OnInit {
   }
 
   go(){
-    return !this.custFormGroup.invalid && !this.contactFormGroup.invalid && !this.dateFormGroup.invalid && !this.visitNotes.invalid
+    return !this.custFormGroup.invalid && !this.dateFormGroup.invalid && !this.visitNotes.invalid
     
   }
 
@@ -360,14 +301,11 @@ export class NewvisitComponent implements OnInit {
       c1: this.custFormGroup.controls.c1.value.toUpperCase(),
       c2: this.custFormGroup.controls.c2.value.toUpperCase(),
       c3: this.custFormGroup.controls.c3.value.toUpperCase(),
-      name: this.contactFormGroup.controls.name.value,
-      pos: this.contactFormGroup.controls.pos.value,
-      phone: this.contactFormGroup.controls.phone.value,
-      mail: this.contactFormGroup.controls.mail.value,
       notes: this.visitNotes.controls.notes.value,
       place: this.visitNotes.controls.place.value,
       sam: this.userName,
-      share: [this.userId],
+      epiAtt: this.epiList,
+      cusAtt: this.custList 
     }
 
     let todo={
@@ -385,40 +323,31 @@ export class NewvisitComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result=='ok'){
           firebase.database().ref('CustVisit').child(moment(this.dateFormGroup.controls.date.value).format("YYYYMMDD")).child(this.userId+'-'+this.userName).child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).set(info)
-          /*child(info.cuId + '-' + info.c1.replace(/[.,&/]/g,'')).child(this.userId+'-'+this.userName).child(info.date)*/
           .then(()=>{
-            firebase.database().ref('Contacts').child(info.cuId).child(info.name).set({
-              pos: info.pos,
-              mail: info.mail,
-              phone:info.phone,
-              name: info.name
+            if(info.cuId.substring(0,8)=='00000POT'){
+              firebase.database().ref('CustomerC').child(info.cuId).set({
+                c1: info.c1.toUpperCase(),
+                c2: info.c2.toUpperCase(),
+                c3:info.c3.toUpperCase(),
+                id: info.cuId
+              })
+            }
+            let users:string[]=[]
+            firebase.database().ref('Users').once('value',a=>{
+              a.forEach(b=>{
+                if((b.val().Pos=='SU' || b.val().Pos=='adminS' || info.epiAtt.map(r=>{return r.id}).includes(b.key)) && b.val().visit=='1') {
+                  if(b.key) users.push(b.key)
+                }
+              })
             })
             .then(()=>{
-              if(info.cuId.substring(0,8)=='00000POT'){
-                firebase.database().ref('CustomerC').child(info.cuId).set({
-                  c1: info.c1.toUpperCase(),
-                  c2: info.c2.toUpperCase(),
-                  c3:info.c3.toUpperCase(),
-                  id: info.cuId
-                })
-              }
-              let users:string[]=[]
-              firebase.database().ref('Users').once('value',a=>{
-                a.forEach(b=>{
-                  if(b.val().Pos=='SU' || b.val().Pos=='adminS') {
-                    if(b.key) users.push(b.key)
-                  }
-                })
-              })
-              .then(()=>{
-                if(users.includes(this.userId)) users.splice(users.indexOf(this.userId),1)
-                this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit', './visit;day=' + info.date)
-              })
-              setTimeout(() => {
-              this.router.navigate(['visit',{day:info.date}])
-                
-              }, 250);
+              if(users.includes(this.userId)) users.splice(users.indexOf(this.userId),1)
+              this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit', './visit;day=' + info.date)
             })
+            setTimeout(() => {
+            this.router.navigate(['visit',{day:info.date}])
+              
+            }, 250);
           })
         }
       })
@@ -483,4 +412,49 @@ export class NewvisitComponent implements OnInit {
       this.visitNotes.controls['todo' + n + 'Date'].invalid
     }
   }
+
+  select(a:MatChip, b:string, c?:string){
+    if(c){
+      a.toggleSelected()
+      let val = {id:b, name:c}
+      if(a.selected) {
+        this.epiList.push(val)
+      } else {
+        let i = this.epiList.map(a=>{return a.id}).indexOf(b)
+        this.epiList.splice(i,1)
+      }
+    } else {
+      a.toggleSelected()
+      if(a.selected) {
+        this.custList.push(b)
+      } else {
+        this.custList.splice(this.custList.indexOf(b),1)
+      }
+    }
+  }
+
+  cuId(a:string){
+    this.custAtt=[]
+    firebase.database().ref('Contacts').child(a).on('value',a=>{
+      a.forEach(b=>{
+        this.custAtt.push(b.val().name)
+      })
+    })
+  }
+
+  addCon(){
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    const dialogRef = this.dialog.open(NewcontactComponent, {
+      data: {id: this.cId[0].id, type: 'new'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        //this.newCont.emit(result)
+      }
+    })
+  }
+
 }

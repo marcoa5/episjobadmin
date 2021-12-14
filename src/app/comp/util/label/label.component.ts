@@ -12,6 +12,7 @@ export class LabelComponent implements OnInit {
 
   constructor(private router:Router,public dialog: MatDialog) { }
   @Input() values:any[]=[]
+  @Input() fillfit:string='fill'
   @Output() newCont=new EventEmitter()
   valuesN:any[]=[]
   ngOnInit(): void {

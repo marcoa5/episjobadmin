@@ -4,27 +4,6 @@
   <episjob-h2 icon="event_available" data="New Customer Visit"></episjob-h2>
 
 <mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)">
-    
- <!-- <mat-step [stepControl]="custPotential">
-    <ng-template matStepLabel>Potential</ng-template>
-    <form [formGroup]="custPotential">
-      <div class="potCont">
-        <mat-form-field [appearance]="appearance" class="notesItem1">
-          <mat-label>RDD</mat-label>
-          <input matInput type="number" step="10" autocomplete="off" placeholder="Potential" formControlName="RDD" (input)="currency($event)">
-          <mat-error>Choose a place from the list</mat-error>
-        </mat-form-field>
-        
-      </div>
-    </form>
-    <div class="butt">
-      <button mat-raised-button matStepperPrevious color="primary">Back</button>
-      <button mat-raised-button matStepperNext color="primary" >Submit</button>
-    </div>
-
-  </mat-step>-->
-  
-  <!--DATE-->
   <mat-step [stepControl]="dateFormGroup">
       <ng-template matStepLabel>Select Date</ng-template>
       <form [formGroup]="dateFormGroup">
@@ -80,40 +59,28 @@
   <mat-step [stepControl]="contactFormGroup">
     <ng-template matStepLabel>Contact</ng-template>
     <form [formGroup]="contactFormGroup">
-    <div class="cont contCont">
-      <mat-form-field [appearance]="appearance" class="contItem1">
-        <mat-label>Name</mat-label>
-        <input matInput type="text" autocomplete="off" placeholder="Name" formControlName="name" (keyup)="checkCont($event)"  autocomplete="off">
-        <mat-error>Type Contact Name</mat-error>
-      </mat-form-field>
-      <mat-list class="list contItem5" *ngIf="listVisCont && contacts1.length>0">
-        <!--<div mat-subheader>Existing Contacts for {{cuNa}}</div>-->
-        <mat-list-item *ngFor="let c of contacts1" (click)="conCon(c.name, c.pos, c.phone, c.mail)" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}">
-          <mat-icon mat-list-icon>person</mat-icon>
-          <div mat-line>{{c.name}}</div>
-          <div mat-line> {{c.pos}} | {{c.phone}} | {{c.mail}} </div>
-        </mat-list-item>
-      </mat-list>
-      <mat-form-field [appearance]="appearance" class="contItem2">
-        <mat-label>Position</mat-label>
-        <input matInput type="text" autocomplete="off" placeholder="Position within the company" formControlName="pos">
-        <mat-error>Type Contact Position</mat-error>
-      </mat-form-field>
-      <mat-form-field [appearance]="appearance" class="contItem3">
-        <mat-label>Phone</mat-label>
-        <input matInput type="text" autocomplete="off" placeholder="Phone nr." formControlName="phone">
-        <mat-error>Type Contact Phone Nr</mat-error>
-      </mat-form-field>
-      <mat-form-field [appearance]="appearance" class="contItem4">
-        <mat-label>Mail</mat-label>
-        <input matInput type="email" autocomplete="off" placeholder="Email address" formControlName="mail">
-        <mat-error>Type a valid Mail address</mat-error>
-      </mat-form-field>
-    </div>
+      <h4>Epiroc Attendees</h4>
+      <div class="epiCon">
+        <mat-chip-list selectable multiple>
+          <mat-chip #c="matChip" *ngFor="let e of epiAtt" [value]="e.val" (click)="select(c, e.id, e.name)">
+              {{e.name}}
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <mat-divider></mat-divider>
+      <h4>Customer Attendees</h4>
+      <div class="epiCon">
+        <mat-chip-list selectable multiple>
+          <mat-chip #c="matChip" *ngFor="let e of custAtt" [value]="e" (click)="select(c, e)">
+              {{e}}
+          </mat-chip>
+          <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
+        </mat-chip-list>
+      </div>
   </form>
   <div class="butt">
     <button mat-raised-button matStepperPrevious color="primary">Back</button>
-    <button mat-raised-button matStepperNext color="primary" *ngIf="!contactFormGroup.invalid">Next</button>
+    <button mat-raised-button matStepperNext color="primary" [disabled]="custList.length==0">Next</button>
   </div>
   </mat-step>
   <mat-step [stepControl]="visitNotes">
