@@ -16,6 +16,13 @@ export class HomeComponent implements OnInit {
   spin:boolean=true
   buttons:any = [
     {
+      id:'Equipment',
+      icon:'precision_manufacturing', 
+      route:'rigs', 
+      dis:false, 
+      auth:['SU','admin','adminS','tech','sales','customer']
+    },
+    {
       id:'Companies',
       icon:'work', 
       route:'customers', 
@@ -23,11 +30,11 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
-      id:'Equipment',
-      icon:'precision_manufacturing', 
-      route:'rigs', 
+      id:'Contacts',
+      icon:'people', 
+      route:'contacts', 
       dis:false, 
-      auth:['SU','admin','adminS','tech','sales','customer']
+      auth:['SU','admin','adminS','sales']
     },
     {
       id:'Technicians',

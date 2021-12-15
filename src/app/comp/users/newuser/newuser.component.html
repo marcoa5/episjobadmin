@@ -27,6 +27,10 @@
                <mat-option value="customer">Customer</mat-option>
              </mat-select>
            </mat-form-field> 
+           <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='sales'">
+            <mat-label>Area</mat-label>
+            <input matInput type="number" formControlName="area" autocomplete="off" min="1" max="50">
+           </mat-form-field>
            <mat-checkbox formControlName="cV" (change)="chSel($event)">Can visit customers</mat-checkbox>
         </form>
         <episjob-add-cancelbuttons 

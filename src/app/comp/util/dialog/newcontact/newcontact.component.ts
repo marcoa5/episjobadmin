@@ -6,6 +6,10 @@ import firebase from 'firebase/app'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../../deldialog/deldialog.component';
 
+export interface co{
+  id: string
+  custName: string
+}
 
 @Component({
   selector: 'episjob-newcontact',
@@ -17,8 +21,9 @@ export class NewcontactComponent implements OnInit {
   newCont!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   oldName:string=''
+  comp:any[]=[]
   constructor(public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
-    this.id=data.id
+    this.id=data.id? data.id: data.info.id
     this.newCont=fb.group({
       name: ['',Validators.required],
       pos: ['',Validators.required],
@@ -28,7 +33,19 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    firebase.database().ref('CustomerC').once('value',a=> {
+      a.forEach(b=>{
+        if(b.key){
+          let com: co={
+            id: b.key,
+            custName: b.val().c1
+          }
+          this.comp.push(com)
+        }
+      })
+    })
+    .then(()=>console.log(this.comp))
+
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name
       this.newCont.controls.name.setValue(this.data.info.name)

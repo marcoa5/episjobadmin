@@ -1,4 +1,4 @@
-<div mat-dialog-title>Visit Details</div>
+<div mat-dialog-title>Visit Details on {{day}}</div>
 <div mat-dialog-content class="cont">
     <episjob-label [values]="val" fillfit="fit"></episjob-label>
     <h4>Partecipants</h4>
@@ -13,13 +13,12 @@
     <h4>Notes</h4>
     
     <mat-form-field appearance="fill" class="textA">
-        <textarea matInput placeholder="Notes" [value]="notes" (input)="test($event)" rows="5"></textarea>
+        <textarea matInput placeholder="Notes" [value]="notes" (input)="test($event)" rows="10"></textarea>
     </mat-form-field> 
-    <div class="del">
-        Delete Visit 
-        <button mat-icon-button (click)="del()"><mat-icon>delete</mat-icon></button>
-    </div>
+    
 </div>
+
 <div mat-dialog-actions align="end">
+    <button mat-raised-button (click)="del()" color="primary"><mat-icon>delete</mat-icon>Delete Visit</button>
     <button mat-raised-button color="primary" cdkFocusInitial (click)="onNoClick()">ok</button>
 </div>

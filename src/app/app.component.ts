@@ -35,6 +35,8 @@ export class AppComponent {
   cognome:string = ''
   screenSize:boolean=true
   userId:string=''
+  SJ:any
+  Visit:any
   constructor(private dialog:MatDialog, public router: Router){}
   
   not:number=0
@@ -51,6 +53,8 @@ export class AppComponent {
           this.nome = s.val().Nome
           this.cognome = s.val().Cognome
           this.userId= s.key? s.key:''
+          this.SJ = s.val().sj
+          this.Visit=s.val().visit
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{
@@ -81,11 +85,17 @@ export class AppComponent {
   }
 
   logout(){
+    let info = {
+      id: this.userId,
+      pos: this.userT,
+      SJ: this.SJ,
+      Visit: this.Visit
+    }
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
     const dialogRef = this.dialog.open(LogoutComponent, {
-      data: {name: this.nome}
+      data: info
     });
   }
 

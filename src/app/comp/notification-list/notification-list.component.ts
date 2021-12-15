@@ -17,7 +17,7 @@ export class NotificationListComponent implements OnInit {
       if(a) {
         firebase.database().ref('Notif').child(a.uid).on('value',b=>{
           if(b.val()!=null) {
-            this.notif=Object.values(b.val())
+            this.notif=Object.values(b.val()).reverse()
           } else {
             this.notif=[]
           }
@@ -40,7 +40,7 @@ export class NotificationListComponent implements OnInit {
   }
 
   go(a:any){
-    /*if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
-    this.router.navigate([a.url])*/
+    if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
+    //this.router.navigate([a.url])
   }
 }

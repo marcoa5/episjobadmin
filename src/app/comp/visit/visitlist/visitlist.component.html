@@ -4,7 +4,10 @@
     <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
     <div>Add new visit</div>
   </div>
-  <div class="listCont">
+  <div class="listCont" *ngIf="listV.length==0">
+    No visits
+  </div>
+  <div class="listCont" *ngIf="listV.length>0">
       <div class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
         <div>
             <div class="txtlabel">{{v.sam}}</div>

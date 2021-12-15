@@ -15,17 +15,10 @@ export class LogoutComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a!=null) {
-        firebase.database().ref('Users').child(a.uid).once('value',b=>{
-          this.id= a.uid
-          this.pos=b.val().Pos
-          this.SJ=b.val().sj
-          this.Visit=b.val().visit
-        })
-      }
-    })
-    
+    this.id= this.data.id
+    this.pos=this.data.pos
+    this.SJ=this.data.SJ
+    this.Visit=this.data.Visit
   }
 
   mod(e:any, b:string){

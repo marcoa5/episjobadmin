@@ -1,0 +1,16 @@
+<episjob-navbar title="Contact List" (filter)="filter($event)"></episjob-navbar>
+<div class="cont">
+    <div *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" (click)=go(c)>
+        <mat-icon class="ico">people</mat-icon>
+        <div class="title text">{{c.name}}</div>
+        <mat-icon class="ico">factory</mat-icon>
+        <div class="text">{{c.company}}</div>
+        <mat-icon class="ico">business</mat-icon>
+        <div class="text">{{c.pos}}</div>
+        <mat-icon class="ico">phone</mat-icon>
+        <div class="text">{{c.phone}}</div>
+        <mat-icon class="ico">mail</mat-icon>
+        <div class="text">{{c.mail}}</div>
+        
+    </div>
+</div>

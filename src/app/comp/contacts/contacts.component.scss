@@ -1,0 +1,32 @@
+@import '../../../epi.scss';
+
+.cont{
+    margin: 80px 10px 30px 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.card{
+    cursor: pointer;
+    color: $dark-text;
+    border-radius: 10px;
+    background-color: rgb(245,245,245);
+    display: grid;
+    padding: 2px;
+    grid-template-columns: 25px 1fr;
+    padding: 5px 10px;
+    gap: 3px 5px;
+    align-items: center;
+}
+
+.title{
+    background-color: $dark-text;
+    color: $light-text;
+    font-weight: 700;
+    border-radius: 10px;
+}
+.text{
+    padding: 2px 5px;
+}
+

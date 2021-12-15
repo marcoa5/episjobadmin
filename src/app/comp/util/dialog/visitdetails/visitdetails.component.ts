@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from '@angu
 import { DeldialogComponent } from '../../deldialog/deldialog.component'
 import firebase from 'firebase/app'
 import { UpddialogComponent } from '../../upddialog/upddialog.component';
+import * as moment from 'moment'
+
 
 @Component({
   selector: 'episjob-visitdetails',
@@ -15,12 +17,13 @@ export class VisitdetailsComponent implements OnInit {
   url:string = ''
   newNotes:string=''
   attList:string[]=[]
+  day:string=''
   constructor(public dialogRef: MatDialogRef<VisitdetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public dialog:MatDialog) { 
     
   }
 
   ngOnInit(): void {
-    this.attList = this.data.epiAtt.map((a:any)=>{
+    if(this.data.epiAtt) this.attList = this.data.epiAtt.map((a:any)=>{
       return a.name
     })
     this.attList.push(this.data.sam)
@@ -30,11 +33,12 @@ export class VisitdetailsComponent implements OnInit {
     this.val=[
       {lab: 'Customer Name', value: this.data.c1, click:''},
       {lab: 'Place', value: this.data.place, click:''},
-      {lab: 'Date', value: this.data.date, click:''}
+      //{lab: 'Date', value: this.data.date, click:''}
     ]
     this.notes= this.data.notes
     this.newNotes=this.notes
-    //this.url = this.data.url
+    this.url = this.data.url
+    this.day=moment(this.data.date).format('DD/MM/YYYY')
   }
 
   test(e:any){
@@ -72,7 +76,7 @@ export class VisitdetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
-        firebase.database().ref('CustVisit').child(result).remove()
+        firebase.database().ref('CustVisit').child(this.url).remove()
         .then(()=>this.dialogRef.close('delete'))
         .catch(err=>this.dialogRef.close())
       }

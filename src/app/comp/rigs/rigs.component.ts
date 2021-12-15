@@ -37,7 +37,7 @@ export class RigsComponent implements OnInit {
       .then(()=>{
         firebase.database().ref('MOL').once('value', snap=>{
           this.rigs=Object.values(snap.val())
-          if(this.pos=='sales' || this.pos=='customer'){
+          if(this.pos=='customer'){
             firebase.database().ref('RigAuth/').once('value',b=>{
               this.auth = b.val()
             })
@@ -45,6 +45,19 @@ export class RigsComponent implements OnInit {
               this.rigs1 = this.rigs.filter((r:any)=> {
                 if(this.auth[r.sn]) return this.auth[r.sn]['a'+this.iniz]==1
                 return false
+              })
+            })
+            .catch((err: any)=>{
+              console.log(err,)
+            })
+          } else if(this.pos=='sales'){
+            firebase.database().ref('RigAuth/').once('value',b=>{
+              this.auth = b.val()
+            })
+            .then((a)=>{
+              this.rigs1 = this.rigs.map((r:any)=> {
+                r['show']=this.auth[r.sn]['a' + this.iniz]
+                return r
               })
             })
             .catch((err: any)=>{
@@ -91,8 +104,12 @@ export class RigsComponent implements OnInit {
     this.bak.backP()
   }
 
-  open(a: String, b:String, c:String){
-    this.router.navigate(['machine',{sn:b}])
+  open(a: String, b:String, c:String, d:any){
+    if(d=='1') {
+      this.router.navigate(['machine',{sn:b}])
+    } else if(d=='0'){
+      console.log('disabled')
+    }
   }
 
   scrolla(e:Event){

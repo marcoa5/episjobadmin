@@ -1,4 +1,4 @@
-<div  *ngIf="pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales'">
+<div  *ngIf="pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales'" class="divid">
     <div>
         <div mat-dialog-title>Notifications</div>
         <div class="ch">
@@ -15,7 +15,7 @@
 </div>
 
 <div mat-dialog-title>Logout</div>
-<div mat-dialog-content>{{data.name}}, click here to logout 
+<div mat-dialog-content>Click here to logout 
     <button mat-icon-button (click)="logout()" color="accent">
         <mat-icon>logout</mat-icon>
     </button>

@@ -4,7 +4,7 @@ import { HttpClient, HttpParams} from '@angular/common/http'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { FormGroup, FormBuilder, Validators, Form } from '@angular/forms'
+import { FormGroup, FormBuilder, Validators, Form, AbstractControl } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
@@ -17,6 +17,7 @@ export interface utente {
   mail?: string|''
   posiz?: string|''
   cV?: boolean
+  area?: number
 }
 
 @Component({
@@ -40,8 +41,11 @@ export class NewuserComponent implements OnInit {
       cognome: ['', [Validators.required]],
       mail: ['', [Validators.required, Validators.email]],
       posiz: ['', [Validators.required]],
+      area: 0,
       cV: [false]
-    })
+    }, {
+      validators: [this.areaValidator]
+  })
    }
 
   ngOnInit(): void {
@@ -65,7 +69,8 @@ export class NewuserComponent implements OnInit {
             nome: b.val().Nome, 
             cognome: b.val().Cognome,
             posiz: b.val().Pos,
-            cV: oi
+            cV: oi,
+            area: b.val().Area? b.val().Area: null
           }
           this.userVisit = oi
           this.userpos = b.val().Pos
@@ -75,6 +80,8 @@ export class NewuserComponent implements OnInit {
       }
     })
   }
+
+  
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'
@@ -87,6 +94,7 @@ export class NewuserComponent implements OnInit {
     .set('km', '0.06')
     .set('id', this.id)
     .set('userVisit', this.userVisit + '')
+    .set('Area', b.get('area')?.value)
     if(a=='addu') {
         this.http.get(url + 'createuser',{params:params}).subscribe(()=>{console.log('added')})
     } else if(a=='updu'){
@@ -125,5 +133,14 @@ export class NewuserComponent implements OnInit {
 
   chSel(e:any){
     this.userVisit=!this.userVisit
+  }
+
+  areaValidator(a: { controls: { posiz: { value: string; }; }; get: (arg0: string) => AbstractControl; } | null){
+    if(a!=null && a.controls.posiz.value=='sales'){
+      return Validators.required(a.get('area')) ? {
+        myEmailFieldConditionallyRequired: true,
+      } : null;
+    }
+    return false
   }
 }
