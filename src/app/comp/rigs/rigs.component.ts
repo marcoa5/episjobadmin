@@ -105,10 +105,10 @@ export class RigsComponent implements OnInit {
   }
 
   open(a: String, b:String, c:String, d:any){
-    if(d=='1') {
-      this.router.navigate(['machine',{sn:b}])
-    } else if(d=='0'){
+    if(d=='0') {
       console.log('disabled')
+    } else{
+      this.router.navigate(['machine',{sn:b}])
     }
   }
 
