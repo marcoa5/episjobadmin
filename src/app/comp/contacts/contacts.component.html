@@ -1,16 +1,25 @@
 <episjob-navbar title="Contact List" (filter)="filter($event)"></episjob-navbar>
 <div class="cont">
-    <div *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" (click)=go(c)>
-        <mat-icon class="ico">people</mat-icon>
-        <div class="title text">{{c.name}}</div>
-        <mat-icon class="ico">factory</mat-icon>
-        <div class="text">{{c.company}}</div>
-        <mat-icon class="ico">business</mat-icon>
-        <div class="text">{{c.pos}}</div>
-        <mat-icon class="ico">phone</mat-icon>
-        <div class="text">{{c.phone}}</div>
-        <mat-icon class="ico">mail</mat-icon>
-        <div class="text">{{c.mail}}</div>
+    <div *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" >
+        <div class="head" (click)=go(c)>
+            <mat-icon class="ico">people</mat-icon>
+            <div class="textH">{{c.name}}</div> 
+        </div>
+        <div class="body">
+            <mat-icon class="ico" (click)=go(c)>factory</mat-icon>
+            <div class="text" (click)=go(c)>{{c.company}}</div>
+            <mat-icon class="ico" (click)=go(c)>business</mat-icon>
+            <div class="text" (click)=go(c)>{{c.pos}}</div>
+            <mat-icon class="ico" (click)=go(c)>phone</mat-icon>
+            <div class="text">
+                <a href="Tel:{{c.phone}}">{{c.phone}}</a>
+            </div>
+            <mat-icon class="ico" (click)=go(c)>mail</mat-icon>
+            <div class="text">
+                <a href="mailto:{{c.mail}}">{{c.mail}}</a>
+            </div>
+        </div>
+        
         
     </div>
 </div>

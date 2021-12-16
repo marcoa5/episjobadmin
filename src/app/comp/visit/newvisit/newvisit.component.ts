@@ -307,12 +307,6 @@ export class NewvisitComponent implements OnInit {
       epiAtt: this.epiList,
       cusAtt: this.custList 
     }
-
-    let todo={
-      
-    }
-
-
     const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -434,8 +428,8 @@ export class NewvisitComponent implements OnInit {
   }
 
   cuId(a:string){
-    this.custAtt=[]
     firebase.database().ref('Contacts').child(a).on('value',a=>{
+      this.custAtt=[]
       a.forEach(b=>{
         this.custAtt.push(b.val().name)
       })

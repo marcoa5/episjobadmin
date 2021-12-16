@@ -13,7 +13,8 @@ export class ContactsComponent implements OnInit {
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    firebase.database().ref('Contacts').once('value',a=>{
+    firebase.database().ref('Contacts').on('value',a=>{
+      this.contacts=[]
       a.forEach(b=>{
         b.forEach(c=>{
           let cont = c.val()
