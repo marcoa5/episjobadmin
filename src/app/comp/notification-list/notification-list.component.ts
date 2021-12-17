@@ -2,6 +2,7 @@ import { Router } from '@angular/router'
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase/app'
 import * as moment from 'moment'
+
 @Component({
   selector: 'episjob-notification-list',
   templateUrl: './notification-list.component.html',
@@ -18,6 +19,7 @@ export class NotificationListComponent implements OnInit {
         firebase.database().ref('Notif').child(a.uid).on('value',b=>{
           if(b.val()!=null) {
             this.notif=Object.values(b.val()).reverse()
+            console.log(this.notif)
           } else {
             this.notif=[]
           }
@@ -40,7 +42,10 @@ export class NotificationListComponent implements OnInit {
   }
 
   go(a:any){
+    let c = (a.url.split(','))
+    let d = [c[0],JSON.parse(c[1])]
+    console.log(JSON.parse(c[1]))
     if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
-    //this.router.navigate([a.url])
+    this.router.navigate(d)
   }
 }

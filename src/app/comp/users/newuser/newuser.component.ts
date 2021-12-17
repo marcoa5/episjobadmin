@@ -85,7 +85,6 @@ export class NewuserComponent implements OnInit {
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'
-
     //console.log(a, b.get('nome')?.value, b.get('cognome')?.value, b.get('mail')?.value, this.userpos)
     let params = new HttpParams()
     .set('Nome', b.get('nome')?.value)
@@ -95,6 +94,7 @@ export class NewuserComponent implements OnInit {
     .set('id', this.id)
     .set('userVisit', this.userVisit + '')
     .set('Area', b.get('area')?.value)
+    if(a=='addu') params.set('Mail', b.get('mail')!.value)
     if(a=='addu') {
         this.http.get(url + 'createuser',{params:params}).subscribe(()=>{console.log('added')})
     } else if(a=='updu'){
