@@ -44,7 +44,6 @@ export class NotificationListComponent implements OnInit {
   go(a:any){
     let c = (a.url.split(','))
     let d = [c[0],JSON.parse(c[1])]
-    console.log(JSON.parse(c[1]))
     if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
     this.router.navigate(d)
   }
