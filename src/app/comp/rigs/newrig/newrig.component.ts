@@ -8,7 +8,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
-
+import { NotifService } from '../../../serv/notif.service'
+import { UsersComponent } from '../../users/users.component';
 
 @Component({
   selector: 'episjob-newrig',
@@ -28,7 +29,9 @@ export class NewrigComponent implements OnInit {
   segment:boolean = true
   customers:any[]=[]
   pos:string|undefined
-  constructor(private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
+  uId:string=''
+  uName:string=''
+  constructor(public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
       sn:['', [Validators.required]],
       model:['', [Validators.required]],
@@ -39,8 +42,11 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
+        this.uId!=a?.uid
+        this.uName= b.val().Nome + ' ' + b.val().Cognome
         this.pos=b.val()
       })
     })
@@ -113,6 +119,7 @@ export class NewrigComponent implements OnInit {
       this.childAdd['sn']=g[0].toUpperCase()
       firebase.database().ref('Categ/').child(g[0].toUpperCase()).set(this.childAdd)
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
+      this.sendNot(g[0].toUpperCase(),g[1],g[5].toUpperCase())
     }
     if(a=='updr' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
@@ -134,11 +141,32 @@ export class NewrigComponent implements OnInit {
           })
           this.childAdd['sn']=g[0].toUpperCase()
           firebase.database().ref('Categ/'+ this.serial).set(this.childAdd)
+          .then(()=>{
+            this.sendNot(g[0].toUpperCase(),g[1],g[5].toUpperCase())
+          })
           this.router.navigate(['machine', {sn: this.serial}])
+          
         }
       })
-    }
+    }    
   }
+
+
+  sendNot(a:string, b:string,c:string){
+    let users:string[]=[]
+    firebase.database().ref('Users').once('value',a=>{
+      a.forEach(b=>{
+        if(b.val().Pos=='SU' && b.val().newrig=='1'){
+          if(b.key) users.push(b.key)
+        }
+      })
+    })
+    .then(()=>{
+      let str= this.addUpd? 'New rig added':'Rig data updated'
+      this.notif.newNotification(users,str,b + ' - ' +  a + '(' + c + ')',this.uName,'newrig', './machine,{"sn":"' + a + '"}')
+    })
+  }
+
   vai(e:any){
     this.segment = e
   }

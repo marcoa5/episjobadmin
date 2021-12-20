@@ -19,7 +19,6 @@ export class NotificationListComponent implements OnInit {
         firebase.database().ref('Notif').child(a.uid).on('value',b=>{
           if(b.val()!=null) {
             this.notif=Object.values(b.val()).reverse()
-            console.log(this.notif)
           } else {
             this.notif=[]
           }

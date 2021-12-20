@@ -37,6 +37,7 @@ export class AppComponent {
   userId:string=''
   SJ:any
   Visit:any
+  Newrig:any
   constructor(private dialog:MatDialog, public router: Router){}
   
   not:number=0
@@ -47,7 +48,7 @@ export class AppComponent {
       if(!a) {
         this.userN = 'null'
       } else {
-        firebase.database().ref('Users/' + a.uid). once('value',s=>{
+        firebase.database().ref('Users/' + a.uid).once('value',s=>{
           this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
           this.userT=s.val().Pos
           this.nome = s.val().Nome
@@ -55,6 +56,7 @@ export class AppComponent {
           this.userId= s.key? s.key:''
           this.SJ = s.val().sj
           this.Visit=s.val().visit
+          this.Newrig=s.val().newrig
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{
@@ -89,8 +91,10 @@ export class AppComponent {
       id: this.userId,
       pos: this.userT,
       SJ: this.SJ,
-      Visit: this.Visit
+      Visit: this.Visit,
+      Newrig: this.Newrig
     }
+    console.log(info)
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;

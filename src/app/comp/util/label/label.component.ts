@@ -16,10 +16,13 @@ export class LabelComponent implements OnInit {
   @Output() newCont=new EventEmitter()
   valuesN:any[]=[]
   ngOnInit(): void {
-  }
+    }
 
   ngOnChanges(){
-    this.valuesN=this.values
+    setTimeout(() => {
+      this.valuesN=this.values
+    }, 100);
+    //console.log(this.valuesN)
   }
 
   open(a:any, b:string){

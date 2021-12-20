@@ -107,19 +107,18 @@ export class MachineComponent implements OnInit {
       this.id = x.val().custid
       this.docBpcs=x.val().docbpcs
       this.in = x.val().in
-      this.rigLabels=[
-        {value:this.valore, lab:'Serial Nr.',click:'',url:''},
-        //{value:this.model, lab:'Model',click:'',url:''},
-        {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
-      ]
-      if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-      //arr.splice(2, 0, "Lene");
-      if (this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
+      
 
     }) 
     .then(()=>{
       this.loadData()
       .then(()=>{
+        this.rigLabels=[
+          {value:this.valore, lab:'Serial Nr.',click:'',url:''},
+          {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
+        ]
+        if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
+        if (this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
       if(this.data[0].y=='c' && this.data[0]!=undefined) {
         this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
         this.showAdd=false
@@ -469,8 +468,9 @@ export class MachineComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
+        let fd = result.split('/')
         if(result!=undefined && this.pos=='SU') {
-          let r1 = moment(result).format('YYYYMMDD')
+          let r1 = moment(new Date(fd[2],fd[1]-1,fd[0])).format('YYYYMMDD')
           let r2
           if(this.data[0] !=null) r2 = this.data[0].x.replace(/\-/g,'')
           

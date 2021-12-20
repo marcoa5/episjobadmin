@@ -32,7 +32,7 @@ export class H2Component implements OnInit {
     })
   }
 
-  add(){
+  add(e:any){
     this.addCD.emit('ok')
   }
 
