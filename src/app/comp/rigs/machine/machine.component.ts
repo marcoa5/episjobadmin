@@ -107,9 +107,7 @@ export class MachineComponent implements OnInit {
       this.id = x.val().custid
       this.docBpcs=x.val().docbpcs
       this.in = x.val().in
-      
-
-    }) 
+    })
     .then(()=>{
       this.loadData()
       .then(()=>{
@@ -118,21 +116,21 @@ export class MachineComponent implements OnInit {
           {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
         ]
         if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-        if (this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
-      if(this.data[0].y=='c' && this.data[0]!=undefined) {
-        this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
-        this.showAdd=false
-      }
+        if(this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
+        
+        if(this.data[0].y=='c' && this.data[0]!=undefined) {
+          this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
+          this.showAdd=false
+        }
       if(this.data[0].y!='c' && this.data[0]!=undefined) {
         this.showAdd=true
       }
-
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         this.checkComm()
         this.lastRead()
       })
-      .catch((h)=>{console.log(h,'no data')})
+      .catch((h)=>{console.log('no data')})
     }) 
   }
 
@@ -151,7 +149,10 @@ export class MachineComponent implements OnInit {
     return new Promise((res,rej)=>{
       this.data=[]
       firebase.database().ref('Hours/' + this.valore).on('value',f=>{
-        if(f.val()==null) this.showAdd=true
+        if(f.val()==null) {
+          this.showAdd=true
+          res('ok')
+        }
         if(f.val()!=null || f.val()!=undefined){
           let r = Object.keys(f.val()).length
           if(r==0) rej('failed')

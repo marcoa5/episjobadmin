@@ -44,10 +44,10 @@ export class NewrigComponent implements OnInit {
   ngOnInit(): void {
     
     firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
+      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.uId!=a?.uid
         this.uName= b.val().Nome + ' ' + b.val().Cognome
-        this.pos=b.val()
+        this.pos=b.val().Pos
       })
     })
     this.route.params.subscribe(a=>{
