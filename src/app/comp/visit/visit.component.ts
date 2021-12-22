@@ -41,12 +41,17 @@ export class VisitComponent implements OnInit {
     this.day=e
   }
 
-  refresh(){
-    let prev = this.day
-    this.day=''
-    setTimeout(() => {
-      this.day=prev
-    }, 5);
+  refresh(e:any){
+    if(e=='ref'){
+      let prev = this.day
+      this.day=''
+      setTimeout(() => {
+        this.day=prev
+      }, 50);
+    } else {
+      this.day=e
+    }
+    
     
   }
 }

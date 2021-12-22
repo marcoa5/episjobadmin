@@ -3,7 +3,7 @@
 
   <div class="cont">
     <episjob-cal [date]="day" [pos]="pos" [userId]="userId" (today)="chDay($event)"></episjob-cal> 
-    <episjob-visitlist [pos]="pos" [userId]="userId" [day]="day" (refresh)="refresh()"></episjob-visitlist>   
+    <episjob-visitlist [pos]="pos" [userId]="userId" [day]="day" (refresh)="refresh($event)"></episjob-visitlist>   
   </div>
 
 <div *ngIf="!auth() && pos">

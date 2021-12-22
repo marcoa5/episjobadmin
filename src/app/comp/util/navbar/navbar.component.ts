@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
-import firebase from 'firebase'
+
 @Component({
   selector: 'episjob-navbar',
   templateUrl: './navbar.component.html',

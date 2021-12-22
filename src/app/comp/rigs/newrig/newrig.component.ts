@@ -7,7 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
+import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.component'
 import { NotifService } from '../../../serv/notif.service'
 import { UsersComponent } from '../../users/users.component';
 

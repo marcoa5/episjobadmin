@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
-import firebase from 'firebase'
+
 @Component({
   selector: 'episjob-segment',
   templateUrl: './segment.component.html',

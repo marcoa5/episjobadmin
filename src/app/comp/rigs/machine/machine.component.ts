@@ -9,10 +9,10 @@ import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
-import { InputhrsComponent } from '../../util/inputhrs/inputhrs.component'
-import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
+import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component'
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { Location } from '@angular/common'
-import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
+import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { SjlistComponent } from './sjlist/sjlist.component';

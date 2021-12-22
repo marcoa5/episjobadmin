@@ -4,7 +4,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog'
-import { UpddialogComponent } from '../../util/upddialog/upddialog.component'
+import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.component'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'

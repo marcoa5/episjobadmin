@@ -4,7 +4,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { DeldialogComponent } from '../../deldialog/deldialog.component';
+import { DeldialogComponent } from '../deldialog/deldialog.component';
 
 export interface co{
   id: string
