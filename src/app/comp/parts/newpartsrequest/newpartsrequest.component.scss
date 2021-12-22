@@ -1,20 +1,36 @@
 
+@import '../../../../epi.scss';
+
 .search{
     width:100%;
 }
 
 .list{
-    max-height: 200px;
-    overflow-y: scroll;
+    max-height: 250px;
+    overflow-y: auto;
+    color: $dark-text;
+    margin-bottom: 20px;
 }
 
 .text{
     font-size: 9pt;
     margin:0;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0 15px;
 }
 
 .line{
     max-height: 30px;
+    display: grid;
+    grid-template-columns: 5% 22% 34% 39%;
+    border-radius: 5px;
+    align-items: center;
+}
+
+.line:hover{
+    background-color: $dark-text;
+    color: $light-text;
 }
 
 .icon{

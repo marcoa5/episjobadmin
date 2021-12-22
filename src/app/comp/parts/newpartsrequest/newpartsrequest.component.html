@@ -4,14 +4,17 @@
             <mat-label>Search</mat-label>
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <mat-list class="list">
-            <mat-list-item *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line">
-              <mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>
-              <div mat-line>
-                  <p class="text">
-                      {{r.sn}}  |  {{r.model}}  |  {{r.customer}}
-                  </p>
-                </div>
-            </mat-list-item>
-        </mat-list>
+        <div class="list" *ngIf="chStr">
+            <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
+                <mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>
+                <p class="text">{{r.sn}}</p>
+                <p class="text">{{r.model}}</p>
+                <p class="text">{{r.customer}}</p>
+            </div>
+        </div>
+        <div *ngIf="chStr==false">
+            <h4 *ngIf="details.length>0">Machine details</h4>
+            <episjob-label [values]="details"></episjob-label>
+        </div>
+        
 </form>

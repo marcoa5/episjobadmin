@@ -2,10 +2,10 @@
 <div class="cont">
     <div class="item1">
         <episjob-h2 data="New Request" icon="construction" padtop=0></episjob-h2>
-        <episjob-newpartsrequest></episjob-newpartsrequest>
+        <episjob-newpartsrequest (sn)="sn($event)"></episjob-newpartsrequest>
     </div>
-    <div class="item2">
+    <div class="item2"> <!--*ngIf="checkSn">-->
         <episjob-h2 data="Request List" icon="receipt" padtop=0></episjob-h2>
-        <episjob-requestlist></episjob-requestlist>
+        <episjob-requestlist [sn]="snr"></episjob-requestlist>
     </div>
 </div>

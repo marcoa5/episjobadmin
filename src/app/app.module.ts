@@ -93,7 +93,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component';
 import { TodoComponent } from './comp/customers/cliente/todo/todo.component'
-import { SelectcustComponent } from './comp/selectcust/selectcust.component';
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
 import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
@@ -185,7 +184,6 @@ const appearance: MatFormFieldDefaultOptions = {
     VisitlistComponent,
     SaveaccountComponent,
     TodoComponent,
-    SelectcustComponent,
     CalComponent,
     VisitdetailsComponent,
     VisitsComponent,

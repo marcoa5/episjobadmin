@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
@@ -12,6 +12,9 @@ export class NewpartsrequestComponent implements OnInit {
   appearance: MatFormFieldAppearance = 'fill'
   rigs:any[]=[]
   _rigs:any[]=[]
+  chStr:boolean=false
+  details:any[]=[]
+  @Output() sn=new EventEmitter()
   constructor(public fb: FormBuilder) {
     this.newRequest = fb.group({
       search: ['']
@@ -30,7 +33,12 @@ export class NewpartsrequestComponent implements OnInit {
   }
 
   filter(){
-    let f = this.newRequest.controls.search.value
+    let f=this.newRequest.controls.search.value
+    if(f.length>2) {
+      this.chStr=true
+      this.details=[]
+      this.sn.emit('')
+    }
     if(f.length>2){
       this.rigs=this._rigs.filter(a=>{
         if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
@@ -41,5 +49,14 @@ export class NewpartsrequestComponent implements OnInit {
     }
   }
 
+  sel(a:any){
+    this.chStr=false
+    this.details=[
+      {value: a.sn, lab: 'Serial nr.', click:'', url:''},
+      {value: a.model, lab: 'Model', click:'', url:''},
+      {value: a.customer, lab: 'Customer', click:'', url:''},
+    ]
+    this.sn.emit(a.sn)
+  }
 
 }

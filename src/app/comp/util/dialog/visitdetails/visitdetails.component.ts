@@ -29,9 +29,12 @@ export class VisitdetailsComponent implements OnInit {
       return a.name
     })
     this.attList.push(this.data.sam)
-    this.data.cusAtt.forEach((a:any)=>{
-      this.attList.push(a)
-    })
+    if(this.data.cusAtt.length>0){
+      this.data.cusAtt.forEach((a:any)=>{
+        this.attList.push(a)
+      })
+    }
+    
     this.val=[
       {lab: 'Customer Name', value: this.data.c1, click:''},
       {lab: 'Place', value: this.data.place, click:''},
@@ -83,6 +86,8 @@ export class VisitdetailsComponent implements OnInit {
         })
         .then(()=>this.dialogRef.close(moment(this.dayNew).format('YYYY-MM-DD')))
       })
+    } else {
+      this.dialogRef.close()
     }
   }
   

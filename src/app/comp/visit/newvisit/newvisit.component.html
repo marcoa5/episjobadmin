@@ -59,25 +59,29 @@
   <mat-step [stepControl]="contactFormGroup">
     <ng-template matStepLabel>Contact</ng-template>
     <form [formGroup]="contactFormGroup">
-      <h4>Epiroc Attendees</h4>
-      <div class="epiCon">
-        <mat-chip-list selectable multiple>
-          <mat-chip #c="matChip" *ngFor="let e of epiAtt" [value]="e.val" (click)="select(c, e.id, e.name)">
-              {{e.name}}
-          </mat-chip>
-        </mat-chip-list>
-      </div>
-      <mat-divider></mat-divider>
-      <h4>Customer Attendees</h4>
-      <div class="epiCon">
-        <mat-chip-list selectable multiple>
-          <mat-chip #c="matChip" *ngFor="let e of custAtt" [value]="e" (click)="select(c, e)">
-              {{e}}
-          </mat-chip>
-          <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
-        </mat-chip-list>
-      </div>
-  </form>
+      <mat-form-field appearance="fill" style="display:none">
+        <mat-label>List</mat-label>
+        <input matInput formControlName="list">
+      </mat-form-field>
+        <h4>Epiroc Attendees</h4>
+        <div class="epiCon">
+          <mat-chip-list selectable multiple>
+            <mat-chip #c="matChip" *ngFor="let e of epiAtt" [value]="e.val" (click)="select(c, e.id, e.name)">
+                {{e.name}}
+            </mat-chip>
+          </mat-chip-list>
+        </div>
+        <mat-divider></mat-divider>
+        <h4>Customer Attendees</h4>
+        <div class="epiCon">
+          <mat-chip-list selectable multiple formControlName="name">
+            <mat-chip #c="matChip" *ngFor="let e of custAtt" [value]="e" (click)="select(c, e)">
+                {{e}}
+            </mat-chip>
+            <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
+          </mat-chip-list>
+        </div>
+    </form>
   <div class="butt">
     <button mat-raised-button matStepperPrevious color="primary">Back</button>
     <button mat-raised-button matStepperNext color="primary" [disabled]="custList.length==0">Next</button>

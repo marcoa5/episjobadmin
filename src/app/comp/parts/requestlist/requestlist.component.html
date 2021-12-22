@@ -1,1 +1,9 @@
-<p>requestlist works!</p>
+<p>{{sn}}</p>
+
+<div class="reqCont">
+    <mat-form-field appearance="fill">
+        <mat-label>Part Number</mat-label>
+        <input #pn matInput type="text" autocomplete="off" maxlength="10"> 
+    </mat-form-field>   
+    <button mat-raised-button color="accent" class="but" [disabled]="pn.value.length!=10" (click)="add(pn.value)"><mat-icon>add_circle</mat-icon></button>
+</div>

@@ -94,7 +94,6 @@ export class AppComponent {
       Visit: this.Visit,
       Newrig: this.Newrig
     }
-    console.log(info)
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
