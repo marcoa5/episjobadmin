@@ -32,7 +32,7 @@ export class VisitlistComponent implements OnInit {
 
   ngOnChanges():void{
     
-    this.today=moment(new Date(this.day)).format('DD/MM/YYYY')
+    this.day!=''? this.today=moment(new Date(this.day)).format('DD/MM/YYYY') : ''
     let u = moment(new Date(this.day)).format('YYYYMMDD')
     firebase.database().ref('CustVisit').child(u).once('value',a=>{
       this.spin=true

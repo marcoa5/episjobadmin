@@ -47,7 +47,7 @@ export class VisitComponent implements OnInit {
       this.day=''
       setTimeout(() => {
         this.day=prev
-      }, 50);
+      }, 10);
     } else {
       this.day=e
     }
