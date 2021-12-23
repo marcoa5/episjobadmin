@@ -63,12 +63,20 @@ export class VisitdetailsComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if(result=='upd'){
           firebase.database().ref('CustVisit').child(this.data.url).child('notes').set(this.newNotes)
-          .then(()=>this.dialogRef.close())
+          .then(()=>{
+            this.changeDate()
+          })
         } else{
-          this.dialogRef.close()
+          this.changeDate()
         }
       })
-    } 
+    } else {
+      this.changeDate()
+    }
+    
+  }
+  
+  changeDate(){
     if(this.data.date!=this.dayNew){
       let urlSplit=this.url.split('/')
       let urlNew:string=''
@@ -83,14 +91,14 @@ export class VisitdetailsComponent implements OnInit {
         firebase.database().ref('CustVisit').child(urlNew).set(content)
         .then(()=>{
           firebase.database().ref('CustVisit').child(this.url).remove()
+          .then(()=>this.dialogRef.close(moment(this.dayNew).format('YYYY-MM-DD')))
         })
-        .then(()=>this.dialogRef.close(moment(this.dayNew).format('YYYY-MM-DD')))
       })
     } else {
-      this.dialogRef.close()
-    }
+      this.dialogRef.close('upd')
+    } 
   }
-  
+
   del(){
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;

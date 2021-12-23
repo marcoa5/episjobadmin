@@ -67,11 +67,11 @@ export class VisitlistComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result=>{
-      if(result=='delete') {
+      if(result=='delete' || result=='upd') {
         this.refresh.emit('ref')
       } else if(result!='' || result!=undefined) {
         this.refresh.emit(result)
-      }
+      } 
     })
   }
 
