@@ -35,7 +35,7 @@ import { NavbarComponent } from './comp/util/navbar/navbar.component';
 import { LabelComponent } from './comp/util/label/label.component';
 import { NewcustComponent } from './comp/customers/newcust/newcust.component';
 import { AddbutComponent } from './comp/util/addbut/addbut.component';
-import { EditdelbutComponent } from './comp/editdelbut/editdelbut.component'
+import { EditdelbutComponent } from './comp/util/editdelbut/editdelbut.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeldialogComponent } from './comp/util/dialog/deldialog/deldialog.component';
 import { H2Component } from './comp/util/h2/h2.component';

@@ -1,9 +1,18 @@
-<p>{{sn}}</p>
+<h4>Add part Numbers</h4>
 
-<div class="reqCont">
-    <mat-form-field appearance="fill">
+<form class="reqCont">
+    <mat-form-field [appearance]="appearance">
         <mat-label>Part Number</mat-label>
         <input #pn matInput type="text" autocomplete="off" maxlength="10"> 
-    </mat-form-field>   
-    <button mat-raised-button color="accent" class="but" [disabled]="pn.value.length!=10" (click)="add(pn.value)"><mat-icon>add_circle</mat-icon></button>
-</div>
+    </mat-form-field> 
+    <mat-form-field [appearance]="appearance">
+        <mat-label>Description</mat-label>
+        <input #pn matInput type="text" autocomplete="off" maxlength="10"> 
+    </mat-form-field>  
+    <mat-form-field [appearance]="appearance">
+        <mat-label>Q.ty</mat-label>
+        <input #pn matInput type="number" autocomplete="off" min="1"> 
+    </mat-form-field>  
+</form>
+
+<h4>Part List</h4>

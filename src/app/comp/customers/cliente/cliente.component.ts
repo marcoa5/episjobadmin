@@ -5,6 +5,9 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { GetPotYearService } from '../../../serv/get-pot-year.service'
+import { Clipboard } from '@angular/cdk/clipboard'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { CopyComponent } from '../../util/dialog/copy/copy.component';
 
 export interface rigsLabel {
   lab: string
@@ -34,7 +37,8 @@ export class ClienteComponent implements OnInit {
   anno:string=new Date().getFullYear().toString()
   userId:string=''
   listV:any[]=[]
-  constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService) {}
+  elenco:any[]=[]
+  constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.anno=this.year.getPotYear().toString()
@@ -125,6 +129,30 @@ export class ClienteComponent implements OnInit {
 
   contact(e:any){
     if(e=='created' || e=='deleted') this.updateContacts()
+  }
+
+  report(){
+    this.elenco=[]
+    this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs')
+    firebase.database().ref('Saved').once('value',a=>{
+        a.forEach(b=>{
+            b.forEach(c=>{
+                let x = c.val()
+                if(x.cliente11==this.cust1) {
+                    this.elenco.push(x.matricola+';'+x.prodotto1+';'+x.data11+';'+x.docbpcs+';'+x.orem1+';'+x.perc11+';'+x.perc21+';'+x.perc31)
+                }
+            })
+        })
+    })
+    .then(()=>{
+      this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
+      const dialogconf = new MatDialogConfig;
+      dialogconf.disableClose=false;
+      dialogconf.autoFocus=false;
+      const dialogRef = this.dialog.open(CopyComponent, {
+        data: {}
+      });
+    })
   }
 }
 

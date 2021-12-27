@@ -87,6 +87,7 @@ export class NewuserComponent implements OnInit {
     let url = 'https://episjobreq.herokuapp.com/'
     //console.log(a, b.get('nome')?.value, b.get('cognome')?.value, b.get('mail')?.value, this.userpos)
     let params = new HttpParams()
+    .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
