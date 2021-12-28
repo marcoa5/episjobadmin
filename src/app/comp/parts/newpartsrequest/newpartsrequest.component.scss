@@ -45,14 +45,18 @@
     margin-top: 15px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    align-items: center;
 }
 
 .button1{
-    height: 51px;
+    height: 30px;
 }
 
 .mainCont{
-    width: 275px;
+    min-width: 275px;
+    max-width: 300px;
     height: 280px;
 }
-
+.sel{
+    padding:0;
+}

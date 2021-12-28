@@ -21,6 +21,7 @@ export interface el{
 export class RequestlistComponent implements OnInit {
   @Input() sn:string=''
   @Output() send=new EventEmitter()
+  @Output() list=new EventEmitter()
   partList!: MatTableDataSource<el>
   addPart!: FormGroup
   appearance: MatFormFieldAppearance = 'fill'
@@ -85,6 +86,7 @@ export class RequestlistComponent implements OnInit {
     let arr = this.partList.data
     arr.push({pn: a, desc: b, qty:c})
     this.partList.data=arr
+    this.list.emit(this.partList.data)
     this.addPart.reset()
     l.desc.disable()
     l.qty.disable()

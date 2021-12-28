@@ -8,7 +8,11 @@
     </div>-->
     <div class="item2">
         <episjob-h2 [data]="'Request List ' + ((info!=undefined && info.sn!=undefined)? 'for ' + info.sn:'')" icon="receipt" padtop=0></episjob-h2>
-        <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
-        <episjob-requestlist [sn]="snr" *ngIf="info && info.sn" (send)="submit($event)"></episjob-requestlist>
+        <div class="cont1">
+            <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
+            <span class="spacer" *ngIf="false"></span>
+            <span *ngIf="false">or select a draft from the below list:</span>
+        </div>
+        <episjob-requestlist [sn]="snr" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)"></episjob-requestlist>
     </div>
 </div>

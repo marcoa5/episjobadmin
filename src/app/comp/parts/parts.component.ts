@@ -44,4 +44,8 @@ export class PartsComponent implements OnInit {
       }
     })
   }
+
+  saveList(e:any){
+    console.log(this.info.sn, e)
+  }
 }

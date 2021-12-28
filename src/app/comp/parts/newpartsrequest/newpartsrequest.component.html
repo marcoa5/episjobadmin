@@ -20,11 +20,11 @@
 
       <div class="button">
         <form [formGroup]="type">
-          <mat-form-field [appearance]="appearance">
+          <mat-form-field [appearance]="appearance" class="sel">
             <mat-label>Request type</mat-label>
             <mat-select formControlName="ty">
-              <mat-option value="GAO">GAO</mat-option>
-              <mat-option value="AST">AST</mat-option>
+              <mat-option value="Service">Service</mat-option>
+              <mat-option value="CustomerSupport">Customer Support</mat-option>
             </mat-select>
           </mat-form-field>
         </form>
