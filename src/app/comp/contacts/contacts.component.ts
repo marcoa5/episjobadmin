@@ -35,12 +35,7 @@ export class ContactsComponent implements OnInit {
   }
 
   go(c:any){
-    const dialogconf = new MatDialogConfig();
-    dialogconf.disableClose=false;
-    dialogconf.autoFocus=false;
-    const dialogRef = this.dialog.open(NewcontactComponent, {
-      data: {info: c}
-    });
+    const dialogRef = this.dialog.open(NewcontactComponent)
 
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {

@@ -13,6 +13,7 @@ export class DeldialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    console.log(this.data)
   }
 
   onNoClick(): void {

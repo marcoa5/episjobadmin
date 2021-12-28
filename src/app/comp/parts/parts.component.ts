@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.component';
 
 @Component({
   selector: 'episjob-parts',
@@ -6,20 +8,32 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./parts.component.scss']
 })
 export class PartsComponent implements OnInit {
-  checkSn:boolean=false
   snr:string=''
-  constructor() { }
+  info:any|undefined
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
-  sn(e:any){
-    if(e!='') {
-      this.checkSn=true
-      this.snr=e
-    } else{
-      this.checkSn=false
-      this.snr=''
-    }
+
+  start(){
+    const dialogconf = new MatDialogConfig();
+    dialogconf.disableClose=false;
+    dialogconf.autoFocus=false;
+    this.info=undefined
+    const dialogRef = this.dialog.open(NewpartsrequestComponent, {
+      data: {info: ''}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        this.info=result
+      }
+    })
+  }
+
+  submit(e:any){
+    console.log(this.info, e)
+    alert('submit list')
   }
 }

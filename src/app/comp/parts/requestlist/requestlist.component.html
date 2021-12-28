@@ -5,22 +5,26 @@
         <mat-label>Part Number</mat-label>
         <input matInput #pn1 type="text" autocomplete="off" maxlength="10" formControlName="pn" (input)="newPn($event)"> 
     </mat-form-field> 
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field [appearance]="appearance" >
         <mat-label>Description</mat-label>
         <input matInput type="text" autocomplete="off" maxlength="10" formControlName="desc"> 
     </mat-form-field>  
     <div class="end">
-        <mat-form-field [appearance]="appearance" class="inp">
+        <mat-form-field [appearance]="appearance" class="inp" >
             <mat-label>Q.ty</mat-label>
             <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
-        </mat-form-field>  
-        <button mat-raised-button class="but" *ngIf="!addPart.invalid" (click)="add()" color="primary"><mat-icon>add</mat-icon></button>
+        </mat-form-field> 
+        <button mat-raised-button class="but" [disabled]="addPart.invalid" (click)="add()" color="primary"><mat-icon>add</mat-icon></button>
     </div>
     
 </form>
 
 <div *ngIf="partList.data.length>0">
-    <h4>Part List</h4>
+    <div class="head">
+        <h4 class="it1">Part List</h4>
+        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit List</button>
+    </div>
+    
     <table mat-table [dataSource]="partList" class="mat-elevation-z8">
         <ng-container matColumnDef="ref">
             <th mat-header-cell *matHeaderCellDef class="cen i1"> REF. </th>

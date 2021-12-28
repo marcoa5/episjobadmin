@@ -6,7 +6,7 @@
 }
 
 .list{
-    max-height: 250px;
+    max-height: 180px;
     overflow-y: auto;
     color: $dark-text;
     margin-bottom: 20px;
@@ -17,13 +17,13 @@
     margin:0;
     white-space: nowrap;
     overflow: hidden;
-    padding: 0 15px;
+    padding: 0 5px;
 }
 
 .line{
     max-height: 30px;
     display: grid;
-    grid-template-columns: 5% 22% 34% 39%;
+    grid-template-columns: 27% 34% 39%;
     border-radius: 5px;
     align-items: center;
 }
@@ -41,34 +41,18 @@
     align-items: flex-start;
 }
 
-.cont{
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    align-items: center;
+.button{
+    margin-top: 15px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
-@media screen and (max-width: 575px) {
-    .cont{
-        flex-direction: column;
-        align-items: unset;
-
-    }
-
-    .b{
-        padding: 0 !important;
-        margin: 0;
-        height: auto;
-        width:100%;
-        margin-top: 15px;
-    }
+.button1{
+    height: 51px;
 }
 
-episjob-label{
-    flex: 1 1 auto;
-}
-
-button{
-    //height: 51px;
+.mainCont{
+    width: 300px;
+    height: 280px;
 }
 

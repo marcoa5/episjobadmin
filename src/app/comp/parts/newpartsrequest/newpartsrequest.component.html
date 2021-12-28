@@ -1,23 +1,38 @@
-<form [formGroup]="newRequest" class="req">
-        <mat-form-field [appearance]="appearance" class="search" *ngIf="details.length==0">
-            <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()">
-            <mat-label>Search s/n, model or customer</mat-label>
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-        <div class="list" *ngIf="chStr">
-            <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
-                <mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>
-                <p class="text">{{r.sn}}</p>
-                <p class="text">{{r.model}}</p>
-                <p class="text">{{r.customer}}</p>
-            </div>
-        </div>        
-</form>
+<div mat-dialog-title>Select rig</div>
+<div mat-dialog-content class="mainCont">
+  <form [formGroup]="newRequest" class="req">
+    <mat-form-field [appearance]="appearance" class="search" *ngIf="details.length==0">
+        <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()">
+        <mat-label>Search s/n, model or customer</mat-label>
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="list" *ngIf="chStr">
+        <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
+            <!--<mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>-->
+            <p class="text">{{r.sn}}</p>
+            <p class="text">{{r.model}}</p>
+            <p class="text">{{r.customer}}</p>
+        </div>
+    </div>        
+  </form>
+  <div class="cont" *ngIf="details.length>0">
+  <episjob-label [values]="details"></episjob-label>
 
-
-<div class="cont" *ngIf="details.length>0">
-    <episjob-label [values]="details"></episjob-label>
-    <div class="button">
-        <button mat-raised-button color="primary" class="b" (click)="rem()">Clear</button>
-    </div>
+      <div class="button">
+        <form [formGroup]="type">
+          <mat-form-field [appearance]="appearance">
+            <mat-label>Request type</mat-label>
+            <mat-select formControlName="ty">
+              <mat-option value="GAO">GAO</mat-option>
+              <mat-option value="AST">AST</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <button *ngIf="!type.invalid" mat-raised-button class="b" (click)="rem()" class="button1">Clear</button>
+      </div>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="type.invalid || details.length==0" (click)="go()">Proceed</button>
 </div>

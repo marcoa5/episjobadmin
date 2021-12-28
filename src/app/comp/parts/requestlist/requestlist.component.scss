@@ -6,7 +6,7 @@
     grid-template-columns: 2fr 2fr 1fr;
 }
 
-@media screen and (max-width:400px) {
+@media screen and (max-width:650px) {
     .reqCont{
         grid-template-columns: 1fr;
     }
@@ -64,4 +64,19 @@ th{
 
 .but{
     height: 51px;
+}
+
+.head{
+    width: 1005;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.it1{
+    flex-grow: 1;
+}
+
+h4{
+    margin:0;
 }

@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
+import { MatDialogRef} from '@angular/material/dialog'
+
 @Component({
   selector: 'episjob-newpartsrequest',
   templateUrl: './newpartsrequest.component.html',
@@ -9,15 +11,19 @@ import firebase from 'firebase/app'
 })
 export class NewpartsrequestComponent implements OnInit {
   newRequest!: FormGroup
+  type!: FormGroup
   appearance: MatFormFieldAppearance = 'fill'
   rigs:any[]=[]
   _rigs:any[]=[]
-  chStr:boolean=false
+  chStr:boolean=true
   details:any[]=[]
   @Output() sn=new EventEmitter()
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>) {
     this.newRequest = fb.group({
       search: ['']
+    })
+    this.type=fb.group({
+      ty: ['',Validators.required]
     })
    }
 
@@ -66,6 +72,8 @@ export class NewpartsrequestComponent implements OnInit {
   rem(){
     this.newRequest.controls.search.setValue('')
     this.details=[]
+    this.chStr=true
+    this.rigs=this._rigs
     this.sn.emit('')
     setTimeout(() => {
       this.sea1.nativeElement.focus()
@@ -73,4 +81,12 @@ export class NewpartsrequestComponent implements OnInit {
     
   }
 
+  onNoClick(){
+    this.dialogRef.close()
+  }
+
+  go(){
+    let a = this.details
+    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type.controls.ty.value})
+  }
 }

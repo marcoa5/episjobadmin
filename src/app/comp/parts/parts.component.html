@@ -1,11 +1,14 @@
 <episjob-navbar [cerca]="false" title="Parts Request"></episjob-navbar>
 <div class="cont">
-    <div class="item1">
-        <episjob-h2 data="New Request" icon="construction" padtop=0></episjob-h2>
+    <!--<div class="item1">
+        <episjob-h2 data="New Request" icon="home_repair_service" padtop=0></episjob-h2>
         <episjob-newpartsrequest (sn)="sn($event)"></episjob-newpartsrequest>
-    </div>
-    <div class="item2" *ngIf="checkSn">
-        <episjob-h2 data="Request List" icon="receipt" padtop=0></episjob-h2>
-        <episjob-requestlist [sn]="snr"></episjob-requestlist>
+        
+
+    </div>-->
+    <div class="item2">
+        <episjob-h2 [data]="'Request List ' + ((info!=undefined && info.sn!=undefined)? 'for ' + info.sn:'')" icon="receipt" padtop=0></episjob-h2>
+        <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
+        <episjob-requestlist [sn]="snr" *ngIf="info && info.sn" (send)="submit($event)"></episjob-requestlist>
     </div>
 </div>
