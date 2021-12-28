@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router'
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SavevisitComponent } from '../util/dialog/savevisit/savevisit.component';
 import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.component';
 
 @Component({
@@ -10,7 +12,7 @@ import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.comp
 export class PartsComponent implements OnInit {
   snr:string=''
   info:any|undefined
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, public router: Router) { }
 
   ngOnInit(): void {
   }
@@ -34,6 +36,12 @@ export class PartsComponent implements OnInit {
 
   submit(e:any){
     console.log(this.info, e)
-    alert('submit list')
+    const dialegRef= this.dialog.open(SavevisitComponent)
+    dialegRef.afterClosed().subscribe(res=>{
+      if(res!=undefined){
+        alert('submitted')
+        this.router.navigate([''])
+      }
+    })
   }
 }
