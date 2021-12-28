@@ -40,3 +40,35 @@
 .mat-list.item.content{
     align-items: flex-start;
 }
+
+.cont{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: center;
+}
+
+@media screen and (max-width: 575px) {
+    .cont{
+        flex-direction: column;
+        align-items: unset;
+
+    }
+
+    .b{
+        padding: 0 !important;
+        margin: 0;
+        height: auto;
+        width:100%;
+        margin-top: 15px;
+    }
+}
+
+episjob-label{
+    flex: 1 1 auto;
+}
+
+button{
+    //height: 51px;
+}
+

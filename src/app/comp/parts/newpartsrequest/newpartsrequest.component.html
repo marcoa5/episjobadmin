@@ -1,7 +1,7 @@
 <form [formGroup]="newRequest" class="req">
-        <mat-form-field [appearance]="appearance" class="search">
-            <input matInput type="text" autocomplete="off" formControlName="search" (input)="filter()">
-            <mat-label>Search</mat-label>
+        <mat-form-field [appearance]="appearance" class="search" *ngIf="details.length==0">
+            <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()">
+            <mat-label>Search s/n, model or customer</mat-label>
             <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
         <div class="list" *ngIf="chStr">
@@ -11,10 +11,13 @@
                 <p class="text">{{r.model}}</p>
                 <p class="text">{{r.customer}}</p>
             </div>
-        </div>
-        <div *ngIf="chStr==false">
-            <h4 *ngIf="details.length>0">Machine details</h4>
-            <episjob-label [values]="details"></episjob-label>
-        </div>
-        
+        </div>        
 </form>
+
+
+<div class="cont" *ngIf="details.length>0">
+    <episjob-label [values]="details"></episjob-label>
+    <div class="button">
+        <button mat-raised-button color="primary" class="b" (click)="rem()">Clear</button>
+    </div>
+</div>

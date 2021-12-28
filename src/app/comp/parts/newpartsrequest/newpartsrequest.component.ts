@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
@@ -21,6 +21,8 @@ export class NewpartsrequestComponent implements OnInit {
     })
    }
 
+  @ViewChild('sea') sea1!: ElementRef
+  
   ngOnInit(): void {
     firebase.database().ref('MOL').once('value',a=>{
       if(a.val()!=null){
@@ -31,6 +33,8 @@ export class NewpartsrequestComponent implements OnInit {
       this.rigs=this._rigs
     })
   }
+
+  
 
   filter(){
     let f=this.newRequest.controls.search.value
@@ -57,6 +61,16 @@ export class NewpartsrequestComponent implements OnInit {
       {value: a.customer, lab: 'Customer', click:'', url:''},
     ]
     this.sn.emit(a.sn)
+  }
+
+  rem(){
+    this.newRequest.controls.search.setValue('')
+    this.details=[]
+    this.sn.emit('')
+    setTimeout(() => {
+      this.sea1.nativeElement.focus()
+    }, 20);
+    
   }
 
 }
