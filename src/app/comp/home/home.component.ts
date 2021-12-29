@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { auth } from 'firebase-admin';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -134,8 +135,8 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  nav(route:string){
-    this.router.navigate([route])
+  nav(route:string, au:any){
+    this.router.navigate([route, {auth: au}])
   }  
 
   contr(a:string[]):boolean{

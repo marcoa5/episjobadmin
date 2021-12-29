@@ -80,3 +80,43 @@ th{
 h4{
     margin:0;
 }
+
+.butG{
+    grid-area: butG;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    justify-content: flex-end;
+    gap:10px;
+    width:100%;
+}
+.tab{grid-area: tab;}
+.head{
+    grid-area: head;
+    align-content: center;
+    margin: 0 0 0 0;
+}
+.bodyCont{
+    gap:15px;
+}
+
+@media screen and (max-width:450px) {
+    .bodyCont{
+        display: grid;
+        grid-template-areas: 
+        "head butG"
+        "tab tab";
+    }
+    
+}
+
+@media screen and (min-width:451px) {
+    .bodyCont{
+        display: grid;
+        grid-template-areas: 
+        "head head head head"
+        "tab tab tab tab"
+        "none none none butG";
+    }
+}
+

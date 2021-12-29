@@ -8,6 +8,7 @@ import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.compon
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { MakeidService } from '../../../serv/makeid.service'
 
 export interface cl {
   c1: string
@@ -29,7 +30,8 @@ export class NewcustComponent implements OnInit {
   origin:string[]=[]
   pos:string=''
   rou:any[]=[]
-  constructor(private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog) {
+  allow:boolean=false
+  constructor(private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog, public makeId:MakeidService) {
     this.newC = fb.group({
       name:['',[Validators.required]],
       address1: ['',[Validators.required]],
@@ -41,6 +43,7 @@ export class NewcustComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').on('value',b=>{
         this.pos = b.val()
+        if(this.pos=='SU') this.allow=true
       })
     })
     
@@ -65,7 +68,7 @@ export class NewcustComponent implements OnInit {
       c1: a.get('name')?.value.toUpperCase(),
       c2: a.get('address1')?.value.toUpperCase(),
       c3: a.get('address2')?.value.toUpperCase(),
-      id: this.origin[0]!=''? this.origin[0] : this.makeid(10)
+      id: this.origin[0]!=''? this.origin[0] : this.makeId.makeId(10)
     }
     if(e=='updc' && this.pos=='SU'){
       const dialogconf = new MatDialogConfig();
@@ -93,7 +96,7 @@ export class NewcustComponent implements OnInit {
         }
       })
     } else if(e=='addc' && this.pos=='SU'){
-        let newId = this.makeid(10)
+        let newId = this.makeId.makeId(10)
         g.id = newId
         firebase.database().ref('CustomerC/').child(newId).set(g)
         .then(()=>{this.location.back()})
@@ -103,16 +106,5 @@ export class NewcustComponent implements OnInit {
 
   back(){
     this.location.back()
-  }
-
-
-  makeid(length:number) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
 }

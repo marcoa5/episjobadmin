@@ -1,5 +1,5 @@
 <episjob-navbar title="Contact List" (filter)="filter($event)"></episjob-navbar>
-<div class="cont">
+<div class="cont" *ngIf="allow">
     <div *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" >
         <div class="head" (click)=go(c)>
             <mat-icon class="ico">people</mat-icon>
@@ -19,7 +19,6 @@
                 <a href="mailto:{{c.mail}}">{{c.mail}}</a>
             </div>
         </div>
-        
-        
     </div>
+    <div class="cont" *ngIf="!allow">Restricted area</div>
 </div>

@@ -1,0 +1,31 @@
+@import '../../../../epi.scss';
+
+.cont{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    border-bottom: 1px solid rgb(245,245,245);
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width:500px){
+    .cont{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .bold{
+        font-weight: 500;
+    }
+}
+
+.text{
+    cursor: pointer;
+    padding:0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sel{
+    background-color: $dark-text;
+    color: $light-text;
+    border-radius: 5px;
+}

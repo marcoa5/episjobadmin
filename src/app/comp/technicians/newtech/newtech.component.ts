@@ -20,6 +20,7 @@ export class NewtechComponent implements OnInit {
   newT:FormGroup;
   pos:string|undefined
   origName:string|undefined
+  allow:boolean=false
   constructor(private fb:FormBuilder, private router:Router, private route:ActivatedRoute, private dialog: MatDialog, private location: Location) { 
     this.newT = fb.group({
       fn:['', [Validators.required]],
@@ -31,6 +32,7 @@ export class NewtechComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos=b.val()
+        if(this.pos=='SU') this.allow=true
       })
     })
     this.route.params.subscribe(a=>{

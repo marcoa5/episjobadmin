@@ -103,7 +103,8 @@ import { RequestlistComponent } from './comp/parts/requestlist/requestlist.compo
 import { NotificationListComponent } from './comp/notification-list/notification-list.component'
 import { MatChipsModule } from '@angular/material/chips';
 import { ContactsComponent } from './comp/contacts/contacts.component';
-import { ContactfilterPipe } from './pipe/contactfilter.pipe'
+import { ContactfilterPipe } from './pipe/contactfilter.pipe';
+import { ListofrequestsComponent } from './comp/parts/listofrequests/listofrequests.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -194,6 +195,7 @@ const appearance: MatFormFieldDefaultOptions = {
     NotificationListComponent,
     ContactsComponent,
     ContactfilterPipe,
+    ListofrequestsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

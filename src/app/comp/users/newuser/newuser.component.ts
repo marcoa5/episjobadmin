@@ -35,6 +35,7 @@ export class NewuserComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
   userVisit:boolean = false
+  allow:boolean=false
   constructor(private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
@@ -52,6 +53,7 @@ export class NewuserComponent implements OnInit {
     firebase.auth().onAuthStateChanged(us=>{
       firebase.database().ref('Users/' + us?.uid).on('value',u=>{
         this.pos=u.val().Pos
+        if(this.pos=='SU') this.allow=true
       })
     })
     this.route.params.subscribe(a=>{

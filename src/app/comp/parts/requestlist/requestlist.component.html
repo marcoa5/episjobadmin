@@ -3,7 +3,7 @@
 <form class="reqCont" [formGroup]="addPart">
     <mat-form-field [appearance]="appearance">
         <mat-label>Part Number</mat-label>
-        <input matInput #pn1 type="text" autocomplete="off" maxlength="10" formControlName="pn" (input)="newPn($event)"> 
+        <input matInput #pn1 type="number" autocomplete="off" min="0" max="9999999999" formControlName="pn" (input)="newPn($event)"> 
     </mat-form-field> 
     <mat-form-field [appearance]="appearance" >
         <mat-label>Description</mat-label>
@@ -14,18 +14,17 @@
             <mat-label>Q.ty</mat-label>
             <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
         </mat-form-field> 
-        <button mat-icon-button class="but" [disabled]="addPart.invalid" (click)="add()" color="accent"><mat-icon>add</mat-icon></button>
+        <button mat-icon-button class="but" [disabled]="addPart.controls.pn.value<1 || addPart.controls.desc.value=='' || addPart.controls.qty.value<1" (click)="add()" color="accent"><mat-icon>add</mat-icon></button>
     </div>
     
 </form>
 
-<div *ngIf="partList.data.length>0">
-    <div class="head">
-        <h4 class="it1">Part List</h4>
-        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit List</button>
-    </div>
+<div *ngIf="partList.data.length>0" class="bodyCont">
     
-    <table mat-table [dataSource]="partList" class="mat-elevation-z2">
+        <h4 class="head">Part List</h4>
+    
+    
+    <table mat-table [dataSource]="partList" class="tab mat-elevation-z2">
         <ng-container matColumnDef="ref">
             <th mat-header-cell *matHeaderCellDef class="cen i1"> REF. </th>
             <td mat-cell *matCellDef="let e; let i = index;"  class="cen i1">{{i+1}}</td>
@@ -43,7 +42,7 @@
             <td mat-cell *matCellDef="let e"  class="cen"> {{e.qty}} </td>
         </ng-container>
         <ng-container matColumnDef="del">
-            <th mat-header-cell *matHeaderCellDef  class="cen i5">DELETE</th>
+            <th mat-header-cell *matHeaderCellDef  class="cen i5">DEL</th>
             <td mat-cell *matCellDef="let e; let i= index"  class="cen i5"> 
                 <button mat-icon-button color="accent" (click)="del(i)"><mat-icon>delete</mat-icon></button>    
             </td>
@@ -52,4 +51,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+      <div class="butG">
+        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="back()">Back</button>
+        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit</button>
+      </div>
 </div>
+

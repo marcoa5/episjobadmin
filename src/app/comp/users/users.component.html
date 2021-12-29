@@ -1,13 +1,15 @@
 <episjob-navbar [backB]="''" [title]="'Users'" (filter)="filter($event)"></episjob-navbar>
 
 <episjob-spin *ngIf="users.length==0"></episjob-spin>
-<div class="cont" *ngIf="users.length>0">
+<div class="cont" *ngIf="allow && users.length>0">
     <div class="card" *ngFor="let u of users | userfilter: filtro" [class.mat-elevation-z2]="true" (click)="open(u.uid,u.mail)">
         <h3 class="rigT">{{u.nome}} {{u.cognome}}</h3>
         <h4 class="l2">Email: {{u.mail}}</h4>
         <h4 class="l2">Position: {{u.pos}}</h4>
       </div>
+    <episjob-addbut [fun]="'newuser'"></episjob-addbut>
+
 </div>
 
 
-<episjob-addbut [fun]="'newuser'"></episjob-addbut>
+

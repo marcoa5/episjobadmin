@@ -1,5 +1,8 @@
 @import '../../../epi.scss';
 
+.cont{
+    margin: 80px 10px 30px 10px;
+}
 .tech{
     display: flex;
     border-bottom: 1px solid $dark-text;
@@ -24,14 +27,10 @@ p{margin:0}
     width: 20px;
 }
 
-.cont{
+.contS{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap:15px;
-}
-
-.mainCont{
-    padding: 80px 10px 30px 10px;
 }
 
 h4{

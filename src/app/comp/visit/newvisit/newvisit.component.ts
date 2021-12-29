@@ -13,6 +13,8 @@ import { Router } from '@angular/router'
 import { NotifService } from '../../../serv/notif.service'
 import { MatChip } from '@angular/material/chips';
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
+import { MakeidService } from '../../../serv/makeid.service'
+
 export interface customer{
   id: string,
   c1: string,
@@ -80,7 +82,7 @@ export class NewvisitComponent implements OnInit {
   epiList:any[]=[]
   custList:string[]=[]
   custAtt:string[]=[]
-  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService) { }
+  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService, public makeid: MakeidService) { }
 
   ngOnInit(): void {
     firebase.auth().onAuthStateChanged(a=>{
@@ -297,7 +299,7 @@ export class NewvisitComponent implements OnInit {
   submit(){
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
-      cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid(10),
+      cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid.makeId(10),
       c1: this.custFormGroup.controls.c1.value.toUpperCase(),
       c2: this.custFormGroup.controls.c2.value.toUpperCase(),
       c3: this.custFormGroup.controls.c3.value.toUpperCase(),
@@ -347,17 +349,7 @@ export class NewvisitComponent implements OnInit {
     })
   }
 
-  makeid(length:number) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
-
-  placeChange(){
+    placeChange(){
     this.visitNotes.controls.place.valueChanges.subscribe(v=>{
       if(v.length>2) {
         this.filterPlace(v.toLowerCase())

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -19,14 +19,18 @@ export class AuthComponent implements OnInit {
   elenco:string=''
   start:number=0
   end:number=10
+  allow: boolean=false
+  auth:string[]=[]
 
-  constructor(private router: Router, private paginator: MatPaginatorIntl) { }
+  constructor(private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.paginator.itemsPerPageLabel='#'
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos = b.val()
+        if(this.pos=='SU'|| this.pos=='admin' || this.pos=='adminS') this.allow=true
       })
     })
     firebase.database().ref('MOL')

@@ -31,6 +31,8 @@ export class NewrigComponent implements OnInit {
   pos:string|undefined
   uId:string=''
   uName:string=''
+  allow:boolean=false 
+
   constructor(public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
       sn:['', [Validators.required]],
@@ -48,6 +50,7 @@ export class NewrigComponent implements OnInit {
         this.uId!=a?.uid
         this.uName= b.val().Nome + ' ' + b.val().Cognome
         this.pos=b.val().Pos
+        if(this.pos=='SU') this.allow=true
       })
     })
     this.route.params.subscribe(a=>{
@@ -104,7 +107,7 @@ export class NewrigComponent implements OnInit {
   add(a:any,b:FormGroup){
     let g:string[] = [b.get('sn')?.value,b.get('model')?.value,b.get('site')?.value, b.get('customer')?.value, b.get('in')?.value]
     Object.values(this.customers).map(f=>{if(f.id==g[3]) g[5]=(f.c1)})
-    if(a=='addr' && this.pos=='SU'){
+    if(a=='addr' && this.allow){
       firebase.database().ref('MOL/' + g[0].toUpperCase()).set({
         custid: g[3],
         customer: g[5].toUpperCase(),
@@ -121,7 +124,7 @@ export class NewrigComponent implements OnInit {
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
       this.sendNot(g[0].toUpperCase(),g[1],g[5].toUpperCase())
     }
-    if(a=='updr' && this.pos=='SU'){
+    if(a=='updr' && this.allow){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;

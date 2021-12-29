@@ -1,18 +1,24 @@
 <episjob-navbar [cerca]="false" title="Parts Request"></episjob-navbar>
 <div class="cont">
-    <!--<div class="item1">
-        <episjob-h2 data="New Request" icon="home_repair_service" padtop=0></episjob-h2>
-        <episjob-newpartsrequest (sn)="sn($event)"></episjob-newpartsrequest>
-        
-
-    </div>-->
-    <div class="item2">
-        <episjob-h2 [data]="'Request List ' + ((info!=undefined && info.sn!=undefined)? 'for ' + info.sn:'')" icon="receipt" padtop=0></episjob-h2>
-        <div class="cont1">
-            <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
-            <span class="spacer" *ngIf="false"></span>
-            <span *ngIf="false">or select a draft from the below list:</span>
+    <div *ngIf="allow">
+        <div class="item2">
+            <episjob-h2 [data]="'Request ' + infoRig()" icon="local_offer" padtop=0></episjob-h2>
+            <div class="cont1">
+                <div class="butCont">
+                    <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
+                    <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" *ngIf="!info || !info.sn">Open draft</button>
+                    <button mat-raised-button color="primary" [disabled]="listId<0" (click)="delete()" *ngIf="!info || !info.sn">Delete draft</button>
+                </div>
+                <span class="spacer" *ngIf="false"></span>
+                <span *ngIf="false">or select a draft from the below list:</span>
+            </div>
+            <div *ngIf="(!info || !info.sn) && list.length>0">
+                <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
+                <episjob-listofrequests [list]="list" (index)="ind($event)"></episjob-listofrequests>
+            </div>
+            
+            <episjob-requestlist [listP]="partList" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)" (clear)="clear()"></episjob-requestlist>
         </div>
-        <episjob-requestlist [sn]="snr" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)"></episjob-requestlist>
     </div>
+    <div *ngIf="!allow">Restricted Area</div>
 </div>

@@ -1,6 +1,6 @@
 <episjob-navbar [backB]="rou" [title]="addUpd? 'New Equipment' : 'Edit Equipment' " [home]="true" [cerca]="false"></episjob-navbar>
 
-<div class="cont" *ngIf="pos=='SU'">
+<div class="cont" *ngIf="allow">
     <episjob-h2 icon="precision_manufacturing" [data]="addUpd? 'Add New Equipment' : 'Edit Equipment'" padtop=0></episjob-h2>
     <form [formGroup]="newR" class="formCont">
         <mat-form-field [appearance]="appearance">
@@ -37,3 +37,5 @@
         (info)="add(addUpd? 'addr':'updr', newR)">
     </episjob-add-cancelbuttons>
 </div>
+
+<div class="cont" *ngIf="!allow"></div>

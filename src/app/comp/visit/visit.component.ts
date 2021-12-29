@@ -21,6 +21,7 @@ export class VisitComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
       if(a.day) this.day=a.day
+      
     })
      firebase.auth().onAuthStateChanged(a=>{
       if(a) {

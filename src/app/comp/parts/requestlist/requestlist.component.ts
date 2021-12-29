@@ -2,10 +2,10 @@ import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter }
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase/app'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
+import { Router } from '@angular/router'
 
 
 export interface el{
@@ -19,16 +19,18 @@ export interface el{
   styleUrls: ['./requestlist.component.scss']
 })
 export class RequestlistComponent implements OnInit {
-  @Input() sn:string=''
+  @Input() listP: any[]=[]
   @Output() send=new EventEmitter()
   @Output() list=new EventEmitter()
+  @Output() clear= new EventEmitter()
+
   partList!: MatTableDataSource<el>
   addPart!: FormGroup
   appearance: MatFormFieldAppearance = 'fill'
   displayedColumns:string[]=['ref','pn','desc','qty','del']
   chPn:boolean= false
 
-  constructor(private fb: FormBuilder, public dialog: MatDialog) {
+  constructor(private fb: FormBuilder, public dialog: MatDialog, public router: Router) {
     this.addPart = fb.group({
       pn: ['',Validators.required],
       desc: ['',Validators.required],
@@ -46,13 +48,17 @@ export class RequestlistComponent implements OnInit {
   }
 
   ngOnChanges(){
-    if(this.sn==''){
-      
+    if(this.listP.length>0){
+      this.partList.data=this.listP
+      setTimeout(() => {
+        this.pn1.nativeElement.focus()
+      }, 150);
     }
   }
 
   newPn(e:any){
-    let a= this.addPart.controls.pn.value
+    let a= ''
+    if(e.target.value) a=e.target.value.toString()
     if(a.length==10) {
       firebase.database().ref('PSDParts').child(a).once('value',b=>{
         if(b.val()!=null) {
@@ -101,6 +107,7 @@ export class RequestlistComponent implements OnInit {
         let arr= this.partList.data
         arr.splice(a,1)
         this.partList.data=arr
+        this.list.emit(this.partList.data)
       }
       this.pn1.nativeElement.focus()
     })
@@ -108,5 +115,9 @@ export class RequestlistComponent implements OnInit {
 
   submit(){
     this.send.emit(this.partList.data)
+  }
+
+  back(){
+    this.clear.emit('clear')
   }
 }
