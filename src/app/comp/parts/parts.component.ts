@@ -37,22 +37,32 @@ export class PartsComponent implements OnInit {
         .then(()=>{
           this.allSpin=false
           this.userId=a.uid
-          if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'){
-            firebase.database().ref('PartReq').child(a.uid).on('value',b=>{
-              this.list=Object.values(b.val())
-            })
-          } else if(this.pos=='tech'){
-            firebase.database().ref('PartReq').child(a.uid).on('value',b=>{
-              b.forEach(c=>{
-                if(c.val().usedId==this.userId) this.list.push(c.val())
-              })
-            })
-          }
+          this.loadlist()
         })
       }
 
     })
   
+  }
+
+  loadlist(){
+    this.list=[]
+    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'){
+      firebase.database().ref('PartReq').once('value',b=>{
+        b.forEach(c=>{
+          c.forEach(d=>{
+            this.list.push(d.val())
+          })
+          
+        })
+      })
+    } else if(this.pos=='tech'){
+      firebase.database().ref('PartReq').child(this.userId).once('value',b=>{
+        b.forEach(c=>{
+          if(c.val().usedId==this.userId) this.list.push(c.val())
+        })
+      })
+    }
   }
 
 
@@ -89,7 +99,8 @@ export class PartsComponent implements OnInit {
 
   saveList(e:any){
     this.info['Parts']= e
-    firebase.database().ref('PartReq').child(this.userId).child(this.reqId).set(this.info)
+    firebase.database().ref('PartReq').child(this.info.usedId).child(this.reqId).set(this.info)
+    this.loadlist()
   }
 
   infoRig(){
