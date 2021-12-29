@@ -23,6 +23,7 @@ export class PartsComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   auth:string[]=[]
+  allSpin:boolean=true
   constructor(public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class PartsComponent implements OnInit {
           if(this.auth.includes(this.pos)) this.allow=true
         })
         .then(()=>{
+          this.allSpin=false
           this.userId=a.uid
           if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'){
             firebase.database().ref('PartReq').child(a.uid).on('value',b=>{

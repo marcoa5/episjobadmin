@@ -28,6 +28,7 @@ export class FilesComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   auth:string[]=[]
+  allSpin:boolean=true
   constructor(private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -40,6 +41,7 @@ export class FilesComponent implements OnInit {
         this.pos=b.val()
         if(this.auth.includes(this.pos)) this.allow=true
       })
+      .then(()=>this.allSpin=false)
     })
     firebase.storage().ref('Closed').listAll()
     .then(a=>{

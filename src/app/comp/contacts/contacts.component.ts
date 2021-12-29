@@ -15,6 +15,7 @@ export class ContactsComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   auth:string[]=[]
+  allSpin:boolean=true
   constructor(public dialog: MatDialog, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -25,9 +26,10 @@ export class ContactsComponent implements OnInit {
       if(a!=null) {
         firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
           this.pos=b.val()
-          if(this.auth.includes(this.pos)) this.allow=true
+          if(this.auth.includes(this.pos)) {this.allow=true}
         })
         .then(()=>{
+          this.allSpin=false
           firebase.database().ref('Contacts').on('value',a=>{
             this.contacts=[]
             a.forEach(b=>{

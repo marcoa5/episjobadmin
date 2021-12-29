@@ -1,4 +1,4 @@
-<div *ngIf="auth() && pos" class="mainCont">
+<div *ngIf="allow && !allSpin" class="mainCont">
   <episjob-navbar title="Customer Visit" [cerca]="false"></episjob-navbar>
 
   <div class="cont">
@@ -6,6 +6,6 @@
     <episjob-visitlist [pos]="pos" [userId]="userId" [day]="day" (refresh)="refresh($event)"></episjob-visitlist>   
   </div>
 
-<div *ngIf="!auth() && pos">
-  <episjob-navbar title="Restricted Area" [cerca]="false"></episjob-navbar>
-</div>
+<div *ngIf="!allow && !allSpin">Restricted Area</div>
+
+<episjob-spin *ngIf="allSpin"></episjob-spin>

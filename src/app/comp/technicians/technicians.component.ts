@@ -15,6 +15,7 @@ export class TechniciansComponent implements OnInit {
   pos:string=''
   auth:string[]=[]
   allow:boolean=false
+  allSpin:boolean=true
   constructor(private router:Router, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -28,6 +29,7 @@ export class TechniciansComponent implements OnInit {
           if(this.auth.includes(this.pos)) this.allow=true
         })
         .then(()=>{
+          this.allSpin=false
           firebase.database().ref('Tech').on('value',a=>{
             a.forEach(b=>{
               this.tech.push({l: b.key,s:b.val().s})

@@ -1,7 +1,7 @@
 <episjob-navbar [title]="'Reports'" [cerca]="false" [hide]="false"></episjob-navbar>
 
 
-<div class="cont" (window:resize)="onResize()" *ngIf="allow">
+<div class="cont" (window:resize)="onResize()" *ngIf="allow && !allSpin">
     
     <!--<episjob-h2 icon="file_download" [data]="'Export Report'" [padtop]="0"></episjob-h2>
     <button mat-raised-button color="primary" (click)="all()">Export All Rigs</button>
@@ -101,4 +101,6 @@
     </div>
 </div> 
 
-<div class="cont" *ngIf="!allow">Restricted Area</div>
+<div class="cont" *ngIf="!allow && !allSpin">Restricted Area</div>
+
+<episjob-spin *ngIf="allSpin"></episjob-spin>

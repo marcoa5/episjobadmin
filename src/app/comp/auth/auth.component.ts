@@ -11,7 +11,7 @@ import 'firebase/database'
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
-  pos:string|undefined
+  pos:string=''
   rigs:any[]=[]
   rigs1:any[]=[]
   filtro:string=''
@@ -21,6 +21,7 @@ export class AuthComponent implements OnInit {
   end:number=10
   allow: boolean=false
   auth:string[]=[]
+  allSpin:boolean=true
 
   constructor(private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
 
@@ -30,8 +31,9 @@ export class AuthComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos = b.val()
-        if(this.pos=='SU'|| this.pos=='admin' || this.pos=='adminS') this.allow=true
+        if(this.auth.includes(this.pos)) this.allow=true
       })
+      .then(()=>this.allSpin=false)
     })
     firebase.database().ref('MOL')
     .once('value',a=>{

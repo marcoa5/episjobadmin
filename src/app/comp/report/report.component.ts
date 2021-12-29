@@ -35,6 +35,8 @@ export class ReportComponent implements OnInit {
   allow:boolean=false
   auth:string[]=[]
   info:any[]=[]
+  allSpin:boolean=true
+
   constructor(private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
   }
 
@@ -47,6 +49,7 @@ export class ReportComponent implements OnInit {
           this.pos=b.val()
           if(this.auth.includes(this.pos)) this.allow=true
         })
+        .then(()=>this.allSpin=false)
       }
     })
   }

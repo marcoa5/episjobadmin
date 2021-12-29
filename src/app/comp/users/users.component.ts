@@ -17,6 +17,7 @@ export class UsersComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   auth:string[]=[]
+  allSpin:boolean=true
   constructor(private http: HttpClient, private router: Router, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -27,6 +28,7 @@ export class UsersComponent implements OnInit {
         if(this.auth.includes(this.pos)) this.allow=true
       })
       .then(()=>{
+        this.allSpin=false
         if(this.allow){
           this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
             Object.values(a).forEach(b=>{
