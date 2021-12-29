@@ -58,7 +58,7 @@ export class NewtechComponent implements OnInit {
       firebase.database().ref('Tech/' + g[0].toUpperCase()).set({
         s: g[1].toUpperCase(),
       }).then(()=>{
-        this.router.navigate(['technicians'])
+        this.location.back()
       })
       
     }
@@ -69,7 +69,7 @@ export class NewtechComponent implements OnInit {
           s: g[1].toUpperCase(),
         })
         .then(()=>{
-          this.router.navigate(['technicians'])
+          this.location.back()
         })
       })
     }
