@@ -11,7 +11,7 @@ import { MatDialogRef} from '@angular/material/dialog'
 })
 export class NewpartsrequestComponent implements OnInit {
   newRequest!: FormGroup
-  type!: FormGroup
+  type: any
   appearance: MatFormFieldAppearance = 'fill'
   rigs:any[]=[]
   _rigs:any[]=[]
@@ -21,9 +21,6 @@ export class NewpartsrequestComponent implements OnInit {
   constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>) {
     this.newRequest = fb.group({
       search: ['']
-    })
-    this.type=fb.group({
-      ty: ['',Validators.required]
     })
    }
 
@@ -87,6 +84,6 @@ export class NewpartsrequestComponent implements OnInit {
 
   go(){
     let a = this.details
-    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type.controls.ty.value})
+    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type})
   }
 }

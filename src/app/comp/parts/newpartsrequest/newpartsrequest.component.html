@@ -8,31 +8,23 @@
     </mat-form-field>
     <div class="list" *ngIf="chStr">
         <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
-            <!--<mat-icon mat-list-icon class="icon">precision_manufacturing</mat-icon>-->
-            <p class="text">{{r.sn}}</p>
-            <p class="text">{{r.model}}</p>
+            <p class="text t1 sm">{{r.sn}}</p>
+            <p class="text sm">{{r.model}}</p>
+            <p class="text med"><strong>{{r.sn}}</strong> - {{r.model}}</p>
             <p class="text">{{r.customer}}</p>
         </div>
     </div>        
   </form>
   <div class="cont" *ngIf="details.length>0">
   <episjob-label [values]="details"></episjob-label>
-
-      <div class="button">
-        <form [formGroup]="type">
-          <mat-form-field [appearance]="appearance" class="sel">
-            <mat-label>Request type</mat-label>
-            <mat-select formControlName="ty">
-              <mat-option value="Service">Service</mat-option>
-              <mat-option value="CustomerSupport">Customer Support</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </form>
-        <button *ngIf="!type.invalid" mat-raised-button class="b" (click)="rem()" class="button1">Clear</button>
-      </div>
+  <h4 class="typeH">Request type</h4>
+  <mat-radio-group class="button" [(ngModel)]="type">
+    <mat-radio-button value="Service">Service</mat-radio-button>
+    <mat-radio-button value="CustomerSupport">Customer Support</mat-radio-button>
+  </mat-radio-group>
   </div>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="type.invalid || details.length==0" (click)="go()">Proceed</button>
+  <button mat-raised-button color="primary" [disabled]="type=='' || type==undefined || details.length==0" (click)="go()">Proceed</button>
 </div>
