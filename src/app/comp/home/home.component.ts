@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { auth } from 'firebase-admin';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -102,8 +101,11 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  constructor(public router :Router) { }
+  constructor(public router :Router) { 
+    
+  }
   ngOnInit(): void {
+
     let tokens:any[]=[]
 
     firebase.auth().onAuthStateChanged(a=>{

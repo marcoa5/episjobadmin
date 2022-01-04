@@ -6,6 +6,7 @@ import 'firebase/database'
 import 'firebase/messaging'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
+import { AuthServiceService } from './serv/auth-service.service';
 
 const firebaseConfig = {
   apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
@@ -38,11 +39,13 @@ export class AppComponent {
   SJ:any
   Visit:any
   Newrig:any
-  constructor(private dialog:MatDialog, public router: Router){}
+  constructor(private dialog:MatDialog, public router: Router, auth:AuthServiceService){
+    firebase.initializeApp(firebaseConfig)
+    auth.getData()
+  }
   
   not:number=0
   ngOnInit(){
-    firebase.initializeApp(firebaseConfig)
     this.onResize()
     firebase.auth().onAuthStateChanged(a=>{
       if(!a) {

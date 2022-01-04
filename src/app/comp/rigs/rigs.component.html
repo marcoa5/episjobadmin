@@ -3,16 +3,16 @@
 
 <div class="cont" *ngIf="rigs1.length>0">
       <div class="card" pisjobElevation *ngFor="let rig of rigs1 | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer,rig.show)" [class.mat-elevation-z2]="true">
-        <h3 class="rigT" [ngClass]="{'titleDisabled': rig.show==0}">s/n: {{rig.sn}}</h3>
+        <h3 class="rigT">s/n: {{rig.sn}}</h3>
         <div class="gr">
           <div class="te">
-            <h4 class="l2" [ngClass]="{'disabled': rig.show==0}">{{rig.model}}</h4>
-            <h4 class="l2" [ngClass]="{'disabled': rig.show==0}">{{rig.in}}</h4>
-            <p class="l2" [ngClass]="{'disabled': rig.show==0}">{{rig.customer}}</p>
-            <p class="l3" [ngClass]="{'disabled': rig.show==0}">{{rig.site || 'SITE UNKNOWN'}}</p>  
+            <h4 class="l2">{{rig.model}}</h4>
+            <h4 class="l2">{{rig.in}}</h4>
+            <p class="l2">{{rig.customer}}</p>
+            <p class="l3">{{rig.site || 'SITE UNKNOWN'}}</p>  
           </div>
           <div class="cat"*ngIf="rig.path!=''">
-            <img [src]="rig.path!=undefined?rig.path : ''" width=100 [ngClass]="{'imgDisabled': rig.show==0}">
+            <img src="../../../assets/Rigs/{{rig.categ}}.png" width=100 [ngClass]="{'imgDisabled': rig.show==0}">
           </div>
         </div>
       </div>

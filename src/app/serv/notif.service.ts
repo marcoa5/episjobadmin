@@ -1,4 +1,3 @@
-import { listLazyRoutes } from '@angular/compiler/src/aot/lazy_routes';
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app';
 import * as moment from 'moment'
