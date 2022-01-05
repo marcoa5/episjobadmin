@@ -145,7 +145,7 @@ export class AuthServiceService {
     this.epiFleet=a
   }
 
-  allow(f:string):boolean{
+  allow(f:string, sn?:string):boolean{
     switch(f){
       case 'newrig':
         if(this.epiUser.Pos=='SU') return true
@@ -163,6 +163,10 @@ export class AuthServiceService {
         if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
         return false
         break;
+      case 'machine':
+        if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales') return false
+        return true
+        break
     }
     return false
   }

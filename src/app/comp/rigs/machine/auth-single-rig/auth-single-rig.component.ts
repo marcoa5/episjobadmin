@@ -11,7 +11,7 @@ import 'firebase/database'
 })
 export class AuthSingleRigComponent implements OnInit {
   largh:number=0
-  @Input() sn:string|undefined
+  @Input() sn:string=''
   a:number[]=[0,0,0,0,0]
   appearance:MatFormFieldAppearance="fill"
   minWidth:number = 1100;
@@ -26,7 +26,7 @@ export class AuthSingleRigComponent implements OnInit {
 
   ngOnInit(): void {
     this.largh=window.innerWidth
-    firebase.database().ref('RigAuth/' + this.sn).on('value',a=>{
+    firebase.database().ref('RigAuth').child(this.sn).on('value',a=>{
       if(a.val()!=null){
         this.a[1] = a.val().a1?a.val().a1:0
         this.a[2] = a.val().a2?a.val().a2:0
@@ -42,7 +42,7 @@ export class AuthSingleRigComponent implements OnInit {
   }
 
   ch(a:number, e:any){
-    firebase.database().ref('RigAuth/' + this.sn).child('a' + a).set(e.checked==true? '1' : '0')
+    firebase.database().ref('RigAuth').child(this.sn).child('a' + a).set(e.checked==true? '1' : '0')
   }
 
   title(){

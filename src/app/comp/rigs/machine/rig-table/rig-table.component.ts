@@ -64,9 +64,4 @@ export class RigTableComponent implements OnInit {
     }
   }
 
-  /*split(e:any){
-    this.inizio = e.pageIndex * e.pageSize +1
-    this.fine = this.inizio + e.pageSize-1
-    this.oreSl = this.ore.slice(this.inizio-1,this.fine)
-  }*/
 }

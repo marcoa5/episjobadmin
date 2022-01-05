@@ -25,7 +25,6 @@ export class RigsComponent implements OnInit {
 
   ngOnInit(): void {
     this.largh(1)
-    
   }
 
   back(){

@@ -11,10 +11,10 @@ import { BackService } from '../../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
-import { Location } from '@angular/common'
 import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 
 export interface hrsLabel {
@@ -30,8 +30,14 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
+  //disab:boolean = true
+  //labels: any[] = [];
+  //hours:any[]|undefined
+  //dataSource = this.data
+  //p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
+  //avg:any[]=[]
+
   cCom:any=0;
-  disab:boolean = true
   valore: any='';
   model:string='';
   customer:string='';
@@ -39,13 +45,10 @@ export class MachineComponent implements OnInit {
   site:string='';
   in:string='';
   docBpcs:string=''
-  labels: any[] = [];
   data:any[]=[]
   dataAvg:any[]=[]
   datafil:any[]=[]
-  hours:any[]|undefined
   dataCha:any
-  dataSource = this.data
   g1:Chart | null | undefined
   g2:Chart | null | undefined
   rigLabels: hrsLabel[]=[]
@@ -53,11 +56,9 @@ export class MachineComponent implements OnInit {
   pos:string=''
   iniz:any=''
   day:any
-  ri:boolean=true
-  p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
-  inizio:any=moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')
-  fine:any=new Date()
-  avg:any[]=[]
+  allow:boolean=false
+  inizio!:Date
+  fine:Date=new Date()
   infoH:any='Running Hours'
   infoCommisioned:string=''
   dataCom:string=''
@@ -71,36 +72,34 @@ export class MachineComponent implements OnInit {
   sortSJ:boolean=true
   name:string=''
   elenco:any[]=[]
-  constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
+  access:any[]=[]
+  area:string=''
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
+    auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      this.name = a.Nome + ' ' + a.Cognome
+      this.area=a.Area
+      setTimeout(() => {
+        //this.auth.allow('machine',this.valore)
+      }, 1);
+    })    
   }
   ngOnInit(): void {
     Chart.register()
     this.route.params.subscribe(r=>{
       this.valore=r.sn
     })
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        this.pos= b.val().Pos
-        this.iniz=b.val().Area
-        this.name=b.val().Nome + ' ' + b.val().Cognome
-      }).then(()=>{
-        if(this.pos=='sales' || this.pos=='customer'){
-          firebase.database().ref('RigAuth/' + this.valore).child('a' + this.iniz).once('value',a=>{
-            if(a.val()==1) {
-              this.ri = true
-              this.f(0)
-            }
-            if(a.val()==0) this.ri = false
-          })
-        } else {
-          this.f(0)
-        }
-      })  
-    })
+    this.f(1)
+    if(this.pos=='sales' || this.pos=='customer'){
+      this.auth._access.subscribe(a=>{
+        let y = a[a.map((b:any)=>{return b.sn}).indexOf(this.valore)]
+        if(y && y['a' + this.area]=='1') this.allow=true
+      })
+    }
   }
 
   f(a:number){
-    firebase.database().ref('MOL/' + this.valore).once('value',x=>{
+    firebase.database().ref('MOL').child(this.valore).once('value',x=>{
       this.site = x.val().site
       this.model=x.val().model
       this.customer=x.val().customer
@@ -111,6 +110,7 @@ export class MachineComponent implements OnInit {
     .then(()=>{
       this.loadData()
       .then(()=>{
+        if(this.data[0]) this.inizio=this.data[0].x
         this.rigLabels=[
           {value:this.valore, lab:'Serial Nr.',click:'',url:''},
           {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
@@ -118,19 +118,19 @@ export class MachineComponent implements OnInit {
         if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
         if(this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
         
-        if(this.data[0].y=='c' && this.data[0]!=undefined) {
+        if(this.data[0] && this.data[0].y=='c' && this.data[0]!=undefined) {
           this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
           this.showAdd=false
         }
-      if(this.data[0].y!='c' && this.data[0]!=undefined) {
+      if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
         this.showAdd=true
       }
-        if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
+        //if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         this.checkComm()
         this.lastRead()
       })
-      .catch((h)=>{console.log('no data')})
+      //.catch((h)=>{console.log('no data')})
     }) 
   }
 
@@ -226,7 +226,7 @@ export class MachineComponent implements OnInit {
       }
     }
     
-    firebase.database().ref('Saved/' + this.valore).once('value',h=>{
+    firebase.database().ref('Saved').child(this.valore).once('value',h=>{
       let iniz = moment(i).format('YYYYMMDD')
       let fine = moment(f).format('YYYYMMDD')
       if(fine<iniz) fine=(parseInt(iniz)+1).toString()

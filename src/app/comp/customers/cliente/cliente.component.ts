@@ -8,6 +8,7 @@ import { GetPotYearService } from '../../../serv/get-pot-year.service'
 import { Clipboard } from '@angular/cdk/clipboard'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 export interface rigsLabel {
   lab: string
@@ -26,6 +27,7 @@ export class ClienteComponent implements OnInit {
   area:any=''
   cust1:string=''
   id:string=''
+  customers:any[]=[]
   cust2: string|undefined
   cust3: string|undefined
   custrig:any[]|undefined
@@ -38,34 +40,67 @@ export class ClienteComponent implements OnInit {
   userId:string=''
   listV:any[]=[]
   elenco:any[]=[]
-  constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
+  rigs:any[]=[]
+  constructor(public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
+    auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      this.userId=a.uid
+      this.area=a.Area
+    })
+    
+  }
 
   ngOnInit(): void {
     this.anno=this.year.getPotYear().toString()
     this.route.params.subscribe(a=>{
       this.id=a.id
-      firebase.database().ref('CustomerC').child(this.id).once('value', g=>{
-        this.cust1=g.val().c1
-        this.cust2=g.val().c2
-        this.cust3=g.val().c3
+      this.updateContacts()
+    })
+    this.auth._customers.subscribe(a=>{
+      this.customers=a
+      let index = a.map((b:any)=>{
+        return b.id
+      }).indexOf(this.id)
+      if(a[index]){
+        this.cust1=a[index].c1
+        this.cust2=a[index].c2
+        this.cust3=a[index].c3
         this.infoLabels =[
           {value:this.cust1,lab:'Customer Name',click:'', url:''},
           {value:this.cust2,lab:'Address 1',click:'', url:''},
           {value:this.cust3,lab:'Address 2',click:'', url:''}
         ]
-      })
-      this.updateContacts()
+      }
     })
+    this.getVisits()
+    this.auth._fleet.subscribe(a=>{
+      this.getFleet(a)
+    })
+  }
 
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        if(b.key && b.val()){
-          this.pos=b.val().Pos
-          this.userId=b.key
-          this.area=b.val().Area
-        }
-      }).then(()=>{
-        let ref=firebase.database().ref('CustVisit')
+  getFleet(a:any[]){
+    this.rigsLabels=[]
+    this._rigsLabels=[]
+    a.filter(b=>{
+      return b.custid==this.id
+    }).forEach(c=>{
+      this._rigsLabels.push({value: c.model,lab:c.sn,click:c.sn, url:'machine'})
+      if(this.pos=='sales'){
+        this.auth._access.subscribe(p=>{
+          this.rigsLabels=this._rigsLabels.filter(t=>{
+            let i = p.map((y:any)=>{return y.sn}).indexOf(t.lab)
+            if(p[i]['a'+this.area]=='1') return true
+            return false
+          })
+        })
+      } else {
+        this.rigsLabels=this._rigsLabels
+      }
+    })
+  }
+
+  getVisits(){
+    let ref=firebase.database().ref('CustVisit')
         ref.on('value',a=>{
         this.listV=[]
           a.forEach(b=>{
@@ -81,27 +116,6 @@ export class ClienteComponent implements OnInit {
             })
           })
         })
-        this.rigsLabels=[]
-        firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).once('value',k=>{
-          if(k.val()!=null){
-            this.custrig=Object.values(k.val())
-            k.forEach(x=>{
-              this._rigsLabels.push({value: x.val().model,lab:x.val().sn,click:x.val().sn, url:'machine'})
-              if(this.pos=='sales') {
-                firebase.database().ref('RigAuth/').child(x.val().sn).child('a' + this.area).once('value',g=>{
-                  if(g.val()!=1) this.rigsLabels=this._rigsLabels.filter(a=>{
-                    if(a.lab!=x.val().sn)return true
-                    return false
-                  })
-                })
-              } else {
-                this.rigsLabels=this._rigsLabels
-              }
-            })
-          } 
-        })
-      })
-    })
   }
 
   updateContacts(){
