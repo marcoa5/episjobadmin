@@ -19,9 +19,6 @@ export class TechniciansComponent implements OnInit {
   constructor(private router:Router, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(i=>{
-      this.auth=i.auth.split(',')
-    })
     firebase.auth().onAuthStateChanged(a=>{
       if(a!=null) {
         firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{

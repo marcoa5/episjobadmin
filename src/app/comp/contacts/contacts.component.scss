@@ -30,15 +30,18 @@
 }
 
 .textH{
-    font-weight: 900;
+    font-weight: 600;
 }
 
 .body, .head{
     display: grid;
     padding: 2px;
-    grid-template-columns: 25px 1fr;
+    grid-template-columns: 35px 1fr;
     padding: 5px 10px;
     gap: 3px 5px;
     align-items: center;
 }
 
+mat-icon{
+    transform: scale(.75);
+}

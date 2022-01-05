@@ -15,6 +15,7 @@ export class AuthServiceService {
   epiUser:any
   epiCustomers:any[]=[]
   epiUserId:string=''
+  epiContact:any[]=[]
   constructor() {
     firebase.initializeApp({
       apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
@@ -47,6 +48,7 @@ export class AuthServiceService {
   private fleet:Subject<any>=new BehaviorSubject<any>([])
   private userData:Subject<any>=new BehaviorSubject<any>([])
   private customers:Subject<any>=new BehaviorSubject<any>([])
+  private contacts:Subject<any>=new BehaviorSubject<any>([])
   
   get _rigs(){return this.rigs.asObservable()}
 
@@ -59,6 +61,8 @@ export class AuthServiceService {
   get _fleet(){return this.fleet.asObservable()}
   
   get _customers(){return this.customers.asObservable()}
+
+  get _contacts(){return this.contacts.asObservable()}
 
   getFleetData(){
     firebase.database().ref('Users').on('value',b=>{
@@ -117,10 +121,22 @@ export class AuthServiceService {
         }
         this.customers.next(c)
         this.epiCustomers=c 
-      
       }
-      
-      
+    })
+  }
+
+  getContact(){
+    firebase.database().ref('Contacts').on('value',a=>{
+      let b:any[]=[]
+      a.forEach(c=>{
+        c.forEach(d=>{
+          let t = d.val()
+          t.company=c.key
+          b.push(t)
+        })
+      })
+      this.contacts.next(b)
+      this.epiContact=b
     })
   }
 

@@ -80,7 +80,7 @@ export class MachineComponent implements OnInit {
       this.name = a.Nome + ' ' + a.Cognome
       this.area=a.Area
       setTimeout(() => {
-        //this.auth.allow('machine',this.valore)
+        this.allow=this.auth.allow('machine',this.valore)
       }, 1);
     })    
   }

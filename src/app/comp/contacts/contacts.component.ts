@@ -16,45 +16,29 @@ export class ContactsComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   allSpin:boolean=true
+  customers:any[]=[]
   constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService) { 
+    auth.getContact()
     auth._userData.subscribe(a=>{
       this.pos=a.Pos
       setTimeout(() => {
         this.allow=auth.allow('contacts')
       }, 1);
     })
+    auth._customers.subscribe(a=>{this.customers=a}) 
+    auth._contacts.subscribe((a:any[])=>{
+      this.contacts=a
+      a.forEach(e => {
+        if(this.customers.length>0) {
+          let i =(this.customers.map(a=>{return a.id}).indexOf(e.company))
+          e['company'] = this.customers[i].c1
+        }
+      });
+    })
   }
 
   ngOnInit(): void {
-    
-    /*firebase.auth().onAuthStateChanged(a=>{
-      if(a!=null) {
-        firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
-          this.pos=b.val()
-          if(this.auth.includes(this.pos)) {this.allow=true}
-        })
-        .then(()=>{
-          
-        })
-      }
-    })*/
-
     this.allSpin=false
-    firebase.database().ref('Contacts').on('value',a=>{
-      this.contacts=[]
-      a.forEach(b=>{
-        b.forEach(c=>{
-          let cont = c.val()
-          if(b.key) {
-            firebase.database().ref('CustomerC').child(b.key).once('value',d=>{
-              cont['company']=d.val().c1
-              cont['id']=b.key
-            })
-          }
-          this.contacts.push(cont)
-        })
-      })
-    })
   }
 
   filter(a:any){

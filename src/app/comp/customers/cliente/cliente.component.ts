@@ -46,6 +46,7 @@ export class ClienteComponent implements OnInit {
       this.pos=a.Pos
       this.userId=a.uid
       this.area=a.Area
+      this.getVisits()
     })
     
   }
@@ -103,18 +104,27 @@ export class ClienteComponent implements OnInit {
     let ref=firebase.database().ref('CustVisit')
         ref.on('value',a=>{
         this.listV=[]
-          a.forEach(b=>{
-            b.forEach(c=>{
-              c.forEach(d=>{
-                if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == b.val().substring(0,28)))){
-                  let gty = d.val()
-                  gty['url']= b.key+'/'+c.key + '/' + d.key
-                  this.listV.push(gty)
-                  this.listV.reverse()
-                }
-              })
+          if(a.val()!=null) {
+            a.forEach(b=>{
+              if(b.val()!=null){
+                b.forEach(c=>{
+                  if(c.val()!=null){
+                    c.forEach(d=>{
+                      if(d.val()!=null){
+                        if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == c.key?.toString().substring(0,28)))){
+                          let gty = d.val()
+                          gty['url']= b.key+'/'+c.key + '/' + d.key
+                          this.listV.push(gty)
+                          this.listV.reverse()
+                        }
+                      }
+                    })
+                  }
+                })
+              }
             })
-          })
+          }
+          
         })
   }
 
