@@ -4,6 +4,7 @@ import { BackService }  from '../../serv/back.service'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-customers',
@@ -18,10 +19,16 @@ export class CustomersComponent implements OnInit {
   ind:number=0
   custSales:string[]=[]
   rigSn:string[]=[]
-  constructor(public router: Router, public bak:BackService) { }
+  constructor(public router: Router, public bak:BackService, private auth: AuthServiceService) {
+    auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      this.ind=a.Area?.toString()
+    })
+   }
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(a=>{
+    this.auth._customers.subscribe(a=>this.customers=a)
+    /*firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos=b.val().Pos
         this.ind=b.val().Area?.toString()
@@ -34,14 +41,14 @@ export class CustomersComponent implements OnInit {
               hasRig.push(t.val().custid)
             })
           })
-          .then(()=>{*/
+          .then(()=>{
             firebase.database().ref('CustomerC').once('value', g=>{
               this._customers = Object.values(g.val())
             })
             .then(()=>{
               /*this.customers  =this._customers.filter(f=>{
                 return hasRig.includes(f.id)
-              })*/
+              })
               this.customers=this._customers
             })
           //})
@@ -74,7 +81,7 @@ export class CustomersComponent implements OnInit {
           return 0;
         }
       })
-    }, 300);
+    }, 300);*/
   }
 
   open(a: String, b:string, c:string, d:string){

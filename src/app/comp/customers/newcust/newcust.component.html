@@ -20,4 +20,4 @@
     <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="newC.invalid" (info)="add(addUpd? 'addc':'updc', newC)"></episjob-add-cancelbuttons>
 </div>
 
-<div class="cont" *ngIf="!allow"></div>
+<div class="cont" *ngIf="!allow">Restricted Area</div>

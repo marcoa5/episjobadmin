@@ -10,32 +10,22 @@ import { BackService } from '../../serv/back.service'
   styleUrls: ['./rigs.component.scss']
 })
 export class RigsComponent implements OnInit {
-  rigs:any[] =[];
-  rigs1:any[] =[];
-  cat:any
+  rigs:any[] =[]
   oldPosition:number=0;
   currentPosition:number=0;
   scrollaV:boolean =true;
   filtro:string=''
   lar:boolean|undefined;
   value:any
-  pos:string|undefined
-  iniz:string|undefined
-  auth:any[]=[]
-  constructor(public router: Router, public bak:BackService, auth: AuthServiceService) { 
-    auth._fleet.subscribe(a=>this.rigs1=a)
+  
+  
+  constructor(public router: Router, public bak:BackService, public auth:AuthServiceService) { 
+    this.auth._fleet.subscribe(a=>{this.rigs=a})
    }
 
   ngOnInit(): void {
     this.largh(1)
     
-  }
-
-  imageExists(url: string, callback: (arg0: boolean) => void) {
-    var img = new Image();
-    img.onerror = function() { callback(false); };
-    img.onload = function() { callback(true); };
-    img.src = url;
   }
 
   back(){

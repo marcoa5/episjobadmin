@@ -8,18 +8,6 @@ import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
 import { AuthServiceService } from './serv/auth-service.service';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
-  authDomain: "epi-serv-job.firebaseapp.com",
-  databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com",
-  projectId: "epi-serv-job",
-  storageBucket: "epi-serv-job.appspot.com",
-  messagingSenderId: "793133030101",
-  appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
-  measurementId: "G-Y0638WJK1X"
-};
-
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,12 +27,13 @@ export class AppComponent {
   SJ:any
   Visit:any
   Newrig:any
-  constructor(private dialog:MatDialog, public router: Router, auth:AuthServiceService){
-    firebase.initializeApp(firebaseConfig)
-    auth.getData()
+  not:number=0
+
+  constructor(private dialog:MatDialog, public router: Router, auth :AuthServiceService){
+    auth.getFleetData()
+    auth.getCustData()
   }
   
-  not:number=0
   ngOnInit(){
     this.onResize()
     firebase.auth().onAuthStateChanged(a=>{

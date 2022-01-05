@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router'
-import firebase from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/database'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 
 @Component({
@@ -12,18 +10,20 @@ import 'firebase/database'
 })
 export class AddbutComponent implements OnInit {
   pos:string|undefined
+  allow:boolean=false
   @Input() fun:string|undefined
-  constructor(private router: Router) { }
+  constructor(private router: Router, private auth: AuthServiceService) {}
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref(`Users/${a?.uid}/Pos`).once('value',b=>{
-        this.pos=b.val()
-      })
+    this.auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      setTimeout(() => {
+        this.allow=this.auth.allow('addbut')
+      }, 10);
     })
   }
 
   new(){
-    if(this.pos=='SU') this.router.navigate([this.fun])
+    if(this.allow) this.router.navigate([this.fun])
   }
 }

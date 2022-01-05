@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
   }
 
   nav(route:string, au:any){
-    this.router.navigate([route, {auth: au}])
+    this.router.navigate([route])
   }  
 
   contr(a:string[]):boolean{
