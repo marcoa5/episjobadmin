@@ -4,9 +4,9 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { DeldialogComponent } from '../util/deldialog/deldialog.component';
-import { AddhrsComponent } from '../util/dialog/addhrs/addhrs.component'
-import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
+import { AddhrsComponent } from '../../util/dialog/addhrs/addhrs.component'
+import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -15,6 +15,8 @@ import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.compon
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() cliente:boolean=false
+  @Input() machine:boolean=false
   @Input() addHr:boolean=false
   @Input() cont:boolean=false
   @Input() func:string|undefined
@@ -25,6 +27,8 @@ export class EditdelbutComponent implements OnInit {
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
+  @Output() sjReport = new EventEmitter()
+  @Output() hrsReport = new EventEmitter()
   constructor(private location: Location, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -89,5 +93,12 @@ export class EditdelbutComponent implements OnInit {
     })
   }
   
+  report(){
+    this.sjReport.emit('sjReport')
+  }
+
+  reportHrs(){
+    this.hrsReport.emit('hrsReport')
+  }
 
 }

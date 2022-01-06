@@ -6,7 +6,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { FormGroup, FormBuilder, Validators, Form, AbstractControl } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'
-import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
 
@@ -35,6 +35,7 @@ export class NewuserComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
   userVisit:boolean = false
+  allow:boolean=false
   constructor(private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
@@ -52,6 +53,7 @@ export class NewuserComponent implements OnInit {
     firebase.auth().onAuthStateChanged(us=>{
       firebase.database().ref('Users/' + us?.uid).on('value',u=>{
         this.pos=u.val().Pos
+        if(this.pos=='SU') this.allow=true
       })
     })
     this.route.params.subscribe(a=>{
@@ -85,9 +87,9 @@ export class NewuserComponent implements OnInit {
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'
-
     //console.log(a, b.get('nome')?.value, b.get('cognome')?.value, b.get('mail')?.value, this.userpos)
     let params = new HttpParams()
+    .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)
     .set('Cognome',b.get('cognome')?.value)
     .set('Pos',this.userpos?this.userpos:'tech')
@@ -95,6 +97,7 @@ export class NewuserComponent implements OnInit {
     .set('id', this.id)
     .set('userVisit', this.userVisit + '')
     .set('Area', b.get('area')?.value)
+    if(a=='addu') params.set('Mail', b.get('mail')!.value)
     if(a=='addu') {
         this.http.get(url + 'createuser',{params:params}).subscribe(()=>{console.log('added')})
     } else if(a=='updu'){

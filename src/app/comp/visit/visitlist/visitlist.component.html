@@ -4,10 +4,13 @@
     <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>
     <div>Add new visit</div>
   </div>
-  <div class="listCont" *ngIf="listV.length==0">
+  <div class="spinC" *ngIf="spin">
+    <mat-spinner color="primary" diameter="25"></mat-spinner>
+  </div>
+  <div class="listCont" *ngIf="listV!=undefined && listV.length==0">
     No visits
   </div>
-  <div class="listCont" *ngIf="listV.length>0">
+  <div class="listCont" *ngIf="listV!=undefined && listV.length>0">
       <div class="list" *ngFor="let v of listV" class="divtxt" (click)="openVisit(v)">
         <div>
             <div class="txtlabel">{{v.sam}}</div>

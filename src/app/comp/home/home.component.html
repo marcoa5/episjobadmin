@@ -3,7 +3,7 @@
 
 <div id="start" *ngIf="!spin">
     <div class="butC" *ngFor="let a of buttons | disbutton: pos">
-        <button mat-raised-button class="but" color="accent" (click)="nav(a.route)" [disabled]="a.dis">
+        <button mat-raised-button class="but" color="accent" (click)="nav(a.route, a.auth)" [disabled]="a.dis">
             <div>
                 <mat-icon class="butIcon">{{a.icon}}</mat-icon>
                 <p class="label">{{a.id}}</p>  

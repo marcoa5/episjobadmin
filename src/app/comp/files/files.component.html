@@ -1,14 +1,14 @@
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
-<div *ngIf="pos=='SU' || pos=='admin' || pos=='tech'">
+<div *ngIf="allow && !allSpin">
   <episjob-spin *ngIf="start<0"></episjob-spin>
   <div class="cont" *ngIf="start>-1" >
-    <mat-paginator *ngIf="filtro==''"  [length]="files.length"
-    [pageSize]="10"
-    [pageSizeOptions]="lungh"
-    (page)="pageEvent($event)">
-  </mat-paginator>
+    
     <episjob-h2 padtop=0 icon="description" data="Service Jobs list"></episjob-h2>
-      
+    <mat-paginator *ngIf="filtro==''"  [length]="files.length"
+      [pageSize]="10"
+      [pageSizeOptions]="lungh"
+      (page)="pageEvent($event)">
+    </mat-paginator>
       <div class="file" *ngFor="let a of files1 | filefilter: filtro ; let i = index " [class.mat-elevation-z2]="true" (click)="open(a.name)">
           <mat-icon>picture_as_pdf</mat-icon>
           <div class="nomeF">{{a.name}}</div>
@@ -16,4 +16,5 @@
   </div>
 </div>
 
-<div *ngIf="pos!='SU' && pos!='admin' && pos!='tech' && pos!=undefined" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !allSpin" class="cont">Restricted Area</div>
+<episjob-spin *ngIf="allSpin"></episjob-spin>

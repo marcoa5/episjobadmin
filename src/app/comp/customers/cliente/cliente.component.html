@@ -6,7 +6,7 @@
         <episjob-h2 padtop=0 icon="work_outline" [data]="'Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>  
     </div>
-    <div class="item2" *ngIf="infoContacts.length>0">
+    <div class="item2" *ngIf="infoContacts.length>0 && pos!='customer'">
         <episjob-h2 padtop=0 icon="person" [data]="'Contacts'"></episjob-h2> 
         <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0" (newCont)="contact($event)"></episjob-label>
     </div>
@@ -28,4 +28,4 @@
     </div>
 </div>
 
-<episjob-editdelbut [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)" (newCont)="contact($event)"></episjob-editdelbut> 
+<episjob-editdelbut [cliente]="true" [cont]="true" [nome]="cust1" [func]="'CustomerC'" [id]="id" [check]="contr()" (edit)="go($event)" (newCont)="contact($event)" (sjReport)="report()"></episjob-editdelbut> 

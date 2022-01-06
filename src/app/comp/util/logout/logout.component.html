@@ -3,10 +3,13 @@
         <div mat-dialog-title>Notifications</div>
         <div class="ch">
             <div>
-                <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, 'sj')">SJ Notifications</mat-checkbox>
+                <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, '_sj')">SJ Notifications</mat-checkbox>
             </div>
             <div>
-                <mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, 'visit')">Visit Notifications</mat-checkbox>
+                <mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, '_visit')">Visit Notifications</mat-checkbox>
+            </div>
+            <div>
+                <mat-checkbox class="cb" [checked]="Newrig>0" (change)="mod($event, '_newrig')">Rig Data Notifications</mat-checkbox>
             </div>
         </div>
     </div>

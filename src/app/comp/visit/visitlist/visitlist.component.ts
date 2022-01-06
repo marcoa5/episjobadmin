@@ -5,7 +5,7 @@ import 'firebase/database'
 import 'firebase/auth'
 import * as moment from 'moment'
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog';
-import { DeldialogComponent } from '../../util/deldialog/deldialog.component';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { ActivatedRoute } from '@angular/router';
 import { VisitdetailsComponent } from '../../util/dialog/visitdetails/visitdetails.component';
 import { MatChip } from '@angular/material/chips';
@@ -21,7 +21,9 @@ export class VisitlistComponent implements OnInit {
   @Input() userId:string=''
   @Output() refresh=new EventEmitter()
   today:string=moment(new Date()).format('DD/MM/YYYY')
+  _listV:any|undefined
   listV:any|undefined
+  spin:boolean=false
   constructor(private router: Router, private dialog:MatDialog, private route:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -29,19 +31,26 @@ export class VisitlistComponent implements OnInit {
   }
 
   ngOnChanges():void{
-    this.listV=[]
-    this.today=moment(new Date(this.day)).format('DD/MM/YYYY')
+    
+    this.day!=''? this.today=moment(new Date(this.day)).format('DD/MM/YYYY') : ''
     let u = moment(new Date(this.day)).format('YYYYMMDD')
     firebase.database().ref('CustVisit').child(u).once('value',a=>{
+      this.spin=true
+      this._listV=[]
+      this.listV=[]
       a.forEach(b=>{
         b.forEach(c=>{
           if((b.key?.substring(0,28)==this.userId && this.pos=='sales') || (this.pos=='SU' || this.pos=='adminS')){
             let gty = c.val()
             gty['url']= a.key+'/'+b.key+'/'+c.key
-            this.listV.push(gty)
+            this._listV.push(gty)
           }
         })
       })
+    })
+    .then(()=>{
+      this.listV=this._listV
+      this.spin=false
     })
   }
 
@@ -58,9 +67,11 @@ export class VisitlistComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result=>{
-      if(result=='delete') {
+      if(result=='delete' || result=='upd') {
         this.refresh.emit('ref')
-      }
+      } else if(result!='' || result!=undefined) {
+        this.refresh.emit(result)
+      } 
     })
   }
 

@@ -1,0 +1,122 @@
+
+.reqCont{
+    max-width: 100%;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: 1.8fr 1.8fr 1.2fr;
+}
+
+@media screen and (max-width:410px) {
+    .reqCont{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+::ng-deep .mat-form-field-infix {
+    width: auto !important;
+}
+
+.item1, .item2, .item3{
+    background-color: burlywood;
+    height: 32px;
+}
+
+table{
+    width: 100%;
+    margin-bottom: 30px;
+    padding:0;
+}
+
+.cen{
+    text-align: center;
+}
+
+th{
+    font-weight: 900;
+}
+
+.mat-cell {
+    padding: 0;
+  }
+
+.i1, .i5{
+    width: 10%;
+    padding: 0 !important;
+}
+
+.i2{
+    width: 25%
+}
+
+.i3{
+    width: 35%
+}
+
+.i4{
+    width: 20%
+}
+
+.end{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+.inp{width:100%;}
+
+.but{
+    margin-top: 010px;
+}
+
+.head{
+    width: 1005;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.it1{
+    flex-grow: 1;
+}
+
+h4{
+    margin:0;
+}
+
+.butG{
+    grid-area: butG;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    justify-content: flex-end;
+    gap:10px;
+    width:100%;
+}
+.tab{grid-area: tab;}
+.head{
+    grid-area: head;
+    align-content: center;
+    margin: 0 0 0 0;
+}
+.bodyCont{
+    gap:15px;
+}
+
+@media screen and (max-width:450px) {
+    .bodyCont{
+        display: grid;
+        grid-template-areas: 
+        "head butG"
+        "tab tab";
+    }
+    
+}
+
+@media screen and (min-width:451px) {
+    .bodyCont{
+        display: grid;
+        grid-template-areas: 
+        "head head head head"
+        "tab tab tab tab"
+        "none none none butG";
+    }
+}
+

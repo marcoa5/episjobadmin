@@ -4,7 +4,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import { DeldialogComponent } from '../../deldialog/deldialog.component';
+import { DeldialogComponent } from '../deldialog/deldialog.component';
 
 export interface co{
   id: string
@@ -33,7 +33,7 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    firebase.database().ref('CustomerC').once('value',a=> {
+    /*firebase.database().ref('CustomerC').once('value',a=> {
       a.forEach(b=>{
         if(b.key){
           let com: co={
@@ -44,7 +44,7 @@ export class NewcontactComponent implements OnInit {
         }
       })
     })
-    .then(()=>console.log(this.comp))
+    .then(()=>console.log(this.comp))*/
 
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name

@@ -5,7 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { ActivatedRoute, Router } from '@angular/router'
-import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
 
@@ -20,6 +20,7 @@ export class NewtechComponent implements OnInit {
   newT:FormGroup;
   pos:string|undefined
   origName:string|undefined
+  allow:boolean=false
   constructor(private fb:FormBuilder, private router:Router, private route:ActivatedRoute, private dialog: MatDialog, private location: Location) { 
     this.newT = fb.group({
       fn:['', [Validators.required]],
@@ -31,6 +32,7 @@ export class NewtechComponent implements OnInit {
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos=b.val()
+        if(this.pos=='SU') this.allow=true
       })
     })
     this.route.params.subscribe(a=>{
@@ -56,7 +58,7 @@ export class NewtechComponent implements OnInit {
       firebase.database().ref('Tech/' + g[0].toUpperCase()).set({
         s: g[1].toUpperCase(),
       }).then(()=>{
-        this.router.navigate(['technicians'])
+        this.location.back()
       })
       
     }
@@ -67,7 +69,7 @@ export class NewtechComponent implements OnInit {
           s: g[1].toUpperCase(),
         })
         .then(()=>{
-          this.router.navigate(['technicians'])
+          this.location.back()
         })
       })
     }

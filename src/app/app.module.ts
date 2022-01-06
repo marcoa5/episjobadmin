@@ -35,13 +35,13 @@ import { NavbarComponent } from './comp/util/navbar/navbar.component';
 import { LabelComponent } from './comp/util/label/label.component';
 import { NewcustComponent } from './comp/customers/newcust/newcust.component';
 import { AddbutComponent } from './comp/util/addbut/addbut.component';
-import { EditdelbutComponent } from './comp/editdelbut/editdelbut.component'
+import { EditdelbutComponent } from './comp/util/editdelbut/editdelbut.component'
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeldialogComponent } from './comp/util/deldialog/deldialog.component';
+import { DeldialogComponent } from './comp/util/dialog/deldialog/deldialog.component';
 import { H2Component } from './comp/util/h2/h2.component';
 import { AddCancelbuttonsComponent } from './comp/util/add-cancelbuttons/add-cancelbuttons.component';
 import { DisbuttonPipe } from './pipe/disbutton.pipe';
-import { UpddialogComponent } from './comp/util/upddialog/upddialog.component';
+import { UpddialogComponent } from './comp/util/dialog/upddialog/upddialog.component';
 import { NewtechComponent } from './comp/technicians/newtech/newtech.component';
 import { NewrigComponent } from './comp/rigs/newrig/newrig.component';
 import { LogoutComponent } from './comp/util/logout/logout.component';
@@ -52,7 +52,7 @@ import { NewuserComponent } from './comp/users/newuser/newuser.component';
 import { AuthComponent } from './comp/auth/auth.component'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TablefilterPipe } from './pipe/tablefilter.pipe';
-import { InputhrsComponent } from './comp/util/inputhrs/inputhrs.component'
+import { InputhrsComponent } from './comp/util/dialog/inputhrs/inputhrs.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthSingleRigComponent } from './comp/rigs/machine/auth-single-rig/auth-single-rig.component';
@@ -66,7 +66,7 @@ import { SortCustPipe } from './pipe/sort-cust.pipe';
 import { VisitComponent } from './comp/visit/visit.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatBadgeModule } from '@angular/material/badge';
-import { ComdatedialogComponent } from './comp/util/comdatedialog/comdatedialog.component';
+import { ComdatedialogComponent } from './comp/util/dialog/comdatedialog/comdatedialog.component';
 import { ElevationDirective } from './dir/elevation.directive';
 import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { NewvisitcontDirective } from './dir/newvisitcont.directive';
@@ -93,7 +93,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component';
 import { TodoComponent } from './comp/customers/cliente/todo/todo.component'
-import { SelectcustComponent } from './comp/selectcust/selectcust.component';
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
 import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
@@ -104,7 +103,8 @@ import { RequestlistComponent } from './comp/parts/requestlist/requestlist.compo
 import { NotificationListComponent } from './comp/notification-list/notification-list.component'
 import { MatChipsModule } from '@angular/material/chips';
 import { ContactsComponent } from './comp/contacts/contacts.component';
-import { ContactfilterPipe } from './pipe/contactfilter.pipe'
+import { ContactfilterPipe } from './pipe/contactfilter.pipe';
+import { ListofrequestsComponent } from './comp/parts/listofrequests/listofrequests.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -185,7 +185,6 @@ const appearance: MatFormFieldDefaultOptions = {
     VisitlistComponent,
     SaveaccountComponent,
     TodoComponent,
-    SelectcustComponent,
     CalComponent,
     VisitdetailsComponent,
     VisitsComponent,
@@ -196,6 +195,7 @@ const appearance: MatFormFieldDefaultOptions = {
     NotificationListComponent,
     ContactsComponent,
     ContactfilterPipe,
+    ListofrequestsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -9,13 +9,12 @@ import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../../serv/back.service'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
-import { InputhrsComponent } from '../../util/inputhrs/inputhrs.component'
-import { DeldialogComponent } from '../../util/deldialog/deldialog.component'
+import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component'
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { Location } from '@angular/common'
-import { ComdatedialogComponent } from '../../util/comdatedialog/comdatedialog.component'
+import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
-import { SjlistComponent } from './sjlist/sjlist.component';
 
 
 export interface hrsLabel {
@@ -71,6 +70,7 @@ export class MachineComponent implements OnInit {
   sortT:boolean=true
   sortSJ:boolean=true
   name:string=''
+  elenco:any[]=[]
   constructor(private location: Location, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
   }
   ngOnInit(): void {
@@ -107,33 +107,30 @@ export class MachineComponent implements OnInit {
       this.id = x.val().custid
       this.docBpcs=x.val().docbpcs
       this.in = x.val().in
-      this.rigLabels=[
-        {value:this.valore, lab:'Serial Nr.',click:'',url:''},
-        //{value:this.model, lab:'Model',click:'',url:''},
-        {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
-      ]
-      if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-      //arr.splice(2, 0, "Lene");
-      if (this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
-
-    }) 
+    })
     .then(()=>{
       this.loadData()
       .then(()=>{
-      if(this.data[0].y=='c' && this.data[0]!=undefined) {
-        this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
-        this.showAdd=false
-      }
+        this.rigLabels=[
+          {value:this.valore, lab:'Serial Nr.',click:'',url:''},
+          {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
+        ]
+        if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
+        if(this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
+        
+        if(this.data[0].y=='c' && this.data[0]!=undefined) {
+          this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
+          this.showAdd=false
+        }
       if(this.data[0].y!='c' && this.data[0]!=undefined) {
         this.showAdd=true
       }
-
         if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         this.checkComm()
         this.lastRead()
       })
-      .catch((h)=>{console.log(h,'no data')})
+      .catch((h)=>{console.log('no data')})
     }) 
   }
 
@@ -152,7 +149,10 @@ export class MachineComponent implements OnInit {
     return new Promise((res,rej)=>{
       this.data=[]
       firebase.database().ref('Hours/' + this.valore).on('value',f=>{
-        if(f.val()==null) this.showAdd=true
+        if(f.val()==null) {
+          this.showAdd=true
+          res('ok')
+        }
         if(f.val()!=null || f.val()!=undefined){
           let r = Object.keys(f.val()).length
           if(r==0) rej('failed')
@@ -469,8 +469,9 @@ export class MachineComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
+        let fd = result.split('/')
         if(result!=undefined && this.pos=='SU') {
-          let r1 = moment(result).format('YYYYMMDD')
+          let r1 = moment(new Date(fd[2],fd[1]-1,fd[0])).format('YYYYMMDD')
           let r2
           if(this.data[0] !=null) r2 = this.data[0].x.replace(/\-/g,'')
           
@@ -547,6 +548,32 @@ export class MachineComponent implements OnInit {
       editby: this.name
     })
     .then(()=>{this.f(1)})
+  }
+
+  reportHrs(){
+    this.elenco=[]
+    this.elenco.push('sn;model;date;eng;perc1;perc2;perc3')
+    firebase.database().ref('Hours').child(this.valore).once('value',a=>{
+      a.forEach(b=>{
+        let c = b.val()
+        let _date = [b.key?.slice(0,4),'-',b.key?.slice(4)].join('')
+        let date = [_date.slice(0,7),'-',_date.slice(7)].join('')
+        firebase.database().ref('MOL').child(this.valore).once('value',rig=>{
+          this.elenco.push(`${this.valore};${rig.val().model};${date};${c.orem=='c'?0:c.orem};${c.perc1?(c.perc1=='c'?0:c.perc1):0};${c.perc2?(c.perc2=='c'?0:c.perc2):0};${c.perc3?(c.perc3=='c'?0:c.perc3):0}`)
+        })
+      })
+    })
+    .then(()=>{
+      setTimeout(() => {
+        this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
+        const dialogconf = new MatDialogConfig;
+        dialogconf.disableClose=false;
+        dialogconf.autoFocus=false;
+        const dialogRef = this.dialog.open(CopyComponent, {
+          data: {}
+        });
+      }, 1000);
+    })
   }
 }
  

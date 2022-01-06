@@ -2,13 +2,10 @@ import { Component, ElementRef, enableProdMode, isDevMode, OnInit, ViewChild } f
 import firebase from 'firebase/app'
 import 'firebase/database'
 import * as moment from 'moment'
-//import * as XLSX from 'xlsx'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
-/*import { rawListeners } from 'process';
-import { moveMessagePortToContext } from 'worker_threads';
-import { until } from 'selenium-webdriver';*/
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -31,61 +28,30 @@ export class ReportComponent implements OnInit {
   isMobile:boolean=true
   isAsc:boolean=true
   errore:string=''
-  info: any=[
-    /*{
-        "machineItemNumber": "8992009970",
-        "machineCompany": "Manfredi Technique srl (Cave Gioia)",
-        "machineSite": "Carrara",
-        "machineModel": "FlexiROC D50 -10SF",
-        "machineSerialNr": "TMG16SED0091",
-        "LastDayEngineHours": 0,
-        "serviceStep": "250 (A-250)",
-        "hoursLeftToService": 250,
-        "servicePredictedDate": "2018-12-03T23:56:06Z",
-        "machineHrs": 0
-    },
-    {
-        "machineItemNumber": "8992009965",
-        "machineCompany": "F.E.A. sas",
-        "machineSite": "Bari",
-        "machineModel": "FlexiROC T35",
-        "machineSerialNr": "TMG16SED0135",
-        "LastDayEngineHours": 0,
-        "serviceStep": "3500 (B-500)",
-        "hoursLeftToService": 140,
-        "servicePredictedDate": "2022-03-16T23:52:04Z",
-        "machineHrs": 3360
-    },
-    {
-        "machineItemNumber": "8992010036",
-        "machineCompany": "Sibelco Italia spa",
-        "machineSite": "Robilante",
-        "machineModel": "SmartROC T45",
-        "machineSerialNr": "TMG16SED0232",
-        "LastDayEngineHours": 5,
-        "serviceStep": "4500 (C-1500)",
-        "hoursLeftToService": 111,
-        "servicePredictedDate": "2021-12-15T15:40:17.504Z",
-        "machineHrs": 4389
-    }*/
-]
   pos:string=''
   sortedData:any[]=[]
   _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
-  constructor(private http: HttpClient, private clip: Clipboard) {
+  allow:boolean=false
+  auth:string[]=[]
+  info:any[]=[]
+  allSpin:boolean=true
+
+  constructor(private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.onResize()
     firebase.auth().onAuthStateChanged(a=>{
       if(a){
         firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
           this.pos=b.val()
+          if(this.auth.includes(this.pos)) this.allow=true
         })
+        .then(()=>this.allSpin=false)
       }
     })
-    
   }
 
   /*all(){

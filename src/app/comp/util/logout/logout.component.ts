@@ -11,6 +11,7 @@ export class LogoutComponent implements OnInit {
   pos:string=''
   SJ:any|undefined
   Visit:any|undefined
+  Newrig:any|undefined
   id:string=''
   constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -19,6 +20,7 @@ export class LogoutComponent implements OnInit {
     this.pos=this.data.pos
     this.SJ=this.data.SJ
     this.Visit=this.data.Visit
+    this.Newrig=this.data.Newrig
   }
 
   mod(e:any, b:string){

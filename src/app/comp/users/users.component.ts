@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'episjob-users',
@@ -14,15 +15,21 @@ export class UsersComponent implements OnInit {
   users: any[]=[]
   filtro:string=''
   pos:string=''
-  constructor(private http: HttpClient, private router: Router) { }
+  allow:boolean=false
+  auth:string[]=[]
+  allSpin:boolean=true
+  constructor(private http: HttpClient, private router: Router, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(a=>{this.auth=a.auth.split(',')})
     firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).once('value',b=>{
         this.pos=b.val().Pos
+        if(this.auth.includes(this.pos)) this.allow=true
       })
       .then(()=>{
-        if(this.pos=='SU'){
+        this.allSpin=false
+        if(this.allow){
           this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
             Object.values(a).forEach(b=>{
               firebase.database().ref('Users/' + b.uid).on('value',c=>{

@@ -1,6 +1,6 @@
 <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
 
-<div *ngIf="pos=='SU' || pos=='admin'">
+<div *ngIf="allow && !allSpin">
 
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
@@ -50,4 +50,6 @@
 </div>
 
 
-<div *ngIf="pos!='SU' && pos!='admin' && pos!=undefined" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !allSpin" class="cont">Restricted Area</div>
+
+<episjob-spin *ngIf="allSpin"></episjob-spin>
