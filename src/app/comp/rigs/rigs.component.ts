@@ -19,7 +19,7 @@ export class RigsComponent implements OnInit {
   value:any
   
   
-  constructor(public router: Router, public bak:BackService, public auth:AuthServiceService) { 
+  constructor(public router: Router, public bak:BackService, public auth: AuthServiceService) { 
     this.auth._fleet.subscribe(a=>{this.rigs=a})
    }
 

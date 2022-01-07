@@ -9,7 +9,6 @@ import 'firebase/auth'
 import 'firebase/database'
 import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.component'
 import { NotifService } from '../../../serv/notif.service'
-import { UsersComponent } from '../../users/users.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({

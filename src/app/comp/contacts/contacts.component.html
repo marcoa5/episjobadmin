@@ -1,6 +1,6 @@
 <episjob-navbar title="Contact List" (filter)="filter($event)"></episjob-navbar>
 <div class="cont" *ngIf="allow && !allSpin">
-    <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" >
+    <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" (click)="go(c)">
         <div class="head" (click)=go(c)>
             <!--<mat-icon class="ico">people</mat-icon>-->
             <div class="textH">{{c.name}}</div> 
