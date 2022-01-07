@@ -16,6 +16,8 @@ export class AuthServiceService {
   epiCustomers:any[]=[]
   epiUserId:string=''
   epiContact:any[]=[]
+  chFleet:number=0
+  chCust:number = 0
   constructor() {
     firebase.initializeApp({
       apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
@@ -52,7 +54,7 @@ export class AuthServiceService {
   private contacts:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
-  get _rigs(){return this.rigs.asObservable()}
+  get _rigs(){if(this.chFleet==0) this.getFleetData(); return this.rigs.asObservable()}
 
   get _access(){return this.access.asObservable()}
   get _accessI(){return this.accessI.asObservable()}
@@ -61,9 +63,9 @@ export class AuthServiceService {
 
   get _userData(){return this.userData.asObservable()}
 
-  get _fleet(){return this.fleet.asObservable()}
+  get _fleet(){if(this.chFleet==0) this.getFleetData(); return this.fleet.asObservable()}
   
-  get _customers(){return this.customers.asObservable()}
+  get _customers(){if(this.chCust==0) this.getCustData(); return this.customers.asObservable()}
 
   get _contacts(){return this.contacts.asObservable()}
 
@@ -99,6 +101,7 @@ export class AuthServiceService {
       this.epiCateg=b
       this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
     })
+    this.chFleet=1
   }
 
   getCustData(){
@@ -132,6 +135,7 @@ export class AuthServiceService {
         this.epiCustomers=c 
       }
     })
+    this.chCust=1
   }
 
   getContact(){

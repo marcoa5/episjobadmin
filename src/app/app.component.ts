@@ -30,8 +30,6 @@ export class AppComponent {
   not:number=0
 
   constructor(private dialog:MatDialog, public router: Router, auth :AuthServiceService){
-    auth.getFleetData()
-    auth.getCustData()
   }
   
   ngOnInit(){
