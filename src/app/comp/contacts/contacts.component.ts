@@ -46,6 +46,7 @@ export class ContactsComponent implements OnInit {
   }
 
   go(c:any){
+    console.log(c)
     const dialogRef = this.dialog.open(NewcontactComponent)
 
     dialogRef.afterClosed().subscribe(result => {

@@ -2,7 +2,7 @@
 <div class="cont" *ngIf="allow && !allSpin">
     <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true" >
         <div class="head" (click)=go(c)>
-            <mat-icon class="ico">people</mat-icon>
+            <!--<mat-icon class="ico">people</mat-icon>-->
             <div class="textH">{{c.name}}</div> 
         </div>
         <div class="body">
@@ -17,7 +17,7 @@
             <mat-icon class="ico" (click)=go(c)>mail</mat-icon>
             <div class="text">
                 <a href="mailto:{{c.mail}}">{{c.mail}}</a>
-            </div>
+            </div>  
         </div>
     </div>
     <div class="cont" *ngIf="!allow">Restricted area</div>

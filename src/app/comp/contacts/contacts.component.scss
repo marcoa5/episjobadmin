@@ -18,10 +18,18 @@
 .title{
     background-color: $dark-text;
     color: $light-text;
-    font-weight: 700;
+    
     border-radius: 10px;
 }
 
+.body, .head{
+    display: grid;
+    padding: 2px;
+    grid-template-columns: 1fr;
+    padding: 5px 10px;
+    gap: 3px 5px;
+    align-items: center;
+}
 
 .head{
     background-color: $dark-text;
@@ -29,17 +37,8 @@
     border-radius: 10px 10px 0 0;
 }
 
-.textH{
-    font-weight: 600;
-}
-
-.body, .head{
-    display: grid;
-    padding: 2px;
+.body{
     grid-template-columns: 35px 1fr;
-    padding: 5px 10px;
-    gap: 3px 5px;
-    align-items: center;
 }
 
 mat-icon{
