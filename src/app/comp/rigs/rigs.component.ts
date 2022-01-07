@@ -76,14 +76,7 @@ export class RigsComponent implements OnInit {
                 if(v.sn ==e.sn) {
                   v.div=e.div
                   v.subCat = e.subCat
-                  v.path1 = "../../../assets/Rigs/" + e.subCat + ".png"
-                  this.imageExists(v.path1, (fd)=>{
-                    if(fd==true) {
-                      v.path = "../../../assets/Rigs/" + e.subCat + ".png"
-                    } else {
-                      v.path=''
-                    }
-                  })
+                 //v.path1 = "../../../assets/Rigs/" + e.subCat + ".png"
                 }
               })
             })
@@ -91,13 +84,6 @@ export class RigsComponent implements OnInit {
         })
       }) 
     })
-  }
-
-  imageExists(url: string, callback: (arg0: boolean) => void) {
-    var img = new Image();
-    img.onerror = function() { callback(false); };
-    img.onload = function() { callback(true); };
-    img.src = url;
   }
 
   back(){

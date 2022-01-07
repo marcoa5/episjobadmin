@@ -54,9 +54,9 @@ export class AppComponent {
           this.nome = s.val().Nome
           this.cognome = s.val().Cognome
           this.userId= s.key? s.key:''
-          this.SJ = s.val().sj
-          this.Visit=s.val().visit
-          this.Newrig=s.val().newrig
+          this.SJ = s.val()._sj
+          this.Visit=s.val()._visit
+          this.Newrig=s.val()._newrig
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{

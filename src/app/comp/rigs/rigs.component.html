@@ -12,7 +12,7 @@
             <p class="l3" [ngClass]="{'disabled': rig.show==0}">{{rig.site || 'SITE UNKNOWN'}}</p>  
           </div>
           <div class="cat"*ngIf="rig.path!=''">
-            <img [src]="rig.path!=undefined?rig.path : ''" width=100 [ngClass]="{'imgDisabled': rig.show==0}">
+            <img src="../../../assets/Rigs/{{rig.subCat}}.png" width=100 [ngClass]="{'imgDisabled': rig.show==0}">
           </div>
         </div>
       </div>
