@@ -61,6 +61,11 @@ export class FilesComponent implements OnInit {
       })
     })
   }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+  
   open(a:string){
     firebase.storage().ref('Closed').child(a).getDownloadURL()
     .then(b=>{

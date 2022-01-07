@@ -4,6 +4,8 @@ import { MatPaginatorIntl } from '@angular/material/paginator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-auth',
@@ -20,21 +22,28 @@ export class AuthComponent implements OnInit {
   start:number=0
   end:number=10
   allow: boolean=false
-  auth:string[]=[]
   allSpin:boolean=true
+  subsList:Subscription[]=[]
 
-  constructor(private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
+  constructor(private auth: AuthServiceService, private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.paginator.itemsPerPageLabel='#'
-    firebase.auth().onAuthStateChanged(a=>{
+    /*firebase.auth().onAuthStateChanged(a=>{
       firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
         this.pos = b.val()
         if(this.auth.includes(this.pos)) this.allow=true
       })
       .then(()=>this.allSpin=false)
-    })
+    })*/
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('auth')
+        }, 1);
+      })
+    )
     firebase.database().ref('MOL')
     .once('value',a=>{
       a.forEach(b=>{

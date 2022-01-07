@@ -9,6 +9,8 @@ import { MatFormFieldAppearance } from '@angular/material/form-field'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 
 export interface utente {
@@ -36,7 +38,9 @@ export class NewuserComponent implements OnInit {
   userpos:string|undefined
   userVisit:boolean = false
   allow:boolean=false
-  constructor(private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
+  subsList:Subscription[]=[]
+
+  constructor(private auth: AuthServiceService, private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
     this.userF = fb.group({
       nome: ['', [Validators.required]],
       cognome: ['', [Validators.required]],
@@ -50,12 +54,14 @@ export class NewuserComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(us=>{
-      firebase.database().ref('Users/' + us?.uid).on('value',u=>{
-        this.pos=u.val().Pos
-        if(this.pos=='SU') this.allow=true
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('users')
+        }, 1);
       })
-    })
+    )
     this.route.params.subscribe(a=>{
       this.id=a.id
       this.mail=a.mail

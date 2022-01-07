@@ -5,6 +5,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-users',
@@ -16,31 +18,32 @@ export class UsersComponent implements OnInit {
   filtro:string=''
   pos:string=''
   allow:boolean=false
-  auth:string[]=[]
   allSpin:boolean=true
-  constructor(private http: HttpClient, private router: Router, public route: ActivatedRoute) { }
+  subsList:Subscription[]=[]
+
+  constructor(private auth: AuthServiceService, private http: HttpClient, private router: Router, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>{this.auth=a.auth.split(',')})
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        this.pos=b.val().Pos
-        if(this.auth.includes(this.pos)) this.allow=true
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('users')
+          this.allSpin=false
+        }, 1);
       })
-      .then(()=>{
-        this.allSpin=false
-        if(this.allow){
-          this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
-            Object.values(a).forEach(b=>{
-              firebase.database().ref('Users/' + b.uid).on('value',c=>{
-                this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid})
-              })
-            })
-          })
-        }
+    )
+    this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
+      Object.values(a).forEach(b=>{
+        firebase.database().ref('Users/' + b.uid).on('value',c=>{
+          this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid})
+        })
       })
     })
-    
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>a.unsubscribe())
   }
 
 

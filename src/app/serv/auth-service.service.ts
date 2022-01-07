@@ -195,6 +195,9 @@ export class AuthServiceService {
       case 'files':
         if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
         return false
+      case 'users':
+        if(this.epiUser.Pos=='SU') return true
+        return false 
     }
     return false
   }
