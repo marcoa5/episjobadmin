@@ -4,6 +4,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'episjob-contact',
@@ -16,7 +18,9 @@ export class ContactComponent implements OnInit {
   pos:string|undefined
   custForm:FormGroup
   appearance:MatFormFieldAppearance='fill'
-  constructor(private route: ActivatedRoute, fb: FormBuilder) {
+  subsList:Subscription[]=[]
+
+  constructor(private route: ActivatedRoute, fb: FormBuilder, private auth:AuthServiceService) {
     this.custForm = fb.group({
       'name' : ['',Validators.required],
       'pos' : ['',Validators.required],
@@ -31,11 +35,13 @@ export class ContactComponent implements OnInit {
       if(a.id=='upd') this.newItem=false
       if(a.custId) this.rou=['cliente',{id: a.custId}]
     })
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a?.uid) firebase.database().ref('Users').child(a?.uid).child('Pos').once('value',b=>{
-        this.pos=b.val()
-      })
-    })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>this.pos=a.Pos)
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>a.unsubscribe())
   }
 
   checkD(): boolean{

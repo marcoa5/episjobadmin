@@ -10,6 +10,7 @@ import 'firebase/database'
 import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.component'
 import { NotifService } from '../../../serv/notif.service'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'episjob-newrig',
@@ -33,6 +34,7 @@ export class NewrigComponent implements OnInit {
   uId:string=''
   uName:string=''
   allow:boolean=false 
+  subsList:Subscription[]=[]
 
   constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
@@ -42,19 +44,20 @@ export class NewrigComponent implements OnInit {
       customer:['',[Validators.required]],
       in: ['']
     })
-    auth._userData.subscribe(a=>{
+  }
+
+  ngOnInit(): void {
+
+    this.subsList.push(this.auth._userData.subscribe(a=>{
       this.uId=a.uid
       this.uName= a.Nome + ' ' + a.Cognome
       this.pos=a.Pos
       setTimeout(() => {
-        this.allow=auth.allow('newrig')
+        this.allow=this.auth.allow('newrig')
       }, 1);
-    })
-    auth._customers.subscribe(a=>this.customers=a)
-    auth._fleet.subscribe(a=>{this.rigs=a})
-  }
-
-  ngOnInit(): void {
+    }))
+    this.subsList.push(this.auth._customers.subscribe(a=>this.customers=a))
+    this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
     this.allow=this.auth.allow('newrig')
   
     this.route.params.subscribe(a=>{
@@ -80,6 +83,10 @@ export class NewrigComponent implements OnInit {
         this.rou=['rigs']
       }
     })
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   datiC(a:FormGroup){

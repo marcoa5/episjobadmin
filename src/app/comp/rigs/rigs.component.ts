@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { BackService } from '../../serv/back.service'
 
@@ -17,14 +18,20 @@ export class RigsComponent implements OnInit {
   filtro:string=''
   lar:boolean|undefined;
   value:any
+  subsList:Subscription[]=[]
   
   
-  constructor(public router: Router, public bak:BackService, public auth: AuthServiceService) { 
-    this.auth._fleet.subscribe(a=>{this.rigs=a})
-   }
+  constructor(public router: Router, public bak:BackService, public auth: AuthServiceService) {}
 
   ngOnInit(): void {
+    this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
     this.largh(1)
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{
+      a.unsubscribe()
+    })
   }
 
   back(){

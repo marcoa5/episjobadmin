@@ -21,7 +21,20 @@
     
 }
 
-
+.body{
+    margin-top:15px;
+    box-sizing: border-box;
+    display: grid;
+    padding: 2px;
+    grid-template-columns: 35px 1fr;
+    padding: 5px 15px;
+    gap: 3px 5px;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    gap: 15px 0;
+    color: $dark-text;
+}
 
 .l1{
     padding:10px 20px;
@@ -29,14 +42,6 @@
     //font-weight: 900;
     background-color: $dark-text;
     border-radius: 10px 10px 0 0;
-}
-
-.l2 {
-    margin: 25px 20px 0 20px;
-}
-
-.l3 {
-    margin: 10px 20px 10px 20px;
 }
 
 .l1, .l2, .l3 {

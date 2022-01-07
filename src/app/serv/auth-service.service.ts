@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +49,7 @@ export class AuthServiceService {
   private userData:Subject<any>=new BehaviorSubject<any>([])
   private customers:Subject<any>=new BehaviorSubject<any>([])
   private contacts:Subject<any>=new BehaviorSubject<any>([])
+  private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
   get _rigs(){return this.rigs.asObservable()}
 
@@ -63,6 +64,8 @@ export class AuthServiceService {
   get _customers(){return this.customers.asObservable()}
 
   get _contacts(){return this.contacts.asObservable()}
+
+  get _custI(){return this.custI.asObservable()}
 
   getFleetData(){
     firebase.database().ref('Users').on('value',b=>{
@@ -96,7 +99,9 @@ export class AuthServiceService {
   }
 
   getCustData(){
+    let custIndex
     firebase.database().ref('CustomerC').on('value',a=>{
+      custIndex=a.val()
       let b:any[]=[]
       let rt:any[]=[]
       if(this.epiUser){
@@ -120,6 +125,7 @@ export class AuthServiceService {
           c=b
         }
         this.customers.next(c)
+        this.custI.next(custIndex)
         this.epiCustomers=c 
       }
     })
@@ -183,6 +189,12 @@ export class AuthServiceService {
         if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales') return false
         return true
         break
+      case 'technicians':
+        if(this.epiUser.Pos=='SU') return true
+        return false
+      case 'files':
+        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        return false
     }
     return false
   }

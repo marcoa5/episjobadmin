@@ -15,6 +15,7 @@ import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdated
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 
 export interface hrsLabel {
@@ -30,13 +31,6 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
-  //disab:boolean = true
-  //labels: any[] = [];
-  //hours:any[]|undefined
-  //dataSource = this.data
-  //p:number=0;p1:number=0;p2:number=0;p3:number=0; i:number=0
-  //avg:any[]=[]
-
   cCom:any=0;
   valore: any='';
   model:string='';
@@ -74,18 +68,20 @@ export class MachineComponent implements OnInit {
   elenco:any[]=[]
   access:any[]=[]
   area:string=''
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { 
-    auth._userData.subscribe(a=>{
+  subsList:Subscription[]=[]
+  
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { }
+
+  ngOnInit(): void {
+    Chart.register()
+    this.subsList.push(this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
       this.name = a.Nome + ' ' + a.Cognome
       this.area=a.Area
       setTimeout(() => {
         this.allow=this.auth.allow('machine',this.valore)
       }, 1);
-    })    
-  }
-  ngOnInit(): void {
-    Chart.register()
+    }))
     this.route.params.subscribe(r=>{
       this.valore=r.sn
     })
@@ -96,6 +92,10 @@ export class MachineComponent implements OnInit {
         if(y && y['a' + this.area]=='1') this.allow=true
       })
     }
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   f(a:number){

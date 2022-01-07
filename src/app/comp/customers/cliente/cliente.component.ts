@@ -9,6 +9,8 @@ import { Clipboard } from '@angular/cdk/clipboard'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
+import { threadId } from 'worker_threads';
 
 export interface rigsLabel {
   lab: string
@@ -28,6 +30,7 @@ export class ClienteComponent implements OnInit {
   cust1:string=''
   id:string=''
   customers:any[]=[]
+  customersI:any
   cust2: string|undefined
   cust3: string|undefined
   custrig:any[]|undefined
@@ -41,42 +44,43 @@ export class ClienteComponent implements OnInit {
   listV:any[]=[]
   elenco:any[]=[]
   rigs:any[]=[]
-  constructor(public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
-    auth._userData.subscribe(a=>{
-      this.pos=a.Pos
-      this.userId=a.uid
-      this.area=a.Area
-      this.getVisits()
-    })
-    
-  }
+  subsList:Subscription[]=[]
+  routeP!:Subscription
+  constructor(public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.anno=this.year.getPotYear().toString()
-    this.route.params.subscribe(a=>{
+    this.routeP = this.route.params.subscribe(a=>{
       this.id=a.id
       this.updateContacts()
     })
-    this.auth._customers.subscribe(a=>{
-      this.customers=a
-      let index = a.map((b:any)=>{
-        return b.id
-      }).indexOf(this.id)
-      if(a[index]){
-        this.cust1=a[index].c1
-        this.cust2=a[index].c2
-        this.cust3=a[index].c3
-        this.infoLabels =[
-          {value:this.cust1,lab:'Customer Name',click:'', url:''},
-          {value:this.cust2,lab:'Address 1',click:'', url:''},
-          {value:this.cust3,lab:'Address 2',click:'', url:''}
-        ]
-      }
-    })
-    this.getVisits()
-    this.auth._fleet.subscribe(a=>{
-      this.getFleet(a)
-    })
+    this.anno=this.year.getPotYear().toString()
+    this.subsList.push(
+      this.auth._custI.subscribe(a=>{
+        this.customersI=a
+        if(this.id!=''){
+          this.cust1=this.customersI[this.id].c1
+          this.cust2=this.customersI[this.id].c2
+          this.cust3=this.customersI[this.id].c3
+          this.infoLabels =[
+            {value:this.cust1,lab:'Customer Name',click:'', url:''},
+            {value:this.cust2,lab:'Address 1',click:'', url:''},
+            {value:this.cust3,lab:'Address 2',click:'', url:''}
+          ]
+        }
+      }),
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.userId=a.uid
+        this.area=a.Area
+      }),
+      this.auth._fleet.subscribe(a=>{this.getFleet(a)})
+    )
+    this.getVisits() 
+  }
+
+  ngOnDestroy(){
+    this.routeP.unsubscribe()
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   getFleet(a:any[]){

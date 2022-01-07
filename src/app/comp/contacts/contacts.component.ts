@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router'
 import { auth } from 'firebase-admin';
 import firebase from 'firebase/app'
+import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
 @Component({
@@ -17,16 +18,21 @@ export class ContactsComponent implements OnInit {
   allow:boolean=false
   allSpin:boolean=true
   customers:any[]=[]
+  subsList:Subscription[]=[]
+
   constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService) { 
     auth.getContact()
-    auth._userData.subscribe(a=>{
+  }
+
+  ngOnInit(): void {
+    this.subsList.push(this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
       setTimeout(() => {
-        this.allow=auth.allow('contacts')
+        this.allow=this.auth.allow('contacts')
       }, 1);
-    })
-    auth._customers.subscribe(a=>{this.customers=a}) 
-    auth._contacts.subscribe((a:any[])=>{
+    }),
+    this.auth._customers.subscribe(a=>{this.customers=a}), 
+    this.auth._contacts.subscribe((a:any[])=>{
       this.contacts=a
       a.forEach(e => {
         if(this.customers.length>0) {
@@ -37,11 +43,12 @@ export class ContactsComponent implements OnInit {
           }
         }
       });
-    })
+    }))
+    this.allSpin=false
   }
 
-  ngOnInit(): void {
-    this.allSpin=false
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   filter(a:any){

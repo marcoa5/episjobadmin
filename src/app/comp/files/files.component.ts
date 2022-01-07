@@ -7,6 +7,8 @@ import{ BackService } from '../../serv/back.service'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { ActivatedRoute } from '@angular/router';
 import { timeStamp } from 'console';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-files',
@@ -27,22 +29,23 @@ export class FilesComponent implements OnInit {
   lungh:number[]=[10,25,50,100]
   pos:string=''
   allow:boolean=false
-  auth:string[]=[]
+  //auth:string[]=[]
   allSpin:boolean=true
-  constructor(private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute) { }
+  subsList:Subscription[]=[]
+
+  constructor(private auth: AuthServiceService, private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>{
-      this.auth=a.auth.split(',')
-    })
     this.paginator.itemsPerPageLabel = '#'
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/'+a?.uid).child('Pos').once('value',b=>{
-        this.pos=b.val()
-        if(this.auth.includes(this.pos)) this.allow=true
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('files')
+          this.allSpin=false
+        }, 1);
       })
-      .then(()=>this.allSpin=false)
-    })
+    )
     firebase.storage().ref('Closed').listAll()
     .then(a=>{
       a.items.map(async b=>{
