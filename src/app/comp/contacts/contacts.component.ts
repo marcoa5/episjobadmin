@@ -32,6 +32,7 @@ export class ContactsComponent implements OnInit {
         if(this.customers.length>0) {
           let i =(this.customers.map(a=>{return a.id}).indexOf(e.company))
           e['company'] = this.customers[i].c1
+          e['id'] = this.customers[i].id
         }
       });
     })
