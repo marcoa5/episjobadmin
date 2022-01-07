@@ -70,7 +70,7 @@ export class NewuserComponent implements OnInit {
         this.id=a.id
         this.mail=a.mail
         
-        firebase.database().ref('Users/' + this.id).on('value',b=>{
+        firebase.database().ref('Users').child(this.id).on('value',b=>{
           let oi=b.val().userVisit!=undefined? b.val().userVisit : false
           this.data={
             mail:this.mail,
@@ -89,7 +89,9 @@ export class NewuserComponent implements OnInit {
     })
   }
 
-  
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'

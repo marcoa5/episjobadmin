@@ -6,6 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 
 @Component({
@@ -33,25 +35,24 @@ export class ReportComponent implements OnInit {
   _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
   allow:boolean=false
-  auth:string[]=[]
   info:any[]=[]
   allSpin:boolean=true
+  subsList:Subscription[]=[]
 
-  constructor(private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
+  constructor(private auth: AuthServiceService, private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.onResize()
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a){
-        firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
-          this.pos=b.val()
-          if(this.auth.includes(this.pos)) this.allow=true
-        })
-        .then(()=>this.allSpin=false)
-      }
-    })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('report')
+        }, 1);
+        this.allSpin=false
+      })
+    )
   }
 
   /*all(){

@@ -44,6 +44,7 @@ export class AuthServiceService {
 
   private rigs:Subject<any>=new BehaviorSubject<any>([])
   private access:Subject<any>=new BehaviorSubject<any>([])
+  private accessI:Subject<any>=new BehaviorSubject<any>([])
   private categ:Subject<any>=new BehaviorSubject<any>([])
   private fleet:Subject<any>=new BehaviorSubject<any>([])
   private userData:Subject<any>=new BehaviorSubject<any>([])
@@ -54,6 +55,7 @@ export class AuthServiceService {
   get _rigs(){return this.rigs.asObservable()}
 
   get _access(){return this.access.asObservable()}
+  get _accessI(){return this.accessI.asObservable()}
 
   get _categ(){return this.categ.asObservable()}
 
@@ -87,6 +89,7 @@ export class AuthServiceService {
     firebase.database().ref('RigAuth').on('value',a=>{
       let b=Object.values(a.val())
       this.access.next(b)
+      this.accessI.next(a.val())
       this.epiAuth=b
       this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
     })
@@ -192,12 +195,22 @@ export class AuthServiceService {
       case 'technicians':
         if(this.epiUser.Pos=='SU') return true
         return false
+        break
       case 'files':
         if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
         return false
+        break
       case 'users':
         if(this.epiUser.Pos=='SU') return true
-        return false 
+        return false
+        break
+      case 'auth':
+        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS') return true
+        return false
+      case 'report':
+        if(this.epiUser.Pos=='SU') return true
+        return false
+        break
     }
     return false
   }
