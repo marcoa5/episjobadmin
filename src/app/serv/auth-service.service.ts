@@ -16,8 +16,7 @@ export class AuthServiceService {
   epiCustomers:any[]=[]
   epiUserId:string=''
   epiContact:any[]=[]
-  chFleet:number=0
-  chCust:number = 0
+
   constructor() {
     firebase.initializeApp({
       apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
@@ -36,8 +35,6 @@ export class AuthServiceService {
         this.epiUserId=r!.uid
         this.userData.next(c)
         this.epiUser=c
-        this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
-        this.getCustData()
       })
     })
   }
@@ -54,7 +51,7 @@ export class AuthServiceService {
   private contacts:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
-  get _rigs(){if(this.chFleet==0) this.getFleetData(); return this.rigs.asObservable()}
+  get _rigs(){this.getFleetData(); return this.rigs.asObservable()}
 
   get _access(){return this.access.asObservable()}
   get _accessI(){return this.accessI.asObservable()}
@@ -63,32 +60,25 @@ export class AuthServiceService {
 
   get _userData(){return this.userData.asObservable()}
 
-  get _fleet(){if(this.chFleet==0) this.getFleetData(); return this.fleet.asObservable()}
+  get _fleet(){this.getFleetData(); return this.fleet.asObservable()}
   
-  get _customers(){if(this.chCust==0) this.getCustData(); return this.customers.asObservable()}
+  get _customers(){this.getCustData(); return this.customers.asObservable()}
 
   get _contacts(){return this.contacts.asObservable()}
 
   get _custI(){return this.custI.asObservable()}
 
-  getFleetData(){
-    firebase.database().ref('Users').on('value',b=>{
-      if(this.epiUser && b.val().id==this.epiUserId){
-        let c= b.val()
-        c['uid']=this.epiUserId
-        this.userData.next(c)
-        this.epiUser=c
-        this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
-      }
-    })
-    
+  getFleetData(){//modifica qui
     firebase.database().ref('MOL').on('value',a=>{
       let b=Object.values(a.val())
+      b.forEach((c:any)=>{
+        firebase.database().ref('Categ').child(c.sn).child('subCat').once('value',(d:any)=>{c['categ']=d})
+      })
       this.rigs.next(b)
       this.epiRigs=b
-      this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
+      this.getFleet(this.epiRigs)
     })
-    firebase.database().ref('RigAuth').on('value',a=>{
+    /*firebase.database().ref('RigAuth').on('value',a=>{
       let b=Object.values(a.val())
       this.access.next(b)
       this.accessI.next(a.val())
@@ -100,42 +90,42 @@ export class AuthServiceService {
       this.categ.next(b)
       this.epiCateg=b
       this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
-    })
-    this.chFleet=1
+    })*/
   }
 
   getCustData(){
-    let custIndex
-    firebase.database().ref('CustomerC').on('value',a=>{
-      custIndex=a.val()
-      let b:any[]=[]
-      let rt:any[]=[]
-      if(this.epiUser){
-        b=Object.values(a.val())
-        b.sort((a: any, b: any) => {
-          if (a['c1'] < b['c1']) {
-            return -1;
-          } else if (a['c1'] > b['c1']) {
-            return 1;
-          } else {
-            return 0;
-          }
-        })
-        let c:any[]
-        if(this.epiUser.Pos=='customer'){
-          c = b.filter(t=>{
-            if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
+    if(this.epiCustomers.length==0){
+      let custIndex
+      firebase.database().ref('CustomerC').on('value',a=>{
+        custIndex=a.val()
+        let b:any[]=[]
+        let rt:any[]=[]
+        if(this.epiUser){
+          b=Object.values(a.val())
+          b.sort((a: any, b: any) => {
+            if (a['c1'] < b['c1']) {
+              return -1;
+            } else if (a['c1'] > b['c1']) {
+              return 1;
+            } else {
+              return 0;
+            }
           })
-          
-        } else{
-          c=b
+          let c:any[]
+          if(this.epiUser.Pos=='customer'){
+            c = b.filter(t=>{
+              if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
+            })
+            
+          } else{
+            c=b
+          }
+          this.customers.next(c)
+          this.custI.next(custIndex)
+          this.epiCustomers=c 
         }
-        this.customers.next(c)
-        this.custI.next(custIndex)
-        this.epiCustomers=c 
-      }
-    })
-    this.chCust=1
+      })
+    }
   }
 
   getContact(){
@@ -153,8 +143,9 @@ export class AuthServiceService {
     })
   }
 
-  getFleet(fRigs:any[], fAuth:any[],fCateg:any[],user:any){
-    let a = fRigs.map(r=>{
+  getFleet(fRigs:any[]){
+    return fRigs
+    /*let a = fRigs.map(r=>{
       let i = fCateg.map(b=>{return b['sn']}).indexOf(r['sn'])
       if(fCateg[i]) r['categ']=fCateg[i]['subCat']
       return r
@@ -171,7 +162,7 @@ export class AuthServiceService {
       }
     })
     this.fleet.next(a)
-    this.epiFleet=a
+    this.epiFleet=a*/
   }
 
   allow(f:string, sn?:string):boolean{
