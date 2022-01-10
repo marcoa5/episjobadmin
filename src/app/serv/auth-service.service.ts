@@ -71,26 +71,32 @@ export class AuthServiceService {
   getFleetData(){//modifica qui
     firebase.database().ref('MOL').on('value',a=>{
       let b=Object.values(a.val())
-      b.forEach((c:any)=>{
-        firebase.database().ref('Categ').child(c.sn).child('subCat').once('value',(d:any)=>{c['categ']=d})
-      })
       this.rigs.next(b)
       this.epiRigs=b
-      this.getFleet(this.epiRigs)
+      this.getFleet(this.epiRigs,this.epiCateg)
     })
-    /*firebase.database().ref('RigAuth').on('value',a=>{
-      let b=Object.values(a.val())
-      this.access.next(b)
-      this.accessI.next(a.val())
-      this.epiAuth=b
-      this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
-    })
+    
     firebase.database().ref('Categ').on('value',a=>{
-      let b=Object.values(a.val())
-      this.categ.next(b)
-      this.epiCateg=b
-      this.getFleet(this.epiRigs,this.epiAuth,this.epiCateg, this.epiUser)
-    })*/
+      let cat:any[] = []
+      a.forEach((b:any)=>{
+        cat[b.key]=b.val().subCat
+      })
+      this.categ.next(cat)
+      this.epiCateg=cat
+      this.getFleet(this.epiRigs,this.epiCateg)
+    })
+  }
+
+  getFleet(fRigs:any[],fCateg:any){
+    let g:any[] = fRigs.map(a=>{
+      a['categ']=fCateg[a.sn]
+      return a
+    })
+    if(g.length==fRigs.length){
+      this.epiFleet=g
+      this.fleet.next(g)
+    }
+    
   }
 
   getCustData(){
@@ -141,28 +147,6 @@ export class AuthServiceService {
       this.contacts.next(b)
       this.epiContact=b
     })
-  }
-
-  getFleet(fRigs:any[]){
-    return fRigs
-    /*let a = fRigs.map(r=>{
-      let i = fCateg.map(b=>{return b['sn']}).indexOf(r['sn'])
-      if(fCateg[i]) r['categ']=fCateg[i]['subCat']
-      return r
-    }).filter(a=>{
-      let iA = fAuth.map(b=>{return b['sn']}).indexOf(a['sn'])
-      if(user && (user.Pos=='sales' || user.Pos == 'customer')){
-        if(iA>=0 && user.Area && fAuth[iA]['a' + user.Area]=='1') {
-          return a
-        } else {
-          return false
-        }
-      } else {
-      return a
-      }
-    })
-    this.fleet.next(a)
-    this.epiFleet=a*/
   }
 
   allow(f:string, sn?:string):boolean{
