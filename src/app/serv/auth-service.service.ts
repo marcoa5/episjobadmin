@@ -54,7 +54,7 @@ export class AuthServiceService {
   get _rigs(){this.getFleetData(); return this.rigs.asObservable()}
 
   get _access(){return this.access.asObservable()}
-  get _accessI(){return this.accessI.asObservable()}
+  get _accessI(){this.getAccess(); return this.accessI.asObservable()}
 
   get _categ(){return this.categ.asObservable()}
 
@@ -69,68 +69,111 @@ export class AuthServiceService {
   get _custI(){return this.custI.asObservable()}
 
   getFleetData(){//modifica qui
-    firebase.database().ref('MOL').on('value',a=>{
-      let b=Object.values(a.val())
-      this.rigs.next(b)
-      this.epiRigs=b
-      this.getFleet(this.epiRigs,this.epiCateg)
-    })
-    
-    firebase.database().ref('Categ').on('value',a=>{
-      let cat:any[] = []
-      a.forEach((b:any)=>{
-        cat[b.key]=b.val().subCat
-      })
-      this.categ.next(cat)
-      this.epiCateg=cat
-      this.getFleet(this.epiRigs,this.epiCateg)
-    })
+    if(this.epiUser!=[]){
+      if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
+        if(this.epiRigs.length==0){
+          firebase.database().ref('MOL').on('value',a=>{
+            let b=Object.values(a.val())
+            this.rigs.next(b)
+            this.epiRigs=b
+            this.getFleet(this.epiRigs,this.epiCateg)
+          })
+          
+          firebase.database().ref('Categ').on('value',a=>{
+            let cat:any[] = []
+            a.forEach((b:any)=>{
+              cat[b.key]=b.val().subCat
+            })
+            this.categ.next(cat)
+            this.epiCateg=cat
+            this.getFleet(this.epiRigs,this.epiCateg)
+          })
+        }
+      } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
+        let area:string = this.epiUser.Area
+        let list:any[]=[]
+        firebase.database().ref('MOL').on('value',a=>{
+          a.forEach(b=>{
+            let item:any
+            
+            firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
+              if(r.val()=='1') {
+                item=b.val()
+                firebase.database().ref('Categ').child(b.val().sn).child('subCat').once('value',r=>{
+                  if(r!=null) item['categ']=r.val()
+                })
+                .then(()=>{
+                  list.push(item)
+                })
+              }
+            })
+          })
+          setTimeout(() => {
+            this.rigs.next(list)
+            this.epiRigs=list
+            this.getFleet(this.epiRigs)
+          }, 1500);
+            
+        })
+      }
+    }
   }
 
-  getFleet(fRigs:any[],fCateg:any){
-    let g:any[] = fRigs.map(a=>{
-      a['categ']=fCateg[a.sn]
-      return a
-    })
-    if(g.length==fRigs.length){
-      this.epiFleet=g
-      this.fleet.next(g)
+  getFleet(fRigs:any[],fCateg?:any){
+    if(fCateg){
+      let g:any[] = fRigs.map(a=>{
+        a['categ']=fCateg[a.sn]
+        return a
+      })
+      if(g.length==fRigs.length){
+        this.epiFleet=g
+        this.fleet.next(g)
+      }
+    } else {
+      this.epiFleet=fRigs
+      this.fleet.next(fRigs)
     }
     
   }
 
   getCustData(){
-    if(this.epiCustomers.length==0){
-      let custIndex
-      firebase.database().ref('CustomerC').on('value',a=>{
-        custIndex=a.val()
-        let b:any[]=[]
-        let rt:any[]=[]
-        if(this.epiUser){
-          b=Object.values(a.val())
-          b.sort((a: any, b: any) => {
-            if (a['c1'] < b['c1']) {
-              return -1;
-            } else if (a['c1'] > b['c1']) {
-              return 1;
-            } else {
-              return 0;
+    if(this.epiUser){
+      if(this.epiUser.Pos!='customer'){
+        if(this.epiCustomers.length==0){
+          let custIndex
+          firebase.database().ref('CustomerC').on('value',a=>{
+            custIndex=a.val()
+            let b:any[]=[]
+            let rt:any[]=[]
+            if(this.epiUser){
+              b=Object.values(a.val())
+              b.sort((a: any, b: any) => {
+                if (a['c1'] < b['c1']) {
+                  return -1;
+                } else if (a['c1'] > b['c1']) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              })
+              let c:any[]
+              if(this.epiUser.Pos=='customer'){
+                c = b.filter(t=>{
+                  if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
+                })
+                
+              } else{
+                c=b
+              }
+              this.customers.next(c)
+              this.custI.next(custIndex)
+              this.epiCustomers=c 
             }
           })
-          let c:any[]
-          if(this.epiUser.Pos=='customer'){
-            c = b.filter(t=>{
-              if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
-            })
-            
-          } else{
-            c=b
-          }
-          this.customers.next(c)
-          this.custI.next(custIndex)
-          this.epiCustomers=c 
         }
-      })
+      } else {
+        if(this.epiFleet.length>0) console.log(this.epiFleet)
+      }
     }
   }
 
@@ -140,13 +183,22 @@ export class AuthServiceService {
       a.forEach(c=>{
         c.forEach(d=>{
           let t = d.val()
-          t.company=c.key
+          t.id=c.key
           b.push(t)
         })
       })
       this.contacts.next(b)
       this.epiContact=b
     })
+  }
+
+  getAccess(){
+    if(this.epiAuth.length==0){
+      firebase.database().ref('RigAuth').on('value',a=>{
+        this.epiAuth=a.val()
+        this.accessI.next(a.val())
+      })
+    }
   }
 
   getUser(){
@@ -197,6 +249,10 @@ export class AuthServiceService {
         return false
       case 'report':
         if(this.epiUser.Pos=='SU') return true
+        return false
+        break
+      case 'parts':
+        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
         return false
         break
     }

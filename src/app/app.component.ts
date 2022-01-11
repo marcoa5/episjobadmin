@@ -7,6 +7,7 @@ import 'firebase/messaging'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
 import { AuthServiceService } from './serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -28,34 +29,37 @@ export class AppComponent {
   Visit:any
   Newrig:any
   not:number=0
+  subsList:Subscription[]=[]
 
-  constructor(private dialog:MatDialog, public router: Router, auth :AuthServiceService){
+  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService){
   }
   
   ngOnInit(){
     this.onResize()
-    firebase.auth().onAuthStateChanged(a=>{
-      if(!a) {
-        this.userN = 'null'
-      } else {
-        firebase.database().ref('Users/' + a.uid).once('value',s=>{
-          this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
-          this.userT=s.val().Pos
-          this.nome = s.val().Nome
-          this.cognome = s.val().Cognome
-          this.userId= s.key? s.key:''
-          this.SJ = s.val()._sj
-          this.Visit=s.val()._visit
-          this.Newrig=s.val()._newrig
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a.length!=0){
+          this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
+          this.userT=a.Pos
+          this.nome = a.Nome
+          this.cognome = a.Cognome
+          this.userId=a.uid
+          this.SJ = a._sj
+          this.Visit=a._visit
+          this.Newrig=a._newrig
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{
               if(b.val().status==0) this.not++
             })
           })
-        })
-      }
-    })
+        }
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   @HostListener('window:resize', ['$event'])

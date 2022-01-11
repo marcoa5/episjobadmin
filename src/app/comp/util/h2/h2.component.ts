@@ -33,6 +33,10 @@ export class H2Component implements OnInit {
     )
   }
 
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
   add(e:any){
     this.addCD.emit('ok')
   }

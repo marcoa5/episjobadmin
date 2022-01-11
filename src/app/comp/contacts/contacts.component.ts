@@ -25,25 +25,24 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.subsList.push(this.auth._userData.subscribe(a=>{
-      this.pos=a.Pos
-      setTimeout(() => {
-        this.allow=this.auth.allow('contacts')
-      }, 1);
-    }),
-    this.auth._customers.subscribe(a=>{this.customers=a}), 
-    this.auth._contacts.subscribe((a:any[])=>{
-      this.contacts=a
-      a.forEach(e => {
-        if(this.customers.length>0) {
-          let i =(this.customers.map(a=>{return a.id}).indexOf(e.company))
-          if(i){
-            e['company'] = this.customers[i].c1
-            e['id'] = this.customers[i].id
-          }
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('contacts')
+        }, 1);
+      }),
+      this.auth._contacts.subscribe((a:any[])=>{
+        this.contacts=a
+        if(a.length>0){
+          a.forEach(e => {
+            firebase.database().ref('CustomerC').child(e.id).once('value',b=>{
+              e['company'] = b.val().c1
+            })
+          });
         }
-      });
-    }))
+      })
+    )
     this.allSpin=false
   }
 

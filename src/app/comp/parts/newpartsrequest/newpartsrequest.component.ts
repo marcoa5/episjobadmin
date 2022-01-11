@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
 import { MatDialogRef} from '@angular/material/dialog'
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-newpartsrequest',
@@ -17,8 +19,10 @@ export class NewpartsrequestComponent implements OnInit {
   _rigs:any[]=[]
   chStr:boolean=true
   details:any[]=[]
+  subsList:Subscription[]=[]
   @Output() sn=new EventEmitter()
-  constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>) {
+  
+  constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
     this.newRequest = fb.group({
       search: ['']
     })
@@ -27,14 +31,13 @@ export class NewpartsrequestComponent implements OnInit {
   @ViewChild('sea') sea1!: ElementRef
   
   ngOnInit(): void {
-    firebase.database().ref('MOL').once('value',a=>{
-      if(a.val()!=null){
-        this._rigs=Object.values(a.val())
-      }
-    })
-    .then(()=>{
-      this.rigs=this._rigs
-    })
+    this.subsList.push(
+      this.auth._fleet.subscribe(a=>{this.rigs=a})
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   

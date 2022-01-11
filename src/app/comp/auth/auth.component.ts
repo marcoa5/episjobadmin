@@ -41,7 +41,7 @@ export class AuthComponent implements OnInit {
       this.auth._rigs.subscribe(a=>this.rigs=a),
       this.auth._accessI.subscribe(a=>{
         this.access=a
-        if(this.rigs.length>0){
+        if(a && this.rigs.length>0){
           this.rigs1 = this.rigs.map(a=>{
             a['a1']=this.access[a.sn].a1
             a['a2']=this.access[a.sn].a2

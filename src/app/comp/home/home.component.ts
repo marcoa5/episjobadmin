@@ -4,6 +4,8 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-home',
@@ -100,43 +102,47 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','adminS','tech','']
     },
   ];
-
-  constructor(public router :Router) { 
-    
-  }
+  subsList: Subscription[]=[]
+  uId:string=''
+  constructor(public router :Router, public auth:AuthServiceService) {}
+  
   ngOnInit(): void {
+    let messaging:any
+    if(firebase.messaging.isSupported()){
+      messaging = firebase.messaging()
+      messaging.onMessage((p:any) => {console.log('Received foreground message ', p)})
+    }
 
     let tokens:any[]=[]
 
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/'+a?.uid).once('value',b=>{
-        this.pos=b.val().Pos
-        this.nome=b.val().Nome + ' ' + b.val().Cognome
-      })
-      .then(()=>{
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.nome = a.Nome + ' ' + a.Cognome
         this.spin=false
-        if(firebase.messaging.isSupported()){
-          const messaging = firebase.messaging()
-          messaging.onMessage(p => {
-            console.log('Received foreground message ', p)
-          })
-            messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
-            .then(t=>{
-              firebase.database().ref('Tokens').child(a!.uid).child(t).set({
-                token: t,
-                pos: this.pos,
-                name: this.nome,
-                date: moment(new Date()).format('YYYY-MM-DD - hh:mm:ss'),
-                id:a?.uid,
-              })
+        this.uId=a.uid
+        if(messaging!=undefined){
+          messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
+          .then((t:any)=>{
+            firebase.database().ref('Tokens').child(this.uId).child(t).set({
+              token: t,
+              pos: this.pos,
+              name: this.nome,
+              date: moment(new Date()).format('YYYY-MM-DD - HH:mm:ss'),
+              id:this.uId,
             })
-            .catch(err=>console.log(err)) 
-          }    
+          })
+          .catch((err: any)=>console.log(err)) 
         }
-      )
-    })
+      })
+    )
+    
   }
 
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+  
   nav(route:string, au:any){
     this.router.navigate([route])
   }  
