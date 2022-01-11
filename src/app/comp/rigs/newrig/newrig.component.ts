@@ -158,7 +158,7 @@ export class NewrigComponent implements OnInit {
     })
     .then(()=>{
       let str= this.addUpd? 'New rig added':'Rig data updated'
-      this.notif.newNotification(users,str,b + ' - ' +  a + '(' + c + ')',this.uName,'_newrig', './machine,{"sn":"' + a + '"}')
+      this.notif.newNotification(users,str,b + ' - ' +  a + '(' + c + ')',this.uName,'newrig', './machine,{"sn":"' + a + '"}')
     })
   }
 
