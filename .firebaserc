@@ -1,14 +1,5 @@
 {
   "projects": {
     "default": "episjobadmin"
-  },
-  "targets": {
-    "episjobadmin": {
-      "hosting": {
-        "test": [
-          "test-episjobadmin"
-        ]
-      }
-    }
   }
 }
