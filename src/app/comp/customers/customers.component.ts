@@ -4,6 +4,8 @@ import { BackService }  from '../../serv/back.service'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'episjob-customers',
@@ -18,63 +20,26 @@ export class CustomersComponent implements OnInit {
   ind:number=0
   custSales:string[]=[]
   rigSn:string[]=[]
-  constructor(public router: Router, public bak:BackService) { }
+  subsList:Subscription[]=[]
+
+  constructor(public router: Router, public bak:BackService, private auth: AuthServiceService) {
+    
+   }
 
   ngOnInit() {
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        this.pos=b.val().Pos
-        this.ind=b.val().Area?.toString()
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.ind=a.Area?.toString()
+      }),
+      this.auth._customers.subscribe(a=>{
+        this.customers=a
       })
-      .then(()=>{
-        if(this.pos!='customer'){
-          /*let hasRig:any[] = []
-          firebase.database().ref('MOL').once('value',l=>{
-            l.forEach(t=>{
-              hasRig.push(t.val().custid)
-            })
-          })
-          .then(()=>{*/
-            firebase.database().ref('CustomerC').once('value', g=>{
-              this._customers = Object.values(g.val())
-            })
-            .then(()=>{
-              /*this.customers  =this._customers.filter(f=>{
-                return hasRig.includes(f.id)
-              })*/
-              this.customers=this._customers
-            })
-          //})
-          
-        } else {
-          firebase.database().ref('RigAuth').orderByChild('a' + this.ind).equalTo('1').once('value',a=>{
-            Object.keys(a.val()).map(b=>{
-              firebase.database().ref('MOL').child(b).child('custid').once('value',c=>{
-                if(c.val()==null) console.log(b)
-                let nb=c.val()
-                firebase.database().ref('CustomerC').child(nb).once('value',d=>{
-                  if(d.val()!==null && !this.custSales.includes(nb)) {
-                    this.custSales.push(nb)
-                    this.customers.push(d.val())
-                  }
-                })
-              })
-            })
-          })
-        } 
-      })
-    })
-    setTimeout(() => {
-      this.customers.sort((a: any, b: any) => {
-        if (a['c1'] < b['c1']) {
-          return -1;
-        } else if (a['c1'] > b['c1']) {
-          return 1;
-        } else {
-          return 0;
-        }
-      })
-    }, 300);
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   open(a: String, b:string, c:string, d:string){

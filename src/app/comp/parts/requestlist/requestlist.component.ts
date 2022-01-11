@@ -65,7 +65,7 @@ export class RequestlistComponent implements OnInit {
           let c = this.addPart.controls
           c.desc.setValue(b.val().desc)
           this.chPn=true
-          c.desc.disable()
+          c.desc.enable()
           c.qty.enable()
         } else {
           let c = this.addPart.controls

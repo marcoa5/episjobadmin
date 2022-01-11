@@ -7,6 +7,8 @@ import { MakeidService } from '../../serv/makeid.service'
 import firebase from 'firebase/app';
 import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-parts',
@@ -22,33 +24,35 @@ export class PartsComponent implements OnInit {
   partList: any[]=[]
   pos:string=''
   allow:boolean=false
-  auth:string[]=[]
   allSpin:boolean=true
-  constructor(public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute) { }
+  subsList:Subscription[]=[]
+
+  constructor(public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a!=null) {
-        firebase.database().ref('Users').child(a.uid).child('Pos').once('value',g=>{
-          this.pos=g.val()
-          if(this.auth.includes(this.pos)) this.allow=true
-        })
-        .then(()=>{
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.userId=a.uid
+        setTimeout(() => {
+          this.allow=this.auth.allow('parts')
           this.allSpin=false
-          this.userId=a.uid
-          this.loadlist()
-        })
-      }
+          if(this.allow==true){
+            this.loadlist()
+          }
+        }, 1);
+      })
+    )
+  }
 
-    })
-  
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   loadlist(){
-    this.list=[]
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'){
-      firebase.database().ref('PartReq').once('value',b=>{
+      firebase.database().ref('PartReq').on('value',b=>{
+        this.list=[]
         b.forEach(c=>{
           c.forEach(d=>{
             this.list.push(d.val())
@@ -57,7 +61,8 @@ export class PartsComponent implements OnInit {
         })
       })
     } else if(this.pos=='tech'){
-      firebase.database().ref('PartReq').child(this.userId).once('value',b=>{
+      firebase.database().ref('PartReq').child(this.userId).on('value',b=>{
+        this.list=[]
         b.forEach(c=>{
           if(c.val().usedId==this.userId) this.list.push(c.val())
         })

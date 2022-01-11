@@ -3,6 +3,9 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { Router, ActivatedRoute } from '@angular/router'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'episjob-technicians',
@@ -13,32 +16,30 @@ export class TechniciansComponent implements OnInit {
   tech:any[]=[]
   filtro:string=''
   pos:string=''
-  auth:string[]=[]
+  subsList:Subscription[]=[]
   allow:boolean=false
   allSpin:boolean=true
-  constructor(private router:Router, public route: ActivatedRoute) { }
+  constructor(private router:Router, public route: ActivatedRoute, public auth: AuthServiceService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(i=>{
-      this.auth=i.auth.split(',')
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      setTimeout(() => {
+        this.allow=this.auth.allow('technicians')
+      }, 1)
     })
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a!=null) {
-        firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
-          this.pos=b.val()
-          if(this.auth.includes(this.pos)) this.allow=true
-        })
-        .then(()=>{
-          this.allSpin=false
-          firebase.database().ref('Tech').on('value',a=>{
-            a.forEach(b=>{
-              this.tech.push({l: b.key,s:b.val().s})
-            })
-          })
-        })
-      }
-    })
-      
+    )
+    this.allSpin=false
+    firebase.database().ref('Tech').on('value',a=>{
+      a.forEach(b=>{
+        this.tech.push({l: b.key,s:b.val().s})
+      })
+    })   
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   filter(a:any){

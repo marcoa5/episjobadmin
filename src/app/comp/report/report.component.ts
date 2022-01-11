@@ -6,6 +6,8 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Sort} from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 
 @Component({
@@ -33,76 +35,29 @@ export class ReportComponent implements OnInit {
   _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
   allow:boolean=false
-  auth:string[]=[]
   info:any[]=[]
   allSpin:boolean=true
+  subsList:Subscription[]=[]
 
-  constructor(private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
+  constructor(private auth: AuthServiceService, private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.onResize()
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a){
-        firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
-          this.pos=b.val()
-          if(this.auth.includes(this.pos)) this.allow=true
-        })
-        .then(()=>this.allSpin=false)
-      }
-    })
-  }
-
-  /*all(){
-    this.export()
-    .then(()=>{
-      const wb = XLSX.utils.book_new()
-      const ws = XLSX.utils.table_to_sheet(document.getElementById('ex'))
-      XLSX.utils.book_append_sheet(wb,ws)
-      var cell=[]
-      for(let i = 0; i<10;i++){
-        cell.push({c: i, r:0, wch:20})
-      }
-      ws['!cols'] = cell
-      let nome = moment(new Date()).format('YYYYMMDDhhmmss')
-      XLSX.writeFile(wb,`Export ${nome}.xlsx`)
-    })
-  }
-
-  export(){
-    return new Promise((res,rej)=>{
-      firebase.database().ref('MOL').once('value',async a=>{
-        let r = Object.keys(a.val())
-        this.length = r.length
-        await Object.keys(a.val()).map(async b=>{
-          await firebase.database().ref('Hours/'+b).once('value',c=>{
-            let g, lastread, ore:any
-            if (c.val()!=null) {
-              ore = Object.values(c.val())[0]
-              g = Object.keys(c.val())[0]
-              let f = `${g.substring(0,4)}-${g.substring(4,6)}-${g.substring(6,8)}`
-              lastread = moment(new Date(f)).format('DD/MM/YYYY')
-            }
-            this.rigs.push({
-              sn: a.val()[b].sn,
-              in: a.val()[b].in,
-              site: a.val()[b].site,
-              model: a.val()[b].model,
-              customer: a.val()[b].customer,
-              lastread: lastread?lastread:'',
-              orem: lastread?(ore.orem==''||ore.orem==undefined?'0':ore.orem):'0',
-              perc1: lastread?(ore.perc1==''||ore.perc1==undefined?'0':ore.perc1):'0',
-              perc2: lastread?(ore.perc2==''||ore.perc2==undefined?'0':ore.perc2):'0',
-              perc3: lastread?(ore.perc3==''||ore.perc3==undefined?'0':ore.perc3):'0',
-            })
-            this.ch+=1
-            if (this.ch == this.length) res('ok')
-          })
-        })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('report')
+        }, 1);
+        this.allSpin=false
       })
-    })
-  }*/
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
 
   certiq(){
     if(!this.isMobile){

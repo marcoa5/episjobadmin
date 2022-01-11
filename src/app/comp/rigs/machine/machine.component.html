@@ -1,11 +1,11 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
-<div (window:resize)="onResize()">
+<div (window:resize)="onResize()" *ngIf="allow">
     
-    <div id="mainCont" *ngIf="customer && ri==true">
-        <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]? data[0].x:0" (date)="readD($event)"></episjob-top-menu>
+    <div class="mainCont" *ngIf="customer">
+        <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]?data[0].x:undefined" (date)="readD($event)" *ngIf="data[0]"></episjob-top-menu>
         <div [class.cont]="cCom!=0" [class.contMod]="cCom==0">
             <div class="item1">
-                <episjob-h2 icon="precision_manufacturing" [data]="model" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
+                <episjob-h2 [padtop]="data[0]? 30:0" icon="precision_manufacturing" [data]="model" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
                 <episjob-label [values]="rigLabels"></episjob-label>
             </div>
             <div class="item2" *ngIf="cCom!=0">
@@ -37,6 +37,7 @@
 
         </div>
     </div>
-
+    <episjob-editdelbut [machine]="true" class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()"></episjob-editdelbut>
 </div>
-<episjob-editdelbut [machine]="true" class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()"></episjob-editdelbut>
+<div class="mainCont" *ngIf="!allow">Restricted area</div>
+

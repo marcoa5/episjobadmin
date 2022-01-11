@@ -6,18 +6,8 @@ import 'firebase/database'
 import 'firebase/messaging'
 import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
-  authDomain: "epi-serv-job.firebaseapp.com",
-  databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com",
-  projectId: "epi-serv-job",
-  storageBucket: "epi-serv-job.appspot.com",
-  messagingSenderId: "793133030101",
-  appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
-  measurementId: "G-Y0638WJK1X"
-};
-
+import { AuthServiceService } from './serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -38,34 +28,38 @@ export class AppComponent {
   SJ:any
   Visit:any
   Newrig:any
-  constructor(private dialog:MatDialog, public router: Router){}
-  
   not:number=0
+  subsList:Subscription[]=[]
+
+  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService){
+  }
+  
   ngOnInit(){
-    firebase.initializeApp(firebaseConfig)
     this.onResize()
-    firebase.auth().onAuthStateChanged(a=>{
-      if(!a) {
-        this.userN = 'null'
-      } else {
-        firebase.database().ref('Users/' + a.uid).once('value',s=>{
-          this.userN = s.val().Nome.substring(0,1) + s.val().Cognome.substring(0,1)
-          this.userT=s.val().Pos
-          this.nome = s.val().Nome
-          this.cognome = s.val().Cognome
-          this.userId= s.key? s.key:''
-          this.SJ = s.val()._sj
-          this.Visit=s.val()._visit
-          this.Newrig=s.val()._newrig
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a.length!=0){
+          this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
+          this.userT=a.Pos
+          this.nome = a.Nome
+          this.cognome = a.Cognome
+          this.userId=a.uid
+          this.SJ = a._sj
+          this.Visit=a._visit
+          this.Newrig=a._newrig
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{
               if(b.val().status==0) this.not++
             })
           })
-        })
-      }
-    })
+        }
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   @HostListener('window:resize', ['$event'])

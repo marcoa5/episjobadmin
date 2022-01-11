@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import firebase from 'firebase/app';
+import { Subscriber, Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-h2',
@@ -18,18 +20,21 @@ export class H2Component implements OnInit {
   @Output() mol = new EventEmitter()
   @Output() copy = new EventEmitter()
   @Output() sort = new EventEmitter()
-
+  subsList:Subscription[]=[]
   pos:string=''
-  constructor() { }
+
+  constructor(private auth: AuthServiceService) { }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a) {
-        firebase.database().ref('Users').child(a.uid).once('value',b=>{
-          this.pos=b.val().Pos
-        })
-      }
-    })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   add(e:any){

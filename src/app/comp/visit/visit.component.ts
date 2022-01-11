@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import firebase from 'firebase/app'
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 //import 'firebase/database'
 //import 'firebase/auth'
 
@@ -13,40 +15,33 @@ import * as moment from 'moment';
 export class VisitComponent implements OnInit {
   pos:string=''
   day: string=moment(new Date()).format('YYYY-MM-DD')
-  
   userId:string=''
   ref:boolean=false
   allSpin:boolean=true
   allow:boolean=false
+  subsList:Subscription[]=[]
 
-  constructor(private route:ActivatedRoute) {}
+  constructor(private route:ActivatedRoute, private auth: AuthServiceService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
       if(a.day) this.day=a.day
-      
     })
-     firebase.auth().onAuthStateChanged(a=>{
-      if(a) {
-        this.userId=a.uid
-        firebase.database().ref('Users').child(a.uid).once('value',b=>{
-          this.pos = b.val().Pos
-        })
-        .then(()=>{
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow = this.auth.allow('visit')
           this.allSpin=false
-          this.auth()
-        })
-      }
-    })
+        }, 1);
+      })
+    )
   }
-   
-  auth(){
-    if (this.pos=='SU' || this.pos=='adminS' || this.pos=='sales') {
-      this.allow=true
-    } else {
-      this.allow=false
-    }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
+  
 
   chDay(e:any){
     this.day=e

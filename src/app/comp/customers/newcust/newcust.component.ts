@@ -9,6 +9,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { MakeidService } from '../../../serv/makeid.service'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 export interface cl {
   c1: string
@@ -31,21 +32,23 @@ export class NewcustComponent implements OnInit {
   pos:string=''
   rou:any[]=[]
   allow:boolean=false
-  constructor(private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog, public makeId:MakeidService) {
+  constructor(private auth: AuthServiceService, private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog, public makeId:MakeidService) {
     this.newC = fb.group({
       name:['',[Validators.required]],
       address1: ['',[Validators.required]],
       address2: ['',[Validators.required]],
     })
+    this.auth._userData.subscribe(a=>{
+      this.pos=a.Pos
+      setTimeout(() => {
+        this.allow=auth.allow('newcustomer')
+      }, 1);
+    })
    }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).child('Pos').on('value',b=>{
-        this.pos = b.val()
-        if(this.pos=='SU') this.allow=true
-      })
-    })
+    this.allow=this.auth.allow('newcustomer')
+
     
     this.route.params.subscribe(a=>{
       if(a.id && a.c1 && a.c2 && a.c3) {
@@ -70,7 +73,7 @@ export class NewcustComponent implements OnInit {
       c3: a.get('address2')?.value.toUpperCase(),
       id: this.origin[0]!=''? this.origin[0] : this.makeId.makeId(10)
     }
-    if(e=='updc' && this.pos=='SU'){
+    if(e=='updc' && this.allow){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -79,12 +82,11 @@ export class NewcustComponent implements OnInit {
       });
   
       dialogRef.afterClosed().subscribe(result => {
-        if(result!=undefined && this.pos=='SU') {
-          //firebase.database().ref('Customers/'+this.origin[0]).remove()
-          firebase.database().ref('CustomerC/').child(this.origin[0]).set(g)
+        if(result!=undefined && this.allow) {
+          firebase.database().ref('CustomerC').child(this.origin[0]).set(g)
           .then(()=>{
             if(this.origin[1]!=g.c1){
-              firebase.database().ref('MOL/').orderByChild('customer').equalTo(this.origin[1]).once('value',f=>{
+              firebase.database().ref('MOL').orderByChild('customer').equalTo(this.origin[1]).once('value',f=>{
                 Object.keys(f.val()).forEach(e=>{
                   firebase.database().ref('MOL/' + e + '/customer').set(g.c1)
                 })
@@ -95,7 +97,7 @@ export class NewcustComponent implements OnInit {
           .catch(err=> console.log(err))
         }
       })
-    } else if(e=='addc' && this.pos=='SU'){
+    } else if(e=='addc' && this.allow){
         let newId = this.makeId.makeId(10)
         g.id = newId
         firebase.database().ref('CustomerC/').child(newId).set(g)

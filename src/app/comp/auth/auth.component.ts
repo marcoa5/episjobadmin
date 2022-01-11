@@ -4,6 +4,8 @@ import { MatPaginatorIntl } from '@angular/material/paginator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-auth',
@@ -13,6 +15,7 @@ import 'firebase/database'
 export class AuthComponent implements OnInit {
   pos:string=''
   rigs:any[]=[]
+  access:any[]=[]
   rigs1:any[]=[]
   filtro:string=''
   wid:boolean=true
@@ -20,49 +23,41 @@ export class AuthComponent implements OnInit {
   start:number=0
   end:number=10
   allow: boolean=false
-  auth:string[]=[]
   allSpin:boolean=true
+  subsList:Subscription[]=[]
 
-  constructor(private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
+  constructor(private auth: AuthServiceService, private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(a=>this.auth=a.auth.split(','))
     this.paginator.itemsPerPageLabel='#'
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
-        this.pos = b.val()
-        if(this.auth.includes(this.pos)) this.allow=true
-      })
-      .then(()=>this.allSpin=false)
-    })
-    firebase.database().ref('MOL')
-    .once('value',a=>{
-      a.forEach(b=>{
-        firebase.database().ref('RigAuth/' + b.val().sn).once('value',c=>{
-          try{
-            this.rigs.push({
-              sn: b.val().sn, 
-              customer: b.val().customer,
-              model: b.val().model,
-              site: b.val().site,
-              a1: c.val().a1,
-              a2: c.val().a2,
-              a3: c.val().a3,
-              a4: c.val().a4,
-              a5: c.val().a5,
-              a98: c.val().a98,
-              a99: c.val().a99,
-            })
-          }
-          catch{
-            console.log(b.val())
-          }
-        }).then(()=>{
-          this.rigs1=this.rigs.slice(this.start,this.end)
-        })
-      })
-    })
-    
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('auth')
+          this.allSpin=false
+        }, 1);
+      }),
+      this.auth._rigs.subscribe(a=>this.rigs=a),
+      this.auth._accessI.subscribe(a=>{
+        this.access=a
+        if(a && this.rigs.length>0){
+          this.rigs1 = this.rigs.map(a=>{
+            a['a1']=this.access[a.sn].a1
+            a['a2']=this.access[a.sn].a2
+            a['a3']=this.access[a.sn].a3
+            a['a4']=this.access[a.sn].a4
+            a['a5']=this.access[a.sn].a5
+            a['a98']=this.access[a.sn].a98
+            a['a99']=this.access[a.sn].a99
+            return a
+          }).slice(this.start,this.end)
+        }})
+    )    
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   filter(a:any){

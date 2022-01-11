@@ -23,11 +23,19 @@ export class TopMenuComponent implements OnInit {
   ]
   @Input() valore:string=''
   @Input() pos:string=''
-  @Input() inizio:any
+  @Input() inizio:string=moment(new Date(1990,0,1)).format('YYYY-MM-DD')
   @Output() date = new EventEmitter()
   constructor() { }
 
   ngOnInit(): void {
+    
+  }
+
+  ngOnChanges(){
+    if(this.range.controls.start.value!=this.inizio) {
+      this.range.controls.start.setValue(this.inizio)
+      this.avv(this.range.value.start,this.range.value.end)
+    }
   }
 
   ran(a:any, b:FormGroup){

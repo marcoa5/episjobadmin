@@ -5,6 +5,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatFormFieldAppearance } from '@angular/material/form-field'
 import * as moment from 'moment';
 import { GetPotYearService } from '../../../../serv/get-pot-year.service';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { unsupported } from '@angular/compiler/src/render3/view/util';
 
 export interface fam{
   bl?: string
@@ -27,7 +30,9 @@ export class PotentialComponent implements OnInit {
   refYear:any=''
   potTot:any=0
   pos:string=''
-  constructor(fb:FormBuilder, private anno:GetPotYearService) {
+  subsList:Subscription[]=[]
+
+  constructor(fb:FormBuilder, private anno:GetPotYearService, private auth: AuthServiceService) {
     this.custPot=fb.group({
       'SED': [0,Validators.required],
       'URE': [0,Validators.required],
@@ -40,12 +45,14 @@ export class PotentialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a!=null) firebase.database().ref('Users').child(a.uid).child('Pos').once('value',b=>{
-        if(b.val()) this.pos=b.val()
-      })
-    })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>this.pos=a.Pos)
+    )
     this.refYear=this.anno.getPotYear()
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>a.unsubscribe())
   }
 
   ngOnChanges(){

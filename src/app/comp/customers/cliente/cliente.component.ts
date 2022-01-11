@@ -8,6 +8,9 @@ import { GetPotYearService } from '../../../serv/get-pot-year.service'
 import { Clipboard } from '@angular/cdk/clipboard'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
+import { threadId } from 'worker_threads';
 
 export interface rigsLabel {
   lab: string
@@ -26,6 +29,8 @@ export class ClienteComponent implements OnInit {
   area:any=''
   cust1:string=''
   id:string=''
+  customers:any[]=[]
+  customersI:any
   cust2: string|undefined
   cust3: string|undefined
   custrig:any[]|undefined
@@ -38,70 +43,95 @@ export class ClienteComponent implements OnInit {
   userId:string=''
   listV:any[]=[]
   elenco:any[]=[]
-  constructor(public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
+  rigs:any[]=[]
+  subsList:Subscription[]=[]
+  routeP!:Subscription
+  constructor(public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.anno=this.year.getPotYear().toString()
-    this.route.params.subscribe(a=>{
+    this.routeP = this.route.params.subscribe(a=>{
       this.id=a.id
-      firebase.database().ref('CustomerC').child(this.id).once('value', g=>{
-        this.cust1=g.val().c1
-        this.cust2=g.val().c2
-        this.cust3=g.val().c3
-        this.infoLabels =[
-          {value:this.cust1,lab:'Customer Name',click:'', url:''},
-          {value:this.cust2,lab:'Address 1',click:'', url:''},
-          {value:this.cust3,lab:'Address 2',click:'', url:''}
-        ]
-      })
       this.updateContacts()
     })
-
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        if(b.key && b.val()){
-          this.pos=b.val().Pos
-          this.userId=b.key
-          this.area=b.val().Area
+    this.anno=this.year.getPotYear().toString()
+    this.subsList.push(
+      this.auth._custI.subscribe(a=>{
+        if(a!=undefined) {
+          this.customersI=a
+          if(this.id!=''){
+            this.cust1=this.customersI[this.id].c1
+            this.cust2=this.customersI[this.id].c2
+            this.cust3=this.customersI[this.id].c3
+            this.infoLabels =[
+              {value:this.cust1,lab:'Customer Name',click:'', url:''},
+              {value:this.cust2,lab:'Address 1',click:'', url:''},
+              {value:this.cust3,lab:'Address 2',click:'', url:''}
+            ]
+          }
         }
-      }).then(()=>{
-        let ref=firebase.database().ref('CustVisit')
-        ref.on('value',a=>{
-        this.listV=[]
-          a.forEach(b=>{
-            b.forEach(c=>{
-              c.forEach(d=>{
-                if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == b.val().substring(0,28)))){
-                  let gty = d.val()
-                  gty['url']= b.key+'/'+c.key + '/' + d.key
-                  this.listV.push(gty)
-                  this.listV.reverse()
-                }
-              })
-            })
+      }),
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.userId=a.uid
+        this.area=a.Area
+      }),
+      this.auth._fleet.subscribe(a=>{this.getFleet(a)})
+    )
+    this.getVisits() 
+  }
+
+  ngOnDestroy(){
+    this.routeP.unsubscribe()
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
+  getFleet(a:any[]){
+    this.rigsLabels=[]
+    this._rigsLabels=[]
+    a.filter(b=>{
+      return b.custid==this.id
+    }).forEach(c=>{
+      this._rigsLabels.push({value: c.model,lab:c.sn,click:c.sn, url:'machine'})
+      if(this.pos=='sales'){
+        this.auth._access.subscribe(p=>{
+          this.rigsLabels=this._rigsLabels.filter(t=>{
+            let i = p.map((y:any)=>{return y.sn}).indexOf(t.lab)
+            if(p[i]['a'+this.area]=='1') return true
+            return false
           })
         })
-        this.rigsLabels=[]
-        firebase.database().ref('MOL').orderByChild('custid').equalTo(this.id).once('value',k=>{
-          if(k.val()!=null){
-            this.custrig=Object.values(k.val())
-            k.forEach(x=>{
-              this._rigsLabels.push({value: x.val().model,lab:x.val().sn,click:x.val().sn, url:'machine'})
-              if(this.pos=='sales') {
-                firebase.database().ref('RigAuth/').child(x.val().sn).child('a' + this.area).once('value',g=>{
-                  if(g.val()!=1) this.rigsLabels=this._rigsLabels.filter(a=>{
-                    if(a.lab!=x.val().sn)return true
-                    return false
-                  })
+      } else {
+        this.rigsLabels=this._rigsLabels
+      }
+    })
+  }
+
+  getVisits(){
+    let ref=firebase.database().ref('CustVisit')
+        ref.on('value',a=>{
+        this.listV=[]
+          if(a.val()!=null) {
+            a.forEach(b=>{
+              if(b.val()!=null){
+                b.forEach(c=>{
+                  if(c.val()!=null){
+                    c.forEach(d=>{
+                      if(d.val()!=null){
+                        if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == c.key?.toString().substring(0,28)))){
+                          let gty = d.val()
+                          gty['url']= b.key+'/'+c.key + '/' + d.key
+                          this.listV.push(gty)
+                          this.listV.reverse()
+                        }
+                      }
+                    })
+                  }
                 })
-              } else {
-                this.rigsLabels=this._rigsLabels
               }
             })
-          } 
+          }
+          
         })
-      })
-    })
   }
 
   updateContacts(){

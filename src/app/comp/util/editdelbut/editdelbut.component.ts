@@ -7,6 +7,9 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { AddhrsComponent } from '../../util/dialog/addhrs/addhrs.component'
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { auth } from 'firebase-admin';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -29,16 +32,18 @@ export class EditdelbutComponent implements OnInit {
   @Output() newCont = new EventEmitter()
   @Output() sjReport = new EventEmitter()
   @Output() hrsReport = new EventEmitter()
-  constructor(private location: Location, public dialog: MatDialog) { }
+  subsList:Subscription[]=[]
+
+  constructor(private location: Location, public dialog: MatDialog, public auth:AuthServiceService) { }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a){
-        firebase.database().ref('Users/' + a.uid).child('Pos').once('value',b=>{
-          this.pos=b.val()
-        })
-      }
-    })
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{this.pos=a.Pos})
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   openDialog(): void {

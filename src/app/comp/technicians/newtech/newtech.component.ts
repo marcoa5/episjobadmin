@@ -8,6 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
+import { Subscription } from 'rxjs';
+import { auth } from 'firebase-admin';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-newtech',
@@ -21,7 +24,9 @@ export class NewtechComponent implements OnInit {
   pos:string|undefined
   origName:string|undefined
   allow:boolean=false
-  constructor(private fb:FormBuilder, private router:Router, private route:ActivatedRoute, private dialog: MatDialog, private location: Location) { 
+  subsList:Subscription[]=[]
+
+  constructor(public auth:AuthServiceService, private fb:FormBuilder, private router:Router, private route:ActivatedRoute, private dialog: MatDialog, private location: Location) { 
     this.newT = fb.group({
       fn:['', [Validators.required]],
       sn:['', [Validators.required]],
@@ -29,12 +34,15 @@ export class NewtechComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).child('Pos').once('value',b=>{
-        this.pos=b.val()
-        if(this.pos=='SU') this.allow=true
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('technicians')
+        }, 1);
       })
-    })
+    )
+
     this.route.params.subscribe(a=>{
       this.origName = a.fn
       if(this.origName!=undefined) {
@@ -45,6 +53,10 @@ export class NewtechComponent implements OnInit {
         this.addUpd = false
       }
     })
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   datiC(a:FormGroup){

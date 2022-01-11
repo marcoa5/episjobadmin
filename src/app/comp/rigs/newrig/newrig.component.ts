@@ -9,7 +9,8 @@ import 'firebase/auth'
 import 'firebase/database'
 import { UpddialogComponent } from '../../util/dialog/upddialog/upddialog.component'
 import { NotifService } from '../../../serv/notif.service'
-import { UsersComponent } from '../../users/users.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'episjob-newrig',
@@ -22,6 +23,7 @@ export class NewrigComponent implements OnInit {
   serial:string=''
   rigCat:any[]=[]
   rou:any[]=[]
+  rigs: any[]=[]
   rig: string[]=[]
   appearance:MatFormFieldAppearance="fill"
   newR:FormGroup;
@@ -32,8 +34,9 @@ export class NewrigComponent implements OnInit {
   uId:string=''
   uName:string=''
   allow:boolean=false 
+  subsList:Subscription[]=[]
 
-  constructor(public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
+  constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
       sn:['', [Validators.required]],
       model:['', [Validators.required]],
@@ -44,57 +47,46 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
-    firebase.auth().onAuthStateChanged(a=>{
-      firebase.database().ref('Users/' + a?.uid).once('value',b=>{
-        this.uId!=a?.uid
-        this.uName= b.val().Nome + ' ' + b.val().Cognome
-        this.pos=b.val().Pos
-        if(this.pos=='SU') this.allow=true
-      })
-    })
+
+    this.subsList.push(this.auth._userData.subscribe(a=>{
+      this.uId=a.uid
+      this.uName= a.Nome + ' ' + a.Cognome
+      this.pos=a.Pos
+      setTimeout(() => {
+        this.allow=this.auth.allow('newrig')
+      }, 1);
+    }))
+    this.subsList.push(this.auth._customers.subscribe(a=>this.customers=a))
+    this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
+    this.allow=this.auth.allow('newrig')
+  
     this.route.params.subscribe(a=>{
       this.serial= a.name
       if(this.serial!=undefined) {
         this.rou=['machine',{sn: this.serial}]
-        firebase.database().ref('MOL/' + this.serial).once('value',a=>{
-          this.rig=a.val()
-          this.addUpd=false
-          this.newR = this.fb.group({
-            sn:[a.val().sn,  [Validators.required]],
-            model:[a.val().model, [Validators.required]],
-            site:[a.val().site],
-            customer:[a.val().custid,[Validators.required]],
-            in: [a.val().in]
-          })
-          this.newR.controls['sn'].disable()
+        let i = this.rigs.map(a=>{return a.sn}).indexOf(this.serial)
+        this.rig=this.rigs[i]
+        this.addUpd=false
+        this.newR = this.fb.group({
+          sn:[this.rigs[i].sn,  [Validators.required]],
+          model:[this.rigs[i].model, [Validators.required]],
+          site:[this.rigs[i].site],
+          customer:[this.rigs[i].custid,[Validators.required]],
+          in: [this.rigs[i].in]
         })
-        .then(()=>{
-          firebase.database().ref('Categ/' + this.serial).once('value',g=>{
-            this.rigCat=[g.val()]
-            if(this.rigCat.length>0) this.child=1
-          })
+        this.newR.controls['sn'].disable()
+        firebase.database().ref('Categ').child(this.serial).once('value',g=>{
+          this.rigCat=[g.val()]
+          if(this.rigCat.length>0) this.child=1
         })
       } else {
         this.rou=['rigs']
       }
     })
-    firebase.database().ref('CustomerC').once('value',a=>{
-      a.forEach(b=>{
-        this.customers.push({id: b.val().id, c1: b.val().c1})
-      })
-    })
-    .then(()=>{
-      this.customers.sort((a: any, b: any) => {
-        if (a['c1'] < b['c1']) {
-          return -1;
-        } else if (a['c1'] > b['c1']) {
-          return 1;
-        } else {
-          return 0;
-        }
-      })
-    })
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   datiC(a:FormGroup){

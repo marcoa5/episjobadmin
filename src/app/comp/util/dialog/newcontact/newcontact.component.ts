@@ -33,19 +33,6 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*firebase.database().ref('CustomerC').once('value',a=> {
-      a.forEach(b=>{
-        if(b.key){
-          let com: co={
-            id: b.key,
-            custName: b.val().c1
-          }
-          this.comp.push(com)
-        }
-      })
-    })
-    .then(()=>console.log(this.comp))*/
-
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name
       this.newCont.controls.name.setValue(this.data.info.name)

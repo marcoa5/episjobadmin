@@ -41,20 +41,6 @@ export class SjlistComponent implements OnInit {
     .then(a=>{window.open(a)})
   }
 
-  /*split(e:any){
-    this.inizio = e.pageIndex * e.pageSize +1
-    this.fine = this.inizio + e.pageSize-1
-    this.sjSl = this.list.slice(this.inizio-1,this.fine)
-  }
-
-  date(a:any){
-    
-    for(let i=7;i>0;i--){
-      if(a['dat' + i +'1']!='') return a['dat'+i+'1'] +'/'+ a['dat'+i+'2'] +'/' + a['dat'+i+'3']
-    }
-    return false
-  }*/
-
   width(){
     return window.innerWidth>500
   }
