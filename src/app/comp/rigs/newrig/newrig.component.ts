@@ -151,7 +151,7 @@ export class NewrigComponent implements OnInit {
     let users:string[]=[]
     firebase.database().ref('Users').once('value',a=>{
       a.forEach(b=>{
-        if(b.val().Pos=='SU' && b.val().newrig=='1'){
+        if(b.val().Pos=='SU' && b.val()._newrig=='1'){
           if(b.key) users.push(b.key)
         }
       })

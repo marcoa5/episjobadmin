@@ -364,7 +364,7 @@ export class NewvisitComponent implements OnInit {
           let users:string[]=[]
           firebase.database().ref('Users').once('value',a=>{
             a.forEach(b=>{
-              if((b.val().Pos=='SU' || b.val().Pos=='adminS' || info.epiAtt.map(r=>{return r.id}).includes(b.key)) && b.val().visit=='1') {
+              if((b.val().Pos=='SU' || b.val().Pos=='adminS' || info.epiAtt.map(r=>{return r.id}).includes(b.key)) && b.val()._visit=='1') {
                 if(b.key) users.push(b.key)
               }
             })
