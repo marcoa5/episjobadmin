@@ -331,14 +331,14 @@ export class NewvisitComponent implements OnInit {
           let users:string[]=[]
           firebase.database().ref('Users').once('value',a=>{
             a.forEach(b=>{
-              if((b.val().Pos=='SU' || b.val().Pos=='adminS' || info.epiAtt.map(r=>{return r.id}).includes(b.key)) && b.val().visit=='1') {
+              if((b.val().Pos=='SU' || b.val().Pos=='adminS' || info.epiAtt.map(r=>{return r.id}).includes(b.key)) && b.val()._visit=='1') {
                 if(b.key) users.push(b.key)
               }
             })
           })
           .then(()=>{
             if(users.includes(this.userId)) users.splice(users.indexOf(this.userId),1)
-            this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, '_visit', './visit,{"day":"' + info.date + '"}')
+            this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit', './visit,{"day":"' + info.date + '"}')
           })
           setTimeout(() => {
           this.router.navigate(['visit',{day:info.date}])
