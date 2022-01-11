@@ -94,32 +94,8 @@ export class NewvisitComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.userId=a.uid
         this.userName=a.Nome + ' ' + a.Cognome
-      }),
-      this.auth._custI.subscribe(a=>{
-        if(a!=undefined){
-          this.customers=Object.values(a)
-          this.customers!.sort((a:any, b:any)=> {
-            if (a.c1 < b.c1) {
-              return -1;
-            }
-            if (a.c1 > b.c1) {
-              return 1;
-            }
-            return 0
-          })
-          this.custChange()
-          this.placeChange()
-        }
       })
     )
-    /*firebase.auth().onAuthStateChanged(a=>{
-      if(a) {
-        firebase.database().ref('Users').child(a.uid).once('value',b=>{
-          this.userId=a.uid
-          this.userName=b.val().Nome + " " + b.val().Cognome
-        })
-      }
-    })*/
 
     firebase.database().ref('Users').once('value',h=>{
       h.forEach(d=>{
@@ -132,25 +108,6 @@ export class NewvisitComponent implements OnInit {
       if(a.val()!=null) this._comuni = Object.keys(a.val())
     }).then(()=>this.comuni=this._comuni)
 
-
-
-    /*firebase.database().ref('CustomerC').once('value',a=>{
-      this.customers=Object.values(a.val())
-      this.customers.sort((a, b)=> {
-          if (a.c1 < b.c1) {
-            return -1;
-          }
-          if (a.c1 > b.c1) {
-            return 1;
-          }
-          return 0
-      })
-    })
-    .then(()=>{
-      this.customers1=this.customers
-      this.custChange()
-      this.placeChange()
-    })*/
 
     this.dateFormGroup = this._formBuilder.group({
       date: [this.infoDate, Validators.required]
@@ -178,6 +135,24 @@ export class NewvisitComponent implements OnInit {
       todo3: [''],
       todo3Date: [''],
     })
+    this.subsList.push(
+      this.auth._custI.subscribe(a=>{
+        if(a!=undefined){
+          this.customers=Object.values(a)
+          this.customers!.sort((a:any, b:any)=> {
+            if (a.c1 < b.c1) {
+              return -1;
+            }
+            if (a.c1 > b.c1) {
+              return 1;
+            }
+            return 0
+          })
+          this.custChange()
+          this.placeChange()
+        }
+      })
+    )
     this.route.params.subscribe(a=>{
       if(a && a.date) {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
