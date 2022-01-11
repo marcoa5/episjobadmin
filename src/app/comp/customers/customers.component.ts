@@ -32,7 +32,9 @@ export class CustomersComponent implements OnInit {
         this.pos=a.Pos
         this.ind=a.Area?.toString()
       }),
-      this.auth._customers.subscribe(a=>this.customers=a)
+      this.auth._customers.subscribe(a=>{
+        this.customers=a
+      })
     )
   }
 

@@ -56,16 +56,18 @@ export class ClienteComponent implements OnInit {
     this.anno=this.year.getPotYear().toString()
     this.subsList.push(
       this.auth._custI.subscribe(a=>{
-        this.customersI=a
-        if(this.id!=''){
-          this.cust1=this.customersI[this.id].c1
-          this.cust2=this.customersI[this.id].c2
-          this.cust3=this.customersI[this.id].c3
-          this.infoLabels =[
-            {value:this.cust1,lab:'Customer Name',click:'', url:''},
-            {value:this.cust2,lab:'Address 1',click:'', url:''},
-            {value:this.cust3,lab:'Address 2',click:'', url:''}
-          ]
+        if(a!=undefined) {
+          this.customersI=a
+          if(this.id!=''){
+            this.cust1=this.customersI[this.id].c1
+            this.cust2=this.customersI[this.id].c2
+            this.cust3=this.customersI[this.id].c3
+            this.infoLabels =[
+              {value:this.cust1,lab:'Customer Name',click:'', url:''},
+              {value:this.cust2,lab:'Address 1',click:'', url:''},
+              {value:this.cust3,lab:'Address 2',click:'', url:''}
+            ]
+          }
         }
       }),
       this.auth._userData.subscribe(a=>{

@@ -66,7 +66,7 @@ export class AuthServiceService {
 
   get _contacts(){return this.contacts.asObservable()}
 
-  get _custI(){return this.custI.asObservable()}
+  get _custI(){this.getCustData(); return this.custI.asObservable()}
 
   getFleetData(){//modifica qui
     if(this.epiUser!=[]){
@@ -95,7 +95,6 @@ export class AuthServiceService {
         firebase.database().ref('MOL').on('value',a=>{
           a.forEach(b=>{
             let item:any
-            
             firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
               if(r.val()=='1') {
                 item=b.val()
@@ -172,7 +171,33 @@ export class AuthServiceService {
           })
         }
       } else {
-        if(this.epiFleet.length>0) console.log(this.epiFleet)
+         this._fleet.subscribe(a=>{
+           if(a.length>0){
+            let cu:any=[]
+            let cuI:any=[]
+            let i:number=0
+            new Promise((res,rej)=>{
+              a.forEach((e:any) => {
+                firebase.database().ref('CustomerC').child(e.custid).once('value',y=>{
+                  if(y!=null && cu.map((r:any)=>{return r.id}).indexOf(e.custid)==-1) {
+                    cu.push(y.val())
+                    cuI[e.custid]=y.val()
+                  }
+                })
+                .then(()=>{
+                  i++
+                  if(i==a.length) res('')
+                })
+                
+              })
+            })
+            .then(() => {
+              this.customers.next(cu)
+              this.custI.next(cuI)
+              this.epiCustomers=cu
+            });
+           }
+         }) 
       }
     }
   }
