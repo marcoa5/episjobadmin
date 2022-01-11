@@ -74,7 +74,7 @@
         <mat-divider></mat-divider>
         <h4>Customer Attendees</h4>
         <div class="epiCon">
-          <mat-chip-list selectable multiple formControlName="name">
+          <mat-chip-list selectable multiple>
             <mat-chip #c="matChip" *ngFor="let e of custAtt" [value]="e" (click)="select(c, e)">
                 {{e}}
             </mat-chip>

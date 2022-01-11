@@ -14,6 +14,9 @@ import { NotifService } from '../../../serv/notif.service'
 import { MatChip } from '@angular/material/chips';
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
 import { MakeidService } from '../../../serv/makeid.service'
+import { Subscription } from 'rxjs';
+import { auth } from 'firebase-admin';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 export interface customer{
   id: string,
@@ -82,17 +85,42 @@ export class NewvisitComponent implements OnInit {
   epiList:any[]=[]
   custList:string[]=[]
   custAtt:string[]=[]
-  constructor(private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService, public makeid: MakeidService) { }
+  subsList:Subscription[]=[]
+
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService, public makeid: MakeidService) { }
 
   ngOnInit(): void {
-    firebase.auth().onAuthStateChanged(a=>{
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.userId=a.uid
+        this.userName=a.Nome + ' ' + a.Cognome
+      }),
+      this.auth._custI.subscribe(a=>{
+        if(a!=undefined){
+          this.customers=Object.values(a)
+          this.customers!.sort((a:any, b:any)=> {
+            if (a.c1 < b.c1) {
+              return -1;
+            }
+            if (a.c1 > b.c1) {
+              return 1;
+            }
+            return 0
+          })
+          this.custChange()
+          this.placeChange()
+        }
+      })
+    )
+    /*firebase.auth().onAuthStateChanged(a=>{
       if(a) {
         firebase.database().ref('Users').child(a.uid).once('value',b=>{
           this.userId=a.uid
           this.userName=b.val().Nome + " " + b.val().Cognome
         })
       }
-    })
+    })*/
+
     firebase.database().ref('Users').once('value',h=>{
       h.forEach(d=>{
         let r = d.val().userVisit
@@ -105,7 +133,8 @@ export class NewvisitComponent implements OnInit {
     }).then(()=>this.comuni=this._comuni)
 
 
-    firebase.database().ref('CustomerC').once('value',a=>{
+
+    /*firebase.database().ref('CustomerC').once('value',a=>{
       this.customers=Object.values(a.val())
       this.customers.sort((a, b)=> {
           if (a.c1 < b.c1) {
@@ -121,7 +150,7 @@ export class NewvisitComponent implements OnInit {
       this.customers1=this.customers
       this.custChange()
       this.placeChange()
-    })
+    })*/
 
     this.dateFormGroup = this._formBuilder.group({
       date: [this.infoDate, Validators.required]
@@ -154,6 +183,10 @@ export class NewvisitComponent implements OnInit {
         this.dateFormGroup.controls.date.setValue(new Date(a.date))
       }
     })
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   setAdd(e:any){

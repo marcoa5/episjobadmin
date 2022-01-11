@@ -280,6 +280,10 @@ export class AuthServiceService {
         if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
         return false
         break
+      case 'visit':
+        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
+        return false
+        break
     }
     return false
   }
