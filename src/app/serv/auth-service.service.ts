@@ -254,8 +254,8 @@ export class AuthServiceService {
         return false
         break;
       case 'machine':
-        if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales') return false
-        return true
+        if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales' || this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        return false
         break
       case 'technicians':
         if(this.epiUser.Pos=='SU') return true

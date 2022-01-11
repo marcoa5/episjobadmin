@@ -16,6 +16,7 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
+import { TechniciansComponent } from '../../technicians/technicians.component';
 
 
 export interface hrsLabel {
@@ -50,7 +51,7 @@ export class MachineComponent implements OnInit {
   pos:string=''
   iniz:any=''
   day:any
-  allow:boolean=false
+  allow:boolean=true
   inizio!:Date
   fine:Date=new Date()
   infoH:any='Running Hours'
@@ -74,24 +75,25 @@ export class MachineComponent implements OnInit {
 
   ngOnInit(): void {
     Chart.register()
-    this.subsList.push(this.auth._userData.subscribe(a=>{
+    this.subsList.push(this.auth._userData.subscribe((a: { Pos: string; Nome: string; Cognome: string; Area: string; })=>{
       this.pos=a.Pos
       this.name = a.Nome + ' ' + a.Cognome
       this.area=a.Area
-      setTimeout(() => {
-        this.allow=this.auth.allow('machine',this.valore)
-      }, 1);
     }))
     this.route.params.subscribe(r=>{
       this.valore=r.sn
+      if(this.pos=='customer' || this.pos=='sales'){
+        firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',r=>{
+          console.log(r.val())
+          if(r.val()=='1') {
+            this.allow=this.auth.allow('machine')
+          } else {this.allow=false}
+        })
+      } else {
+        this.allow=this.auth.allow('machine')
+      }
     })
     this.f(1)
-    if(this.pos=='sales' || this.pos=='customer'){
-      this.auth._access.subscribe(a=>{
-        let y = a[a.map((b:any)=>{return b.sn}).indexOf(this.valore)]
-        if(y && y['a' + this.area]=='1') this.allow=true
-      })
-    }
   }
 
   ngOnDestroy(){
