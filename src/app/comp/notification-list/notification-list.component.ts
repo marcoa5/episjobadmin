@@ -2,6 +2,8 @@ import { Router } from '@angular/router'
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase/app'
 import * as moment from 'moment'
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-notification-list',
@@ -10,12 +12,15 @@ import * as moment from 'moment'
 })
 export class NotificationListComponent implements OnInit {
   notif:any[]=[]
-  constructor(public router: Router) { }
+  subsList:Subscription[]=[]
+  userId:string=''
+  constructor(private auth: AuthServiceService , public router: Router) { }
 
   ngOnInit(): void {
     let ora = moment(new Date()).subtract(30, 'days').format('YYYYMMDD')
-    firebase.auth().onAuthStateChanged(a=>{
-      if(a) {
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.userId=a.uid
         firebase.database().ref('Notif').child(a.uid).on('value',b=>{
           if(b.val()!=null) {
             this.notif=Object.values(b.val()).reverse()
@@ -27,8 +32,12 @@ export class NotificationListComponent implements OnInit {
             if(f<ora && c.key) firebase.database().ref('Notif').child(a.uid).child(c.key).remove()
           })
         })
-      }
-    })
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   read(a:any){

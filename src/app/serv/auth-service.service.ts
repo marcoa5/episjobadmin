@@ -149,6 +149,15 @@ export class AuthServiceService {
     })
   }
 
+  getUser(){
+    firebase.database().ref('Users').child(this.epiUserId).on('value',b=>{
+      let c= b.val()
+      c['uid']=this.epiUserId
+      this.userData.next(c)
+      this.epiUser=c
+    })
+  }
+
   allow(f:string, sn?:string):boolean{
     switch(f){
       case 'newrig':

@@ -29,7 +29,6 @@ export class H2Component implements OnInit {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
-        if(a) console.log(a)
       })
     )
   }
