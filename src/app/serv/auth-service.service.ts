@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import * as moment from 'moment'
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,8 @@ export class AuthServiceService {
         this.epiUserId=r!.uid
         this.userData.next(c)
         this.epiUser=c
+        let time:string = moment(new Date).format('YYYY-MM-DD HH:mm')
+        firebase.database().ref('login').child(this.epiUserId+'-'+this.epiUser.Nome + ' ' + this.epiUser.Cognome).child(time).set({login: time})
       })
     })
   }
