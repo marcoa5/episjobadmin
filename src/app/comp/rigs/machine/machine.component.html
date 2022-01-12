@@ -11,22 +11,27 @@
             <div class="item2" *ngIf="cCom!=0">
                 <episjob-h2 icon="update" [data]="infoH" padtop=30></episjob-h2>
                 <p *ngIf="cCom==0">No data to display</p>
+                <episjob-spin *ngIf="hrsLabels.length==0"></episjob-spin>
                 <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
             </div>   
             <div class="item3 contCan"  *ngIf="cCom!=0 && !(datafil.length==1 && datafil[0].y==0)">
                 <episjob-h2 icon="update" data="Engine Hours"></episjob-h2>
-                <canvas class="can" id="orem" [class.mat-elevation-z2]="true"></canvas>
+                <episjob-spin *ngIf="!g1"></episjob-spin>
+                <canvas class="can" id="orem" [class.mat-elevation-z2]="true" [ngClass]="{'hide':!g1}"></canvas>
             </div>
             <div class="item4 contCan"  *ngIf="cCom!=0 && !(datafil.length==1 && datafil[0].y1==0)">
                 <episjob-h2 icon="update" data="Percussion Hours"></episjob-h2>
-                <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"></canvas>
+                <episjob-spin *ngIf="!g2"></episjob-spin>
+                <canvas class="can" id="perc1" [class.mat-elevation-z2]="true"  [ngClass]="{'hide':!g2}"></canvas>
             </div>
             <div class="item5 contCan"  *ngIf="cCom!=0  && !(datafil.length==1 && datafil[0].y==0)">
                 <episjob-h2 icon="update" data="Running Hours History" [showSort]="true" (sort)="sortDataTable($event)" ></episjob-h2>
+                <episjob-spin *ngIf="datafil.length==0"></episjob-spin>
                 <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)" [sortDA]="sortT"></episjob-rig-table>
             </div>
             <div class="item6 contCan" *ngIf="cCom!=0 && sjList.length>0">
                 <episjob-h2 icon="content_paste" class="title" [data]="'Service Job History'" [showSort]="true" (sort)="sortDataSJ($event)"></episjob-h2>
+                <episjob-spin *ngIf="sjList.length==0"></episjob-spin>
                 <episjob-sjlist [list]="sjList" [customer]="customer" [model]="model" [sortDA]="sortSJ"></episjob-sjlist>
             </div>
 

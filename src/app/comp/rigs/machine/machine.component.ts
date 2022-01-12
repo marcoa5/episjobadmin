@@ -132,7 +132,6 @@ export class MachineComponent implements OnInit {
         this.checkComm()
         this.lastRead()
       })
-      //.catch((h)=>{console.log('no data')})
     }) 
   }
 
@@ -312,7 +311,7 @@ export class MachineComponent implements OnInit {
   calcolaOrem(){
     if (this.g1) this.g1.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('orem')
-    var ctx 
+    var ctx:any 
     if (canvas!=null) ctx = canvas.getContext('2d')
     if(ctx){
       this.g1 = new Chart(ctx, {
