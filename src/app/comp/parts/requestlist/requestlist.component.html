@@ -18,7 +18,9 @@
     </div>
     
 </form>
-
+<div *ngIf="partList.data.length==0" class="importCont">
+    <button mat-raised-button color="primary" (click)="import()">Import from external source</button>
+</div>
 <div *ngIf="partList.data.length>0" class="bodyCont">
     
         <h4 class="head">Part List</h4>

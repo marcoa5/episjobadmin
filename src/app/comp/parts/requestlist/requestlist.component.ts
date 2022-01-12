@@ -7,6 +7,7 @@ import firebase from 'firebase/app'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { Router } from '@angular/router'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
+import { ImportpartsComponent } from '../../util/dialog/importparts/importparts.component';
 
 
 export interface el{
@@ -49,7 +50,7 @@ export class RequestlistComponent implements OnInit {
   }
 
   ngOnChanges(){
-    if(this.listP.length>0){
+    if(this.listP && this.listP.length>0){
       this.partList.data=this.listP
       setTimeout(() => {
         this.pn1.nativeElement.focus()
@@ -87,7 +88,7 @@ export class RequestlistComponent implements OnInit {
 
   add(){
     let l = this.addPart.controls
-    let a = l.pn.value
+    let a = ('0000000000' + l.pn.value).slice(-10)
     let b = l.desc.value
     let c = l.qty.value
     let arr = this.partList.data
@@ -130,6 +131,33 @@ export class RequestlistComponent implements OnInit {
         let y:any= this.partList.data[a]
         y[c]=result
         this.list.emit(this.partList.data)
+      }
+    })
+  }
+
+  import(){
+    const dialogRef=this.dialog.open(ImportpartsComponent)
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result!=undefined){
+        let a:string[] = result.split('\n')
+        let templist:el[]=[]
+        let cherr:boolean=false
+        a.forEach(b=>{
+          let c= b.split('\t')
+          if(c.length>1 && c[0].length==10 && c[1]!='' && typeof parseInt(c[2])=='number') {
+            templist.push({pn: c[0],desc:c[1],qty:parseInt(c[2])})
+          } else {
+            cherr=true
+          }
+        })
+        setTimeout(() => {
+          if(!cherr) {
+            this.partList.data=templist
+            this.list.emit(this.partList.data)
+          } else {
+            alert('Wrong data format')
+          }
+        }, 100);
       }
     })
   }
