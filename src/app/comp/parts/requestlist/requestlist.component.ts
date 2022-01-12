@@ -145,7 +145,7 @@ export class RequestlistComponent implements OnInit {
         a.forEach(b=>{
           let c= b.split('\t')
           if(c.length>1 && c[0].length==10 && c[1]!='' && typeof parseInt(c[2])=='number') {
-            templist.push({pn: c[0],desc:c[1],qty:parseInt(c[2])})
+            templist.push({pn: ('0000000000'+c[0]).slice(-10),desc:c[1],qty:parseInt(c[2])})
           } else {
             cherr=true
           }
