@@ -36,7 +36,7 @@ export class AuthServiceService {
         this.epiUserId=r!.uid
         this.userData.next(c)
         this.epiUser=c
-        let time:string = moment(new Date).format('YYYY-MM-DD HH:mm')
+        let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
         firebase.database().ref('Login').child(this.epiUserId+'-'+this.epiUser.Nome + ' ' + this.epiUser.Cognome).child(time).set({Login: time})
       })
     })
