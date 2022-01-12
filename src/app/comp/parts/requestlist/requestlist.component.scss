@@ -35,6 +35,10 @@ th{
     font-weight: 900;
 }
 
+td{
+    overflow: hidden;
+}
+
 .mat-cell {
     padding: 0;
   }
@@ -118,5 +122,9 @@ h4{
         "tab tab tab tab"
         "none none none butG";
     }
+}
+
+.pun{
+    cursor: pointer;
 }
 

@@ -9,6 +9,8 @@ import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { HttpClient, HttpParams } from '@angular/common/http'
+import { Clipboard } from '@angular/cdk/clipboard'
 
 @Component({
   selector: 'episjob-parts',
@@ -27,7 +29,7 @@ export class PartsComponent implements OnInit {
   allSpin:boolean=true
   subsList:Subscription[]=[]
 
-  constructor(public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+  constructor(public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -91,15 +93,28 @@ export class PartsComponent implements OnInit {
     })
   }
 
-  submit(e:any){
-    console.log(this.info, e)
-    const dialegRef= this.dialog.open(SavevisitComponent)
-    dialegRef.afterClosed().subscribe(res=>{
-      if(res!=undefined){
-        alert('submitted')
-        this.router.navigate([''])
-      }
-    })
+  submit(e:any[]){
+    if(this.pos=='customer'){
+      let list:string=''
+      e.forEach(a=>{
+        if(list!='') list += `\n${a.pn}\t${a.qty}`
+      })
+      this.clipboard.copy(list)
+      window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
+    } else {
+      const dialegRef= this.dialog.open(SavevisitComponent)
+      dialegRef.afterClosed().subscribe(res=>{
+        if(res!=undefined){
+          let params = new HttpParams()
+          .set("info",JSON.stringify(this.info))
+          let url:string = 'https://episjobreq.herokuapp.com/parts/'
+          this.http.get(url,{params:params}).subscribe(a=>{
+            alert('submitted')
+          })
+          //this.router.navigate([''])
+        }
+      })
+    }
   }
 
   saveList(e:any){

@@ -1,11 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase/app'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { Router } from '@angular/router'
+import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
 
 
 export interface el{
@@ -119,5 +120,17 @@ export class RequestlistComponent implements OnInit {
 
   back(){
     this.clear.emit('clear')
+  }
+
+  upd(a:number,b:string,c:string){
+    console.log(a,b, this.partList.data)
+    const dialogRef=this.dialog.open(InputhrsComponent,{data: {hr: b}})
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result!=undefined){
+        let y:any= this.partList.data[a]
+        y[c]=result
+        this.list.emit(this.partList.data)
+      }
+    })
   }
 }

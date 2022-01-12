@@ -11,6 +11,7 @@
 @media screen and (max-width:500px){
     .cont{
         grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 15px;
     }
     .bold{
         font-weight: 500;

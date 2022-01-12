@@ -7,7 +7,7 @@
     </mat-form-field> 
     <mat-form-field [appearance]="appearance" >
         <mat-label>Description</mat-label>
-        <input matInput type="text" autocomplete="off" maxlength="10" formControlName="desc"> 
+        <input matInput type="text" autocomplete="off" formControlName="desc"> 
     </mat-form-field>  
     <div class="end">
         <mat-form-field [appearance]="appearance" class="inp" >
@@ -35,11 +35,11 @@
         </ng-container>
         <ng-container matColumnDef="desc">
             <th mat-header-cell *matHeaderCellDef class="i3"> DESCRIPTION </th>
-            <td mat-cell *matCellDef="let e"> {{e.desc}} </td>
+            <td mat-cell *matCellDef="let e; let i = index" (click)="upd(i,e.desc,'desc')" class="pun"> {{e.desc}} </td>
         </ng-container>
         <ng-container matColumnDef="qty">
             <th mat-header-cell *matHeaderCellDef  class="cen i4"> Q.TY </th>
-            <td mat-cell *matCellDef="let e"  class="cen"> {{e.qty}} </td>
+            <td mat-cell *matCellDef="let e; let i = index"  class="cen pun"  (click)="upd(i,e.desc,'qty')"> {{e.qty}} </td>
         </ng-container>
         <ng-container matColumnDef="del">
             <th mat-header-cell *matHeaderCellDef  class="cen i5">DEL</th>
