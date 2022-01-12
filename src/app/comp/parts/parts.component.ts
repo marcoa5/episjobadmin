@@ -144,6 +144,12 @@ export class PartsComponent implements OnInit {
     this.partList=this.list[this.listId].Parts
   }
 
+  openD(a:number){
+    this.info=this.list[a]
+    this.reqId=this.list[a].reqId
+    this.partList=this.list[a].Parts
+  }
+
   delete(){
     this.reqId=this.list[this.listId].reqId
     const dialogRef = this.dialog.open(DeldialogComponent, {data: {name:'Request for ' + this.list[this.listId].sn}})

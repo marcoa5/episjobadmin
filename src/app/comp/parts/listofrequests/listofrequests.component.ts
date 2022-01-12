@@ -10,6 +10,7 @@ import 'firebase/database'
 export class ListofrequestsComponent implements OnInit {
   @Input() list: any[]=[]
   @Output() index = new EventEmitter()
+  @Output() indexD=new EventEmitter()
   constructor() { }
 
   ngOnInit(): void {
@@ -36,6 +37,10 @@ export class ListofrequestsComponent implements OnInit {
       this.list[a].sel=0
       this.index.emit(-1)
     }
+  }
+
+  directgo(a:any){
+    this.indexD.emit(a)
   }
 
 }

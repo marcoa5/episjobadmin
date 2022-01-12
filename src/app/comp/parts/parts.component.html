@@ -14,7 +14,7 @@
             </div>
             <div *ngIf="(!info || !info.sn) && list.length>0">
                 <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
-                <episjob-listofrequests [list]="list" (index)="ind($event)"></episjob-listofrequests>
+                <episjob-listofrequests [list]="list" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
             
             <episjob-requestlist [listP]="partList" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)" (clear)="clear()"></episjob-requestlist>
