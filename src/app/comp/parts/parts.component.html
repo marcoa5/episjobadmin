@@ -7,7 +7,7 @@
                 <div class="butCont">
                     <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
                     <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" *ngIf="!info || !info.sn">Open draft</button>
-                    <button mat-raised-button color="primary" [disabled]="listId<0" (click)="delete()" *ngIf="!info || !info.sn">Delete draft</button>
+                    <button mat-raised-button color="primary" [disabled]="listId<0 || chDel" (click)="delete()" *ngIf="!info || !info.sn">Delete draft</button>
                 </div>
                 <span class="spacer" *ngIf="false"></span>
                 <span *ngIf="false">or select a draft from the below list:</span>

@@ -144,9 +144,14 @@ export class RequestlistComponent implements OnInit {
         let cherr:boolean=false
         a.forEach(b=>{
           let c= b.split('\t')
-          if(c.length>1 && c[0].length==10 && c[1]!='' && typeof parseInt(c[2])=='number') {
-            templist.push({pn: ('0000000000'+c[0]).slice(-10),desc:c[1],qty:parseInt(c[2])})
-          } else {
+          if(c.length>2 && c[0].length==10 && c[1]!='' && !isNaN(parseInt(c[2]))) {
+            if(c[3]){
+              templist.push({pn: ('0000000000'+c[0]).slice(-10),desc:c[1] + ' (replace ' + ('0000000000'+c[3]).slice(-10) +')',qty:parseInt(c[2])})
+            } else {
+              templist.push({pn: ('0000000000'+c[0]).slice(-10),desc:c[1],qty:parseInt(c[2])})
+            }
+          } else if(c.length==1){}
+          else{
             cherr=true
           }
         })
@@ -158,6 +163,16 @@ export class RequestlistComponent implements OnInit {
             alert('Wrong data format')
           }
         }, 100);
+      }
+    })
+  }
+
+  clearL(){
+    const dialogRef=this.dialog.open(DeldialogComponent,{data:{name:'list'}})
+    dialogRef.afterClosed().subscribe(result=>{
+      if(result!=undefined){
+        this.partList.data=[]
+        this.list.emit(this.partList.data)
       }
     })
   }

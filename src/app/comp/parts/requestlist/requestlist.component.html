@@ -19,7 +19,8 @@
     
 </form>
 <div *ngIf="partList.data.length==0" class="importCont">
-    <button mat-raised-button color="primary" (click)="import()">Import from external source</button>
+    <h4>Import from external source</h4>
+    <button mat-raised-button color="primary" (click)="import()">Import</button>
 </div>
 <div *ngIf="partList.data.length>0" class="bodyCont">
     
@@ -54,6 +55,7 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
       <div class="butG">
+        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="clearL()">Clear</button>
         <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="back()">Back</button>
         <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit</button>
       </div>

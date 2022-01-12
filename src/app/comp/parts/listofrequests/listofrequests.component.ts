@@ -32,7 +32,7 @@ export class ListofrequestsComponent implements OnInit {
     }
     if(this.list[a].sel==0) {
       this.list[a].sel=1
-      this.index.emit(a)
+      this.index.emit([a,this.list[a]])
     } else if(this.list[a].sel==1) {
       this.list[a].sel=0
       this.index.emit(-1)

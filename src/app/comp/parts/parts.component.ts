@@ -25,8 +25,10 @@ export class PartsComponent implements OnInit {
   listId:number=-1
   partList: any[]=[]
   pos:string=''
+  chDel:boolean=false
   allow:boolean=false
   allSpin:boolean=true
+  userReqId:string='none'
   subsList:Subscription[]=[]
 
   constructor(public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
@@ -52,7 +54,7 @@ export class PartsComponent implements OnInit {
   }
 
   loadlist(){
-    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'){
+    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'||this.pos=='tech'){
       firebase.database().ref('PartReq').on('value',b=>{
         this.list=[]
         b.forEach(c=>{
@@ -135,7 +137,15 @@ export class PartsComponent implements OnInit {
   }
 
   ind(e:any){
-    this.listId=e
+    if(this.pos=='SU') this.userReqId=e[1].usedId
+    this.listId=parseInt(e[0])
+    firebase.database().ref('PartReq').child(this.userReqId).child(e[1].reqId).once('value',a=>{
+      if(a.val()==null) {
+        this.chDel=true
+      } else{
+        this.chDel=false
+      }
+    })
   }
 
   open(){
@@ -155,7 +165,7 @@ export class PartsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeldialogComponent, {data: {name:'Request for ' + this.list[this.listId].sn}})
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
-        firebase.database().ref('PartReq').child(this.userId).child(this.reqId).remove()
+        firebase.database().ref('PartReq').child(this.userReqId).child(this.reqId).remove()
       }
     })
     this.listId=-1

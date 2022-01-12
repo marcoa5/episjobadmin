@@ -32,15 +32,13 @@ export class NewpartsrequestComponent implements OnInit {
   
   ngOnInit(): void {
     this.subsList.push(
-      this.auth._fleet.subscribe(a=>{this.rigs=a})
+      this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a})
     )
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
-
-  
 
   filter(){
     let f=this.newRequest.controls.search.value
@@ -50,7 +48,7 @@ export class NewpartsrequestComponent implements OnInit {
       this.sn.emit('')
     }
     if(f.length>2){
-      this.rigs=this._rigs.filter(a=>{
+      this.rigs=this.rigs.filter(a=>{
         if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
         return false
       }) 

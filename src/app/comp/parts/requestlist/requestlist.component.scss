@@ -88,7 +88,7 @@ h4{
 .butG{
     grid-area: butG;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3,1fr);
     align-items: center;
     justify-content: flex-end;
     gap:10px;
@@ -130,9 +130,4 @@ h4{
 
 .pun{
     cursor: pointer;
-}
-
-.importCont{
-    display: flex;
-    justify-content: center;
 }
