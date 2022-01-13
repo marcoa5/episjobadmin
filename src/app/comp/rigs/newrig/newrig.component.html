@@ -28,13 +28,36 @@
             <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
         </mat-form-field>
     </form>
+    <episjob-h2 icon="people" data="Ship To" padtop=0></episjob-h2>
+    <form [formGroup]="shipTo" class="formCont">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Contact</mat-label>
+            <input matInput type="text" placeholder="Contact" formControlName="name" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Email" formControlName="email" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Address</mat-label>
+            <input matInput type="text" placeholder="Address" formControlName="address" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>CIG</mat-label>
+            <input matInput type="text" placeholder="CIG" formControlName="cig" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field [appearance]="appearance">
+            <mat-label>CUP</mat-label>
+            <input matInput type="text" placeholder="CUP" formControlName="cup" autocomplete="off">
+        </mat-form-field>
+    </form>
     <episjob-segment (check)="vai($event)" [values]="rigCat" (data)="getData($event)"></episjob-segment>
     <episjob-add-cancelbuttons 
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 
         [type]="'rig'" 
-        [check]="newR.invalid || segment" 
-        (info)="add(addUpd? 'addr':'updr', newR)">
+        [check]="newR.invalid || segment || shipTo.invalid" 
+        (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
     </episjob-add-cancelbuttons>
 </div>
 

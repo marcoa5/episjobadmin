@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import { MatDialogRef} from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { unescapeIdentifier } from '@angular/compiler';
 
 @Component({
   selector: 'episjob-newpartsrequest',
@@ -19,7 +20,11 @@ export class NewpartsrequestComponent implements OnInit {
   _rigs:any[]=[]
   chStr:boolean=true
   details:any[]=[]
+  pos:string=''
+  technicians:any[]=[]
   subsList:Subscription[]=[]
+  tech:any
+  nome:string=''
   @Output() sn=new EventEmitter()
   
   constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
@@ -31,9 +36,26 @@ export class NewpartsrequestComponent implements OnInit {
   @ViewChild('sea') sea1!: ElementRef
   
   ngOnInit(): void {
+    this.technicians=[]
+    this.tech=undefined
     this.subsList.push(
-      this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a})
+      this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a}),
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.nome=a.Nome + ' ' + a.Cognome
+      })
     )
+    if(this.pos=='SU' || this.pos=='admin'){
+      firebase.database().ref('Users').once('value',a=>{
+        a.forEach(b=>{
+          if(b.val().Pos=='tech' || b.val().Pos=='sales') this.technicians.push(b.val().Nome + ' ' + b.val().Cognome)
+        })
+      })
+    } else{
+      this.technicians=[]
+      this.technicians.push(this.nome)
+      this.tech=this.nome
+    }
   }
 
   ngOnDestroy(){
@@ -85,6 +107,6 @@ export class NewpartsrequestComponent implements OnInit {
 
   go(){
     let a = this.details
-    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type})
+    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, orig: this.tech})
   }
 }

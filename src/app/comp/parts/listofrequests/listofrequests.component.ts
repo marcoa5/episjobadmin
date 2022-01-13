@@ -26,7 +26,7 @@ export class ListofrequestsComponent implements OnInit {
     }
   }
 
-  go(a:any){
+  go(a:any, e:any){
     for(let l of this.list){
       if(this.list[a]!=l) l.sel=0
     }
@@ -39,7 +39,7 @@ export class ListofrequestsComponent implements OnInit {
     }
   }
 
-  directgo(a:any){
+  directgo(a:any,e:any){
     this.indexD.emit(a)
   }
 

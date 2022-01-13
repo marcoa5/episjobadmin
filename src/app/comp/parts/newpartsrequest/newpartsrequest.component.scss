@@ -107,3 +107,13 @@
 .typeH{
     margin: 15px 0 5px 0;
 }
+
+.orig{
+    width:50%;
+}
+
+@media screen and(max-width:650px) {
+    .orig{
+        width:100%;
+    }
+}

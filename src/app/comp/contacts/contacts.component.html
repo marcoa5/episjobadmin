@@ -3,7 +3,7 @@
     <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true">
         <div class="head" (click)=go(c)>
             <!--<mat-icon class="ico">people</mat-icon>-->
-            <div class="textH">{{c.name}}</div> 
+            <div class="textH">{{c.name.toUpperCase()}}</div> 
         </div>
         <div class="body">
             <mat-icon class="ico" (click)=go(c)>factory</mat-icon>

@@ -2,13 +2,13 @@
 
 .cont{
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     align-items: center;
     border-bottom: 1px solid rgb(245,245,245);
     margin-bottom: 5px;
 }
 
-@media screen and (max-width:500px){
+@media screen and (max-width:800px){
     .cont{
         grid-template-columns: repeat(2, 1fr);
         margin-bottom: 15px;
@@ -16,17 +16,29 @@
     .bold{
         font-weight: 500;
     }
+    .head{
+        display: none;
+    }
+}
+
+.text, .h{
+    padding:0 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .text{
     cursor: pointer;
-    padding:0 5px;
-    white-space: nowrap;
-    overflow: hidden;
 }
 
 .sel{
     background-color: $dark-text;
     color: $light-text;
     border-radius: 5px;
+}
+
+.head{
+    font-weight: 600;
+    background-color: $light-text;
+    color:$dark-text;
 }

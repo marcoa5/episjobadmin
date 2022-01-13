@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
+import { isBuffer } from 'util';
+import { clear } from 'console';
 
 @Component({
   selector: 'episjob-parts',
@@ -90,7 +92,8 @@ export class PartsComponent implements OnInit {
         this.reqId=this.makeid.makeId(5)
         this.info['reqId']=this.reqId
         this.info['usedId']=this.userId
-        firebase.database().ref('PartReq').child(this.userId).child(this.reqId).set(this.info)
+        //firebase.database().ref('PartReq').child(this.userId).child(this.reqId).set(this.info)
+        this.partList=[]
       }
     })
   }
@@ -102,18 +105,26 @@ export class PartsComponent implements OnInit {
         if(list!='') list += `\n${a.pn}\t${a.qty}`
       })
       this.clipboard.copy(list)
-      window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
+      //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
     } else {
       const dialegRef= this.dialog.open(SavevisitComponent)
       dialegRef.afterClosed().subscribe(res=>{
         if(res!=undefined){
           let params = new HttpParams()
           .set("info",JSON.stringify(this.info))
-          let url:string = 'https://episjobreq.herokuapp.com/parts/'
-          this.http.get(url,{params:params}).subscribe(a=>{
-            alert('submitted')
+          let url:string = 'https://episjobreq.herokuapp.com/partreq'
+          this.http.get(url,{params:params}).subscribe((a: any)=>{
+            if(a){
+              firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
+              .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
+              .then(()=>{
+                this.clear()
+                alert('Request Sent')
+              })
+              )
+
+            }
           })
-          //this.router.navigate([''])
         }
       })
     }
@@ -137,15 +148,18 @@ export class PartsComponent implements OnInit {
   }
 
   ind(e:any){
-    if(this.pos=='SU') this.userReqId=e[1].usedId
-    this.listId=parseInt(e[0])
-    firebase.database().ref('PartReq').child(this.userReqId).child(e[1].reqId).once('value',a=>{
-      if(a.val()==null) {
-        this.chDel=true
-      } else{
-        this.chDel=false
-      }
-    })
+    if(e!='-1'){
+      if(this.pos=='SU') this.userReqId=e[1].usedId
+      this.listId=parseInt(e[0])
+      firebase.database().ref('PartReq').child(this.userReqId).child(e[1].reqId).once('value',a=>{
+        if(a.val()==null) {
+          this.chDel=true
+        } else{
+          this.chDel=false
+        }
+      })
+    }
+    
   }
 
   open(){
