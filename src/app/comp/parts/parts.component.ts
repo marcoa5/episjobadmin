@@ -11,8 +11,7 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
-import { isBuffer } from 'util';
-import { clear } from 'console';
+import * as moment from 'moment'
 
 @Component({
   selector: 'episjob-parts',
@@ -110,20 +109,34 @@ export class PartsComponent implements OnInit {
       const dialegRef= this.dialog.open(SavevisitComponent)
       dialegRef.afterClosed().subscribe(res=>{
         if(res!=undefined){
-          let params = new HttpParams()
-          .set("info",JSON.stringify(this.info))
-          let url:string = 'https://episjobreq.herokuapp.com/partreq'
-          this.http.get(url,{params:params}).subscribe((a: any)=>{
-            if(a){
-              firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
-              .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
-              .then(()=>{
-                this.clear()
-                alert('Request Sent')
-              })
-              )
-
+          let shipTo:any
+          firebase.database().ref('MOL').child(this.info.sn).once('value',a=>{
+            shipTo={
+              name: a.val().name,
+              email: a.val().email,
+              address: a.val().address,
+              cig: a.val().cig,
+              cup: a.val().cup
             }
+          })
+          .then(()=>{
+            this.info['shipTo']=shipTo
+            this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+            let params = new HttpParams()
+            .set("info",JSON.stringify(this.info))
+            let url:string = 'https://episjobreq.herokuapp.com/partreq'
+            this.http.get(url,{params:params}).subscribe((a: any)=>{
+              if(a){
+                firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
+                .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
+                .then(()=>{
+                  this.clear()
+                  alert('Request Sent')
+                })
+                )
+
+              }
+            })
           })
         }
       })

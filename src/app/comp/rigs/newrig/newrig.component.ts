@@ -84,7 +84,7 @@ export class NewrigComponent implements OnInit {
         })
         this.shipTo=this.fb.group({
           name: this.rigs[i].name,
-          mail: this.rigs[i].email,
+          email: this.rigs[i].email,
           address: this.rigs[i].address,
           cig: this.rigs[i].cig,
           cup: this.rigs[i].cup,

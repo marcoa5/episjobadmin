@@ -35,10 +35,15 @@
                 <episjob-sjlist [list]="sjList" [customer]="customer" [model]="model" [sortDA]="sortSJ"></episjob-sjlist>
             </div>
 
+
             <div class="item7" *ngIf="customer=='IMI FABI SPA' && chsjList()">
                 <episjob-h2 icon="content_paste" class="title" [data]="'Hours details'" [showDL]="true" (copy)="dlData($event)"></episjob-h2>
                 <episjob-imifabi [list]="sjList" ></episjob-imifabi>
             </div>
+            <!--<div class="item8">
+                <episjob-h2 icon="local_offer" class="title" data="Parts Request"></episjob-h2>
+                
+            </div>-->
 
         </div>
     </div>
