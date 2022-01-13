@@ -109,18 +109,18 @@ export class PartsComponent implements OnInit {
       const dialegRef= this.dialog.open(SavevisitComponent)
       dialegRef.afterClosed().subscribe(res=>{
         if(res!=undefined){
-          let shipTo:any
+          let shipTo:any=''
           firebase.database().ref('MOL').child(this.info.sn).once('value',a=>{
             shipTo={
-              name: a.val().name,
-              email: a.val().email,
-              address: a.val().address,
-              cig: a.val().cig,
-              cup: a.val().cup
+              name: a.val().name?a.val().name:'',
+              email: a.val().email?a.val().email:'',
+              address: a.val().address?a.val().address:'',
+              cig: a.val().cig?a.val().cig:'',
+              cup: a.val().cup?a.val().cup:''
             }
           })
           .then(()=>{
-            this.info['shipTo']=shipTo
+            this.info['shipTo']=shipTo?shipTo:''
             this.info['date']=moment(new Date()).format('YYYY-MM-DD')
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
