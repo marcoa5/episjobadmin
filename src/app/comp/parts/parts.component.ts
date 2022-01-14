@@ -134,7 +134,6 @@ export class PartsComponent implements OnInit {
                   alert('Request Sent')
                 })
                 )
-
               }
             })
           })

@@ -30,15 +30,20 @@ export class AuthServiceService {
       measurementId: "G-Y0638WJK1X"
     })
     firebase.auth().onAuthStateChanged(r=>{
-      firebase.database().ref('Users').child(r!.uid).on('value',b=>{
-        let c= b.val()
-        c['uid']=r!.uid
-        this.epiUserId=r!.uid
-        this.userData.next(c)
-        this.epiUser=c
-        let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-        firebase.database().ref('Login').child(this.epiUserId+'-'+this.epiUser.Nome + ' ' + this.epiUser.Cognome).child(time).set({Login: time})
-      })
+      if(r!=null){
+        this.userData.next(['loading'])
+        firebase.database().ref('Users').child(r!.uid).on('value',b=>{
+          let c= b.val()
+          c['uid']=r!.uid
+          this.epiUserId=r!.uid
+          this.userData.next(c)
+          this.epiUser=c
+          let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+          firebase.database().ref('Login').child(this.epiUserId+'-'+this.epiUser.Nome + ' ' + this.epiUser.Cognome).child(time).set({Login: time})
+        })
+      } else{
+        this.userData.next(['login'])
+      }
     })
   }
 
@@ -72,7 +77,7 @@ export class AuthServiceService {
   get _custI(){this.getCustData(); return this.custI.asObservable()}
 
   getFleetData(){//modifica qui
-    if(this.epiUser!=[]){
+    if(this.epiUser){
       if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
         if(this.epiRigs.length==0){
           firebase.database().ref('MOL').on('value',a=>{
@@ -288,6 +293,7 @@ export class AuthServiceService {
         return false
         break
     }
+    
     return false
   }
 }
