@@ -114,7 +114,7 @@ export class NewpartsrequestComponent implements OnInit {
       b=a.val().Nome + ' ' + a.val().Cognome
     })
     .then(()=>{
-      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome})
+      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0'})
     })
     
   }

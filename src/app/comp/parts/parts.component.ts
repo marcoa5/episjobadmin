@@ -170,6 +170,8 @@ export class PartsComponent implements OnInit {
           this.chDel=false
         }
       })
+    } else{
+      this.listId=-1
     }
     
   }
