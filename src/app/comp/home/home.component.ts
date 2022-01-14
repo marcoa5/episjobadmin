@@ -117,6 +117,7 @@ export class HomeComponent implements OnInit {
 
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
+        
         this.pos=a.Pos
         this.nome = a.Nome + ' ' + a.Cognome
         this.spin=false

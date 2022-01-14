@@ -1,9 +1,10 @@
 <div class="mt">
     <mat-toolbar color="primary" class="mt" [class.mat-elevation-z8]="true">
     <img style="margin-left: 10px" height="25px" src="../assets/icons/Logo.svg">
+
     <span class="example-spacer"></span>
     <!--<span class="bold">{{screenSize? 'Admin Tool' : ''}}</span>-->
-    <span class="example-spacer"></span>
+    <span class="example-spacer"> </span>
     
     <span class="contUser" *ngIf="userExists()">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()">
@@ -20,7 +21,7 @@
   </mat-toolbar>
 </div>
 
-<div id="login" *ngIf="spin || userN=='login'">
+<div id="login" *ngIf="userN=='login' || spin">
   <episjob-spin *ngIf="spin"></episjob-spin>
   <episjob-login *ngIf="userN=='login'"></episjob-login>
 </div>

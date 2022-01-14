@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent {
   title = 'episjobadmin';
-  userN:string | undefined;
+  userN:string='';
   userT:string |undefined;
   orient: boolean | undefined
   titolo: string | undefined
@@ -39,12 +39,12 @@ export class AppComponent {
     this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
+        console.log(a)
         if(a[0]=='loading'){
 
         }else if(a[0]=='login'){
           this.spin=false
           this.userN='login'
-          this.userN = ''
           this.userT=''
           this.nome = ''
           this.cognome = ''
@@ -52,7 +52,8 @@ export class AppComponent {
           this.SJ = ''
           this.Visit=''
           this.Newrig=''
-        }else if(a.length!=0){
+        }else if(a.Nome){
+          console.log('nome')
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
           this.userT=a.Pos
@@ -68,7 +69,7 @@ export class AppComponent {
               if(b.val().status==0) this.not++
             })
           })
-        } 
+        }
       })
     )
   }
