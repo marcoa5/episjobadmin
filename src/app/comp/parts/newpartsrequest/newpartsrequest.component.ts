@@ -48,7 +48,7 @@ export class NewpartsrequestComponent implements OnInit {
     if(this.pos=='SU' || this.pos=='admin'){
       firebase.database().ref('Users').once('value',a=>{
         a.forEach(b=>{
-          if(b.val().Pos=='tech' || b.val().Pos=='sales') this.technicians.push(b.val().Nome + ' ' + b.val().Cognome)
+          this.technicians.push({name: b.val().Nome + ' ' + b.val().Cognome, id:b.key})
         })
       })
     } else{
@@ -107,6 +107,13 @@ export class NewpartsrequestComponent implements OnInit {
 
   go(){
     let a = this.details
-    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, orig: this.tech})
+    let b: string=''
+    firebase.database().ref('Users').child(this.tech).once('value',a=>{
+      b=a.val().Nome + ' ' + a.val().Cognome
+    })
+    .then(()=>{
+      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome})
+    })
+    
   }
 }

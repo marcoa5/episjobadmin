@@ -18,12 +18,7 @@ export class ListofrequestsComponent implements OnInit {
   }
 
   ngOnChanges(){
-    for(let l of this.list){
-      l.sel=0
-      firebase.database().ref('Users').child(l.usedId).once('value',a=>{
-        l.author = a.val().Nome + ' ' + a.val().Cognome
-      })
-    }
+    
   }
 
   go(a:any, e:any){

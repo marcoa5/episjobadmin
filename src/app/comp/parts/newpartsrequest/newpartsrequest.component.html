@@ -26,8 +26,8 @@
   <mat-form-field appearance="fill" class="orig">
     <mat-label>Originator</mat-label>
     <mat-select [(value)]="tech">
-      <mat-option *ngFor="let t of technicians" [value]="t">
-        {{t}}
+      <mat-option *ngFor="let t of technicians" [value]="t.id">
+        {{t.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
