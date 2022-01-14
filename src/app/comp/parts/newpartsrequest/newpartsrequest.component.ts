@@ -25,6 +25,7 @@ export class NewpartsrequestComponent implements OnInit {
   subsList:Subscription[]=[]
   tech:any
   nome:string=''
+  tId:string=''
   @Output() sn=new EventEmitter()
   
   constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
@@ -43,6 +44,7 @@ export class NewpartsrequestComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         this.nome=a.Nome + ' ' + a.Cognome
+        this.tId=a.uid
       })
     )
     if(this.pos=='SU' || this.pos=='admin'){
@@ -53,7 +55,7 @@ export class NewpartsrequestComponent implements OnInit {
       })
     } else{
       this.technicians=[]
-      this.technicians.push(this.nome)
+      this.technicians.push({name: this.nome, id:this.tId})
       this.tech=this.nome
     }
   }

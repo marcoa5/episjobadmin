@@ -44,6 +44,14 @@ export class AppComponent {
         }else if(a[0]=='login'){
           this.spin=false
           this.userN='login'
+          this.userN = ''
+          this.userT=''
+          this.nome = ''
+          this.cognome = ''
+          this.userId=''
+          this.SJ = ''
+          this.Visit=''
+          this.Newrig=''
         }else if(a.length!=0){
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
