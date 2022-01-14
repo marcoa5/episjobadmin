@@ -22,9 +22,18 @@
     <mat-radio-button value="Service">Service</mat-radio-button>
     <mat-radio-button value="CustomerSupport">Customer Support</mat-radio-button>
   </mat-radio-group>
+  <h4 class="typeH">Originator</h4>
+  <mat-form-field appearance="fill" class="orig">
+    <mat-label>Originator</mat-label>
+    <mat-select [(value)]="tech">
+      <mat-option *ngFor="let t of technicians" [value]="t.id">
+        {{t.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
   </div>
 </div>
 <div mat-dialog-actions align="end">
   <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="type=='' || type==undefined || details.length==0" (click)="go()">Proceed</button>
+  <button mat-raised-button color="primary" [disabled]="type=='' || type==undefined || details.length==0 || tech==undefined" (click)="go()">Proceed</button>
 </div>

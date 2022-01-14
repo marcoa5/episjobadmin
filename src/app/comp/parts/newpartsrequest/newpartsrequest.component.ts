@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import { MatDialogRef} from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { unescapeIdentifier } from '@angular/compiler';
 
 @Component({
   selector: 'episjob-newpartsrequest',
@@ -19,7 +20,12 @@ export class NewpartsrequestComponent implements OnInit {
   _rigs:any[]=[]
   chStr:boolean=true
   details:any[]=[]
+  pos:string=''
+  technicians:any[]=[]
   subsList:Subscription[]=[]
+  tech:any
+  nome:string=''
+  tId:string=''
   @Output() sn=new EventEmitter()
   
   constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
@@ -31,16 +37,32 @@ export class NewpartsrequestComponent implements OnInit {
   @ViewChild('sea') sea1!: ElementRef
   
   ngOnInit(): void {
+    this.technicians=[]
+    this.tech=undefined
     this.subsList.push(
-      this.auth._fleet.subscribe(a=>{this.rigs=a})
+      this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a}),
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.nome=a.Nome + ' ' + a.Cognome
+        this.tId=a.uid
+      })
     )
+    if(this.pos=='SU' || this.pos=='admin'){
+      firebase.database().ref('Users').once('value',a=>{
+        a.forEach(b=>{
+          this.technicians.push({name: b.val().Nome + ' ' + b.val().Cognome, id:b.key})
+        })
+      })
+    } else{
+      this.technicians=[]
+      this.technicians.push({name: this.nome, id:this.tId})
+      this.tech=this.nome
+    }
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
-
-  
 
   filter(){
     let f=this.newRequest.controls.search.value
@@ -50,7 +72,7 @@ export class NewpartsrequestComponent implements OnInit {
       this.sn.emit('')
     }
     if(f.length>2){
-      this.rigs=this._rigs.filter(a=>{
+      this.rigs=this.rigs.filter(a=>{
         if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
         return false
       }) 
@@ -87,6 +109,13 @@ export class NewpartsrequestComponent implements OnInit {
 
   go(){
     let a = this.details
-    this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type})
+    let b: string=''
+    firebase.database().ref('Users').child(this.tech).once('value',a=>{
+      b=a.val().Nome + ' ' + a.val().Cognome
+    })
+    .then(()=>{
+      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0'})
+    })
+    
   }
 }

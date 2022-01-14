@@ -10,6 +10,7 @@ import 'firebase/database'
 export class ListofrequestsComponent implements OnInit {
   @Input() list: any[]=[]
   @Output() index = new EventEmitter()
+  @Output() indexD=new EventEmitter()
   constructor() { }
 
   ngOnInit(): void {
@@ -17,25 +18,24 @@ export class ListofrequestsComponent implements OnInit {
   }
 
   ngOnChanges(){
-    for(let l of this.list){
-      l.sel=0
-      firebase.database().ref('Users').child(l.usedId).once('value',a=>{
-        l.author = a.val().Nome + ' ' + a.val().Cognome
-      })
-    }
+    
   }
 
-  go(a:any){
+  go(a:any, e:any){
     for(let l of this.list){
       if(this.list[a]!=l) l.sel=0
     }
     if(this.list[a].sel==0) {
       this.list[a].sel=1
-      this.index.emit(a)
+      this.index.emit([a,this.list[a]])
     } else if(this.list[a].sel==1) {
       this.list[a].sel=0
       this.index.emit(-1)
     }
+  }
+
+  directgo(a:any,e:any){
+    this.indexD.emit(a)
   }
 
 }

@@ -1,0 +1,12 @@
+<div mat-dialog-title>Import</div>
+<div mat-dialog-content>
+    <p>Please paste data here:</p>
+    <mat-form-field appearance="fill">
+        <textarea #importText matInput rows="10" cols="60" cdkFocusInitial></textarea>
+    </mat-form-field>
+    
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="importText.value">Import</button>
+</div>

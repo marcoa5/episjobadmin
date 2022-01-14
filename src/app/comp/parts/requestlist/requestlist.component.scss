@@ -35,6 +35,10 @@ th{
     font-weight: 900;
 }
 
+td{
+    overflow: hidden;
+}
+
 .mat-cell {
     padding: 0;
   }
@@ -84,7 +88,7 @@ h4{
 .butG{
     grid-area: butG;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3,1fr);
     align-items: center;
     justify-content: flex-end;
     gap:10px;
@@ -98,9 +102,13 @@ h4{
 }
 .bodyCont{
     gap:15px;
+    display: grid;
+    grid-template-areas: 
+    "head butG"
+    "tab tab";
 }
 
-@media screen and (max-width:450px) {
+/*@media screen and (max-width:450px) {
     .bodyCont{
         display: grid;
         grid-template-areas: 
@@ -118,5 +126,8 @@ h4{
         "tab tab tab tab"
         "none none none butG";
     }
-}
+}*/
 
+.pun{
+    cursor: pointer;
+}

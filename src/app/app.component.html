@@ -20,11 +20,11 @@
   </mat-toolbar>
 </div>
 
-<div id="login" *ngIf="!userN || userN=='null'">
-  <mat-spinner color="accent" *ngIf="userN!='null'"></mat-spinner>
-  <episjob-login (userN)="userName($event)" *ngIf="userN=='null'"></episjob-login>
+<div id="login" *ngIf="spin || userN=='login'">
+  <episjob-spin *ngIf="spin"></episjob-spin>
+  <episjob-login *ngIf="userN=='login'"></episjob-login>
 </div>
-<div class="content" *ngIf="userN && userN!=='null'">
+<div class="content" *ngIf="userN!='login' && userN!=undefined">
   <router-outlet></router-outlet> 
 </div>
 

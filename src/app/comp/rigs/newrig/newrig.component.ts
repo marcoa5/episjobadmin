@@ -27,6 +27,7 @@ export class NewrigComponent implements OnInit {
   rig: string[]=[]
   appearance:MatFormFieldAppearance="fill"
   newR:FormGroup;
+  shipTo:FormGroup;
   addUpd:boolean = true
   segment:boolean = true
   customers:any[]=[]
@@ -43,6 +44,13 @@ export class NewrigComponent implements OnInit {
       site:[''],
       customer:['',[Validators.required]],
       in: ['']
+    })
+    this.shipTo=fb.group({
+      name: '',
+      address: '',
+      email:'',
+      cig:'',
+      cup:''
     })
   }
 
@@ -74,6 +82,14 @@ export class NewrigComponent implements OnInit {
           customer:[this.rigs[i].custid,[Validators.required]],
           in: [this.rigs[i].in]
         })
+        this.shipTo=this.fb.group({
+          name: this.rigs[i].name,
+          email: this.rigs[i].email,
+          address: this.rigs[i].address,
+          cig: this.rigs[i].cig,
+          cup: this.rigs[i].cup,
+
+        })
         this.newR.controls['sn'].disable()
         firebase.database().ref('Categ').child(this.serial).once('value',g=>{
           this.rigCat=[g.val()]
@@ -96,17 +112,22 @@ export class NewrigComponent implements OnInit {
     return g
   }
 
-  add(a:any,b:FormGroup){
+  add(a:any,b:FormGroup, c:FormGroup){
     let g:string[] = [b.get('sn')?.value,b.get('model')?.value,b.get('site')?.value, b.get('customer')?.value, b.get('in')?.value]
     Object.values(this.customers).map(f=>{if(f.id==g[3]) g[5]=(f.c1)})
     if(a=='addr' && this.allow){
-      firebase.database().ref('MOL/' + g[0].toUpperCase()).set({
+      firebase.database().ref('MOL').child(g[0].toUpperCase()).set({
         custid: g[3],
         customer: g[5].toUpperCase(),
         in: g[4].toUpperCase()? g[4].toUpperCase(): '',
         model: g[1],
         site: g[2].toUpperCase(),
-        sn: g[0].toUpperCase()
+        sn: g[0].toUpperCase(),
+        name: c.controls.name.value,
+        email: c.controls.email.value,
+        address: c.controls.address.value,
+        cig: c.controls.cig.value,
+        cup: c.controls.cup.value
       })
       firebase.database().ref('RigAuth/' + g[0].toUpperCase()).set({
         a1:'0',a2:'0',a3:'0',a4:'0',a5:'0',sn:g[0].toUpperCase()
@@ -132,7 +153,12 @@ export class NewrigComponent implements OnInit {
             in: g[4].toUpperCase()? g[4].toUpperCase():'',
             model: g[1],
             site: g[2].toUpperCase(),
-            sn: g[0].toUpperCase()
+            sn: g[0].toUpperCase(),
+            name: c.controls.name.value,
+            email: c.controls.email.value,
+            address: c.controls.address.value,
+            cig: c.controls.cig.value,
+            cup: c.controls.cup.value
           })
           this.childAdd['sn']=g[0].toUpperCase()
           firebase.database().ref('Categ/'+ this.serial).set(this.childAdd)
