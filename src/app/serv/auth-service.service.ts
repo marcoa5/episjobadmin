@@ -36,6 +36,7 @@ export class AuthServiceService {
           let c= b.val()
           c['uid']=r!.uid
           this.epiUserId=r!.uid
+          localStorage.setItem('user',JSON.stringify(c))
           this.userData.next(c)
           this.epiUser=c
           let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
@@ -66,7 +67,16 @@ export class AuthServiceService {
 
   get _categ(){return this.categ.asObservable()}
 
-  get _userData(){return this.userData.asObservable()}
+  get _userData(){
+    if(!navigator.onLine){
+      let a = localStorage.getItem('user')
+      if(a) {
+        let b = JSON.parse(a)
+        this.userData.next(b)
+      }
+    }
+    return this.userData.asObservable()
+  }
 
   get _fleet(){this.getFleetData(); return this.fleet.asObservable()}
   
