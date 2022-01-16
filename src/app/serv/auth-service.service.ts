@@ -4,6 +4,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
+import {openDB} from 'idb'
 
 @Injectable({
   providedIn: 'root'
@@ -69,13 +70,11 @@ export class AuthServiceService {
 
   get _userData(){
     let a=localStorage.getItem('user')
-    console.log(a)
     let b:any
     if(a!=null) {
       b = JSON.parse(a)
       this.userData.next(b)
       this.epiUser=b
-      console.log(b.uid)
       this.epiUserId=b.uid
     } else {
       this.userData.next(['login'])
@@ -95,8 +94,12 @@ export class AuthServiceService {
     if(this.epiUser){
       if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
         if(this.epiRigs.length==0){
-          firebase.database().ref('MOL').on('value',a=>{
+          firebase.database().ref('MOL').on('value',async (a)=>{
             let b=Object.values(a.val())
+            const db = await openDB('db')
+            if (db.objectStoreNames.contains('rigs')) {
+              db.createObjectStore('rigs');
+            }
             this.rigs.next(b)
             this.epiRigs=b
             this.getFleet(this.epiRigs,this.epiCateg)
