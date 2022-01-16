@@ -39,7 +39,6 @@ export class AppComponent {
     this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
-        console.log(a)
         if(a[0]=='loading'){
 
         }else if(a[0]=='login'){
@@ -53,7 +52,6 @@ export class AppComponent {
           this.Visit=''
           this.Newrig=''
         }else if(a.Nome){
-          console.log('nome')
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
           this.userT=a.Pos

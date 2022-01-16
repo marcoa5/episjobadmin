@@ -33,14 +33,14 @@ export class AuthServiceService {
       if(r!=null){
         this.userData.next(['loading'])
         firebase.database().ref('Users').child(r!.uid).on('value',b=>{
-          let c= b.val()
-          c['uid']=r!.uid
-          this.epiUserId=r!.uid
-          localStorage.setItem('user',JSON.stringify(c))
-          this.userData.next(c)
-          this.epiUser=c
-          let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-          firebase.database().ref('Login').child(this.epiUserId+'-'+this.epiUser.Nome + ' ' + this.epiUser.Cognome).child(time).set({Login: time})
+          if(b.val()!=null){
+            let c= b.val()
+            c['uid']=r!.uid
+            localStorage.setItem('user',JSON.stringify(c))
+            this.userData.next(c)
+            let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+            firebase.database().ref('Login').child(c.uId+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
+          }
         })
       } else{
         this.userData.next(['login'])
@@ -68,12 +68,17 @@ export class AuthServiceService {
   get _categ(){return this.categ.asObservable()}
 
   get _userData(){
-    if(!navigator.onLine){
-      let a = localStorage.getItem('user')
-      if(a) {
-        let b = JSON.parse(a)
-        this.userData.next(b)
-      }
+    let a=localStorage.getItem('user')
+    console.log(a)
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.userData.next(b)
+      this.epiUser=b
+      console.log(b.uid)
+      this.epiUserId=b.uid
+    } else {
+      this.userData.next(['login'])
     }
     return this.userData.asObservable()
   }

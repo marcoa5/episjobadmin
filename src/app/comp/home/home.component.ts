@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
               id:this.uId,
             })
           })
-          .catch((err: any)=>console.log(err)) 
+          .catch((err: any)=>{}) 
         }
       })
     )
