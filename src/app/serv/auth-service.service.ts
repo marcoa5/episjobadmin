@@ -31,25 +31,26 @@ export class AuthServiceService {
         appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
         measurementId: "G-Y0638WJK1X"
       })
-      firebase.auth().onAuthStateChanged(r=>{
-        console.log(r)
-        if(r!=null){
-          console.log('online')
-          this.userData.next(['loading'])
-          firebase.database().ref('Users').child(r!.uid).on('value',b=>{
-            if(b.val()!=null){
-              let c= b.val()
-              c['uid']=r!.uid
-              localStorage.setItem('user',JSON.stringify(c))
-              this.userData.next(c)
-              let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-              firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
-            }
-          })
-        } else{
-          this.userData.next(['login'])
-        }
-      })
+      if(navigator.onLine){
+        firebase.auth().onAuthStateChanged(r=>{
+          if(r!=null){
+            console.log('online')
+            this.userData.next(['loading'])
+            firebase.database().ref('Users').child(r!.uid).on('value',b=>{
+              if(b.val()!=null){
+                let c= b.val()
+                c['uid']=r!.uid
+                localStorage.setItem('user',JSON.stringify(c))
+                this.userData.next(c)
+                let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+                firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
+              }
+            })
+          } else{
+            this.userData.next(['login'])
+          }
+        })
+      }      
     } catch {
       console.log('network error')
     }
