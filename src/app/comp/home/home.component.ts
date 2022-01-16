@@ -108,9 +108,13 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
     let messaging:any
-    if(firebase.messaging.isSupported()){
-      messaging = firebase.messaging()
-      messaging.onMessage((p:any) => {console.log('Received foreground message ', p)})
+    try{
+      if(firebase.messaging.isSupported()){
+        messaging = firebase.messaging()
+        messaging.onMessage((p:any) => {console.log('Received foreground message ', p)})
+      }
+    } catch {
+      console.log('network errror')
     }
 
     let tokens:any[]=[]
@@ -123,7 +127,8 @@ export class HomeComponent implements OnInit {
         this.spin=false
         this.uId=a.uid
         if(messaging!=undefined){
-          messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
+          try{
+            messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
           .then((t:any)=>{
             firebase.database().ref('Tokens').child(this.uId).child(t).set({
               token: t,
@@ -133,7 +138,10 @@ export class HomeComponent implements OnInit {
               id:this.uId,
             })
           })
-          .catch((err: any)=>{}) 
+          .catch((err: any)=>{})
+          } catch{
+
+          }
         }
       })
     )

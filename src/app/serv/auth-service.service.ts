@@ -20,17 +20,17 @@ export class AuthServiceService {
   epiContact:any[]=[]
 
   constructor() {
-    firebase.initializeApp({
-      apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
-      authDomain: "epi-serv-job.firebaseapp.com",
-      databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com",
-      projectId: "epi-serv-job",
-      storageBucket: "epi-serv-job.appspot.com",
-      messagingSenderId: "793133030101",
-      appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
-      measurementId: "G-Y0638WJK1X"
-    })
     try{
+      firebase.initializeApp({
+        apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
+        authDomain: "epi-serv-job.firebaseapp.com",
+        databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com",
+        projectId: "epi-serv-job",
+        storageBucket: "epi-serv-job.appspot.com",
+        messagingSenderId: "793133030101",
+        appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
+        measurementId: "G-Y0638WJK1X"
+      })
       firebase.auth().onAuthStateChanged(r=>{
         if(r!=null){
           console.log('online')
