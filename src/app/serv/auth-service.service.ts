@@ -32,6 +32,7 @@ export class AuthServiceService {
         measurementId: "G-Y0638WJK1X"
       })
       firebase.auth().onAuthStateChanged(r=>{
+        console.log(r)
         if(r!=null){
           console.log('online')
           this.userData.next(['loading'])
@@ -42,7 +43,7 @@ export class AuthServiceService {
               localStorage.setItem('user',JSON.stringify(c))
               this.userData.next(c)
               let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-              firebase.database().ref('Login').child(c.uId+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
+              firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
             }
           })
         } else{
