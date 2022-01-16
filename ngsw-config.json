@@ -37,17 +37,8 @@
       "cacheConfig": {
         "strategy": "performance",
         "maxSize": 1000,
-        "maxAge": "3d"
+        "maxAge": "30d"
       }
-    },
-    {
-      "name": "firebase",
-      "urls": ["https://epi-serv-job-default-rtdb.firebaseio.com/**"],
-        "cacheConfig": {
-          "strategy": "performance",
-          "maxSize": 1000,
-          "maxAge": "3d"
-        }
-    }    
+    }   
   ]
 }
