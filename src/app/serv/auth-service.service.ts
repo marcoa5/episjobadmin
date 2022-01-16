@@ -33,6 +33,7 @@ export class AuthServiceService {
     try{
       firebase.auth().onAuthStateChanged(r=>{
         if(r!=null){
+          console.log('online')
           this.userData.next(['loading'])
           firebase.database().ref('Users').child(r!.uid).on('value',b=>{
             if(b.val()!=null){
