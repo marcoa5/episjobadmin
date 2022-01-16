@@ -30,23 +30,28 @@ export class AuthServiceService {
       appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
       measurementId: "G-Y0638WJK1X"
     })
-    firebase.auth().onAuthStateChanged(r=>{
-      if(r!=null){
-        this.userData.next(['loading'])
-        firebase.database().ref('Users').child(r!.uid).on('value',b=>{
-          if(b.val()!=null){
-            let c= b.val()
-            c['uid']=r!.uid
-            localStorage.setItem('user',JSON.stringify(c))
-            this.userData.next(c)
-            let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-            firebase.database().ref('Login').child(c.uId+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
-          }
-        })
-      } else{
-        this.userData.next(['login'])
-      }
-    })
+    try{
+      firebase.auth().onAuthStateChanged(r=>{
+        if(r!=null){
+          this.userData.next(['loading'])
+          firebase.database().ref('Users').child(r!.uid).on('value',b=>{
+            if(b.val()!=null){
+              let c= b.val()
+              c['uid']=r!.uid
+              localStorage.setItem('user',JSON.stringify(c))
+              this.userData.next(c)
+              let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
+              firebase.database().ref('Login').child(c.uId+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
+            }
+          })
+        } else{
+          this.userData.next(['login'])
+        }
+      })
+    } catch {
+      console.log('network error')
+    }
+    
   }
 
  
@@ -71,15 +76,17 @@ export class AuthServiceService {
   get _userData(){
     let a=localStorage.getItem('user')
     let b:any
+    
     if(a!=null) {
       b = JSON.parse(a)
+      console.log(b)
       this.userData.next(b)
       this.epiUser=b
       this.epiUserId=b.uid
     } else {
       this.userData.next(['login'])
     }
-    return this.userData.asObservable()
+      return this.userData.asObservable()
   }
 
   get _fleet(){this.getFleetData(); return this.fleet.asObservable()}
