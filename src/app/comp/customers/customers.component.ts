@@ -6,6 +6,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
+import { Clipboard } from '@angular/cdk/clipboard'
 
 @Component({
   selector: 'episjob-customers',
@@ -22,7 +23,7 @@ export class CustomersComponent implements OnInit {
   rigSn:string[]=[]
   subsList:Subscription[]=[]
 
-  constructor(public router: Router, public bak:BackService, private auth: AuthServiceService) {
+  constructor(public router: Router, public bak:BackService, private auth: AuthServiceService, private clip: Clipboard) {
     
    }
 
@@ -42,8 +43,12 @@ export class CustomersComponent implements OnInit {
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
-  open(a: String, b:string, c:string, d:string){
-    this.router.navigate(['cliente',{id:d}])
+  open(a: String, b:string, c:string, d:string, e:any){
+    if(e.ctrlKey){
+      this.clip.copy(`${a}\n${b}\n${c}`)
+    } else {
+      this.router.navigate(['cliente',{id:d}])
+    }
   }
 
   

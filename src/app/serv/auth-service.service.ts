@@ -4,7 +4,6 @@ import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
-import {openDB} from 'idb'
 
 @Injectable({
   providedIn: 'root'
@@ -32,10 +31,9 @@ export class AuthServiceService {
         measurementId: "G-Y0638WJK1X"
       })
       if(navigator.onLine){
+        console.log('online')
         firebase.auth().onAuthStateChanged(r=>{
           if(r!=null){
-            console.log('online')
-            this.userData.next(['loading'])
             firebase.database().ref('Users').child(r!.uid).on('value',b=>{
               if(b.val()!=null){
                 let c= b.val()
@@ -82,7 +80,6 @@ export class AuthServiceService {
     
     if(a!=null) {
       b = JSON.parse(a)
-      console.log(b)
       this.userData.next(b)
       this.epiUser=b
       this.epiUserId=b.uid
@@ -106,10 +103,6 @@ export class AuthServiceService {
         if(this.epiRigs.length==0){
           firebase.database().ref('MOL').on('value',async (a)=>{
             let b=Object.values(a.val())
-            const db = await openDB('db')
-            if (db.objectStoreNames.contains('rigs')) {
-              db.createObjectStore('rigs');
-            }
             this.rigs.next(b)
             this.epiRigs=b
             this.getFleet(this.epiRigs,this.epiCateg)
@@ -313,7 +306,7 @@ export class AuthServiceService {
         return false
         break
       case 'parts':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech'|| this.epiUser.Pos=='customer') return true
         return false
         break
       case 'visit':

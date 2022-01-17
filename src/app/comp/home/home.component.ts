@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
       icon:'construction', 
       route:'parts', 
       //dis:true, 
-      auth:['SU','admin','adminS','tech','']
+      auth:['SU','admin','adminS','tech','customer']
     },
   ];
   subsList: Subscription[]=[]

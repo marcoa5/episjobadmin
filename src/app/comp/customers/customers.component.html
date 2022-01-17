@@ -4,7 +4,7 @@
 
 
 <div class="custcont" *ngIf="customers.length>0">
-    <div class="custcard" episjobElevation *ngFor="let cust of customers | custfilter: filtro | sortCust: 'c1'" [class.mat-elevation-z2]="true" (click)="open(cust.c1, cust.c2,cust.c3, cust.id)">
+    <div class="custcard" episjobElevation *ngFor="let cust of customers | custfilter: filtro | sortCust: 'c1'" [class.mat-elevation-z2]="true" (click)="open(cust.c1, cust.c2,cust.c3, cust.id, $event)">
         <p class="l1">{{cust.c1}}</p>
         <div class="body">
             <mat-icon>factory</mat-icon>
