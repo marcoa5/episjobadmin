@@ -25,7 +25,7 @@ export class CustomersComponent implements OnInit {
 
   constructor(public router: Router, public bak:BackService, private auth: AuthServiceService, private clip: Clipboard) {
     
-   }
+  }
 
   ngOnInit() {
     this.subsList.push(

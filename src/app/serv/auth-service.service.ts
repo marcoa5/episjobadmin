@@ -89,18 +89,46 @@ export class AuthServiceService {
       return this.userData.asObservable()
   }
 
-  get _fleet(){this.getFleetData(); return this.fleet.asObservable()}
+  get _fleet(){
+    this.getFleetData()
+    let a = localStorage.getItem('fleet')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.fleet.next(b)
+    }
+    return this.fleet.asObservable()
+  }
   
-  get _customers(){this.getCustData(); return this.customers.asObservable()}
+  get _customers(){
+    this.getCustData()
+    let a = localStorage.getItem('customers')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.customers.next(b)
+    }
+    return this.customers.asObservable()
+  }
 
   get _contacts(){return this.contacts.asObservable()}
 
-  get _custI(){this.getCustData(); return this.custI.asObservable()}
+  get _custI(){
+    this.getCustData()
+    let a = localStorage.getItem('custI')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.custI.next(b)
+    }
+    return this.custI.asObservable()
+  }
 
   getFleetData(){//modifica qui
     if(this.epiUser){
       if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
         if(this.epiRigs.length==0){
+          console.log('Downloading fleet...')
           firebase.database().ref('MOL').on('value',async (a)=>{
             let b=Object.values(a.val())
             this.rigs.next(b)
@@ -155,7 +183,9 @@ export class AuthServiceService {
       })
       if(g.length==fRigs.length){
         this.epiFleet=g
-        this.fleet.next(g)
+        localStorage.removeItem('fleet')
+        localStorage.setItem('fleet', JSON.stringify(g))
+        //this.fleet.next(g)
       }
     } else {
       this.epiFleet=fRigs
@@ -168,6 +198,7 @@ export class AuthServiceService {
     if(this.epiUser){
       if(this.epiUser.Pos!='customer'){
         if(this.epiCustomers.length==0){
+          console.log('Downloading customers...')
           let custIndex
           firebase.database().ref('CustomerC').on('value',a=>{
             custIndex=a.val()
@@ -193,8 +224,10 @@ export class AuthServiceService {
               } else{
                 c=b
               }
-              this.customers.next(c)
-              this.custI.next(custIndex)
+              //this.customers.next(c)
+              //this.custI.next(custIndex)
+              localStorage.setItem('customers',JSON.stringify(c))
+              localStorage.setItem('custI',JSON.stringify(custIndex))
               this.epiCustomers=c 
             }
           })
