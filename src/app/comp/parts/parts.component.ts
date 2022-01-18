@@ -110,13 +110,14 @@ export class PartsComponent implements OnInit {
       dialegRef.afterClosed().subscribe(res=>{
         if(res!=undefined){
           let shipTo:any=''
-          firebase.database().ref('MOL').child(this.info.sn).once('value',a=>{
-            shipTo={
-              name: a.val().name?a.val().name:'',
-              email: a.val().email?a.val().email:'',
-              address: a.val().address?a.val().address:'',
-              cig: a.val().cig?a.val().cig:'',
-              cup: a.val().cup?a.val().cup:''
+          firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
+            if(a.val()!=null){
+              shipTo={
+                cont: a.val().cont?a.val().cont:'',
+                address: a.val().address?a.val().address:'',
+                cig: a.val().cig?a.val().cig:'',
+                cup: a.val().cup?a.val().cup:''
+              }
             }
           })
           .then(()=>{
@@ -131,7 +132,7 @@ export class PartsComponent implements OnInit {
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
                 .then(()=>{
                   this.clear()
-                  alert('Request Sent')
+                  console.log('SENT ' + a)
                 })
                 )
               }

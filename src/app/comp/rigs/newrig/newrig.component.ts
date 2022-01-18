@@ -97,15 +97,15 @@ export class NewrigComponent implements OnInit {
           this.spin=false
         })
         firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
+          a.val().cont.forEach((e:any) => {
+            this.conList.push(e)
+          });
           this.shipTo=this.fb.group({
-            //name: this.rigs[i].name,
-            //email: this.rigs[i].email,
-            address: [this.rigs[i].address],
-            cig: this.rigs[i].cig,
-            cup: this.rigs[i].cup,
+            address: [a.val().address],
+            cig: a.val().cig,
+            cup: a.val().cup,
           })
         })
-        
         this.newR.controls['sn'].disable()
         firebase.database().ref('Categ').child(this.serial).once('value',g=>{
           this.rigCat=[g.val()]
@@ -115,7 +115,14 @@ export class NewrigComponent implements OnInit {
         this.rou=['rigs']
       }
     })
-    this.checkCon()
+    setTimeout(() => {
+      this.checkCon()
+    }, 1000);
+  }
+
+  chSel(c:MatChip, e:any){
+    if(this.conList.map(a=>{return a.name}).includes(e.name)) return true
+    return false
   }
 
   ngOnDestroy(){
@@ -260,7 +267,6 @@ export class NewrigComponent implements OnInit {
       this.shipTo.controls.address.setErrors(null)
     } else {
       this.shipTo.controls.address.setErrors({})
-      
     }
   }
 }
