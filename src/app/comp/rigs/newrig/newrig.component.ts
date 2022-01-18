@@ -41,6 +41,8 @@ export class NewrigComponent implements OnInit {
   custId:string=''
   conList:any[]=[]
   spin:boolean=true
+  addr:any[]=[]
+  addV:any
   subsList:Subscription[]=[]
 
   constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
@@ -61,7 +63,6 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.subsList.push(this.auth._userData.subscribe(a=>{
       this.uId=a.uid
       this.uName= a.Nome + ' ' + a.Cognome
@@ -96,15 +97,23 @@ export class NewrigComponent implements OnInit {
           })
           this.spin=false
         })
-        firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
-          a.val().cont.forEach((e:any) => {
-            this.conList.push(e)
-          });
-          this.shipTo=this.fb.group({
-            address: [a.val().address],
-            cig: a.val().cig,
-            cup: a.val().cup,
+        this.addr=[{id:'xx', val: 'Add new Address'}]
+        firebase.database().ref('CustAddress').child(this.custId).once('value',a=>{
+          a.forEach(b=>{
+            this.addr.push(b)
           })
+        })
+        firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
+          if(a && a.val() && a.val().cont) {
+            a.val().cont.forEach((e:any) => {
+              this.conList.push(e)
+            });
+            this.shipTo=this.fb.group({
+              address: [a.val().address],
+              cig: a.val().cig?a.val().cig:'',
+              cup: a.val().cup?a.val().cup:'',
+            })
+          }
         })
         this.newR.controls['sn'].disable()
         firebase.database().ref('Categ').child(this.serial).once('value',g=>{
@@ -261,13 +270,19 @@ export class NewrigComponent implements OnInit {
   }
 
   checkCon(){
-    let a= this.conList.length>0 && (this.shipTo.controls.address.value!=null && this.shipTo.controls.address.value!='')
-    let b = this.conList.length==0 && (this.shipTo.controls.address.value==null|| this.shipTo.controls.address.value=='')
+    let a= this.conList.length>0 && ((this.shipTo.controls.address.value!=null && this.shipTo.controls.address.value!='')||this.shipTo.controls.address.value!='xx')
+    let b = this.conList.length==0 && (this.shipTo.controls.address.value==null|| this.shipTo.controls.address.value=='' || this.shipTo.controls.address.value!='xx')
     if(a||b) {
       this.shipTo.controls.address.setErrors(null)
     } else {
       this.shipTo.controls.address.setErrors({})
     }
+  }
+
+  onCh(a:any){
+    if(a=='xx') {
+      console.log(a)
+    } 
   }
 }
 

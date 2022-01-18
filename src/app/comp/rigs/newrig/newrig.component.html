@@ -46,8 +46,13 @@
         <div class="formCont ship">
             <mat-form-field [appearance]="appearance">
                 <mat-label>Address</mat-label>
-                <input matInput type="text" placeholder="Address" formControlName="address" autocomplete="off" (input)=textch()>
-                <mat-error *ngIf="shipTo.controls.address.invalid">At least one contact and ship to address must be selected</mat-error>
+                <mat-select (selectionChange)="onCh(shipTo.controls.address.value)" formControlName="address">
+                    <mat-option *ngFor="let a of addr" [value]="a.id">
+                      {{a.val}}
+                    </mat-option>
+                </mat-select>
+                <!--<input matInput type="text" placeholder="Address" formControlName="address" autocomplete="off" (input)=textch()>
+                <mat-error *ngIf="shipTo.controls.address.invalid">At least one contact and ship to address must be selected</mat-error>-->
             </mat-form-field>
             <mat-form-field [appearance]="appearance">
                 <mat-label>CIG</mat-label>
