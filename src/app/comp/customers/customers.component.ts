@@ -34,7 +34,9 @@ export class CustomersComponent implements OnInit {
         this.ind=a.Area?.toString()
       }),
       this.auth._customers.subscribe(a=>{
-        this.customers=a
+        setTimeout(() => {
+          this.customers=a
+        }, 1);
       })
     )
   }

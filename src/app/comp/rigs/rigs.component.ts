@@ -25,7 +25,11 @@ export class RigsComponent implements OnInit {
 
   ngOnInit(): void {
     this.subsList.push(this.auth._fleet.subscribe(a=>{
-      if(a.length>0) this.rigs=a
+      if(a.length>0) {
+        setTimeout(() => {
+          this.rigs=a
+        }, 1);
+      }
     }))
     this.largh(1)
   }
