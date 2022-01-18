@@ -9,6 +9,16 @@
     grid-template-columns: repeat(5, minmax(100px, 1fr));
 }
 
+.conCont{
+    display: grid;
+    gap:15px;
+    grid-template-rows: auto;
+}
+
+.ship{
+    grid-template-columns: 3fr repeat(2, minmax(100px, 1fr));
+}
+
 .row{
     display: grid;
     gap: 15px;
@@ -35,3 +45,5 @@
         grid-template-columns: repeat(1,minmax(100px, 1fr));
     }
 }
+
+.spin{margin-right: 15px;}

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -90,7 +90,7 @@ export class AuthServiceService {
   }
 
   get _fleet(){
-    this.getFleetData()
+    if(!isDevMode()) this.getFleetData()
     let a = localStorage.getItem('fleet')
     let b:any
     if(a) {
@@ -101,7 +101,7 @@ export class AuthServiceService {
   }
   
   get _customers(){
-    this.getCustData()
+    if(!isDevMode()) this.getCustData()
     let a = localStorage.getItem('customers')
     let b:any
     if(a) {
@@ -114,7 +114,7 @@ export class AuthServiceService {
   get _contacts(){return this.contacts.asObservable()}
 
   get _custI(){
-    this.getCustData()
+    if(!isDevMode()) this.getCustData()
     let a = localStorage.getItem('custI')
     let b:any
     if(a) {
