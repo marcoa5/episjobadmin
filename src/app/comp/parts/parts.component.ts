@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SavevisitComponent } from '../util/dialog/savevisit/savevisit.component';
 import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.component';
 import { MakeidService } from '../../serv/makeid.service'
@@ -24,6 +24,7 @@ export class PartsComponent implements OnInit {
   reqId:string=''
   list:any[]=[]
   listSent:any[]=[]
+  _listSent:any[]=[]
   listId:number=-1
   partList: any[]=[]
   pos:string=''
@@ -31,9 +32,13 @@ export class PartsComponent implements OnInit {
   allow:boolean=false
   allSpin:boolean=true
   userReqId:string='none'
+  search:string=''
   subsList:Subscription[]=[]
 
+
   constructor(public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+
+  //@ViewChild('search') search!: ElementRef
 
   ngOnInit(): void {
     this.subsList.push(
@@ -50,6 +55,23 @@ export class PartsComponent implements OnInit {
         }, 1);
       })
     )
+  }
+
+  ngOnChanges(){
+    
+  }
+
+  sea(e:any){
+    this.listSent=this._listSent.filter(r=>{
+      return (
+        r.sn.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.customer.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.author.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.model.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.orig.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.type.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    })
   }
 
   ngOnDestroy(){
@@ -85,7 +107,8 @@ export class PartsComponent implements OnInit {
           c.forEach(d=>{
             let g = d.val()
             g.sel=0
-            this.listSent.push(g)
+            this._listSent.push(g)
+            this.listSent=this._listSent
           })
           
         })
