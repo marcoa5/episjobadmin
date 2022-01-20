@@ -237,7 +237,7 @@ export class NewrigComponent implements OnInit {
         this.spin=false
       })
       firebase.database().ref('CustAddress').child(this.custId).on('value',a=>{
-        this.addr=Object.values(a.val()).map((b:any)=>{return b.add}).sort()
+        if(a.val()!=null) this.addr=Object.values(a.val()).map((b:any)=>{return b.add}).sort()
         res('ok')
       })
     })
@@ -248,7 +248,6 @@ export class NewrigComponent implements OnInit {
     dialogR.afterClosed().subscribe(a=>{
       if(a!=undefined && a!='') {
         let b:string = this.makeId.makeId(8)
-        let c:any={}
         if(!this.addr.includes(a)){
           firebase.database().ref('CustAddress').child(this.custId).child(b).set({
             add: a
@@ -274,7 +273,7 @@ export class NewrigComponent implements OnInit {
     })
     .then(()=>{
       let str= this.addUpd? 'New rig added':'Rig data updated'
-      this.notif.newNotification(users,str,b + ' - ' +  a + '(' + c + ')',this.uName,'newrig', './machine,{"sn":"' + a + '"}')
+      this.notif.newNotification(users,str,b + ' - ' +  a + '(' + c + ')',this.uName,'_newrig', './machine,{"sn":"' + a + '"}')
     })
   }
 
