@@ -14,7 +14,7 @@
             <mat-label>Q.ty</mat-label>
             <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
         </mat-form-field> 
-        <button mat-icon-button class="but" [disabled]="addPart.controls.pn.value<1 || addPart.controls.desc.value=='' || addPart.controls.qty.value<1" (click)="add()" color="accent"><mat-icon>add</mat-icon></button>
+        <button mat-mini-fab class="but" [disabled]="addPart.controls.pn.value<1 || addPart.controls.desc.value=='' || addPart.controls.qty.value<1" (click)="add()" color="primary" [class.mat-elevation-z1]="true"><mat-icon>add</mat-icon></button>
     </div>
     
 </form>

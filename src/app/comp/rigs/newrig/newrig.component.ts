@@ -13,6 +13,9 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { MatChip } from '@angular/material/chips';
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
+import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
+import { NewaddressComponent } from '../../util/dialog/newaddress/newaddress.component';
+import { MakeidService } from 'src/app/serv/makeid.service';
 
 @Component({
   selector: 'episjob-newrig',
@@ -43,9 +46,10 @@ export class NewrigComponent implements OnInit {
   spin:boolean=true
   addr:any[]=[]
   addV:any
+  cId:string=''
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
+  constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private makeId: MakeidService, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
       sn:['', [Validators.required]],
       model:['', [Validators.required]],
@@ -63,6 +67,12 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    /*firebase.database().ref('shipTo').once('value',a=>{
+      a.forEach(b=>{
+        console.log(b.key + ' - ' + b.val().address)
+
+      })
+    })*/
     this.subsList.push(this.auth._userData.subscribe(a=>{
       this.uId=a.uid
       this.uName= a.Nome + ' ' + a.Cognome
@@ -90,30 +100,27 @@ export class NewrigComponent implements OnInit {
           customer:[this.rigs[i].custid,[Validators.required]],
           in: [this.rigs[i].in]
         })
-        firebase.database().ref('Contacts').child(this.rigs[i].custid).on('value',a=>{
-          this.custCon=[]
-          a.forEach(b=>{
-            this.custCon.push({name: b.val().name, mail: b.val().mail})
-          })
-          this.spin=false
-        })
-        this.addr=[{id:'xx', val: 'Add new Address'}]
-        firebase.database().ref('CustAddress').child(this.custId).once('value',a=>{
-          a.forEach(b=>{
-            this.addr.push(b)
-          })
-        })
-        firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
-          if(a && a.val() && a.val().cont) {
-            a.val().cont.forEach((e:any) => {
-              this.conList.push(e)
-            });
-            this.shipTo=this.fb.group({
-              address: [a.val().address],
-              cig: a.val().cig?a.val().cig:'',
-              cup: a.val().cup?a.val().cup:'',
-            })
-          }
+        this.getCustInfo()
+        .then(()=>{
+          //console.log(!this.addr.includes(a.val().address))
+          firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
+            if(a && a.val() && a.val().cont) {
+              a.val().cont.forEach((e:any) => {
+                this.conList.push(e)
+              })
+              this.shipTo=this.fb.group({
+                address: [a.val().address],
+                cig: a.val().cig?a.val().cig:'',
+                cup: a.val().cup?a.val().cup:'',
+              })
+              if(!this.addr.includes(a.val().address)){
+                let b:string = this.makeId.makeId(8)
+                firebase.database().ref('CustAddress').child(this.custId).child(b).set({
+                  add: a.val().address
+                })
+              }
+            }
+          }) 
         })
         this.newR.controls['sn'].disable()
         firebase.database().ref('Categ').child(this.serial).once('value',g=>{
@@ -145,8 +152,15 @@ export class NewrigComponent implements OnInit {
   }
 
   add(a:any,b:FormGroup, c:FormGroup){
-    let g:string[] = [b.get('sn')?.value,b.get('model')?.value,b.get('site')?.value, b.get('customer')?.value, b.get('in')?.value]
-    Object.values(this.customers).map(f=>{if(f.id==g[3]) g[5]=(f.c1)})
+    let g:string[] = [
+      b.get('sn')?.value,
+      b.get('model')?.value,
+      b.get('site')?.value, 
+      this.custId, 
+      b.get('in')?.value]
+    Object.values(this.customers).map(f=>{
+      if(f.id==g[3]) g[5]=(f.c1)
+    })
     if(a=='addr' && this.allow){
       firebase.database().ref('MOL').child(g[0].toUpperCase()).set({
         custid: g[3],
@@ -205,7 +219,44 @@ export class NewrigComponent implements OnInit {
           
         }
       })
-    }    
+    }
+  }
+
+  getCustInfo(){
+    this.addr=[]
+    return new Promise((res,rej)=>{
+      this.conList=[]
+      this.shipTo.controls.address.setValue(null)
+      this.shipTo.controls.cig.setValue(null)
+      this.shipTo.controls.cup.setValue(null)
+      firebase.database().ref('Contacts').child(this.custId).on('value',a=>{
+        this.custCon=[]
+        a.forEach(b=>{
+          this.custCon.push({name: b.val().name, mail: b.val().mail})
+        })
+        this.spin=false
+      })
+      firebase.database().ref('CustAddress').child(this.custId).on('value',a=>{
+        a.forEach(b=>{
+          this.addr.push(b.val().add)
+        })
+        res('ok')
+      })
+    })
+  }
+
+  addAdd(){
+    const dialogR = this.dialog.open(NewaddressComponent)
+    dialogR.afterClosed().subscribe(a=>{
+      if(a!=undefined) {
+        let b:string = this.makeId.makeId(8)
+        let c:any={}
+        firebase.database().ref('CustAddress').child(this.custId).child(b).set({
+          add: a
+        })
+      }
+    })
+
   }
 
   sendNot(a:string, b:string,c:string){
@@ -281,7 +332,6 @@ export class NewrigComponent implements OnInit {
 
   onCh(a:any){
     if(a=='xx') {
-      console.log(a)
     } 
   }
 }

@@ -47,3 +47,13 @@
 }
 
 .spin{margin-right: 15px;}
+
+.addF{
+    display: grid;
+    grid-template-columns: 90% 10%;
+    align-items: top;
+}
+.but{
+    margin: 7px 10px 0 5px;
+    //height:52px;
+}
