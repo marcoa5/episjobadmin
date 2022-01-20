@@ -23,6 +23,7 @@ export class PartsComponent implements OnInit {
   userId:string=''
   reqId:string=''
   list:any[]=[]
+  listSent:any[]=[]
   listId:number=-1
   partList: any[]=[]
   pos:string=''
@@ -44,6 +45,7 @@ export class PartsComponent implements OnInit {
           this.allSpin=false
           if(this.allow==true){
             this.loadlist()
+            this.loadsent()
           }
         }, 1);
       })
@@ -70,6 +72,22 @@ export class PartsComponent implements OnInit {
         this.list=[]
         b.forEach(c=>{
           if(c.val().usedId==this.userId) this.list.push(c.val())
+        })
+      })
+    }
+  }
+
+  loadsent(){
+    if(this.pos=='SU'){
+      firebase.database().ref('PartReqSent').on('value',b=>{
+        this.listSent=[]
+        b.forEach(c=>{
+          c.forEach(d=>{
+            let g = d.val()
+            g.sel=0
+            this.listSent.push(g)
+          })
+          
         })
       })
     }
@@ -181,6 +199,12 @@ export class PartsComponent implements OnInit {
     this.info=this.list[this.listId]
     this.reqId=this.list[this.listId].reqId
     this.partList=this.list[this.listId].Parts
+  }
+
+  openSent(a:number){
+    this.info=this.listSent[a]
+    this.reqId=this.listSent[a].reqId
+    this.partList=this.listSent[a].Parts
   }
 
   openD(a:number){

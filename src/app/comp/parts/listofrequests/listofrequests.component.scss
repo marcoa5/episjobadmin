@@ -1,5 +1,13 @@
 @import '../../../../epi.scss';
 
+
+@media screen and (min-width:801px) {
+    .mainCont{
+        max-height: 350px;
+        overflow-y:scroll;
+    }
+}
+
 .cont{
     display: grid;
     grid-template-columns: repeat(6, 1fr);

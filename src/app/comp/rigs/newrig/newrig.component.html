@@ -74,7 +74,7 @@
         [a1]="'Cancel'" 
         [a2]="addUpd? 'Add' : 'Update'" 
         [type]="'rig'" 
-        [check]="newR.invalid || segment || shipTo.invalid" 
+        [check]="newR.invalid || segment || !checkCon()" 
         (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
     </episjob-add-cancelbuttons>
 </div>

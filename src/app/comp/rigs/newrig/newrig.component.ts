@@ -237,9 +237,7 @@ export class NewrigComponent implements OnInit {
         this.spin=false
       })
       firebase.database().ref('CustAddress').child(this.custId).on('value',a=>{
-        a.forEach(b=>{
-          this.addr.push(b.val().add)
-        })
+        this.addr=Object.values(a.val()).map((b:any)=>{return b.add}).sort()
         res('ok')
       })
     })
@@ -248,15 +246,21 @@ export class NewrigComponent implements OnInit {
   addAdd(){
     const dialogR = this.dialog.open(NewaddressComponent)
     dialogR.afterClosed().subscribe(a=>{
-      if(a!=undefined) {
+      if(a!=undefined && a!='') {
         let b:string = this.makeId.makeId(8)
         let c:any={}
-        firebase.database().ref('CustAddress').child(this.custId).child(b).set({
-          add: a
-        })
+        if(!this.addr.includes(a)){
+          firebase.database().ref('CustAddress').child(this.custId).child(b).set({
+            add: a
+          })
+          .then(()=>{
+            this.shipTo.controls.address.setValue(a)
+          })
+        } else {
+          alert('Address already in the list')
+        }
       }
     })
-
   }
 
   sendNot(a:string, b:string,c:string){
@@ -321,13 +325,11 @@ export class NewrigComponent implements OnInit {
   }
 
   checkCon(){
-    let a= this.conList.length>0 && ((this.shipTo.controls.address.value!=null && this.shipTo.controls.address.value!='')||this.shipTo.controls.address.value!='xx')
-    let b = this.conList.length==0 && (this.shipTo.controls.address.value==null|| this.shipTo.controls.address.value=='' || this.shipTo.controls.address.value!='xx')
-    if(a||b) {
-      this.shipTo.controls.address.setErrors(null)
-    } else {
-      this.shipTo.controls.address.setErrors({})
-    }
+    let a= this.conList.length
+    let b = this.shipTo.controls.address.value
+    if(a==0 && (b==null || b=='')) return true
+    if(a>0 && (b!=null && b!='')) return true
+    return false
   }
 
   onCh(a:any){
