@@ -148,23 +148,23 @@ export class PartsComponent implements OnInit {
       this.clipboard.copy(list)
       //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
     } else {
-      const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
-      dialegRef.afterClosed().subscribe(res=>{
-        if(res!=undefined){
-          let shipTo:any=''
-          firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
-            if(a.val()!=null){
-              shipTo={
-                cont: a.val().cont?a.val().cont:'',
-                address: a.val().address?a.val().address:'',
-                cig: a.val().cig?a.val().cig:'',
-                cup: a.val().cup?a.val().cup:''
-              }
-            }
-          })
-          .then(()=>{
-            this.info['shipTo']=shipTo?shipTo:''
-            this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+      let shipTo:any=''
+      firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
+        if(a.val()!=null){
+          shipTo={
+            cont: a.val().cont?a.val().cont:'',
+            address: a.val().address?a.val().address:'',
+            cig: a.val().cig?a.val().cig:'',
+            cup: a.val().cup?a.val().cup:''
+          }
+        }
+      })
+      .then(()=>{
+        this.info['shipTo']=shipTo?shipTo:''
+        this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+        const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
+        dialegRef.afterClosed().subscribe(res=>{
+          if(res!=undefined){
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
             let url:string = 'https://episjobreq.herokuapp.com/partreq'
@@ -179,8 +179,8 @@ export class PartsComponent implements OnInit {
                 )
               }
             })
-          })
-        }
+          }
+        })
       })
     }
   }
