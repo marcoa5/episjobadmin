@@ -36,7 +36,6 @@ export class AppComponent {
   }
   
   ngOnInit(){
-    this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a[0]=='loading'){
@@ -70,6 +69,7 @@ export class AppComponent {
         }
       })
     )
+    this.onResize()
   }
 
   ngOnDestroy(){

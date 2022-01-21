@@ -10,7 +10,7 @@
 
 .cont{
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
     align-items: center;
     border-bottom: 1px solid rgb(245,245,245);
     margin-bottom: 5px;
@@ -24,7 +24,13 @@
     .bold{
         font-weight: 500;
     }
-    .head{
+    .head, .lar{
+        display: none;
+    }
+}
+
+@media screen and (min-width:801px){
+    .str{
         display: none;
     }
 }

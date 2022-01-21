@@ -25,6 +25,7 @@ export class VisitdetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data)
     if(this.data.epiAtt) this.attList = this.data.epiAtt.map((a:any)=>{
       return a.name
     })
