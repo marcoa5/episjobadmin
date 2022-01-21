@@ -19,7 +19,7 @@
             <div *ngIf="(!info || !info.sn)">
                 <episjob-h2 data="Already Sent" icon="mode" *ngIf="pos=='SU'"></episjob-h2>
                 <form class="formCont">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field appearance="fill" class="sea">
                         <mat-label>Search</mat-label>
                         <input matInput type="text" autocomplete="off" (input)="sea($event)">
                         <mat-icon matSuffix>search</mat-icon>
