@@ -12,6 +12,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment'
+import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
 
 @Component({
   selector: 'episjob-parts',
@@ -147,7 +148,7 @@ export class PartsComponent implements OnInit {
       this.clipboard.copy(list)
       //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
     } else {
-      const dialegRef= this.dialog.open(SavevisitComponent)
+      const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
       dialegRef.afterClosed().subscribe(res=>{
         if(res!=undefined){
           let shipTo:any=''

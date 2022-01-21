@@ -1,0 +1,22 @@
+<div mat-dialog-title>Send Request</div>
+<div mat-dialog-content>
+    <p>Request will be submitted    </p>
+    <div *ngIf="data.shipTo">
+        <br>
+        <div *ngIf="data.shipTo">
+            <h4>Address:</h4>
+            <p *ngIf="data.shipTo.address && data.shipTo.address!=''">{{data.shipTo.address}}</p>
+            <h4>Contacts:</h4>
+            <div *ngFor="let c of data.shipTo.cont">
+                <p>{{c.name}} ({{c.mail}})</p>
+            </div>
+            <p *ngIf="data.shipTo.name">{{data.shipTo.name}} ({{data.shipTo.email}})</p>
+        </div>
+    </div>
+    <p>Proceed?</p>
+</div>
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">Yes</button>
+</div>

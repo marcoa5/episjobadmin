@@ -107,6 +107,7 @@ import { ContactfilterPipe } from './pipe/contactfilter.pipe';
 import { ListofrequestsComponent } from './comp/parts/listofrequests/listofrequests.component';
 import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts.component';
 import { NewaddressComponent } from './comp/util/dialog/newaddress/newaddress.component';
+import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -200,6 +201,7 @@ const appearance: MatFormFieldDefaultOptions = {
     ListofrequestsComponent,
     ImportpartsComponent,
     NewaddressComponent,
+    SubmitvisitComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
