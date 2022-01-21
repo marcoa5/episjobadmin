@@ -30,6 +30,7 @@ export class VisitComponent implements OnInit {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
+        this.userId=a.uid
         setTimeout(() => {
           this.allow = this.auth.allow('visit')
           this.allSpin=false
