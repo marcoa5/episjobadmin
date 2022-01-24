@@ -44,15 +44,42 @@
 
 .rig{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    padding-top: 30px;
+    grid-template-columns: 1fr;
 }
 .list{
     cursor: pointer;
+    padding-bottom: 30px;
 }
 
-@media screen and (max-width:700px) {
+.group3, .group4{
+    display: grid;
+    gap:15px;
+}
+.group3{
+    grid-template-columns: repeat(3, 1fr);
+}
+.group4{
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.area{
+    width:100%;
+}
+
+.button{
+    padding-top: 30px;
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.but{
+    min-width: 150px;
+}
+
+.searchForm{padding-bottom: 30px;}
+
+@media screen and (max-width:750px) {
     .rigrow{
         grid-template-columns: repeat(2, 1fr);
     }
@@ -66,6 +93,20 @@
 
     .searchbox{
         width:100%;
+    }
+}
+
+
+
+@media screen and (max-width:950px) {
+    .group4{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .group3, .group4{
+        grid-template-columns: 1fr;
     }
 }
 
