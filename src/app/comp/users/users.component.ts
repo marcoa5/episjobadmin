@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('users')
+          this.allow=this.auth.allow('users',this.pos)
           this.allSpin=false
         }, 1);
       })

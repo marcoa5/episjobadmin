@@ -65,6 +65,7 @@ export class AuthServiceService {
   private userData:Subject<any>=new BehaviorSubject<any>([])
   private customers:Subject<any>=new BehaviorSubject<any>([])
   private contacts:Subject<any>=new BehaviorSubject<any>([])
+  private tech:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
   get _rigs(){this.getFleetData(); return this.rigs.asObservable()}
@@ -73,11 +74,20 @@ export class AuthServiceService {
   get _accessI(){this.getAccess(); return this.accessI.asObservable()}
 
   get _categ(){return this.categ.asObservable()}
+  get _tech(){
+    this.getTech()
+    let a=localStorage.getItem('tech')
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.tech.next(b)
+    }
+    return this.tech.asObservable()
+  }
 
   get _userData(){
     let a=localStorage.getItem('user')
     let b:any
-    
     if(a!=null) {
       b = JSON.parse(a)
       this.userData.next(b)
@@ -122,6 +132,18 @@ export class AuthServiceService {
       this.custI.next(b)
     }
     return this.custI.asObservable()
+  }
+
+  getTech(){
+    let techList:any[]=[]
+    firebase.database().ref('Tech').once('value',a=>{
+      a.forEach(b=>{
+        techList.push({l: b.key,s:b.val().s})
+      })
+    }) .then(()=>{
+      localStorage.setItem('tech',JSON.stringify(techList))
+      this.tech.next(techList)
+    })
   }
 
   getFleetData(){//modifica qui
@@ -297,53 +319,57 @@ export class AuthServiceService {
     })
   }
 
-  allow(f:string, sn?:string):boolean{
+  allow(f:string, pos: string, sn?:string):boolean{
     switch(f){
       case 'newrig':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'addbut':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'newcustomer':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'contacts':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales') return true
         return false
         break;
       case 'machine':
-        if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales' || this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(pos=='customer' || pos=='sales' || pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech') return true
         return false
         break
       case 'technicians':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'files':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech') return true
         return false
         break
       case 'users':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'auth':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS') return true
         return false
       case 'report':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'parts':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech'|| this.epiUser.Pos=='customer') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech'|| pos=='customer') return true
         return false
         break
       case 'visit':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
+        if(pos=='SU' || pos=='adminS' || pos=='sales') return true
+        return false
+        break
+      case 'sj':
+        if(pos=='SU' || pos=='adminS' || pos=='tech') return true
         return false
         break
     }

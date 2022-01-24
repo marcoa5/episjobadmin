@@ -108,6 +108,7 @@ import { ListofrequestsComponent } from './comp/parts/listofrequests/listofreque
 import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts.component';
 import { NewaddressComponent } from './comp/util/dialog/newaddress/newaddress.component';
 import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit.component';
+import { SjComponent } from './comp/sj/sj.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -202,6 +203,7 @@ const appearance: MatFormFieldDefaultOptions = {
     ImportpartsComponent,
     NewaddressComponent,
     SubmitvisitComponent,
+    SjComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

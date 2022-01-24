@@ -17,7 +17,7 @@
                 <episjob-listofrequests [list]="list" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
             <div *ngIf="(!info || !info.sn)">
-                <episjob-h2 data="Already Sent" icon="mode" *ngIf="pos=='SU'"></episjob-h2>
+                <episjob-h2 data="Request Sent" icon="forward_to_inbox" *ngIf="pos=='SU'"></episjob-h2>
                 <form class="formCont">
                     <mat-form-field appearance="fill" class="sea">
                         <mat-label>Search</mat-label>

@@ -80,20 +80,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','adminS','sales','']
     },
-    /*{
-      id:'Potential',
-      icon:'trending_up', 
-      route:'potential', 
-      dis:false, 
-      auth:['SU','adminS','sales','']
-    },
     {
-      id:'To Do',
-      icon:'checklist', 
-      route:'todo', 
+      id:'ServiceJob',
+      icon:'text_snippet', 
+      route:'sj', 
       dis:false, 
-      auth:['SU','adminS','sales','']
-    },*/
+      auth:['SU']//,'sales','tech']
+    },
     {
       id:'Parts',
       icon:'construction', 

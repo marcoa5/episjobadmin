@@ -86,11 +86,11 @@ export class MachineComponent implements OnInit {
         firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',r=>{
           console.log(r.val())
           if(r.val()=='1') {
-            this.allow=this.auth.allow('machine')
+            this.allow=this.auth.allow('machine',this.pos)
           } else {this.allow=false}
         })
       } else {
-        this.allow=this.auth.allow('machine')
+        this.allow=this.auth.allow('machine',this.pos)
       }
     })
     this.f(1)

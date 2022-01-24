@@ -41,7 +41,7 @@ export class FilesComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('files')
+          this.allow=this.auth.allow('files',this.pos)
           this.allSpin=false
         }, 1);
       })

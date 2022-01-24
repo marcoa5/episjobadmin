@@ -67,9 +67,10 @@ export class AppComponent {
             })
           })
         }
+        this.onResize()
       })
     )
-    this.onResize()
+    
   }
 
   ngOnDestroy(){

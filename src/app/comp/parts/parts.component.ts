@@ -47,7 +47,7 @@ export class PartsComponent implements OnInit {
         this.pos=a.Pos
         this.userId=a.uid
         setTimeout(() => {
-          this.allow=this.auth.allow('parts')
+          this.allow=this.auth.allow('parts',this.pos)
           this.allSpin=false
           if(this.allow==true){
             this.loadlist()

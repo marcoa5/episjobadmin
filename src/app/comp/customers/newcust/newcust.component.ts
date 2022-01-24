@@ -41,13 +41,13 @@ export class NewcustComponent implements OnInit {
     this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
       setTimeout(() => {
-        this.allow=auth.allow('newcustomer')
+        this.allow=this.auth.allow('newcustomer',this.pos)
       }, 1);
     })
    }
 
   ngOnInit(): void {
-    this.allow=this.auth.allow('newcustomer')
+    this.allow=this.auth.allow('newcustomer',this.pos)
 
     
     this.route.params.subscribe(a=>{
