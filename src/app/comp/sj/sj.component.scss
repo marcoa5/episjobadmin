@@ -4,3 +4,71 @@
 .cont{
     padding:80px 10px 30px 10px;
 }
+
+.stepper{
+    max-width: 1000px;
+}
+
+.list{
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.rigrow, .rigrowh{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+
+
+.rigdata{
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 0 3px;
+}
+
+.righ{
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 0 3px;
+    text-align: start;
+}
+
+.rigrowh{
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 0 3px;
+    text-align: start;
+    font-weight: 600;
+}
+
+.rig{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    padding-top: 30px;
+}
+.list{
+    cursor: pointer;
+}
+
+@media screen and (max-width:700px) {
+    .rigrow{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .rigrow:nth-of-type(even){
+        background-color: rgb(245,245,245);
+    }
+    .rigrowh{display: none;}
+    .rigdata{
+        padding: 0 6px;
+    }
+
+    .searchbox{
+        width:100%;
+    }
+}
+
+.rigrow:hover{
+    background-color: $light-text;
+}

@@ -1,6 +1,68 @@
 <episjob-navbar title="Service Job" [cerca]="false"></episjob-navbar>
-<div class="cont" *ngIf="allow">
-    works
+<episjob-spin *ngIf="spin"></episjob-spin>
+<div class="cont" *ngIf="allow &&!spin">
+    <mat-vertical-stepper #stepper class="stepper" linear=true>
+        <mat-step [stepControl]="rigForm">
+            <form [formGroup]="searchForm">
+                <ng-template matStepLabel>Select machine</ng-template>
+                <mat-form-field appearance="fill" style="width:100%">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Search" formControlName="search" (input)="searchCust($event)" autocomplete=off>
+                <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+                <div class="rigrowh" *ngIf="rigs.length>1">
+                    <div class="righ">S/N</div>
+                    <div class="righ">Model</div>
+                    <div class="righ">Customer</div>
+                    <div class="righ">Site</div>
+                </div>
+                <div class="list" *ngIf="rigs.length>1">
+                    <tr *ngFor="let r of rigs" class="rigrow" (click)="fil(r.sn)">
+                        <div class="rigdata">{{r.sn}}</div>
+                        <div class="rigdata">{{r.model}}</div>
+                        <div class="rigdata">{{r.customer}}</div>
+                        <div class="rigdata">{{r.site}}</div>
+                    </tr>
+                </div>
+            </form>
+            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1">
+                <mat-form-field appearance="fill">
+                    <mat-label>Rig sn</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="sn">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Model</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="model">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Customer</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="customer">
+                </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Site</mat-label>
+                    <input matInput type="text" autocomplete="off" formControlName="site">
+                </mat-form-field>
+
+                
+            </form>
+            <div>
+                <button mat-raised-button matStepperNext color="primary" matSuffix>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="custForm">
+            <form [formGroup]="custForm">
+              <ng-template matStepLabel>Select Customer</ng-template>
+              <mat-form-field appearance="fill">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Search" formControlName="search" autocomplete=off>
+              </mat-form-field>
+              <div>
+                <button mat-button matStepperNext>Next</button>
+              </div>
+            </form>
+          </mat-step>
+    </mat-vertical-stepper>
 </div>
 
-<div *ngIf="!allow" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !spin" class="cont">Restricted Area</div>
