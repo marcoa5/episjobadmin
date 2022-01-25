@@ -3,8 +3,14 @@
     bottom:15px; right: 15px;
     display: grid;
     grid-template-columns: repeat(1,1fr);
+    
 }
 
 button{
     margin-top: 10px;
+    opacity: .3;
+}
+
+button:hover{
+    opacity: 1;
 }

@@ -3,7 +3,7 @@
     
     <div class="mainCont" *ngIf="customer">
         <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]?data[0].x:undefined" (date)="readD($event)" *ngIf="data[0]"></episjob-top-menu>
-        <div [class.cont]="cCom!=0" [class.contMod]="cCom==0">
+        <div [class.cont]="cCom!=0 && customer!='IMI FABI SPA'" [class.contMod]="cCom==0" [class.contIMI]="customer=='IMI FABI SPA' && chsjList()">
             <div class="item1">
                 <episjob-h2 [padtop]="data[0]? 30:0" icon="precision_manufacturing" [data]="model" [showAdd]="showAdd" [showMol]="true" (mol)="open($event)" (addCD)="addCD($event)"></episjob-h2>
                 <episjob-label [values]="rigLabels"></episjob-label>
@@ -34,16 +34,14 @@
                 <episjob-spin *ngIf="sjList.length==0"></episjob-spin>
                 <episjob-sjlist [list]="sjList" [customer]="customer" [model]="model" [sortDA]="sortSJ"></episjob-sjlist>
             </div>
-
-
             <div class="item7" *ngIf="customer=='IMI FABI SPA' && chsjList()">
                 <episjob-h2 icon="content_paste" class="title" [data]="'Hours details'" [showDL]="true" (copy)="dlData($event)"></episjob-h2>
                 <episjob-imifabi [list]="sjList" ></episjob-imifabi>
             </div>
-            <!--<div class="item8">
-                <episjob-h2 icon="local_offer" class="title" data="Parts Request"></episjob-h2>
-                
-            </div>-->
+            <div class="item8" *ngIf="partReqList.length>0">
+                <episjob-h2 icon="construction" class="title" data="Parts Request" [showSort]="true" (sort)="sortDataParts($event)"></episjob-h2>
+                <episjob-partsereq [pos]="pos" [_reqlist]="partReqList" [sortParts]="sortParts"></episjob-partsereq>
+            </div>
 
         </div>
     </div>

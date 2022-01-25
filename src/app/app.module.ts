@@ -109,6 +109,7 @@ import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts
 import { NewaddressComponent } from './comp/util/dialog/newaddress/newaddress.component';
 import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit.component';
 import { SjComponent } from './comp/sj/sj.component';
+import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -204,6 +205,7 @@ const appearance: MatFormFieldDefaultOptions = {
     NewaddressComponent,
     SubmitvisitComponent,
     SjComponent,
+    PartsereqComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

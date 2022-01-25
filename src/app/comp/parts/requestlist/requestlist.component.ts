@@ -8,7 +8,8 @@ import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.compon
 import { Router } from '@angular/router'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
 import { ImportpartsComponent } from '../../util/dialog/importparts/importparts.component';
-
+import * as moment from 'moment'
+import { GetquarterService } from 'src/app/serv/getquarter.service';
 
 export interface el{
   pn: string
@@ -32,7 +33,7 @@ export class RequestlistComponent implements OnInit {
   displayedColumns:string[]=['ref','pn','desc','qty','del']
   chPn:boolean= false
 
-  constructor(private fb: FormBuilder, public dialog: MatDialog, public router: Router) {
+  constructor(private quarter: GetquarterService, private fb: FormBuilder, public dialog: MatDialog, public router: Router) {
     this.addPart = fb.group({
       pn: ['',Validators.required],
       desc: ['',Validators.required],
@@ -62,7 +63,7 @@ export class RequestlistComponent implements OnInit {
     let a= ''
     if(e.target.value) a=e.target.value.toString()
     if(a.length==10) {
-      firebase.database().ref('PSDParts').child(a).once('value',b=>{
+      firebase.database().ref('PSDItems').child(this.quarter.getQ()).child(a).once('value',b=>{
         if(b.val()!=null) {
           let c = this.addPart.controls
           c.desc.setValue(b.val().desc)
@@ -177,3 +178,6 @@ export class RequestlistComponent implements OnInit {
     })
   }
 }
+
+
+

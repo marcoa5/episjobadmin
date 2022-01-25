@@ -4,6 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "episjobadmin": {
+      "i18n": {
+        "sourceLocale": "it"
+      },
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {

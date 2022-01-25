@@ -13,6 +13,7 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment'
 import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
+import { GetquarterService } from 'src/app/serv/getquarter.service';
 
 @Component({
   selector: 'episjob-parts',
@@ -37,7 +38,7 @@ export class PartsComponent implements OnInit {
   subsList:Subscription[]=[]
 
 
-  constructor(public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+  constructor(private q:GetquarterService , public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
 
   //@ViewChild('search') search!: ElementRef
 
@@ -80,9 +81,9 @@ export class PartsComponent implements OnInit {
   }
 
   loadlist(){
+    this.list=[]
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'||this.pos=='tech'){
       firebase.database().ref('PartReq').on('value',b=>{
-        this.list=[]
         b.forEach(c=>{
           c.forEach(d=>{
             this.list.push(d.val())
@@ -101,9 +102,9 @@ export class PartsComponent implements OnInit {
   }
 
   loadsent(){
+    this._listSent=[]
     if(this.pos=='SU'){
       firebase.database().ref('PartReqSent').on('value',b=>{
-        this.listSent=[]
         b.forEach(c=>{
           c.forEach(d=>{
             let g = d.val()
@@ -111,7 +112,6 @@ export class PartsComponent implements OnInit {
             this._listSent.push(g)
             this.listSent=this._listSent
           })
-          
         })
       })
     }

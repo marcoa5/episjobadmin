@@ -65,10 +65,12 @@ export class MachineComponent implements OnInit {
   sjList:any[]=[]
   sortT:boolean=true
   sortSJ:boolean=true
+  sortParts:boolean=true
   name:string=''
   elenco:any[]=[]
   access:any[]=[]
   area:string=''
+  partReqList:any[]=[]
   subsList:Subscription[]=[]
   
   constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { }
@@ -93,6 +95,7 @@ export class MachineComponent implements OnInit {
         this.allow=this.auth.allow('machine',this.pos)
       }
     })
+    this.loadPartsReq()
     this.f(1)
   }
 
@@ -575,6 +578,18 @@ export class MachineComponent implements OnInit {
         });
       }, 1000);
     })
+  }
+
+  loadPartsReq(){
+    firebase.database().ref('PartReqSent').child(this.valore).once('value',a=>{
+      a.forEach(b=>{
+        if(!this.partReqList.includes(b.val())) this.partReqList.push(b.val())
+      })
+    })    
+  }
+
+  sortDataParts(e?:any){
+      this.sortParts=!this.sortParts
   }
 }
  
