@@ -1,4 +1,4 @@
-<div class="cont" *ngIf="reqlist.length>0">
+<div class="cont" *ngIf="reqlist.length>0" [class.mat-elevation-z1]="true">
     <mat-accordion>
       <mat-expansion-panel hideToggle *ngFor="let a of reqlist; let i = index" class="acc">
         <mat-expansion-panel-header>

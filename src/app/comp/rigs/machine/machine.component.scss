@@ -94,7 +94,7 @@
 }
 
 @media only screen and (max-width: 850px) {
-.cont {
+.cont, .contIMI {
     grid-template-columns: 1fr;
     grid-template-areas:
     "item1"
