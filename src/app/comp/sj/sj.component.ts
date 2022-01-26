@@ -89,7 +89,6 @@ export class SjComponent implements OnInit {
 
   searchCust(e:any){
     let a = e.target.value
-    console.log(a, a.length)
     this.rigs=this._rigs.filter((b:any)=>{
       return(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.site.toLowerCase().includes(a) )
     })
@@ -105,8 +104,10 @@ export class SjComponent implements OnInit {
 
   selRig(){
     if(this.rigs.length==1) {
+      this.rigForm.controls.date.setValue(new Date())
       this.rigForm.controls.sn.setValue(this.rigs[0].sn)
       this.rigForm.controls.model.setValue(this.rigs[0].model)
+      this.rigForm.controls.pn.setValue(this.rigs[0].in?this.rigs[0].in:'')
       this.rigForm.controls.customer.setValue(this.rigs[0].customer)
       this.rigForm.controls.customer2.setValue(this.customers[this.rigs[0].custid].c2)
       this.rigForm.controls.customer3.setValue(this.customers[this.rigs[0].custid].c3)

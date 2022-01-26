@@ -34,13 +34,13 @@
     width:100%;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (max-width: 750px) {
     .formCont{
         grid-template-columns: repeat(2,minmax(100px, 1fr));
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
     .formCont{
         grid-template-columns: repeat(1,minmax(100px, 1fr));
     }
@@ -50,7 +50,7 @@
 
 .addF{
     display: grid;
-    grid-template-columns: 90% 10%;
+    grid-template-columns: 1fr 40px;
     align-items: top;
 }
 .but{

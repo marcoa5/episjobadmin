@@ -31,7 +31,9 @@
                 <div class="group4">
                     <mat-form-field appearance="fill">
                         <mat-label>Data</mat-label>
-                        <input matInput type="text" autocomplete="off" formControlName="date">
+                        <input matInput [matDatepicker]="picker" formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                     <mat-form-field appearance="fill">
                         <mat-label>Rig sn</mat-label>

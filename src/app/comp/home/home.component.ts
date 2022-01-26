@@ -100,42 +100,13 @@ export class HomeComponent implements OnInit {
   constructor(public router :Router, public auth:AuthServiceService) {}
   
   ngOnInit(): void {
-    let messaging:any
-    try{
-      if(firebase.messaging.isSupported()){
-        messaging = firebase.messaging()
-        messaging.onMessage((p:any) => {console.log('Received foreground message ', p)})
-      }
-    } catch {
-      console.log('network errror')
-    }
-
-    let tokens:any[]=[]
-
+    
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
-        
         this.pos=a.Pos
         this.nome = a.Nome + ' ' + a.Cognome
         this.spin=false
         this.uId=a.uid
-        if(messaging!=undefined){
-          try{
-            messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
-          .then((t:any)=>{
-            firebase.database().ref('Tokens').child(this.uId).child(t).set({
-              token: t,
-              pos: this.pos,
-              name: this.nome,
-              date: moment(new Date()).format('YYYY-MM-DD - HH:mm:ss'),
-              id:this.uId,
-            })
-          })
-          .catch((err: any)=>{})
-          } catch{
-
-          }
-        }
       })
     )
     

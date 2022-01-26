@@ -190,7 +190,7 @@ export class NewrigComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {sn: this.serial}
+        data: {sn: this.serial, title:'Update'}
       });
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {

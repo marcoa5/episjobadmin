@@ -78,7 +78,7 @@ export class NewcustComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {cust: this.origin[1]!=undefined?this.origin[1]: '', name: this.origin[0]}
+        data: {cust: this.origin[1]!=undefined?this.origin[1]: '', name: this.origin[0], title:'Update'}
       });
   
       dialogRef.afterClosed().subscribe(result => {

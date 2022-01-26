@@ -25,7 +25,7 @@ export class PartsereqComponent implements OnInit {
       })
       let url:string= 'https://episjobreq.herokuapp.com/psdllp' //'http://localhost:3001/psdllp'
       let params = new HttpParams()
-      .set('child',this.getH.getQ())
+      .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
       this.http.get(url,{params:params}).subscribe(gt=>{
         let total:number=0
