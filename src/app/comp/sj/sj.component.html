@@ -86,6 +86,13 @@
                         <input matInput type="number" min="0" autocomplete="off" formControlName="perc3h">
                     </mat-form-field>
                 </div>
+                <div>
+                    <h4>Job Type</h4>
+                    <mat-radio-group aria-label="Select an option" class="radiocont">
+                        <mat-radio-button value="std">STD</mat-radio-button>
+                        <mat-radio-button value="spe" checked>SPE</mat-radio-button>
+                    </mat-radio-group>
+                </div>
 
                 
             </form>
@@ -118,6 +125,7 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
+
                 <div class="button">
                     <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
                     <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but">Next</button>

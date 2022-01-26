@@ -74,7 +74,7 @@
 }
 
 .but{
-    min-width: 150px;
+    flex: 1 1 auto;
 }
 
 .searchForm{padding-bottom: 30px;}
@@ -112,4 +112,11 @@
 
 .rigrow:hover{
     background-color: $light-text;
+}
+
+.radiocont{
+    max-width: 350px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:15px;
 }

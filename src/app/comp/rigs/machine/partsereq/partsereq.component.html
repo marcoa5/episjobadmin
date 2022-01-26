@@ -5,7 +5,7 @@
           <mat-panel-title class="of">
             <span class="ofc1"><div>{{a.date}}</div></span>
             <span class="ofc1"><div>{{a.orig}}</div></span>
-            <span class="ofc2"><div>{{a.Parts.totAmount | currency:'EUR':'symbol':'1.2-2'}}</div></span>
+            <span class="ofc2"><div>Total: {{a.Parts.totAmount | currency:'EUR':'€':'1.2-2'}}</div></span>
           </mat-panel-title>
           <!--<mat-panel-description class="of"> </mat-panel-description>-->
         </mat-expansion-panel-header>
