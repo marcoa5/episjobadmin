@@ -111,6 +111,7 @@ import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit
 import { SjComponent } from './comp/sj/sj.component';
 import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.component';
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
+import { NewdayComponent } from './comp/util/dialog/newday/newday.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -208,6 +209,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SjComponent,
     PartsereqComponent,
     CustomsnackComponent,
+    NewdayComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

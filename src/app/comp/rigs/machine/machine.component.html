@@ -29,7 +29,7 @@
                 <episjob-spin *ngIf="datafil.length==0"></episjob-spin>
                 <episjob-rig-table [dataSource]="datafil" [pos]="pos" (action1)=up($event) (action2)="de($event)" [sortDA]="sortT"></episjob-rig-table>
             </div>
-            <div class="item6 contCan" *ngIf="cCom!=0 && sjList.length>0">
+            <div class="item6 " *ngIf="cCom!=0 && sjList.length>0">
                 <episjob-h2 icon="content_paste" class="title" [data]="'Service Job History'" [showSort]="true" (sort)="sortDataSJ($event)"></episjob-h2>
                 <episjob-spin *ngIf="sjList.length==0"></episjob-spin>
                 <episjob-sjlist [list]="sjList" [customer]="customer" [model]="model" [sortDA]="sortSJ"></episjob-sjlist>

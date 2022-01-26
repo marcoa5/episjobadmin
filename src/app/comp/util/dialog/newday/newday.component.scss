@@ -1,0 +1,24 @@
+.headCont{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+    gap: 0 15px;
+}
+
+.items{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0 15px;
+}
+
+.hrsCont{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:0 15px;
+}
+
+
+@media screen and (max-width: 650px) {
+    .headCont{
+        grid-template-columns: 1fr;
+    }
+}

@@ -81,7 +81,6 @@ export class AppComponent {
       if(firebase.messaging.isSupported()){
         messaging = firebase.messaging()
         messaging.onMessage((p:any) => {
-          console.log(p)
           this.snack.openFromComponent(CustomsnackComponent,{data:p})
         })
       }

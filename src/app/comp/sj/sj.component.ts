@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { DaytypesjService } from 'src/app/serv/daytypesj.service';
+import { NewdayComponent } from '../util/dialog/newday/newday.component';
 
 @Component({
   selector: 'episjob-sj',
@@ -22,10 +26,20 @@ export class SjComponent implements OnInit {
   reportForm!:FormGroup
   signatureForm!:FormGroup
   hoursForm!:FormGroup
+  day1!:FormGroup
+  day2!:FormGroup
+  day3!:FormGroup
+  day4!:FormGroup
+  day5!:FormGroup
+  day6!:FormGroup
+  day7!:FormGroup
   subsList:Subscription[]=[]
   sn:string=''
   spin:boolean=true
-  constructor(private auth: AuthServiceService, private fb:FormBuilder) {
+  appearance:MatFormFieldAppearance='fill'
+  days:any[]=[]
+
+  constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
     this.searchForm=this.fb.group({
       search:''
     })
@@ -42,6 +56,7 @@ export class SjComponent implements OnInit {
       perc1h: [''],
       perc2h: [''],
       perc3h: [''],
+      type:['spe', Validators.required]
     })
     this.reportForm=this.fb.group({
       report:['', Validators.required],
@@ -50,12 +65,14 @@ export class SjComponent implements OnInit {
     this.hoursForm=fb.group({
 
     })
+    this.day1 =fb.group({})
     this.signatureForm=fb.group({
       
     })
   }
 
   ngOnInit(): void {
+    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -88,7 +105,7 @@ export class SjComponent implements OnInit {
   }
 
   searchCust(e:any){
-    let a = e.target.value
+    let a:string = e.target.value.toLowerCase()
     this.rigs=this._rigs.filter((b:any)=>{
       return(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.site.toLowerCase().includes(a) )
     })
@@ -112,6 +129,7 @@ export class SjComponent implements OnInit {
       this.rigForm.controls.customer2.setValue(this.customers[this.rigs[0].custid].c2)
       this.rigForm.controls.customer3.setValue(this.customers[this.rigs[0].custid].c3)
       this.rigForm.controls.site.setValue(this.rigs[0].site)
+      this.rigForm.controls.type.setValue('spe')
     } else {
       this.rigForm.reset()
     }
@@ -120,5 +138,17 @@ export class SjComponent implements OnInit {
   calc(a:number){
     if(a==1) return (Math.round(1/window.innerWidth*10000)+3)
     return (Math.round(1/window.innerWidth*10000)+3)/2
+  }
+
+  addDay(){
+    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
+    dialogRef.afterClosed().subscribe(a=>{
+      if(a){
+        if(this.days.length<7){
+          this.days.push(this.days.length+2)
+        }
+      }
+    })
+    
   }
 }

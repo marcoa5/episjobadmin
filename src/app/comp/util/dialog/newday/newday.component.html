@@ -1,0 +1,105 @@
+
+<div mat-dialog-title>Working Day #{{data.nr}}
+
+
+</div>
+
+<div mat-dialog-content class="mainCont">
+    <form [formGroup]="newDay">
+        <div class="headCont">
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="newDate()">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Technicians</mat-label>
+                <mat-select>
+                    <mat-option *ngFor="let t of tech" [value]="t.l">
+                    {{t.l}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="items">
+            <div class="hrsCont item1">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>SPOV / STDV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="spov">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>SPOL / STDL</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="spol">
+                </mat-form-field>
+            </div>
+            <div class="hrsCont item2">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>SPSV / STRV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="spsv">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>SPSL / STRL</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="spsl">
+                </mat-form-field>
+            </div>
+
+            <div class="hrsCont item3">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MNTV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mntv">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MNTL</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mntl">
+                </mat-form-field>
+            </div>
+            <div class="hrsCont item4" *ngIf="dayType!='' && dayType!='fer'">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MFV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mfv">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MFL</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mfl">
+                </mat-form-field>
+            </div>
+            <div class="hrsCont item5"  *ngIf="dayType!='' && dayType!='fer'">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MNFV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mnfv">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>MNFL</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="mnfl">
+                </mat-form-field>
+            </div>
+            <div class="hrsCont item6">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>KM</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="km">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>SPV</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="spv">
+                </mat-form-field>
+            </div>
+            <div class="hrsCont item7">
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>OFF</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="off">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs">
+                    <mat-label>OFS</mat-label>
+                    <input matInput type="number" min=0 autocomplete="off" formControlName="ofs">
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ciao'">Add</button>
+</div>
