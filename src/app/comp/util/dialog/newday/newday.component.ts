@@ -60,7 +60,7 @@ export class NewdayComponent implements OnInit {
   }
   
   ch(n:number, a:any, b:string){
-    if(this.newDay.controls[a].value+this.newDay.controls[b].value>8){
+    if(this.newDay.controls[a].value+this.newDay.controls[b].value>n){
       this.newDay.controls[a].setValue(n-this.newDay.controls[b].value)
     }
   }

@@ -72,7 +72,7 @@ export class SjComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
+    //const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -135,10 +135,10 @@ export class SjComponent implements OnInit {
     }
   }
 
-  calc(a:number){
+  /*calc(a:number){
     if(a==1) return (Math.round(1/window.innerWidth*10000)+3)
     return (Math.round(1/window.innerWidth*10000)+3)/2
-  }
+  }*/
 
   addDay(){
     const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
