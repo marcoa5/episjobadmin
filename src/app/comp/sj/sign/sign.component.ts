@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { SignaturePad } from 'angular2-signaturepad';
 
 @Component({
@@ -7,33 +7,57 @@ import { SignaturePad } from 'angular2-signaturepad';
   styleUrls: ['./sign.component.scss']
 })
 export class SignComponent implements OnInit {
-  
-  @ViewChild(SignaturePad) signaturePad!:SignaturePad
-  
-  signaturePadOptions: Object = {
-    'minWidth': 1,
-    'canvasWidth': 100,
-    'canvasHeight': 100
+  @ViewChild(SignaturePad) signaturePad!: SignaturePad;
+  signatureImg:string=''
+  signaturePadOptions: Object = { 
+    'minWidth': 2,
+    'canvasWidth': 700,
+    'canvasHeight': 300
   };
-  
+  @Output() closeS=new EventEmitter()
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
   ngAfterViewInit() {
     // this.signaturePad is now available
-    this.signaturePad.set('minWidth', 5); // set szimek/signature_pad options at runtime
-    this.signaturePad.clear(); // invoke functions from szimek/signature_pad API
+    this.resizeSignaturePad()
+    this.signaturePad.set('minWidth', 2); 
+    this.signaturePad.clear(); 
   }
+  
 
+
+  resizeSignaturePad(){
+    this.signaturePad.queryPad()._canvas.width=window.innerWidth*.9
+    this.signaturePad.queryPad()._canvas.height=window.innerWidth/2.3
+    var canvas = this.signaturePad.queryPad()._canvas
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "blue";
+  }
   drawComplete() {
-    // will be notified of szimek/signature_pad's onEnd event
-    console.log(this.signaturePad.toDataURL());
+    
   }
 
   drawStart() {
-    // will be notified of szimek/signature_pad's onBegin event
-    console.log('begin drawing');
+    
+  }
+
+  clearSignature() {
+    this.signaturePad.clear();
+  }
+
+  savePad() {
+    const base64Data = this.signaturePad.toDataURL();
+    this.signatureImg = base64Data;
+  }
+  close(){
+    this.closeS.emit('close')
+  }
+
+  save(){
+    this.closeS.emit(this.signaturePad.toDataURL())
   }
 }

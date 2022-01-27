@@ -40,6 +40,8 @@ export class SjComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[]
   objectKeys:any;
+  signatureClosed:boolean=true;
+  techSign:string=''
 
   constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
     this.objectKeys = Object.keys;
@@ -76,7 +78,7 @@ export class SjComponent implements OnInit {
 
   ngOnInit(): void {
     //const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
-    const dial = this.dialog.open(SignComponent,{panelClass: 'sign-dialog'})
+    //const dial = this.dialog.open(SignComponent,{panelClass: 'sign-dialog'})
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -159,6 +161,11 @@ export class SjComponent implements OnInit {
   }
 
   sign(){
-    const dial = this.dialog.open(SignComponent)
+    this.signatureClosed=false
+  }
+
+  close(e:any){
+    this.techSign=e
+    this.signatureClosed=true
   }
 }
