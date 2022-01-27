@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import * as moment from 'moment';
@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { NewdayComponent } from '../util/dialog/newday/newday.component';
+import { SignComponent } from './sign/sign.component';
 
 @Component({
   selector: 'episjob-sj',
@@ -38,8 +39,10 @@ export class SjComponent implements OnInit {
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[]
+  objectKeys:any;
 
   constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
+    this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
     })
@@ -73,6 +76,7 @@ export class SjComponent implements OnInit {
 
   ngOnInit(): void {
     //const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
+    const dial = this.dialog.open(SignComponent,{panelClass: 'sign-dialog'})
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -145,10 +149,16 @@ export class SjComponent implements OnInit {
     dialogRef.afterClosed().subscribe(a=>{
       if(a){
         if(this.days.length<7){
-          this.days.push(this.days.length+2)
+          a.date = moment(a.date).format('YYYY-MM-DD')
+          this.days.push(a)
         }
+        console.log(this.days)
       }
     })
     
+  }
+
+  sign(){
+    const dial = this.dialog.open(SignComponent)
   }
 }

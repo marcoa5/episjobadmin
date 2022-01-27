@@ -125,20 +125,13 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
-                <h4 class="dayHead" *ngIf="days.length>0">
-                    <span>#1</span>
-                    <span>26/01/2022</span>
-                    <span>Andrea Laini</span>
-                </h4>
-                <form [formGroup]="day1" *ngIf="days.length>0">
-                    <mat-form-field [appearance]='appearance'>
-                        <input matInput type="number" min=0>
-                    </mat-form-field>
-                </form>
+                <div *ngIf="days.length>0">
+                    <episjob-label [values]="days"></episjob-label>
+                </div>
                 <button mat-raised-button color="accent" (click)="addDay()">Add day</button>
                 <div class="button">
                     <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                    <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but">Next</button>
+                    <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but">Next</button>
                 </div>
               </form>
               
@@ -146,9 +139,10 @@
           <mat-step [stepControl]="signatureForm">
             <form [formGroup]="signatureForm">
               <ng-template matStepLabel>Signatures</ng-template>
+              <button mat-raised-button color="accent" (click)="sign()"></button>
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but">Next</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but">Next</button>
               </div>
             </form>
             

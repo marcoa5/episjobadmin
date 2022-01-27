@@ -44,3 +44,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
   max-width: 100%;
 }
+
+.sign-dialog .mat-dialog-container {
+  width: 100vw !important;
+}
+.sign-dialog .mat-form-field-infix {
+  width: 100%;
+  max-width: 100%;
+}

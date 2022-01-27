@@ -123,7 +123,12 @@
 
 .dayHead{
     display: grid;
-    grid-template-columns: 40px 100px 100px;
-    overflow: hidden;
-    white-space: nowrap;
+    grid-template-columns: repeat(auto-fit, 30px);
+    gap: 10px;
+}
+
+.con{
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 30px; height: 60px;
 }

@@ -112,6 +112,8 @@ import { SjComponent } from './comp/sj/sj.component';
 import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.component';
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
 import { NewdayComponent } from './comp/util/dialog/newday/newday.component';
+import { SignaturePad, SignaturePadModule } from 'angular2-signaturepad';
+import { SignComponent } from './comp/sj/sign/sign.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -210,11 +212,12 @@ const appearance: MatFormFieldDefaultOptions = {
     PartsereqComponent,
     CustomsnackComponent,
     NewdayComponent,
+    SignComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
