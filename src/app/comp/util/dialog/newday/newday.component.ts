@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
@@ -24,15 +24,11 @@ export class NewdayComponent implements OnInit {
     ) { 
       this.newDay=fb.group({
         date:['', Validators.required],
-        tech: ['', Validators.required],
+        tech: ['',Validators.required],
         spov: [''],
         spol: [''],
         spsv: [''],
         spsl: [''],
-        /*stdv: [''],
-        stdl: [''],
-        strv: [''],
-        strl: [''],*/
         mntv: [''],
         mntl: [''],
         mfv:[''],
@@ -47,7 +43,6 @@ export class NewdayComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.subsList.push(
       this.auth._tech.subscribe(a=>{
         if(a) this.tech=a
@@ -64,4 +59,9 @@ export class NewdayComponent implements OnInit {
     this.dayType = this.getday.dayType(a)
   }
   
+  ch(n:number, a:any, b:string){
+    if(this.newDay.controls[a].value+this.newDay.controls[b].value>8){
+      this.newDay.controls[a].setValue(n-this.newDay.controls[b].value)
+    }
+  }
 }
