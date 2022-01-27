@@ -57,11 +57,35 @@ export class NewdayComponent implements OnInit {
   newDate(){
     let a=this.newDay.controls.date.value
     this.dayType = this.getday.dayType(a)
+    switch (this.dayType){
+      case 'fer': 
+        this.ch(8,'spol','spov')
+        this.ch(8,'spov','spol')
+        this.ch(8,'spsl','spsv')
+        this.ch(8,'spsv','spsl')
+        this.ch(8,'mntl','mntv')
+        this.ch(8,'mntv','mntl')
+
+        break
+      case 'sat':
+        this.ch(16,'spsl','spsv')
+        this.ch(16,'spsv','spsl')
+        this.ch(8,'mntl','mntv')
+        this.ch(8,'mntv','mntl')
+        break
+      case 'fest':
+        this.ch(16,'mfl','mfv')
+        this.ch(16,'mfv','mfl')
+        this.ch(8,'mnfl','mnfv')
+        this.ch(8,'mnfv','mnfl')
+        break
+    }
   }
   
   ch(n:number, a:any, b:string){
     if(this.newDay.controls[a].value+this.newDay.controls[b].value>n){
-      this.newDay.controls[a].setValue(n-this.newDay.controls[b].value)
+      let g=n-this.newDay.controls[b].value
+      this.newDay.controls[a].setValue(g>0?g:null)
     }
   }
 }
