@@ -27,12 +27,11 @@
     overflow: hidden;
 }
 
-.items, .partsHead{
-}
-
-.partsHead > h4{
+.partsHead{
     font-weight: 600;
     text-align: center;
+    background-color: $dark-text;
+    color: $light-text;
 }
 
 .amount{

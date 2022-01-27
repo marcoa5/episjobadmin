@@ -30,7 +30,7 @@ export class PartsereqComponent implements OnInit {
       this.http.get(url,{params:params}).subscribe(gt=>{
         let total:number=0
         Object.values(gt).forEach(fr=>{
-          let index:number=a.Parts.map((r:any)=>{return r.pn}).indexOf(fr.pn)
+          let index:number=a.Parts.map((r:any)=>{return r.pn.toString()}).indexOf(fr.pn)
           a.Parts[index].llp=fr.llp
           a.Parts[index].tot=Math.round(fr.llp * a.Parts[index].qty*100)/100
           total+=a.Parts[index].tot
