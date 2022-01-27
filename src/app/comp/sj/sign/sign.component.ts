@@ -31,8 +31,16 @@ export class SignComponent implements OnInit {
 
 
   resizeSignaturePad(){
-    this.signaturePad.queryPad()._canvas.width=window.innerWidth*.78
-    this.signaturePad.queryPad()._canvas.height=window.innerWidth/2.3
+    let a = window.innerWidth*.9
+    if(a/2.3 < window.innerHeight - 70){
+      this.signaturePad.queryPad()._canvas.width=a
+      this.signaturePad.queryPad()._canvas.height=a/2.3
+    } else {
+      let b= window.innerHeight-70
+      this.signaturePad.queryPad()._canvas.height=b
+      this.signaturePad.queryPad()._canvas.width=b*2.3
+    }
+    
     var canvas = this.signaturePad.queryPad()._canvas
     var ctx = canvas.getContext("2d");
     ctx.fillStyle = "blue";
