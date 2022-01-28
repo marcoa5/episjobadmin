@@ -38,7 +38,7 @@ export class SjComponent implements OnInit {
   sn:string=''
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
-  days:any[]=[{
+  days:any[]=[]/*{
     "date": "2022-01-11",
     "tech": "ANDREA BOSIO",
     "spov": 1,
@@ -55,7 +55,7 @@ export class SjComponent implements OnInit {
     "spv": "",
     "off": "",
     "ofs": ""
-}]
+}]*/
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
