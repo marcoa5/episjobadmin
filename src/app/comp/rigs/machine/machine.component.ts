@@ -96,7 +96,7 @@ export class MachineComponent implements OnInit {
     })
     setTimeout(() => {
       this.loadPartsReq()
-    }, 1000);
+    }, 1);
     this.f(1)
   }
 
@@ -590,7 +590,7 @@ export class MachineComponent implements OnInit {
       a.forEach(b=>{
         if(!this.partReqList.includes(b.val()) && b.val().date<=f && b.val().date>=i) this.partReqList.push(b.val())
       })
-    })    
+    })  
   }
 
   sortDataParts(e?:any){

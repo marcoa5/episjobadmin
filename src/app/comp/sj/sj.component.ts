@@ -40,7 +40,7 @@ export class SjComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[]
   objectKeys:any;
-  signatureClosed:boolean=true;
+  signatureClosed:boolean=false;
   techSign:string=''
 
   constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {

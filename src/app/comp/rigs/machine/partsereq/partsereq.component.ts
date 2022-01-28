@@ -17,7 +17,9 @@ export class PartsereqComponent implements OnInit {
   constructor(private http: HttpClient, private getH: GetquarterService) { }
 
   ngOnInit(): void {
+    console.log(this._reqlist)
     this.__reqlist=this._reqlist
+    
     .map(a=>{
       let partArr:string[]=[]
       a.Parts.forEach((e:any) => {
@@ -28,14 +30,14 @@ export class PartsereqComponent implements OnInit {
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
       this.http.get(url,{params:params}).subscribe(gt=>{
-        let total:number=0
+        let total:any=0
         Object.values(gt).forEach(fr=>{
           let index:number=a.Parts.map((r:any)=>{return r.pn.toString()}).indexOf(fr.pn)
           a.Parts[index].llp=fr.llp
           a.Parts[index].tot=Math.round(fr.llp * a.Parts[index].qty*100)/100
           total+=a.Parts[index].tot
         })
-        a.Parts['totAmount']=total
+        a.Parts['totAmount']=parseFloat(total)
         //})
         //console.log(a.Parts.map((r:any)=>{return r.pn}).indexOf())
       })

@@ -11,10 +11,14 @@
 }
 
 .can{
-    border:1px solid black;
+    background-color: #ffffff;
+    opacity: 1;
+    background-image:  linear-gradient(#d8d8d8 0.9px, transparent 0.9px), linear-gradient(to right, #d8d8d8 0.9px, #ffffff 0.9px);
+    background-size: 18px 18px;
 }
 
 .but{
+    background-color: white;
     margin-top:15px;
     width:90%;
     display: flex;

@@ -24,7 +24,6 @@ export class SjlistComponent implements OnInit {
   
   ngOnInit(): void {
     this.paginator.itemsPerPageLabel = '#'
-    console.log(this.list)
   }
 
   ngOnChanges(){
