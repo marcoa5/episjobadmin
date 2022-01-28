@@ -146,3 +146,16 @@
     display: grid;
     grid-template-columns: 1fr;
 }
+table{
+    border-collapse: collapse;
+}
+table th{
+    background-color: $dark-text;
+    color: $light-text;
+}
+
+table td, table th{
+    border: 1px solid $dark-text;
+    min-width: 45px;
+    text-align: center;
+}

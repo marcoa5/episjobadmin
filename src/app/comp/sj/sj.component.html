@@ -89,7 +89,7 @@
                 </div>
                 <div>
                     <h4>Job Type</h4>
-                    <mat-radio-group aria-label="Select an option" class="radiocont" formControlName="type">
+                    <mat-radio-group aria-label="Select an option" class="radiocont" [(ngModel)]="ty" formControlName="type">
                         <mat-radio-button value="std">STD</mat-radio-button>
                         <mat-radio-button value="spe" checked>SPE</mat-radio-button>
                     </mat-radio-group>
@@ -126,10 +126,47 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
-                <div *ngIf="days.length>0">
-                    <episjob-label [values]="days"></episjob-label>
-                </div>
-                <button mat-raised-button color="accent" (click)="addDay()">Add day</button>
+                <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
+                <table *ngIf="days.length>0">
+                    <tr class="tabTr">
+                        <th>#</th>
+                        <th>Tech</th>
+                        <th>Date</th>
+                        <th>{{ty=='spe'?'SPOV':'STDV'}}</th>
+                        <th>{{ty=='spe'?'SPOL':'STDL'}}</th>
+                        <th>{{ty=='spe'?'SPSV':'STRV'}}</th>
+                        <th>{{ty=='spe'?'SPSL':'STRL'}}</th>
+                        <th>MNTV</th>
+                        <th>MNTL</th>
+                        <th>MFV</th>
+                        <th>MFL</th>
+                        <th>MNFV</th>
+                        <th>MNFL</th>
+                        <th>KM</th>
+                        <th>SPV</th>
+                        <th>OFF</th>
+                        <th>OFS</th>
+                    </tr>
+                    <tr *ngFor="let d of days; let i=index">
+                        <td>{{i}}</td>
+                        <td>{{d.tech}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.spov}}</td>
+                        <td>{{d.spol}}</td>
+                        <td>{{d.spsv}}</td>
+                        <td>{{d.spsl}}</td>
+                        <td>{{d.mntv}}</td>
+                        <td>{{d.mntl}}</td>
+                        <td>{{d.mfv}}</td>
+                        <td>{{d.mfl}}</td>
+                        <td>{{d.mnfv}}</td>
+                        <td>{{d.mnfl}}</td>
+                        <td>{{d.km}}</td>
+                        <td>{{d.spv}}</td>
+                        <td>{{d.off}}</td>
+                        <td>{{d.ofs}}</td>
+                    </tr>
+                </table>
                 <div class="button">
                     <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
                     <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but">Next</button>

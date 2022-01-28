@@ -38,12 +38,30 @@ export class SjComponent implements OnInit {
   sn:string=''
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
-  days:any[]=[]
+  days:any[]=[{
+    "date": "2022-01-11",
+    "tech": "ANDREA BOSIO",
+    "spov": 1,
+    "spol": 1,
+    "spsv": 2,
+    "spsl": 2,
+    "mntv": 3,
+    "mntl": "",
+    "mfv": "",
+    "mfl": "",
+    "mnfv": "",
+    "mnfl": "",
+    "km": "",
+    "spv": "",
+    "off": "",
+    "ofs": ""
+}]
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
   custSign:string=''
   torc:string=''
+  ty:string='spe'
 
   constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
     this.objectKeys = Object.keys;
@@ -155,6 +173,7 @@ export class SjComponent implements OnInit {
           this.days.push(a)
         }
       }
+      console.log(this.days)
     })
     
   }
