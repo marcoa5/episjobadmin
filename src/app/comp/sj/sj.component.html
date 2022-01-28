@@ -1,6 +1,6 @@
 <episjob-navbar title="Service Job" [cerca]="false"></episjob-navbar>
 <episjob-spin *ngIf="spin"></episjob-spin>
-<episjob-sign (closeS)="close($event)" *ngIf="!signatureClosed"></episjob-sign>
+<episjob-sign (closeS)="close($event)" [sign]="torc=='t'?techSign:custSign" [tc]="torc" *ngIf="!signatureClosed"></episjob-sign>
 <div class="cont" *ngIf="allow &&!spin">
     <episjob-h2 data="New Service Job" icon="text_snippet" padtop=0></episjob-h2>
     <mat-vertical-stepper #stepper class="stepper" linear=true>
@@ -140,9 +140,17 @@
           <mat-step [stepControl]="signatureForm">
             <form [formGroup]="signatureForm">
               <ng-template matStepLabel>Signatures</ng-template>
-              <h4>Test</h4>
-              <button mat-raised-button color="accent" (click)="sign()">Open Signature Panel</button>
-              <img width=138 height=68 [src]="techSign" *ngIf="techSign!=''">
+              <div class="contSig">
+                <div class="sig">
+                    <button mat-raised-button color="accent" (click)="sign('t')">Technician</button>
+                    <img [src]="techSign" *ngIf="techSign!=''">  
+                  </div>
+                  <div class="sig">
+                    <button mat-raised-button color="accent" (click)="sign('c')">Customer</button>
+                    <img [src]="custSign" *ngIf="custSign!=''">  
+                  </div>
+              </div>
+              
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
                   <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but">Next</button>

@@ -40,8 +40,10 @@ export class SjComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[]
   objectKeys:any;
-  signatureClosed:boolean=false;
+  signatureClosed:boolean=true;
   techSign:string=''
+  custSign:string=''
+  torc:string=''
 
   constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
     this.objectKeys = Object.keys;
@@ -87,9 +89,7 @@ export class SjComponent implements OnInit {
             this.allow=this.auth.allow('sj',this.pos) 
             this.spin=false
           }, 1);
-            
         }
-        
       }),
       this.auth._custI.subscribe(a=>{
         if(a) this.customers=a
@@ -154,18 +154,23 @@ export class SjComponent implements OnInit {
           a.date = moment(a.date).format('YYYY-MM-DD')
           this.days.push(a)
         }
-        console.log(this.days)
       }
     })
     
   }
 
-  sign(){
+  sign(a:string){
+    this.torc=a
     this.signatureClosed=false
   }
 
   close(e:any){
-    this.techSign=e
+    console.log(e)
+    if(e!='close'){
+      if(e[0]=='t') this.techSign=e[1]
+      if(e[0]=='c') this.custSign=e[1]
+
+    }
     this.signatureClosed=true
   }
 }

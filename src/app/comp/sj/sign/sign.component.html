@@ -3,7 +3,7 @@
     <div class="but">
         <button mat-raised-button color="primary" (click)="close()">Cancel</button>
         <button mat-raised-button color="primary" (click)="clearSignature()">Clear</button>
-        <button mat-raised-button color="primary" (click)="save()">Save</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="!isValid">Save</button>
     </div>
     
 </div>

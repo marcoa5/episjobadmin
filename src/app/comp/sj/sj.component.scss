@@ -132,3 +132,17 @@
     grid-template-columns: 1fr;
     width: 30px; height: 60px;
 }
+
+.contSig{
+    max-width: 280px;
+    display: grid;
+    grid-template-columns: repeat 1fr;
+    gap:15px;
+}
+
+.sig{
+    margin-top: 15px;
+    max-width: 138px;
+    display: grid;
+    grid-template-columns: 1fr;
+}
