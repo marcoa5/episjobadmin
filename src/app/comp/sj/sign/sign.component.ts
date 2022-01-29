@@ -29,17 +29,26 @@ export class SignComponent implements OnInit {
     this.resizeSignaturePad()
     this.signaturePad.set('minWidth', 2); 
     this.signaturePad.clear(); 
+    this.drawSign()
+    }
+  
+  drawSign(a?:number,b?:number){
     if(this.sign!='') {
       var canvas = this.signaturePad.queryPad()._canvas
       var ctx = canvas.getContext("2d");
       var image = new Image()
       image.src=this.sign
-      ctx.drawImage(image,0,0)
+      console.log(image)
+      if(a && b) {
+        ctx.drawImage(image,0,0, a,b)
+      } else {
+        ctx.drawImage(image,0,0)
+
+      }
+
+      
     }
-
   }
-  
-
 
   resizeSignaturePad(){
     let a = window.innerWidth*.9
@@ -51,12 +60,13 @@ export class SignComponent implements OnInit {
       this.signaturePad.queryPad()._canvas.height=b
       this.signaturePad.queryPad()._canvas.width=b*2.3
     }
-    var canvas = this.signaturePad.queryPad()._canvas
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "blue";
+    setTimeout(() => {
+      this.drawSign(this.signaturePad.queryPad()._canvas.width,this.signaturePad.queryPad()._canvas.height)
+    }, 15);
   }
+
   drawComplete() {
-    
+    this.sign=this.signaturePad.toDataURL()
   }
 
   drawStart() {
