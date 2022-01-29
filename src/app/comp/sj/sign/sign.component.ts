@@ -34,11 +34,11 @@ export class SignComponent implements OnInit {
   
   drawSign(a?:number,b?:number){
     if(this.sign!='') {
+      this.signaturePad.clear(); 
       var canvas = this.signaturePad.queryPad()._canvas
       var ctx = canvas.getContext("2d");
       var image = new Image()
       image.src=this.sign
-      console.log(image)
       if(a && b) {
         ctx.drawImage(image,0,0, a,b)
       } else {
