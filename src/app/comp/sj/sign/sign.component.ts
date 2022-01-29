@@ -50,19 +50,18 @@ export class SignComponent implements OnInit {
   }
 
   resizeSignaturePad(){
+    this.signaturePad.clear(); 
     let a = window.innerWidth*.9
     if(a/2.3 < window.innerHeight - 70){
+      this.drawSign(a,a/2.3)
       this.signaturePad.queryPad()._canvas.width=a
       this.signaturePad.queryPad()._canvas.height=a/2.3
     } else {
       let b= window.innerHeight-70
+      this.drawSign(b,b*2.3)
       this.signaturePad.queryPad()._canvas.height=b
       this.signaturePad.queryPad()._canvas.width=b*2.3
     }
-    setTimeout(() => {
-      this.signaturePad.clear(); 
-      this.drawSign(this.signaturePad.queryPad()._canvas.width,this.signaturePad.queryPad()._canvas.height)
-    }, 15);
   }
 
   drawComplete() {
