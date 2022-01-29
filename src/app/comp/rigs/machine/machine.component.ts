@@ -94,9 +94,6 @@ export class MachineComponent implements OnInit {
         this.allow=this.auth.allow('machine',this.pos)
       }
     })
-    setTimeout(() => {
-      this.loadPartsReq()
-    }, 1);
     this.f(1)
   }
 
