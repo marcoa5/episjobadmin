@@ -34,7 +34,6 @@ export class SignComponent implements OnInit {
   
   drawSign(a?:number,b?:number){
     if(this.sign!='') {
-      this.signaturePad.clear(); 
       var canvas = this.signaturePad.queryPad()._canvas
       var ctx = canvas.getContext("2d");
       var image = new Image()
@@ -61,6 +60,7 @@ export class SignComponent implements OnInit {
       this.signaturePad.queryPad()._canvas.width=b*2.3
     }
     setTimeout(() => {
+      this.signaturePad.clear(); 
       this.drawSign(this.signaturePad.queryPad()._canvas.width,this.signaturePad.queryPad()._canvas.height)
     }, 15);
   }
