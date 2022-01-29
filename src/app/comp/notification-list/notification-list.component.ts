@@ -14,6 +14,7 @@ export class NotificationListComponent implements OnInit {
   notif:any[]=[]
   subsList:Subscription[]=[]
   userId:string=''
+  spin:boolean=true
   constructor(private auth: AuthServiceService , public router: Router) { }
 
   ngOnInit(): void {
@@ -31,6 +32,7 @@ export class NotificationListComponent implements OnInit {
             let f = moment(c.val().date).format('YYYYMMDD')
             if(f<ora && c.key) firebase.database().ref('Notif').child(a.uid).child(c.key).remove()
           })
+        this.spin=false
         })
       })
     )

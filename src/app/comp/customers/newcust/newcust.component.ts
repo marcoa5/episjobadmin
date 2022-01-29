@@ -41,13 +41,13 @@ export class NewcustComponent implements OnInit {
     this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
       setTimeout(() => {
-        this.allow=auth.allow('newcustomer')
+        this.allow=this.auth.allow('newcustomer',this.pos)
       }, 1);
     })
    }
 
   ngOnInit(): void {
-    this.allow=this.auth.allow('newcustomer')
+    this.allow=this.auth.allow('newcustomer',this.pos)
 
     
     this.route.params.subscribe(a=>{
@@ -78,7 +78,7 @@ export class NewcustComponent implements OnInit {
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
       const dialogRef = this.dialog.open(UpddialogComponent, {
-        data: {cust: this.origin[1]!=undefined?this.origin[1]: '', name: this.origin[0]}
+        data: {cust: this.origin[1]!=undefined?this.origin[1]: '', name: this.origin[0], title:'Update'}
       });
   
       dialogRef.afterClosed().subscribe(result => {

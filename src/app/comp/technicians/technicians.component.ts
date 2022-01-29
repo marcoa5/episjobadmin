@@ -24,18 +24,16 @@ export class TechniciansComponent implements OnInit {
   ngOnInit(): void {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
-      this.pos=a.Pos
-      setTimeout(() => {
-        this.allow=this.auth.allow('technicians')
-      }, 1)
-    })
-    )
-    this.allSpin=false
-    firebase.database().ref('Tech').on('value',a=>{
-      a.forEach(b=>{
-        this.tech.push({l: b.key,s:b.val().s})
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('technicians',this.pos)
+        }, 1)
+      }),
+      this.auth._tech.subscribe(a=>{
+        if(a) this.tech=a
       })
-    })   
+    )
+    this.allSpin=false  
   }
 
   ngOnDestroy(){

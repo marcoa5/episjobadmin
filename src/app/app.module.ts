@@ -81,7 +81,7 @@ import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatListModule } from '@angular/material/list';
-
+import { matSnackBarAnimations, MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LabFilterPipe } from './pipe/lab-filter.pipe';
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component';
@@ -105,7 +105,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ContactsComponent } from './comp/contacts/contacts.component';
 import { ContactfilterPipe } from './pipe/contactfilter.pipe';
 import { ListofrequestsComponent } from './comp/parts/listofrequests/listofrequests.component';
-import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts.component'
+import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts.component';
+import { NewaddressComponent } from './comp/util/dialog/newaddress/newaddress.component';
+import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit.component';
+import { SjComponent } from './comp/sj/sj.component';
+import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.component';
+import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
+import { NewdayComponent } from './comp/util/dialog/newday/newday.component';
+import { SignComponent } from './comp/sj/sign/sign.component'
+import { SignaturePadModule } from 'angular2-signaturepad'
 
 export const MY_FORMATS = {
   parse: {
@@ -198,11 +206,18 @@ const appearance: MatFormFieldDefaultOptions = {
     ContactfilterPipe,
     ListofrequestsComponent,
     ImportpartsComponent,
+    NewaddressComponent,
+    SubmitvisitComponent,
+    SjComponent,
+    PartsereqComponent,
+    CustomsnackComponent,
+    NewdayComponent,
+    SignComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{

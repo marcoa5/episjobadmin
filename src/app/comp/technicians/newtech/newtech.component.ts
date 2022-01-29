@@ -21,7 +21,7 @@ export class NewtechComponent implements OnInit {
   appearance:MatFormFieldAppearance="fill"
   addUpd:boolean = true
   newT:FormGroup;
-  pos:string|undefined
+  pos:string=''
   origName:string|undefined
   allow:boolean=false
   subsList:Subscription[]=[]
@@ -38,7 +38,7 @@ export class NewtechComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('technicians')
+          this.allow=this.auth.allow('technicians',this.pos)
         }, 1);
       })
     )

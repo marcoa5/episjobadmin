@@ -5,3 +5,11 @@ table{
 .cont{
     height:350px;
 }
+
+@media only screen and (max-width: 1900px) {
+    .cont{
+        overflow-y: visible;
+        height: auto;
+        max-height: 350px;
+    }
+}

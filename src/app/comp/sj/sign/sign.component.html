@@ -1,0 +1,10 @@
+<div class="full">
+    <signature-pad [class.mat-elevation-z10]="true" [options]="signaturePadOptions" (onBeginEvent)="drawStart()" (onEndEvent)="drawComplete()" (window:resize)="resizeSignaturePad()" class="can"></signature-pad>
+    <div class="but">
+        <button mat-raised-button color="primary" (click)="close()">Cancel</button>
+        <button mat-raised-button color="primary" (click)="clearSignature()">Clear</button>
+        <button mat-raised-button color="primary" (click)="save()" [disabled]="!isValid">Save</button>
+    </div>
+    
+</div>
+

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SavevisitComponent } from '../util/dialog/savevisit/savevisit.component';
 import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.component';
 import { MakeidService } from '../../serv/makeid.service'
@@ -12,6 +12,8 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment'
+import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
+import { GetquarterService } from 'src/app/serv/getquarter.service';
 
 @Component({
   selector: 'episjob-parts',
@@ -23,6 +25,8 @@ export class PartsComponent implements OnInit {
   userId:string=''
   reqId:string=''
   list:any[]=[]
+  listSent:any[]=[]
+  _listSent:any[]=[]
   listId:number=-1
   partList: any[]=[]
   pos:string=''
@@ -30,9 +34,13 @@ export class PartsComponent implements OnInit {
   allow:boolean=false
   allSpin:boolean=true
   userReqId:string='none'
+  search:string=''
   subsList:Subscription[]=[]
 
-  constructor(public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+
+  constructor(private q:GetquarterService , public clipboard: Clipboard, private http: HttpClient, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+
+  //@ViewChild('search') search!: ElementRef
 
   ngOnInit(): void {
     this.subsList.push(
@@ -40,14 +48,32 @@ export class PartsComponent implements OnInit {
         this.pos=a.Pos
         this.userId=a.uid
         setTimeout(() => {
-          this.allow=this.auth.allow('parts')
+          this.allow=this.auth.allow('parts',this.pos)
           this.allSpin=false
           if(this.allow==true){
             this.loadlist()
+            this.loadsent()
           }
         }, 1);
       })
     )
+  }
+
+  ngOnChanges(){
+    
+  }
+
+  sea(e:any){
+    this.listSent=this._listSent.filter(r=>{
+      return (
+        r.sn.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.customer.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.author.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.model.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.orig.toLowerCase().includes(e.target.value.toLowerCase()) ||
+        r.type.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    })
   }
 
   ngOnDestroy(){
@@ -55,9 +81,9 @@ export class PartsComponent implements OnInit {
   }
 
   loadlist(){
+    this.list=[]
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'||this.pos=='tech'){
       firebase.database().ref('PartReq').on('value',b=>{
-        this.list=[]
         b.forEach(c=>{
           c.forEach(d=>{
             this.list.push(d.val())
@@ -70,6 +96,22 @@ export class PartsComponent implements OnInit {
         this.list=[]
         b.forEach(c=>{
           if(c.val().usedId==this.userId) this.list.push(c.val())
+        })
+      })
+    }
+  }
+
+  loadsent(){
+    this._listSent=[]
+    if(this.pos=='SU'){
+      firebase.database().ref('PartReqSent').on('value',b=>{
+        b.forEach(c=>{
+          c.forEach(d=>{
+            let g = d.val()
+            g.sel=0
+            this._listSent.push(g)
+            this.listSent=this._listSent
+          })
         })
       })
     }
@@ -106,22 +148,23 @@ export class PartsComponent implements OnInit {
       this.clipboard.copy(list)
       //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
     } else {
-      const dialegRef= this.dialog.open(SavevisitComponent)
-      dialegRef.afterClosed().subscribe(res=>{
-        if(res!=undefined){
-          let shipTo:any=''
-          firebase.database().ref('MOL').child(this.info.sn).once('value',a=>{
-            shipTo={
-              name: a.val().name?a.val().name:'',
-              email: a.val().email?a.val().email:'',
-              address: a.val().address?a.val().address:'',
-              cig: a.val().cig?a.val().cig:'',
-              cup: a.val().cup?a.val().cup:''
-            }
-          })
-          .then(()=>{
-            this.info['shipTo']=shipTo?shipTo:''
-            this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+      let shipTo:any=''
+      firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
+        if(a.val()!=null){
+          shipTo={
+            cont: a.val().cont?a.val().cont:'',
+            address: a.val().address?a.val().address:'',
+            cig: a.val().cig?a.val().cig:'',
+            cup: a.val().cup?a.val().cup:''
+          }
+        }
+      })
+      .then(()=>{
+        this.info['shipTo']=shipTo?shipTo:''
+        this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+        const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
+        dialegRef.afterClosed().subscribe(res=>{
+          if(res!=undefined){
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
             let url:string = 'https://episjobreq.herokuapp.com/partreq'
@@ -131,13 +174,13 @@ export class PartsComponent implements OnInit {
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
                 .then(()=>{
                   this.clear()
-                  alert('Request Sent')
+                  console.log('SENT ' + a)
                 })
                 )
               }
             })
-          })
-        }
+          }
+        })
       })
     }
   }
@@ -180,6 +223,12 @@ export class PartsComponent implements OnInit {
     this.info=this.list[this.listId]
     this.reqId=this.list[this.listId].reqId
     this.partList=this.list[this.listId].Parts
+  }
+
+  openSent(a:number){
+    this.info=this.listSent[a]
+    this.reqId=this.listSent[a].reqId
+    this.partList=this.listSent[a].Parts
   }
 
   openD(a:number){

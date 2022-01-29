@@ -1,0 +1,201 @@
+<episjob-navbar title="Service Job" [cerca]="false"></episjob-navbar>
+<episjob-spin *ngIf="spin"></episjob-spin>
+<episjob-sign (closeS)="close($event)" [sign]="torc=='t'?techSign:custSign" [tc]="torc" *ngIf="!signatureClosed"></episjob-sign>
+<div class="cont" *ngIf="allow &&!spin">
+    <episjob-h2 data="New Service Job" icon="text_snippet" padtop=0></episjob-h2>
+    <mat-vertical-stepper #stepper class="stepper" linear=true>
+        <mat-step [stepControl]="rigForm">
+            <form [formGroup]="searchForm">
+                <ng-template matStepLabel>Select machine</ng-template>
+                <mat-form-field [appearance]="appearance" style="width:100%">
+                <mat-label>Search</mat-label>
+                <input matInput placeholder="Search" formControlName="search" (input)="searchCust($event)" autocomplete=off>
+                <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+                <div class="rigrowh" *ngIf="rigs.length>1">
+                    <div class="righ">S/N</div>
+                    <div class="righ">Model</div>
+                    <div class="righ">Customer</div>
+                    <div class="righ">Site</div>
+                </div>
+                <div class="list" *ngIf="rigs.length>1">
+                    <tr *ngFor="let r of rigs" class="rigrow" (click)="fil(r.sn)">
+                        <div class="rigdata">{{r.sn}}</div>
+                        <div class="rigdata">{{r.model}}</div>
+                        <div class="rigdata">{{r.customer}}</div>
+                        <div class="rigdata">{{r.site}}</div>
+                    </tr>
+                </div>
+            </form>
+            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1">
+                <h4>Machine data</h4>
+                <div class="group4">
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Data</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="date">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Rig sn</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="sn">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Rig p/n</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="pn">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Model</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="model">
+                    </mat-form-field>
+                </div>
+                <h4>Customer Data</h4>
+                <div class="group4">
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Customer</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="customer">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Customer Address 1</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="customer2">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Customer Address 2</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="customer3">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Site</mat-label>
+                        <input matInput type="text" autocomplete="off" formControlName="site">
+                    </mat-form-field>
+                </div>
+                <h4>Running Hours</h4>
+                <div class="group4">
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Engine Hrs</mat-label>
+                        <input matInput type="number" min="0" autocomplete="off" formControlName="engh">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Perc1 Hrs</mat-label>
+                        <input matInput type="number" min="0" autocomplete="off" formControlName="perc1h">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Perc2 Hrs</mat-label>
+                        <input matInput type="number" min="0" autocomplete="off" formControlName="perc2h">
+                    </mat-form-field>
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Perc3 Hrs</mat-label>
+                        <input matInput type="number" min="0" autocomplete="off" formControlName="perc3h">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <h4>Job Type</h4>
+                    <mat-radio-group aria-label="Select an option" class="radiocont" [(ngModel)]="ty" formControlName="type">
+                        <mat-radio-button value="std">STD</mat-radio-button>
+                        <mat-radio-button value="spe" checked>SPE</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+
+                
+            </form>
+            <div class="button">
+                <button mat-raised-button matStepperNext color="primary" [disabled]="rigForm.invalid" class="but">Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="reportForm">
+            <form [formGroup]="reportForm">
+              <ng-template matStepLabel>Service Report</ng-template>
+              <h4>Service Report</h4>
+              <mat-form-field [appearance]="appearance" class="area">
+                <mat-label>Report</mat-label>
+                <textarea matInput formControlName="report" [rows]="5"></textarea>
+              </mat-form-field>
+              <h4>Notes</h4>
+              <mat-form-field [appearance]="appearance"  class="area">
+                <mat-label>Notes</mat-label>
+                <textarea matInput formControlName="oss" [rows]="2"></textarea>
+              </mat-form-field>
+              <div class="button">
+                <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
+                <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but">Next</button>
+                
+              </div>
+            </form>
+          </mat-step>
+
+          <mat-step [stepControl]="hoursForm">
+              <form [formGroup]="hoursForm">
+                <ng-template matStepLabel>Hours</ng-template>
+                <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
+                <table *ngIf="days.length>0">
+                    <tr class="tabTr">
+                        <th>#</th>
+                        <th>Tech</th>
+                        <th>Date</th>
+                        <th>{{ty=='spe'?'SPOV':'STDV'}}</th>
+                        <th>{{ty=='spe'?'SPOL':'STDL'}}</th>
+                        <th>{{ty=='spe'?'SPSV':'STRV'}}</th>
+                        <th>{{ty=='spe'?'SPSL':'STRL'}}</th>
+                        <th>MNTV</th>
+                        <th>MNTL</th>
+                        <th>MFV</th>
+                        <th>MFL</th>
+                        <th>MNFV</th>
+                        <th>MNFL</th>
+                        <th>KM</th>
+                        <th>SPV</th>
+                        <th>OFF</th>
+                        <th>OFS</th>
+                    </tr>
+                    <tr *ngFor="let d of days; let i=index">
+                        <td>{{i}}</td>
+                        <td>{{d.tech}}</td>
+                        <td>{{d.date}}</td>
+                        <td>{{d.spov}}</td>
+                        <td>{{d.spol}}</td>
+                        <td>{{d.spsv}}</td>
+                        <td>{{d.spsl}}</td>
+                        <td>{{d.mntv}}</td>
+                        <td>{{d.mntl}}</td>
+                        <td>{{d.mfv}}</td>
+                        <td>{{d.mfl}}</td>
+                        <td>{{d.mnfv}}</td>
+                        <td>{{d.mnfl}}</td>
+                        <td>{{d.km}}</td>
+                        <td>{{d.spv}}</td>
+                        <td>{{d.off}}</td>
+                        <td>{{d.ofs}}</td>
+                    </tr>
+                </table>
+                <div class="button">
+                    <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
+                    <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but">Next</button>
+                </div>
+              </form>
+              
+          </mat-step>
+          <mat-step [stepControl]="signatureForm">
+            <form [formGroup]="signatureForm">
+              <ng-template matStepLabel>Signatures</ng-template>
+              <div class="contSig">
+                <div class="sig">
+                    <button mat-raised-button color="accent" (click)="sign('t')">Technician</button>
+                    <img width=207 height=120 [src]="techSign" *ngIf="techSign!=''">  
+                  </div>
+                  <div class="sig">
+                    <button mat-raised-button color="accent" (click)="sign('c')">Customer</button>
+                    <img width=207 height=120 [src]="custSign" *ngIf="custSign!=''">  
+                  </div>
+              </div>
+              
+              <div class="button">
+                  <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but">Next</button>
+              </div>
+            </form>
+            
+        </mat-step>
+    </mat-vertical-stepper>
+</div>
+
+<div *ngIf="!allow && !spin" class="cont">Restricted Area</div>

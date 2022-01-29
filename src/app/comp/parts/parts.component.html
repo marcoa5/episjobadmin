@@ -16,7 +16,17 @@
                 <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
                 <episjob-listofrequests [list]="list" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
-            
+            <div *ngIf="(!info || !info.sn)">
+                <episjob-h2 data="Request Sent" icon="forward_to_inbox" *ngIf="pos=='SU'"></episjob-h2>
+                <form class="formCont">
+                    <mat-form-field appearance="fill" class="sea">
+                        <mat-label>Search</mat-label>
+                        <input matInput type="text" autocomplete="off" (input)="sea($event)">
+                        <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                </form>
+                <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
+            </div>  
             <episjob-requestlist [listP]="partList" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)" (clear)="clear()"></episjob-requestlist>
         </div>
     </div>

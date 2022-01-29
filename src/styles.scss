@@ -37,3 +37,18 @@ $episjobadmin-theme: mat-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.full-width-dialog .mat-dialog-container {
+  width: 95vw !important;
+}
+.full-width-dialog .mat-form-field-infix {
+  width: 100%;
+  max-width: 100%;
+}
+
+.sign-dialog .mat-dialog-container {
+  width: 100vw !important;
+}
+.sign-dialog .mat-form-field-infix {
+  width: 100%;
+  max-width: 100%;
+}

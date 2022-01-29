@@ -65,7 +65,9 @@ episjob-h2{
 @media only screen and (max-width: 850px) {
     .cont{
         height:100%;
-        overflow-y: visible;
+        overflow-y: auto;
+        height: auto;
+        max-height: 350px;
     }
 }
 

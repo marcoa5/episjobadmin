@@ -16,7 +16,6 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
-import { TechniciansComponent } from '../../technicians/technicians.component';
 
 
 export interface hrsLabel {
@@ -65,10 +64,12 @@ export class MachineComponent implements OnInit {
   sjList:any[]=[]
   sortT:boolean=true
   sortSJ:boolean=true
+  sortParts:boolean=true
   name:string=''
   elenco:any[]=[]
   access:any[]=[]
   area:string=''
+  partReqList:any[]=[]
   subsList:Subscription[]=[]
   
   constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { }
@@ -86,13 +87,16 @@ export class MachineComponent implements OnInit {
         firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',r=>{
           console.log(r.val())
           if(r.val()=='1') {
-            this.allow=this.auth.allow('machine')
+            this.allow=this.auth.allow('machine',this.pos)
           } else {this.allow=false}
         })
       } else {
-        this.allow=this.auth.allow('machine')
+        this.allow=this.auth.allow('machine',this.pos)
       }
     })
+    setTimeout(() => {
+      this.loadPartsReq()
+    }, 1);
     this.f(1)
   }
 
@@ -404,6 +408,7 @@ export class MachineComponent implements OnInit {
     this.inizio=e[0]
     this.fine=e[1]
     await this.filter(e[0],e[1]) 
+    this.loadPartsReq()
     this.checkComm()
     .then(()=>{
       this.lastRead()
@@ -575,6 +580,21 @@ export class MachineComponent implements OnInit {
         });
       }, 1000);
     })
+  }
+
+  loadPartsReq(){
+    this.partReqList=[]
+    let i = moment(this.inizio).format('YYYY-MM-DD')
+    let f = moment(this.fine).format('YYYY-MM-DD')
+    firebase.database().ref('PartReqSent').child(this.valore).once('value',a=>{
+      a.forEach(b=>{
+        if(!this.partReqList.includes(b.val()) && b.val().date<=f && b.val().date>=i) this.partReqList.push(b.val())
+      })
+    })  
+  }
+
+  sortDataParts(e?:any){
+      this.sortParts=!this.sortParts
   }
 }
  

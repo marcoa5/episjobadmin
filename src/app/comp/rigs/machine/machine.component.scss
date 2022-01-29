@@ -1,21 +1,33 @@
 @import '../../../../epi.scss';
 
-.cont{
+.cont, .contIMI, .contMod{
     display: grid;
     row-gap: 0;
     column-gap: 30px;
+    
+}
+
+.cont{
     grid-template-columns: repeat(2, 1fr);
     grid-template-areas:
     "item1 item2"
     "item3 item4"
     "item5 item6"
-    "item7 item8";
+    "item8 item8"
+    "item7 item7";
+}
+
+.contIMI{
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-areas:
+    "item1 item2"
+    "item3 item4"
+    "item5 item6"
+    "item7 item7"
+    "item8 item8";
 }
 
 .contMod{
-    display: grid;
-    row-gap: 0;
-    column-gap: 30px;
     grid-template-columns: 1fr;
     grid-template-areas:
     "item1";
@@ -23,7 +35,7 @@
 
 
 .mainCont{
-    padding: 80px 10px 30px 10px;
+    padding: 80px 10px 50px 10px;
 }
 
 
@@ -52,6 +64,7 @@
 .item5{grid-area: item5;}
 .item6{grid-area: item6;}
 .item7{grid-area: item7;}
+.item8{grid-area: item8;}
 
 .item5, .item6 {
     max-height:442px;
@@ -60,12 +73,19 @@
 
 @media only screen and (min-width: 1900px) {
     .cont {
-    grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-areas:
+        "item1 item1 item2 item2"
+        "item3 item4 item5 item6"
+        "item8 item8 item7 item7" ;
+    }
 
-    grid-template-areas:
-    "item1 item1 item2 item2"
-    "item3 item4 item5 item6"
-    "item7 item8 item9 item10" ;
+    .contIMI{
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-areas:
+        "item1 item1 item2 item2"
+        "item3 item4 item5 item6"
+        "item7 item7 item8 item8" ;
     }
 .contCan{
     max-width: calc(25vw - 27.5px);
@@ -73,7 +93,7 @@
 }
 
 @media only screen and (max-width: 850px) {
-.cont {
+.cont, .contIMI {
     grid-template-columns: 1fr;
     grid-template-areas:
     "item1"
@@ -82,16 +102,14 @@
     "item4"
     "item5"
     "item6"
-    "item7";
+    "item7"
+    "item8";
 }
 
 .contCan{
     max-width: calc(100vw - 20px);
 }
 
-.item6{
-    max-height: none;
-}
 }
 
 .hide{

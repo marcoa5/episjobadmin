@@ -174,7 +174,6 @@ export class NewvisitComponent implements OnInit {
 
   }
 
-
   f(a:number){
     this.customers1=this.customers
     this.custFormGroup?.controls.c1.setValue('')
@@ -190,8 +189,6 @@ export class NewvisitComponent implements OnInit {
       this.custFormGroup.controls.c3.disable()
     }
   }
-
-
 
   custChange(){
     this.custFormGroup.controls.c1.valueChanges.subscribe(v=>{
@@ -346,7 +343,8 @@ export class NewvisitComponent implements OnInit {
           })
           .then(()=>{
             if(users.includes(this.userId)) users.splice(users.indexOf(this.userId),1)
-            this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, 'visit', './visit,{"day":"' + info.date + '"}')
+            console.log(users)
+            this.notif.newNotification(users,'New Visit by ' + this.userName, info.c1 + ' on ' + moment(info.date).format('DD/MM/YYY'), this.userName, '_visit', './visit,{"day":"' + info.date + '"}')
           })
           setTimeout(() => {
           this.router.navigate(['visit',{day:info.date}])
@@ -441,6 +439,12 @@ export class NewvisitComponent implements OnInit {
   }
 
   addCon(){
+    if(this.cId.length==0) this.cId.push({
+      id:'00000POT'+ this.makeid.makeId(10),
+      c1: this.custFormGroup.controls.c1.value.toUpperCase(),
+      c2: this.custFormGroup.controls.c2.value.toUpperCase(),
+      c3:this.custFormGroup.controls.c3.value.toUpperCase()
+    })
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
@@ -451,8 +455,8 @@ export class NewvisitComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
         //this.newCont.emit(result)
+        this.cuId(this.cId[0].id)
       }
     })
   }
-
 }

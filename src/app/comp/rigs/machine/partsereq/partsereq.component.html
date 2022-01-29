@@ -1,0 +1,40 @@
+<div class="cont" *ngIf="reqlist.length>0" [class.mat-elevation-z1]="true">
+    <mat-accordion>
+      <mat-expansion-panel hideToggle *ngFor="let a of reqlist; let i = index" class="acc">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="of">
+            <span class="ofc1">{{a.date}}</span>
+            <span class="ofc1">{{a.orig}}</span>
+            <span class="ofc2">{{a.Parts.totAmount | currency:'EUR':'symbol-narrow':'1.2-2'}}</span>
+          </mat-panel-title>
+          <!--<mat-panel-description class="of"> </mat-panel-description>-->
+        </mat-expansion-panel-header>
+        
+        <div class="bodyCont">
+            <table class="tab">
+                <tr class="partsHead">
+                    <th>p/n</th>
+                    <th class="hid">Desc</th>
+                    <th class="hid">LLP</th>
+                    <th class="hid">Qty</th>
+                    <th>Tot</th> 
+                </tr>
+                <tr *ngFor="let r of a.Parts" class="items">
+                    <td class="qty lar">{{r.qty}} x {{r.pn}}</td>
+                    <td class="qty hid">{{r.pn}}</td>
+                    <td class="desc hid">{{r.desc}}</td>
+                    <td class="amount hid">{{r.llp | currency:'EUR':'symbol-narrow':'1.2-2'}}</td>
+                    <td class="qty hid">{{r.qty}}</td>
+                    <td  class="amount">{{r.tot | currency:'EUR':'symbol-narrow':'1.2-2'}}</td>
+                </tr>   
+            </table>
+        </div>
+        
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+<div class="cont" *ngIf="reqlist.length==0">
+    <episjob-spin [padtop]='0'></episjob-spin>
+</div>

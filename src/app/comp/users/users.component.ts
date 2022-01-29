@@ -28,15 +28,30 @@ export class UsersComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('users')
+          this.allow=this.auth.allow('users',this.pos)
           this.allSpin=false
         }, 1);
       })
     )
     this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
       Object.values(a).forEach(b=>{
-        firebase.database().ref('Users/' + b.uid).on('value',c=>{
-          this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid})
+        firebase.database().ref('Users').child(b.uid).once('value',c=>{
+          firebase.database().ref('Login').child(b.uid + '-' + c.val().Nome + ' ' + c.val().Cognome ).limitToLast(1).once('value',d=>{
+            let aa:any, bb:any=undefined
+            if(d.val()!=null) {
+              bb = Object.keys(d.val())
+            } 
+            this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid, lastlog: bb?bb:''})
+            this.users.sort((a: any, b: any) => {
+              if (a.lastlog < b.lastlog) {
+                return 1;
+              } else if (a.lastlog > b.lastlog) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+          })      
         })
       })
     })

@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
-import {openDB} from 'idb'
 
 @Injectable({
   providedIn: 'root'
@@ -32,10 +31,9 @@ export class AuthServiceService {
         measurementId: "G-Y0638WJK1X"
       })
       if(navigator.onLine){
+        console.log('online')
         firebase.auth().onAuthStateChanged(r=>{
           if(r!=null){
-            console.log('online')
-            this.userData.next(['loading'])
             firebase.database().ref('Users').child(r!.uid).on('value',b=>{
               if(b.val()!=null){
                 let c= b.val()
@@ -67,6 +65,7 @@ export class AuthServiceService {
   private userData:Subject<any>=new BehaviorSubject<any>([])
   private customers:Subject<any>=new BehaviorSubject<any>([])
   private contacts:Subject<any>=new BehaviorSubject<any>([])
+  private tech:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
   get _rigs(){this.getFleetData(); return this.rigs.asObservable()}
@@ -75,14 +74,22 @@ export class AuthServiceService {
   get _accessI(){this.getAccess(); return this.accessI.asObservable()}
 
   get _categ(){return this.categ.asObservable()}
+  get _tech(){
+    this.getTech()
+    let a=localStorage.getItem('tech')
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.tech.next(b)
+    }
+    return this.tech.asObservable()
+  }
 
   get _userData(){
     let a=localStorage.getItem('user')
     let b:any
-    
     if(a!=null) {
       b = JSON.parse(a)
-      console.log(b)
       this.userData.next(b)
       this.epiUser=b
       this.epiUserId=b.uid
@@ -92,24 +99,60 @@ export class AuthServiceService {
       return this.userData.asObservable()
   }
 
-  get _fleet(){this.getFleetData(); return this.fleet.asObservable()}
+  get _fleet(){
+    if(!isDevMode()) this.getFleetData()
+    let a = localStorage.getItem('fleet')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.fleet.next(b)
+    }
+    return this.fleet.asObservable()
+  }
   
-  get _customers(){this.getCustData(); return this.customers.asObservable()}
+  get _customers(){
+    if(!isDevMode()) this.getCustData()
+    let a = localStorage.getItem('customers')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.customers.next(b)
+    }
+    return this.customers.asObservable()
+  }
 
   get _contacts(){return this.contacts.asObservable()}
 
-  get _custI(){this.getCustData(); return this.custI.asObservable()}
+  get _custI(){
+    if(!isDevMode()) this.getCustData()
+    let a = localStorage.getItem('custI')
+    let b:any
+    if(a) {
+      b = JSON.parse(a)
+      this.custI.next(b)
+    }
+    return this.custI.asObservable()
+  }
+
+  getTech(){
+    let techList:any[]=[]
+    firebase.database().ref('Tech').once('value',a=>{
+      a.forEach(b=>{
+        techList.push({l: b.key,s:b.val().s})
+      })
+    }) .then(()=>{
+      localStorage.setItem('tech',JSON.stringify(techList))
+      this.tech.next(techList)
+    })
+  }
 
   getFleetData(){//modifica qui
     if(this.epiUser){
       if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
         if(this.epiRigs.length==0){
+          console.log('Downloading fleet...')
           firebase.database().ref('MOL').on('value',async (a)=>{
             let b=Object.values(a.val())
-            const db = await openDB('db')
-            if (db.objectStoreNames.contains('rigs')) {
-              db.createObjectStore('rigs');
-            }
             this.rigs.next(b)
             this.epiRigs=b
             this.getFleet(this.epiRigs,this.epiCateg)
@@ -162,7 +205,9 @@ export class AuthServiceService {
       })
       if(g.length==fRigs.length){
         this.epiFleet=g
-        this.fleet.next(g)
+        localStorage.removeItem('fleet')
+        localStorage.setItem('fleet', JSON.stringify(g))
+        //this.fleet.next(g)
       }
     } else {
       this.epiFleet=fRigs
@@ -175,6 +220,7 @@ export class AuthServiceService {
     if(this.epiUser){
       if(this.epiUser.Pos!='customer'){
         if(this.epiCustomers.length==0){
+          console.log('Downloading customers...')
           let custIndex
           firebase.database().ref('CustomerC').on('value',a=>{
             custIndex=a.val()
@@ -200,8 +246,10 @@ export class AuthServiceService {
               } else{
                 c=b
               }
-              this.customers.next(c)
-              this.custI.next(custIndex)
+              //this.customers.next(c)
+              //this.custI.next(custIndex)
+              localStorage.setItem('customers',JSON.stringify(c))
+              localStorage.setItem('custI',JSON.stringify(custIndex))
               this.epiCustomers=c 
             }
           })
@@ -271,53 +319,57 @@ export class AuthServiceService {
     })
   }
 
-  allow(f:string, sn?:string):boolean{
+  allow(f:string, pos: string, sn?:string):boolean{
     switch(f){
       case 'newrig':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'addbut':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'newcustomer':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break;
       case 'contacts':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales') return true
         return false
         break;
       case 'machine':
-        if(this.epiUser.Pos=='customer' || this.epiUser.Pos=='sales' || this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(pos=='customer' || pos=='sales' || pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech') return true
         return false
         break
       case 'technicians':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'files':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech') return true
         return false
         break
       case 'users':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'auth':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS') return true
         return false
       case 'report':
-        if(this.epiUser.Pos=='SU') return true
+        if(pos=='SU') return true
         return false
         break
       case 'parts':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='admin' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='tech') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech'|| pos=='customer') return true
         return false
         break
       case 'visit':
-        if(this.epiUser.Pos=='SU' || this.epiUser.Pos=='adminS' || this.epiUser.Pos=='sales') return true
+        if(pos=='SU' || pos=='adminS' || pos=='sales') return true
+        return false
+        break
+      case 'sj':
+        if(pos=='SU' || pos=='adminS' || pos=='tech') return true
         return false
         break
     }

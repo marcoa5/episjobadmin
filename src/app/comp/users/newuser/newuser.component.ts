@@ -31,7 +31,7 @@ export class NewuserComponent implements OnInit {
   addUpd:boolean = true
   id:string=''
   mail:string=''
-  pos: string|undefined
+  pos: string=''
   data: utente | undefined
   userF:FormGroup
   appearance:MatFormFieldAppearance="fill"
@@ -58,7 +58,7 @@ export class NewuserComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('users')
+          this.allow=this.auth.allow('users',this.pos)
         }, 1);
       })
     )

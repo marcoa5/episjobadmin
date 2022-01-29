@@ -52,6 +52,16 @@ export class NewpartsrequestComponent implements OnInit {
         a.forEach(b=>{
           this.technicians.push({name: b.val().Nome + ' ' + b.val().Cognome, id:b.key})
         })
+      }).then(()=>{
+        this.technicians.sort((a: any, b: any) => {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
       })
     } else{
       this.technicians=[]

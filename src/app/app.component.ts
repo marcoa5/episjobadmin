@@ -8,6 +8,9 @@ import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { LogoutComponent } from './comp/util/logout/logout.component';
 import { AuthServiceService } from './serv/auth-service.service';
 import { Subscription } from 'rxjs';
+import * as moment from 'moment';
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
 
 @Component({
   selector: 'app-root',
@@ -30,13 +33,13 @@ export class AppComponent {
   Newrig:any
   not:number=0
   spin:boolean=true
+  pos:string=''
   subsList:Subscription[]=[]
 
-  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService){
+  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar){
   }
   
   ngOnInit(){
-    this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a[0]=='loading'){
@@ -51,6 +54,7 @@ export class AppComponent {
           this.SJ = ''
           this.Visit=''
           this.Newrig=''
+          this.pos=''
         }else if(a.Nome){
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
@@ -60,6 +64,7 @@ export class AppComponent {
           this.userId=a.uid
           this.SJ = a._sj
           this.Visit=a._visit
+          this.pos=a.Pos
           this.Newrig=a._newrig
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
@@ -68,8 +73,40 @@ export class AppComponent {
             })
           })
         }
+        this.onResize()
       })
     )
+    let messaging:any
+    try{
+      if(firebase.messaging.isSupported()){
+        messaging = firebase.messaging()
+        messaging.onMessage((p:any) => {
+          this.snack.openFromComponent(CustomsnackComponent,{data:p})
+        })
+      }
+    } catch {
+      console.log('network errror')
+    }
+
+    let tokens:any[]=[]
+    if(messaging!=undefined){
+      try{
+        messaging.getToken({vapidKey:'BETaY1oMq6ONzg-9B-uNHl27r4hcKd5UVH-EgNEXLQ9kUzqDwGq8nZwZTDN0klxbC-Oz-nSz6yGTzDD0R4h_vXY'})
+      .then((t:any)=>{
+        firebase.database().ref('Tokens').child(this.userId).child(t).set({
+          token: t,
+          pos: this.pos,
+          name: this.nome,
+          date: moment(new Date()).format('YYYY-MM-DD - HH:mm:ss'),
+          id:this.userId,
+        })
+      })
+      .catch((err: any)=>{})
+      } catch{
+
+      }
+    }
+    
   }
 
   ngOnDestroy(){
