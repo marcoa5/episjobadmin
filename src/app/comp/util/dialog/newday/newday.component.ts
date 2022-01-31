@@ -48,6 +48,27 @@ export class NewdayComponent implements OnInit {
         if(a) this.tech=a
       })
     )
+    let g = this.data.edit
+    if(g){
+      let f = this.newDay.controls
+      f.date.setValue(new Date(g.date))
+      f.tech.setValue(g.tech)
+      this.newDate()
+      f.spov.setValue(g.spov)
+      f.spol.setValue(g.spol)      
+      f.spsv.setValue(g.spsv)
+      f.spsl.setValue(g.spsl)
+      f.mntv.setValue(g.mntv)
+      f.mntl.setValue(g.mntl)
+      f.mfv.setValue(g.mfv)
+      f.mfl.setValue(g.mfl)
+      f.mnfv.setValue(g.mnfv)
+      f.mnfl.setValue(g.mnfl)
+      f.km.setValue(g.km)
+      f.spv.setValue(g.spv)
+      f.off.setValue(g.off)
+      f.ofs.setValue(g.ofs)      
+    }
   }
 
   onNoClick(): void {
@@ -57,7 +78,6 @@ export class NewdayComponent implements OnInit {
   newDate(){
     let a=this.newDay.controls.date.value
     this.dayType = this.getday.dayType(a)
-    console.log(this.dayType)
     switch (this.dayType){
       case 'fer': 
         this.ch(8,'spol','spov')

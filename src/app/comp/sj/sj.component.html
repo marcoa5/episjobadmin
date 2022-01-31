@@ -157,7 +157,7 @@
                         <th class="str">V</th>
                         <th class="str">L</th>
                     </tr>
-                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR" (click)="openDay(i)">
+                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR" (click)="addDay(i)">
                         <td class="lar">{{i+1}}</td>
                         <td class="techName lar">{{d.tech}}</td>
                         <td class="techName str">{{d.techs}}</td>

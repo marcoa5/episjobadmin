@@ -15,7 +15,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" *ngIf="this.newDay.controls.tech.value!=''">
+            <mat-form-field [appearance]="appearance" [ngStyle]="{'visibility':this.newDay.controls.tech.value==''?'hidden':'visible'}" >
                 <mat-label>Date</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="newDate()" autocomplete="off">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

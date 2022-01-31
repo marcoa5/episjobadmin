@@ -211,8 +211,8 @@ export class SjComponent implements OnInit {
     return (Math.round(1/window.innerWidth*10000)+3)/2
   }*/
 
-  addDay(){
-    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
+  addDay(i?:number){
+    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:i!=undefined?i+1:this.days.length+1,type:this.rigForm.controls.type.value, edit: i!=undefined?this.days[i]:undefined}})
     dialogRef.afterClosed().subscribe(a=>{
       if(a){
         if(this.days.length<7){
@@ -221,7 +221,6 @@ export class SjComponent implements OnInit {
           a.dates = moment(a.date).format('DD/MM/YY')
           a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
           this.days.push(a)
-          console.log(this.days)
           this.days.sort((c: any, d: any) => {
             if (c.date < d.date) {
               return -1;
@@ -248,9 +247,5 @@ export class SjComponent implements OnInit {
 
     }
     this.signatureClosed=true
-  }
-
-  openDay(i:number){
-    console.log(i)
   }
 }
