@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
-import { NewdayComponent } from '../util/dialog/newday/newday.component';
+import { NewdayComponent } from './newday/newday.component';
 import { SignComponent } from './sign/sign.component';
 
 @Component({
@@ -213,14 +213,22 @@ export class SjComponent implements OnInit {
 
   addDay(i?:number){
     const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:i!=undefined?i+1:this.days.length+1,type:this.rigForm.controls.type.value, edit: i!=undefined?this.days[i]:undefined}})
-    dialogRef.afterClosed().subscribe(a=>{
-      if(a){
+    dialogRef.afterClosed().subscribe(rt=>{
+      if(rt){
+        let a = rt.data
         if(this.days.length<7){
           a.date = moment(a.date).format('YYYY-MM-DD')
           a.datel = moment(a.date).format('DD/MM/YYYY')
           a.dates = moment(a.date).format('DD/MM/YY')
           a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
-          this.days.push(a)
+          
+          if(rt.info!=undefined){
+            this.days[rt.info-1]=a
+          } else {
+            this.days.push(a)
+          }
+
+          
           this.days.sort((c: any, d: any) => {
             if (c.date < d.date) {
               return -1;
@@ -247,5 +255,9 @@ export class SjComponent implements OnInit {
 
     }
     this.signatureClosed=true
+  }
+
+  delete(a:number){
+    this.days.splice(a,1)
   }
 }

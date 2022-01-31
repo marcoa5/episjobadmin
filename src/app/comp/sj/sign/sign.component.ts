@@ -37,7 +37,6 @@ export class SignComponent implements OnInit {
     var ctx = canvas.getContext("2d");
     var image = new Image()
     image.src=this.sign
-    //this.signaturePad.clear()
     if(image) ctx.drawImage(image,0,0, a,b) 
   }
 

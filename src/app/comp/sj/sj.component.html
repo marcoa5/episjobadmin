@@ -138,7 +138,7 @@
                         <th colspan="2" class="lar">MF</th>
                         <th colspan="2" class="lar">MNF</th>
                         <th colspan="2" class="str">TOT</th>
-                        <th rowspan="2">KM</th>
+                        <th rowspan="2" class="lar">KM</th>
                         <th rowspan="2" class="lar">SPV</th>
                         <th rowspan="2" class="lar">OFF</th>
                         <th rowspan="2" class="lar">OFS</th>	
@@ -157,28 +157,30 @@
                         <th class="str">V</th>
                         <th class="str">L</th>
                     </tr>
-                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR" (click)="addDay(i)">
-                        <td class="lar">{{i+1}}</td>
-                        <td class="techName lar">{{d.tech}}</td>
-                        <td class="techName str">{{d.techs}}</td>
-                        <td class="lar">{{d.datel}}</td>
-                        <td class="str">{{d.dates}}</td>
-                        <td class="lar">{{d.spov}}</td>
-                        <td class="lar">{{d.spol}}</td>
-                        <td class="lar">{{d.spsv}}</td>
-                        <td class="lar">{{d.spsl}}</td>
-                        <td class="lar">{{d.mntv}}</td>
-                        <td class="lar">{{d.mntl}}</td>
-                        <td class="lar">{{d.mfv}}</td>
-                        <td class="lar">{{d.mfl}}</td>
-                        <td class="lar">{{d.mnfv}}</td>
-                        <td class="lar">{{d.mnfl}}</td>
-                        <td class="str">{{d.spov*1+d.spsv*1+d.mntv*1+d.mfv*1+d.mnfv*1}}</td>
-                        <td class="str">{{d.spol*1+d.spsl*1+d.mntl*1+d.mfl*1+d.mnfl*1+d.off*1+d.ofs*1}}</td>
-                        <td>{{d.km}}</td>
-                        <td class="lar">{{d.spv}}</td>
-                        <td class="lar">{{d.off}}</td>
-                        <td class="lar">{{d.ofs}}</td>
+                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR">
+                        <td class="lar index"  (click)="addDay(i)">{{i+1}}</td>
+                        <td class="techName lar"  (click)="addDay(i)">{{d.tech}}</td>
+                        <td class="techName str" (click)="addDay(i)">{{d.techs}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.datel}}</td>
+                        <td class="str" (click)="addDay(i)">{{d.dates}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.spov}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.spol}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.spsv}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.spsl}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mntv}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mntl}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mfv}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mfl}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mnfv}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.mnfl}}</td>
+                        <td class="str" (click)="addDay(i)">{{d.spov*1+d.spsv*1+d.mntv*1+d.mfv*1+d.mnfv*1}}</td>
+                        <td class="str" (click)="addDay(i)">{{d.spol*1+d.spsl*1+d.mntl*1+d.mfl*1+d.mnfl*1+d.off*1+d.ofs*1}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.km}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.spv}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.off}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.ofs}}</td>
+                        <td class="del" (click)="delete(i)"><mat-icon style="scale: .7;">clear</mat-icon></td>
+
                     </tr>
                 </table>
                 <div class="button">
