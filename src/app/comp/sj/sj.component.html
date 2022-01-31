@@ -129,47 +129,56 @@
                 <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
                 <table *ngIf="days.length>0">
                     <tr class="tabTr">
+                        <th rowspan="2" class="lar">#</th>
                         <th rowspan="2" class="techName">TECH</th>
                         <th rowspan="2">DATE</th>
-                        <th colspan="2">{{rigForm.controls.type.value=='spe'?'SPO':'STD'}}</th>
-                        <th colspan="2">{{rigForm.controls.type.value=='spe'?'SPS':'STR'}}</th>
-                        <th colspan="2">MNT</th>
-                        <th colspan="2">MF</th>
-                        <th colspan="2">MNF</th>
+                        <th colspan="2" class="lar">{{rigForm.controls.type.value=='spe'?'SPO':'STD'}}</th>
+                        <th colspan="2" class="lar">{{rigForm.controls.type.value=='spe'?'SPS':'STR'}}</th>
+                        <th colspan="2" class="lar">MNT</th>
+                        <th colspan="2" class="lar">MF</th>
+                        <th colspan="2" class="lar">MNF</th>
+                        <th colspan="2" class="str">TOT</th>
                         <th rowspan="2">KM</th>
-                        <th rowspan="2">SPV</th>
-                        <th rowspan="2">OFF</th>
-                        <th rowspan="2">OFS</th>	
+                        <th rowspan="2" class="lar">SPV</th>
+                        <th rowspan="2" class="lar">OFF</th>
+                        <th rowspan="2" class="lar">OFS</th>	
                     </tr>
                     <tr class="tabTr">
-                        <th>V</th>
-                        <th>L</th>
-                        <th>V</th>
-                        <th>L</th>
-                        <th>V</th>
-                        <th>L</th>
-                        <th>V</th>
-                        <th>L</th>
-                        <th>V</th>
-                        <th>L</th>
+                        <th class="lar">V</th>
+                        <th class="lar">L</th>
+                        <th class="lar">V</th>
+                        <th class="lar">L</th>
+                        <th class="lar">V</th>
+                        <th class="lar">L</th>
+                        <th class="lar">V</th>
+                        <th class="lar">L</th>
+                        <th class="lar">V</th>
+                        <th class="lar">L</th>
+                        <th class="str">V</th>
+                        <th class="str">L</th>
                     </tr>
                     <tr *ngFor="let d of days; let i=index">
-                        <td class="techName">{{d.tech}}</td>
-                        <td>{{d.date}}</td>
-                        <td>{{d.spov}}</td>
-                        <td>{{d.spol}}</td>
-                        <td>{{d.spsv}}</td>
-                        <td>{{d.spsl}}</td>
-                        <td>{{d.mntv}}</td>
-                        <td>{{d.mntl}}</td>
-                        <td>{{d.mfv}}</td>
-                        <td>{{d.mfl}}</td>
-                        <td>{{d.mnfv}}</td>
-                        <td>{{d.mnfl}}</td>
+                        <td class="lar">{{i+1}}</td>
+                        <td class="techName lar">{{d.tech}}</td>
+                        <td class="techName str">{{d.techs}}</td>
+                        <td class="lar">{{d.datel}}</td>
+                        <td class="str">{{d.dates}}</td>
+                        <td class="lar">{{d.spov}}</td>
+                        <td class="lar">{{d.spol}}</td>
+                        <td class="lar">{{d.spsv}}</td>
+                        <td class="lar">{{d.spsl}}</td>
+                        <td class="lar">{{d.mntv}}</td>
+                        <td class="lar">{{d.mntl}}</td>
+                        <td class="lar">{{d.mfv}}</td>
+                        <td class="lar">{{d.mfl}}</td>
+                        <td class="lar">{{d.mnfv}}</td>
+                        <td class="lar">{{d.mnfl}}</td>
+                        <td class="str">{{d.spov+d.spsv+d.mntv+d.mfv+d.mnfv}}</td>
+                        <td class="str">{{d.spol+d.spsl+d.mntl+d.mfl+d.mnfl+d.off+d.ofs}}</td>
                         <td>{{d.km}}</td>
-                        <td>{{d.spv}}</td>
-                        <td>{{d.off}}</td>
-                        <td>{{d.ofs}}</td>
+                        <td class="lar">{{d.spv}}</td>
+                        <td class="lar">{{d.off}}</td>
+                        <td class="lar">{{d.ofs}}</td>
                     </tr>
                 </table>
                 <div class="button">

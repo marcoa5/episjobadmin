@@ -39,78 +39,7 @@ export class SjComponent implements OnInit {
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[
-    {
-        "date": "2022-01-04",
-        "tech": "ANDREA BOSIO",
-        "spov": "",
-        "spol": "",
-        "spsv": "",
-        "spsl": "",
-        "mntv": 2,
-        "mntl": "",
-        "mfv": "",
-        "mfl": "",
-        "mnfv": "",
-        "mnfl": "",
-        "km": "",
-        "spv": "",
-        "off": "",
-        "ofs": ""
-    },
-    {
-        "date": "2022-01-11",
-        "tech": "CLAUDIO MICHIELOTTO",
-        "spov": 1,
-        "spol": 1,
-        "spsv": 2,
-        "spsl": 2,
-        "mntv": 3,
-        "mntl": "",
-        "mfv": "",
-        "mfl": "",
-        "mnfv": "",
-        "mnfl": "",
-        "km": "",
-        "spv": "",
-        "off": "",
-        "ofs": ""
-    },
-    {
-        "date": "2022-01-18",
-        "tech": "ANDREA BOSIO",
-        "spov": "",
-        "spol": "",
-        "spsv": "",
-        "spsl": "",
-        "mntv": "",
-        "mntl": "",
-        "mfv": "",
-        "mfl": "",
-        "mnfv": "",
-        "mnfl": "",
-        "km": "",
-        "spv": "",
-        "off": "",
-        "ofs": 1
-    },
-    {
-        "date": "2022-01-25",
-        "tech": "ANDREA LAINI",
-        "spov": "",
-        "spol": "",
-        "spsv": "",
-        "spsl": "",
-        "mntv": "",
-        "mntl": "",
-        "mfv": "",
-        "mfl": "",
-        "mnfv": "",
-        "mnfl": "",
-        "km": "",
-        "spv": "",
-        "off": "",
-        "ofs": 23
-    }
+    
 ]
   objectKeys:any;
   signatureClosed:boolean=true;
@@ -226,6 +155,9 @@ export class SjComponent implements OnInit {
       if(a){
         if(this.days.length<7){
           a.date = moment(a.date).format('YYYY-MM-DD')
+          a.datel = moment(a.date).format('DD/MM/YYYY')
+          a.dates = moment(a.date).format('DD/MM/YY')
+          a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
           this.days.push(a)
           this.days.sort((c: any, d: any) => {
             if (c.date < d.date) {
@@ -236,7 +168,6 @@ export class SjComponent implements OnInit {
               return 0;
             }
           });
-          console.log(this.days)
         }
       }
     })
