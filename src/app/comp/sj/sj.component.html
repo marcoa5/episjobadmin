@@ -194,11 +194,11 @@
               <div class="contSig">
                 <div class="sig">
                     <button mat-raised-button color="accent" (click)="sign('t')">Technician</button>
-                    <img width=207 height=120 [src]="techSign" *ngIf="techSign!=''">  
+                    <img width=207 height=120 [src]="techSign? techSign: 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">  
                   </div>
                   <div class="sig">
                     <button mat-raised-button color="accent" (click)="sign('c')">Customer</button>
-                    <img width=207 height=120 [src]="custSign" *ngIf="custSign!=''">  
+                    <img width=207 height=120 [src]="custSign? custSign:'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">  
                   </div>
               </div>
               
