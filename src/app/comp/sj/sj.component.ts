@@ -38,24 +38,80 @@ export class SjComponent implements OnInit {
   sn:string=''
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
-  days:any[]=[]/*{
-    "date": "2022-01-11",
-    "tech": "ANDREA BOSIO",
-    "spov": 1,
-    "spol": 1,
-    "spsv": 2,
-    "spsl": 2,
-    "mntv": 3,
-    "mntl": "",
-    "mfv": "",
-    "mfl": "",
-    "mnfv": "",
-    "mnfl": "",
-    "km": "",
-    "spv": "",
-    "off": "",
-    "ofs": ""
-}]*/
+  days:any[]=[
+    {
+        "date": "2022-01-04",
+        "tech": "ANDREA BOSIO",
+        "spov": "",
+        "spol": "",
+        "spsv": "",
+        "spsl": "",
+        "mntv": 2,
+        "mntl": "",
+        "mfv": "",
+        "mfl": "",
+        "mnfv": "",
+        "mnfl": "",
+        "km": "",
+        "spv": "",
+        "off": "",
+        "ofs": ""
+    },
+    {
+        "date": "2022-01-11",
+        "tech": "CLAUDIO MICHIELOTTO",
+        "spov": 1,
+        "spol": 1,
+        "spsv": 2,
+        "spsl": 2,
+        "mntv": 3,
+        "mntl": "",
+        "mfv": "",
+        "mfl": "",
+        "mnfv": "",
+        "mnfl": "",
+        "km": "",
+        "spv": "",
+        "off": "",
+        "ofs": ""
+    },
+    {
+        "date": "2022-01-18",
+        "tech": "ANDREA BOSIO",
+        "spov": "",
+        "spol": "",
+        "spsv": "",
+        "spsl": "",
+        "mntv": "",
+        "mntl": "",
+        "mfv": "",
+        "mfl": "",
+        "mnfv": "",
+        "mnfl": "",
+        "km": "",
+        "spv": "",
+        "off": "",
+        "ofs": 1
+    },
+    {
+        "date": "2022-01-25",
+        "tech": "ANDREA LAINI",
+        "spov": "",
+        "spol": "",
+        "spsv": "",
+        "spsl": "",
+        "mntv": "",
+        "mntl": "",
+        "mfv": "",
+        "mfl": "",
+        "mnfv": "",
+        "mnfl": "",
+        "km": "",
+        "spv": "",
+        "off": "",
+        "ofs": 23
+    }
+]
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
@@ -171,11 +227,19 @@ export class SjComponent implements OnInit {
         if(this.days.length<7){
           a.date = moment(a.date).format('YYYY-MM-DD')
           this.days.push(a)
+          this.days.sort((c: any, d: any) => {
+            if (c.date < d.date) {
+              return -1;
+            } else if (c.date > d.date) {
+              return 1;
+            } else {
+              return 0;
+            }
+          });
+          console.log(this.days)
         }
       }
-      console.log(this.days)
     })
-    
   }
 
   sign(a:string){
@@ -184,7 +248,6 @@ export class SjComponent implements OnInit {
   }
 
   close(e:any){
-    console.log(e)
     if(e!='close'){
       if(e[0]=='t') this.techSign=e[1]
       if(e[0]=='c') this.custSign=e[1]

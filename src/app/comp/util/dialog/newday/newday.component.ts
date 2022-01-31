@@ -57,6 +57,7 @@ export class NewdayComponent implements OnInit {
   newDate(){
     let a=this.newDay.controls.date.value
     this.dayType = this.getday.dayType(a)
+    console.log(this.dayType)
     switch (this.dayType){
       case 'fer': 
         this.ch(8,'spol','spov')
@@ -86,6 +87,12 @@ export class NewdayComponent implements OnInit {
     if(this.newDay.controls[a].value+this.newDay.controls[b].value>n){
       let g=n-this.newDay.controls[b].value
       this.newDay.controls[a].setValue(g>0?g:null)
+    }
+  }
+
+  chOF(n:number,a:any){
+    if(this.newDay.controls[a].value>n){
+      this.newDay.controls[a].setValue(n)
     }
   }
 }

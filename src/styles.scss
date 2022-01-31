@@ -39,6 +39,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-width-dialog .mat-dialog-container {
   width: 95vw !important;
+  max-width: 1000px;
 }
 .full-width-dialog .mat-form-field-infix {
   width: 100%;

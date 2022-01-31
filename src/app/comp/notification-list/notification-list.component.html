@@ -1,7 +1,7 @@
 <episjob-navbar title="Message Center" [cerca]="false"></episjob-navbar>
 
 <div class="cont">
-    <mat-spinner *ngIf="spin==true"></mat-spinner>
+    <episjob-spin *ngIf="spin==true"></episjob-spin>
     <div *ngIf="notif.length>0 && spin==false">
         <div *ngFor="let n of notif" class="notList" [ngClass]="{'unr':n.status==0}">
             <!--<div class="item"><input type="checkbox"></div>-->

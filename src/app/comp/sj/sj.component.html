@@ -20,8 +20,8 @@
                 </div>
                 <div class="list" *ngIf="rigs.length>1">
                     <tr *ngFor="let r of rigs" class="rigrow" (click)="fil(r.sn)">
-                        <div class="rigdata">{{r.sn}}</div>
-                        <div class="rigdata">{{r.model}}</div>
+                        <div class="rigdata bol">{{r.sn}}</div>
+                        <div class="rigdata bol">{{r.model}}</div>
                         <div class="rigdata">{{r.customer}}</div>
                         <div class="rigdata">{{r.site}}</div>
                     </tr>
@@ -129,27 +129,32 @@
                 <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
                 <table *ngIf="days.length>0">
                     <tr class="tabTr">
-                        <th>#</th>
-                        <th>Tech</th>
-                        <th>Date</th>
-                        <th>{{ty=='spe'?'SPOV':'STDV'}}</th>
-                        <th>{{ty=='spe'?'SPOL':'STDL'}}</th>
-                        <th>{{ty=='spe'?'SPSV':'STRV'}}</th>
-                        <th>{{ty=='spe'?'SPSL':'STRL'}}</th>
-                        <th>MNTV</th>
-                        <th>MNTL</th>
-                        <th>MFV</th>
-                        <th>MFL</th>
-                        <th>MNFV</th>
-                        <th>MNFL</th>
-                        <th>KM</th>
-                        <th>SPV</th>
-                        <th>OFF</th>
-                        <th>OFS</th>
+                        <th rowspan="2" class="techName">TECH</th>
+                        <th rowspan="2">DATE</th>
+                        <th colspan="2">{{rigForm.controls.type.value=='spe'?'SPO':'STD'}}</th>
+                        <th colspan="2">{{rigForm.controls.type.value=='spe'?'SPS':'STR'}}</th>
+                        <th colspan="2">MNT</th>
+                        <th colspan="2">MF</th>
+                        <th colspan="2">MNF</th>
+                        <th rowspan="2">KM</th>
+                        <th rowspan="2">SPV</th>
+                        <th rowspan="2">OFF</th>
+                        <th rowspan="2">OFS</th>	
+                    </tr>
+                    <tr class="tabTr">
+                        <th>V</th>
+                        <th>L</th>
+                        <th>V</th>
+                        <th>L</th>
+                        <th>V</th>
+                        <th>L</th>
+                        <th>V</th>
+                        <th>L</th>
+                        <th>V</th>
+                        <th>L</th>
                     </tr>
                     <tr *ngFor="let d of days; let i=index">
-                        <td>{{i}}</td>
-                        <td>{{d.tech}}</td>
+                        <td class="techName">{{d.tech}}</td>
                         <td>{{d.date}}</td>
                         <td>{{d.spov}}</td>
                         <td>{{d.spol}}</td>
