@@ -39,7 +39,69 @@ export class SjComponent implements OnInit {
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
   days:any[]=[
-    
+      {
+          "date": "2022-01-24",
+          "tech": "ANDREA LAINI",
+          "spov": 1.75,
+          "spol": 6.25,
+          "spsv": 3.25,
+          "spsl": 3.5,
+          "mntv": "",
+          "mntl": 8,
+          "mfv": "",
+          "mfl": "",
+          "mnfv": "",
+          "mnfl": "",
+          "km": 1233,
+          "spv": "",
+          "off": 2,
+          "ofs": 8,
+          "datel": "24/01/2022",
+          "dates": "24/01/22",
+          "techs": "A.L."
+      },
+      {
+          "date": "2022-01-25",
+          "tech": "ANDREA LAINI",
+          "spov": 8,
+          "spol": null,
+          "spsv": 3,
+          "spsl": 5,
+          "mntv": 8,
+          "mntl": null,
+          "mfv": "",
+          "mfl": "",
+          "mnfv": "",
+          "mnfl": "",
+          "km": 213,
+          "spv": 2,
+          "off": 2,
+          "ofs": "",
+          "datel": "25/01/2022",
+          "dates": "25/01/22",
+          "techs": "A.L."
+      },
+      {
+          "date": "2022-01-26",
+          "tech": "ANDREA LAINI",
+          "spov": 2.75,
+          "spol": 3.5,
+          "spsv": 7.25,
+          "spsl": null,
+          "mntv": "",
+          "mntl": "",
+          "mfv": "",
+          "mfl": "",
+          "mnfv": "",
+          "mnfl": "",
+          "km": "",
+          "spv": 3,
+          "off": 3,
+          "ofs": "",
+          "datel": "26/01/2022",
+          "dates": "26/01/22",
+          "techs": "A.L."
+      }
 ]
   objectKeys:any;
   signatureClosed:boolean=true;
@@ -159,6 +221,7 @@ export class SjComponent implements OnInit {
           a.dates = moment(a.date).format('DD/MM/YY')
           a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
           this.days.push(a)
+          console.log(this.days)
           this.days.sort((c: any, d: any) => {
             if (c.date < d.date) {
               return -1;
@@ -185,5 +248,9 @@ export class SjComponent implements OnInit {
 
     }
     this.signatureClosed=true
+  }
+
+  openDay(i:number){
+    console.log(i)
   }
 }

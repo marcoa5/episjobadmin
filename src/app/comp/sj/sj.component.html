@@ -157,7 +157,7 @@
                         <th class="str">V</th>
                         <th class="str">L</th>
                     </tr>
-                    <tr *ngFor="let d of days; let i=index">
+                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR" (click)="openDay(i)">
                         <td class="lar">{{i+1}}</td>
                         <td class="techName lar">{{d.tech}}</td>
                         <td class="techName str">{{d.techs}}</td>
@@ -173,8 +173,8 @@
                         <td class="lar">{{d.mfl}}</td>
                         <td class="lar">{{d.mnfv}}</td>
                         <td class="lar">{{d.mnfl}}</td>
-                        <td class="str">{{d.spov+d.spsv+d.mntv+d.mfv+d.mnfv}}</td>
-                        <td class="str">{{d.spol+d.spsl+d.mntl+d.mfl+d.mnfl+d.off+d.ofs}}</td>
+                        <td class="str">{{d.spov*1+d.spsv*1+d.mntv*1+d.mfv*1+d.mnfv*1}}</td>
+                        <td class="str">{{d.spol*1+d.spsl*1+d.mntl*1+d.mfl*1+d.mnfl*1+d.off*1+d.ofs*1}}</td>
                         <td>{{d.km}}</td>
                         <td class="lar">{{d.spv}}</td>
                         <td class="lar">{{d.off}}</td>
