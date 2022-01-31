@@ -37,27 +37,24 @@ export class SignComponent implements OnInit {
     var ctx = canvas.getContext("2d");
     var image = new Image()
     image.src=this.sign
-    if(a && b) {
-      this.signaturePad.clear()
-      ctx.drawImage(image,0,0, a,b)
-    } else {
-      this.signaturePad.clear()
-      ctx.drawImage(image,0,0)
-    }    
+    //this.signaturePad.clear()
+    if(image) ctx.drawImage(image,0,0, a,b) 
+  }
+
+  drawOri(){
+    var canvas = this.signaturePad.queryPad()._canvas
+    var ctx = canvas.getContext("2d");
+    var image = new Image()
+    image.src=this.sign
+    if(image) ctx.drawImage(image,0,0, canvas.width, canvas.height) 
   }
 
   resizeSignaturePad(){
-    let a = window.innerWidth*.9
-    if(a/2.3 < window.innerHeight){ 
-      this.signaturePad.queryPad()._canvas.width=a
-      this.signaturePad.queryPad()._canvas.height=a/2.3
-      this.drawSign(a,a/2.3)
-    } else {
-      let b= window.innerHeight
-      this.signaturePad.queryPad()._canvas.height=b
-      this.signaturePad.queryPad()._canvas.width=b*2.3
-      this.drawSign(b,b*2.3)
-    }
+    let w = window.innerWidth*.9
+    let h = window.innerWidth*.9/2.3
+    this.signaturePad.queryPad()._canvas.width=w
+    this.signaturePad.queryPad()._canvas.height=h
+    this.drawSign(w,h)
   }
 
   drawComplete() {
