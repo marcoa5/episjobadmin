@@ -113,7 +113,7 @@ import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.comp
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
 import { NewdayComponent } from './comp/sj/newday/newday.component';
 import { SignComponent } from './comp/sj/sign/sign.component'
-import { SignaturePadModule } from 'angular2-signaturepad'
+import { SignaturePadModule } from 'angular2-signaturepad';
 
 export const MY_FORMATS = {
   parse: {

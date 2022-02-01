@@ -2,17 +2,20 @@
 
 
 @media screen and (min-width:801px) {
-    .mainCont{
+    .contL{
         max-height: 350px;
         overflow-y:scroll;
     }
 }
 
 .cont{
+    border-bottom: 1px solid rgb(245,245,245);
+}
+
+.cont, .head{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     align-items: center;
-    border-bottom: 1px solid rgb(245,245,245);
     margin-bottom: 5px;
 }
 
@@ -41,6 +44,20 @@
     overflow: hidden;
 }
 
+.h{
+    display: flex;
+    //grid-template-columns: 85% 1fr;
+    align-items: center;
+}
+
+.h:hover{
+    background-color: rgb(235,185,0);
+}
+
+span{
+    max-height: 24px;
+}
+
 .text{
     cursor: pointer;
 }
@@ -55,4 +72,7 @@
     font-weight: 600;
     background-color: $light-text;
     color:$dark-text;
+    padding: 5px 0;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
 }

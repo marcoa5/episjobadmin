@@ -446,4 +446,7 @@ export class SjComponent implements OnInit {
       
     }
   }
+
+  openT(){
+  }
 }

@@ -81,9 +81,9 @@ export class PartsComponent implements OnInit {
   }
 
   loadlist(){
-    this.list=[]
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'||this.pos=='tech'){
       firebase.database().ref('PartReq').on('value',b=>{
+        this.list=[]
         b.forEach(c=>{
           c.forEach(d=>{
             this.list.push(d.val())
@@ -102,9 +102,9 @@ export class PartsComponent implements OnInit {
   }
 
   loadsent(){
-    this._listSent=[]
     if(this.pos=='SU'){
       firebase.database().ref('PartReqSent').on('value',b=>{
+        this._listSent=[]
         b.forEach(c=>{
           c.forEach(d=>{
             let g = d.val()
