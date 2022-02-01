@@ -1,3 +1,4 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +8,7 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { NewdayComponent } from './newday/newday.component';
+import { TemplComponent } from './templ/templ.component';
 
 export interface ma{
   commessa1?: string
@@ -295,7 +297,7 @@ export class SjComponent implements OnInit {
   torc:string=''
   ty:string='spe'
 
-  constructor(private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
+  constructor(private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
@@ -448,5 +450,12 @@ export class SjComponent implements OnInit {
   }
 
   openT(){
+    /*let params= new HttpParams()
+    .set('sn', 'AVO10A008')*/
+    let url = 'http://localhost:3001/sjTemplate'
+    this.http.get(url/*, {params:params}*/).subscribe(a=>{
+      console.log(a)
+      const dia = this.dialog.open(TemplComponent, {panelClass: 'templ-dialog',data:a})
+    })
   }
 }

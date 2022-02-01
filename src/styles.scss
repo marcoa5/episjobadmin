@@ -53,3 +53,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
   max-width: 100%;
 }
+
+.templ-dialog .mat-dialog-container {
+  width: 90vw !important;
+  height: 75vh !important;
+}
+.templ-dialog .mat-form-field-infix {
+  width: 90%;
+  max-width: 90%;
+  height: 90%;
+  max-height: 90%;
+}
