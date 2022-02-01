@@ -9,7 +9,7 @@ import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { HttpClient, HttpParams } from '@angular/common/http'
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment'
 import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';

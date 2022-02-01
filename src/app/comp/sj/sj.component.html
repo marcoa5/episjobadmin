@@ -128,7 +128,7 @@
                 <ng-template matStepLabel>Hours</ng-template>
                 <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
                 <table *ngIf="days.length>0">
-                    <tr class="tabTr">
+                    <tr episjobElevation class="tabTr">
                         <th rowspan="2" class="lar">#</th>
                         <th rowspan="2" class="techName">TECH</th>
                         <th rowspan="2">DATE</th>
@@ -142,8 +142,9 @@
                         <th rowspan="2" class="lar">SPV</th>
                         <th rowspan="2" class="lar">OFF</th>
                         <th rowspan="2" class="lar">OFS</th>	
+                        <th rowspan="2">Del</th>	
                     </tr>
-                    <tr class="tabTr">
+                    <tr episjobElevation class="tabTr">
                         <th class="lar">V</th>
                         <th class="lar">L</th>
                         <th class="lar">V</th>
@@ -157,7 +158,7 @@
                         <th class="str">V</th>
                         <th class="str">L</th>
                     </tr>
-                    <tr *ngFor="let d of days; let i=index" clasS="tabTr dataR">
+                    <tr episjobElevation *ngFor="let d of days; let i=index" clasS="tabTr dataR">
                         <td class="lar index"  (click)="addDay(i)">{{i+1}}</td>
                         <td class="techName lar"  (click)="addDay(i)">{{d.tech}}</td>
                         <td class="techName str" (click)="addDay(i)">{{d.techs}}</td>
@@ -179,7 +180,9 @@
                         <td class="lar" (click)="addDay(i)">{{d.spv}}</td>
                         <td class="lar" (click)="addDay(i)">{{d.off}}</td>
                         <td class="lar" (click)="addDay(i)">{{d.ofs}}</td>
-                        <td class="del" (click)="delete(i)"><mat-icon style="scale: .7;">clear</mat-icon></td>
+                        <td class="del" (click)="delete(i)">
+                            <button mat-mini-fab class="dele"><mat-icon class="dele1">clear</mat-icon></button>
+                        </td>
 
                     </tr>
                 </table>
@@ -195,13 +198,15 @@
               <ng-template matStepLabel>Signatures</ng-template>
               <div class="contSig">
                 <div class="sig">
-                    <button mat-raised-button color="accent" (click)="sign('t')">Technician</button>
-                    <img width=207 height=120 [src]="techSign? techSign: 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">  
-                  </div>
-                  <div class="sig">
-                    <button mat-raised-button color="accent" (click)="sign('c')">Customer</button>
-                    <img width=207 height=120 [src]="custSign? custSign:'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='">  
-                  </div>
+                    <!--<button mat-raised-button color="accent" (click)="sign('t')">Technician</button>-->
+                    <h4>Technician's signature</h4>
+                    <img episjobElevation width=207 height=120 [src]="techSign? techSign: 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='" (click)="sign('t')">  
+                </div>
+                <div class="sig">
+                    <!--<button mat-raised-button color="accent" (click)="sign('c')">Customer</button>-->
+                    <h4>Customer's signature</h4>
+                    <img episjobElevation width=207 height=120 [src]="custSign? custSign:'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='" (click)="sign('c')">  
+                </div>
               </div>
               
               <div class="button">

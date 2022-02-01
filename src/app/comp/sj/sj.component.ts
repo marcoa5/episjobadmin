@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import * as moment from 'moment';
@@ -7,7 +7,192 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { NewdayComponent } from './newday/newday.component';
-import { SignComponent } from './sign/sign.component';
+
+export interface ma{
+  commessa1?: string
+  vsordine?: string
+  nsofferta1?: string
+  prodotto1?: string
+  matricola?: string
+  orem1?: number
+  perc11?: number
+  perc21?: number
+  perc31?: number
+  data11?: string
+  cliente11?: string
+  cliente12?: string
+  cliente13?: string
+  cantiere1?: string
+  rappl1?: string
+  oss1?: string
+  stdspe?: string
+  apbpcs?: string
+  chbpcs?: string
+  docbpcs?: string
+  rissondaggio?: string
+  contnomec?: string
+  contfirmac?: string
+  contsondc?: string
+  sondaggio?: string
+  elencomail?: string
+  firmatt1?: string
+  firmacc1?: string
+  rs?: any
+  tecnico11?: string
+  dat11?: string
+  dat12?: string
+  dat13?: string
+  spov11?: number
+  spol11?: number
+  spsv11?: number
+  spll11?: number
+  stdv11?: number
+  stdl11?: number
+  strv11?: number
+  strl11?: number
+  mntv11?: number
+  mntl11?: number
+  mfv11?: number
+  mfl11?: number
+  mnfv11?: number
+  mnfl11?: number
+  km11?: number
+  spv11?: number
+  off11?: number
+  ofs11?: number
+  tecnico21?: string
+  dat21?: string
+  dat22?: string
+  dat23?: string
+  spov21?: number
+  spol21?: number
+  spsv21?: number
+  spll21?: number
+  stdv21?: number
+  stdl21?: number
+  strv21?: number
+  strl21?: number
+  mntv21?: number
+  mntl21?: number
+  mfv21?: number
+  mfl21?: number
+  mnfv21?: number
+  mnfl21?: number
+  km21?: number
+  spv21?: number
+  off21?: number
+  ofs21?: number
+  tecnico31?: string
+  dat31?: string
+  dat32?: string
+  dat33?: string
+  spov31?: number
+  spol31?: number
+  spsv31?: number
+  spll31?: number
+  stdv31?: number
+  stdl31?: number
+  strv31?: number
+  strl31?: number
+  mntv31?: number
+  mntl31?: number
+  mfv3?: number
+  mfl31?: number
+  mnfv31?: number
+  mnfl31?: number
+  km31?: number
+  spv31?: number
+  off31?: number
+  ofs31?: number
+  tecnico41?: string
+  dat41?: string
+  dat42?: string
+  dat43?: string
+  spov41?: number
+  spol41?: number
+  spsv41?: number
+  spll41?: number
+  stdv41?: number
+  stdl41?: number
+  strv41?: number
+  strl41?: number
+  mntv41?: number
+  mntl41?: number
+  mfv41?: number
+  mfl41?: number
+  mnfv41?: number
+  mnfl41?: number
+  km41?: number
+  spv41?: number
+  off41?: number
+  ofs41?: number
+  tecnico51?: string
+  dat51?: string
+  dat52?: string
+  dat53?: string
+  spov51?: number
+  spol51?: number
+  spsv51?: number
+  spll51?: number
+  stdv51?: number
+  stdl51?: number
+  strv51?: number
+  strl51?: number
+  mntv51?: number
+  mntl51?: number
+  mfv51?: number
+  mfl51?: number
+  mnfv51?: number
+  mnfl51?: number
+  km51?: number
+  spv51?: number
+  off51?: number
+  ofs51?: number
+  tecnico61?: string
+  dat61?: string
+  dat62?: string
+  dat63?: string
+  spov61?: number
+  spol61?: number
+  spsv61?: number
+  spll61?: number
+  stdv61?: number
+  stdl61?: number
+  strv61?: number
+  strl61?: number
+  mntv61?: number
+  mntl61?: number
+  mfv61?: number
+  mfl61?: number
+  mnfv61?: number
+  mnfl61?: number
+  km61?: number
+  spv61?: number
+  off61?: number
+  ofs61?: number
+  tecnico71?: string
+  dat71?: string
+  dat72?: string
+  dat73?: string
+  spov71?: number
+  spol71?: number
+  spsv71?: number
+  spll71?: number
+  stdv71?: number
+  stdl71?: number
+  strv71?: number
+  strl71?: number
+  mntv71?: number
+  mntl71?: number
+  mfv71?: number
+  mfl71?: number
+  mnfv71?: number
+  mnfl71?: number
+  km71?: number
+  spv71?: number
+  off71?: number
+  ofs71?: number
+}
 
 @Component({
   selector: 'episjob-sj',
@@ -206,11 +391,6 @@ export class SjComponent implements OnInit {
     }
   }
 
-  /*calc(a:number){
-    if(a==1) return (Math.round(1/window.innerWidth*10000)+3)
-    return (Math.round(1/window.innerWidth*10000)+3)/2
-  }*/
-
   addDay(i?:number){
     const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:i!=undefined?i+1:this.days.length+1,type:this.rigForm.controls.type.value, edit: i!=undefined?this.days[i]:undefined}})
     dialogRef.afterClosed().subscribe(rt=>{
@@ -259,5 +439,11 @@ export class SjComponent implements OnInit {
 
   delete(a:number){
     this.days.splice(a,1)
+  }
+
+  save(){
+    let ex: ma={
+      
+    }
   }
 }
