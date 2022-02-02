@@ -1,4 +1,8 @@
-<div class="mainCont">
+<div class="mainCont" cdkFocusInitial>
   <div [innerHTML]="data.html | hTML"></div>  
 </div>
 
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="onNoClick()" >Close</button>
+ 
+</div>

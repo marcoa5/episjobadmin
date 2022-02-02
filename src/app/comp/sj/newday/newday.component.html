@@ -99,5 +99,5 @@
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button color="primary" [disabled]="newDay.invalid" [mat-dialog-close]="{data: newDay.value, info:data.nr}">{{data.edit!=undefined?'Update':'Add'}}</button>
+    <button mat-raised-button color="primary" [disabled]="newDay.invalid" (click)="save()">{{data.edit!=undefined?'Update':'Add'}}</button>
 </div>

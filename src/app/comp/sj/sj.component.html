@@ -126,7 +126,7 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
-                <button mat-raised-button color="accent" (click)="addDay()" style="margin:15px 0;">Add day</button>
+                <button mat-raised-button color="accent" (click)="addDay()" [disabled]="days.length>6" style="margin:15px 0;" color="primary">Add day</button>
                 <table *ngIf="days.length>0">
                     <tr episjobElevation class="tabTr">
                         <th rowspan="2" class="lar">#</th>
@@ -158,28 +158,28 @@
                         <th class="str">V</th>
                         <th class="str">L</th>
                     </tr>
-                    <tr episjobElevation *ngFor="let d of days; let i=index" clasS="tabTr dataR">
+                    <tr [class.mat-elevation-z2]="true" *ngFor="let d of days; let i=index" clasS="tabTr dataR">
                         <td class="lar index"  (click)="addDay(i)">{{i+1}}</td>
                         <td class="techName lar"  (click)="addDay(i)">{{d.tech}}</td>
                         <td class="techName str" (click)="addDay(i)">{{d.techs}}</td>
                         <td class="lar" (click)="addDay(i)">{{d.datel}}</td>
                         <td class="str" (click)="addDay(i)">{{d.dates}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.spov}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.spol}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.spsv}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.spsl}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mntv}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mntl}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mfv}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mfl}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mnfv}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.mnfl}}</td>
-                        <td class="str" (click)="addDay(i)">{{d.spov*1+d.spsv*1+d.mntv*1+d.mfv*1+d.mnfv*1}}</td>
-                        <td class="str" (click)="addDay(i)">{{d.spol*1+d.spsl*1+d.mntl*1+d.mfl*1+d.mnfl*1+d.off*1+d.ofs*1}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.km}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.spv}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.off}}</td>
-                        <td class="lar" (click)="addDay(i)">{{d.ofs}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.spov!=0?d.hr.spov:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.spol!=0?d.hr.spol:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.spsv!=0?d.hr.spsv:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.spsl!=0?d.hr.spsl:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mntv!=0?d.hr.mntv:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mntl!=0?d.hr.mntl:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mfv!=0?d.hr.mfv:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mfl!=0?d.hr.mfl:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mnfv!=0?d.hr.mnfv:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.mnfl!=0?d.hr.mnfl:''}}</td>
+                        <td class="str" (click)="addDay(i)">{{d.hr.spov*1+d.hr.spsv*1+d.hr.mntv*1+d.hr.mfv*1+d.hr.mnfv*1!=0?d.hr.spov*1+d.hr.spsv*1+d.hr.mntv*1+d.hr.mfv*1+d.hr.mnfv*1:''}}</td>
+                        <td class="str" (click)="addDay(i)">{{d.hr.spol*1+d.hr.spsl*1+d.hr.mntl*1+d.hr.mfl*1+d.hr.mnfl*1+d.hr.off*1+d.hr.ofs*1!=0?d.hr.spol*1+d.hr.spsl*1+d.hr.mntl*1+d.hr.mfl*1+d.hr.mnfl*1+d.hr.off*1+d.hr.ofs*1:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.km!=0?d.hr.km:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.spv!=0?d.hr.spv:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.off!=0?d.hr.off:''}}</td>
+                        <td class="lar" (click)="addDay(i)">{{d.hr.ofs!=0?d.hr.ofs:''}}</td>
                         <td class="del" (click)="delete(i)">
                             <button mat-mini-fab class="dele"><mat-icon class="dele1">clear</mat-icon></button>
                         </td>
@@ -200,18 +200,19 @@
                 <div class="sig">
                     <!--<button mat-raised-button color="accent" (click)="sign('t')">Technician</button>-->
                     <h4>Technician's signature</h4>
-                    <img episjobElevation width=207 height=120 [src]="techSign? techSign: 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='" (click)="sign('t')">  
+                    <img episjobElevation width=450 height=196 [src]="techSign? techSign: blankSign" (click)="sign('t')">  
                 </div>
                 <div class="sig">
                     <!--<button mat-raised-button color="accent" (click)="sign('c')">Customer</button>-->
                     <h4>Customer's signature</h4>
-                    <img episjobElevation width=207 height=120 [src]="custSign? custSign:'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='" (click)="sign('c')">  
+                    <img episjobElevation width=450 height=196 [src]="custSign? custSign:blankSign" (click)="sign('c')">  
                 </div>
               </div>
               
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="openT()">Next</button>
+                  <button mat-raised-button color="primary" class="but" (click)="openT()">Preview</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="openT()" [disabled]="techSign=='' || custSign==''">Next</button>
               </div>
             </form>
             

@@ -25,20 +25,20 @@ export class NewdayComponent implements OnInit {
       this.newDay=fb.group({
         date:['', Validators.required],
         tech: ['',Validators.required],
-        spov: [''],
-        spol: [''],
-        spsv: [''],
-        spsl: [''],
-        mntv: [''],
-        mntl: [''],
-        mfv:[''],
-        mfl:[''],
-        mnfv:[''],
-        mnfl:[''],
-        km:[''],
-        spv:[''],
-        off:[''],
-        ofs:['']
+        spov: [0],
+        spol: [0],
+        spsv: [0],
+        spsl: [0],
+        mntv: [0],
+        mntl: [0],
+        mfv:[0],
+        mfl:[0],
+        mnfv:[0],
+        mnfl:[0],
+        km:[0],
+        spv:[0],
+        off:[0],
+        ofs:[0]
       })
     }
 
@@ -54,20 +54,20 @@ export class NewdayComponent implements OnInit {
       f.date.setValue(new Date(g.date))
       f.tech.setValue(g.tech)
       this.newDate()
-      f.spov.setValue(g.spov)
-      f.spol.setValue(g.spol)      
-      f.spsv.setValue(g.spsv)
-      f.spsl.setValue(g.spsl)
-      f.mntv.setValue(g.mntv)
-      f.mntl.setValue(g.mntl)
-      f.mfv.setValue(g.mfv)
-      f.mfl.setValue(g.mfl)
-      f.mnfv.setValue(g.mnfv)
-      f.mnfl.setValue(g.mnfl)
-      f.km.setValue(g.km)
-      f.spv.setValue(g.spv)
-      f.off.setValue(g.off)
-      f.ofs.setValue(g.ofs)      
+      f.spov.setValue(g.hr.spov)
+      f.spol.setValue(g.hr.spol)      
+      f.spsv.setValue(g.hr.spsv)
+      f.spsl.setValue(g.hr.spsl)
+      f.mntv.setValue(g.hr.mntv)
+      f.mntl.setValue(g.hr.mntl)
+      f.mfv.setValue(g.hr.mfv)
+      f.mfl.setValue(g.hr.mfl)
+      f.mnfv.setValue(g.hr.mnfv)
+      f.mnfl.setValue(g.hr.mnfl)
+      f.km.setValue(g.hr.km)
+      f.spv.setValue(g.hr.spv)
+      f.off.setValue(g.hr.off)
+      f.ofs.setValue(g.hr.ofs)      
     }
   }
 
@@ -114,5 +114,31 @@ export class NewdayComponent implements OnInit {
     if(this.newDay.controls[a].value>n){
       this.newDay.controls[a].setValue(n)
     }
+  }
+
+  save(){
+
+    let a =this.newDay.value
+    let data:any={
+      date:a.date,
+      tech:a.tech,
+      hr:{
+        spov: a.spov,
+        spol:a.spol,
+        spsv:a.spsv,
+        spsl:a.spsl,
+        mntv:a.mntv,
+        mntl:a.mntl,
+        mfv:a.mfv,
+        mfl:a.mfl,
+        mnfv:a.mnfv,
+        mnfl:a.mnfl,
+        km:a.km,
+        spv:a.spv,
+        off:a.off,
+        ofs:a.ofs,
+      }
+    }
+    this.dialogRef.close({data: data, info:this.data.nr})
   }
 }
