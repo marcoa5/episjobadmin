@@ -164,7 +164,7 @@ export class NewdayComponent implements OnInit {
 
   chDec(e:any){
     let a= e.target.value
-    if(!(/^\d*\.?((25)|(50)|(5)|(75)|(0)|(00))?$/.test(a))) e.target.value=(Math.round(a*4)/4)
+    if(!(/^\d*\.?((25)|(50)|(5)|(75)|(0)|(00))?$/.test(a))) this.newDay.controls[e.target.attributes.formcontrolname.value].setValue((Math.round(a*4)/4))
     if(e.key=="Backspace") e.target.value=parseInt(a)
   }
 }
