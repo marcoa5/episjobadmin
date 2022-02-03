@@ -116,6 +116,8 @@ import { SignComponent } from './comp/sj/sign/sign.component'
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { TemplComponent } from './comp/sj/templ/templ.component';
 import { HTMLPipe } from './pipe/html.pipe';
+import { RiskassComponent } from './comp/sj/riskass/riskass.component';
+import { SurveyComponent } from './comp/sj/survey/survey.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -217,6 +219,8 @@ const appearance: MatFormFieldDefaultOptions = {
     SignComponent,
     TemplComponent,
     HTMLPipe,
+    RiskassComponent,
+    SurveyComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -11,6 +11,7 @@ import { Subscription } from 'rxjs';
 import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
+import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 
 @Component({
   selector: 'app-root',
@@ -153,7 +154,8 @@ export class AppComponent {
   }
 
   navNot(){
-    this.router.navigate(['notif'])
+    //this.router.navigate(['notif'])
+    this.dialog.open(NotificationListComponent, {panelClass: 'not-dialog'})
   }
 
   

@@ -1,4 +1,6 @@
-<episjob-navbar title="Message Center" [cerca]="false"></episjob-navbar>
+<!--<episjob-navbar title="Message Center" [cerca]="false"></episjob-navbar>-->
+
+    <episjob-h2 padtop=0 icon="mail_outline" data="Notifications"></episjob-h2>
 
 <div class="cont">
     <episjob-spin *ngIf="spin==true"></episjob-spin>
@@ -17,4 +19,7 @@
     <div *ngIf="notif.length==0 && spin==false">
         No messages
     </div>
+</div>
+<div class="but">
+    <button mat-raised-button color="primary" (click)="close()">Close</button>
 </div>

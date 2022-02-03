@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { NewdayComponent } from './newday/newday.component';
+import { RiskassComponent } from './riskass/riskass.component';
+import { SurveyComponent } from './survey/survey.component';
 import { TemplComponent } from './templ/templ.component';
 
 export interface ma{
@@ -550,8 +552,12 @@ export class SjComponent implements OnInit {
   }
 
   sign(a:string){
-    this.torc=a
-    this.signatureClosed=false
+    const dia = this.dialog.open(a=='t'?RiskassComponent:SurveyComponent)
+    dia.afterClosed().subscribe(b=>{
+      this.torc=a
+      this.signatureClosed=false
+    }) 
+    
   }
 
   close(e:any){
@@ -584,7 +590,7 @@ export class SjComponent implements OnInit {
       firmatt1: this.techSign? this.techSign: this.blankSign,
       rappl1: this.reportForm.controls.report.value,
       oss1: this.reportForm.controls.oss.value,
-      orem: this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+      orem: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
       perc11: this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
       perc21: this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
       perc31: this.rigForm.controls.perc3h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
@@ -763,30 +769,30 @@ export class SjComponent implements OnInit {
       h['spol'+i +'1']=''
       h['spsv'+i +'1']=''
       h['spsl'+i +'1']=''
-      h['stdv'+i +'1']=a.hr['spov']
-      h['stdl'+i +'1']=a.hr['spol']
-      h['strv'+i +'1']=a.hr['spsv']
-      h['strl'+i +'1']=a.hr['spsl']
+      h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+      h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+      h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+      h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
     } else {
-      h['spov'+i +'1']=a.hr['spov']
-      h['spol'+i +'1']=a.hr['spol']
-      h['spsv'+i +'1']=a.hr['spsv']
-      h['spsl'+i +'1']=a.hr['spsl']
+      h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+      h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+      h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+      h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
       h['stdv'+i +'1']=''
       h['stdl'+i +'1']=''
       h['strv'+i +'1']=''
       h['strl'+i +'1']=''
     }
-    h['mntv'+i +'1']=a.hr['mntv']
-    h['mntl'+i +'1']=a.hr['mntl']
-    h['mfv'+i +'1']=a.hr['mfv']
-    h['mfl'+i +'1']=a.hr['mfl']
-    h['mnfv'+i +'1']=a.hr['mnfv']
-    h['mnfl'+i +'1']=a.hr['mnfl']
-    h['km'+i +'1']=a.hr['km']
-    h['spv'+i +'1']=a.hr['spv']
-    h['off'+i +'1']=a.hr['off']
-    h['ofs'+i +'1']=a.hr['ofs']
+    h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
+    h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
+    h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
+    h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
+    h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
+    h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
+    h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+    h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
+    h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
 
 
 
@@ -798,7 +804,7 @@ export class SjComponent implements OnInit {
     })
 
     let url = 'https://episjobreq.herokuapp.com/sjTemplate'//'http://localhost:3001/sjTemplate'
-    this.http.post(url, h /*{params:params}*/).subscribe(a=>{
+    this.http.post(url, h).subscribe(a=>{
       const dia = this.dialog.open(TemplComponent, {panelClass: 'templ-dialog',data:a})
     })
   }

@@ -35,8 +35,8 @@ export class NewdayComponent implements OnInit {
         mfl:[0],
         mnfv:[0],
         mnfl:[0],
-        km:[0],
-        spv:[0],
+        km:[{value:0, disabled:true}],
+        spv:[{value:0, disabled:true}],
         off:[0],
         ofs:[0]
       })
@@ -68,6 +68,7 @@ export class NewdayComponent implements OnInit {
       f.spv.setValue(g.hr.spv)
       f.off.setValue(g.hr.off)
       f.ofs.setValue(g.hr.ofs)      
+      this.chTravel()
     }
   }
 
@@ -103,11 +104,13 @@ export class NewdayComponent implements OnInit {
     }
   }
   
-  ch(n:number, a:any, b:string){
+  ch(n:number, a:any, b:string, e?:any){
     if(this.newDay.controls[a].value+this.newDay.controls[b].value>n){
       let g=n-this.newDay.controls[b].value
       this.newDay.controls[a].setValue(g>0?g:null)
     }
+    this.chTravel()
+    if(this.newDay.controls.km.value>this.travelMax()) this.newDay.controls.km.setValue(this.travelMax())
   }
 
   chOF(n:number,a:any){
@@ -133,12 +136,35 @@ export class NewdayComponent implements OnInit {
         mfl:a.mfl,
         mnfv:a.mnfv,
         mnfl:a.mnfl,
-        km:a.km,
-        spv:a.spv,
+        km:a.km?a.km:0,
+        spv:a.spv?a.spv:0,
         off:a.off,
         ofs:a.ofs,
       }
     }
     this.dialogRef.close({data: data, info:this.data.nr})
+  }
+
+  chTravel(){
+    let r = this.newDay.controls
+    if((r.spov && r.spov.value>0) || (r.spsv && r.spsv.value>0) || (r.mntv && r.mntv.value>0) ||(r.mfv && r.mfv.value>0) || (r.mnfv && r.mnfv.value>0)) {
+      r.km.enable()
+      r.spv.enable()
+    } else {
+      r.km.disable()
+      r.spv.disable()
+    }
+  }
+
+  travelMax():number {
+    let r = this.newDay.controls
+    let sum = r.spov.value + r.spsv.value+ r.mntv.value+ r.mfv.value+ r.mnfv.value
+    return sum*100
+  }
+
+  chDec(e:any){
+    let a= e.target.value
+    if(!(/^\d*\.?((25)|(50)|(5)|(75)|(0)|(00))?$/.test(a))) e.target.value=(Math.round(a*4)/4)
+    if(e.key=="Backspace") e.target.value=parseInt(a)
   }
 }

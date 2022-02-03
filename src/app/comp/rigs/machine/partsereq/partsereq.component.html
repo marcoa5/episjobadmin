@@ -9,17 +9,16 @@
           </mat-panel-title>
           <!--<mat-panel-description class="of"> </mat-panel-description>-->
         </mat-expansion-panel-header>
-        
         <div class="bodyCont">
             <table class="tab">
-                <tr class="partsHead">
+                <tr class="partsHead" [class.mat-elevation-z2]="true">
                     <th>p/n</th>
-                    <th class="hid">Desc</th>
+                    <th class="hid desc">Description</th>
                     <th class="hid">LLP</th>
                     <th class="hid">Qty</th>
                     <th>Tot</th> 
                 </tr>
-                <tr *ngFor="let r of a.Parts" class="items">
+                <tr *ngFor="let r of a.Parts" class="items" [class.mat-elevation-z2]="true">
                     <td class="qty lar">{{r.qty}} x {{r.pn}}</td>
                     <td class="qty hid">{{r.pn}}</td>
                     <td class="desc hid">{{r.desc}}</td>

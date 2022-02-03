@@ -17,7 +17,6 @@ export class PartsereqComponent implements OnInit {
   constructor(private http: HttpClient, private getH: GetquarterService) { }
 
   ngOnInit(): void {
-    console.log(this._reqlist)
     this.__reqlist=this._reqlist
     
     .map(a=>{

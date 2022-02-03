@@ -1,9 +1,10 @@
 import { Router } from '@angular/router'
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import firebase from 'firebase/app'
 import * as moment from 'moment'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'episjob-notification-list',
@@ -15,7 +16,9 @@ export class NotificationListComponent implements OnInit {
   subsList:Subscription[]=[]
   userId:string=''
   spin:boolean=true
-  constructor(private auth: AuthServiceService , public router: Router) { }
+
+  constructor(private router: Router, private auth: AuthServiceService, public dialogRef: MatDialogRef<NotificationListComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any ){}
 
   ngOnInit(): void {
     let ora = moment(new Date()).subtract(30, 'days').format('YYYYMMDD')
@@ -56,5 +59,11 @@ export class NotificationListComponent implements OnInit {
     let d = [c[0],JSON.parse(c[1])]
     if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
     this.router.navigate(d)
+    this.dialogRef.close()
+
+  }
+
+  close(){
+    this.dialogRef.close()
   }
 }

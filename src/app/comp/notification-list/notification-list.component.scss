@@ -1,9 +1,21 @@
 @import '../../../epi.scss';
 
 .cont{
-    padding: 80px 10px 30px 10px;
-    width:calc(100% - 20px);
+    //padding: 80px 10px 30px 10px;
+    width:100%;
+    height: calc(100% - 107px);
+    overflow-y: auto;
 }
+
+.but{
+    margin-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 35px;
+    width: 100%;
+}
+
 
 .notList{
     display: grid;

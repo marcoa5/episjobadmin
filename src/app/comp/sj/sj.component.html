@@ -7,7 +7,7 @@
         <mat-step [stepControl]="rigForm">
             <form [formGroup]="searchForm">
                 <ng-template matStepLabel>Select machine</ng-template>
-                <mat-form-field [appearance]="appearance" style="width:100%">
+                <mat-form-field [appearance]="appearance" style="width:100%" class="search">
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="Search" formControlName="search" (input)="searchCust($event)" autocomplete=off>
                 <mat-icon matSuffix>search</mat-icon>
@@ -126,7 +126,13 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
-                <button mat-raised-button color="accent" (click)="addDay()" [disabled]="days.length>6" style="margin:15px 0;" color="primary">Add day</button>
+                <div class="newDayCont" (click)="addDay()">
+                    <button mat-mini-fab color="accent"  [disabled]="days.length>6" style="margin:15px 0;" color="primary">
+                
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <p>Add new day</p>
+                </div>
                 <table *ngIf="days.length>0">
                     <tr episjobElevation class="tabTr">
                         <th rowspan="2" class="lar">#</th>
@@ -181,7 +187,7 @@
                         <td class="lar" (click)="addDay(i)">{{d.hr.off!=0?d.hr.off:''}}</td>
                         <td class="lar" (click)="addDay(i)">{{d.hr.ofs!=0?d.hr.ofs:''}}</td>
                         <td class="del" (click)="delete(i)">
-                            <button mat-mini-fab class="dele"><mat-icon class="dele1">clear</mat-icon></button>
+                            <button mat-mini-fab class="dele" color="primary"><mat-icon class="dele1">clear</mat-icon></button>
                         </td>
 
                     </tr>
@@ -211,7 +217,6 @@
               
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button color="primary" class="but" (click)="openT()">Preview</button>
                   <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="openT()" [disabled]="techSign=='' || custSign==''">Next</button>
               </div>
             </form>

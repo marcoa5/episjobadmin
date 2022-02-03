@@ -235,3 +235,15 @@ table td, table th{
 img{
     cursor: pointer;
 }
+
+.newDayCont{
+    display: flex;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.search{
+    margin-top:15px;
+}

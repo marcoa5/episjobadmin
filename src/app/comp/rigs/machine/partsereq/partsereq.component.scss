@@ -49,14 +49,27 @@
 }
 
 .tab{
+    margin: 5px;
     width: 95%;
+    height: 95%;
     border-collapse: collapse;
+    
 }
 
 td, th{
-    border: 1px solid $dark-text;
-    padding: 3px 10px;
+    padding: 10px;
     overflow: hidden;
+}
+
+.tab th:nth-child(1){
+    border-top-left-radius: 10px;
+}
+.tab th:last-child{
+    border-top-right-radius: 10px;
+}
+
+.desc{
+    text-align: left;
 }
 
 .bodyCont{

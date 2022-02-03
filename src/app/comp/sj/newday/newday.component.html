@@ -26,58 +26,58 @@
             <div class="hrsCont item1" *ngIf="dayType=='fer'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Ord Viaggio">
                     <mat-label>{{data.type=='spe'?'SPOV':'STDV'}}</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spol.value" autocomplete="off" formControlName="spov" (input)="ch(8,'spov','spol')">
+                    <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spol.value" autocomplete="off" value="0.00" formControlName="spov" (input)="ch(8,'spov','spol')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Ord Lavoro">
                     <mat-label>{{data.type=='spe'?'SPOL':'STDL'}}</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spov.value" autocomplete="off" formControlName="spol" (input)="ch(8,'spol','spov')">
+                    <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spov.value" autocomplete="off" formControlName="spol" (input)="ch(8,'spol','spov')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
             <div class="hrsCont item2" *ngIf="dayType=='fer' || dayType=='sat'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Straord Viaggio">
                     <mat-label>{{data.type=='spe'?'SPSV':'STRV'}}</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsl.value" autocomplete="off" formControlName="spsv" (input)="ch((dayType=='fer'?8:16),'spsv','spsl')">
+                    <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsl.value" autocomplete="off" formControlName="spsv" (input)="ch((dayType=='fer'?8:16),'spsv','spsl')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Straord Lavoro">
                     <mat-label>{{data.type=='spe'?'SPSL':'STRL'}}</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsv.value" autocomplete="off" formControlName="spsl"  (input)="ch((dayType=='fer'?8:16),'spsl','spsv')">
+                    <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsv.value" autocomplete="off" formControlName="spsl"  (input)="ch((dayType=='fer'?8:16),'spsl','spsv')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
 
             <div class="hrsCont item3"  *ngIf="dayType=='fer' || dayType=='sat'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Nott Viaggio">
                     <mat-label>MNTV</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mntl.value" autocomplete="off" formControlName="mntv" (input)="ch(8,'mntv','mntl')">
+                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mntl.value" autocomplete="off" formControlName="mntv" (input)="ch(8,'mntv','mntl')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Nott Lavoro">
                     <mat-label>MNTL</mat-label>
-                    <input matInput type="number" step=0.25 min=0  [max]="8-newDay.controls.mntv.value" autocomplete="off" formControlName="mntl" (input)="ch(8,'mntl','mntv')">
+                    <input matInput type="number" step=0.25 min=0  [max]="8-newDay.controls.mntv.value" autocomplete="off" formControlName="mntl" (input)="ch(8,'mntl','mntv')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
             <div class="hrsCont item4" *ngIf="dayType=='fest'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Fest Viaggio">
                     <mat-label>MFV</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="16-newDay.controls.mfl.value" autocomplete="off" formControlName="mfv" (input)="ch(16,'mfv','mfl')">
+                    <input matInput type="number" step=0.25 min=0 [max]="16-newDay.controls.mfl.value" autocomplete="off" formControlName="mfv" (input)="ch(16,'mfv','mfl')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Fest Lavoro">
                     <mat-label>MFL</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="16-newDay.controls.mfv.value" autocomplete="off" formControlName="mfl" (input)="ch(16,'mfl','mfv')">
+                    <input matInput type="number" step=0.25 min=0 [max]="16-newDay.controls.mfv.value" autocomplete="off" formControlName="mfl" (input)="ch(16,'mfl','mfv')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
             <div class="hrsCont item5" *ngIf="dayType=='fest'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Nott Fest Viaggio">
                     <mat-label>MNFV</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mnfl.value" autocomplete="off" formControlName="mnfv" (input)="ch(8,'mnfv','mnfl')">
+                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mnfl.value" autocomplete="off" formControlName="mnfv" (input)="ch(8,'mnfv','mnfl')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Nott Fest Lavoro">
                     <mat-label>MNFL</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mnfv.value" autocomplete="off" formControlName="mnfl" (input)="ch(8,'mnfl','mnfv')">
+                    <input matInput type="number" step=0.25 min=0 [max]="8-newDay.controls.mnfv.value" autocomplete="off" formControlName="mnfl" (input)="ch(8,'mnfl','mnfv')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
             <div class="hrsCont item6" *ngIf="dayType=='fer' || dayType=='fest' || dayType=='sat'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Kilometri">
                     <mat-label>KM</mat-label>
-                    <input matInput type="number" min=0 autocomplete="off" formControlName="km">
+                    <input matInput type="number" min=0 [max]="travelMax()" autocomplete="off" formControlName="km">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Spese Viaggio">
                     <mat-label>SPV</mat-label>
@@ -87,11 +87,11 @@
             <div class="hrsCont item7" *ngIf="dayType=='fer' || dayType=='sat'">
                 <mat-form-field [appearance]="appearance" class="hrs" *ngIf="dayType=='fer'" matTooltip="Officina Ord">
                     <mat-label>OFF</mat-label>
-                    <input matInput type="number" step=0.25 min=0 max=8 autocomplete="off" formControlName="off" (input)="chOF(8,'off')">
+                    <input matInput type="number" step=0.25 min=0 max=8 autocomplete="off" formControlName="off" (input)="chOF(8,'off')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs"  matTooltip="Officina Straord">
                     <mat-label>OFS</mat-label>
-                    <input matInput type="number" step=0.25 min=0 [max]="dayType=='sat'? 16 : 8" autocomplete="off" formControlName="ofs" (input)="chOF(8,'ofs')">
+                    <input matInput type="number" step=0.25 min=0 [max]="dayType=='sat'? 16 : 8" autocomplete="off" formControlName="ofs" (input)="chOF(8,'ofs')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
         </div>
