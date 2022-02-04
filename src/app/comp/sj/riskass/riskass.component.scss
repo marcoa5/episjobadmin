@@ -1,0 +1,32 @@
+
+
+.risk{
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    gap:30px;
+    grid-template-rows: auto;
+    margin-bottom: 15px;
+}
+
+.head{
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    font-weight: 600;
+}
+
+mat-radio-group, .head{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+}
+
+@media screen and (max-width:550px) {
+    .risk{
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .head{
+        display: none;
+    }
+}

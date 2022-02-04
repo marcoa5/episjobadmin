@@ -13,7 +13,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { TemplComponent } from './templ/templ.component';
 
 export interface ma{
-  [k:string]: string|number;
+  [k:string]: string|number|any;
   vsordine: string
   nsofferta1: string
   prodotto1: string
@@ -227,6 +227,13 @@ export class SjComponent implements OnInit {
   sn:string=''
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
+  riskAss:any[]=[]
+  custSurv:any={
+    name:'',
+    s1:'',
+    s2:'',
+    s3:''
+  }
   days:any[]=[/*
     {
         "date": "2022-02-02",
@@ -453,8 +460,7 @@ export class SjComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:this.days.length+1,type:this.rigForm.controls.type.value}})
-    //const dial = this.dialog.open(SignComponent,{panelClass: 'sign-dialog'})
+    //const dialogRef = this.dialog.open(RiskassComponent)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -552,10 +558,18 @@ export class SjComponent implements OnInit {
   }
 
   sign(a:string){
-    const dia = this.dialog.open(a=='t'?RiskassComponent:SurveyComponent)
-    dia.afterClosed().subscribe(b=>{
-      this.torc=a
-      this.signatureClosed=false
+    let dia:any
+    if(a=='t') dia = this.dialog.open(RiskassComponent)
+    if(a=='c') dia = this.dialog.open(SurveyComponent)
+    dia.afterClosed().subscribe((b:any)=>{
+      if(b){
+        if(a=='t') this.riskAss=b
+        if(a=='c') this.custSurv=b
+        console.log(this.custSurv)
+        this.torc=a
+        this.signatureClosed=false
+      }
+      
     }) 
     
   }
@@ -600,13 +614,13 @@ export class SjComponent implements OnInit {
       apbpcs:'',
       chbpcs:'',
       docbpcs:'',
-      rissondaggio:'',
-      contnomec:'',
-      contfirmac:'',
-      contsondc:'',
+      rissondaggio:`${this.custSurv.s1}${this.custSurv.s3}${this.custSurv.s3}`,
+      contnomec:this.custSurv.name,
+      contfirmac:'1',
+      contsondc:'1',
       sondaggio:'',
       elencomail:'',
-      rs:'',
+      rs:this.riskAss,
       tecnico11:'',
       dat11:'',
       dat12:'',
@@ -802,10 +816,12 @@ export class SjComponent implements OnInit {
       h['dat' + i + '3']=a.year
       i++
     })
-
+    console.log(JSON.stringify(h))
     let url = 'https://episjobreq.herokuapp.com/sjTemplate'//'http://localhost:3001/sjTemplate'
     this.http.post(url, h).subscribe(a=>{
       const dia = this.dialog.open(TemplComponent, {panelClass: 'templ-dialog',data:a})
     })
+
+
   }
 }

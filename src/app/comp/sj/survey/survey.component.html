@@ -1,8 +1,35 @@
 <div mat-dialog-title>Survey</div>
 <div mat-dialog-content>
+    <form [formGroup]="surveyForm">
+        <mat-form-field [appearance]="appearance"  style="width:100%">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="name">
+        </mat-form-field>
+        <div class="risk" *ngIf="!chW()">
+            <div></div>
+            <div class="head">
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+            </div>
+        </div>
+        <div *ngFor="let r of surveyList; let i = index" class="risk">
+            <div>{{r}}</div>
+            <mat-radio-group aria-label="Select an option" [formControlName]="'a'+(i*1+1)" class="radioCont">
+                <mat-radio-button value="1">{{chW()?1:''}}</mat-radio-button>
+                <mat-radio-button value="2">{{chW()?2:''}}</mat-radio-button>
+                <mat-radio-button value="3">{{chW()?3:''}}</mat-radio-button>
+                <mat-radio-button value="4">{{chW()?4:''}}</mat-radio-button>
+                <mat-radio-button value="5">{{chW()?5:''}}</mat-radio-button>
+            </mat-radio-group>  
+        </div> 
+    </form>
 
+    <div class="leg">Legenda: 1=Insoddisfacente 2=Scarso 3=Sufficiente 4=Buono 5=Ottimo</div>
 </div>
 
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" [mat-dialog-close]="">Proceed</button>
+    <button mat-raised-button color="primary" [disabled]="surveyForm.invalid" [mat-dialog-close]="{name: surveyForm.controls.name.value,s1: surveyForm.controls.a1.value,s2: surveyForm.controls.a2.value,s3: surveyForm.controls.a3.value}">Proceed</button>
 </div>

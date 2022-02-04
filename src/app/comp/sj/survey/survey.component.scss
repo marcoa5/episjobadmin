@@ -1,0 +1,35 @@
+
+
+.risk{
+    display: grid;
+    grid-template-columns: 1fr 170px;
+    gap:30px;
+    grid-template-rows: auto;
+    margin-bottom: 15px;
+}
+@media screen and (max-width:550px) {
+    .risk{
+        grid-template-columns: 1fr;
+        gap:0;
+    }
+}
+
+.head{
+    width:170px;
+    display:grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+    font-weight: 600;
+}
+
+.leg{
+    margin-top:50px;
+}
+
+.radioCont{
+    width:100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    justify-items: center;
+}

@@ -1,148 +1,33 @@
 <div mat-dialog-title>Risk Assessment</div>
 <div mat-dialog-content>
-    <table id="rs">
-        <tr>
-            <th><p style="font-weight: 900;">OK</p></th>
-            <th><p style="font-weight: 900;">NOK</p></th>
-            <th><p style="font-weight: 900;">NA</p></th>
-        </tr>
-        <tr>
-            <td><p>Ho informazioni sufficienti sul lavoro da svolgere?</p></td>
-            <td><input id="ra1" type="radio" name="r1" value="1" checked><label for="ra1"></label></td>
-            <td><input id="ra2" type="radio" name="r1" value="2"><label for="ra2"></label></td>
-            <td><input id="ra3" type="radio" name="r1" value="3"><label for="ra3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Considero sicuro il metodo di lavoro concordato?</p></td>
-            <td><input id="rb1" type="radio" name="r2" value="1" checked><label for="rb1"></label></td>
-            <td><input id="rb2" type="radio" name="r2" value="2"><label for="rb2"></label></td>
-            <td><input id="rb3" type="radio" name="r2" value="3"><label for="rb3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Ho letto e compreso il permesso?</p></td>
-            <td><input id="rc1" type="radio" name="r3" value="1" checked><label for="rc1"></label></td>
-            <td><input id="rc2" type="radio" name="r3" value="2"><label for="rc2"></label></td>
-            <td><input id="rc3" type="radio" name="r3" value="3"><label for="rc3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Sono stati rispettati tutti i termini e le condizioni dell'autorizzazione?</p></td>
-            <td><input id="rd1" type="radio" name="r4" value="1" checked><label for="rd1"></label></td>
-            <td><input id="rd2" type="radio" name="r4" value="2"><label for="rd2"></label></td>
-            <td><input id="rd3" type="radio" name="r4" value="3"><label for="rd3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Sono presenti ed in buone condizioni le attrezzature necessarie?</p></td>
-            <td><input id="re1" type="radio" name="r5" value="1" checked><label for="re1"></label></td>
-            <td><input id="re2" type="radio" name="r5" value="2"><label for="re2"></label></td>
-            <td><input id="re3" type="radio" name="r5" value="3"><label for="re3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Sono presenti tutti i DPI necessari?</p></td>
-            <td><input id="rf1" type="radio" name="r6" value="1" checked><label for="rf1"></label></td>
-            <td><input id="rf2" type="radio" name="r6" value="2"><label for="rf2"></label></td>
-            <td><input id="rf3" type="radio" name="r6" value="3"><label for="rf3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Luogo di lavoro idoneo allo svolgimento delle operazioni richieste?</p></td>
-            <td><input id="rg1" type="radio" name="r7" value="1" checked><label for="rg1"></label></td>
-            <td><input id="rg2" type="radio" name="r7" value="2"><label for="rg2"></label></td>
-            <td><input id="rg3" type="radio" name="r7" value="3"><label for="rg3"></label></td>
-        </tr>
-        <tr>
-            <td colspan="4"><p style="font-weight: 900;">Ci sono altri pericoli?</p></td>
-        </tr>
-        <tr>
-            <td><p>Pericolo di caduta o di inciampo?</p></td>
-            <td><input id="rh1" type="radio" name="r8" value="1" checked><label for="rh1"></label></td>
-            <td><input id="rh2" type="radio" name="r8" value="2"><label for="rh2"></label></td>
-            <td><input id="rh3" type="radio" name="r8" value="3"><label for="rh3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Rischio di lesioni da impatto?</p></td>
-            <td><input id="ri1" type="radio" name="r9" value="1" checked><label for="ri1"></label></td>
-            <td><input id="ri2" type="radio" name="r9" value="2"><label for="ri2"></label></td>
-            <td><input id="ri3" type="radio" name="r9" value="3"><label for="ri3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Pericolo di essere colpiti da parti in movimento o trasporto interno?</p></td>
-            <td><input id="rj1" type="radio" name="r10" value="1" checked><label for="rj1"></label></td>
-            <td><input id="rj2" type="radio" name="r10" value="2"><label for="rj2"></label></td>
-            <td><input id="rj3" type="radio" name="r10" value="3"><label for="rj3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Pericolo di intrappolamento?</p></td>
-            <td><input id="rk1" type="radio" name="r11" value="1" checked><label for="rk1"></label></td>
-            <td><input id="rk2" type="radio" name="r11" value="2"><label for="rk2"></label></td>
-            <td><input id="rk3" type="radio" name="r11" value="3"><label for="rk3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Pericolo di caduta di oggetti?</p></td>
-            <td><input id="rl1" type="radio" name="r12" value="1" checked><label for="rl1"></label></td>
-            <td><input id="rl2" type="radio" name="r12" value="2"><label for="rl2"></label></td>
-            <td><input id="rl3" type="radio" name="r12" value="3"><label for="rl3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Illuminazione sufficiente?</p></td>
-            <td><input id="rm1" type="radio" name="r13" value="1" checked><label for="rm1"></label></td>
-            <td><input id="rm2" type="radio" name="r13" value="2"><label for="rm2"></label></td>
-            <td><input id="rm3" type="radio" name="r13" value="3"><label for="rm3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Esposizione a temperature troppo alte o basse?</p></td>
-            <td><input id="rn1" type="radio" name="r14" value="1" checked><label for="rn1"></label></td>
-            <td><input id="rn2" type="radio" name="r14" value="2"><label for="rn2"></label></td>
-            <td><input id="rn3" type="radio" name="r14" value="3"><label for="rn3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Contatto con corrente elettrica?</p></td>
-            <td><input id="ro1" type="radio" name="r15" value="1" checked><label for="ro1"></label></td>
-            <td><input id="ro2" type="radio" name="r15" value="2"><label for="ro2"></label></td>
-            <td><input id="ro3" type="radio" name="r15" value="3"><label for="ro3"></label></td>
-        </tr>
-        <tr>
-            <td><p>Contatto con prodotti pericolosi?</p></td>
-            <td><input id="rp1" type="radio" name="r16" value="1" checked><label for="rp1"></label></td>
-            <td><input id="rp2" type="radio" name="r16" value="2"><label for="rp2"></label></td>
-            <td><input id="rp3" type="radio" name="r16" value="3"><label for="rp3"></label></td>
-        </tr>	
-        <tr>
-            <td><p>Formazione di polvere?</p></td>
-            <td><input id="rq1" type="radio" name="r17" value="1" checked><label for="rq1"></label></td>
-            <td><input id="rq2" type="radio" name="r17" value="2"><label for="rq2"></label></td>
-            <td><input id="rq3" type="radio" name="r17" value="3"><label for="rq3"></label></td>
-        </tr>	
-        <tr>
-            <td><p>Rumore o vibrazioni?</p></td>
-            <td><input id="rr1" type="radio" name="r18" value="1" checked><label for="rr1"></label></td>
-            <td><input id="rr2" type="radio" name="r18" value="2"><label for="rr2"></label></td>
-            <td><input id="rr3" type="radio" name="r18" value="3"><label for="rr3"></label></td>
-        </tr>	
-        <tr>
-            <td><p>Pericolo di incendio o esplosione?</p></td>
-            <td><input id="rs1" type="radio" name="r19" value="1" checked><label for="rs1"></label></td>
-            <td><input id="rs2" type="radio" name="r19" value="2"><label for="rs2"></label></td>
-            <td><input id="rs3" type="radio" name="r19" value="3"><label for="rs3"></label></td>
-        </tr>		
-        <tr>
-            <td><p>Ci sono altre persone che lavorano nelle vicinanze del cantiere?</p></td>
-            <td><input id="rt1" type="radio" name="r20" value="1" checked><label for="rt1"></label></td>
-            <td><input id="rt2" type="radio" name="r20" value="2"><label for="rt2"></label></td>
-            <td><input id="rt3" type="radio" name="r20" value="3"><label for="rt3"></label></td>
-        </tr>	
-        <tr>
-            <td><p>Esiste il rischio di inquinamento ambientale? I rifiuti vengono rimossi?</p></td>
-            <td><input id="ru1" type="radio" name="r21" value="1" checked><label for="ru1"></label></td>
-            <td><input id="ru2" type="radio" name="r21" value="2"><label for="ru2"></label></td>
-            <td><input id="ru3" type="radio" name="r21" value="3"><label for="ru3"></label></td>
-        </tr>	
-        <tr>
-            <td><p>Sono conosciute le procedure in caso di incidente, incendio o evacuazione ed i numeri di emergenza?</p></td>
-            <td><input id="rt1" type="radio" name="r22" value="1" checked><label for="rt1"></label></td>
-            <td><input id="rt2" type="radio" name="r22" value="2"><label for="rt2"></label></td>
-            <td><input id="rt3" type="radio" name="r22" value="3"><label for="rt3"></label></td>
-        </tr>						
-    </table>
+    <form [formGroup]="risk1">
+        <div class="risk">
+            <div></div>
+            <div class="head">
+                <div>OK</div>
+                <div>NOK</div>
+                <div>NA</div>
+            </div>
+        </div>
+        <div *ngFor="let r of riskList; let i = index" class="risk">
+            <div>{{r}}</div>
+            <mat-radio-group aria-label="Select an option" [formControlName]="'a'+(i*1+1)">
+                <mat-radio-button value="ok">{{chW()?'OK':''}}</mat-radio-button>
+                <mat-radio-button value="nok">{{chW()?'NOK':''}}</mat-radio-button>
+                <mat-radio-button value="na">{{chW()?'NA':''}}</mat-radio-button>
+            </mat-radio-group>  
+        </div> 
+        <h4>Ci sono altri rischi?</h4>
+        <div *ngFor="let f of riskList2; let o = index" class="risk" >
+            <div>{{f}}</div>
+            <mat-radio-group aria-label="Select an option" [formControlName]="'b'+(o*1+1)">
+                <mat-radio-button value="ok">{{chW()?'OK':''}}</mat-radio-button>
+                <mat-radio-button value="nok">{{chW()?'NOK':''}}</mat-radio-button>
+                <mat-radio-button value="na">{{chW()?'NA':''}}</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </form>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" [mat-dialog-close]="">Proceed</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="risk1.value">Confirm</button>
 </div>
