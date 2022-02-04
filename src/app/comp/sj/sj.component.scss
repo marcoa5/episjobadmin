@@ -251,3 +251,9 @@ img{
 .search{
     margin-top:15px;
 }
+
+.hide{
+    position:fixed;
+    left: -1000px;
+    visibility:hidden;
+}

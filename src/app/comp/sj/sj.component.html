@@ -126,6 +126,9 @@
           <mat-step [stepControl]="hoursForm">
               <form [formGroup]="hoursForm">
                 <ng-template matStepLabel>Hours</ng-template>
+                <mat-form-field class="hide">
+                    <input matInput type="number" min="1" formControlName="check">
+                </mat-form-field>
                 <div class="newDayCont" (click)="addDay()">
                     <button mat-mini-fab color="accent"  [disabled]="days.length>6" style="margin:15px 0;" color="primary">
                 

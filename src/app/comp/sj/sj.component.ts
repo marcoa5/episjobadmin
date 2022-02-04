@@ -37,7 +37,6 @@ export interface ma{
   contnomec: string
   contfirmac: string
   contsondc: string
-  sondaggio: string
   elencomail: string
   firmatt1: string
   firmacc1: string
@@ -451,7 +450,7 @@ export class SjComponent implements OnInit {
       oss:['']
     }),
     this.hoursForm=fb.group({
-
+      check: ['', Validators.required]
     })
     this.day1 =fb.group({})
     this.signatureForm=fb.group({
@@ -552,6 +551,7 @@ export class SjComponent implements OnInit {
               return 0;
             }
           });
+          this.hoursForm.controls.check.setValue(this.days.length)
         }
       }
     })
@@ -585,6 +585,7 @@ export class SjComponent implements OnInit {
 
   delete(a:number){
     this.days.splice(a,1)
+    this.hoursForm.controls.check.setValue(this.days.length==0?'':this.days.length)
   }
 
   save(){
@@ -614,11 +615,10 @@ export class SjComponent implements OnInit {
       apbpcs:'',
       chbpcs:'',
       docbpcs:'',
-      rissondaggio:`${this.custSurv.s1}${this.custSurv.s3}${this.custSurv.s3}`,
+      rissondaggio:`${this.custSurv.s1}${this.custSurv.s2}${this.custSurv.s3}`,
       contnomec:this.custSurv.name,
       contfirmac:'1',
       contsondc:'1',
-      sondaggio:'',
       elencomail:'',
       rs:this.riskAss,
       tecnico11:'',
