@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TemplComponent } from './templ.component';
+import { SjhomeComponent } from './sjhome.component';
 
-describe('TemplComponent', () => {
-  let component: TemplComponent;
-  let fixture: ComponentFixture<TemplComponent>;
+describe('SjhomeComponent', () => {
+  let component: SjhomeComponent;
+  let fixture: ComponentFixture<SjhomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TemplComponent ]
+      declarations: [ SjhomeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TemplComponent);
+    fixture = TestBed.createComponent(SjhomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

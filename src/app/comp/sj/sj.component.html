@@ -1,4 +1,4 @@
-<episjob-navbar title="Service Job" [cerca]="false"></episjob-navbar>
+<episjob-navbar backB="sj" title="Service Job" [cerca]="false"></episjob-navbar>
 <episjob-spin *ngIf="spin"></episjob-spin>
 <episjob-sign (closeS)="close($event)" [sign]="torc=='t'?techSign:custSign" [tc]="torc" *ngIf="!signatureClosed"></episjob-sign>
 <div class="cont" *ngIf="allow &&!spin">
@@ -27,12 +27,12 @@
                     </tr>
                 </div>
             </form>
-            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1">
+            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1"  (input)="saveData()">
                 <h4>Machine data</h4>
                 <div class="group4">
                     <mat-form-field [appearance]="appearance">
                         <mat-label>Data</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="date">
+                        <input matInput [matDatepicker]="picker" formControlName="date" (input)="saveData()">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -90,20 +90,20 @@
                 <div>
                     <h4>Job Type</h4>
                     <mat-radio-group aria-label="Select an option" class="radiocont" [(ngModel)]="ty" formControlName="type">
-                        <mat-radio-button value="std">STD</mat-radio-button>
-                        <mat-radio-button value="spe" checked>SPE</mat-radio-button>
+                        <mat-radio-button value="STD">STD</mat-radio-button>
+                        <mat-radio-button value="SPE" checked>SPE</mat-radio-button>
                     </mat-radio-group>
                 </div>
 
                 
             </form>
             <div class="button">
-                <button mat-raised-button matStepperNext color="primary" [disabled]="rigForm.invalid" class="but">Next</button>
+                <button mat-raised-button matStepperNext color="primary" [disabled]="rigForm.invalid" class="but" (click)="saveData()">Next</button>
             </div>
         </mat-step>
 
         <mat-step [stepControl]="reportForm">
-            <form [formGroup]="reportForm">
+            <form [formGroup]="reportForm" (input)="saveData()">
               <ng-template matStepLabel>Service Report</ng-template>
               <h4>Service Report</h4>
               <mat-form-field [appearance]="appearance" class="area">
@@ -117,14 +117,14 @@
               </mat-form-field>
               <div class="button">
                 <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but">Next</button>
+                <button mat-raised-button matStepperNext color="primary" [disabled]="reportForm.invalid" class="but"  (click)="saveData()">Next</button>
                 
               </div>
             </form>
           </mat-step>
 
           <mat-step [stepControl]="hoursForm">
-              <form [formGroup]="hoursForm">
+              <form [formGroup]="hoursForm" (input)="saveData()">
                 <ng-template matStepLabel>Hours</ng-template>
                 <mat-form-field class="hide">
                     <input matInput type="number" min="1" formControlName="check">
@@ -197,7 +197,7 @@
                 </table>
                 <div class="button">
                     <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                    <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but">Next</button>
+                    <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but"  (click)="saveData()">Next</button>
                 </div>
               </form>
               
@@ -220,7 +220,7 @@
               
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="openT()" [disabled]="techSign=='' || custSign==''">Next</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="saveData(); openT()" [disabled]="techSign=='' || custSign==''">Next</button>
               </div>
             </form>
             

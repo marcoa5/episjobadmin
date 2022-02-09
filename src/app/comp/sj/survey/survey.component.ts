@@ -26,6 +26,14 @@ export class SurveyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let r = this.surveyForm.controls
+    r.name.setValue(this.data.name)
+    if(this.data.rissondaggio!=''){
+      r.a1.setValue(this.data.riss.substring(0,1))
+      r.a2.setValue(this.data.riss.substring(1,2))
+      r.a3.setValue(this.data.riss.substring(2,3))
+    }
+    
   }
 
   onNoClick(){

@@ -67,6 +67,9 @@ export class RiskassComponent implements OnInit {
 
 
   ngOnInit(): void {
+    Object.keys(this.data).forEach(i=>{
+      this.risk1.controls[i].setValue(this.data[i])
+    })
   }
 
   onNoClick(){

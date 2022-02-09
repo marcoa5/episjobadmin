@@ -10,15 +10,18 @@ import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { NewdayComponent } from './newday/newday.component';
 import { RiskassComponent } from './riskass/riskass.component';
 import { SurveyComponent } from './survey/survey.component';
-import { TemplComponent } from './templ/templ.component';
+import { MakeidService } from 'src/app/serv/makeid.service';
+import { ActivatedRoute } from '@angular/router';
 
 export interface ma{
   [k:string]: string|number|any;
+  author: string
+  authorId: string
   vsordine: string
   nsofferta1: string
   prodotto1: string
   matricola: string
-  orem: string
+   orem1: string
   perc11: string
   perc21: string
   perc31: string
@@ -99,7 +102,7 @@ export interface ma{
   strl31: string
   mntv31: string
   mntl31: string
-  mfv3: string
+  mfv31: string
   mfl31: string
   mnfv31: string
   mnfl31: string
@@ -195,6 +198,7 @@ export interface ma{
   spv71: string
   off71: string
   ofs71: string
+  days: any
 }
 
 @Component({
@@ -209,6 +213,7 @@ export class SjComponent implements OnInit {
   customers:any[]=[]
   _rigs:any
   rigs:any
+  sjDraftId:string=''
   tech:any[]=[]
   rigForm!:FormGroup
   searchForm!:FormGroup
@@ -227,205 +232,24 @@ export class SjComponent implements OnInit {
   spin:boolean=true
   appearance:MatFormFieldAppearance='fill'
   riskAss:any[]=[]
+  file!:ma
   custSurv:any={
     name:'',
     s1:'',
     s2:'',
     s3:''
   }
-  days:any[]=[/*
-    {
-        "date": "2022-02-02",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 1,
-            "spol": 1,
-            "spsv": 1,
-            "spsl": 1,
-            "mntv": 1,
-            "mntl": 1,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 1,
-            "spv": 1,
-            "off": 1,
-            "ofs": 1
-        },
-        "datel": "02/02/2022",
-        "dates": "02/02/22",
-        "day": "02",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-03",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 2,
-            "spol": 2,
-            "spsv": 2,
-            "spsl": 2,
-            "mntv": 2,
-            "mntl": 2,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 2,
-            "spv": 2,
-            "off": 2,
-            "ofs": 2
-        },
-        "datel": "03/02/2022",
-        "dates": "03/02/22",
-        "day": "03",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-04",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 3,
-            "spol": 3,
-            "spsv": 3,
-            "spsl": 3,
-            "mntv": 3,
-            "mntl": 3,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 3,
-            "spv": 3,
-            "off": 3,
-            "ofs": 3
-        },
-        "datel": "04/02/2022",
-        "dates": "04/02/22",
-        "day": "04",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-07",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 4,
-            "spol": 4,
-            "spsv": 4,
-            "spsl": 4,
-            "mntv": 4,
-            "mntl": 4,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 4,
-            "spv": 4,
-            "off": 4,
-            "ofs": 4
-        },
-        "datel": "07/02/2022",
-        "dates": "07/02/22",
-        "day": "07",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-08",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 5,
-            "spol": 3,
-            "spsv": 5,
-            "spsl": 3,
-            "mntv": 5,
-            "mntl": 3,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 5,
-            "spv": 5,
-            "off": 5,
-            "ofs": 5
-        },
-        "datel": "08/02/2022",
-        "dates": "08/02/22",
-        "day": "08",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-09",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 6,
-            "spol": 2,
-            "spsv": 6,
-            "spsl": 2,
-            "mntv": 6,
-            "mntl": 2,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 6,
-            "spv": 6,
-            "off": 6,
-            "ofs": 6
-        },
-        "datel": "09/02/2022",
-        "dates": "09/02/22",
-        "day": "09",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    },
-    {
-        "date": "2022-02-11",
-        "tech": "ANDREA LAINI",
-        "hr": {
-            "spov": 7,
-            "spol": 1,
-            "spsv": 7,
-            "spsl": 1,
-            "mntv": 7,
-            "mntl": 1,
-            "mfv": 0,
-            "mfl": 0,
-            "mnfv": 0,
-            "mnfl": 0,
-            "km": 7,
-            "spv": 7,
-            "off": 7,
-            "ofs": 7
-        },
-        "datel": "11/02/2022",
-        "dates": "11/02/22",
-        "day": "11",
-        "month": "02",
-        "year": "2022",
-        "techs": "A.L."
-    }*/
-]
+  days:any[]=[]
 
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
   custSign:string=''
   torc:string=''
-  ty:string='spe'
-
-  constructor(private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService) {
+  ty:string='SPE'
+  userId:string=''
+  userName:string=''
+  constructor(private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
@@ -443,7 +267,7 @@ export class SjComponent implements OnInit {
       perc1h: [''],
       perc2h: [''],
       perc3h: [''],
-      type:['spe', Validators.required]
+      type:['SPE', Validators.required]
     })
     this.reportForm=this.fb.group({
       report:['', Validators.required],
@@ -458,12 +282,15 @@ export class SjComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
+  ngOnInit(): any {  
+
     //const dialogRef = this.dialog.open(RiskassComponent)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
           this.pos=a.Pos
+          this.userId=a.uid
+          this.userName=a.Nome + ' ' + a.Cognome
           setTimeout(() => {
             this.allow=this.auth.allow('sj',this.pos) 
             this.spin=false
@@ -483,6 +310,12 @@ export class SjComponent implements OnInit {
         if(a) this.tech=a
       })
     )
+    this.route.params.subscribe(a=>{
+      if(a) {
+        let b= localStorage.getItem(a.id)
+        if(b) this.loadData(JSON.parse(b),a.id)
+      }
+    })
   }
 
   ngOnDestroy(){
@@ -514,7 +347,7 @@ export class SjComponent implements OnInit {
       this.rigForm.controls.customer2.setValue(this.customers[this.rigs[0].custid].c2)
       this.rigForm.controls.customer3.setValue(this.customers[this.rigs[0].custid].c3)
       this.rigForm.controls.site.setValue(this.rigs[0].site)
-      this.rigForm.controls.type.setValue('spe')
+      this.rigForm.controls.type.setValue('SPE')
     } else {
       this.rigForm.reset()
     }
@@ -552,6 +385,7 @@ export class SjComponent implements OnInit {
             }
           });
           this.hoursForm.controls.check.setValue(this.days.length)
+          this.saveData()
         }
       }
     })
@@ -559,17 +393,17 @@ export class SjComponent implements OnInit {
 
   sign(a:string){
     let dia:any
-    if(a=='t') dia = this.dialog.open(RiskassComponent)
-    if(a=='c') dia = this.dialog.open(SurveyComponent)
+    if(a=='t') dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
+    if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
     dia.afterClosed().subscribe((b:any)=>{
       if(b){
-        if(a=='t') this.riskAss=b
+        if(a=='t') {
+          this.riskAss=b
+        }
         if(a=='c') this.custSurv=b
-        console.log(this.custSurv)
         this.torc=a
         this.signatureClosed=false
       }
-      
     }) 
     
   }
@@ -578,9 +412,9 @@ export class SjComponent implements OnInit {
     if(e!='close'){
       if(e[0]=='t') this.techSign=e[1]
       if(e[0]=='c') this.custSign=e[1]
-
     }
     this.signatureClosed=true
+    this.saveData()
   }
 
   delete(a:number){
@@ -588,12 +422,12 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days.length==0?'':this.days.length)
   }
 
-  save(){
-
-  }
-
-  openT(){
+  saveData(){
+    if(this.sjDraftId=='') this.sjDraftId = 'sjdraft' + this.id.makeId(5)
+    let i:number=1
     let h:ma = {
+      author: this.userName,
+      authorId: this.userId,
       data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
       prodotto1: this.rigForm.controls.model.value,
       matricola: this.rigForm.controls.sn.value,
@@ -601,17 +435,17 @@ export class SjComponent implements OnInit {
       cliente12: this.rigForm.controls.customer2.value,
       cliente13: this.rigForm.controls.customer3.value,
       cantiere1: this.rigForm.controls.site.value,
-      firmacc1: this.custSign? this.custSign: this.blankSign,
-      firmatt1: this.techSign? this.techSign: this.blankSign,
+      firmacc1: this.custSign,
+      firmatt1: this.techSign,
       rappl1: this.reportForm.controls.report.value,
       oss1: this.reportForm.controls.oss.value,
-      orem: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
-      perc11: this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-      perc21: this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
-      perc31: this.rigForm.controls.perc3h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+      orem1: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+      perc11: this.rigForm.controls.perc1h.value>0?this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+      perc21: this.rigForm.controls.perc2h.value>0?this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+      perc31: this.rigForm.controls.perc3h.value>0?this.rigForm.controls.perc3h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
       nsofferta1:'',
       vsordine:'',
-      stdspe:'',
+      stdspe: this.rigForm.controls.type.value,
       apbpcs:'',
       chbpcs:'',
       docbpcs:'',
@@ -621,207 +455,99 @@ export class SjComponent implements OnInit {
       contsondc:'1',
       elencomail:'',
       rs:this.riskAss,
-      tecnico11:'',
-      dat11:'',
-      dat12:'',
-      dat13:'',
-      spov11:'',
-      spol11:'',
-      spsv11:'',
-      spll11:'',
-      stdv11:'',
-      stdl11:'',
-      strv11:'',
-      strl11:'',
-      mntv11:'',
-      mntl11:'',
-      mfv11:'',
-      mfl11:'',
-      mnfv11:'',
-      mnfl11:'',
-      km11:'',
-      spv11:'',
-      off11:'',
-      ofs11:'',
-      tecnico21:'',
-      dat21:'',
-      dat22:'',
-      dat23:'',
-      spov21:'',
-      spol21:'',
-      spsv21:'',
-      spll21:'',
-      stdv21:'',
-      stdl21:'',
-      strv21:'',
-      strl21:'',
-      mntv21:'',
-      mntl21:'',
-      mfv21:'',
-      mfl21:'',
-      mnfv21:'',
-      mnfl21:'',
-      km21:'',
-      spv21:'',
-      off21:'',
-      ofs21:'',
-      tecnico31:'',
-      dat31:'',
-      dat32:'',
-      dat33:'',
-      spov31:'',
-      spol31:'',
-      spsv31:'',
-      spll31:'',
-      stdv31:'',
-      stdl31:'',
-      strv31:'',
-      strl31:'',
-      mntv31:'',
-      mntl31:'',
-      mfv3:'',
-      mfl31:'',
-      mnfv31:'',
-      mnfl31:'',
-      km31:'',
-      spv31:'',
-      off31:'',
-      ofs31:'',
-      tecnico41:'',
-      dat41:'',
-      dat42:'',
-      dat43:'',
-      spov41:'',
-      spol41:'',
-      spsv41:'',
-      spll41:'',
-      stdv41:'',
-      stdl41:'',
-      strv41:'',
-      strl41:'',
-      mntv41:'',
-      mntl41:'',
-      mfv41:'',
-      mfl41:'',
-      mnfv41:'',
-      mnfl41:'',
-      km41:'',
-      spv41:'',
-      off41:'',
-      ofs41:'',
-      tecnico51:'',
-      dat51:'',
-      dat52:'',
-      dat53:'',
-      spov51:'',
-      spol51:'',
-      spsv51:'',
-      spll51:'',
-      stdv51:'',
-      stdl51:'',
-      strv51:'',
-      strl51:'',
-      mntv51:'',
-      mntl51:'',
-      mfv51:'',
-      mfl51:'',
-      mnfv51:'',
-      mnfl51:'',
-      km51:'',
-      spv51:'',
-      off51:'',
-      ofs51:'',
-      tecnico61:'',
-      dat61:'',
-      dat62:'',
-      dat63:'',
-      spov61:'',
-      spol61:'',
-      spsv61:'',
-      spll61:'',
-      stdv61:'',
-      stdl61:'',
-      strv61:'',
-      strl61:'',
-      mntv61:'',
-      mntl61:'',
-      mfv61:'',
-      mfl61:'',
-      mnfv61:'',
-      mnfl61:'',
-      km61:'',
-      spv61:'',
-      off61:'',
-      ofs61:'',
-      tecnico71:'',
-      dat71:'',
-      dat72:'',
-      dat73:'',
-      spov71:'',
-      spol71:'',
-      spsv71:'',
-      spll71:'',
-      stdv71:'',
-      stdl71:'',
-      strv71:'',
-      strl71:'',
-      mntv71:'',
-      mntl71:'',
-      mfv71:'',
-      mfl71:'',
-      mnfv71:'',
-      mnfl71:'',
-      km71:'',
-      spv71:'',
-      off71:'',
-      ofs71:'',
+      days: this.days,
+      tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
+      tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
+      tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
+      tecnico41:'',dat41:'',dat42:'',dat43:'',spov41:'',spol41:'',spsv41:'',spll41:'',stdv41:'',stdl41:'',strv41:'',strl41:'',mntv41:'',mntl41:'',mfv41:'',mfl41:'',mnfv41:'',mnfl41:'',km41:'',spv41:'',off41:'',ofs41:'',
+      tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
+      tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
+      tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
     }
-    let i:number = 1
     this.days.forEach(a=>{
-    if(this.rigForm.controls.type.value=='std') {
-      h['spov'+i +'1']=''
-      h['spol'+i +'1']=''
-      h['spsv'+i +'1']=''
-      h['spsl'+i +'1']=''
-      h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-      h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-      h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-      h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-    } else {
-      h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-      h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-      h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-      h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-      h['stdv'+i +'1']=''
-      h['stdl'+i +'1']=''
-      h['strv'+i +'1']=''
-      h['strl'+i +'1']=''
-    }
-    h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
-    h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
-    h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
-    h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
-    h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
-    h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
-    h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-    h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
-    h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
-    h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
-
-
-
-      h['tecnico' + i + '1']=a.tech
-      h['dat' + i + '1']=a.day
-      h['dat' + i + '2']=a.month
-      h['dat' + i + '3']=a.year
-      i++
-    })
-    console.log(JSON.stringify(h))
-    let url = 'https://episjobreq.herokuapp.com/sjTemplate'//'http://localhost:3001/sjTemplate'
-    this.http.post(url, h).subscribe(a=>{
-      const dia = this.dialog.open(TemplComponent, {panelClass: 'templ-dialog',data:a})
-    })
-
-
+      if(this.rigForm.controls.type.value=='STD') {
+        h['spov'+i +'1']=''
+        h['spol'+i +'1']=''
+        h['spsv'+i +'1']=''
+        h['spsl'+i +'1']=''
+        h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+        h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+        h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+        h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+      } else {
+        h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+        h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+        h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+        h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+        h['stdv'+i +'1']=''
+        h['stdl'+i +'1']=''
+        h['strv'+i +'1']=''
+        h['strl'+i +'1']=''
+      }
+      h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
+      h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
+      h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
+      h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
+      h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
+      h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
+      h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+      h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
+      h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
+  
+  
+  
+        h['tecnico' + i + '1']=a.tech
+        h['dat' + i + '1']=a.day
+        h['dat' + i + '2']=a.month
+        h['dat' + i + '3']=a.year
+        i++
+      })
+    this.file=h
+    localStorage.setItem(this.sjDraftId, JSON.stringify(this.file))
   }
+
+  openT(){
+    
+  }
+
+  loadData(a:any, b:string){
+    this.sjDraftId = b
+    this.rigForm.controls.date.setValue(a.data11)
+    this.rigForm.controls.model.setValue(a.prodotto1)
+      this.rigForm.controls.sn.setValue(a.matricola)
+      this.fil(a.matricola)
+      this.rigForm.controls.customer.setValue(a.cliente11)
+      this.rigForm.controls.customer2.setValue(a.cliente12)
+      this.rigForm.controls.customer3.setValue(a.cliente13)
+      this.rigForm.controls.site.setValue(a.cantiere1)
+      this.custSign=a.firmacc1
+      this.techSign=a.firmatt1
+      this.reportForm.controls.report.setValue(a.rappl1)
+      this.reportForm.controls.oss.setValue(a.oss1)
+      this.rigForm.controls.engh.setValue(parseInt(a. orem1.replace(/[.]/g,'')))
+      this.rigForm.controls.perc1h.setValue(parseInt(a.perc11.replace(/[.]/g,'')))
+      this.rigForm.controls.perc2h.setValue(parseInt(a.perc21.replace(/[.]/g,'')))
+      this.rigForm.controls.perc3h.setValue(parseInt(a.perc31.replace(/[.]/g,'')))
+
+      this.custSurv.s1=a.rissondaggio.substring(0,1)
+      this.custSurv.s2=a.rissondaggio.substring(1,2)
+      this.custSurv.s3=a.rissondaggio.substring(2,3)
+      this.custSurv.name= a.contnomec
+      this.ty=a.stdspe
+      //elencomail:'',
+      this.riskAss=a.rs
+      this.days=a.days
+      this.hoursForm.controls.check.setValue(this.days.length)
+      /*tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
+      tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
+      tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
+      tecnico41:'',dat41:'',dat42:'',dat43:'',spov41:'',spol41:'',spsv41:'',spll41:'',stdv41:'',stdl41:'',strv41:'',strl41:'',mntv41:'',mntl41:'',mfv41:'',mfl41:'',mnfv41:'',mnfl41:'',km41:'',spv41:'',off41:'',ofs41:'',
+      tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
+      tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
+      tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
+  */
+    }
+
+    test(){console.log('ok')}
 }

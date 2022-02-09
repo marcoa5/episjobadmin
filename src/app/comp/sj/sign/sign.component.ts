@@ -22,6 +22,7 @@ export class SignComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if(this.sign!='') this.isValid=true
   }
 
   ngAfterViewInit() {

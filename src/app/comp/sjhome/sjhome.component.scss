@@ -1,4 +1,8 @@
-@import '../../../../epi.scss';
+@import '../../../epi.scss';
+
+.mainCont{
+    padding: 80px 10px 30px 10px
+}
 
 
 @media screen and (min-width:801px) {
@@ -14,7 +18,7 @@
 
 .cont, .head{
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(2, 1fr) repeat(2, 2fr);
     align-items: center;
     margin-bottom: 5px;
 }
@@ -48,6 +52,7 @@
     display: flex;
     //grid-template-columns: 85% 1fr;
     align-items: center;
+    height: 24px;
 }
 
 .h:hover{
@@ -75,4 +80,11 @@ span{
     padding: 5px 0;
     border-radius: 10px 10px 0 0;
     cursor: pointer;
+}
+
+.butCont{
+    width:100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
 }

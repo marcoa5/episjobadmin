@@ -27,7 +27,7 @@ firebase.initializeApp({
     messaging.onBackgroundMessage((payload) => {
       if(payload.data.type=='general'){
         url = 'notif'
-        const notificationTitle = 'You have ' + (payload.data.count=='1'? payload.data.count + ' new message' : payload.data.count + ' new notifications');
+        const notificationTitle = (payload.data.count=='1'? '1 new notification' : payload.data.count + ' new notifications');
         const notificationOptions = {
           body: payload.data.text,
           badge: 'https://raw.githubusercontent.com/marcoa5/episjobadmin/master/src/assets/icons/logo.png',
