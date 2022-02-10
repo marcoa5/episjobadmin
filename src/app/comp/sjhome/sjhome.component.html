@@ -1,7 +1,7 @@
 <episjob-navbar [cerca]="false" title="Service Jobs"></episjob-navbar>
 
 <div class="mainCont" *ngIf="!allow">Restricted Area</div>
-
+<div id="test"></div>
 <div class="mainCont" *ngIf="allow"> 
     <episjob-h2 data="Actions" icon="rocket_launch" padtop=0></episjob-h2>
     <div class="butCont">
@@ -14,10 +14,10 @@
     <div *ngIf="list1.length>0">
         <episjob-h2 icon=home data="Drafts"></episjob-h2>
         <div class="head" [class.mat-elevation-z2]="true">
-            <div class="h" (click)="sort('data11')">
+            <div class="h" (click)="sort('data_new')">
                 <span>Date</span>
-                <span *ngIf="sortIcon=='data11' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIcon=='data11' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+                <span *ngIf="sortIcon=='data_new' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+                <span *ngIf="sortIcon=='data_new' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
             </div>
             <div class="h" (click)="sort('matricola')">
                 <span>Serial Nr</span>
@@ -37,7 +37,7 @@
         </div>
         <div class="contL">
             <div *ngFor="let l of list1; let i = index" class="cont" (click)="sel(l.sjid, i)" [ngClass]="l.sel==1? 'sel':''">
-                <div class="text bold">{{l.data11}}</div>
+                <div class="text bold">{{l.data_new}}</div>
                 <div class="text bold">{{l.matricola}}</div>
                 <div class="text">{{l.prodotto1}}</div>
                 <div class="text">{{l.cliente11}}</div>
@@ -48,10 +48,10 @@
     <div *ngIf="listSent.length>0 && pos=='SU' || pos=='admin'">
         <episjob-h2 icon=home data="Sent"></episjob-h2>
         <div class="head" [class.mat-elevation-z2]="true">
-            <div class="h" (click)="sortSent('data11')">
+            <div class="h" (click)="sortSent('data_new')">
                 <span>Date</span>
-                <span *ngIf="sortIconS=='data11' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIconS=='data11' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+                <span *ngIf="sortIconS=='data_new' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+                <span *ngIf="sortIconS=='data_new' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
             </div>
             <div class="h" (click)="sortSent('matricola')">
                 <span>Serial Nr</span>

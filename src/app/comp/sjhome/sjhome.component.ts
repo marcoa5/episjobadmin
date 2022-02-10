@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
+import jsPDF from 'jspdf';
 @Component({
   selector: 'episjob-sjhome',
   templateUrl: './sjhome.component.html',
@@ -64,9 +65,11 @@ export class SjhomeComponent implements OnInit {
       }
     }
     this.list=this._list
-    this.list1 = Object.keys(this._list).map(o=>{
-      this._list[o].sjid=o
-      return this._list[o]
+    let a = this._list
+    this.list1 = Object.keys(a).map(o=>{
+      a[o].data_new=moment(a[o].data11).format('YYYY-MM-DD')
+      a[o].sjid=o
+      return a[o]
     })
     setTimeout(() => {
         firebase.database().ref('sjDraft').child(this.userId).set(this.list)

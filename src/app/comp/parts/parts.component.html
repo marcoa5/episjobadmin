@@ -16,8 +16,13 @@
                 <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
                 <episjob-listofrequests [list]="list" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
-            <div *ngIf="(!info || !info.sn)">
-                <episjob-h2 data="Request Sent" icon="forward_to_inbox" *ngIf="pos=='SU'"></episjob-h2>
+            <div *ngIf="pos=='SU' && spin" class="load">
+                <episjob-spin></episjob-spin>
+                <div class="te">Loading Sent....</div> 
+            </div>
+            
+            <div *ngIf="(!info || !info.sn) && pos=='SU' && listSent.length>0">
+                <episjob-h2 data="Request Sent" icon="forward_to_inbox"></episjob-h2>
                 <form class="formCont">
                     <mat-form-field appearance="fill" class="sea">
                         <mat-label>Search</mat-label>

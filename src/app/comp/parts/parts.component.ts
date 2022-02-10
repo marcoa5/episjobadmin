@@ -35,6 +35,7 @@ export class PartsComponent implements OnInit {
   allSpin:boolean=true
   userReqId:string='none'
   search:string=''
+  spin:boolean=false
   subsList:Subscription[]=[]
 
 
@@ -102,6 +103,7 @@ export class PartsComponent implements OnInit {
   }
 
   loadsent(){
+    this.spin=true
     if(this.pos=='SU'){
       firebase.database().ref('PartReqSent').on('value',b=>{
         this._listSent=[]
@@ -111,6 +113,7 @@ export class PartsComponent implements OnInit {
             g.sel=0
             this._listSent.push(g)
             this.listSent=this._listSent
+            this.spin=false
           })
         })
       })
