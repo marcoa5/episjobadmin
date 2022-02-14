@@ -12,9 +12,11 @@ import { RiskassComponent } from './riskass/riskass.component';
 import { SurveyComponent } from './survey/survey.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ActivatedRoute } from '@angular/router';
+import firebase from 'firebase/app'
 
 export interface ma{
   [k:string]: string|number|any;
+  userId: string
   author: string
   authorId: string
   vsordine: string
@@ -230,6 +232,7 @@ export class SjComponent implements OnInit {
   subsList:Subscription[]=[]
   sn:string=''
   spin:boolean=true
+  spin1:boolean=false
   appearance:MatFormFieldAppearance='fill'
   riskAss:any[]=[]
   file!:ma
@@ -240,7 +243,6 @@ export class SjComponent implements OnInit {
     s3:''
   }
   days:any[]=[]
-
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
@@ -248,6 +250,8 @@ export class SjComponent implements OnInit {
   torc:string=''
   ty:string='SPE'
   userId:string=''
+  technicians:any[]=[]
+  behalf:any
   userName:string=''
   constructor(private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
@@ -255,7 +259,7 @@ export class SjComponent implements OnInit {
       search:''
     })
     this.rigForm=fb.group({
-      date: [moment(new Date()).format('YYYY-MM-DD')],
+      date: ['', Validators.required],
       sn: ['', Validators.required],
       pn: [''],
       model: ['', Validators.required],
@@ -311,15 +315,38 @@ export class SjComponent implements OnInit {
       })
     )
     this.route.params.subscribe(a=>{
-      if(a) {
-        let b= localStorage.getItem(a.id)
-        if(b) this.loadData(JSON.parse(b),a.id)
+      if(a.id) {
+        let b
+        this.spin1 = true
+        if(navigator.onLine){
+          firebase.database().ref('sjDraft').child(this.userId).child(a.id).once('value',k=>{
+            b=k.val()
+            this.loadData(b,a.id)
+          })
+          .then(()=>this.spin1=false)
+        }else {
+          b= localStorage.getItem(a.id)
+          if(b) this.loadData(JSON.parse(b),a.id)
+          this.spin1 = false
+        }
+
       }
     })
+    this.loadTech()
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
+  loadTech(){
+    if(this.pos=='SU'){
+      firebase.database().ref('Users').once('value',t=>{
+        t.forEach(rf=>{
+          if(rf.val().Pos=='tech') this.technicians.push({name: rf.val().Nome + ' ' + rf.val().Cognome, id:rf.key})
+        })
+      })
+    }
   }
 
   searchCust(e:any){
@@ -354,11 +381,11 @@ export class SjComponent implements OnInit {
   }
 
   addDay(i?:number){
-    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:i!=undefined?i+1:this.days.length+1,type:this.rigForm.controls.type.value, edit: i!=undefined?this.days[i]:undefined}})
+    const dialogRef = this.dialog.open(NewdayComponent, {panelClass: 'full-width-dialog', data: {nr:i!=undefined?i+1:(this.days?this.days.length:0)+1,type:this.rigForm.controls.type.value, edit: i!=undefined?this.days[i]:undefined}})
     dialogRef.afterClosed().subscribe(rt=>{
       if(rt){
         let a = rt.data
-        if(this.days.length<7){
+        if(!this.days || this.days.length<7){
           a.date = moment(a.date).format('YYYY-MM-DD')
           a.datel = moment(a.date).format('DD/MM/YYYY')
           a.dates = moment(a.date).format('DD/MM/YY')
@@ -367,8 +394,8 @@ export class SjComponent implements OnInit {
           a.year = moment(a.date).format('YYYY')
 
           a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
-          
           if(rt.info!=undefined){
+            if(rt.info-1 ==0) this.days=[]
             this.days[rt.info-1]=a
           } else {
             this.days.push(a)
@@ -426,6 +453,7 @@ export class SjComponent implements OnInit {
     if(this.sjDraftId=='') this.sjDraftId = 'sjdraft' + this.id.makeId(5)
     let i:number=1
     let h:ma = {
+      userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
       author: this.userName,
       authorId: this.userId,
       data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
@@ -454,8 +482,8 @@ export class SjComponent implements OnInit {
       contfirmac:'1',
       contsondc:'1',
       elencomail:'',
-      rs:this.riskAss,
-      days: this.days,
+      rs:this.riskAss?this.riskAss:[],
+      days: this.days?this.days:[],
       tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
       tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
       tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
@@ -464,90 +492,104 @@ export class SjComponent implements OnInit {
       tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
       tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
     }
-    this.days.forEach(a=>{
-      if(this.rigForm.controls.type.value=='STD') {
-        h['spov'+i +'1']=''
-        h['spol'+i +'1']=''
-        h['spsv'+i +'1']=''
-        h['spsl'+i +'1']=''
-        h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-        h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-        h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-        h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-      } else {
-        h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-        h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-        h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-        h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-        h['stdv'+i +'1']=''
-        h['stdl'+i +'1']=''
-        h['strv'+i +'1']=''
-        h['strl'+i +'1']=''
-      }
-      h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
-      h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
-      h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
-      h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
-      h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
-      h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
-      h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-      h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
-      h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
-      h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
-  
-  
-  
-        h['tecnico' + i + '1']=a.tech
-        h['dat' + i + '1']=a.day
-        h['dat' + i + '2']=a.month
-        h['dat' + i + '3']=a.year
-        i++
-      })
+    if(this.days){
+      this.days.forEach(a=>{
+        if(this.rigForm.controls.type.value=='STD') {
+          h['spov'+i +'1']=''
+          h['spol'+i +'1']=''
+          h['spsv'+i +'1']=''
+          h['spsl'+i +'1']=''
+          h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+          h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+          h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+          h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+        } else {
+          h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+          h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+          h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+          h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+          h['stdv'+i +'1']=''
+          h['stdl'+i +'1']=''
+          h['strv'+i +'1']=''
+          h['strl'+i +'1']=''
+        }
+        h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
+        h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
+        h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
+        h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
+        h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
+        h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
+        h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+        h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+        h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
+        h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
+    
+    
+    
+          h['tecnico' + i + '1']=a.tech
+          h['dat' + i + '1']=a.day
+          h['dat' + i + '2']=a.month
+          h['dat' + i + '3']=a.year
+          i++
+        })
+    }
+    let g = h.data11
+    let d = parseInt(g.substring(0,2))
+    let m = parseInt(g.substring(3,5))-1
+    let y = parseInt(g.substring(6,10))
+    let n_d = new Date(y,m,d)
+    h.data_new=moment(n_d).format('YYYY-MM-DD')
+    h.lastM = new Date()
+    h.sjid=this.sjDraftId
     this.file=h
     localStorage.setItem(this.sjDraftId, JSON.stringify(this.file))
-  }
-
-  openT(){
-    
+    let mod = localStorage.getItem('sjDraftMod')
+    let _mod:any={}
+    if(mod) _mod= JSON.parse(mod)
+    _mod[this.sjDraftId]=moment(new Date()).format('YYYYMMDDHHmmss')
+    localStorage.setItem('sjDraftMod', JSON.stringify(_mod))
+    if(navigator.onLine) {
+      firebase.database().ref('sjDraft').child(this.file.userId).child(this.sjDraftId).set(this.file)
+      firebase.database().ref('sjDraftMod').child(this.file.userId).child(this.sjDraftId).set(moment(new Date()).format('YYYYMMDDHHmmss'))
+    }
   }
 
   loadData(a:any, b:string){
     this.sjDraftId = b
-    this.rigForm.controls.date.setValue(a.data11)
     this.rigForm.controls.model.setValue(a.prodotto1)
-      this.rigForm.controls.sn.setValue(a.matricola)
-      this.fil(a.matricola)
-      this.rigForm.controls.customer.setValue(a.cliente11)
-      this.rigForm.controls.customer2.setValue(a.cliente12)
-      this.rigForm.controls.customer3.setValue(a.cliente13)
-      this.rigForm.controls.site.setValue(a.cantiere1)
-      this.custSign=a.firmacc1
-      this.techSign=a.firmatt1
-      this.reportForm.controls.report.setValue(a.rappl1)
-      this.reportForm.controls.oss.setValue(a.oss1)
-      this.rigForm.controls.engh.setValue(parseInt(a. orem1.replace(/[.]/g,'')))
-      this.rigForm.controls.perc1h.setValue(parseInt(a.perc11.replace(/[.]/g,'')))
-      this.rigForm.controls.perc2h.setValue(parseInt(a.perc21.replace(/[.]/g,'')))
-      this.rigForm.controls.perc3h.setValue(parseInt(a.perc31.replace(/[.]/g,'')))
+    this.rigForm.controls.sn.setValue(a.matricola)
+    this.fil(a.matricola)
+    setTimeout(() => {
+      let g = a.data11
+      let d = parseInt(g.substring(0,2))
+      let m = parseInt(g.substring(3,5))-1
+      let y = parseInt(g.substring(6,10))
+      let n_d = new Date(y,m,d)
+      this.rigForm.controls.date.setValue(n_d)
+    }, 100);
+    this.rigForm.controls.customer.setValue(a.cliente11)
+    this.rigForm.controls.customer2.setValue(a.cliente12)
+    this.rigForm.controls.customer3.setValue(a.cliente13)
+    this.rigForm.controls.site.setValue(a.cantiere1)
+    this.custSign=a.firmacc1
+    this.techSign=a.firmatt1
+    this.reportForm.controls.report.setValue(a.rappl1)
+    this.reportForm.controls.oss.setValue(a.oss1)
+    this.rigForm.controls.engh.setValue(parseInt(a. orem1.replace(/[.]/g,'')))
+    this.rigForm.controls.perc1h.setValue(parseInt(a.perc11.replace(/[.]/g,'')))
+    this.rigForm.controls.perc2h.setValue(parseInt(a.perc21.replace(/[.]/g,'')))
+    this.rigForm.controls.perc3h.setValue(parseInt(a.perc31.replace(/[.]/g,'')))
 
-      this.custSurv.s1=a.rissondaggio.substring(0,1)
-      this.custSurv.s2=a.rissondaggio.substring(1,2)
-      this.custSurv.s3=a.rissondaggio.substring(2,3)
-      this.custSurv.name= a.contnomec
-      this.ty=a.stdspe
-      //elencomail:'',
-      this.riskAss=a.rs
-      this.days=a.days
-      this.hoursForm.controls.check.setValue(this.days.length)
-      /*tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
-      tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
-      tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
-      tecnico41:'',dat41:'',dat42:'',dat43:'',spov41:'',spol41:'',spsv41:'',spll41:'',stdv41:'',stdl41:'',strv41:'',strl41:'',mntv41:'',mntl41:'',mfv41:'',mfl41:'',mnfv41:'',mnfl41:'',km41:'',spv41:'',off41:'',ofs41:'',
-      tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
-      tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
-      tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
-  */
-    }
+    this.custSurv.s1=a.rissondaggio.substring(0,1)
+    this.custSurv.s2=a.rissondaggio.substring(1,2)
+    this.custSurv.s3=a.rissondaggio.substring(2,3)
+    this.custSurv.name= a.contnomec
+    this.ty=a.stdspe
+    //elencomail:'',
+    this.riskAss=a.rs
+    this.days=a.days
+    this.hoursForm.controls.check.setValue(this.days?this.days.length:0)
+  }
 
     test(){console.log('ok')}
 }

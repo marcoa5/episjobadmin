@@ -8,6 +8,9 @@ import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import jsPDF from 'jspdf';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { strictEqual } from 'assert';
+import { stringify } from 'querystring';
 @Component({
   selector: 'episjob-sjhome',
   templateUrl: './sjhome.component.html',
@@ -44,36 +47,98 @@ export class SjhomeComponent implements OnInit {
       })
     )
     this.syncDraft()
-    setInterval(()=>{
-      this.syncDraft()
-    },10000)
     
     //this.loadSent()
   }
 
   syncDraft(){
-    this.list=[]
-    this._list=[]
-    this.list1=[]
-    for(let i=0; i<localStorage.length;i++){
-      let a = localStorage.key(i)
-      if(a?.substring(0,7)=='sjdraft') {
-        let b:any
-        if(localStorage.getItem(a)) b = localStorage.getItem(a)
-        let c = JSON.parse(b)
-        this._list[a]=c
-      }
+    let mod = localStorage.getItem('sjDraftMod')
+    let _mod:any
+    if(mod) _mod = JSON.parse(mod)
+    if(_mod){
+      Object.keys(_mod).forEach(oi=>{
+        firebase.database().ref('sjDraftMod').child(this.userId).child(oi).once('value',lk=>{
+          if(_mod[oi]>lk.val() || lk.val()==null) {
+            console.log('local')
+            let v = localStorage.getItem(oi)
+            let _v
+            if(v) _v=JSON.parse(v)
+            if(_v) {
+              firebase.database().ref('sjDraft').child(_v.userId).child(oi).set(_v)
+              firebase.database().ref('sjDraftMod').child(_v.userId).child(oi).set(_mod[oi])
+            }
+          }
+          if(_mod[oi]<lk.val()) {
+            console.log('server')
+            firebase.database().ref('sjDraft').child(this.userId).child(oi).once('value', a=>{
+              localStorage.setItem(oi,JSON.stringify(a.val()))
+              let mod = localStorage.getItem('sjDraftMod')
+              let _mod:any
+              if(mod) _mod = JSON.parse(mod)
+              firebase.database().ref('sjDraftMod').child(this.userId).child(oi).once('value',rf=>{
+                if(lk) _mod[oi]=rf.val()
+              })            
+              .then(()=>{
+                if(_mod) localStorage.setItem('sjDraftMod',JSON.stringify(_mod))})
+            })
+          }
+          if(_mod[oi]==lk.val()) console.log('uguale')
+        })
+      })
+    } else{
+      firebase.database().ref('sjDraft').child(this.userId).once('value',kl=>{
+        kl.forEach(uh=>{
+          localStorage.setItem(uh.val().sjid, JSON.stringify(uh.val()))
+        })
+      })
+      let li:any[]=[]
+      firebase.database().ref('sjDraftMod').child(this.userId).once('value',kl=>{
+        kl.forEach(uh=>{
+          li.push(uh.key, uh.val())
+        })
+      }).then(()=>{
+        if(li.length>0) {
+          localStorage.setItem('sjDraftMod', JSON.stringify(li))
+        }
+      })
     }
-    this.list=this._list
-    let a = this._list
-    this.list1 = Object.keys(a).map(o=>{
-      a[o].data_new=moment(a[o].data11).format('YYYY-MM-DD')
-      a[o].sjid=o
-      return a[o]
-    })
-    setTimeout(() => {
-        firebase.database().ref('sjDraft').child(this.userId).set(this.list)
-    }, 100);
+    if(navigator.onLine){
+      this.list=[]
+      this._list=[]
+      this.list1=[]
+      firebase.database().ref('sjDraft').child(this.userId).on('value',m=>{
+        m.forEach(o=>{
+          this.list1.push(o.val())
+        })
+      })
+    } else {
+      this.list=[]
+      this._list=[]
+      this.list1=[]
+      for(let i=0; i<localStorage.length;i++){
+        let a = localStorage.key(i)
+        if(a?.substring(0,7)=='sjdraft') {
+          let b:any
+          if(localStorage.getItem(a)) b = localStorage.getItem(a)
+          let c = JSON.parse(b)
+          this._list[a]=c
+        }
+      }
+      this.list=this._list
+      let a = this._list
+      this.list1 = Object.keys(a).map(o=>{
+        //a[o].data_new=moment(a[o].data11).format('YYYY-MM-DD')
+        a[o].sjid=o
+        return a[o]
+      })
+      setTimeout(() => {
+          Object.values(this.list).forEach((ia:any)=>{
+            firebase.database().ref('sjDraft').child(this.userId).child(ia.sjid).once('value',kk=>{
+
+            })
+          })
+      }, 100);
+    }
   }
 
   loadSent(){
@@ -181,7 +246,6 @@ export class SjhomeComponent implements OnInit {
   }
 
   sels(a:string, b:number){
-    console.log(a)
     if(this.listSent[b].sel==0 || this.listSent[b].sel==null || this.listSent[b].sel==undefined){
       this.list1.forEach((e:any) => {
         e.sel=0

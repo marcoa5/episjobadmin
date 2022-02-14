@@ -2,8 +2,8 @@
 <episjob-spin *ngIf="spin"></episjob-spin>
 <episjob-sign (closeS)="close($event)" [sign]="torc=='t'?techSign:custSign" [tc]="torc" *ngIf="!signatureClosed"></episjob-sign>
 <div class="cont" *ngIf="allow &&!spin">
-    <episjob-h2 (click)="openT()" data="New Service Job" icon="text_snippet" padtop=0></episjob-h2>
-    <mat-vertical-stepper #stepper class="stepper" linear=true>
+    <episjob-h2 data="New Service Job" icon="text_snippet" padtop=0></episjob-h2>
+    <mat-vertical-stepper #stepper class="stepper" linear=true *ngIf="!spin1">
         <mat-step [stepControl]="rigForm">
             <form [formGroup]="searchForm">
                 <ng-template matStepLabel>Select machine</ng-template>
@@ -29,6 +29,14 @@
             </form>
             <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1"  (input)="saveData()">
                 <h4>Machine data</h4>
+                <mat-form-field appearance="fill" class="orig">
+                    <mat-label>On Behalf of...</mat-label>
+                    <mat-select [(value)]="behalf">
+                        <mat-option *ngFor="let t of technicians" [value]="t.id">
+                        {{t.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <div class="group4">
                     <mat-form-field [appearance]="appearance">
                         <mat-label>Data</mat-label>
@@ -130,13 +138,13 @@
                     <input matInput type="number" min="1" formControlName="check">
                 </mat-form-field>
                 <div class="newDayCont" (click)="addDay()">
-                    <button mat-mini-fab color="accent"  [disabled]="days.length>6" style="margin:15px 0;" color="primary">
+                    <button mat-mini-fab color="accent"  [disabled]="days && days.length>6" style="margin:15px 0;" color="primary">
                 
                         <mat-icon>add</mat-icon>
                     </button>
                     <p>Add new day</p>
                 </div>
-                <table *ngIf="days.length>0">
+                <table *ngIf="days && days.length>0">
                     <tr episjobElevation class="tabTr">
                         <th rowspan="2" class="lar">#</th>
                         <th rowspan="2" class="techName">TECH</th>
@@ -197,7 +205,7 @@
                 </table>
                 <div class="button">
                     <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                    <button mat-raised-button matStepperNext color="primary" [disabled]="days.length<1" class="but"  (click)="saveData()">Next</button>
+                    <button mat-raised-button matStepperNext color="primary" [disabled]="!days || days.length<1" class="but"  (click)="saveData()">Nextaa</button>
                 </div>
               </form>
               
@@ -220,7 +228,7 @@
               
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="saveData(); openT()" [disabled]="techSign=='' || custSign==''">Next</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="saveData()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid">Send</button>
               </div>
             </form>
             
