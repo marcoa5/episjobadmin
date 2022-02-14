@@ -32,6 +32,13 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
+      id:'ServiceJob',
+      icon:'text_snippet', 
+      route:'sj', 
+      dis:false, 
+      auth:['SU']//,'sales','tech']
+    },
+    {
       id:'Contacts',
       icon:'people', 
       route:'contacts', 
@@ -79,13 +86,6 @@ export class HomeComponent implements OnInit {
       route:'visit', 
       dis:false, 
       auth:['SU','adminS','sales','']
-    },
-    {
-      id:'ServiceJob',
-      icon:'text_snippet', 
-      route:'sj', 
-      dis:false, 
-      auth:['SU']//,'sales','tech']
     },
     {
       id:'Parts',

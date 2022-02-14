@@ -10,6 +10,7 @@
         <button mat-raised-button color="primary" [disabled]="sjId==''" (click)="delete()">{{chW()? 'Delete draft':'Delete'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1" (click)="exportPdf()">{{chW()? 'Export PDF':'PDF'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
+        <button mat-raised-button color="primary" *ngIf="pos=='SU'" (click)="delLS()">{{chW()? 'Clear Local Storage':'Clear LS'}}</button>
     </div>
     <div *ngIf="list1.length>0">
         <episjob-h2 icon=home data="Drafts"></episjob-h2>

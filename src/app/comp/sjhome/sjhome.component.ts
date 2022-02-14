@@ -103,10 +103,11 @@ export class SjhomeComponent implements OnInit {
       })
     }
     if(navigator.onLine){
-      this.list=[]
-      this._list=[]
-      this.list1=[]
+      
       firebase.database().ref('sjDraft').child(this.userId).on('value',m=>{
+        this.list=[]
+        this._list=[]
+        this.list1=[]
         m.forEach(o=>{
           this.list1.push(o.val())
         })
@@ -287,6 +288,13 @@ export class SjhomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
         localStorage.removeItem(del)
+        firebase.database().ref('sjDraft').child(this.userId).child(del).remove()
+        firebase.database().ref('sjDraftMod').child(this.userId).child(del).remove()
+        let v = localStorage.getItem('sjDraftMod')
+        let _v
+        if(v) _v=JSON.parse(v)
+        delete _v[del]
+        localStorage.setItem('sjDraftMod',JSON.stringify(_v))
         this.syncDraft()
       }
     })
@@ -347,6 +355,14 @@ export class SjhomeComponent implements OnInit {
     this.sjId=''
     this.sjUrl=-1
 
+  }
+
+  delLS(){
+    //localStorage.removeItem('sjDraftMod')
+    for(let i=0;i<localStorage.length-1;i++){
+      let g = localStorage.key(i)
+      if(g) console.log(localStorage.key(i))
+    }
   }
   
 }
