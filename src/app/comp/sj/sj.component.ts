@@ -319,7 +319,7 @@ export class SjComponent implements OnInit {
         let b
         this.spin1 = true
         if(navigator.onLine){
-          firebase.database().ref('sjDraft').child(this.userId).child(a.id).once('value',k=>{
+          firebase.database().ref('sjDraft').child('draft').child(a.id).once('value',k=>{
             b=k.val()
             this.loadData(b,a.id)
           })
@@ -539,18 +539,12 @@ export class SjComponent implements OnInit {
     let y = parseInt(g.substring(6,10))
     let n_d = new Date(y,m,d)
     h.data_new=moment(n_d).format('YYYY-MM-DD')
-    h.lastM = new Date()
+    h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
     h.sjid=this.sjDraftId
     this.file=h
     localStorage.setItem(this.sjDraftId, JSON.stringify(this.file))
-    let mod = localStorage.getItem('sjDraftMod')
-    let _mod:any={}
-    if(mod) _mod= JSON.parse(mod)
-    _mod[this.sjDraftId]=moment(new Date()).format('YYYYMMDDHHmmss')
-    localStorage.setItem('sjDraftMod', JSON.stringify(_mod))
     if(navigator.onLine) {
-      firebase.database().ref('sjDraft').child(this.file.userId).child(this.sjDraftId).set(this.file)
-      firebase.database().ref('sjDraftMod').child(this.file.userId).child(this.sjDraftId).set(moment(new Date()).format('YYYYMMDDHHmmss'))
+      firebase.database().ref('sjDraft').child('draft').child(this.sjDraftId).set(this.file)
     }
   }
 

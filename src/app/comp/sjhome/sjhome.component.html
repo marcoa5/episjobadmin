@@ -7,12 +7,12 @@
     <div class="butCont">
         <button mat-raised-button color="primary" (click)="go()">{{chW()? 'Start new request':'New'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId==''" (click)="open()">{{chW()? 'Open draft':'Open'}}</button>
-        <button mat-raised-button color="primary" [disabled]="sjId==''" (click)="delete()">{{chW()? 'Delete draft':'Delete'}}</button>
-        <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1" (click)="exportPdf()">{{chW()? 'Export PDF':'PDF'}}</button>
-        <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
-        <button mat-raised-button color="primary" *ngIf="pos=='SU'" (click)="delLS()">{{chW()? 'Clear Local Storage':'Clear LS'}}</button>
+        <button mat-raised-button color="primary" [disabled]="sjId=='' || !chOnline()" (click)="delete()">{{chW()? 'Delete draft':'Delete'}}</button>
+        <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportPdf()">{{chW()? 'Export PDF':'PDF'}}</button>
+        <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
     </div>
-    <div *ngIf="list1.length>0">
+    <episjob-spin *ngIf="spin"></episjob-spin>
+    <div *ngIf="list1.length>0 && !spin">
         <episjob-h2 icon=home data="Drafts"></episjob-h2>
         <div class="head" [class.mat-elevation-z2]="true">
             <div class="h" (click)="sort('data_new')">
@@ -39,40 +39,6 @@
         <div class="contL">
             <div *ngFor="let l of list1; let i = index" class="cont" (click)="sel(l.sjid, i)" [ngClass]="l.sel==1? 'sel':''">
                 <div class="text bold">{{l.data_new}}</div>
-                <div class="text bold">{{l.matricola}}</div>
-                <div class="text">{{l.prodotto1}}</div>
-                <div class="text">{{l.cliente11}}</div>
-            </div>
-        </div>
-    </div>
-
-    <div *ngIf="listSent.length>0 && pos=='SU' || pos=='admin'">
-        <episjob-h2 icon=home data="Sent"></episjob-h2>
-        <div class="head" [class.mat-elevation-z2]="true">
-            <div class="h" (click)="sortSent('data_new')">
-                <span>Date</span>
-                <span *ngIf="sortIconS=='data_new' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIconS=='data_new' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sortSent('matricola')">
-                <span>Serial Nr</span>
-                <span *ngIf="sortIconS=='matricola' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIconS=='matricola' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sortSent('prodotto1')">
-                <span>Machine</span>
-                <span *ngIf="sortIconS=='prodotto1' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIconS=='prodotto1' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sortSent('cliente11')">
-                <span>Customer</span>
-                <span *ngIf="sortIconS=='cliente11' && sortDirS=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIconS=='cliente11' && sortDirS=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-        </div>
-        <div class="contL">
-            <div *ngFor="let l of listSent; let i = index" class="cont" (click)="sels(l.url, i)" [ngClass]="l.sel==1? 'sel':''">
-                <div class="text bold">{{l.data11}}</div>
                 <div class="text bold">{{l.matricola}}</div>
                 <div class="text">{{l.prodotto1}}</div>
                 <div class="text">{{l.cliente11}}</div>

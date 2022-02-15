@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ChildActivationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { HttpClient } from '@angular/common/http';
@@ -32,6 +32,7 @@ export class SjhomeComponent implements OnInit {
   sjUrl:number=-1
   _listSent:any=[]
   listSent:any=[]
+  spin:boolean=false
   constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -46,117 +47,117 @@ export class SjhomeComponent implements OnInit {
         }, 1);
       })
     )
-    this.syncDraft()
-    
-    //this.loadSent()
+    if(navigator.onLine) {
+      this.syncDraft()
+      .then(()=>{
+        this.loadSJ()
+      })
+    } else {
+      this.loadSJ()
+    }
   }
 
   syncDraft(){
-    let mod = localStorage.getItem('sjDraftMod')
-    let _mod:any
-    if(mod) _mod = JSON.parse(mod)
-    if(_mod){
-      Object.keys(_mod).forEach(oi=>{
-        firebase.database().ref('sjDraftMod').child(this.userId).child(oi).once('value',lk=>{
-          if(_mod[oi]>lk.val() || lk.val()==null) {
-            console.log('local')
-            let v = localStorage.getItem(oi)
-            let _v
-            if(v) _v=JSON.parse(v)
-            if(_v) {
-              firebase.database().ref('sjDraft').child(_v.userId).child(oi).set(_v)
-              firebase.database().ref('sjDraftMod').child(_v.userId).child(oi).set(_mod[oi])
-            }
-          }
-          if(_mod[oi]<lk.val()) {
-            console.log('server')
-            firebase.database().ref('sjDraft').child(this.userId).child(oi).once('value', a=>{
-              localStorage.setItem(oi,JSON.stringify(a.val()))
-              let mod = localStorage.getItem('sjDraftMod')
-              let _mod:any
-              if(mod) _mod = JSON.parse(mod)
-              firebase.database().ref('sjDraftMod').child(this.userId).child(oi).once('value',rf=>{
-                if(lk) _mod[oi]=rf.val()
-              })            
-              .then(()=>{
-                if(_mod) localStorage.setItem('sjDraftMod',JSON.stringify(_mod))})
-            })
-          }
-          if(_mod[oi]==lk.val()) console.log('uguale')
-        })
-      })
-    } else{
-      firebase.database().ref('sjDraft').child(this.userId).once('value',kl=>{
-        kl.forEach(uh=>{
-          localStorage.setItem(uh.val().sjid, JSON.stringify(uh.val()))
-        })
-      })
-      let li:any[]=[]
-      firebase.database().ref('sjDraftMod').child(this.userId).once('value',kl=>{
-        kl.forEach(uh=>{
-          li.push(uh.key, uh.val())
-        })
-      }).then(()=>{
-        if(li.length>0) {
-          localStorage.setItem('sjDraftMod', JSON.stringify(li))
-        }
-      })
-    }
-    if(navigator.onLine){
-      
-      firebase.database().ref('sjDraft').child(this.userId).on('value',m=>{
-        this.list=[]
-        this._list=[]
-        this.list1=[]
-        m.forEach(o=>{
-          this.list1.push(o.val())
-        })
-      })
-    } else {
-      this.list=[]
-      this._list=[]
-      this.list1=[]
-      for(let i=0; i<localStorage.length;i++){
-        let a = localStorage.key(i)
-        if(a?.substring(0,7)=='sjdraft') {
-          let b:any
-          if(localStorage.getItem(a)) b = localStorage.getItem(a)
-          let c = JSON.parse(b)
-          this._list[a]=c
-        }
-      }
-      this.list=this._list
-      let a = this._list
-      this.list1 = Object.keys(a).map(o=>{
-        //a[o].data_new=moment(a[o].data11).format('YYYY-MM-DD')
-        a[o].sjid=o
-        return a[o]
-      })
-      setTimeout(() => {
-          Object.values(this.list).forEach((ia:any)=>{
-            firebase.database().ref('sjDraft').child(this.userId).child(ia.sjid).once('value',kk=>{
-
-            })
-          })
-      }, 100);
-    }
-  }
-
-  loadSent(){
-    firebase.database().ref('Saved').once('value',a=>{
-      a.forEach(b=>{
-        b.forEach(c=>{
-          let gg  = c.val()
-          gg['url']=b.key+'/'+c.key
-          if(c.val().matricola) this._listSent.push(gg)
+    return new Promise((res,rej)=>{
+      this.spin=true
+      this.fromLocalToServer()
+      .then((a)=>{
+        this.fromServerToLocal()
+        .then((b)=>{
+          this.spin=false
+          res('ok')
         })
       })
     })
-    .then(()=>{this.listSent=this._listSent})
+    
   }
 
-  downloadDraft(){
+  fromLocalToServer(){
+    let kt:number=0
+    return new Promise((res,rej)=>{
+      for(let i=0; i<localStorage.length;i++){
+        let k:string|null = localStorage.key(i)
+        if(k?.substring(0,7)=="sjdraft"){
+          let _info:string|null = localStorage.getItem(k)
+          let info:any
+          if(_info) {
+            firebase.database().ref('sjDraft').child('deleted').child(k).once('value',y=>{
+              if(y.val()!=null) localStorage.removeItem(k!)
+            }).then(()=>{
+              firebase.database().ref('sjDraft').child('sent').child(k!).once('value',y=>{
+                if(y.val()!=null) localStorage.removeItem(k!)
+              }).then(()=>{
+                firebase.database().ref('sjDraft').child('draft').child(k!).once('value',y=>{
+                  let l:string|undefined=undefined, s:string
+                  if(_info) l=JSON.parse(_info).lastM
+                  s=y.val()?.lastM
+                  if((l && l>s) || s==null) {
+                    console.log('local')
+                    let t:string|null = localStorage.getItem(k!)
+                    if(k) firebase.database().ref('sjDraft').child('draft').child(k).set(JSON.parse(t!))
+                  } else if(l!<s){
+                    console.log('server')
+                    if(k) localStorage.setItem(k, JSON.stringify(y.val()))
+                  } else if(l==s){
+                    console.log('uguale')
+                  }
+                  kt++
+                  if(kt==localStorage.length) res('ok')
+                }).catch(err=>console.log('ERRORE: '+ err))
+              }).catch(err=>console.log('ERRORE: '+ err))
+            }).catch(err=>console.log('ERRORE: '+ err))
+          }
+        } else {
+          kt++
+          if(kt==localStorage.length) res('ok')
+        }
+      }
+    })
+  }
 
+  fromServerToLocal(){
+    let s:number=0, l:number=0, kt:number=0
+    return new Promise((res,rej)=>{
+      firebase.database().ref('sjDraft').child('draft').once('value',draft=>{
+        let _draft =Object.values(draft.val())
+        let length:number=_draft.length
+        draft.forEach(d=>{
+          if(d.val()!=null && ((d.val().authorId==this.userId && this.pos=='tech')|| (this.pos!='tech'))) {
+            s=parseInt(d.val().lastM)
+            let _l
+            _l=localStorage.getItem(d.key!)
+            if(_l) l=JSON.parse(_l!).lastM
+            if(l>s){
+              console.log('local')
+              firebase.database().ref('sjDraft').child('draft').child(d.key!).set(
+                JSON.parse(localStorage.getItem(d.key!)!)
+              )
+            } else if(s>l){
+              console.log('server')
+              localStorage.setItem(d.key!,JSON.stringify(d.val()))
+            } else if(s==l){
+              console.log('uguale')
+            }
+            kt++
+            if(kt==length) res('ok')
+          }
+        })
+      })
+    })
+  }
+
+  loadSJ(){
+    let l = localStorage.length
+    let k:number=0
+    for(let i=0;i<localStorage.length;i++){
+      if(localStorage.key(i)?.substring(0,7)=="sjdraft"){
+        this.list.push(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
+        k++     
+      } else {
+        k++
+      }
+      if(k==l) this.list1=this.list
+    }
   }
 
   sort(a:string){
@@ -191,38 +192,6 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  sortSent(a:string){
-    this.sortIconS=a
-    if(this.sortDirS=='') {
-      this.sortDirS='up'
-    } else if(this.sortDirS=='up') {
-      this.sortDirS='down'
-    } else {
-      this.sortDirS='up'
-    }
-    if(this.sortDirS=='down'){
-      this.listSent.sort((a1:any,a2:any)=>{
-        if (a1[a]<a2[a]) {
-          return 1
-        } else if (a1[a]>a2[a]){
-          return -1
-        } else {
-          return 0
-        }
-      })
-    } else{
-      this.listSent.sort((a1:any,a2:any)=>{
-        if (a1[a]<a2[a]) {
-          return -1
-        } else if (a1[a]>a2[a]){
-          return 1
-        } else {
-          return 0
-        }
-      })
-    }
-  }
-
   sel(a:string, b:number){
     if(this.list1[b].sel==0 || this.list1[b].sel==null || this.list1[b].sel==undefined){
       this.list1.forEach((e:any) => {
@@ -246,29 +215,6 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  sels(a:string, b:number){
-    if(this.listSent[b].sel==0 || this.listSent[b].sel==null || this.listSent[b].sel==undefined){
-      this.list1.forEach((e:any) => {
-        e.sel=0
-      });
-      this.listSent.forEach((e:any) => {
-        e.sel=0
-      });
-      this.listSent[b].sel=1
-      this.sjId=''
-      this.sjUrl=b
-    } else {
-      this.list1.forEach((e:any) => {
-        e.sel=0
-      });
-      this.listSent.forEach((e:any) => {
-        e.sel=0
-      });
-      this.sjUrl=-1
-      this.sjId=''
-    }
-  }
-
   go(){
     this.router.navigate(['newsj']) 
   }
@@ -288,13 +234,13 @@ export class SjhomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
         localStorage.removeItem(del)
-        firebase.database().ref('sjDraft').child(this.userId).child(del).remove()
-        firebase.database().ref('sjDraftMod').child(this.userId).child(del).remove()
-        let v = localStorage.getItem('sjDraftMod')
-        let _v
-        if(v) _v=JSON.parse(v)
-        delete _v[del]
-        localStorage.setItem('sjDraftMod',JSON.stringify(_v))
+        firebase.database().ref('sjDraft').child('draft').child(del).remove()
+        .then(()=>{
+          firebase.database().ref('sjDraft').child('deleted').child(del).set({
+            lastM: moment(new Date()).format('YYYYMMDDHHmmss'),
+            status: 'deleted'
+          })
+        })
         this.syncDraft()
       }
     })
@@ -357,12 +303,9 @@ export class SjhomeComponent implements OnInit {
 
   }
 
-  delLS(){
-    //localStorage.removeItem('sjDraftMod')
-    for(let i=0;i<localStorage.length-1;i++){
-      let g = localStorage.key(i)
-      if(g) console.log(localStorage.key(i))
-    }
+  chOnline(){
+    if(navigator.onLine) return true
+    return false
   }
   
 }

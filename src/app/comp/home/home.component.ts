@@ -21,21 +21,18 @@ export class HomeComponent implements OnInit {
       id:'Equipment',
       icon:'precision_manufacturing', 
       route:'rigs', 
-      dis:false, 
       auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
       id:'Companies',
       icon:'work', 
       route:'customers', 
-      dis:false, 
       auth:['SU','admin','adminS','tech','sales','customer']
     },
     {
       id:'ServiceJob',
       icon:'text_snippet', 
       route:'sj', 
-      dis:false, 
       auth:['SU']//,'sales','tech']
     },
     {
@@ -91,7 +88,7 @@ export class HomeComponent implements OnInit {
       id:'Parts',
       icon:'construction', 
       route:'parts', 
-      //dis:true, 
+      dis:false, 
       auth:['SU','admin','adminS','tech','customer']
     },
   ];
@@ -110,6 +107,11 @@ export class HomeComponent implements OnInit {
       })
     )
     
+  }
+
+  chOnline(){
+    if(navigator.onLine) return false
+    return true
   }
 
   ngOnDestroy(){

@@ -49,7 +49,7 @@ export class CustomersComponent implements OnInit {
     if(e.ctrlKey){
       this.clip.copy(`${a}\n${b}\n${c}`)
     } else {
-      this.router.navigate(['cliente',{id:d}])
+      if(navigator.onLine) this.router.navigate(['cliente',{id:d}])
     }
   }
 

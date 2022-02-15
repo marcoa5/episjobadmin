@@ -48,7 +48,7 @@ export class RigsComponent implements OnInit {
     if(d=='0') {
       console.log('disabled')
     } else{
-      this.router.navigate(['machine',{sn:b}])
+      if(navigator.onLine) this.router.navigate(['machine',{sn:b}])
     }
   }
 
