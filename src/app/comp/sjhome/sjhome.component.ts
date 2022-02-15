@@ -60,16 +60,13 @@ export class SjhomeComponent implements OnInit {
   syncDraft(){
     return new Promise((res,rej)=>{
       this.spin=true
-      this.fromLocalToServer()
-      .then((a)=>{
-        this.fromServerToLocal()
-        .then((b)=>{
+      this.fromLocalToServer().then((a)=>{
+        this.fromServerToLocal().then(b=>{
           this.spin=false
           res('ok')
         })
       })
     })
-    
   }
 
   fromLocalToServer(){
@@ -101,16 +98,12 @@ export class SjhomeComponent implements OnInit {
                   } else if(l==s){
                     console.log('uguale')
                   }
-                  kt++
-                  if(kt==localStorage.length) res('ok')
                 }).catch(err=>console.log('ERRORE: '+ err))
               }).catch(err=>console.log('ERRORE: '+ err))
             }).catch(err=>console.log('ERRORE: '+ err))
           }
-        } else {
-          kt++
-          if(kt==localStorage.length) res('ok')
         }
+        if(i==localStorage.length-1) res('ok')
       }
     })
   }
@@ -119,29 +112,33 @@ export class SjhomeComponent implements OnInit {
     let s:number=0, l:number=0, kt:number=0
     return new Promise((res,rej)=>{
       firebase.database().ref('sjDraft').child('draft').once('value',draft=>{
-        let _draft =Object.values(draft.val())
-        let length:number=_draft.length
-        draft.forEach(d=>{
-          if(d.val()!=null && ((d.val().authorId==this.userId && this.pos=='tech')|| (this.pos!='tech'))) {
-            s=parseInt(d.val().lastM)
-            let _l
-            _l=localStorage.getItem(d.key!)
-            if(_l) l=JSON.parse(_l!).lastM
-            if(l>s){
-              console.log('local')
-              firebase.database().ref('sjDraft').child('draft').child(d.key!).set(
-                JSON.parse(localStorage.getItem(d.key!)!)
-              )
-            } else if(s>l){
-              console.log('server')
-              localStorage.setItem(d.key!,JSON.stringify(d.val()))
-            } else if(s==l){
-              console.log('uguale')
+        if(draft.val()!=null){
+          let _draft =Object.values(draft.val())
+          let length:number=_draft.length
+          draft.forEach(d=>{
+            if(d.val()!=null && ((d.val().userId==this.userId && this.pos=='tech')|| (this.pos!='tech'))) {
+              s=parseInt(d.val().lastM)
+              let _l
+              _l=localStorage.getItem(d.key!)
+              if(_l) l=JSON.parse(_l!).lastM
+              if(l>s){
+                console.log('local')
+                firebase.database().ref('sjDraft').child('draft').child(d.key!).set(
+                  JSON.parse(localStorage.getItem(d.key!)!)
+                )
+              } else if(s>l){
+                console.log('server')
+                localStorage.setItem(d.key!,JSON.stringify(d.val()))
+              } else if(s==l){
+                console.log('uguale')
+              }
             }
             kt++
             if(kt==length) res('ok')
-          }
-        })
+          })
+        } else {
+          res('ok')
+        }
       })
     })
   }
@@ -234,14 +231,23 @@ export class SjhomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
         localStorage.removeItem(del)
-        firebase.database().ref('sjDraft').child('draft').child(del).remove()
-        .then(()=>{
-          firebase.database().ref('sjDraft').child('deleted').child(del).set({
-            lastM: moment(new Date()).format('YYYYMMDDHHmmss'),
-            status: 'deleted'
+        if(navigator.onLine){
+          firebase.database().ref('sjDraft').child('draft').child(del).remove()
+          .then(()=>{
+            firebase.database().ref('sjDraft').child('deleted').child(del).set({
+              lastM: moment(new Date()).format('YYYYMMDDHHmmss'),
+              status: 'deleted'
+            })
           })
-        })
-        this.syncDraft()
+          .then(()=>{
+            this.syncDraft()
+            .then(()=>{
+              this.loadSJ()
+            })
+          })
+        } else {
+          this.loadSJ()
+        }
       }
     })
     this.sjId='' 

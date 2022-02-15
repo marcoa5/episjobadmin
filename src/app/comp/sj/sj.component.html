@@ -29,7 +29,7 @@
             </form>
             <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1"  (input)="saveData()">
                 <h4>Machine data</h4>
-                <mat-form-field appearance="fill" class="orig">
+                <mat-form-field appearance="fill" class="orig" *ngIf="pos=='SU'">
                     <mat-label>On Behalf of...</mat-label>
                     <mat-select [(value)]="behalf">
                         <mat-option *ngFor="let t of technicians" [value]="t.id">

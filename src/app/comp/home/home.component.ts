@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
       id:'ServiceJob',
       icon:'text_snippet', 
       route:'sj', 
-      auth:['SU']//,'sales','tech']
+      auth:['SU','sales','tech']
     },
     {
       id:'Contacts',

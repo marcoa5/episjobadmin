@@ -12,7 +12,7 @@
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
     </div>
     <episjob-spin *ngIf="spin"></episjob-spin>
-    <div *ngIf="list1.length>0 && !spin">
+    <div *ngIf="list1.length>0">
         <episjob-h2 icon=home data="Drafts"></episjob-h2>
         <div class="head" [class.mat-elevation-z2]="true">
             <div class="h" (click)="sort('data_new')">

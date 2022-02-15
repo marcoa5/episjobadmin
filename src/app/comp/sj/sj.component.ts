@@ -550,6 +550,7 @@ export class SjComponent implements OnInit {
 
   loadData(a:any, b:string){
     this.sjDraftId = b
+    this.behalf=a.userId
     this.rigForm.controls.model.setValue(a.prodotto1)
     this.rigForm.controls.sn.setValue(a.matricola)
     this.fil(a.matricola)
