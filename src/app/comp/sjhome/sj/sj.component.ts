@@ -602,7 +602,9 @@ export class SjComponent implements OnInit {
   }
 
     send(){
+      localStorage.getItem(this.rigForm.controls.sid.value)
       let g:string = 'sjsent' + this.id.makeId(5)
+      this.saveData(true)
       this.saveData(true,g)
       localStorage.setItem(g, JSON.stringify(this.file))
       this.router.navigate(['sj'])
