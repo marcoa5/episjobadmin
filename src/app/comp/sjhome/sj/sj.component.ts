@@ -547,8 +547,11 @@ export class SjComponent implements OnInit {
     let n_d = new Date(y,m,d)
     h.data_new=moment(n_d).format('YYYY-MM-DD')
     h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
+    if(last) {
+      h.status='deleted'
+      localStorage.setItem(this.file.sjid, JSON.stringify(h))
+    }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
-    if(last) h.status='deleted'
     this.file=h
     if(this.file.sjid.substring(0,3)!='sjs') {
       localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
@@ -604,7 +607,7 @@ export class SjComponent implements OnInit {
     send(){
       localStorage.getItem(this.rigForm.controls.sid.value)
       let g:string = 'sjsent' + this.id.makeId(5)
-      this.saveData(true)
+      //this.saveData(true)
       this.saveData(true,g)
       localStorage.setItem(g, JSON.stringify(this.file))
       this.router.navigate(['sj'])
