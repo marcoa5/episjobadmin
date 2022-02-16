@@ -27,18 +27,47 @@
                     </tr>
                 </div>
             </form>
-            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1"  (input)="saveData()">
+            <form [formGroup]="rigForm" class="rig"  *ngIf="rigs.length==1"  (change)="saveData()">
+                <div [ngClass]="{'hide':pos!='SU'}"> 
+                    <h4>SJ data</h4>
+                    <div class="onlysu">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Service Job ID</mat-label>
+                            <input matInput type="text" formControlName="sid">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>On Behalf of...</mat-label>
+                            <mat-select [(value)]="behalf">
+                                <mat-option *ngFor="let t of technicians" [value]="t.id">
+                                {{t.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                    </div>
+                    <div class="group4" *ngIf="sent">  
+                        <mat-form-field appearance="fill">
+                            <mat-label>Commessa</mat-label>
+                            <input matInput type="text" formControlName="commessa" autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Ns Offerta</mat-label>
+                            <input matInput type="text" formControlName="nsofferta" autocomplete="off">
+                        </mat-form-field>
+                        <mat-form-field [appearance]="appearance" class="data">
+                            <mat-label>Apertura BPCS</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="dateBPCS" autocomplete="off">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Doc BPCS</mat-label>
+                            <input matInput type="number" formControlName="docBPCS" autocomplete="off" (keydown)="chLen($event)">
+                        </mat-form-field> 
+                    </div>
+                </div>
                 <h4>Machine data</h4>
-                <mat-form-field appearance="fill" class="orig" *ngIf="pos=='SU'">
-                    <mat-label>On Behalf of...</mat-label>
-                    <mat-select [(value)]="behalf">
-                        <mat-option *ngFor="let t of technicians" [value]="t.id">
-                        {{t.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
                 <div class="group4">
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field [appearance]="appearance" class="data">
                         <mat-label>Data</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="date" (input)="saveData()">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -97,9 +126,9 @@
                 </div>
                 <div>
                     <h4>Job Type</h4>
-                    <mat-radio-group aria-label="Select an option" class="radiocont" [(ngModel)]="ty" formControlName="type">
+                    <mat-radio-group aria-label="Select an option" class="radiocont" formControlName="type" (change)="saveData()">
                         <mat-radio-button value="STD">STD</mat-radio-button>
-                        <mat-radio-button value="SPE" checked>SPE</mat-radio-button>
+                        <mat-radio-button value="SPE">SPE</mat-radio-button>
                     </mat-radio-group>
                 </div>
 
@@ -149,8 +178,8 @@
                         <th rowspan="2" class="lar">#</th>
                         <th rowspan="2" class="techName">TECH</th>
                         <th rowspan="2">DATE</th>
-                        <th colspan="2" class="lar">{{rigForm.controls.type.value=='spe'?'SPO':'STD'}}</th>
-                        <th colspan="2" class="lar">{{rigForm.controls.type.value=='spe'?'SPS':'STR'}}</th>
+                        <th colspan="2" class="lar">{{rigForm.controls.type.value.toLowerCase()=='spe'?'SPO':'STD'}}</th>
+                        <th colspan="2" class="lar">{{rigForm.controls.type.value.toLowerCase()=='spe'?'SPS':'STR'}}</th>
                         <th colspan="2" class="lar">MNT</th>
                         <th colspan="2" class="lar">MF</th>
                         <th colspan="2" class="lar">MNF</th>
@@ -228,7 +257,7 @@
               
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="saveData()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid">Send</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid">Send</button>
               </div>
             </form>
             

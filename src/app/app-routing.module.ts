@@ -22,7 +22,7 @@ import { PartsComponent } from './comp/parts/parts.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 import { ContactsComponent } from './comp/contacts/contacts.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
-import { SjComponent } from './comp/sj/sj.component';
+import { SjComponent } from './comp/sjhome/sj/sj.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},

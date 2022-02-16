@@ -25,21 +25,21 @@
         <div class="items">
             <div class="hrsCont item1" *ngIf="dayType=='fer'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Ord Viaggio">
-                    <mat-label>{{data.type=='spe'?'SPOV':'STDV'}}</mat-label>
+                    <mat-label>{{data.type=='SPE'?'SPOV':'STDV'}}</mat-label>
                     <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spol.value" autocomplete="off" value="0.00" formControlName="spov" (input)="ch(8,'spov','spol')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Ord Lavoro">
-                    <mat-label>{{data.type=='spe'?'SPOL':'STDL'}}</mat-label>
+                    <mat-label>{{data.type=='SPE'?'SPOL':'STDL'}}</mat-label>
                     <input matInput type="number" step=0.25 min=0 [max]="8 - newDay.controls.spov.value" autocomplete="off" formControlName="spol" (input)="ch(8,'spol','spov')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>
             <div class="hrsCont item2" *ngIf="dayType=='fer' || dayType=='sat'">
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Straord Viaggio">
-                    <mat-label>{{data.type=='spe'?'SPSV':'STRV'}}</mat-label>
+                    <mat-label>{{data.type=='SPE'?'SPSV':'STRV'}}</mat-label>
                     <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsl.value" autocomplete="off" formControlName="spsv" (input)="ch((dayType=='fer'?8:16),'spsv','spsl')" (keyup)="chDec($event)">
                 </mat-form-field>
                 <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Manod Straord Lavoro">
-                    <mat-label>{{data.type=='spe'?'SPSL':'STRL'}}</mat-label>
+                    <mat-label>{{data.type=='SPE'?'SPSL':'STRL'}}</mat-label>
                     <input matInput type="number" step=0.25 min=0 [max]="(dayType=='fer'?8:16) - newDay.controls.spsv.value" autocomplete="off" formControlName="spsl"  (input)="ch((dayType=='fer'?8:16),'spsl','spsv')" (keyup)="chDec($event)">
                 </mat-form-field>
             </div>

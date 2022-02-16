@@ -24,15 +24,14 @@ export class SjhomeComponent implements OnInit {
   _list:any=[]
   list:any=[]
   list1:any=[]
-  sortDir:string=''
-  sortDirS:string=''
-  sortIcon:string='date'
-  sortIconS:string='date'
   sjId:string=''
   sjUrl:number=-1
   _listSent:any=[]
   listSent:any=[]
   spin:boolean=false
+  draftSel:boolean=false
+  sentSel:boolean=false
+  chDel:boolean=false
   constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -48,12 +47,18 @@ export class SjhomeComponent implements OnInit {
       })
     )
     if(navigator.onLine) {
-      this.syncDraft()
+      this.checkApproval()
+      this.checkDeleted()
       .then(()=>{
-        this.loadSJ()
+        this.syncDraft()
+        .then(()=>{
+          this.loadSJ()
+          this.loadSent()
+        })
       })
     } else {
       this.loadSJ()
+      this.loadSent()
     }
   }
 
@@ -61,7 +66,9 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       this.spin=true
       this.fromLocalToServer().then((a)=>{
+        console.log(a)
         this.fromServerToLocal().then(b=>{
+          console.log(b)
           this.spin=false
           res('ok')
         })
@@ -76,7 +83,6 @@ export class SjhomeComponent implements OnInit {
         let k:string|null = localStorage.key(i)
         if(k?.substring(0,7)=="sjdraft"){
           let _info:string|null = localStorage.getItem(k)
-          let info:any
           if(_info) {
             firebase.database().ref('sjDraft').child('deleted').child(k).once('value',y=>{
               if(y.val()!=null) localStorage.removeItem(k!)
@@ -98,12 +104,23 @@ export class SjhomeComponent implements OnInit {
                   } else if(l==s){
                     console.log('uguale')
                   }
-                }).catch(err=>console.log('ERRORE: '+ err))
+                })
+                .then(()=>{
+                  kt++
+                  if(kt==localStorage.length) res('LtoS sync completed')
+                })
+                .catch(err=>{
+                  console.log('ERRORE: '+ err)
+                  kt++
+                  if(kt==localStorage.length) res('LtoS  sync completed')
+                })
               }).catch(err=>console.log('ERRORE: '+ err))
-            }).catch(err=>console.log('ERRORE: '+ err))
+            }).catch(err=>console.log('ERRORE: '+ err))         
           }
+        } else {
+          kt++
+          if(kt==localStorage.length) res('LtoS  sync completed')
         }
-        if(i==localStorage.length-1) res('ok')
       }
     })
   }
@@ -134,20 +151,21 @@ export class SjhomeComponent implements OnInit {
               }
             }
             kt++
-            if(kt==length) res('ok')
+            if(kt==length) res('StoL  sync completed')
           })
         } else {
-          res('ok')
+          res('StoL sync completed')
         }
       })
     })
   }
 
   loadSJ(){
+    this.list=[]
     let l = localStorage.length
     let k:number=0
     for(let i=0;i<localStorage.length;i++){
-      if(localStorage.key(i)?.substring(0,7)=="sjdraft"){
+      if(localStorage.key(i)?.substring(0,7)=="sjdraft" && JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status!='deleted'){
         this.list.push(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
         k++     
       } else {
@@ -157,59 +175,55 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  sort(a:string){
-    this.sortIcon=a
-    if(this.sortDir=='') {
-      this.sortDir='up'
-    } else if(this.sortDir=='up') {
-      this.sortDir='down'
-    } else {
-      this.sortDir='up'
-    }
-    if(this.sortDir=='down'){
-      this.list1.sort((a1:any,a2:any)=>{
-        if (a1[a]<a2[a]) {
-          return 1
-        } else if (a1[a]>a2[a]){
-          return -1
-        } else {
-          return 0
-        }
+  loadSent(){
+    firebase.database().ref('sjDraft').child('sent').once('value',a=>{
+      a.forEach(b=>{
+        this._listSent.push(b.val())
       })
-    } else{
-      this.list1.sort((a1:any,a2:any)=>{
-        if (a1[a]<a2[a]) {
-          return -1
-        } else if (a1[a]>a2[a]){
-          return 1
-        } else {
-          return 0
-        }
-      })
-    }
+    })
+    .then(()=>{
+      this.listSent=this._listSent
+    })
   }
 
-  sel(a:string, b:number){
-    if(this.list1[b].sel==0 || this.list1[b].sel==null || this.list1[b].sel==undefined){
-      this.list1.forEach((e:any) => {
-        e.sel=0
-      });
-      this.listSent.forEach((e:any) => {
-        e.sel=0
-      });
-      this.list1[b].sel=1
-      this.sjId=a
-      this.sjUrl=-1
-    } else {
-      this.list1.forEach((e:any) => {
-        e.sel=0
-      });
-      this.listSent.forEach((e:any) => {
-        e.sel=0
-      });
-      this.sjId=''
-      this.sjUrl=-1
-    }
+  checkDeleted(){
+    return new Promise((res,rej)=>{
+      let l = localStorage.length
+      let k:number=0
+      let nuo:any
+      for(let i=0;i<localStorage.length;i++){
+        if(localStorage.key(i)?.substring(0,7)=="sjdraft" && JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status=='deleted'){
+          console.log(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
+          nuo=JSON.parse(localStorage.getItem(localStorage.key(i)!)!)
+          firebase.database().ref('sjDraft').child('deleted').child(localStorage.key(i)!).set(nuo)
+          .then(()=>{
+            firebase.database().ref('sjDraft').child('draft').child(localStorage.key(i)!).remove()
+            .then(()=>{
+              localStorage.removeItem(localStorage.key(i)!)
+            })
+            
+          })
+        }
+        if(i==l-1) res('ok')
+      }
+    })
+  }
+
+  checkApproval(){
+    return new Promise((res,rej)=>{
+      let l = localStorage.length
+      let k:number=0
+      let nuo:any
+      for(let i=0;i<localStorage.length;i++){
+        if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
+          firebase.database().ref('sjDraft').child('sent').child(localStorage.key(i)!).set(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
+          .then(()=>{
+            localStorage.removeItem(localStorage.key(i)!)
+          })
+        }
+        if(i==l-1) res('ok')
+      }
+    })
   }
 
   go(){
@@ -253,65 +267,109 @@ export class SjhomeComponent implements OnInit {
     this.sjId='' 
   }
 
-  exportPdf(){
-    let file:any
-    let _file:any
-    if(this.sjId!=''){
-      _file = localStorage.getItem(this.sjId)
-      if(_file) file = JSON.parse(_file)
-    }
-    if(this.sjUrl!=-1){
-      file=this.listSent[this.sjUrl]
-    }
-    
-    let urlserver = 'https://episjobreq.herokuapp.com/'
-    this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
-      const blob = new Blob([o], { type: 'file/pdf' });
-      const href = document.createElement('a')
-      document.body.appendChild(href)
-      const url= window.URL.createObjectURL(blob)
-      href.href=url
-      href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
-      href.click()
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(href)
-      }, 1);
+  unSelect(){
+    this.list1.forEach((a:any)=>{
+      a.sel=0
+    })
+    this.listSent.forEach((a:any)=>{
+      a.sel=0
     })
     this.sjId=''
-    this.sjUrl=-1
+  }
+
+  getFile(){
+    let file:any|undefined
+    return new Promise((res,rej)=>{
+      if(this.sjId.substring(0,3)=='sjs') {
+        firebase.database().ref('sjDraft').child('sent').child(this.sjId).once('value',a=>{
+          file  =a.val()
+        })
+        .then(()=>{
+          res(file)
+        })
+        .catch(err=>{
+          rej(err)
+        })
+      } else {
+        file = JSON.parse(localStorage.getItem(this.sjId)!)
+        res(file)
+      } 
+    })
+  }
+
+  exportPdf(){
+    this.getFile().then((file:any)=>{
+      if(file){
+        this.unSelect()
+        let urlserver = 'https://episjobreq.herokuapp.com/'
+        this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
+          const blob = new Blob([o], { type: 'file/pdf' });
+          const href = document.createElement('a')
+          document.body.appendChild(href)
+          const url= window.URL.createObjectURL(blob)
+          href.href=url
+          href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
+          href.click()
+          setTimeout(() => {
+            window.URL.revokeObjectURL(url)
+            document.body.removeChild(href)
+          }, 1);
+        })
+        this.sjId=''
+        this.sjUrl=-1
+      }
+    })
+    
 
   }
   exportMa(){
-    let file:any
-    let _file:any
-    if(this.sjId!=''){
-      _file = localStorage.getItem(this.sjId)
-      if(_file) file = JSON.parse(_file)
-    }
-    if(this.sjUrl!=-1){
-      file=this.listSent[this.sjUrl]
-    }
-    
-    const blob = new Blob([JSON.stringify(file)], { type: 'text/html' });
-      const href = document.createElement('a')
-      document.body.appendChild(href)
-      const url= window.URL.createObjectURL(blob)
-      href.href=url
-      href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.ma'
-      href.click()
-      setTimeout(() => {
-        window.URL.revokeObjectURL(url)
-        document.body.removeChild(href)
-      }, 1);
-    this.sjId=''
-    this.sjUrl=-1
-
+    this.getFile()
+    .then((file:any)=>{
+      if(file){
+        this.unSelect()
+        const blob = new Blob([JSON.stringify(file)], { type: 'text/html' });
+        const href = document.createElement('a')
+        document.body.appendChild(href)
+        const url= window.URL.createObjectURL(blob)
+        href.href=url
+        href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.ma'
+        href.click()
+        setTimeout(() => {
+          window.URL.revokeObjectURL(url)
+          document.body.removeChild(href)
+        }, 1);
+      }
+      
+    })
   }
 
   chOnline(){
     if(navigator.onLine) return true
     return false
   }
+
+  select(e:any, a:string){
+    if(!e){
+      this.sjId=''
+    } else {
+      this.sjId=e
+    }
+    this.chDel=true
+    if(e.substring(0,3)=='sjs') this.chDel=false
+    switch(a){
+      case('sent'):
+        this.list1.forEach((a:any)=>{
+          a.sel=0
+        })
+        break
+      case('draft'):
+        this.listSent.forEach((a:any)=>{
+          a.sel=0
+        })
+        break
+    }
+  }
+
+  
   
 }

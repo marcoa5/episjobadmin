@@ -108,16 +108,17 @@ import { ListofrequestsComponent } from './comp/parts/listofrequests/listofreque
 import { ImportpartsComponent } from './comp/util/dialog/importparts/importparts.component';
 import { NewaddressComponent } from './comp/util/dialog/newaddress/newaddress.component';
 import { SubmitvisitComponent } from './comp/util/dialog/submitvisit/submitvisit.component';
-import { SjComponent } from './comp/sj/sj.component';
+import { SjComponent } from './comp/sjhome/sj/sj.component';
 import { PartsereqComponent } from './comp/rigs/machine/partsereq/partsereq.component';
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
-import { NewdayComponent } from './comp/sj/newday/newday.component';
-import { SignComponent } from './comp/sj/sign/sign.component'
+import { NewdayComponent } from './comp/sjhome/sj/newday/newday.component';
+import { SignComponent } from './comp/sjhome/sj/sign/sign.component'
 import { SignaturePadModule } from 'angular2-signaturepad';
 import { HTMLPipe } from './pipe/html.pipe';
-import { RiskassComponent } from './comp/sj/riskass/riskass.component';
-import { SurveyComponent } from './comp/sj/survey/survey.component';
+import { RiskassComponent } from './comp/sjhome/sj/riskass/riskass.component';
+import { SurveyComponent } from './comp/sjhome/sj/survey/survey.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
+import { JobslistComponent } from './comp/sjhome/jobslist/jobslist.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -221,6 +222,7 @@ const appearance: MatFormFieldDefaultOptions = {
     RiskassComponent,
     SurveyComponent,
     SjhomeComponent,
+    JobslistComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

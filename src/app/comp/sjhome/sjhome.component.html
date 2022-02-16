@@ -7,42 +7,18 @@
     <div class="butCont">
         <button mat-raised-button color="primary" (click)="go()">{{chW()? 'Start new request':'New'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId==''" (click)="open()">{{chW()? 'Open draft':'Open'}}</button>
-        <button mat-raised-button color="primary" [disabled]="sjId=='' || !chOnline()" (click)="delete()">{{chW()? 'Delete draft':'Delete'}}</button>
+        <button mat-raised-button color="primary" [disabled]="sjId=='' || !chOnline() || !chDel" (click)="delete()">{{chW()? 'Delete draft':'Delete'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportPdf()">{{chW()? 'Export PDF':'PDF'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
     </div>
-    <episjob-spin *ngIf="spin"></episjob-spin>
-    <div *ngIf="list1.length>0">
-        <episjob-h2 icon=home data="Drafts"></episjob-h2>
-        <div class="head" [class.mat-elevation-z2]="true">
-            <div class="h" (click)="sort('data_new')">
-                <span>Date</span>
-                <span *ngIf="sortIcon=='data_new' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIcon=='data_new' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sort('matricola')">
-                <span>Serial Nr</span>
-                <span *ngIf="sortIcon=='matricola' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIcon=='matricola' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sort('prodotto1')">
-                <span>Machine</span>
-                <span *ngIf="sortIcon=='prodotto1' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIcon=='prodotto1' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-            <div class="h" (click)="sort('cliente11')">
-                <span>Customer</span>
-                <span *ngIf="sortIcon=='cliente11' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-                <span *ngIf="sortIcon=='cliente11' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-            </div>
-        </div>
-        <div class="contL">
-            <div *ngFor="let l of list1; let i = index" class="cont" (click)="sel(l.sjid, i)" [ngClass]="l.sel==1? 'sel':''">
-                <div class="text bold">{{l.data_new}}</div>
-                <div class="text bold">{{l.matricola}}</div>
-                <div class="text">{{l.prodotto1}}</div>
-                <div class="text">{{l.cliente11}}</div>
-            </div>
-        </div>
+    <episjob-spin *ngIf="spin && listSent.length==0 && pos=='SU'"></episjob-spin>
+    <div *ngIf="!spin && listSent.length>0 && pos=='SU'">
+        <episjob-h2 icon=approval data="Waiting for approval"></episjob-h2>
+        <episjob-jobslist [list]="listSent" (select)="select($event, 'sent')"></episjob-jobslist>
+    </div>
+    <episjob-spin *ngIf="spin && list1.length==0"></episjob-spin>
+    <div *ngIf="!spin && list1.length>0">
+        <episjob-h2 icon=mark_email_read data="Drafts"></episjob-h2>
+        <episjob-jobslist [list]="list1"  (select)="select($event, 'draft')"></episjob-jobslist>
     </div>
 </div>

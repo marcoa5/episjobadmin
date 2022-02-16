@@ -1,0 +1,30 @@
+<div class="head" [class.mat-elevation-z2]="false">
+    <div class="h" (click)="sort('data_new')">
+        <span>Date</span>
+        <span *ngIf="sortIcon=='data_new' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+        <span *ngIf="sortIcon=='data_new' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+    </div>
+    <div class="h" (click)="sort('matricola')">
+        <span>Serial Nr</span>
+        <span *ngIf="sortIcon=='matricola' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+        <span *ngIf="sortIcon=='matricola' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+    </div>
+    <div class="h" (click)="sort('prodotto1')">
+        <span>Machine</span>
+        <span *ngIf="sortIcon=='prodotto1' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+        <span *ngIf="sortIcon=='prodotto1' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+    </div>
+    <div class="h" (click)="sort('cliente11')">
+        <span>Customer</span>
+        <span *ngIf="sortIcon=='cliente11' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
+        <span *ngIf="sortIcon=='cliente11' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
+    </div>
+</div>
+<div class="contL">
+    <div *ngFor="let l of list; let i = index" class="cont" (click)="sel(l.sjid, i)" [ngClass]="l.sel==1? 'sel':''">
+        <div class="text bold">{{l.data_new}}</div>
+        <div class="text bold">{{l.matricola}}</div>
+        <div class="text">{{l.prodotto1}}</div>
+        <div class="text">{{l.cliente11}}</div>
+    </div>
+</div>

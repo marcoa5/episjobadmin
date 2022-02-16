@@ -11,8 +11,10 @@ import { NewdayComponent } from './newday/newday.component';
 import { RiskassComponent } from './riskass/riskass.component';
 import { SurveyComponent } from './survey/survey.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app'
+import { ifError } from 'assert';
+import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 
 export interface ma{
   [k:string]: string|number|any;
@@ -215,7 +217,7 @@ export class SjComponent implements OnInit {
   customers:any[]=[]
   _rigs:any
   rigs:any
-  sjDraftId:string=''
+  //sjDraftId:string=''
   tech:any[]=[]
   rigForm!:FormGroup
   searchForm!:FormGroup
@@ -236,6 +238,7 @@ export class SjComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   riskAss:any[]=[]
   file!:ma
+  sent:boolean=false
   custSurv:any={
     name:'',
     s1:'',
@@ -248,17 +251,17 @@ export class SjComponent implements OnInit {
   techSign:string=''
   custSign:string=''
   torc:string=''
-  ty:string='SPE'
   userId:string=''
   technicians:any[]=[]
   behalf:any
   userName:string=''
-  constructor(private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
+  constructor(private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
     })
     this.rigForm=fb.group({
+      sid: [{value: 'sjdraft' + id.makeId(5), disabled: true}],
       date: ['', Validators.required],
       sn: ['', Validators.required],
       pn: [''],
@@ -271,7 +274,11 @@ export class SjComponent implements OnInit {
       perc1h: [''],
       perc2h: [''],
       perc3h: [''],
-      type:['SPE', Validators.required]
+      type:['SPE', Validators.required],
+      commessa:[''],
+      nsofferta:[''],
+      dateBPCS:[''],
+      docBPCS:['']
     })
     this.reportForm=this.fb.group({
       report:['', Validators.required],
@@ -318,8 +325,8 @@ export class SjComponent implements OnInit {
       if(a.id) {
         let b
         this.spin1 = true
-        if(navigator.onLine){
-          firebase.database().ref('sjDraft').child('draft').child(a.id).once('value',k=>{
+        if(navigator.onLine && a.id.substring(0,3)=='sjs'){
+          firebase.database().ref('sjDraft').child('sent').child(a.id).once('value',k=>{
             b=k.val()
             this.loadData(b,a.id)
           })
@@ -366,6 +373,7 @@ export class SjComponent implements OnInit {
 
   selRig(){
     if(this.rigs.length==1) {
+      if(this.rigForm.controls.sid.value=='' || this.rigForm.controls.sid.value==null) this.rigForm.controls.sid.setValue('sjdraft' + this.id.makeId(5))
       this.rigForm.controls.date.setValue(new Date())
       this.rigForm.controls.sn.setValue(this.rigs[0].sn)
       this.rigForm.controls.model.setValue(this.rigs[0].model)
@@ -449,8 +457,7 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days.length==0?'':this.days.length)
   }
 
-  saveData(){
-    if(this.sjDraftId=='') this.sjDraftId = 'sjdraft' + this.id.makeId(5)
+  saveData(last?:boolean, newId?:string){
     let i:number=1
     let h:ma = {
       userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
@@ -540,16 +547,24 @@ export class SjComponent implements OnInit {
     let n_d = new Date(y,m,d)
     h.data_new=moment(n_d).format('YYYY-MM-DD')
     h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
-    h.sjid=this.sjDraftId
+    h.sjid=newId?newId:this.rigForm.controls.sid.value
+    if(last) h.status='deleted'
     this.file=h
-    localStorage.setItem(this.sjDraftId, JSON.stringify(this.file))
-    if(navigator.onLine) {
-      firebase.database().ref('sjDraft').child('draft').child(this.sjDraftId).set(this.file)
+    if(this.file.sjid.substring(0,3)!='sjs') {
+      localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+      if(navigator.onLine) {
+        firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
+      }
+    } else{
+      firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
     }
   }
 
   loadData(a:any, b:string){
-    this.sjDraftId = b
+    if(b.substring(0,3)=='sjs'){
+      this.sent=true
+    }
+    this.rigForm.controls.sid.setValue(b)
     this.behalf=a.userId
     this.rigForm.controls.model.setValue(a.prodotto1)
     this.rigForm.controls.sn.setValue(a.matricola)
@@ -566,6 +581,7 @@ export class SjComponent implements OnInit {
     this.rigForm.controls.customer2.setValue(a.cliente12)
     this.rigForm.controls.customer3.setValue(a.cliente13)
     this.rigForm.controls.site.setValue(a.cantiere1)
+    this.rigForm.controls.type.setValue(a.stdspe)
     this.custSign=a.firmacc1
     this.techSign=a.firmatt1
     this.reportForm.controls.report.setValue(a.rappl1)
@@ -579,12 +595,21 @@ export class SjComponent implements OnInit {
     this.custSurv.s2=a.rissondaggio.substring(1,2)
     this.custSurv.s3=a.rissondaggio.substring(2,3)
     this.custSurv.name= a.contnomec
-    this.ty=a.stdspe
     //elencomail:'',
     this.riskAss=a.rs
     this.days=a.days
     this.hoursForm.controls.check.setValue(this.days?this.days.length:0)
   }
 
-    test(){console.log('ok')}
+    send(){
+      let g:string = 'sjsent' + this.id.makeId(5)
+      this.saveData(true,g)
+      localStorage.setItem(g, JSON.stringify(this.file))
+      this.router.navigate(['sj'])
+    }
+
+    chLen(e:any){
+      if(e.target.value.length==6 && e.key!="Backspace" && e.key!="Delete" && e.key!='ArrowLeft' && e.key!='ArrowRight') return false
+      return true
+    }
 }

@@ -1,0 +1,78 @@
+@import '../../../../epi.scss';
+
+.head{
+    font-weight: 600;
+    //background-color: lightgray;
+    color:$dark-text;
+    padding: 5px 0;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+}
+
+.text, .h{
+    padding:0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.h{
+    display: flex;
+    //grid-template-columns: 85% 1fr;
+    align-items: center;
+    height: 24px;
+}
+
+.h:hover{
+    background-color: lightgray;
+}
+
+.text{
+    cursor: pointer;
+}
+
+.sel{
+    background-color: $light-text;
+    color: $dark-text;
+    border-radius: 5px;
+}
+
+@media screen and (min-width:801px) {
+    .contL{
+        max-height: 350px;
+        overflow-y:auto;
+    }
+}
+
+.cont{
+    border-bottom: 1px solid rgb(245,245,245);
+}
+
+.cont, .head{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) repeat(2, 2fr);
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+@media screen and (max-width:800px){
+    .cont{
+        grid-template-columns: repeat(2, 1fr);
+        margin-bottom: 15px;
+    }
+    .bold{
+        font-weight: 500;
+    }
+    .head, .lar{
+        display: none;
+    }
+}
+
+@media screen and (min-width:801px){
+    .str{
+        display: none;
+    }
+}
+
+span{
+    max-height: 24px;
+}

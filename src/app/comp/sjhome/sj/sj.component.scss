@@ -1,8 +1,14 @@
 
-@import '../../../epi.scss';
+@import '../../../../epi.scss';
 
 *{
     overscroll-behavior: contain;
+}
+
+.onlysu{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px; 
 }
 
 .cont{
@@ -51,6 +57,7 @@
     display: grid;
     grid-template-columns: 1fr;
 }
+
 .list{
     cursor: pointer;
     padding-bottom: 30px;
@@ -107,16 +114,28 @@
     }
 }
 
+
 @media screen and (max-width:950px) {
     .group4{
         grid-template-columns: 1fr 1fr;
+        gap: 0 15px;
+    }
+    
+}
+
+@media screen and (max-width:550px) {
+    .group3, .group4, .onlysu{
+        grid-template-columns: 1fr;
+        gap:0
     }
 }
 
-@media screen and (max-width:500px) {
-    .group3, .group4{
-        grid-template-columns: 1fr;
-    }
+.hide{
+    visibility: hidden;
+}
+
+.data{
+    min-width: 0;
 }
 
 .rigrow:hover{
@@ -189,10 +208,6 @@ table td{
 
 table td:first-child{
     min-width: unset;
-}
-
-.sig{
-
 }
 
 img{
