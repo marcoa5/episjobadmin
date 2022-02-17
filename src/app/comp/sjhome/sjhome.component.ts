@@ -48,17 +48,18 @@ export class SjhomeComponent implements OnInit {
     )
     if(navigator.onLine) {
       this.checkApproval()
+      .then(()=>{
+        this.loadSent()
+      })
       this.checkDeleted()
       .then(()=>{
         this.syncDraft()
         .then(()=>{
           this.loadSJ()
-          this.loadSent()
         })
       })
     } else {
       this.loadSJ()
-      this.loadSent()
     }
   }
 
@@ -210,18 +211,22 @@ export class SjhomeComponent implements OnInit {
   }
 
   checkApproval(){
+    let kt:number =0
     return new Promise((res,rej)=>{
       let l = localStorage.length
-      let k:number=0
       let nuo:any
       for(let i=0;i<localStorage.length;i++){
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           firebase.database().ref('sjDraft').child('sent').child(localStorage.key(i)!).set(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
           .then(()=>{
             localStorage.removeItem(localStorage.key(i)!)
+            kt++
+            if(kt==l) res('Sent checked')
           })
+        } else {
+          kt++
+          if(kt==l) res('Sent checked')
         }
-        if(i==l-1) res('ok')
       }
     })
   }

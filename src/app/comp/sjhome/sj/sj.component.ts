@@ -548,8 +548,11 @@ export class SjComponent implements OnInit {
     h.data_new=moment(n_d).format('YYYY-MM-DD')
     h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
     if(last) {
+      let tempId:string = this.rigForm.controls.sid.value
+      console.log('last',tempId,h)
+      h.sjid=tempId
       h.status='deleted'
-      localStorage.setItem(this.file.sjid, JSON.stringify(h))
+      localStorage.setItem(tempId, JSON.stringify(h))
     }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
     this.file=h
