@@ -1,0 +1,33 @@
+.group4{
+    display: grid;
+    gap:15px;
+}
+.group3{
+    grid-template-columns: repeat(3, 1fr);
+}
+.group4{
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.data{
+    min-width: 0;
+}
+@media screen and (max-width:950px) {
+    .group4{
+        grid-template-columns: 1fr 1fr;
+        gap: 0 15px;
+    }
+    
+}
+
+@media screen and (max-width:550px) {
+    .group4{
+        grid-template-columns: 1fr;
+        gap:0
+    }
+}
+
+.but{
+    max-height: 45px;
+    margin-bottom: 30px;
+}

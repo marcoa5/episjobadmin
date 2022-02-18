@@ -13,6 +13,7 @@ import firebase from 'firebase/app';
 export class SjemailComponent implements OnInit {
   @Input() id:string=''
   @Input() mail:string=''
+  @Input() disabled:boolean=false
   email!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   emailList:string[]=[]
@@ -28,6 +29,7 @@ export class SjemailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.disabled) this.email.controls.newmail.disable()
     if(this.mail) {
       this.emailList = this.mail.split(';')
     }

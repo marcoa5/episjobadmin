@@ -236,6 +236,7 @@ export class SjComponent implements OnInit {
   sn:string=''
   spin:boolean=true
   spin1:boolean=false
+  lock:boolean=false
   appearance:MatFormFieldAppearance='fill'
   riskAss:any[]=[]
   file!:ma
@@ -279,10 +280,6 @@ export class SjComponent implements OnInit {
       perc2h: [''],
       perc3h: [''],
       type:['SPE', Validators.required],
-      commessa:[''],
-      nsofferta:[''],
-      dateBPCS:[''],
-      docBPCS:['']
     })
     this.reportForm=this.fb.group({
       report:['', Validators.required],
@@ -298,8 +295,6 @@ export class SjComponent implements OnInit {
   }
 
   ngOnInit(): any {  
-
-    //const dialogRef = this.dialog.open(RiskassComponent)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -326,6 +321,16 @@ export class SjComponent implements OnInit {
       })
     )
     this.route.params.subscribe(a=>{
+      if(a.type=='s') {
+        this.lock=true 
+        let aa = this.rigForm.controls
+        aa.sn.disable()
+        aa.pn.disable()
+        aa.model.disable()
+        aa.customer.disable()
+        aa.customer2.disable()
+        aa.customer3.disable()
+      }
       if(a.id) {
         let b
         this.spin1 = true
@@ -432,20 +437,21 @@ export class SjComponent implements OnInit {
   }
 
   sign(a:string){
-    let dia:any
-    if(a=='t') dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
-    if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
-    dia.afterClosed().subscribe((b:any)=>{
-      if(b){
-        if(a=='t') {
-          this.riskAss=b
+    if(!this.lock){
+      let dia:any
+      if(a=='t') dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
+      if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
+      dia.afterClosed().subscribe((b:any)=>{
+        if(b){
+          if(a=='t') {
+            this.riskAss=b
+          }
+          if(a=='c') this.custSurv=b
+          this.torc=a
+          this.signatureClosed=false
         }
-        if(a=='c') this.custSurv=b
-        this.torc=a
-        this.signatureClosed=false
-      }
-    }) 
-    
+      }) 
+    }
   }
 
   close(e:any){
@@ -622,11 +628,6 @@ export class SjComponent implements OnInit {
       this.saveData(true,g)
       localStorage.setItem(g, JSON.stringify(this.file))
       this.router.navigate(['sj'])
-    }
-
-    chLen(e:any){
-      if(e.target.value.length==6 && e.key!="Backspace" && e.key!="Delete" && e.key!='ArrowLeft' && e.key!='ArrowRight') return false
-      return true
     }
 
     getList(e:any){

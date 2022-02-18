@@ -44,26 +44,7 @@
                             </mat-select>
                         </mat-form-field> 
                     </div>
-                    <div class="group4" *ngIf="sent">  
-                        <mat-form-field appearance="fill">
-                            <mat-label>Commessa</mat-label>
-                            <input matInput type="text" formControlName="commessa" autocomplete="off">
-                        </mat-form-field>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Ns Offerta</mat-label>
-                            <input matInput type="text" formControlName="nsofferta" autocomplete="off">
-                        </mat-form-field>
-                        <mat-form-field [appearance]="appearance" class="data">
-                            <mat-label>Apertura BPCS</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="dateBPCS" autocomplete="off">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Doc BPCS</mat-label>
-                            <input matInput type="number" formControlName="docBPCS" autocomplete="off" (keydown)="chLen($event)">
-                        </mat-form-field> 
-                    </div>
+                    <episjob-sumenu [sent]="lock"></episjob-sumenu>
                 </div>
                 <h4>Machine data</h4>
                 <div class="group4">
@@ -258,10 +239,10 @@
                     <img episjobElevation width=450 height=196 [src]="custSign? custSign:blankSign" (click)="sign('c')">  
                 </div>
               </div>
-              <episjob-sjemail [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
+              <episjob-sjemail [disabled]="lock" [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist==''">Send</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist=='' || lock">Send</button>
               </div>
             </form>
             

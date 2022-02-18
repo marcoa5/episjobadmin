@@ -12,10 +12,10 @@
                 </mat-autocomplete>
             </mat-form-field>
         </form>
-        <button mat-mini-fab color="primary" class="but" [disabled]="disBut()" (click)="addMail()"><mat-icon>add</mat-icon></button>
+        <button mat-mini-fab color="primary" class="but" [disabled]="disBut() || disabled" (click)="addMail()"><mat-icon>add</mat-icon></button>
     </div> 
     <mat-chip-list class="mailCont">
-        <mat-chip *ngFor="let e of emailList" (removed)="remove(e)">
+        <mat-chip *ngFor="let e of emailList" (removed)="remove(e)" [disabled]="disabled">
             {{e}}
             <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>

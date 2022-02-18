@@ -260,7 +260,8 @@ export class SjhomeComponent implements OnInit {
   }
 
   open(){
-    this.router.navigate(['newsj', {id:this.sjId}])
+    console.log(this.sjId.substring(2,3))
+    this.router.navigate(['newsj', {id:this.sjId,type:this.sjId.substring(2,3)}])
   }
 
   chW(): boolean{
