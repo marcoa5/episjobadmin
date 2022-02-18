@@ -45,7 +45,7 @@
 
         </div>
     </div>
-    <episjob-editdelbut [machine]="true" class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()"></episjob-editdelbut>
+    <episjob-editdelbut [machine]="true" class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()" (sjReport)="reportSJ()"></episjob-editdelbut>
 </div>
 <div class="mainCont" *ngIf="!allow">Restricted area</div>
 

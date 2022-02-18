@@ -163,13 +163,26 @@ export class ClienteComponent implements OnInit {
 
   report(){
     this.elenco=[]
-    this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs')
+    this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
     firebase.database().ref('Saved').once('value',a=>{
         a.forEach(b=>{
             b.forEach(c=>{
                 let x = c.val()
                 if(x.cliente11==this.cust1) {
-                    this.elenco.push(x.matricola+';'+x.prodotto1+';'+x.data11+';'+x.docbpcs+';'+x.orem1+';'+x.perc11+';'+x.perc21+';'+x.perc31)
+                  let lavoro:number=0, viaggio:number=0, ind:number=0
+                    for(let i=1;i<8;i++){
+                      let newDayTravel:number=0, newDayWork:number=0
+                      let vl:string 
+                      vl='v'
+                      newDayTravel= x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
+                      //console.log(parseInt(x['spo' +vl + i + '1'])+parseInt(x['sps' +vl + i + '1'])+parseInt(x['std' +vl + i + '1'])+parseInt(x['str' +vl + i + '1'])+parseInt(x['mnt' +vl + i + '1'])+parseInt(x['mf' +vl + i + '1'])+parseInt(x['mnf' +vl + i + '1']))
+                      vl='l'
+                      newDayWork=x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
+                      if(newDayTravel!=0 || newDayWork!=0) ind++
+                      viaggio+=newDayTravel
+                      lavoro+=newDayWork
+                    }
+                    this.elenco.push(x.matricola+';'+x.prodotto1+';'+x.data11+';'+x.docbpcs+';'+x.orem1+';'+x.perc11+';'+x.perc21+';'+x.perc31+';'+viaggio+';'+lavoro+';'+ind)
                 }
             })
         })

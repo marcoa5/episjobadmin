@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
+import { SpvComponent } from './spv/spv.component'
 
 @Component({
   selector: 'episjob-newday',
@@ -17,7 +18,10 @@ export class NewdayComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   newDay!:FormGroup
   dayType:string=''
-  constructor(private auth: AuthServiceService, public dialogRef: MatDialogRef<NewdayComponent>,
+  @ViewChild('spvVC') spvVC!: ElementRef
+  @ViewChild('spvkmVC') spvkmVC!: ElementRef
+  
+  constructor(private dialog: MatDialog, private auth: AuthServiceService, public dialogRef: MatDialogRef<NewdayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb:FormBuilder,
     private getday:DaytypesjService,
@@ -36,7 +40,8 @@ export class NewdayComponent implements OnInit {
         mnfv:[0],
         mnfl:[0],
         km:[{value:0, disabled:true}],
-        spv:[{value:0, disabled:true}],
+        spv:[{value:'', disabled:true}],
+        spvkm:[0],
         off:[0],
         ofs:[0]
       })
@@ -66,6 +71,7 @@ export class NewdayComponent implements OnInit {
       f.mnfl.setValue(g.hr.mnfl)
       f.km.setValue(g.hr.km)
       f.spv.setValue(g.hr.spv)
+      f.spvkm.setValue(g.hr.spvkm)
       f.off.setValue(g.hr.off)
       f.ofs.setValue(g.hr.ofs)      
       this.chTravel()
@@ -120,7 +126,6 @@ export class NewdayComponent implements OnInit {
   }
 
   save(){
-
     let a =this.newDay.value
     let data:any={
       date:a.date,
@@ -137,7 +142,8 @@ export class NewdayComponent implements OnInit {
         mnfv:a.mnfv,
         mnfl:a.mnfl,
         km:a.km?a.km:0,
-        spv:a.spv?a.spv:0,
+        spvkm:a.spvkm?a.spvkm:0,
+        spv:a.spv?a.spv:'',
         off:a.off,
         ofs:a.ofs,
       }
@@ -166,5 +172,16 @@ export class NewdayComponent implements OnInit {
     let a= e.target.value
     if(!(/^\d*\.?((25)|(50)|(5)|(75)|(0)|(00))?$/.test(a))) this.newDay.controls[e.target.attributes.formcontrolname.value].setValue((Math.round(a*4)/4))
     if(e.key=="Backspace") e.target.value=parseInt(a)
+  }
+
+  travelExp(){
+    this.spvVC.nativeElement.blur()
+    const dialogref = this.dialog.open(SpvComponent,{data:this.newDay.controls.spvkm.value?this.newDay.controls.spvkm.value:undefined})
+    dialogref.afterClosed().subscribe(a=>{
+      if(a) {
+        this.newDay.controls.spv.setValue(a[1])
+        this.newDay.controls.spvkm.setValue(a[0])
+      }
+    })
   }
 }

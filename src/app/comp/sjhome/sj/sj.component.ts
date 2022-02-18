@@ -528,6 +528,7 @@ export class SjComponent implements OnInit {
         h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
         h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+        h['spvkm'+i +'1']=a.hr['spvkm']==0?'':a.hr['spvkm']
         h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
         h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
     

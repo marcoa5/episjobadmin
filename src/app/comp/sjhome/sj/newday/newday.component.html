@@ -79,9 +79,13 @@
                     <mat-label>KM</mat-label>
                     <input matInput type="number" min=0 [max]="travelMax()" autocomplete="off" formControlName="km">
                 </mat-form-field>
-                <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Spese Viaggio">
+                <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Spese Viaggio" >
                     <mat-label>SPV</mat-label>
-                    <input matInput type="number" min=0 autocomplete="off" formControlName="spv">
+                    <input #spvVC matInput type="text" autocomplete="off" formControlName="spv" (focus)="travelExp()">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance" class="hrs" matTooltip="Spese Viaggio" style="visibility: hidden; position: fixed; top:-1000px; left:-1000px">
+                    <mat-label>SPVkm</mat-label>
+                    <input #spvkmVC matInput type="number" min=0 autocomplete="off" formControlName="spvkm">
                 </mat-form-field>
             </div>
             <div class="hrsCont item7" *ngIf="dayType=='fer' || dayType=='sat'">

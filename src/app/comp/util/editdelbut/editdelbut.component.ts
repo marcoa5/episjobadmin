@@ -106,4 +106,8 @@ export class EditdelbutComponent implements OnInit {
     this.hrsReport.emit('hrsReport')
   }
 
+  reportSJ(){
+    this.sjReport.emit('hrsReport')
+  }
+
 }
