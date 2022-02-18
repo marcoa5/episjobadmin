@@ -176,7 +176,7 @@ export class NewdayComponent implements OnInit {
 
   travelExp(){
     this.spvVC.nativeElement.blur()
-    const dialogref = this.dialog.open(SpvComponent,{data:this.newDay.controls.spvkm.value?this.newDay.controls.spvkm.value:undefined})
+    const dialogref = this.dialog.open(SpvComponent,{data:{spvkm:this.newDay.controls.spvkm.value?this.newDay.controls.spvkm.value:undefined, km:this.newDay.controls.km.value?this.newDay.controls.km.value:0}})
     dialogref.afterClosed().subscribe(a=>{
       if(a) {
         this.newDay.controls.spv.setValue(a[1])

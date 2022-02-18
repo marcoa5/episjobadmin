@@ -120,6 +120,7 @@ import { SurveyComponent } from './comp/sjhome/sj/survey/survey.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
 import { JobslistComponent } from './comp/sjhome/jobslist/jobslist.component';
 import { SpvComponent } from './comp/sjhome/sj/newday/spv/spv.component';
+import { SjemailComponent } from './comp/sjhome/sj/sjemail/sjemail.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -225,6 +226,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SjhomeComponent,
     JobslistComponent,
     SpvComponent,
+    SjemailComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -272,3 +272,9 @@ img{
     left: -1000px;
     visibility:hidden;
 }
+
+.hidden{
+    visibility: hidden;
+    position: fixed;
+    top:-1000px;left:-1000px;
+}

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -9,6 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class SpvComponent implements OnInit {
   travelE!:FormGroup
+  max:number=0
   constructor(public dialogRef: MatDialogRef<SpvComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder) {
     this.travelE = fb.group({
       km:['']
@@ -16,8 +17,13 @@ export class SpvComponent implements OnInit {
    }
     
   ngOnInit(): void {
-    if(this.data){
-      this.travelE.controls.km.setValue(this.data)
+    console.log(this.data)
+    if(this.data.spvkm){
+      this.travelE.controls.km.setValue(this.data.spvkm)
+    }
+    if(this.data.km && this.data.km>0){
+      this.max=this.data.km
+      this.travelE.controls.km.setValidators(Validators.max(this.data.km))
     }
   }
 
@@ -30,5 +36,9 @@ export class SpvComponent implements OnInit {
     let f = r.toFixed(0) + '.00'
     if(!isNaN(r)) return f
     return null 
+  }
+
+  chMax(e:any){
+    if(e.target.value>this.max) this.travelE.controls.km.setValue(this.max)
   }
 }

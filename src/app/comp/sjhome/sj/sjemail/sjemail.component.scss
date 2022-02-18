@@ -1,0 +1,19 @@
+@import '../../../../../epi.scss';
+
+.mainCont{
+    margin-top:30px;
+}
+.newMailCont{
+    display: grid;
+    grid-template-columns: 1fr 50px;
+    gap:15px;
+}
+
+.new{
+    min-width: 100%;
+    padding:0;
+}
+
+.but{
+    margin-top:5px;
+}

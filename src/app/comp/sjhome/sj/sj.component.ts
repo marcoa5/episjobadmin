@@ -30,6 +30,7 @@ export interface ma{
   perc21: string
   perc31: string
   data11: string
+  custid: string
   cliente11: string
   cliente12: string
   cliente13: string
@@ -255,6 +256,8 @@ export class SjComponent implements OnInit {
   technicians:any[]=[]
   behalf:any
   userName:string=''
+  maillist:string=''
+  templist:string=''
   constructor(private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
@@ -266,6 +269,7 @@ export class SjComponent implements OnInit {
       sn: ['', Validators.required],
       pn: [''],
       model: ['', Validators.required],
+      customerid: ['', Validators.required],
       customer: ['', Validators.required],
       customer2: [''],
       customer3: [''],
@@ -378,6 +382,7 @@ export class SjComponent implements OnInit {
       this.rigForm.controls.sn.setValue(this.rigs[0].sn)
       this.rigForm.controls.model.setValue(this.rigs[0].model)
       this.rigForm.controls.pn.setValue(this.rigs[0].in?this.rigs[0].in:'')
+      this.rigForm.controls.customerid.setValue(this.rigs[0].custid)
       this.rigForm.controls.customer.setValue(this.rigs[0].customer)
       this.rigForm.controls.customer2.setValue(this.customers[this.rigs[0].custid].c2)
       this.rigForm.controls.customer3.setValue(this.customers[this.rigs[0].custid].c3)
@@ -466,6 +471,7 @@ export class SjComponent implements OnInit {
       data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
       prodotto1: this.rigForm.controls.model.value,
       matricola: this.rigForm.controls.sn.value,
+      custid:this.rigForm.controls.customerid.value,
       cliente11: this.rigForm.controls.customer.value,
       cliente12: this.rigForm.controls.customer2.value,
       cliente13: this.rigForm.controls.customer3.value,
@@ -488,7 +494,7 @@ export class SjComponent implements OnInit {
       contnomec:this.custSurv.name,
       contfirmac:'1',
       contsondc:'1',
-      elencomail:'',
+      elencomail:this.maillist?this.maillist:'',
       rs:this.riskAss?this.riskAss:[],
       days: this.days?this.days:[],
       tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
@@ -550,7 +556,6 @@ export class SjComponent implements OnInit {
     h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
     if(last) {
       let tempId:string = this.rigForm.controls.sid.value
-      console.log('last',tempId,h)
       h.sjid=tempId
       h.status='deleted'
       localStorage.setItem(tempId, JSON.stringify(h))
@@ -584,6 +589,7 @@ export class SjComponent implements OnInit {
       let n_d = new Date(y,m,d)
       this.rigForm.controls.date.setValue(n_d)
     }, 100);
+    this.rigForm.controls.customerid.setValue(a.custid)
     this.rigForm.controls.customer.setValue(a.cliente11)
     this.rigForm.controls.customer2.setValue(a.cliente12)
     this.rigForm.controls.customer3.setValue(a.cliente13)
@@ -602,7 +608,8 @@ export class SjComponent implements OnInit {
     this.custSurv.s2=a.rissondaggio.substring(1,2)
     this.custSurv.s3=a.rissondaggio.substring(2,3)
     this.custSurv.name= a.contnomec
-    //elencomail:'',
+    this.maillist= a.elencomail
+    this.templist=a.elencomail
     this.riskAss=a.rs
     this.days=a.days
     this.hoursForm.controls.check.setValue(this.days?this.days.length:0)
@@ -620,5 +627,10 @@ export class SjComponent implements OnInit {
     chLen(e:any){
       if(e.target.value.length==6 && e.key!="Backspace" && e.key!="Delete" && e.key!='ArrowLeft' && e.key!='ArrowRight') return false
       return true
+    }
+
+    getList(e:any){
+      this.maillist=e
+      this.saveData()
     }
 }

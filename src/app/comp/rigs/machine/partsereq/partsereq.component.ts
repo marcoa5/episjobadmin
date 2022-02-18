@@ -18,27 +18,27 @@ export class PartsereqComponent implements OnInit {
 
   ngOnInit(): void {
     this.__reqlist=this._reqlist
-    
     .map(a=>{
       let partArr:string[]=[]
       a.Parts.forEach((e:any) => {
         partArr.push(e.pn)
       })
-      let url:string= 'https://episjobreq.herokuapp.com/psdllp' //'http://localhost:3001/psdllp'
+      let url:string= 'http://localhost:3001'
+      //let url: string='https://episjobreq.herokuapp.com'
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
-      this.http.get(url,{params:params}).subscribe(gt=>{
+      this.http.get(url + '/psdllp',{params:params}).subscribe(gt=>{
         let total:any=0
-        Object.values(gt).forEach(fr=>{
-          let index:number=a.Parts.map((r:any)=>{return r.pn.toString()}).indexOf(fr.pn)
-          a.Parts[index].llp=fr.llp
-          a.Parts[index].tot=Math.round(fr.llp * a.Parts[index].qty*100)/100
-          total+=a.Parts[index].tot
+        a.Parts.forEach((fr:any)=>{
+          let index = Object.values(gt).map(y=>{return y.pn}).indexOf(fr.pn)
+          if(index>-1) {
+            fr.llp=Object.values(gt)[index].llp
+            fr.tot=Math.round(fr.llp * fr.qty*100)/100
+            total+=fr.tot
+          }
         })
         a.Parts['totAmount']=parseFloat(total)
-        //})
-        //console.log(a.Parts.map((r:any)=>{return r.pn}).indexOf())
       })
       a.date = moment(a.date).format('DD/MM/YY')
       return a
@@ -53,6 +53,7 @@ export class PartsereqComponent implements OnInit {
       }
     });
     this.reqlist=this.__reqlist
+    console.log(this.reqlist)
   }
 
   ngOnChanges(){

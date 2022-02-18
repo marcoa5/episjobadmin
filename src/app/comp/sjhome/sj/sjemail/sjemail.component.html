@@ -1,1 +1,23 @@
-<p>sjemail works!</p>
+<div class="mainCont">
+    <h4>Email Addresses</h4>
+    <div class="newMailCont">
+        <form [formGroup]="email">
+            <mat-form-field [appearance]="appearance" class="new">
+                <mat-label>New Email</mat-label>
+                <input #nm matInput type="email" formControlName="newmail" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+        <button mat-mini-fab color="primary" class="but" [disabled]="disBut()" (click)="addMail()"><mat-icon>add</mat-icon></button>
+    </div> 
+    <mat-chip-list class="mailCont">
+        <mat-chip *ngFor="let e of emailList" (removed)="remove(e)">
+            {{e}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </mat-chip-list>
+</div>

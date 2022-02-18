@@ -101,7 +101,7 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       setTimeout(() => {
         rej('error')
-      }, 5000);
+      }, 2000);
       for(let i=0; i<localStorage.length;i++){
         let k:string|null = localStorage.key(i)
         if(k?.substring(0,7)=="sjdraft"){
@@ -153,7 +153,7 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       setTimeout(() => {
         rej('error')
-      }, 5000);
+      }, 2000);
       firebase.database().ref('sjDraft').child('draft').once('value',draft=>{
         if(draft.val()!=null){
           let _draft =Object.values(draft.val())
@@ -202,14 +202,13 @@ export class SjhomeComponent implements OnInit {
   }
 
   loadSent(){
-    firebase.database().ref('sjDraft').child('sent').once('value',a=>{
+    firebase.database().ref('sjDraft').child('sent').on('value',a=>{
+      this._listSent=[]
       a.forEach(b=>{
         this._listSent.push(b.val())
       })
-    })
-    .then(()=>{
       this.listSent=this._listSent
-    })
+    })   
   }
 
   checkDeleted(){
