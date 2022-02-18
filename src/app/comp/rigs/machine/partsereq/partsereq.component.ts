@@ -23,8 +23,8 @@ export class PartsereqComponent implements OnInit {
       a.Parts.forEach((e:any) => {
         partArr.push(e.pn)
       })
-      let url:string= 'http://localhost:3001'
-      //let url: string='https://episjobreq.herokuapp.com'
+      //let url:string= 'http://localhost:3001'
+      let url: string='https://episjobreq.herokuapp.com'
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
@@ -53,7 +53,6 @@ export class PartsereqComponent implements OnInit {
       }
     });
     this.reqlist=this.__reqlist
-    console.log(this.reqlist)
   }
 
   ngOnChanges(){
