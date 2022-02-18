@@ -66,12 +66,31 @@ export class SjhomeComponent implements OnInit {
   syncDraft(){
     return new Promise((res,rej)=>{
       this.spin=true
-      this.fromLocalToServer().then((a)=>{
+      this.fromLocalToServer()
+      .then((a)=>{
         console.log(a)
-        this.fromServerToLocal().then(b=>{
+        this.fromServerToLocal()
+        .then(b=>{
           console.log(b)
           this.spin=false
           res('ok')
+        })
+        .catch(err=>{
+          console.log(err)
+          this.spin=false
+        })
+      })
+      .catch(err=>{
+        console.log(err)
+        this.fromServerToLocal()
+        .then(b=>{
+          console.log(b)
+          this.spin=false
+          res('ok')
+        })
+        .catch(err=>{
+          console.log(err)
+          this.spin=false
         })
       })
     })
@@ -80,6 +99,9 @@ export class SjhomeComponent implements OnInit {
   fromLocalToServer(){
     let kt:number=0
     return new Promise((res,rej)=>{
+      setTimeout(() => {
+        rej('error')
+      }, 5000);
       for(let i=0; i<localStorage.length;i++){
         let k:string|null = localStorage.key(i)
         if(k?.substring(0,7)=="sjdraft"){
@@ -129,6 +151,9 @@ export class SjhomeComponent implements OnInit {
   fromServerToLocal(){
     let s:number=0, l:number=0, kt:number=0
     return new Promise((res,rej)=>{
+      setTimeout(() => {
+        rej('error')
+      }, 5000);
       firebase.database().ref('sjDraft').child('draft').once('value',draft=>{
         if(draft.val()!=null){
           let _draft =Object.values(draft.val())
