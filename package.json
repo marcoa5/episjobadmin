@@ -1,13 +1,14 @@
 {
   "name": "episjobadmin",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "serve": "ng serve"
+    "serve": "ng serve",
+    "deploy": "ng build --prod && firebase deploy"
   },
   "private": true,
   "dependencies": {
