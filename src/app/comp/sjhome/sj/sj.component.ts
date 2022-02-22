@@ -251,6 +251,7 @@ export class SjComponent implements OnInit {
   objectKeys:any;
   signatureClosed:boolean=true;
   techSign:string=''
+  techSign_temp:string=''
   custSign:string=''
   torc:string=''
   userId:string=''
@@ -349,6 +350,7 @@ export class SjComponent implements OnInit {
       }
     })
     this.loadTech()
+    if(localStorage.getItem('Signature')!=null) this.techSign_temp=localStorage.getItem('Signature')!
   }
 
   ngOnDestroy(){
@@ -439,7 +441,10 @@ export class SjComponent implements OnInit {
   sign(a:string){
     if(!this.lock){
       let dia:any
-      if(a=='t') dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
+      if(a=='t') {
+        dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
+        this.techSign=this.techSign_temp
+      }
       if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
       dia.afterClosed().subscribe((b:any)=>{
         if(b){
@@ -456,7 +461,10 @@ export class SjComponent implements OnInit {
 
   close(e:any){
     if(e!='close'){
-      if(e[0]=='t') this.techSign=e[1]
+      if(e[0]=='t') {
+        this.techSign=e[1]
+        if(localStorage.getItem('Signature')==null) localStorage.setItem('Signature', e[1])
+      }
       if(e[0]=='c') this.custSign=e[1]
     }
     this.signatureClosed=true
@@ -468,7 +476,7 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days.length==0?'':this.days.length)
   }
 
-  saveData(last?:boolean, newId?:string){
+  saveData(last?:boolean, newId?:string, info?:any){
     let i:number=1
     let h:ma = {
       userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
@@ -566,6 +574,9 @@ export class SjComponent implements OnInit {
       h.status='deleted'
       localStorage.setItem(tempId, JSON.stringify(h))
     }
+    if(info){
+      h.info = info
+    }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
     this.file=h
     if(this.file.sjid.substring(0,3)!='sjs') {
@@ -622,12 +633,16 @@ export class SjComponent implements OnInit {
   }
 
     send(){
+      let info:any={
+        subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
+        fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
+      }
       localStorage.getItem(this.rigForm.controls.sid.value)
       let g:string = 'sjsent' + this.id.makeId(5)
-      //this.saveData(true)
-      this.saveData(true,g)
+      this.saveData(true,g,info)
       localStorage.setItem(g, JSON.stringify(this.file))
       this.router.navigate(['sj'])
+      
     }
 
     getList(e:any){

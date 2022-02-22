@@ -7,10 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
-import jsPDF from 'jspdf';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { strictEqual } from 'assert';
-import { stringify } from 'querystring';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 @Component({
   selector: 'episjob-sjhome',
   templateUrl: './sjhome.component.html',
@@ -32,7 +29,7 @@ export class SjhomeComponent implements OnInit {
   draftSel:boolean=false
   sentSel:boolean=false
   chDel:boolean=false
-  constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient) { }
+  constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -47,9 +44,11 @@ export class SjhomeComponent implements OnInit {
       })
     )
     if(navigator.onLine) {
+      this.syncSignature()
       this.checkApproval()
-      .then(()=>{
-        this.loadSent()
+      .then((a)=>{
+        console.log(a)
+        if(this.pos=='SU') this.loadSent()
       })
       this.checkDeleted()
       .then(()=>{
@@ -108,10 +107,18 @@ export class SjhomeComponent implements OnInit {
           let _info:string|null = localStorage.getItem(k)
           if(_info) {
             firebase.database().ref('sjDraft').child('deleted').child(k).once('value',y=>{
-              if(y.val()!=null) localStorage.removeItem(k!)
+              if(y.val()!=null) {
+                localStorage.removeItem(k!)
+                console.log('REMOVED ' + k!)
+              }
             }).then(()=>{
               firebase.database().ref('sjDraft').child('sent').child(k!).once('value',y=>{
-                if(y.val()!=null) localStorage.removeItem(k!)
+                if(y.val()!=null) {
+                  console.log(k)
+                  localStorage.removeItem(k!)
+                  console.log('REMOVED ' + k!)
+
+                }
               }).then(()=>{
                 firebase.database().ref('sjDraft').child('draft').child(k!).once('value',y=>{
                   let l:string|undefined=undefined, s:string
@@ -218,15 +225,15 @@ export class SjhomeComponent implements OnInit {
       let nuo:any
       for(let i=0;i<localStorage.length;i++){
         if(localStorage.key(i)?.substring(0,7)=="sjdraft" && JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status=='deleted'){
-          console.log(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
           nuo=JSON.parse(localStorage.getItem(localStorage.key(i)!)!)
-          firebase.database().ref('sjDraft').child('deleted').child(localStorage.key(i)!).set(nuo)
+          let keyLS:string=localStorage.key(i)!
+          firebase.database().ref('sjDraft').child('deleted').child(keyLS).set(nuo)
           .then(()=>{
-            firebase.database().ref('sjDraft').child('draft').child(localStorage.key(i)!).remove()
+            firebase.database().ref('sjDraft').child('draft').child(keyLS).remove()
             .then(()=>{
-              localStorage.removeItem(localStorage.key(i)!)
+              localStorage.removeItem(keyLS)
+              console.log('REMOVED ' + keyLS)
             })
-            
           })
         }
         if(i==l-1) res('ok')
@@ -238,18 +245,40 @@ export class SjhomeComponent implements OnInit {
     let kt:number =0
     return new Promise((res,rej)=>{
       let l = localStorage.length
-      let nuo:any
-      for(let i=0;i<localStorage.length;i++){
+      for(let i=0;i<l;i++){
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
-          firebase.database().ref('sjDraft').child('sent').child(localStorage.key(i)!).set(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
+          let keyLS:string=localStorage.key(i)!
+          let content:string=localStorage.getItem(localStorage.key(i)!)!
+          let cont = JSON.parse(content)
+          firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
           .then(()=>{
-            localStorage.removeItem(localStorage.key(i)!)
+            localStorage.removeItem(keyLS)
+            console.log('REMOVED ' + keyLS)
+            //let url:string='http://localhost:3001/'; cont.info.cc=false
+            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=false
+            this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
+              let info={
+                fileName: cont.info.fileName,
+                urlPdf: cont.info.urlPdf
+              }
+              console.log(res) 
+              let _mails = cont.elencomail.split(';')
+              let mail = _mails.join(', ')
+              this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
+            })
             kt++
-            if(kt==l) res('Sent checked')
+            if(kt==l) {
+              res('Sent checked')
+            }
+            
           })
+          
+          
         } else {
           kt++
-          if(kt==l) res('Sent checked')
+          if(kt==l) {
+            res('Sent checked')
+          }
         }
       }
     })
@@ -260,7 +289,6 @@ export class SjhomeComponent implements OnInit {
   }
 
   open(){
-    console.log(this.sjId.substring(2,3))
     this.router.navigate(['newsj', {id:this.sjId,type:this.sjId.substring(2,3)}])
   }
 
@@ -274,7 +302,9 @@ export class SjhomeComponent implements OnInit {
     const dialogRef = this.dialog.open(DeldialogComponent, {data: {name:'Service Job draft'}})
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
+        console.log(del)
         localStorage.removeItem(del)
+        console.log('REMOVED ' + del)
         if(navigator.onLine){
           firebase.database().ref('sjDraft').child('draft').child(del).remove()
           .then(()=>{
@@ -400,6 +430,15 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
+  syncSignature(){
+    if(localStorage.getItem('Signature')==null){
+      firebase.database().ref('UserSignature').child(this.userId).once('value',a=>{
+        if(a.val()!=null) localStorage.setItem('Signature', a.val())
+      })
+    } else {
+      firebase.database().ref('UserSignature').child(this.userId).set(localStorage.getItem('Signature'))
+    }
+  }
   
   
 }

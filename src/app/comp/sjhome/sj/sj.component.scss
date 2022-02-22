@@ -1,9 +1,12 @@
 
 @import '../../../../epi.scss';
 
-*{
-    overscroll-behavior: contain;
+@media screen and (max-width: 450px) {
+   *{
+        overscroll-behavior: contain;
+    } 
 }
+
 
 .onlysu{
     display: grid;

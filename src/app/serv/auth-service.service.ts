@@ -124,7 +124,9 @@ export class AuthServiceService {
   get _contacts(){return this.contacts.asObservable()}
 
   get _custI(){
-    if(!isDevMode()) this.getCustData()
+    if(!isDevMode()) {
+      this.getCustData()
+    }
     let a = localStorage.getItem('custI')
     let b:any
     if(a) {
