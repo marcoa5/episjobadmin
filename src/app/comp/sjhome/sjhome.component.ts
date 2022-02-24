@@ -368,7 +368,7 @@ export class SjhomeComponent implements OnInit {
           document.body.appendChild(href)
           const url= window.URL.createObjectURL(blob)
           href.href=url
-          href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
+          href.download= moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
           href.click()
           setTimeout(() => {
             window.URL.revokeObjectURL(url)
@@ -440,5 +440,14 @@ export class SjhomeComponent implements OnInit {
     }
   }
   
+  saveSP(){
+    //let source= {url: 'https://firebasestorage.googleapis.com/v0/b/epi-serv-job.appspot.com/o/Closed%2F428808%20-%2020220221%20-%20UNICALCE%20SPA%20-%20ROC%20L6(25)%20-%20AVO10A1102.pdf?alt=media&token=3a582f3e-2033-4e9a-b8ea-2f977825d11f'}
+    let ref=firebase.storage().ref('Marco Arato/20220222121404 - ERDBAU S.R.L. - ROC D5-01 RRC - AVO05A788.ma')
+    ref.storage
+
+      /*let url:string='http://localhost:3001/saveOnSP'
+      this.http.post(url, {url:a}).subscribe(b=>{console.log(b)})*/
   
+    
+  }
 }
