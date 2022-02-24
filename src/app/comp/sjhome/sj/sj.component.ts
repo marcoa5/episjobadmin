@@ -13,14 +13,13 @@ import { SurveyComponent } from './survey/survey.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app'
-import { ifError } from 'assert';
-import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 
 export interface ma{
   [k:string]: string|number|any;
   userId: string
-  author: string
-  authorId: string
+  author?: string
+  authorId?: string
+  _mod?:string
   vsordine: string
   nsofferta1: string
   prodotto1: string
@@ -260,6 +259,8 @@ export class SjComponent implements OnInit {
   userName:string=''
   maillist:string=''
   templist:string=''
+  nuovo:boolean=true
+
   constructor(private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
@@ -323,6 +324,7 @@ export class SjComponent implements OnInit {
     )
     this.route.params.subscribe(a=>{
       if(a.type=='s') {
+        this.nuovo=false
         this.lock=true 
         let aa = this.rigForm.controls
         aa.sn.disable()
@@ -333,6 +335,7 @@ export class SjComponent implements OnInit {
         aa.customer3.disable()
       }
       if(a.id) {
+        this.nuovo=false
         let b
         this.spin1 = true
         if(navigator.onLine && a.id.substring(0,3)=='sjs'){
@@ -479,9 +482,9 @@ export class SjComponent implements OnInit {
   saveData(last?:boolean, newId?:string, info?:any){
     let i:number=1
     let h:ma = {
+      author: (this.file && this.file.author)?this.file.author:'',
+      authorId: (this.file && this.file.authorId)?this.file.authorId:'',
       userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
-      author: this.userName,
-      authorId: this.userId,
       data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
       prodotto1: this.rigForm.controls.model.value,
       matricola: this.rigForm.controls.sn.value,
@@ -518,6 +521,12 @@ export class SjComponent implements OnInit {
       tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
       tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
       tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
+    }
+    if(this.nuovo){
+      h.author= this.userName
+      h.authorId= this.userId
+    } else{
+      h._mod=this.userName
     }
     if(this.days){
       this.days.forEach(a=>{
@@ -590,6 +599,7 @@ export class SjComponent implements OnInit {
   }
 
   loadData(a:any, b:string){
+    this.file=a
     if(b.substring(0,3)=='sjs'){
       this.sent=true
     }
