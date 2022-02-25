@@ -8,6 +8,7 @@ import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'episjob-sjhome',
   templateUrl: './sjhome.component.html',
@@ -48,7 +49,7 @@ export class SjhomeComponent implements OnInit {
       this.checkApproval()
       .then((a)=>{
         console.log(a)
-        if(this.pos=='SU') this.loadSent()
+        //if(this.pos=='SU') this.loadSent()
       })
       this.checkDeleted()
       .then(()=>{
@@ -208,7 +209,7 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  loadSent(){
+  /*loadSent(){
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
@@ -216,7 +217,7 @@ export class SjhomeComponent implements OnInit {
       })
       this.listSent=this._listSent
     })   
-  }
+  }*/
 
   checkDeleted(){
     return new Promise((res,rej)=>{

@@ -418,9 +418,7 @@ export class SjComponent implements OnInit {
 
           a['techs'] = a.tech.split(' ')[0].substring(0,1) + '.' + a.tech.split(' ')[1].substring(0,1) + '.'
           if(rt.info!=undefined){
-            if(rt.info-1 ==0) this.days=[]
-            this.days[rt.info-1]=a
-          } else {
+            this.days.splice(rt.info-1,1)
             this.days.push(a)
           }
 
@@ -642,21 +640,21 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days?this.days.length:0)
   }
 
-    send(){
-      let info:any={
-        subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
-        fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
-      }
-      localStorage.getItem(this.rigForm.controls.sid.value)
-      let g:string = 'sjsent' + this.id.makeId(5)
-      this.saveData(true,g,info)
-      localStorage.setItem(g, JSON.stringify(this.file))
-      this.router.navigate(['sj'])
-      
+  send(){
+    let info:any={
+      subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
+      fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
     }
+    localStorage.getItem(this.rigForm.controls.sid.value)
+    let g:string = 'sjsent' + this.id.makeId(5)
+    this.saveData(true,g,info)
+    localStorage.setItem(g, JSON.stringify(this.file))
+    this.router.navigate(['sj'])
+    
+  }
 
-    getList(e:any){
-      this.maillist=e
-      this.saveData()
-    }
+  getList(e:any){
+    this.maillist=e
+    this.saveData()
+  }
 }

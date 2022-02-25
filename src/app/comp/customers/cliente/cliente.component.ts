@@ -10,7 +10,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
-import { threadId } from 'worker_threads';
 
 export interface rigsLabel {
   lab: string

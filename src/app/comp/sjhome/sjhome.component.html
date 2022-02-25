@@ -11,11 +11,11 @@
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportPdf()">{{chW()? 'Export PDF':'PDF'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId=='' && sjUrl==-1 || !chOnline()" (click)="exportMa()">{{chW()? 'Export MA':'MA'}}</button>
     </div>
-    <episjob-spin *ngIf="spin && listSent.length==0 && pos=='SU'"></episjob-spin>
+    <!--<episjob-spin *ngIf="spin && listSent.length==0 && pos=='SU'"></episjob-spin>
     <div *ngIf="!spin && listSent.length>0 && pos=='SU'">
         <episjob-h2 icon=approval data="Waiting for approval"></episjob-h2>
         <episjob-jobslist [list]="listSent" (select)="select($event, 'sent')"></episjob-jobslist>
-    </div>
+    </div>-->
     <episjob-spin *ngIf="spin && list1.length==0"></episjob-spin>
     <div *ngIf="!spin && list1.length>0">
         <episjob-h2 icon=mark_email_read data="Drafts"></episjob-h2>
