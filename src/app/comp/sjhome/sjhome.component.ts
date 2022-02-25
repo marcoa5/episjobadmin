@@ -364,7 +364,7 @@ export class SjhomeComponent implements OnInit {
         this.unSelect()
         let urlserver = 'https://episjobreq.herokuapp.com/'
         this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
-          const blob = new Blob([o], { type: 'file/pdf' });
+          const blob = new Blob([o], { type: 'application/pdf' });
           const href = document.createElement('a')
           document.body.appendChild(href)
           const url= window.URL.createObjectURL(blob)
