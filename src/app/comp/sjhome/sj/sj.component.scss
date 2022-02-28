@@ -236,19 +236,20 @@ table td, table th{
 
 .techName{
     text-align: left;
+    max-width: 110px;
 }
 
 .dataR{
     cursor: pointer;
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1020px) {
     .lar{
         display: none;
     }
 }
 
-@media screen and (min-width: 951px) {
+@media screen and (min-width: 1021px) {
     .str{
         display: none;
     }
@@ -262,8 +263,14 @@ img{
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
-    gap: 15px;
+    gap: 35px;
     cursor: pointer;
+}
+
+.miniCont{
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
 }
 
 .search{

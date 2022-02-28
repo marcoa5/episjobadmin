@@ -1,0 +1,39 @@
+<div mat-dialog-title>Hours Split</div>
+<div mat-dialog-content>
+    <p>Remaining labor hours: {{data.sum -hrssum}}</p>
+    <form [formGroup]="hrs" class="add">
+        <mat-form-field [appearance]=appearance class="input">
+            <mat-label>Family</mat-label>
+            <mat-select [disabled]="data.sum-hrssum==0" #fams formControlName="family">
+                <mat-option *ngFor="let f of fam" [value]="f.val">
+                {{f.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>  
+        <div class="mini">
+            <mat-form-field [appearance]=appearance class="input" >
+                <mat-label>Hours</mat-label>
+                <input #hrd matInput type="number" min=0 step="0.25" [max]="data.sum-hrssum" autocomplete="off" formControlName="hr">
+            </mat-form-field>
+            <button mat-mini-fab class="but" color="primary" [disabled]="fams.value=='0' || fams.value==undefined || hrd.value=='0' || hrd.value=='' || data.sum-hrssum==0" (click)="add()"><mat-icon>add</mat-icon></button>
+        </div>
+    </form>  
+</div>
+<div class="tabCont">
+    <table *ngIf="list.length>0">
+        <tr>
+            <th class="left">Family</th>
+            <th class="center">Hours</th>
+            <th class="center">Del</th>
+        </tr>
+        <tr *ngFor="let l of list; let i = index">
+            <td class="left">{{l.fam}}</td>
+            <td class="center">{{l.hrs}}</td>
+            <td class="center" (click)="del(i)"><button mat-mini-fab class="" class="dele" color="primary"><mat-icon class="dele1">clear</mat-icon></button></td>
+        </tr>
+    </table>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary"  (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="data.sum-hrssum>0" [mat-dialog-close]="list">Ok</button>
+</div>

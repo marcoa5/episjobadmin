@@ -151,12 +151,19 @@
                 <mat-form-field class="hide">
                     <input matInput type="number" min="1" formControlName="check">
                 </mat-form-field>
-                <div class="newDayCont" (click)="addDay()">
-                    <button mat-mini-fab color="accent"  [disabled]="days && days.length>6" style="margin:15px 0;" color="primary">
-                
-                        <mat-icon>add</mat-icon>
-                    </button>
-                    <p>Add new day</p>
+                <div class="newDayCont">
+                    <div class="miniCont" (click)="addDay()">
+                        <button mat-mini-fab color="accent"  [disabled]="days && days.length>6" style="margin:15px 0;" color="primary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <p>Add new day</p>
+                    </div>
+                    <div class="miniCont" (click)="hrsSplit()" *ngIf="chIMI() && this.days.length>0">
+                        <button mat-mini-fab color="accent"  [disabled]="days && days.length>6" style="margin:15px 0;" color="primary">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                        <p>Hours Split</p>
+                    </div>
                 </div>
                 <table *ngIf="days && days.length>0">
                     <tr episjobElevation class="tabTr">

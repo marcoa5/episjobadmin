@@ -13,6 +13,7 @@ import { SurveyComponent } from './survey/survey.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app'
+import { HrssplitComponent } from './hrssplit/hrssplit.component';
 
 export interface ma{
   [k:string]: string|number|any;
@@ -260,7 +261,7 @@ export class SjComponent implements OnInit {
   maillist:string=''
   templist:string=''
   nuovo:boolean=true
-
+  imi:string=""
   constructor(private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
@@ -568,6 +569,7 @@ export class SjComponent implements OnInit {
           i++
         })
     }
+    if(this.imi!='') h.imiFabi=this.imi
     let g = h.data11
     let d = parseInt(g.substring(0,2))
     let m = parseInt(g.substring(3,5))-1
@@ -597,6 +599,7 @@ export class SjComponent implements OnInit {
   }
 
   loadData(a:any, b:string){
+    this.imi = a.imiFabi?a.imiFabi:''
     this.file=a
     if(b.substring(0,3)=='sjs'){
       this.sent=true
@@ -656,5 +659,33 @@ export class SjComponent implements OnInit {
   getList(e:any){
     this.maillist=e
     this.saveData()
+  }
+
+  hrsSplit(){
+    let sum:number=0
+    this.days.forEach(a=>{
+      Object.keys(a.hr).forEach(b=>{
+        if(b.substring(b.length-1,b.length)=='l') sum+=a.hr[b]
+      })
+    })
+    setTimeout(() => {
+      const hrsSplit = this.dialog.open(HrssplitComponent, {data: {sum:sum, imi:this.imi==''?'':this.imi}})
+      hrsSplit.afterClosed().subscribe(a=>{
+        if(a){
+          this.imi=''
+          a.forEach((b:any)=>{
+            this.imi+=b.fam + ';' + b.hrs + '@'
+          })
+          let v = this.reportForm.controls.report.value.replace(/\n+DETTAGLIO ORE:.+./g,'')
+          this.reportForm.controls.report.setValue((v+='\n\nDettaglio ore: ' + this.imi.replace(/;/g,': ').replace(/@/g,'; ') + '_').replace(/; _/g,'.').toUpperCase())
+          this.saveData()
+        }
+      })
+    }, 150);
+  }
+
+  chIMI(){
+    if(this.rigForm.controls.customer.value.substring(0,8)=='IMI FABI') return true
+    return false
   }
 }
