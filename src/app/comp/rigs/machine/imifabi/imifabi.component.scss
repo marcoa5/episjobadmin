@@ -6,10 +6,12 @@ table{
     height:350px;
 }
 
-@media only screen and (max-width: 1900px) {
-    .cont{
-        overflow-y: visible;
-        height: auto;
-        max-height: 350px;
-    }
+.tableCont{
+    height: 296px;
+    max-height: 296px;
+    overflow-y: auto;
+}
+
+.center{
+    text-align: center;
 }

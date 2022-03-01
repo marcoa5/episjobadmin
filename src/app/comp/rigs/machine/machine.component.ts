@@ -343,6 +343,14 @@ export class MachineComponent implements OnInit {
     }
   }
 
+  chPerc(){
+    let i:boolean =false
+    this.dataCha.forEach((e:any) => {
+      if(e.y1!=undefined && e.y1!=0) i=true
+    });
+    return i
+  }
+
   calcolaPerc1(){
     if (this.g2) this.g2.destroy()
     var canvas = <HTMLCanvasElement> document.getElementById('perc1')

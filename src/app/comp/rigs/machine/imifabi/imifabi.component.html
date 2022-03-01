@@ -1,20 +1,22 @@
 <div class="cont" *ngIf="list.length>0" [class.mat-elevation-z2]="true">
-    <table mat-table [dataSource]="dettOre">
-        <ng-container matColumnDef="Date">
-            <th mat-header-cell *matHeaderCellDef> Date </th>
-            <td mat-cell *matCellDef="let a"> {{a.data|dateconv}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Family">
-            <th mat-header-cell *matHeaderCellDef> Family </th>
-            <td mat-cell *matCellDef="let a"> {{a.fam}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Hours">
-            <th mat-header-cell *matHeaderCellDef> Hours </th>
-            <td mat-cell *matCellDef="let a"> {{a.hrs}} </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    <div class="tableCont">
+        <table mat-table [dataSource]="dettOre">
+            <ng-container matColumnDef="Date">
+                <th mat-header-cell *matHeaderCellDef> Date </th>
+                <td mat-cell *matCellDef="let a"> {{a.data|dateconv}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Family">
+                <th mat-header-cell *matHeaderCellDef> Family </th>
+                <td mat-cell *matCellDef="let a"> {{a.fam}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Hours">
+                <th mat-header-cell *matHeaderCellDef class="center"> Hours </th>
+                <td mat-cell *matCellDef="let a" class="center"> {{a.hrs}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
     <mat-paginator 
         *ngIf="_dettOre.length>5"
         [length]="_dettOre.length"

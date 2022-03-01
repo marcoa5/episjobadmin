@@ -32,6 +32,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() newCont = new EventEmitter()
   @Output() sjReport = new EventEmitter()
   @Output() hrsReport = new EventEmitter()
+  show:boolean=false
   subsList:Subscription[]=[]
 
   constructor(private location: Location, public dialog: MatDialog, public auth:AuthServiceService) { }
@@ -108,6 +109,10 @@ export class EditdelbutComponent implements OnInit {
 
   reportSJ(){
     this.sjReport.emit('hrsReport')
+  }
+
+  sh(){
+    this.show=!this.show
   }
 
 }

@@ -4,6 +4,8 @@ import 'firebase/auth'
 import 'firebase/database'
 import { Router } from '@angular/router'
 import { MatPaginatorIntl } from '@angular/material/paginator'
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { SjdialogComponent } from './sjdialog/sjdialog.component';
 
 @Component({
   selector: 'episjob-sjlist',
@@ -16,33 +18,33 @@ export class SjlistComponent implements OnInit {
   inizio: number = 0
   fine: number = 5
   panelOpenState:boolean=false
-  constructor(private router: Router, private paginator: MatPaginatorIntl) { }
+  displayedColumns:string[]=['Date', 'Doc#', 'Tech']
   @Input() list:any[] = []
+  _list:any[]=[]
   @Input() customer:string = ''
   @Input() model:string = ''
   @Input() sortDA:boolean=true
+  constructor(private router: Router, private paginator: MatPaginatorIntl, private dialog: MatDialog) { }
+
   
   ngOnInit(): void {
-    this.paginator.itemsPerPageLabel = '#'
   }
 
   ngOnChanges(){
     this.list.reverse()
-    this.main()
+    this._list = this.list.slice(this.inizio,this.fine)
   }
 
-
-  main(){
-    this.sjSl = this.list//.slice(this.inizio, this.fine)
+  split(e:any){
+    this.inizio = e.pageIndex * e.pageSize
+    this.fine = this.inizio + e.pageSize
+    this._list = this.list.slice(this.inizio,this.fine)
   }
 
-  download(a:string){
-    firebase.storage().ref('Closed/' + a).getDownloadURL()
-    .then(a=>{window.open(a)})
+  open(n:number){
+    const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data: this.list[n]})
+    dialogSJ.afterClosed().subscribe(a=>{
+      console.log(a)
+    })
   }
-
-  width(){
-    return window.innerWidth>500
-  }
-
 }

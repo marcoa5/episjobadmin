@@ -1,16 +1,23 @@
+
+*{
+    transition: .5s;
+}
+
 .cont{
     position: fixed;
     bottom:15px; right: 15px;
+}
+
+.menuopen{
     display: grid;
     grid-template-columns: repeat(1,1fr);
     
 }
-
-button{
-    margin-top: 10px;
-    opacity: .3;
+.butClosed{
+    display: none;
+    position: fixed;
+    bottom:15px; right: 15px;
 }
-
-button:hover{
-    opacity: 1;
+.butOpen{   
+    margin-top: 10px;
 }

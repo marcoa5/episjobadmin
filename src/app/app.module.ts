@@ -122,7 +122,9 @@ import { JobslistComponent } from './comp/sjhome/jobslist/jobslist.component';
 import { SpvComponent } from './comp/sjhome/sj/newday/spv/spv.component';
 import { SjemailComponent } from './comp/sjhome/sj/sjemail/sjemail.component';
 import { SumenuComponent } from './comp/sjhome/sj/sumenu/sumenu.component';
-import { HrssplitComponent } from './comp/sjhome/sj/hrssplit/hrssplit.component'
+import { HrssplitComponent } from './comp/sjhome/sj/hrssplit/hrssplit.component';
+import { SjdialogComponent } from './comp/rigs/machine/sjlist/sjdialog/sjdialog.component';
+import { PartsdialogComponent } from './comp/rigs/machine/partsereq/partsdialog/partsdialog.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -231,6 +233,8 @@ const appearance: MatFormFieldDefaultOptions = {
     SjemailComponent,
     SumenuComponent,
     HrssplitComponent,
+    SjdialogComponent,
+    PartsdialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

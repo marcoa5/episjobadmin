@@ -1,0 +1,44 @@
+
+
+.cont{
+    width:100%;
+}
+.tab{
+    min-width: 100% !important;
+}
+
+th{
+    position: sticky;
+    top:0;
+    background-color: white;
+}
+
+.center{
+    text-align: center;
+}
+
+.right{
+    text-align: right;
+}
+
+.qty{
+    padding-left: 5vw;
+}
+
+@media screen and (max-width: 850px) {
+    .lar{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    ._lar{
+        display: none;
+    }
+}
+
+@media screen and (min-width:851px) {
+    .str{
+        display: none;
+    }
+}

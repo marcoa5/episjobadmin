@@ -1,7 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { PartsdialogComponent } from './partsdialog/partsdialog.component';
 
 @Component({
   selector: 'episjob-partsereq',
@@ -12,9 +14,12 @@ export class PartsereqComponent implements OnInit {
   @Input() _reqlist:any[]=[]
   @Input() pos:string=''
   @Input() sortParts:boolean=true
+  inizio: number = 0
+  fine: number = 5
   __reqlist:any[]=[]
   reqlist:any[]=[]
-  constructor(private http: HttpClient, private getH: GetquarterService) { }
+  displayedColumns: string[]=['Date', 'Author', 'Amount']
+  constructor(private http: HttpClient, private getH: GetquarterService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.__reqlist=this._reqlist
@@ -40,23 +45,36 @@ export class PartsereqComponent implements OnInit {
         })
         a.Parts['totAmount']=parseFloat(total)
       })
-      a.date = moment(a.date).format('DD/MM/YY')
+      //a.date = moment(a.date).format('DD/MM/YY')
       return a
     })
     .sort((a: any, b: any) => {
       if (a.date < b.date) {
-        return -1;
-      } else if (a.date > b.date) {
         return 1;
+      } else if (a.date > b.date) {
+        return -1;
       } else {
         return 0;
       }
     });
-    this.reqlist=this.__reqlist
+    this.reqlist=this.__reqlist.slice(this.inizio,this.fine)
   }
 
   ngOnChanges(){
-    this.reqlist.reverse()
+    this.__reqlist.reverse()
+    this.reqlist=this.__reqlist.slice(this.inizio,this.fine)
+  }
+
+  split(e:any){
+    this.inizio = e.pageIndex * e.pageSize
+    this.fine = this.inizio + e.pageSize
+    this.reqlist = this.__reqlist.slice(this.inizio,this.fine)
+  }
+
+  open(a:any){
+    const dialogRef = this.dialog.open(PartsdialogComponent, {panelClass: 'parts-dialog', data: a})
+    dialogRef.afterClosed().subscribe(a=>{
+    })
   }
 
 }
