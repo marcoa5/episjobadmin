@@ -12,7 +12,7 @@ import * as moment from 'moment';
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
-
+import {MatPaginatorIntl} from '@angular/material/paginator'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,10 +37,12 @@ export class AppComponent {
   pos:string=''
   subsList:Subscription[]=[]
 
-  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar){
+  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar, private pag:MatPaginatorIntl){
   }
   
   ngOnInit(){
+    this.pag.itemsPerPageLabel='#'
+    
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a[0]=='loading'){

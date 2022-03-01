@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 @Component({
   selector: 'episjob-rig-table',
   templateUrl: './rig-table.component.html',
@@ -19,7 +18,7 @@ export class RigTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    
+
   }
 
   ngOnChanges(){
