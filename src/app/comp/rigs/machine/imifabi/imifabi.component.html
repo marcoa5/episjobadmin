@@ -18,7 +18,7 @@
         </table>
     </div>
     <mat-paginator 
-        *ngIf="_dettOre.length>5"
+        [disabled]="_dettOre.length<6"
         [length]="_dettOre.length"
         [pageSize]="5"
         [pageSizeOptions]="_dettOre.length>20? [5,10,20,_dettOre.length]: (_dettOre.length>10?[5,10,_dettOre.length]:[5,_dettOre.length])"

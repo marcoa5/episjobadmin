@@ -28,7 +28,7 @@
         </table>
     </div>
     <mat-paginator 
-        *ngIf="ore.length>5"
+        [disabled]="ore.length<6"
         [length]="ore.length"
         [pageSize]="5"
         [pageSizeOptions]="ore.length>20? [5,10,20,ore.length]: (ore.length>10?[5,10,ore.length]:[5,ore.length])"

@@ -64,6 +64,7 @@ export class MachineComponent implements OnInit {
   sjList:any[]=[]
   sortT:boolean=true
   sortSJ:boolean=true
+  SElist:any[]=[]
   sortParts:boolean=true
   name:string=''
   elenco:any[]=[]
@@ -111,6 +112,7 @@ export class MachineComponent implements OnInit {
       this.in = x.val().in
     })
     .then(()=>{
+      this.loadSubEquipment().then((a:any)=>{this.SElist=a})
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
@@ -227,7 +229,10 @@ export class MachineComponent implements OnInit {
         ]  
       }
     }
-    
+    this.loadServiceJobs(i,f)
+  }
+
+  loadServiceJobs(i:any, f:any){
     firebase.database().ref('Saved').child(this.valore).once('value',h=>{
       let iniz = moment(i).format('YYYYMMDD')
       let fine = moment(f).format('YYYYMMDD')
@@ -239,6 +244,18 @@ export class MachineComponent implements OnInit {
         }        
       })
     })
+  }
+
+  loadSubEquipment(){
+    return new Promise((res,rej)=>{
+      firebase.database().ref('SubEquipment').child(this.valore).once('value',a=>{
+        this.SElist=[]
+        if(a.val()!=null){
+          res(Object.values(a.val()))
+        }
+      })
+    })
+    
   }
 
   res(e:any){

@@ -7,5 +7,7 @@
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="pos=='SU'" mat-fab color="primary" (click)="edita()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show"  matTooltipPosition="left" matTooltip="Edit"><mat-icon>edit</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="pos=='SU'" mat-fab color="primary" (click)="openDialog()" [disabled]="check" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
     </div>
-    <button class="butOpen" mat-fab color="primary" *ngIf="pos=='SU'||cont||addHr||machine||cliente" (click)="sh()" matTooltipPosition="left" matTooltip="Menu"><mat-icon>menu</mat-icon></button>
+    <button class="butOpen" mat-fab color="primary" *ngIf="pos=='SU'||cont||addHr||machine||cliente" (click)="sh()" matTooltipPosition="left" matTooltip="Menu">
+        <mat-icon>{{!show?'menu':'close'}}</mat-icon>
+    </button>
 </div>
