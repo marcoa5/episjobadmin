@@ -125,7 +125,8 @@ import { SumenuComponent } from './comp/sjhome/sj/sumenu/sumenu.component';
 import { HrssplitComponent } from './comp/sjhome/sj/hrssplit/hrssplit.component';
 import { SjdialogComponent } from './comp/rigs/machine/sjlist/sjdialog/sjdialog.component';
 import { PartsdialogComponent } from './comp/rigs/machine/partsereq/partsdialog/partsdialog.component';
-import { SubeqComponent } from './comp/rigs/machine/subeq/subeq.component'
+import { SubeqComponent } from './comp/rigs/machine/subeq/subeq.component';
+import { GenericComponent } from './comp/util/dialog/generic/generic.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -237,6 +238,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SjdialogComponent,
     PartsdialogComponent,
     SubeqComponent,
+    GenericComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

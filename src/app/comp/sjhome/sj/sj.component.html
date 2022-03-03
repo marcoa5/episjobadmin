@@ -246,10 +246,10 @@
                     <img episjobElevation width=450 height=196 [src]="custSign? custSign:blankSign" (click)="sign('c')">  
                 </div>
               </div>
-              <episjob-sjemail [disabled]="lock" [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
+              <episjob-sjemail [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist=='' || lock">Send</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist==''">Send</button>
               </div>
             </form>
             

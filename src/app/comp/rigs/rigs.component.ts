@@ -24,13 +24,15 @@ export class RigsComponent implements OnInit {
   constructor(public router: Router, public bak:BackService, public auth: AuthServiceService) {}
 
   ngOnInit(): void {
-    this.subsList.push(this.auth._fleet.subscribe(a=>{
-      if(a.length>0) {
-        setTimeout(() => {
-          this.rigs=a
-        }, 1);
-      }
-    }))
+    this.subsList.push(
+      this.auth._fleet.subscribe(a=>{
+        if(a.length>0) {
+          setTimeout(() => {
+            this.rigs=a
+          }, 1);
+        }
+      })
+    )
     this.largh(1)
   }
 

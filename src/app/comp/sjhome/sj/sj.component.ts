@@ -327,13 +327,13 @@ export class SjComponent implements OnInit {
       if(a.type=='s') {
         this.nuovo=false
         this.lock=true 
-        let aa = this.rigForm.controls
+        /*let aa = this.rigForm.controls
         aa.sn.disable()
         aa.pn.disable()
         aa.model.disable()
         aa.customer.disable()
         aa.customer2.disable()
-        aa.customer3.disable()
+        aa.customer3.disable()*/
       }
       if(a.id) {
         this.nuovo=false
@@ -577,14 +577,14 @@ export class SjComponent implements OnInit {
     let n_d = new Date(y,m,d)
     h.data_new=moment(n_d).format('YYYY-MM-DD')
     h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
+    if(info){
+      h.info = info
+    }
     if(last) {
       let tempId:string = this.rigForm.controls.sid.value
       h.sjid=tempId
       h.status='deleted'
       localStorage.setItem(tempId, JSON.stringify(h))
-    }
-    if(info){
-      h.info = info
     }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
     this.file=h
@@ -649,11 +649,11 @@ export class SjComponent implements OnInit {
       fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
     }
     localStorage.getItem(this.rigForm.controls.sid.value)
-    let g:string = 'sjsent' + this.id.makeId(5)
+    let g:string = this.rigForm.controls.sid.value
+    if(g.split('')[2]!='s') g= 'sjsent' + this.id.makeId(5)
     this.saveData(true,g,info)
-    localStorage.setItem(g, JSON.stringify(this.file))
+    //localStorage.setItem(g, JSON.stringify(this.file))
     this.router.navigate(['sj'])
-    
   }
 
   getList(e:any){

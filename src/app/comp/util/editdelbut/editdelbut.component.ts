@@ -57,9 +57,17 @@ export class EditdelbutComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined && this.pos=='SU') {
-        firebase.database().ref(this.func + '/' + result).remove()
-        if(this.func=='MOL') firebase.database().ref('RigAuth/' + result).remove()
-        if(this.func=='MOL') firebase.database().ref('Categ/' + result).remove()
+        firebase.database().ref(this.func).child(result).remove()
+        if(this.func=='CustomerC'){
+          firebase.database().ref('Contacts').child(result).remove()
+          firebase.database().ref('CustAddress').child(result).remove()
+        }else if(this.func=='MOL') {
+          firebase.database().ref('RigAuth').child(result).remove()
+          firebase.database().ref('Hours').child(result).remove()
+          firebase.database().ref('Categ').child(result).remove()
+          firebase.database().ref('SubEquipment').child(result).remove()
+          firebase.database().ref('ShipTo').child(result).remove()
+        }
         this.location.back()
       }
     });

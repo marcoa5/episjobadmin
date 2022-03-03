@@ -8,6 +8,7 @@ import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { GenericComponent } from '../util/dialog/generic/generic.component';
 
 @Component({
   selector: 'episjob-sjhome',
@@ -49,7 +50,7 @@ export class SjhomeComponent implements OnInit {
       this.checkApproval()
       .then((a)=>{
         console.log(a)
-        //if(this.pos=='SU') this.loadSent()
+        this.loadSent()
       })
       this.checkDeleted()
       .then(()=>{
@@ -167,7 +168,7 @@ export class SjhomeComponent implements OnInit {
           let _draft =Object.values(draft.val())
           let length:number=_draft.length
           draft.forEach(d=>{
-            if(d.val()!=null && ((d.val().userId==this.userId && this.pos=='tech')|| (this.pos!='tech'))) {
+            if(((this.pos=='tech' && d.val().authorId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.pos=='tech')|| (this.pos!='tech')))) {
               s=parseInt(d.val().lastM)
               let _l
               _l=localStorage.getItem(d.key!)
@@ -209,15 +210,19 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  /*loadSent(){
+  loadSent(){
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
-        this._listSent.push(b.val())
+        if(this.pos=='tech' && this.userId==b.val().authorId) {
+          this._listSent.push(b.val())
+        } else if(this.pos!='tech'){
+          this._listSent.push(b.val())
+        }
       })
       this.listSent=this._listSent
     })   
-  }*/
+  }
 
   checkDeleted(){
     return new Promise((res,rej)=>{
@@ -300,10 +305,9 @@ export class SjhomeComponent implements OnInit {
 
   delete(){
     let del= this.sjId
-    const dialogRef = this.dialog.open(DeldialogComponent, {data: {name:'Service Job draft'}})
+    const dialogRef = this.dialog.open(DeldialogComponent, {disableClose:true, data: {name:'Service Job draft'}})
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
-        console.log(del)
         localStorage.removeItem(del)
         console.log('REMOVED ' + del)
         if(navigator.onLine){
@@ -324,8 +328,8 @@ export class SjhomeComponent implements OnInit {
           this.loadSJ()
         }
       }
-    })
-    this.sjId='' 
+      this.unSelect()
+    }) 
   }
 
   unSelect(){
@@ -361,6 +365,7 @@ export class SjhomeComponent implements OnInit {
   exportPdf(){
     this.getFile().then((file:any)=>{
       if(file){
+        let dia = this.dialog.open(GenericComponent,{disableClose:true, data:{msg:'Generating PDF...'}})
         this.unSelect()
         let urlserver = 'https://episjobreq.herokuapp.com/'
         this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
@@ -371,13 +376,13 @@ export class SjhomeComponent implements OnInit {
           href.href=url
           href.download= moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
           href.click()
+          dia.close()
           setTimeout(() => {
             window.URL.revokeObjectURL(url)
             document.body.removeChild(href)
           }, 1);
         })
-        this.sjId=''
-        this.sjUrl=-1
+        this.unSelect()
       }
     })
     
@@ -387,6 +392,7 @@ export class SjhomeComponent implements OnInit {
     this.getFile()
     .then((file:any)=>{
       if(file){
+        let dia = this.dialog.open(GenericComponent,{disableClose:true, data:{msg:'Generating PDF...'}})
         this.unSelect()
         const blob = new Blob([JSON.stringify(file)], { type: 'text/html' });
         const href = document.createElement('a')
@@ -395,6 +401,7 @@ export class SjhomeComponent implements OnInit {
         href.href=url
         href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.ma'
         href.click()
+        dia.close()
         setTimeout(() => {
           window.URL.revokeObjectURL(url)
           document.body.removeChild(href)

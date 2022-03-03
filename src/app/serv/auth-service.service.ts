@@ -2,8 +2,9 @@ import { Injectable, isDevMode } from '@angular/core';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
+import { computeMsgId } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -99,7 +100,7 @@ export class AuthServiceService {
       return this.userData.asObservable()
   }
 
-  get _fleet(){
+  get _fleet(){ 
     if(!isDevMode()) this.getFleetData()
     let a = localStorage.getItem('fleet')
     let b:any
@@ -148,7 +149,15 @@ export class AuthServiceService {
     })
   }
 
-  getFleetData(){//modifica qui
+  getFleetData(){
+    firebase.database().ref('Categ').on('value',a=>{
+      let cat:any[] = []
+      a.forEach((b:any)=>{
+        cat[b.key]=b.val().subCat
+      })
+      this.categ.next(cat)
+      this.epiCateg=cat
+    })
     if(this.epiUser){
       if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
         if(this.epiRigs.length==0){
@@ -159,21 +168,14 @@ export class AuthServiceService {
             this.epiRigs=b
             this.getFleet(this.epiRigs,this.epiCateg)
           })
-          
-          firebase.database().ref('Categ').on('value',a=>{
-            let cat:any[] = []
-            a.forEach((b:any)=>{
-              cat[b.key]=b.val().subCat
-            })
-            this.categ.next(cat)
-            this.epiCateg=cat
-            this.getFleet(this.epiRigs,this.epiCateg)
-          })
+          this.getFleet(this.epiRigs,this.epiCateg)
         }
       } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
         let area:string = this.epiUser.Area
         let list:any[]=[]
         firebase.database().ref('MOL').on('value',a=>{
+          let ip:number=0
+          let l = Object.values(a.val()).length
           a.forEach(b=>{
             let item:any
             firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
@@ -186,14 +188,14 @@ export class AuthServiceService {
                   list.push(item)
                 })
               }
+              ip++
+              if(l==ip) {
+                this.rigs.next(list)
+                this.epiRigs=list
+                this.getFleet(this.epiRigs, this.epiCateg)
+              }
             })
-          })
-          setTimeout(() => {
-            this.rigs.next(list)
-            this.epiRigs=list
-            this.getFleet(this.epiRigs)
-          }, 1500);
-            
+          })            
         })
       }
     }
@@ -206,10 +208,9 @@ export class AuthServiceService {
         return a
       })
       if(g.length==fRigs.length){
-        this.epiFleet=g
         localStorage.removeItem('fleet')
         localStorage.setItem('fleet', JSON.stringify(g))
-        //this.fleet.next(g)
+        this.fleet.next(g)
       }
     } else {
       this.epiFleet=fRigs
@@ -244,23 +245,22 @@ export class AuthServiceService {
                 c = b.filter(t=>{
                   if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
                 })
-                
               } else{
                 c=b
               }
-              //this.customers.next(c)
-              //this.custI.next(custIndex)
               localStorage.setItem('customers',JSON.stringify(c))
               localStorage.setItem('custI',JSON.stringify(custIndex))
+              this.customers.next(c)
+              this.custI.next(custIndex)
               this.epiCustomers=c 
             }
           })
         }
       } else {
-         this._fleet.subscribe(a=>{
+        let subs:Subscription = this._fleet.subscribe(a=>{
            if(a.length>0){
             let cu:any=[]
-            let cuI:any=[]
+            let cuI:any={}
             let i:number=0
             new Promise((res,rej)=>{
               a.forEach((e:any) => {
@@ -269,21 +269,22 @@ export class AuthServiceService {
                     cu.push(y.val())
                     cuI[e.custid]=y.val()
                   }
-                })
-                .then(()=>{
                   i++
                   if(i==a.length) res('')
                 })
-                
               })
             })
             .then(() => {
+              console.log(cuI,JSON.stringify(cuI))
               this.customers.next(cu)
               this.custI.next(cuI)
+              localStorage.setItem('customers',JSON.stringify(cu))
+              localStorage.setItem('custI',JSON.stringify(cuI))
               this.epiCustomers=cu
             });
            }
-         }) 
+        }) 
+        subs.unsubscribe()
       }
     }
   }
@@ -371,7 +372,7 @@ export class AuthServiceService {
         return false
         break
       case 'sj':
-        if(pos=='SU' || pos=='adminS' || pos=='tech') return true
+        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech') return true
         return false
         break
     }
