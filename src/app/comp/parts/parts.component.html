@@ -21,15 +21,8 @@
                 <div class="te">Loading Sent....</div> 
             </div>
             
-            <div *ngIf="(!info || !info.sn) && pos=='SU' && listSent.length>0">
-                <episjob-h2 data="Request Sent" icon="forward_to_inbox"></episjob-h2>
-                <form class="formCont">
-                    <mat-form-field appearance="fill" class="sea">
-                        <mat-label>Search</mat-label>
-                        <input matInput type="text" autocomplete="off" (input)="sea($event)">
-                        <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-                </form>
+            <div *ngIf="(!info || !info.sn) && pos=='SU' && _listSent.length>0">
+                <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
                 <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
             </div>  
             <episjob-requestlist [listP]="partList" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)" (clear)="clear()"></episjob-requestlist>

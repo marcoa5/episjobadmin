@@ -38,10 +38,44 @@ mat-icon{
     margin-bottom: 15px;
     padding: 5px 15px;
     background-color: $dark-text;
+    overflow: hidden;
     //background-color: rgb(200, 200, 200);
 }
 
 .cont1{
     grid-template-columns: 45px 6fr 100px;
-
 }
+
+.cont2{
+    grid-template-columns: 45px 6fr 3fr;
+}
+
+input{
+     background-color: $dark-text;
+     border:none;
+     border-bottom: 1px solid $light-text;
+     color: $light-text;
+     font-family: 'Roboto';
+ }
+
+ input:focus{
+     outline:none;
+     border-bottom: 1px solid $light-text;
+ }
+
+ .lab{
+     text-align: right;
+     font-weight: 500;
+     margin-right: 15px;
+ }
+
+ .limCont{
+     display: grid;
+     grid-template-columns: 1fr 40px;
+ }
+
+ .seaCont{
+     display: grid;
+     grid-template-columns: 1fr 20px;
+ }
+

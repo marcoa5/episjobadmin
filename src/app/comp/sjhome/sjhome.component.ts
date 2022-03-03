@@ -25,8 +25,8 @@ export class SjhomeComponent implements OnInit {
   list1:any=[]
   sjId:string=''
   sjUrl:number=-1
-  _listSent:any=[]
-  listSent:any=[]
+  _listSent:any[]=[]
+  listSent:any[]=[]
   spin:boolean=false
   draftSel:boolean=false
   sentSel:boolean=false
@@ -210,7 +210,8 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
-  loadSent(){
+  loadSent(n?:number){
+    if((n==undefined || n ==null)) n=5
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
@@ -220,7 +221,11 @@ export class SjhomeComponent implements OnInit {
           this._listSent.push(b.val())
         }
       })
-      this.listSent=this._listSent
+      this.listSent=this._listSent.sort((a:any, b:any)=>{
+        if(a.data_new>b.data_new) return -1
+        if(a.data_new<b.data_new) return 1
+        return 0
+      }).slice(0,n)
     })   
   }
 
@@ -455,7 +460,16 @@ export class SjhomeComponent implements OnInit {
 
       /*let url:string='http://localhost:3001/saveOnSP'
       this.http.post(url, {url:a}).subscribe(b=>{console.log(b)})*/
-  
+  }
+
+  limit(e:any){
+    if(e>0){
+      this.listSent=this._listSent.sort((a:any, b:any)=>{
+        if(a.data_new>b.data_new) return -1
+        if(a.data_new<b.data_new) return 1
+        return 0
+      }).slice(0,e)
+    }
     
   }
 }

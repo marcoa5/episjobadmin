@@ -67,12 +67,12 @@ export class PartsComponent implements OnInit {
   sea(e:any){
     this.listSent=this._listSent.filter(r=>{
       return (
-        r.sn.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        r.customer.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        r.author.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        r.model.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        r.orig.toLowerCase().includes(e.target.value.toLowerCase()) ||
-        r.type.toLowerCase().includes(e.target.value.toLowerCase())
+        r.sn.toLowerCase().includes(e.toLowerCase()) ||
+        r.customer.toLowerCase().includes(e.toLowerCase()) ||
+        r.author.toLowerCase().includes(e.toLowerCase()) ||
+        r.model.toLowerCase().includes(e.toLowerCase()) ||
+        r.orig.toLowerCase().includes(e.toLowerCase()) ||
+        r.type.toLowerCase().includes(e.toLowerCase())
       )
     })
   }

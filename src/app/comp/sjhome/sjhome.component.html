@@ -18,7 +18,7 @@
     </div>
     <episjob-spin *ngIf="spin && listSent.length==0 && pos=='SU'"></episjob-spin>
     <div *ngIf="!spin && listSent.length>0">
-        <episjob-h2 icon=approval data="Sent for approval"></episjob-h2>
+        <episjob-h2 icon=approval data="Sent for approval" [showLimit]="true" (limit)="limit($event)" limitLabel="# of SJ:"></episjob-h2>
         <episjob-jobslist [list]="listSent" (select)="select($event, 'sent')"></episjob-jobslist>
     </div>
 </div>
