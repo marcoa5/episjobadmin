@@ -555,7 +555,7 @@ export class SjComponent implements OnInit {
         h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
         h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
         h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+        h['spv'+i +'1']=a.hr['spv']==0?0:a.hr['spv']
         h['spvkm'+i +'1']=a.hr['spvkm']==0?'':a.hr['spvkm']
         h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
         h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
@@ -588,6 +588,7 @@ export class SjComponent implements OnInit {
     }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
     this.file=h
+    console.log(this.file.sjid)
     if(this.file.sjid.substring(0,3)!='sjs') {
       localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
       if(navigator.onLine) {

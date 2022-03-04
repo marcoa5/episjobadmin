@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SubeddialogComponent } from './subeddialog/subeddialog.component';
 
 @Component({
   selector: 'episjob-subeq',
@@ -14,7 +16,7 @@ export class SubeqComponent implements OnInit {
   @Input() list:any[] = []
   _list:any[]=[]
   @Input() pos:string=''
-  constructor(private router: Router) { }
+  constructor(private router: Router, private dialog: MatDialog) { }
 
   
   ngOnInit(): void {
@@ -33,6 +35,10 @@ export class SubeqComponent implements OnInit {
     this.inizio = e.pageIndex * e.pageSize
     this.fine = this.inizio + e.pageSize
     this._list = this.list.slice(this.inizio,this.fine)
+  }
+
+  open(a:any){
+    this.dialog.open(SubeddialogComponent, {data:a})
   }
 
 

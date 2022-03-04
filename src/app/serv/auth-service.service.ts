@@ -345,7 +345,7 @@ export class AuthServiceService {
         return false
         break
       case 'technicians':
-        if(pos=='SU') return true
+        if(pos=='SU' || pos=='admin') return true
         return false
         break
       case 'files':

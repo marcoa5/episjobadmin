@@ -1,0 +1,29 @@
+<div mat-dialog-title>{{data.cat}}</div>
+<div mat-dialog-content>
+    <form [formGroup]="subEqForm" class="cont">
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="desc" (blur)="upd($event,'itemdesc')">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="data.cat=='Rock Drill'">
+            <mat-label>Shank</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="shank" (blur)="upd($event,'shank')">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="data.cat=='Rock Drill'">
+            <mat-label>Extension</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="ext" (blur)="upd($event,'ext')">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="data.cat=='Rock Drill'">
+            <mat-label>Motor</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="motor" (blur)="upd($event,'motor')">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="data.itemsn!=''">
+            <mat-label>Serial</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="sn" (blur)="upd($event,'itemsn')">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end">
+    <!--<button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>-->
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">OK</button>
+</div>

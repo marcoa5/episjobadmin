@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
       auth:['SU','','','']
     },
     {
-      id:'Auth',
+      id:'Access',
       icon:'done_all', 
       route:'auth', 
       dis:false, 
@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
       icon:'receipt_long', 
       route:'report', 
       dis:false, 
-      auth:['SU','admin','','']
+      auth:['SU','','','']
     },
     {
       id:'Visit',

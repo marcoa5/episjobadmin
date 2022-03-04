@@ -126,7 +126,10 @@ import { HrssplitComponent } from './comp/sjhome/sj/hrssplit/hrssplit.component'
 import { SjdialogComponent } from './comp/rigs/machine/sjlist/sjdialog/sjdialog.component';
 import { PartsdialogComponent } from './comp/rigs/machine/partsereq/partsdialog/partsdialog.component';
 import { SubeqComponent } from './comp/rigs/machine/subeq/subeq.component';
-import { GenericComponent } from './comp/util/dialog/generic/generic.component'
+import { GenericComponent } from './comp/util/dialog/generic/generic.component';
+import { AppupdComponent } from './comp/util/dialog/appupd/appupd.component'
+import { SwupdateService } from './serv/swupdate.service';
+import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/subeddialog.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -239,6 +242,8 @@ const appearance: MatFormFieldDefaultOptions = {
     PartsdialogComponent,
     SubeqComponent,
     GenericComponent,
+    AppupdComponent,
+    SubeddialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
@@ -246,7 +251,7 @@ const appearance: MatFormFieldDefaultOptions = {
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [{
+  providers: [SwupdateService, {
     provide: MAT_DATE_LOCALE,
     useValue: 'it',
   },

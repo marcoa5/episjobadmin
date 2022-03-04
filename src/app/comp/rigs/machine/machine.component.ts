@@ -112,7 +112,7 @@ export class MachineComponent implements OnInit {
       this.in = x.val().in
     })
     .then(()=>{
-      this.loadSubEquipment().then((a:any)=>{this.SElist=a})
+      this.loadSubEquipment()
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
@@ -247,15 +247,17 @@ export class MachineComponent implements OnInit {
   }
 
   loadSubEquipment(){
-    return new Promise((res,rej)=>{
-      firebase.database().ref('SubEquipment').child(this.valore).once('value',a=>{
-        this.SElist=[]
-        if(a.val()!=null){
-          res(Object.values(a.val()))
-        }
-      })
+    firebase.database().ref('SubEquipment').child(this.valore).on('value',a=>{
+      this.SElist=[]
+      if(a.val()!=null){
+        a.forEach(b=>{
+          let c = b.val()
+          c.id=b.key
+          c.rigsn=a.key
+          this.SElist.push(c)
+        })
+      }
     })
-    
   }
 
   res(e:any){

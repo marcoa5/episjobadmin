@@ -24,7 +24,7 @@ export class SjemailComponent implements OnInit {
 
   constructor(private fb: FormBuilder) { 
     this.email=fb.group({
-      newmail: ['', [Validators.required, Validators.email]]
+      newmail: ['', [Validators.email]]
     })
   }
 

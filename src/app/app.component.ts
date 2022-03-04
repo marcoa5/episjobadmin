@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { CustomsnackComponent } from './comp/util/customsnack/customsnack.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 import {MatPaginatorIntl} from '@angular/material/paginator'
+import { SwupdateService } from './serv/swupdate.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,14 +38,15 @@ export class AppComponent {
   pos:string=''
   subsList:Subscription[]=[]
 
-  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar, private pag:MatPaginatorIntl){
+  constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar, private pag:MatPaginatorIntl, private swu: SwupdateService){
+    //this.swu.showAppUpdateAlert()
   }
   
   ngOnInit(){
     this.pag.itemsPerPageLabel='#'
-    
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
+        this.onResize()
         if(a[0]=='loading'){
 
         }else if(a[0]=='login'){
@@ -76,7 +78,6 @@ export class AppComponent {
             })
           })
         }
-        this.onResize()
       })
     )
     let messaging:any
