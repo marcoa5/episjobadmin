@@ -46,7 +46,6 @@ export class AppComponent {
     this.pag.itemsPerPageLabel='#'
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
-        this.onResize()
         if(a[0]=='loading'){
 
         }else if(a[0]=='login'){
@@ -61,6 +60,7 @@ export class AppComponent {
           this.Newrig=''
           this.pos=''
         }else if(a.Nome){
+          this.onResize()
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
           this.userT=a.Pos
@@ -124,7 +124,6 @@ export class AppComponent {
     } else {
       this.orient = false
     }
-
     if(window.innerWidth>500) {
       this.screenSize =true
     } else {

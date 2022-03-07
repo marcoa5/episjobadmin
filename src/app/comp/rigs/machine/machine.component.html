@@ -46,7 +46,7 @@
                     <episjob-partsereq [pos]="pos" [_reqlist]="partReqList" [sortParts]="sortParts"></episjob-partsereq>
                 </div>
                 <div class="item3" *ngIf="SElist.length>0">
-                    <episjob-h2 padtop="0" icon="construction" class="title" data="Sub Equipment" ></episjob-h2>
+                    <episjob-h2 padtop="0" icon="plumbing" class="title" data="Sub Equipment" [addSubEq]="true" (addSub)="addSubEq($event)"></episjob-h2>
                     <episjob-subeq [pos]="pos" [list]="SElist"></episjob-subeq>
                 </div>
             </div>

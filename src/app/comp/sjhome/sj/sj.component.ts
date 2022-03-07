@@ -323,38 +323,33 @@ export class SjComponent implements OnInit {
         if(a) this.tech=a
       })
     )
-    this.route.params.subscribe(a=>{
-      if(a.type=='s') {
-        this.nuovo=false
-        this.lock=true 
-        /*let aa = this.rigForm.controls
-        aa.sn.disable()
-        aa.pn.disable()
-        aa.model.disable()
-        aa.customer.disable()
-        aa.customer2.disable()
-        aa.customer3.disable()*/
-      }
-      if(a.id) {
-        this.nuovo=false
-        let b
-        this.spin1 = true
-        if(navigator.onLine && a.id.substring(0,3)=='sjs'){
-          firebase.database().ref('sjDraft').child('sent').child(a.id).once('value',k=>{
-            b=k.val()
-            this.loadData(b,a.id)
-          })
-          .then(()=>this.spin1=false)
-        }else {
-          b= localStorage.getItem(a.id)
-          if(b) this.loadData(JSON.parse(b),a.id)
-          this.spin1 = false
+    setTimeout(() => {
+      this.route.params.subscribe(a=>{
+        if(a.type=='s') {
+          this.nuovo=false
+          this.lock=true
         }
-
-      }
-    })
-    this.loadTech()
-    if(localStorage.getItem('Signature')!=null) this.techSign_temp=localStorage.getItem('Signature')!
+        if(a.id) {
+          this.nuovo=false
+          let b
+          this.spin1 = true
+          if(navigator.onLine && a.id.substring(0,3)=='sjs'){
+            firebase.database().ref('sjDraft').child('sent').child(a.id).once('value',k=>{
+              b=k.val()
+              this.loadData(b,a.id)
+            })
+            .then(()=>this.spin1=false)
+          }else {
+            b= localStorage.getItem(a.id)
+            if(b) this.loadData(JSON.parse(b),a.id)
+            this.spin1 = false
+          }
+  
+        }
+      })
+      this.loadTech()
+      if(localStorage.getItem('Signature')!=null) this.techSign_temp=localStorage.getItem('Signature')!
+    }, 1);
   }
 
   ngOnDestroy(){
@@ -688,5 +683,9 @@ export class SjComponent implements OnInit {
   chIMI(){
     if(this.rigForm.controls.customer.value.substring(0,8)=='IMI FABI') return true
     return false
+  }
+
+  maiusc(a:string){
+    this.reportForm.controls[a].setValue(this.reportForm.controls[a].value.toUpperCase())
   }
 }

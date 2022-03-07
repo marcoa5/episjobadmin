@@ -1,6 +1,10 @@
-<div class="cont" [class.cont1]="showMol || showDL || showAdd || showSort" [class.cont2]="showSearch || showLimit" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
-    <mat-icon *ngIf="icon!=''">{{icon}}</mat-icon>
+<div class="cont" [class.cont1]="showMol || showDL || showAdd || showSort || (addSubEq && pos=='SU')" [class.cont2]="(showSearch && !showChBox) || showLimit" [class.cont3]="showSearch && showChBox" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
+    <mat-icon *ngIf="icon!=''" (click)="download()">{{icon}}</mat-icon>
     <h2>{{data}}</h2>
+    <label class="container" *ngIf="showChBox">{{width()?'Only SA' : 'SA'}}
+        <input type="checkbox" class="cb" #chec (change)="ch($event)">
+        <span class="checkmark"></span>
+    </label>
     <div *ngIf="showSearch" class="seaCont">
         <input type="text" (input)="fil($event)" autocomplete="off">
         <mat-icon>search</mat-icon>
@@ -9,8 +13,9 @@
         <div class="lab">{{limitLabel}}</div>
         <input type="number" min=1 (input)="lim($event)" value=5 autocomplete="off">
     </div>
-    <div [class.butt1]="showMol || showDL || showSort" [class.butt2]="showAdd && pos=='SU'" *ngIf="(showAdd && pos=='SU') || showMol || showDL || showSort">
+    <div [class.butt1]="showMol || showDL || showSort || (addSubEq && pos=='SU')" [class.butt2]="showAdd && pos=='SU'" *ngIf="(showAdd && pos=='SU') || (addSubEq && pos=='SU') || showMol || showDL || showSort">
         <mat-icon *ngIf="showAdd && pos=='SU'" matSuffix (click)="add($event)" matTooltip="Add Commissioning Date" matTooltipPosition="below">add_circle</mat-icon>
+        <mat-icon *ngIf="addSubEq && pos=='SU'" matSuffix (click)="addS($event)" matTooltip="Add Sub Equipment" matTooltipPosition="below">add_circle</mat-icon>
         <mat-icon *ngIf="showMol" matSuffix (click)="openMol()" matTooltip="Open MOL" matTooltipPosition="below">link</mat-icon>
         <mat-icon *ngIf="showDL" matSuffix matTooltip="Copy data" matTooltipPosition="below" (click)="copyData()">file_download</mat-icon>
         <mat-icon *ngIf="showSort" matSuffix matTooltip="Ascending/Descending" matTooltipPosition="below" (click)="sortData()">import_export</mat-icon>

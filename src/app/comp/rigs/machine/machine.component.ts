@@ -16,6 +16,8 @@ import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
+import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
+import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
 
 
 export interface hrsLabel {
@@ -652,6 +654,15 @@ export class MachineComponent implements OnInit {
 
   sortDataParts(e?:any){
       this.sortParts=!this.sortParts
+  }
+
+  addSubEq(e:any){
+    const step1 = this.dialog.open(NewsubeqComponent, {data: this.valore})
+    step1.afterClosed().subscribe(a=>{
+      if(a) {
+        const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
+      }
+    })
   }
 }
  

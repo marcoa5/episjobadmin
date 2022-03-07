@@ -69,6 +69,12 @@ export class AuthServiceService {
   private tech:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
+  chDev(){
+    //return true
+    if(!isDevMode()) return true
+    return false
+  }
+
   get _rigs(){this.getFleetData(); return this.rigs.asObservable()}
 
   get _access(){return this.access.asObservable()}
@@ -101,7 +107,7 @@ export class AuthServiceService {
   }
 
   get _fleet(){ 
-    if(!isDevMode()) this.getFleetData()
+    if(this.chDev()) this.getFleetData()
     let a = localStorage.getItem('fleet')
     let b:any
     if(a) {
@@ -112,7 +118,7 @@ export class AuthServiceService {
   }
   
   get _customers(){
-    if(!isDevMode()) this.getCustData()
+    if(this.chDev()) this.getCustData()
     let a = localStorage.getItem('customers')
     let b:any
     if(a) {
@@ -125,7 +131,7 @@ export class AuthServiceService {
   get _contacts(){return this.contacts.asObservable()}
 
   get _custI(){
-    if(!isDevMode()) {
+    if(this.chDev()) {
       this.getCustData()
     }
     let a = localStorage.getItem('custI')

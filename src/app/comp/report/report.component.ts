@@ -37,6 +37,7 @@ export class ReportComponent implements OnInit {
   allow:boolean=false
   info:any[]=[]
   allSpin:boolean=true
+  strSea:string=''
   subsList:Subscription[]=[]
 
   constructor(private auth: AuthServiceService, private http: HttpClient, private clip: Clipboard, public route:ActivatedRoute) {
@@ -66,7 +67,7 @@ export class ReportComponent implements OnInit {
     this.isThinking=true
     let params = new HttpParams().set("day",moment(this.chD()).format('YYYY-MM-DD'))
     let url:string = 'https://episjobreq.herokuapp.com/certiq/'
-    if(isDevMode()) url='http://localhost:3001/certiq'
+    //if(isDevMode()) url='http://localhost:3001/certiq'
     this.http.get(url,{params:params}).subscribe(a=> {
       if(a){
         let b = Object.values(a)
@@ -110,8 +111,7 @@ export class ReportComponent implements OnInit {
       this.errore= `Data not available. ${error.message}`
       console.log(error)
     }
-  )}  
-    
+  )}   
   }
 
   onResize(){
@@ -164,8 +164,10 @@ export class ReportComponent implements OnInit {
     })
   }
 
-  filtra(){
-    let r=this.str.toLowerCase()
+  filtra(r:string){
+    r=r.toLowerCase()
+    this.strSea = r
+    //let r=this.str.toLowerCase()
     if(this.filt && r.length<3){this.sortedData=this.info}
     if(this.filt && r.length>2){
       this.sortedData=this.info.filter((er:any)=>{
@@ -201,6 +203,10 @@ export class ReportComponent implements OnInit {
 
   lastWorkingDay(){
     return moment(this.chD()).format('DD-MM-YY')
+  }
+
+  chB(e:any){
+    console.log(e)
   }
   
 }

@@ -1,0 +1,15 @@
+<div mat-dialog-title>{{data.transfer? 'Serial Nr':'Add new sub-equipment'}}</div>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>{{label!=''?label: 'Item Name'}}</mat-label>
+        <mat-select #ff>
+          <mat-option *ngFor="let i of items" [value]="i" >
+            {{i}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>  
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="ff.value=='' || ff.value==undefined || ff.value==null" [mat-dialog-close]="label!=''?[data.info, ff.value]:[data, ff.value]">Proceed</button>
+</div>

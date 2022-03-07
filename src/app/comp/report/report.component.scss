@@ -42,12 +42,19 @@
 }
 
 .contT th{
-    background-color: $dark-text;
-    color: $light-text;
+    background-color: $light-text;
+    color: $dark-text;
     position: sticky;
     top: 118px;
-    border: 1px solid $light-text;
     padding: 6px 0;
+}
+
+.contT th:first-child{
+    border-top-left-radius: 15px;
+}
+
+.contT th:last-child{
+    border-top-right-radius: 15px;
 }
 
 .mat-sort-header-container{

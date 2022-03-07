@@ -41,5 +41,4 @@ export class SubeqComponent implements OnInit {
     this.dialog.open(SubeddialogComponent, {data:a})
   }
 
-
 }

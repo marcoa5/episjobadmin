@@ -19,12 +19,18 @@ export class H2Component implements OnInit {
   @Input() showLimit:boolean=false
   @Input() icon:string=''
   @Input() limitLabel:string=''
+  @Input() addSubEq:boolean=false
+  @Input() showChBox:boolean=false
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
   @Output() copy = new EventEmitter()
   @Output() sort = new EventEmitter()
   @Output() filter =new EventEmitter()
   @Output() limit = new EventEmitter()
+  @Output() addSub = new EventEmitter()
+  @Output() down=new EventEmitter()
+  @Output() checkBox=new EventEmitter()
+  @ViewChild('chec') chec!:ElementRef
   subsList:Subscription[]=[]
   pos:string=''
   
@@ -62,7 +68,24 @@ export class H2Component implements OnInit {
     this.filter.emit(e.target.value)
   }
 
+  addS(e:any){
+    this.addSub.emit('addSub')
+  }
+
   lim(e:any){
-    this.limit.emit(e.target.value)
+    this.limit.emit(e)
+  }
+
+  download(){
+    if(this.data=='Certiq Report') {this.down.emit('d')}
+  }
+
+  ch(e:any){
+    this.checkBox.emit(this.chec.nativeElement.checked)
+  }
+
+  width(){
+    if(window.innerWidth>500) return true
+    return false 
   }
 }

@@ -130,12 +130,12 @@
               <h4>Service Report</h4>
               <mat-form-field [appearance]="appearance" class="area">
                 <mat-label>Report</mat-label>
-                <textarea matInput formControlName="report" [rows]="5"></textarea>
+                <textarea matInput formControlName="report" [rows]="5"  (input)="maiusc('report')"></textarea>
               </mat-form-field>
               <h4>Notes</h4>
               <mat-form-field [appearance]="appearance"  class="area">
                 <mat-label>Notes</mat-label>
-                <textarea matInput formControlName="oss" [rows]="2"></textarea>
+                <textarea matInput formControlName="oss" [rows]="2" (input)="maiusc('oss')"></textarea>
               </mat-form-field>
               <div class="button">
                 <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>

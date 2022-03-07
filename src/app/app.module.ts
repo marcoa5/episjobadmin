@@ -129,7 +129,8 @@ import { SubeqComponent } from './comp/rigs/machine/subeq/subeq.component';
 import { GenericComponent } from './comp/util/dialog/generic/generic.component';
 import { AppupdComponent } from './comp/util/dialog/appupd/appupd.component'
 import { SwupdateService } from './serv/swupdate.service';
-import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/subeddialog.component'
+import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/subeddialog.component';
+import { NewsubeqComponent } from './comp/rigs/machine/subeq/newsubeq/newsubeq.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -244,6 +245,7 @@ const appearance: MatFormFieldDefaultOptions = {
     GenericComponent,
     AppupdComponent,
     SubeddialogComponent,
+    NewsubeqComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
