@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="contL">
-    <div *ngFor="let l of list; let i = index" class="cont" (click)="sel(l.sjid, i)" [ngClass]="l.sel==1? 'sel':''">
+    <div *ngFor="let l of list; let i = index" class="cont" (click)="sel(l.sjid, i)" (dblclick)="directgo(l.sjid,i)" [ngClass]="l.sel==1? 'sel':''">
         <div class="text bold">{{l.data_new}}</div>
         <div class="text bold">{{l.matricola}}</div>
         <div class="text">{{l.prodotto1}}</div>

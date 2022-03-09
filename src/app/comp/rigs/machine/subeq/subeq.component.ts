@@ -1,3 +1,4 @@
+import { ActiveDescendantKeyManager } from '@angular/cdk/a11y';
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -16,10 +17,12 @@ export class SubeqComponent implements OnInit {
   @Input() list:any[] = []
   _list:any[]=[]
   @Input() pos:string=''
+  ascdesc:number=-1
   constructor(private router: Router, private dialog: MatDialog) { }
 
   
   ngOnInit(): void {
+    
   }
 
   ngOnChanges(){
@@ -41,4 +44,13 @@ export class SubeqComponent implements OnInit {
     this.dialog.open(SubeddialogComponent, {data:a})
   }
 
+  sort(s:string){
+    this.ascdesc*=-1
+    this.list.sort((a:any,b:any)=>{
+      if(a[s]>b[s]) return -1*this.ascdesc
+      if(a[s]<b[s]) return 1*this.ascdesc
+      return 0
+    })
+    this._list=this.list.slice(this.inizio,this.fine)
+  }
 }

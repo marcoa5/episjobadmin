@@ -11,7 +11,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 })
 export class NewsubeqComponent implements OnInit {
   items:any[]=[
-    'Certiq','Engine','Rock Drill', 'Feed','Feed 1', 'Feed 2', 'Feed 3', 'El. Power (kW)'
+    'Certiq','Engine','Rock Drill', 'Feed','Feed 1', 'Feed 2', 'Feed 3', 'El. Power (kW)','Pull Rope', 'Return Rope', 'Shank Adpt'
   ]
   subsList:Subscription[]=[]
   rigs:any[]=[]
@@ -19,6 +19,7 @@ export class NewsubeqComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<NewsubeqComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private auth: AuthServiceService) {}
 
   ngOnInit(): void {
+    this.items.sort()
     if(this.data.transfer){
       this.subsList.push(
         this.auth._fleet.subscribe(a=>{

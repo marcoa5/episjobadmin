@@ -8,6 +8,7 @@ import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 export class JobslistComponent implements OnInit {
   @Input() list:any[]=[]
   @Output() select=new EventEmitter()
+  @Output() directopen=new EventEmitter()
   sortDir:string=''
   sortDirS:string=''
   sortIcon:string='date'
@@ -62,5 +63,9 @@ export class JobslistComponent implements OnInit {
       })
       this.select.emit('')
     }
+  }
+
+  directgo(id:string,b:number){
+    this.directopen.emit(id)
   }
 }

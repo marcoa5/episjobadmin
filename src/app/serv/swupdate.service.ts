@@ -14,7 +14,7 @@ constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
 }
 showAppUpdateAlert() {
   const header = 'App Update';
-  const message = 'New update. The app will be reloaded';
+  const message = 'The app has been updated from server. click ok to reload';
   const action = this.doAppUpdate;
   const caller = this;
   // Use MatDialog or ionicframework's AlertController or similar

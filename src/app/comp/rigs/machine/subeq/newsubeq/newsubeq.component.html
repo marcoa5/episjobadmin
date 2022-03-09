@@ -1,6 +1,6 @@
 <div mat-dialog-title>{{data.transfer? 'Serial Nr':'Add new sub-equipment'}}</div>
 <div mat-dialog-content>
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="text">
         <mat-label>{{label!=''?label: 'Item Name'}}</mat-label>
         <mat-select #ff>
           <mat-option *ngFor="let i of items" [value]="i" >

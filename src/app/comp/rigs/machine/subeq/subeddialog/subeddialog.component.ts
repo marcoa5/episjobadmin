@@ -9,6 +9,7 @@ import * as moment from 'moment'
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { DeldialogComponent } from 'src/app/comp/util/dialog/deldialog/deldialog.component';
 import { NewsubeqComponent } from '../newsubeq/newsubeq.component';
+import { TmplAstRecursiveVisitor } from '@angular/compiler';
 @Component({
   selector: 'episjob-subeddialog',
   templateUrl: './subeddialog.component.html',
@@ -18,6 +19,9 @@ export class SubeddialogComponent implements OnInit {
   subEqForm!:FormGroup
   pos:string=''
   userName:string=''
+  fileExist: boolean|undefined
+  url:string=''
+  srcResult:any
   subsList:Subscription[]=[]
   constructor(public dialogRef: MatDialogRef<AppupdComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private fb: FormBuilder, private auth: AuthServiceService, private makeid: MakeidService, private dialog: MatDialog) {
     this.subEqForm = fb.group({
@@ -26,6 +30,7 @@ export class SubeddialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(this.data.cat=='Certiq') this.chFile()
     if(this.data.id==undefined) this.data.id = this.makeid.makeId(5)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
@@ -48,6 +53,12 @@ export class SubeddialogComponent implements OnInit {
         this.subEqForm.controls.ext.setValue(this.data.ext)
         this.subEqForm.controls.motor.setValue(this.data.motor)
       }
+      if(this.data.cat=='Certiq'){
+        this.subEqForm.addControl('imei',new FormControl(''))
+        this.subEqForm.controls.imei.setValue(this.data.imei)
+        this.subEqForm.addControl('fileN',new FormControl(''))
+        this.subEqForm.controls.fileN.setValue(this.data.fileUrl)
+      }
     this.disable()
   }
 
@@ -63,14 +74,16 @@ export class SubeddialogComponent implements OnInit {
       if(a.val()) old= a.val()
     })
     .then(()=>{
-      if(old!=e.target.value){
-        firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child(c).set(e.target.value)
+      if(old!=(e.target?e.target.value:e)){
+        firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child(c).set((e.target?e.target.value:e))
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('cat').set(this.data.cat)
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('sn').set(this.data.rigsn)
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('modified on ' + moment(new Date()).format('YYYYMMDDHHmmss')).set(
           {by :this.userName, 
+            item: c,
             on: new Date(), 
-            oldValue:old
+            oldValue:old,
+            newValue: (e.target?e.target.value:e)
           }
         )
       }
@@ -107,5 +120,31 @@ export class SubeddialogComponent implements OnInit {
         .catch((error)=>console.log(error))
       }
     })
+  }
+
+  chFile(){
+    if(this.data.fileUrl!='' && this.data.fileUrl!=undefined) {
+      this.url=this.data.fileUrl
+      this.fileExist=true
+    } else {
+      this.fileExist=false
+    }
+  }
+
+  dl(){
+    firebase.storage().ref('imei/').child(this.url).getDownloadURL()
+    .then(url=>window.open(url))
+  }
+
+  fileUpload(e:any){
+    console.log(e.target.value)
+    var file = e.target.files[0];
+    let l = file.name.split('.').pop()
+    console.log(l)
+    let name = this.makeid.makeId(15)+'.'+l
+    var storageRef = firebase.storage().ref('imei/').child(name);
+    storageRef.put(file).then((a)=>{
+      this.upd(name,'fileUrl')
+    });
   }
 }

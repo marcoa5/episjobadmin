@@ -131,7 +131,6 @@ import { AppupdComponent } from './comp/util/dialog/appupd/appupd.component'
 import { SwupdateService } from './serv/swupdate.service';
 import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/subeddialog.component';
 import { NewsubeqComponent } from './comp/rigs/machine/subeq/newsubeq/newsubeq.component'
-
 export const MY_FORMATS = {
   parse: {
       dateInput: 'DD/MM/YYYY',

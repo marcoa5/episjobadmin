@@ -31,6 +31,9 @@ export class SjhomeComponent implements OnInit {
   draftSel:boolean=false
   sentSel:boolean=false
   chDel:boolean=false
+  rigs:any[]=[]
+  customers:any[]=[]
+  tech:any[]=[]
   constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
@@ -43,6 +46,17 @@ export class SjhomeComponent implements OnInit {
         setTimeout(() => {
           this.allow= this.auth.allow('sj',this.pos)
         }, 1);
+      }),
+      this.auth._custI.subscribe(a=>{
+        if(a) this.customers=a
+      }),
+      this.auth._fleet.subscribe(a=>{
+        if(a){
+          this.rigs=a
+        }
+      }),
+      this.auth._tech.subscribe(a=>{
+        if(a) this.tech=a
       })
     )
     if(navigator.onLine) {
@@ -299,8 +313,8 @@ export class SjhomeComponent implements OnInit {
     this.router.navigate(['newsj']) 
   }
 
-  open(){
-    this.router.navigate(['newsj', {id:this.sjId,type:this.sjId.substring(2,3)}])
+  open(e?:any){
+    if(e) this.router.navigate(['newsj', {id:e,type:e.substring(2,3)}])
   }
 
   chW(): boolean{
