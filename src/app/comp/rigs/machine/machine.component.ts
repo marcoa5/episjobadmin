@@ -75,7 +75,9 @@ export class MachineComponent implements OnInit {
   partReqList:any[]=[]
   subsList:Subscription[]=[]
   
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) { }
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+  }
 
   ngOnInit(): void {
     Chart.register()
@@ -84,12 +86,16 @@ export class MachineComponent implements OnInit {
       this.name = a.Nome + ' ' + a.Cognome
       this.area=a.Area
     }))
+    this.start() 
+  }
+
+  start(){
     this.route.params.subscribe(r=>{
       this.valore=r.sn
       if(this.pos=='customer' || this.pos=='sales'){
-        firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',r=>{
-          console.log(r.val())
-          if(r.val()=='1') {
+        firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',gt=>{
+          console.log(gt.val())
+          if(gt.val()=='1') {
             this.allow=this.auth.allow('machine',this.pos)
           } else {this.allow=false}
         })

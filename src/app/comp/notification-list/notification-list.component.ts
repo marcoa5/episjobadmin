@@ -58,9 +58,13 @@ export class NotificationListComponent implements OnInit {
     let c = (a.url.split(','))
     let d = [c[0],JSON.parse(c[1])]
     if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
-    this.router.navigate(d)
+    let u = this.router.url.split(';')
+    if(u[0]=='/machine') {
+      this.router.navigate([u[0],d[1]])
+    } else {
+      this.router.navigate(d)
+    }
     this.dialogRef.close()
-
   }
 
   close(){
