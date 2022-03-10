@@ -4,7 +4,6 @@ import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
-import { computeMsgId } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
