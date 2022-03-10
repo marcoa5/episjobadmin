@@ -58,6 +58,7 @@ export class SubeddialogComponent implements OnInit {
         this.subEqForm.controls.imei.setValue(this.data.imei)
         this.subEqForm.addControl('fileN',new FormControl(''))
         this.subEqForm.controls.fileN.setValue(this.data.fileUrl)
+        this.subEqForm.controls.fileN.disable()
       }
     this.disable()
   }
@@ -143,8 +144,27 @@ export class SubeddialogComponent implements OnInit {
     console.log(l)
     let name = this.makeid.makeId(15)+'.'+l
     var storageRef = firebase.storage().ref('imei/').child(name);
-    storageRef.put(file).then((a)=>{
+    storageRef.put(file)
+    .then((a)=>{
       this.upd(name,'fileUrl')
+      this.data.fileUrl = name
+      this.chFile()
     });
+  }
+
+  delS(){
+    let d = this.dialog.open(DeldialogComponent, {data: {name:'Screenshot'}})
+    d.afterClosed().subscribe(a=>{
+      if(a){
+        firebase.storage().ref('imei').child(this.data.fileUrl).delete()
+        .then(()=>{
+          firebase.database().ref('SubEquipment').child(this.data.sn).child(this.data.id).child('fileUrl').remove()
+        })
+        .then(()=>{
+          this.data.fileUrl=''
+          this.chFile()
+        })
+      }
+    })
   }
 }

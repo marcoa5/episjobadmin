@@ -10,6 +10,8 @@ import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.com
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { auth } from 'firebase-admin';
+import { NewsubeqComponent } from '../../rigs/machine/subeq/newsubeq/newsubeq.component';
+import { SubeddialogComponent } from '../../rigs/machine/subeq/subeddialog/subeddialog.component';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -27,6 +29,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() seriale:string|undefined
   @Input() id:string|undefined
   @Input() check:boolean=true
+  @Input() valore:string=''
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -121,6 +124,15 @@ export class EditdelbutComponent implements OnInit {
 
   sh(){
     this.show=!this.show
+  }
+
+  addSubEq(){
+    const step1 = this.dialog.open(NewsubeqComponent, {data: this.valore})
+    step1.afterClosed().subscribe(a=>{
+      if(a) {
+        const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
+      }
+    })
   }
 
 }

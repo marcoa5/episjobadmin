@@ -5,10 +5,14 @@
     grid-template-columns: 1fr;
 }
 
-.imeicont{
-    display: flex;
-    align-items: center;
+.mainImeiCont{
+    display: grid;
+    grid-template-columns: 1fr repeat(2, 35px);
     cursor: pointer;
+}
+
+.imeicont{
+    margin-top: 5px;
 }
 
 .custom-file-upload {
