@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -648,7 +648,7 @@ export class SjComponent implements OnInit {
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g= 'sjsent' + this.id.makeId(5)
     this.saveData(true,g,info)
-    //localStorage.setItem(g, JSON.stringify(this.file))
+    localStorage.setItem(g, JSON.stringify(this.file))
     this.router.navigate(['sj'])
   }
 

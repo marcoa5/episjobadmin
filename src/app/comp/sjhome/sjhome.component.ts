@@ -65,12 +65,12 @@ export class SjhomeComponent implements OnInit {
       .then((a)=>{
         console.log(a)
         this.loadSent()
-      })
-      this.checkDeleted()
-      .then(()=>{
-        this.syncDraft()
+        this.checkDeleted()
         .then(()=>{
-          this.loadSJ()
+          this.syncDraft()
+          .then(()=>{
+            this.loadSJ()
+          })
         })
       })
     } else {
@@ -214,7 +214,7 @@ export class SjhomeComponent implements OnInit {
     let l = localStorage.length
     let k:number=0
     for(let i=0;i<localStorage.length;i++){
-      if(localStorage.key(i)?.substring(0,7)=="sjdraft" && JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status!='deleted'){
+      if(localStorage.key(i)?.substring(0,7)=="sjdraft" && (JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status!='deleted' || JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status!='sent')){
         this.list.push(JSON.parse(localStorage.getItem(localStorage.key(i)!)!))
         k++     
       } else {
@@ -271,6 +271,7 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       let l = localStorage.length
       for(let i=0;i<l;i++){
+        console.log(localStorage.key(i))
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           let keyLS:string=localStorage.key(i)!
           let content:string=localStorage.getItem(localStorage.key(i)!)!
@@ -280,7 +281,7 @@ export class SjhomeComponent implements OnInit {
             localStorage.removeItem(keyLS)
             console.log('REMOVED ' + keyLS)
             //let url:string='http://localhost:3001/'; cont.info.cc=false
-            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=true
+            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=false
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
               let info={
                 fileName: cont.info.fileName,
@@ -293,16 +294,13 @@ export class SjhomeComponent implements OnInit {
             })
             kt++
             if(kt==l) {
-              res('Sent checked')
+              res('Sent checked 297')
             }
-            
           })
-          
-          
         } else {
           kt++
           if(kt==l) {
-            res('Sent checked')
+            res('Sent checked 303')
           }
         }
       }
