@@ -232,7 +232,7 @@ export class NewrigComponent implements OnInit {
       firebase.database().ref('CustContacts').child(this.custId).on('value',a=>{
         this.custCon=[]
         a.forEach(b=>{
-          this.custCon.push({name: b.val().name, mail: b.val().mail})
+          this.custCon.push({name: b.val().name, mail: b.val().mail, contId:b.val().contId})
         })
         this.spin=false
       })

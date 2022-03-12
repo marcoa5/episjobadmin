@@ -38,7 +38,7 @@ export class SjemailComponent implements OnInit {
 
   startAutoComplete(){
     if(this.id && this.id!='' && navigator.onLine) {
-      firebase.database().ref('Contacts').child(this.id).once('value',a=>{
+      firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
         this.options=[]
         a.forEach(b=>{
           this.options.push(b.val().mail)
