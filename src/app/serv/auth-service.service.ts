@@ -295,7 +295,7 @@ export class AuthServiceService {
   }
 
   getContact(){
-    firebase.database().ref('Contacts').on('value',a=>{
+    firebase.database().ref('CustContacts').on('value',a=>{
       let b:any[]=[]
       a.forEach(c=>{
         c.forEach(d=>{

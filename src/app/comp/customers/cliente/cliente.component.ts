@@ -135,11 +135,11 @@ export class ClienteComponent implements OnInit {
 
   updateContacts(){
     this.infoContacts=[]
-    firebase.database().ref('Contacts').child(this.id).once('value',a=>{
+    firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
       if(a.val()!=null){
         a.forEach(b=>{
           this.infoContacts.push(
-            {value: b.val().name, lab:b.val().pos,click:{custId: this.id, name: b.val().name, pos: b.val().pos, phone: b.val().phone, mail: b.val().mail}, url:'contact'}
+            {value: b.val().name, lab:b.val().pos,click:{custId: this.id, contId: b.val().contId, name: b.val().name, pos: b.val().pos, phone: b.val().phone, mail: b.val().mail}, url:'contact'}
           )
         })
       }

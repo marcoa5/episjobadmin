@@ -229,7 +229,7 @@ export class NewrigComponent implements OnInit {
       this.shipTo.controls.address.setValue(null)
       this.shipTo.controls.cig.setValue(null)
       this.shipTo.controls.cup.setValue(null)
-      firebase.database().ref('Contacts').child(this.custId).on('value',a=>{
+      firebase.database().ref('CustContacts').child(this.custId).on('value',a=>{
         this.custCon=[]
         a.forEach(b=>{
           this.custCon.push({name: b.val().name, mail: b.val().mail})

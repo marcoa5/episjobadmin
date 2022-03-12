@@ -5,6 +5,7 @@ import { auth } from 'firebase-admin';
 import firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { MakeidService } from 'src/app/serv/makeid.service';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
 @Component({
   selector: 'episjob-contacts',
@@ -20,7 +21,7 @@ export class ContactsComponent implements OnInit {
   customers:any[]=[]
   subsList:Subscription[]=[]
 
-  constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService) { 
+  constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService, private makeid: MakeidService) { 
     auth.getContact()
   }
 
@@ -44,6 +45,16 @@ export class ContactsComponent implements OnInit {
       })
     )
     this.allSpin=false
+    /*firebase.database().ref('Contacts').once('value',a=>{
+      a.forEach(b=>{
+        Object.values(b.val()).forEach((c:any)=>{
+          let id:string=this.makeid.makeId(5)
+          c.contId=id
+          c.custId=b.key!
+          firebase.database().ref('CustContacts').child(b.key!).child(id).set(c)
+        })
+      })
+    })*/
   }
 
   ngOnDestroy(){

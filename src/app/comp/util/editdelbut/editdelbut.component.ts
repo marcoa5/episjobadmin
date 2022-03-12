@@ -62,7 +62,7 @@ export class EditdelbutComponent implements OnInit {
       if(result!=undefined && this.pos=='SU') {
         firebase.database().ref(this.func).child(result).remove()
         if(this.func=='CustomerC'){
-          firebase.database().ref('Contacts').child(result).remove()
+          firebase.database().ref('CustContacts').child(result).remove()
           firebase.database().ref('CustAddress').child(result).remove()
         }else if(this.func=='MOL') {
           firebase.database().ref('RigAuth').child(result).remove()
