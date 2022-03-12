@@ -8,7 +8,7 @@ import { AppupdComponent } from '../comp/util/dialog/appupd/appupd.component';
 export class SwupdateService {
 constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
   this.updates.available.subscribe(event => {
-    //this.showAppUpdateAlert();
+    this.showAppUpdateAlert();
   });
 }
 showAppUpdateAlert() {
