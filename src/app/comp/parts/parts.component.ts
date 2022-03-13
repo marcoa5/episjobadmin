@@ -58,6 +58,7 @@ export class PartsComponent implements OnInit {
         }, 1);
       })
     )
+    firebase.database().ref('ShipTo').for
   }
 
   ngOnChanges(){
