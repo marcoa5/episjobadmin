@@ -45,16 +45,6 @@ export class ContactsComponent implements OnInit {
       })
     )
     this.allSpin=false
-    /*firebase.database().ref('Contacts').once('value',a=>{
-      a.forEach(b=>{
-        Object.values(b.val()).forEach((c:any)=>{
-          let id:string=this.makeid.makeId(5)
-          c.contId=id
-          c.custId=b.key!
-          firebase.database().ref('CustContacts').child(b.key!).child(id).set(c)
-        })
-      })
-    })*/
   }
 
   ngOnDestroy(){

@@ -6,6 +6,9 @@ import firebase from 'firebase/app'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { DeldialogComponent } from '../deldialog/deldialog.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { TechniciansComponent } from 'src/app/comp/technicians/technicians.component';
+import { of, Subscription } from 'rxjs';
 
 export interface co{
   id: string
@@ -24,7 +27,9 @@ export class NewcontactComponent implements OnInit {
   oldName:string=''
   comp:any[]=[]
   contId:string=''
-  constructor(private makeid:MakeidService, public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
+  rigs:any[]=[]
+  subsList:Subscription[]=[]
+  constructor(private auth:AuthServiceService, private makeid:MakeidService, public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
     this.id=data.id? data.id: data.info.id
     this.newCont=fb.group({
       name: ['',Validators.required],
@@ -35,6 +40,9 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.subsList.push(
+      this.auth._fleet.subscribe(a=>{if(a) this.rigs=a})
+    )
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name
       this.newCont.controls.name.setValue(this.data.info.name)
@@ -43,6 +51,10 @@ export class NewcontactComponent implements OnInit {
       this.newCont.controls.mail.setValue(this.data.info.mail)
       this.contId=this.data.info.contId
     }
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   onNoClick(){
@@ -67,7 +79,15 @@ export class NewcontactComponent implements OnInit {
   }
 
   delete(){
-    const dialogconf = new MatDialogConfig();
+        let b = []
+        b= this.rigs.filter((d:any)=>{
+          return d.custid==this.data.info.custId
+        }).map(c=>{return c.sn})
+        b.forEach(y=>{
+          firebase.database().ref('shipTo').child(y).child('cont').child(this.data.info.contId).
+          })
+        })
+    /*const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
     const dialogRef = this.dialog.open(DeldialogComponent, {
@@ -77,11 +97,14 @@ export class NewcontactComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
         firebase.database().ref('CustContacts').child(result.id).child(result.contId).remove()
-        .then(()=>this.dialogRef.close('deleted'))
+        .then(()=>{
+
+          this.dialogRef.close('deleted')
+        })
         .catch(err=>{console.log('Unable to delete, ' + err)})
         
       }
-    })
+    })*/
   }
 
 }

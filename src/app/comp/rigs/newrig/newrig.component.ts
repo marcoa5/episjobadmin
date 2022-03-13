@@ -42,7 +42,7 @@ export class NewrigComponent implements OnInit {
   allow:boolean=false 
   custCon:any[]=[]
   custId:string=''
-  conList:any[]=[]
+  conList:any={}
   spin:boolean=true
   addr:any[]=[]
   addV:any
@@ -106,7 +106,7 @@ export class NewrigComponent implements OnInit {
           firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
             if(a && a.val() && a.val().cont) {
               a.val().cont.forEach((e:any) => {
-                this.conList.push(e)
+                this.conList[e.contId]=e
               })
               this.shipTo=this.fb.group({
                 address: [a.val().address],
@@ -137,7 +137,7 @@ export class NewrigComponent implements OnInit {
   }
 
   chSel(c:MatChip, e:any){
-    if(this.conList.map(a=>{return a.name}).includes(e.name)) return true
+    if(Object.keys(this.conList).includes(e.contId)) return true
     return false
   }
 
@@ -225,7 +225,7 @@ export class NewrigComponent implements OnInit {
   getCustInfo(){
     this.addr=[]
     return new Promise((res,rej)=>{
-      this.conList=[]
+      this.conList={}
       this.shipTo.controls.address.setValue(null)
       this.shipTo.controls.cig.setValue(null)
       this.shipTo.controls.cup.setValue(null)
@@ -294,12 +294,12 @@ export class NewrigComponent implements OnInit {
     this.childAdd['subCat']=e.value.subC
   }
 
-  select(a:MatChip,b:string){
+  select(a:MatChip,b:any){
     a.toggleSelected()
     if(a.selected){
-      this.conList.push(b)
+      this.conList[b.contId]=b
     } else {
-      this.conList.splice(this.conList.indexOf(b),1)
+      this.conList[b.contId]={}
     }
     this.checkCon()
   }
