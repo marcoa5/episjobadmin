@@ -60,7 +60,11 @@ export class ContactsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
-        //this.newCont.emit(result)
+        let old=this.filtro
+        this.filtro=''
+        setTimeout(() => {
+          this.filtro=old
+        }, 0.1);
       }
     })
   }

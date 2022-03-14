@@ -75,6 +75,7 @@ export class NewcontactComponent implements OnInit {
     firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
     .then(()=>{
       this.dialogRef.close('created')
+      this.auth.getContact()
     })
   }
 

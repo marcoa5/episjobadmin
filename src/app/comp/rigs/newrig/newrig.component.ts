@@ -105,8 +105,8 @@ export class NewrigComponent implements OnInit {
           //console.log(!this.addr.includes(a.val().address))
           firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
             if(a && a.val() && a.val().cont) {
-              a.val().cont.forEach((e:any) => {
-                this.conList[e.contId]=e
+              Object.keys(a.val().cont).forEach((e:any) => {
+                this.conList[e]=a.val().cont[e]
               })
               this.shipTo=this.fb.group({
                 address: [a.val().address],
