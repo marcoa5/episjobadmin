@@ -324,10 +324,10 @@ export class NewrigComponent implements OnInit {
   }
 
   checkCon(){
-    let a= this.conList.length
+    let a= this.conList
     let b = this.shipTo.controls.address.value
-    if(a==0 && (b==null || b=='')) return true
-    if(a>0 && (b!=null && b!='')) return true
+    if(a==undefined && (b==null || b=='')) return true
+    if(a!=undefined && (b!=null && b!='')) return true
     return false
   }
 
