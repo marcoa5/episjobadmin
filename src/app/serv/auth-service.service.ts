@@ -155,53 +155,55 @@ export class AuthServiceService {
   }
 
   getFleetData(){
-    firebase.database().ref('Categ').on('value',a=>{
-      let cat:any[] = []
-      a.forEach((b:any)=>{
-        cat[b.key]=b.val().subCat
-      })
-      this.categ.next(cat)
-      this.epiCateg=cat
-    })
-    if(this.epiUser){
-      if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
-        if(this.epiRigs.length==0){
-          console.log('Downloading fleet...')
-          firebase.database().ref('MOL').on('value',async (a)=>{
-            let b=Object.values(a.val())
-            this.rigs.next(b)
-            this.epiRigs=b
-            this.getFleet(this.epiRigs,this.epiCateg)
-          })
-          this.getFleet(this.epiRigs,this.epiCateg)
-        }
-      } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
-        let area:string = this.epiUser.Area
-        let list:any[]=[]
-        firebase.database().ref('MOL').on('value',a=>{
-          let ip:number=0
-          let l = Object.values(a.val()).length
-          a.forEach(b=>{
-            let item:any
-            firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
-              if(r.val()=='1') {
-                item=b.val()
-                firebase.database().ref('Categ').child(b.val().sn).child('subCat').once('value',r=>{
-                  if(r!=null) item['categ']=r.val()
-                })
-                .then(()=>{
-                  list.push(item)
-                })
-              }
-              ip++
-              if(l==ip) {
-                this.rigs.next(list)
-                this.epiRigs=list
-                this.getFleet(this.epiRigs, this.epiCateg)
-              }
-            })
-          })            
+    return new Promise(res=>{
+      firebase.database().ref('Categ').on('value',a=>{
+        let cat:any[] = []
+        a.forEach((b:any)=>{
+          cat[b.key]=b.val().subCat
         })
+        this.categ.next(cat)
+        this.epiCateg=cat
+      })
+      if(this.epiUser){
+        if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
+          if(this.epiRigs.length==0){
+            console.log('Downloading fleet...')
+            firebase.database().ref('MOL').on('value',async (a)=>{
+              let b=Object.values(a.val())
+              this.rigs.next(b)
+              this.epiRigs=b
+              this.getFleet(this.epiRigs,this.epiCateg)
+            })
+            this.getFleet(this.epiRigs,this.epiCateg)
+          }
+        } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
+          let area:string = this.epiUser.Area
+          let list:any[]=[]
+          firebase.database().ref('MOL').on('value',a=>{
+            let ip:number=0
+            let l = Object.values(a.val()).length
+            a.forEach(b=>{
+              let item:any
+              firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
+                if(r.val()=='1') {
+                  item=b.val()
+                  firebase.database().ref('Categ').child(b.val().sn).child('subCat').once('value',r=>{
+                    if(r!=null) item['categ']=r.val()
+                  })
+                  .then(()=>{
+                    list.push(item)
+                  })
+                }
+                ip++
+                if(l==ip) {
+                  this.rigs.next(list)
+                  this.epiRigs=list
+                  this.getFleet(this.epiRigs, this.epiCateg)
+                }
+              })
+            })            
+          })
+        }
       }
     }
   }

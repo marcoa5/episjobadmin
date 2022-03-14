@@ -73,14 +73,18 @@ export class NewrigComponent implements OnInit {
 
       })
     })*/
-    this.subsList.push(this.auth._userData.subscribe(a=>{
-      this.uId=a.uid
-      this.uName= a.Nome + ' ' + a.Cognome
-      this.pos=a.Pos
-      setTimeout(() => {
-        this.allow=this.auth.allow('newrig',this.pos)
-      }, 1);
-    }))
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.uId=a.uid
+        this.uName= a.Nome + ' ' + a.Cognome
+        this.pos=a.Pos
+        setTimeout(() => {
+          this.allow=this.auth.allow('newrig',this.pos)
+        }, 1);
+      }),
+      this.auth._fleet.subscribe(a=>{}),
+      this.auth._customers.subscribe(a=>{})
+    )
     this.subsList.push(this.auth._customers.subscribe(a=>this.customers=a))
     this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
     this.allow=this.auth.allow('newrig',this.pos)
