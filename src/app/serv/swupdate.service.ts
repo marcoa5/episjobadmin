@@ -19,7 +19,7 @@ showAppUpdateAlert() {
   // Use MatDialog or ionicframework's AlertController or similar
   this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
   .afterClosed().subscribe(o=>{
-    if(0) this.doAppUpdate()
+    if(o=='updated') this.doAppUpdate()
   })
   //presentAlert(header, message, action, caller);
 }
