@@ -105,8 +105,8 @@ export class AuthServiceService {
       return this.userData.asObservable()
   }
 
-  get _fleet(){ 
-    if(this.chDev()) this.getFleetData()
+   get _fleet(){ 
+    if(this.chDev()) async()=>await this.getFleetData()
     let a = localStorage.getItem('fleet')
     let b:any
     if(a) {
@@ -173,6 +173,7 @@ export class AuthServiceService {
               this.rigs.next(b)
               this.epiRigs=b
               this.getFleet(this.epiRigs,this.epiCateg)
+              res('')
             })
             this.getFleet(this.epiRigs,this.epiCateg)
           }
@@ -199,13 +200,14 @@ export class AuthServiceService {
                   this.rigs.next(list)
                   this.epiRigs=list
                   this.getFleet(this.epiRigs, this.epiCateg)
+                  res('')
                 }
               })
             })            
           })
         }
       }
-    }
+    })
   }
 
   getFleet(fRigs:any[],fCateg?:any){
