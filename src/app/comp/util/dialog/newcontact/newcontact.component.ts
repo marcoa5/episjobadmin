@@ -79,32 +79,33 @@ export class NewcontactComponent implements OnInit {
   }
 
   delete(){
-        let b = []
-        b= this.rigs.filter((d:any)=>{
-          return d.custid==this.data.info.custId
-        }).map(c=>{return c.sn})
-        b.forEach(y=>{
-          firebase.database().ref('shipTo').child(y).child('cont').child(this.data.info.contId).
-          })
-        })
-    /*const dialogconf = new MatDialogConfig();
+    const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
     const dialogRef = this.dialog.open(DeldialogComponent, {
       data: {name: this.oldName, id:this.id, contId:this.contId}
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
         firebase.database().ref('CustContacts').child(result.id).child(result.contId).remove()
         .then(()=>{
-
+          let b = []
+          b= this.rigs.filter((d:any)=>{
+            return d.custid==this.data.info.custId
+          }).map(c=>{return c.sn})
+          b.forEach(y=>{
+            console.log(y)
+            try{
+              firebase.database().ref('shipTo').child(y).child('cont').child(this.data.info.contId).remove()
+            } catch{
+            }
+          })
           this.dialogRef.close('deleted')
         })
         .catch(err=>{console.log('Unable to delete, ' + err)})
         
       }
-    })*/
+    })
   }
 
 }
