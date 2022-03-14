@@ -103,7 +103,6 @@ export class NewcontactComponent implements OnInit {
           this.dialogRef.close('deleted')
         })
         .catch(err=>{console.log('Unable to delete, ' + err)})
-        
       }
     })
   }
