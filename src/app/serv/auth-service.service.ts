@@ -117,7 +117,7 @@ export class AuthServiceService {
   }
   
   get _customers(){
-    if(this.chDev()) this.getCustData()
+    if(this.chDev()) async()=>await this.getCustData()
     let a = localStorage.getItem('customers')
     let b:any
     if(a) {
@@ -229,73 +229,77 @@ export class AuthServiceService {
   }
 
   getCustData(){
-    if(this.epiUser){
-      if(this.epiUser.Pos!='customer'){
-        if(this.epiCustomers.length==0){
-          console.log('Downloading customers...')
-          let custIndex
-          firebase.database().ref('CustomerC').on('value',a=>{
-            custIndex=a.val()
-            let b:any[]=[]
-            let rt:any[]=[]
-            if(this.epiUser){
-              b=Object.values(a.val())
-              b.sort((a: any, b: any) => {
-                if (a['c1'] < b['c1']) {
-                  return -1;
-                } else if (a['c1'] > b['c1']) {
-                  return 1;
-                } else {
-                  return 0;
-                }
-              })
-              let c:any[]
-              if(this.epiUser.Pos=='customer'){
-                c = b.filter(t=>{
-                  if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
-                })
-              } else{
-                c=b
-              }
-              localStorage.setItem('customers',JSON.stringify(c))
-              localStorage.setItem('custI',JSON.stringify(custIndex))
-              this.customers.next(c)
-              this.custI.next(custIndex)
-              this.epiCustomers=c 
-            }
-          })
-        }
-      } else {
-        let subs:Subscription = this._fleet.subscribe(a=>{
-           if(a.length>0){
-            let cu:any=[]
-            let cuI:any={}
-            let i:number=0
-            new Promise((res,rej)=>{
-              a.forEach((e:any) => {
-                firebase.database().ref('CustomerC').child(e.custid).once('value',y=>{
-                  if(y!=null && cu.map((r:any)=>{return r.id}).indexOf(e.custid)==-1) {
-                    cu.push(y.val())
-                    cuI[e.custid]=y.val()
+    return new Promise(res=>{
+      if(this.epiUser){
+        if(this.epiUser.Pos!='customer'){
+          if(this.epiCustomers.length==0){
+            console.log('Downloading customers...')
+            let custIndex
+            firebase.database().ref('CustomerC').on('value',a=>{
+              custIndex=a.val()
+              let b:any[]=[]
+              let rt:any[]=[]
+              if(this.epiUser){
+                b=Object.values(a.val())
+                b.sort((a: any, b: any) => {
+                  if (a['c1'] < b['c1']) {
+                    return -1;
+                  } else if (a['c1'] > b['c1']) {
+                    return 1;
+                  } else {
+                    return 0;
                   }
-                  i++
-                  if(i==a.length) res('')
+                })
+                let c:any[]
+                if(this.epiUser.Pos=='customer'){
+                  c = b.filter(t=>{
+                    if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
+                  })
+                } else{
+                  c=b
+                }
+                localStorage.setItem('customers',JSON.stringify(c))
+                localStorage.setItem('custI',JSON.stringify(custIndex))
+                this.customers.next(c)
+                this.custI.next(custIndex)
+                this.epiCustomers=c 
+                res('')
+              }
+            })
+          }
+        } else {
+          let subs:Subscription = this._fleet.subscribe(a=>{
+             if(a.length>0){
+              let cu:any=[]
+              let cuI:any={}
+              let i:number=0
+              new Promise((res,rej)=>{
+                a.forEach((e:any) => {
+                  firebase.database().ref('CustomerC').child(e.custid).once('value',y=>{
+                    if(y!=null && cu.map((r:any)=>{return r.id}).indexOf(e.custid)==-1) {
+                      cu.push(y.val())
+                      cuI[e.custid]=y.val()
+                    }
+                    i++
+                    if(i==a.length) res('')
+                  })
                 })
               })
-            })
-            .then(() => {
-              console.log(cuI,JSON.stringify(cuI))
-              this.customers.next(cu)
-              this.custI.next(cuI)
-              localStorage.setItem('customers',JSON.stringify(cu))
-              localStorage.setItem('custI',JSON.stringify(cuI))
-              this.epiCustomers=cu
-            });
-           }
-        }) 
-        subs.unsubscribe()
+              .then(() => {
+                console.log(cuI,JSON.stringify(cuI))
+                this.customers.next(cu)
+                this.custI.next(cuI)
+                localStorage.setItem('customers',JSON.stringify(cu))
+                localStorage.setItem('custI',JSON.stringify(cuI))
+                this.epiCustomers=cu
+                res('')
+              });
+             }
+          }) 
+          subs.unsubscribe()
+        }
       }
-    }
+    })
   }
 
   getContact(){
