@@ -9,6 +9,7 @@ export class SwupdateService {
 constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
   this.updates.available.subscribe(event => {
     this.showAppUpdateAlert();
+    this.doAppUpdate
   });
 }
 showAppUpdateAlert() {
@@ -19,7 +20,7 @@ showAppUpdateAlert() {
   // Use MatDialog or ionicframework's AlertController or similar
   this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
   .afterClosed().subscribe(o=>{
-    if(o=='updated') this.doAppUpdate()
+    //if(o=='updated') this.doAppUpdate()
   })
   //presentAlert(header, message, action, caller);
 }

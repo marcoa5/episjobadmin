@@ -155,7 +155,7 @@ export class PartsComponent implements OnInit {
       firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
         if(a.val()!=null){
           shipTo={
-            cont: a.val().cont?a.val().cont:'',
+            cont: a.val().cont?Object.values(a.val().cont):'',
             address: a.val().address?a.val().address:'',
             cig: a.val().cig?a.val().cig:'',
             cup: a.val().cup?a.val().cup:''
