@@ -9,16 +9,15 @@ export class SwupdateService {
 constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
   this.updates.available.subscribe(event => {
     this.showAppUpdateAlert();
-    this.doAppUpdate
   });
 }
 showAppUpdateAlert() {
   const header = 'App Update'
   const message = 'The app has been updated from server. click ok to reload'
   const action = this.doAppUpdate
-  this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
-  .afterClosed().subscribe(o=>{
-    if(o=='updated') this.doAppUpdate()
+  const msg = this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
+  msg.afterClosed().subscribe(o=>{
+    if(o) this.doAppUpdate()
   })
 }
 doAppUpdate() {
