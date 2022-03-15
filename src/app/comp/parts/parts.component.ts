@@ -14,6 +14,7 @@ import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment'
 import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { GenericComponent } from '../util/dialog/generic/generic.component';
 
 @Component({
   selector: 'episjob-parts',
@@ -171,11 +172,13 @@ export class PartsComponent implements OnInit {
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
             let url:string = 'https://episjobreq.herokuapp.com/partreq'
+            const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
             this.http.get(url,{params:params}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
                 .then(()=>{
+                  wait.close()
                   this.clear()
                   console.log('SENT ' + a)
                 })
