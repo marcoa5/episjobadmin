@@ -338,13 +338,19 @@ export class SjComponent implements OnInit {
               b=k.val()
               this.loadData(b,a.id)
             })
-            .then(()=>this.spin1=false)
+            .then(()=>{
+              this.spin1=false
+              this.spin=false
+            })
           }else {
             b= localStorage.getItem(a.id)
             if(b) this.loadData(JSON.parse(b),a.id)
             this.spin1 = false
+            this.spin = false
           }
   
+        } else{
+          this.spin = false
         }
       })
       this.loadTech()
