@@ -16,6 +16,7 @@ export class LabelComponent implements OnInit {
   @Output() newCont=new EventEmitter()
   valuesN:any[]=[]
   ngOnInit(): void {
+    this.valuesN=this.values
     }
 
   ngOnChanges(){

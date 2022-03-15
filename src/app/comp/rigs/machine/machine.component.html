@@ -10,10 +10,10 @@
                     <episjob-label [values]="rigLabels"></episjob-label>
                 </div>
                 <div class="item2" *ngIf="cCom!=0">
-                    <episjob-h2 icon="update" [data]="infoH" padtop=0></episjob-h2>
+                    <episjob-h2 icon="update" [data]="infoH" padtop=0 *ngIf="hrsLabels.length>0"></episjob-h2>
                     <p *ngIf="cCom==0">No data to display</p>
                     <episjob-spin *ngIf="hrsLabels.length==0"></episjob-spin>
-                    <episjob-label *ngIf="cCom!=0" [values]="hrsLabels"></episjob-label>
+                    <episjob-label *ngIf="cCom!=0 && hrsLabels.length>0" [values]="hrsLabels"></episjob-label>
                 </div> 
             </div>
             <div class="data">

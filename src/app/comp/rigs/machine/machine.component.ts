@@ -8,7 +8,7 @@ Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../../serv/back.service'
-import { MatDialogConfig, MatDialog, throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog'
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
@@ -18,7 +18,6 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 export interface hrsLabel {
@@ -139,10 +138,15 @@ export class MachineComponent implements OnInit {
         }
         if(this.pos!='customer'){
           this.shipToInfo().then((b:any)=>{
-            Object.keys(b).forEach(a=>{
-              this._rigLabels.push({lab: a, value:b[a],click:'',url:''})
+            if(b.length>0){
+              Object.keys(b).forEach(a=>{
+                this._rigLabels.push({lab: a, value:b[a],click:'',url:''})
+                this.rigLabels=this._rigLabels
+              })
+            } else{
               this.rigLabels=this._rigLabels
-            })
+            }
+            
           })
         }
         if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
