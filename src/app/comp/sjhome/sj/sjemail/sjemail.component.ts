@@ -29,13 +29,17 @@ export class SjemailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+ 
+  }
+
+  ngOnChanges(){
     if(this.disabled) this.email.controls.newmail.disable()
     if(this.mail) {
       this.emailList = this.mail.split(';')
     }
     this.startAutoComplete()
   }
-
+  
   startAutoComplete(){
     if(this.id && this.id!='' && navigator.onLine) {
       firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
@@ -68,13 +72,15 @@ export class SjemailComponent implements OnInit {
 
   addMail(){
     let a = this.email.controls.newmail
-    if(!this.emailList.includes(a.value)) {
-      this.emailList.push(a.value)
+    if(a.value!=''){
+      if(!this.emailList.includes(a.value)) {
+        this.emailList.push(a.value)
+      }
+      this.email.reset()
+      this.startAutoComplete()
+      this.nm.nativeElement.focus()
+      this.listOfEmail.emit(this.emailList.join(';'))
     }
-    this.email.reset()
-    this.startAutoComplete()
-    this.nm.nativeElement.focus()
-    this.listOfEmail.emit(this.emailList.join(';'))
   }
 
   remove(e:any){

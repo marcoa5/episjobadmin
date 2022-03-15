@@ -110,8 +110,6 @@ export class SegmentComponent implements OnInit {
   }
 
   step(e:any){
-    //console.log(this.seg.controls.fam.value)
-    //console.log(this.info[e.source.ngControl.value][this.seg.controls.fam.value])
     let n = e.source.ngControl.name
     switch(n){
       case 'div':

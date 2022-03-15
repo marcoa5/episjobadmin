@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     },
     {
       id:'Contacts',
-      icon:'people', 
+      icon:'account_box', 
       route:'contacts', 
       dis:false, 
       auth:['SU','admin','adminS','sales']
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
     },
     {
       id:'Users',
-      icon:'account_box', 
+      icon:'people', 
       route:'users', 
       dis:false, 
       auth:['SU','','','']

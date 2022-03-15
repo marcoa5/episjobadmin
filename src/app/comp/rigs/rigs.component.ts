@@ -48,7 +48,6 @@ export class RigsComponent implements OnInit {
 
   open(a: String, b:String, c:String, d:any){
     if(d=='0') {
-      console.log('disabled')
     } else{
       if(navigator.onLine) this.router.navigate(['machine',{sn:b}])
     }

@@ -286,7 +286,6 @@ export class AuthServiceService {
                 })
               })
               .then(() => {
-                console.log(cuI,JSON.stringify(cuI))
                 this.customers.next(cu)
                 this.custI.next(cuI)
                 localStorage.setItem('customers',JSON.stringify(cu))

@@ -7,14 +7,14 @@
     <span class="example-spacer"> </span>
     
     <span class="contUser" *ngIf="userExists()">
-      <button mat-raised-button class="example-icon" color="accent" (click)="logout()">
+      <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="chName">
         <mat-icon>person</mat-icon>
         {{screenSize? nome + ' ' + cognome: userN}}
       </button>
       
     </span>
     <span class="notif" *ngIf="userExists()">
-      <button mat-raised-button class="example-icon" (click)="navNot()" color="accent" [matBadge]="not" matBadgeColor="warn" [matBadgeHidden]="not==0">
+      <button mat-raised-button class="example-icon" (click)="navNot()" color="accent" [matBadge]="not" matBadgeColor="warn" [matBadgeHidden]="not==0" *ngIf="chName">
         <mat-icon>mail_outline</mat-icon>
       </button>
     </span>

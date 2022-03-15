@@ -19,10 +19,7 @@ export class LabelComponent implements OnInit {
     }
 
   ngOnChanges(){
-    setTimeout(() => {
-      this.valuesN=this.values
-    }, 100);
-    //console.log(this.valuesN)
+    this.valuesN=this.values
   }
 
   open(a:any, b:string){
@@ -42,7 +39,6 @@ export class LabelComponent implements OnInit {
         }
       })
     }
-
   }
 
 }

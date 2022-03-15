@@ -35,6 +35,7 @@ export class AppComponent {
   Newrig:any
   not:number=0
   spin:boolean=true
+  chName:boolean=false
   pos:string=''
   subsList:Subscription[]=[]
 
@@ -60,7 +61,6 @@ export class AppComponent {
           this.Newrig=''
           this.pos=''
         }else if(a.Nome){
-          this.onResize()
           this.userN = a.Nome.substring(0,1) + a.Cognome.substring(0,1)
           this.spin=false
           this.userT=a.Pos
@@ -80,6 +80,7 @@ export class AppComponent {
         }
       })
     )
+    this.onResize().then(()=>this.chName=true)
     let messaging:any
     try{
       if(firebase.messaging.isSupported()){
@@ -119,16 +120,22 @@ export class AppComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if(window.innerHeight<window.innerWidth){
-      this.orient=true
-    } else {
-      this.orient = false
-    }
-    if(window.innerWidth>500) {
-      this.screenSize =true
-    } else {
-      this.screenSize =false
-    }
+    return new Promise(res=>{
+      if(window.innerHeight<window.innerWidth){
+        this.orient=true
+        res('')
+      } else {
+        this.orient = false
+        res('')
+      }
+      if(window.innerWidth>500) {
+        this.screenSize =true
+        res('')
+      } else {
+        this.screenSize =false
+        res('')
+      }
+    })
   }
   userName(a:any){
     this.userN=a

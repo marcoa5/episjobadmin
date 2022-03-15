@@ -131,21 +131,21 @@ export class NewdayComponent implements OnInit {
       date:a.date,
       tech:a.tech,
       hr:{
-        spov: a.spov,
-        spol:a.spol,
-        spsv:a.spsv,
-        spsl:a.spsl,
-        mntv:a.mntv,
-        mntl:a.mntl,
-        mfv:a.mfv,
+        spov: a.spov?a.spov:0,
+        spol:a.spol?a.spol:0,
+        spsv:a.spsv?a.spsv:0,
+        spsl:a.spsl?a.spsl:0,
+        mntv:a.mntv?a.mntv:0,
+        mntl:a.mntl?a.mntl:0,
+        mfv:a.mfv?a.mfv:0,
         mfl:a.mfl,
         mnfv:a.mnfv,
         mnfl:a.mnfl,
         km:a.km?a.km:0,
         spvkm:a.spvkm?a.spvkm:0,
-        spv:a.spv?a.spv:'',
-        off:a.off,
-        ofs:a.ofs,
+        spv:a.spv?a.spv:0,
+        off:a.off?a.off:0,
+        ofs:a.ofs?a.ofs:0,
       }
     }
     this.dialogRef.close({data: data, info:this.data.nr})
@@ -165,7 +165,7 @@ export class NewdayComponent implements OnInit {
   travelMax():number {
     let r = this.newDay.controls
     let sum = r.spov.value + r.spsv.value+ r.mntv.value+ r.mfv.value+ r.mnfv.value
-    return sum*100
+    return sum*140
   }
 
   chDec(e:any){

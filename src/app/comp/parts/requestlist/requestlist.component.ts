@@ -125,7 +125,6 @@ export class RequestlistComponent implements OnInit {
   }
 
   upd(a:number,b:string,c:string){
-    console.log(a,b, this.partList.data)
     const dialogRef=this.dialog.open(InputhrsComponent,{data: {hr: b}})
     dialogRef.afterClosed().subscribe(result=>{
       if(result!=undefined){

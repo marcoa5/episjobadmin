@@ -17,7 +17,6 @@ export class SpvComponent implements OnInit {
    }
     
   ngOnInit(): void {
-    console.log(this.data)
     if(this.data.spvkm){
       this.travelE.controls.km.setValue(this.data.spvkm)
     }

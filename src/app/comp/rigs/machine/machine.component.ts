@@ -8,7 +8,7 @@ Chart.register(...registerables);
 import * as moment from 'moment'
 import 'chartjs-adapter-moment';
 import { BackService } from '../../../serv/back.service'
-import { MatDialogConfig, MatDialog } from '@angular/material/dialog'
+import { MatDialogConfig, MatDialog, throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
@@ -18,6 +18,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 export interface hrsLabel {
@@ -48,6 +49,7 @@ export class MachineComponent implements OnInit {
   g1:Chart | null | undefined
   g2:Chart | null | undefined
   rigLabels: hrsLabel[]=[]
+  _rigLabels: hrsLabel[]=[]
   hrsLabels: hrsLabel[]=[]
   shipToLabels: hrsLabel[]=[]
   pos:string=''
@@ -95,7 +97,6 @@ export class MachineComponent implements OnInit {
       this.valore=r.sn
       if(this.pos=='customer' || this.pos=='sales'){
         firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',gt=>{
-          console.log(gt.val())
           if(gt.val()=='1') {
             this.allow=this.auth.allow('machine',this.pos)
           } else {this.allow=false}
@@ -125,20 +126,28 @@ export class MachineComponent implements OnInit {
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
-        this.rigLabels=[
+        this._rigLabels=[
           {value:this.valore, lab:'Serial Nr.',click:'',url:''},
           {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
         ]
-        if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-        if(this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
-        this.shipToInfo() 
+        if(this.site!='') this._rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
+        if(this.in) this._rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
+        
         if(this.data[0] && this.data[0].y=='c' && this.data[0]!=undefined) {
-          this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
+          this._rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
           this.showAdd=false
-        }        
-      if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
-        this.showAdd=true
-      }
+        }
+        if(this.pos!='customer'){
+          this.shipToInfo().then((b:any)=>{
+            Object.keys(b).forEach(a=>{
+              this._rigLabels.push({lab: a, value:b[a],click:'',url:''})
+              this.rigLabels=this._rigLabels
+            })
+          })
+        }
+        if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
+          this.showAdd=true
+        }
         //if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         this.checkComm()
@@ -627,7 +636,7 @@ export class MachineComponent implements OnInit {
             let vl:string 
             vl='v'
             newDayTravel= x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
-            //console.log(parseInt(x['spo' +vl + i + '1'])+parseInt(x['sps' +vl + i + '1'])+parseInt(x['std' +vl + i + '1'])+parseInt(x['str' +vl + i + '1'])+parseInt(x['mnt' +vl + i + '1'])+parseInt(x['mf' +vl + i + '1'])+parseInt(x['mnf' +vl + i + '1']))
+
             vl='l'
             newDayWork=x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
             if(newDayTravel!=0 || newDayWork!=0) ind++
@@ -673,22 +682,22 @@ export class MachineComponent implements OnInit {
   }
 
   shipToInfo(){
-    let data:any={}
-    firebase.database().ref('shipTo').child(this.valore).once('value',a=>{
-      if(a.val()!=null){
-        data['Ship To Address']=a.val().address
-        Object.values(a.val().cont).forEach((b:any,i)=>{
-          data['Ship To contact #' + (i*1+1)]=b.name
-        })
-        if(a.val().cig) data.CIG=a.val().cig
-        if(a.val().cup) data.CUP=a.val().cup
-        
-      }
-    })
-    .then(()=>{
-      Object.keys(data).forEach(a=>{
-        this.rigLabels.push({lab: a, value:data[a],click:'',url:''})
+    return new Promise(res=>{
+      let data:any={}
+      firebase.database().ref('shipTo').child(this.valore).once('value',a=>{
+        if(a.val()!=null){
+          data['Ship To Address']=a.val().address
+          Object.values(a.val().cont).forEach((b:any,i)=>{
+            data['Ship To contact #' + (i*1+1)]=b.name
+          })
+          if(a.val().cig) data.CIG=a.val().cig
+          if(a.val().cup) data.CUP=a.val().cup
+          
+        }
       })
+      .then(()=>{
+        res(data)
+      })      
     })
   }
 }

@@ -271,7 +271,6 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       let l = localStorage.length
       for(let i=0;i<l;i++){
-        console.log(localStorage.key(i))
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           let keyLS:string=localStorage.key(i)!
           let content:string=localStorage.getItem(localStorage.key(i)!)!
@@ -475,12 +474,12 @@ export class SjhomeComponent implements OnInit {
   }
 
   limit(e:any){
-    if(e>0){
+    if(e.target.value>0){
       this.listSent=this._listSent.sort((a:any, b:any)=>{
         if(a.data_new>b.data_new) return -1
         if(a.data_new<b.data_new) return 1
         return 0
-      }).slice(0,e)
+      }).slice(0,e.target.value)
     }
     
   }

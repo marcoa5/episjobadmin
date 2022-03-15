@@ -95,7 +95,6 @@ export class NewuserComponent implements OnInit {
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'
-    //console.log(a, b.get('nome')?.value, b.get('cognome')?.value, b.get('mail')?.value, this.userpos)
     let params = new HttpParams()
     .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)
@@ -129,7 +128,7 @@ export class NewuserComponent implements OnInit {
         let params = new HttpParams()
         .set('id', result.id)
         this.http.get('https://episjobreq.herokuapp.com/delete',{params:params}).subscribe(a=>{
-          console.log(a)
+
         })
         setTimeout(() => {
           this.location.back()
@@ -139,7 +138,6 @@ export class NewuserComponent implements OnInit {
   }
 
   ch(){
-    console.log(this.userF)
   }
 
   chSel(e:any){

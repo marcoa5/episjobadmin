@@ -13,18 +13,17 @@ constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
   });
 }
 showAppUpdateAlert() {
-  const header = 'App Update';
-  const message = 'The app has been updated from server. click ok to reload';
-  const action = this.doAppUpdate;
-  const caller = this;
-  // Use MatDialog or ionicframework's AlertController or similar
+  const header = 'App Update'
+  const message = 'The app has been updated from server. click ok to reload'
+  const action = this.doAppUpdate
   this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
   .afterClosed().subscribe(o=>{
-    //if(o=='updated') this.doAppUpdate()
+    if(o=='updated') this.doAppUpdate()
   })
-  //presentAlert(header, message, action, caller);
 }
 doAppUpdate() {
-    this.updates.activateUpdate().then(() => document.location.reload());
+    this.updates.activateUpdate().then(() => {
+      document.location.reload()
+    })
   }
 }

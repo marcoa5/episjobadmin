@@ -96,7 +96,6 @@ export class AuthComponent implements OnInit {
     firebase.database().ref('CustomerC').once('value',h=>{
       let g:any = Object.values(h.val())
       g.forEach((r: any)=>{
-        //console.log(a,r.c1)
         if(r.c1==a) custId=r.id
       })
     })

@@ -67,12 +67,6 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*firebase.database().ref('shipTo').once('value',a=>{
-      a.forEach(b=>{
-        console.log(b.key + ' - ' + b.val().address)
-
-      })
-    })*/
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.uId=a.uid
@@ -106,7 +100,6 @@ export class NewrigComponent implements OnInit {
         })
         this.getCustInfo()
         .then(()=>{
-          //console.log(!this.addr.includes(a.val().address))
           firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
             if(a && a.val() && a.val().cont) {
               Object.keys(a.val().cont).forEach((e:any) => {

@@ -95,7 +95,6 @@ export class NewcontactComponent implements OnInit {
             return d.custid==this.data.info.custId
           }).map(c=>{return c.sn})
           b.forEach(y=>{
-            console.log(y)
             try{
               firebase.database().ref('shipTo').child(y).child('cont').child(this.data.info.contId).remove()
             } catch{

@@ -138,10 +138,8 @@ export class SubeddialogComponent implements OnInit {
   }
 
   fileUpload(e:any){
-    console.log(e.target.value)
     var file = e.target.files[0];
     let l = file.name.split('.').pop()
-    console.log(l)
     let name = this.makeid.makeId(15)+'.'+l
     var storageRef = firebase.storage().ref('imei/').child(name);
     storageRef.put(file)

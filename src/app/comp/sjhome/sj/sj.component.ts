@@ -306,7 +306,7 @@ export class SjComponent implements OnInit {
           this.userName=a.Nome + ' ' + a.Cognome
           setTimeout(() => {
             this.allow=this.auth.allow('sj',this.pos) 
-            this.spin=false
+            
           }, 1);
         }
       }),
@@ -420,6 +420,14 @@ export class SjComponent implements OnInit {
 
           
           this.days.sort((c: any, d: any) => {
+            if (c.tech < d.tech) {
+              return -1;
+            } else if (c.date > d.date) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }).sort((c: any, d: any) => {
             if (c.date < d.date) {
               return -1;
             } else if (c.date > d.date) {
@@ -427,7 +435,7 @@ export class SjComponent implements OnInit {
             } else {
               return 0;
             }
-          });
+          })
           this.hoursForm.controls.check.setValue(this.days.length)
           this.saveData()
         }
@@ -550,13 +558,10 @@ export class SjComponent implements OnInit {
         h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
         h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
         h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        h['spv'+i +'1']=a.hr['spv']==0?0:a.hr['spv']
+        h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
         h['spvkm'+i +'1']=a.hr['spvkm']==0?'':a.hr['spvkm']
         h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
-        h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']
-    
-    
-    
+        h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']    
           h['tecnico' + i + '1']=a.tech
           h['dat' + i + '1']=a.day
           h['dat' + i + '2']=a.month
@@ -583,7 +588,6 @@ export class SjComponent implements OnInit {
     }
     h.sjid=newId?newId:this.rigForm.controls.sid.value
     this.file=h
-    console.log(this.file.sjid)
     if(this.file.sjid.substring(0,3)!='sjs') {
       localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
       if(navigator.onLine) {
@@ -681,7 +685,7 @@ export class SjComponent implements OnInit {
   }
 
   chIMI(){
-    if(this.rigForm.controls.customer.value.substring(0,8)=='IMI FABI') return true
+    if(this.rigForm.controls.customer.value!=null && this.rigForm.controls.customer.value.substring(0,8)=='IMI FABI') return true
     return false
   }
 

@@ -174,7 +174,6 @@ export class ClienteComponent implements OnInit {
                       let vl:string 
                       vl='v'
                       newDayTravel= x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
-                      //console.log(parseInt(x['spo' +vl + i + '1'])+parseInt(x['sps' +vl + i + '1'])+parseInt(x['std' +vl + i + '1'])+parseInt(x['str' +vl + i + '1'])+parseInt(x['mnt' +vl + i + '1'])+parseInt(x['mf' +vl + i + '1'])+parseInt(x['mnf' +vl + i + '1']))
                       vl='l'
                       newDayWork=x['spo' +vl + i + '1']?x['spo' +vl + i + '1']*1:0 + x['sps' +vl + i + '1']?x['sps' +vl + i + '1']*1:0+ x['std' +vl + i + '1']?x['std' +vl + i + '1']*1:0 + x['str' +vl + i + '1']?x['str' +vl + i + '1']*1:0 + x['mnt' +vl + i + '1']?x['mnt' +vl + i + '1']*1:0 + x['mnf' +vl + i + '1']?x['mnf' +vl + i + '1']*1:0
                       if(newDayTravel!=0 || newDayWork!=0) ind++
