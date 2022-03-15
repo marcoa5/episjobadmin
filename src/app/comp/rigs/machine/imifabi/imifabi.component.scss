@@ -1,9 +1,13 @@
-table{
-    width: 100%;
-}
+@import '../../../../../epi.scss';
 
 .cont{
-    height:350px;
+    color: $dark-text;
+    overflow: hidden;
+    width:100%;
+}
+
+table{
+    width: 100%;
 }
 
 .tableCont{
@@ -12,6 +16,15 @@ table{
     overflow-y: auto;
 }
 
+.right{
+    text-align: right;
+    margin-right: 30px;
+}
+
 .center{
     text-align: center;
+}
+
+td{
+    cursor: pointer;
 }
