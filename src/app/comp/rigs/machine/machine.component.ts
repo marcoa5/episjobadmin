@@ -138,7 +138,7 @@ export class MachineComponent implements OnInit {
         }
         if(this.pos!='customer'){
           this.shipToInfo().then((b:any)=>{
-            if(b.length>0){
+            if(Object.keys(b).length>0){
               Object.keys(b).forEach(a=>{
                 this._rigLabels.push({lab: a, value:b[a],click:'',url:''})
                 this.rigLabels=this._rigLabels
@@ -146,7 +146,6 @@ export class MachineComponent implements OnInit {
             } else{
               this.rigLabels=this._rigLabels
             }
-            
           })
         }
         if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
