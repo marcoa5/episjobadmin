@@ -141,6 +141,12 @@ export class AppComponent {
     this.userN=a
   }
 
+  size(){
+    if(window.innerWidth>500) return true
+    return false
+  }
+
+
   logout(){
     let info = {
       id: this.userId,
