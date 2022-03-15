@@ -49,6 +49,7 @@ export class MachineComponent implements OnInit {
   g2:Chart | null | undefined
   rigLabels: hrsLabel[]=[]
   hrsLabels: hrsLabel[]=[]
+  shipToLabels: hrsLabel[]=[]
   pos:string=''
   iniz:any=''
   day:any
@@ -130,11 +131,11 @@ export class MachineComponent implements OnInit {
         ]
         if(this.site!='') this.rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
         if(this.in) this.rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
-        
+        this.shipToInfo() 
         if(this.data[0] && this.data[0].y=='c' && this.data[0]!=undefined) {
           this.rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
           this.showAdd=false
-        }
+        }        
       if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
         this.showAdd=true
       }
@@ -668,6 +669,26 @@ export class MachineComponent implements OnInit {
       if(a) {
         const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
       }
+    })
+  }
+
+  shipToInfo(){
+    let data:any={}
+    firebase.database().ref('shipTo').child(this.valore).once('value',a=>{
+      if(a.val()!=null){
+        data['Ship To Address']=a.val().address
+        Object.values(a.val().cont).forEach((b:any,i)=>{
+          data['Ship To contact #' + (i*1+1)]=b.name
+        })
+        if(a.val().cig) data.CIG=a.val().cig
+        if(a.val().cup) data.CUP=a.val().cup
+        
+      }
+    })
+    .then(()=>{
+      Object.keys(data).forEach(a=>{
+        this.rigLabels.push({lab: a, value:data[a],click:'',url:''})
+      })
     })
   }
 }
