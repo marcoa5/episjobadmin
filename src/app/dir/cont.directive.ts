@@ -18,7 +18,7 @@ export class ContDirective {
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<701){
-      this.el.nativeElement.style.setProperty('padding', '80px 10px 70px 10px')
+      this.el.nativeElement.style.setProperty('padding', '80px 10px 80px 10px')
     } else {
       this.el.nativeElement.style.setProperty('padding', '80px 10px 30px 60px')
     }
