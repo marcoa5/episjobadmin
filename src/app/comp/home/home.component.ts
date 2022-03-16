@@ -37,6 +37,27 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','adminS','tech']
     },
     {
+      id:'Parts',
+      icon:'construction', 
+      route:'parts', 
+      dis:false, 
+      auth:['SU','admin','adminS','tech','customer']
+    },
+    {
+      id:'Files',
+      icon:'cloud_download', 
+      route:'files', 
+      dis:false, 
+      auth:['SU','admin','adminS','tech','']
+    },
+    {
+      id:'Visit',
+      icon:'recent_actors', 
+      route:'visit', 
+      dis:false, 
+      auth:['SU','adminS','sales','']
+    },
+    {
       id:'Contacts',
       icon:'account_box', 
       route:'contacts', 
@@ -50,13 +71,7 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','admin','','']
     },
-    {
-      id:'Files',
-      icon:'cloud_download', 
-      route:'files', 
-      dis:false, 
-      auth:['SU','admin','adminS','tech','']
-    },
+
     {
       id:'Users',
       icon:'people', 
@@ -78,20 +93,6 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','','','']
     },
-    {
-      id:'Visit',
-      icon:'recent_actors', 
-      route:'visit', 
-      dis:false, 
-      auth:['SU','adminS','sales','']
-    },
-    {
-      id:'Parts',
-      icon:'construction', 
-      route:'parts', 
-      dis:false, 
-      auth:['SU','admin','adminS','tech','customer']
-    },
   ];
   subsList: Subscription[]=[]
   uId:string=''
@@ -107,7 +108,6 @@ export class HomeComponent implements OnInit {
         this.uId=a.uid
       })
     )
-    
   }
 
   chOnline(){
