@@ -690,9 +690,11 @@ export class MachineComponent implements OnInit {
       firebase.database().ref('shipTo').child(this.valore).once('value',a=>{
         if(a.val()!=null){
           data['Ship To Address']=a.val().address
-          Object.values(a.val().cont).forEach((b:any,i)=>{
-            data['Ship To contact #' + (i*1+1)]=b.name
-          })
+          if(a.val().cont){
+            Object.values(a.val().cont).forEach((b:any,i)=>{
+              data['Ship To contact #' + (i*1+1)]=b.name
+            })
+          }
           if(a.val().cig) data.CIG=a.val().cig
           if(a.val().cup) data.CUP=a.val().cup
           

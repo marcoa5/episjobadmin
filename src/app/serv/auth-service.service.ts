@@ -106,7 +106,7 @@ export class AuthServiceService {
   }
 
    get _fleet(){ 
-    if(this.chDev()) async()=>await this.getFleetData()
+    if(this.chDev()) this.getFleetData()
     let a = localStorage.getItem('fleet')
     let b:any
     if(a) {
@@ -117,7 +117,7 @@ export class AuthServiceService {
   }
   
   get _customers(){
-    if(this.chDev()) async()=>await this.getCustData()
+    if(this.chDev()) this.getCustData()
     let a = localStorage.getItem('customers')
     let b:any
     if(a) {
