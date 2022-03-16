@@ -1,6 +1,7 @@
-<div *ngIf="allow">
-    <episjob-navbar [backB]="'users'" [home]="true" [title]="addUpd? 'New User' : 'Update User'" [cerca]="false"></episjob-navbar>
-    <div class="cont">
+<episjob-navbar [backB]="'users'" [home]="true" [title]="addUpd? 'New User' : 'Update User'" [cerca]="false"></episjob-navbar>
+<div episjobCont episjobContMaxWidth>
+    <div *ngIf="!allow">Restricted Area</div>
+    <div *ngIf="allow">
         <episjob-h2 icon="account_circle" [data]="addUpd? 'Add New User' : 'Update User'" padtop=0></episjob-h2>
         <form class="formCont" [formGroup]="userF">
             <mat-form-field [appearance]="appearance">
@@ -18,20 +19,20 @@
             </mat-form-field>
             <mat-form-field [appearance]="appearance" id="nr">
                 <mat-label>Pos</mat-label>
-             <mat-select [(value)]="userpos" formControlName="posiz">
-               <mat-option value="SU">Super User</mat-option>
-               <mat-option value="admin">Administrator</mat-option>
-               <mat-option value="adminS">Sales Administrator</mat-option>
-               <mat-option value="tech">Technician</mat-option>
-               <mat-option value="sales">Sales</mat-option>
-               <mat-option value="customer">Customer</mat-option>
-             </mat-select>
-           </mat-form-field> 
-           <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='sales' || userF.controls.posiz.value=='customer'">
+                <mat-select [(value)]="userpos" formControlName="posiz">
+                <mat-option value="SU">Super User</mat-option>
+                <mat-option value="admin">Administrator</mat-option>
+                <mat-option value="adminS">Sales Administrator</mat-option>
+                <mat-option value="tech">Technician</mat-option>
+                <mat-option value="sales">Sales</mat-option>
+                <mat-option value="customer">Customer</mat-option>
+                </mat-select>
+            </mat-form-field> 
+            <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='sales' || userF.controls.posiz.value=='customer'">
             <mat-label>Area</mat-label>
             <input matInput type="number" formControlName="area" autocomplete="off" min="1" max="99">
-           </mat-form-field>
-           <mat-checkbox formControlName="cV" (change)="chSel($event)">Can visit customers</mat-checkbox>
+            </mat-form-field>
+            <mat-checkbox formControlName="cV" (change)="chSel($event)">Can visit customers</mat-checkbox>
         </form>
         <episjob-add-cancelbuttons 
         [a1]="'Cancel'" 
@@ -42,9 +43,11 @@
         [del]="!addUpd"
         (dele)="cancella()"
         ></episjob-add-cancelbuttons>
+
     </div>
 </div>
 
-<div class="cont" *ngIf="!allow">Restricted Area</div>
+
+
 
 

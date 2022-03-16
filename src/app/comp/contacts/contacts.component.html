@@ -1,5 +1,5 @@
 <episjob-navbar title="Contact List" (filter)="filter($event)"></episjob-navbar>
-<div class="cont" *ngIf="allow && !allSpin">
+<div class="cont" episjobCont *ngIf="allow && !allSpin">
     <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [class.mat-elevation-z1]="true">
         <div class="head" (click)=go(c)>
             <!--<mat-icon class="ico">people</mat-icon>-->
@@ -20,8 +20,8 @@
             </div>  
         </div>
     </div>
-    <div class="cont" *ngIf="!allow">Restricted area</div>
+    <div episjobCont *ngIf="!allow">Restricted area</div>
 </div>
 
-<div *ngIf="!allow && !allSpin" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>
 <episjob-spin *ngIf="allSpin"></episjob-spin>

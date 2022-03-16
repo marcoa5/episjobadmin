@@ -26,14 +26,18 @@ export class NavbarComponent implements OnInit {
   }
 
   scrolla(e:Event){
-    if(this.hide){
-      this.currentPosition = window.pageYOffset
-      if(this.currentPosition>this.oldPosition){
-        this.scrollaV = false
-      } else {
-        this.scrollaV = true
+    if(window.innerWidth<700){
+      if(this.hide){
+        this.currentPosition = window.pageYOffset
+        if(this.currentPosition>this.oldPosition){
+          this.scrollaV = false
+        } else {
+          this.scrollaV = true
+        }
+        this.oldPosition = this.currentPosition
       }
-      this.oldPosition = this.currentPosition
+    } else{
+      this.scrollaV=true
     }
     
   }

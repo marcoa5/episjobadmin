@@ -71,7 +71,7 @@ export class NewuserComponent implements OnInit {
         this.mail=a.mail
         
         firebase.database().ref('Users').child(this.id).on('value',b=>{
-          let oi=b.val().userVisit!=undefined? b.val().userVisit : false
+          let oi=b.val().userVisit!=undefined? (b.val().userVisit=='true'?true : false):false
           this.data={
             mail:this.mail,
             nome: b.val().Nome, 
@@ -81,6 +81,8 @@ export class NewuserComponent implements OnInit {
             area: b.val().Area? b.val().Area: null
           }
           this.userVisit = oi
+          let url = 'https://episjobreq.herokuapp.com/'
+          this.userF.controls.cV.setValue(oi)
           this.userpos = b.val().Pos
           this.userF.setValue(this.data)
           this.userF.get('mail')?.disable()
@@ -95,6 +97,7 @@ export class NewuserComponent implements OnInit {
 
   add(a:string, b:FormGroup){
     let url = 'https://episjobreq.herokuapp.com/'
+    //let url = 'http://localhost:3001/'
     let params = new HttpParams()
     .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)
@@ -141,7 +144,7 @@ export class NewuserComponent implements OnInit {
   }
 
   chSel(e:any){
-    this.userVisit=!this.userVisit
+    this.userVisit=e.checked
   }
 
   areaValidator(a: { controls: { posiz: { value: string; }; }; get: (arg0: string) => AbstractControl; } | null){

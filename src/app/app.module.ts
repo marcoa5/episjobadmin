@@ -131,6 +131,8 @@ import { AppupdComponent } from './comp/util/dialog/appupd/appupd.component'
 import { SwupdateService } from './serv/swupdate.service';
 import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/subeddialog.component';
 import { NewsubeqComponent } from './comp/rigs/machine/subeq/newsubeq/newsubeq.component';
+import { ContDirective } from './dir/cont.directive';
+import { ContMaxWidthDirective } from './dir/cont-max-width.directive';
 
 export const MY_FORMATS = {
   parse: {
@@ -246,6 +248,8 @@ const appearance: MatFormFieldDefaultOptions = {
     AppupdComponent,
     SubeddialogComponent,
     NewsubeqComponent,
+    ContDirective,
+    ContMaxWidthDirective,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

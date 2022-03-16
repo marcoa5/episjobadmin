@@ -1,82 +1,82 @@
 <episjob-navbar [backB]="rou" [title]="addUpd? 'New Equipment' : 'Edit Equipment' " [home]="true" [cerca]="false"></episjob-navbar>
-
-<div class="cont" *ngIf="allow">
-    <episjob-h2 icon="precision_manufacturing" [data]="addUpd? 'Add New Equipment' : 'Edit Equipment'" padtop=0></episjob-h2>
-    <form [formGroup]="newR" class="formCont">
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Serial Nr</mat-label>
-            <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off" (blur)="chExist($event)">
-            <mat-error *ngIf="newR.controls.sn.hasError('already')">S/n already exists</mat-error>
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Item Nr</mat-label>
-            <input matInput type="text" placeholder="Item nr" formControlName="in" autocomplete="off">
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Model</mat-label>
-            <input matInput type="text" placeholder="Model" formControlName="model" autocomplete="off">
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Customer</mat-label>
-            <mat-select formControlName="customer" [(value)]="custId" (selectionChange)="getCustInfo()">
-                <mat-option *ngFor="let c of customers" [value]="c.id">{{c.c1}}</mat-option>
-            </mat-select>
-            <!--<input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">-->
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Site</mat-label>
-            <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
-        </mat-form-field>
-    </form>
-    <episjob-h2 icon="people" data="Ship To" padtop=0></episjob-h2>
-    <form [formGroup]="shipTo" class="conCont">
+<div episjobCont episjobContMaxWidth>
+    <div *ngIf="!allow">Restricted Area</div>
+    <div *ngIf="allow">
+        <episjob-h2 icon="precision_manufacturing" [data]="addUpd? 'Add New Equipment' : 'Edit Equipment'" padtop=0></episjob-h2>
+        <form [formGroup]="newR" class="formCont">
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Serial Nr</mat-label>
+                <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off" (blur)="chExist($event)">
+                <mat-error *ngIf="newR.controls.sn.hasError('already')">S/n already exists</mat-error>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Item Nr</mat-label>
+                <input matInput type="text" placeholder="Item nr" formControlName="in" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Model</mat-label>
+                <input matInput type="text" placeholder="Model" formControlName="model" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Customer</mat-label>
+                <mat-select formControlName="customer" [(value)]="custId" (selectionChange)="getCustInfo()">
+                    <mat-option *ngFor="let c of customers" [value]="c.id">{{c.c1}}</mat-option>
+                </mat-select>
+                <!--<input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">-->
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Site</mat-label>
+                <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
+            </mat-form-field>
+        </form>
+        <episjob-segment (check)="vai($event)" [values]="rigCat" (data)="getData($event)"></episjob-segment>
+        <episjob-h2 icon="people" data="Ship To" padtop=0 *ngIf="custId"></episjob-h2>
+        <form [formGroup]="shipTo" class="conCont" *ngIf="custId">
         <!--List of contacts-->
-        <div>
-            <h4>Select "ShipTo" contacts</h4>
-            <div class="epiCon">
-            <mat-chip-list selectable multiple>
-                <mat-spinner diameter=20 *ngIf="spin" color="accent" class="spin"></mat-spinner>
-                <mat-chip #c="matChip" *ngFor="let e of custCon" [value]="e" (click)="select(c, e)" [selected]=chSel(c,e)>
-                    {{e.name}}
-                </mat-chip>
-                <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
-            </mat-chip-list>
+            <div>
+                <h4>Select "ShipTo" contacts</h4>
+                <div class="epiCon">
+                <mat-chip-list selectable multiple>
+                    <mat-spinner diameter=20 *ngIf="spin" color="accent" class="spin"></mat-spinner>
+                    <mat-chip #c="matChip" *ngFor="let e of custCon" [value]="e" (click)="select(c, e)" [selected]=chSel(c,e)>
+                        {{e.name}}
+                    </mat-chip>
+                    <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
+                </mat-chip-list>
+                </div>
             </div>
-        </div>
-        <div class="formCont ship">
-            <div class="addF">
+            <div class="formCont ship">
+                <div class="addF">
+                    <mat-form-field [appearance]="appearance">
+                        <mat-label>Address</mat-label>
+                        <mat-select (selectionChange)="onCh(shipTo.controls.address.value)" formControlName="address">
+                            <mat-option *ngFor="let a of addr" [value]="a">
+                                {{a}}
+                            </mat-option>
+                        </mat-select>
+                        <!--<input matInput type="text" placeholder="Address" formControlName="address" autocomplete="off" (input)=textch()>
+                        <mat-error *ngIf="shipTo.controls.address.invalid">At least one contact and ship to address must be selected</mat-error>-->
+                    </mat-form-field>
+                    <button mat-mini-fab [class.mat-elevation-z1]=true color="primary" class="but" (click)="addAdd()"><mat-icon>add</mat-icon></button> 
+                </div>
+                
                 <mat-form-field [appearance]="appearance">
-                    <mat-label>Address</mat-label>
-                    <mat-select (selectionChange)="onCh(shipTo.controls.address.value)" formControlName="address">
-                        <mat-option *ngFor="let a of addr" [value]="a">
-                            {{a}}
-                        </mat-option>
-                    </mat-select>
-                    <!--<input matInput type="text" placeholder="Address" formControlName="address" autocomplete="off" (input)=textch()>
-                    <mat-error *ngIf="shipTo.controls.address.invalid">At least one contact and ship to address must be selected</mat-error>-->
+                    <mat-label>CIG</mat-label>
+                    <input matInput type="text" placeholder="CIG" formControlName="cig" autocomplete="off">
                 </mat-form-field>
-                <button mat-mini-fab [class.mat-elevation-z1]=true color="primary" class="but" (click)="addAdd()"><mat-icon>add</mat-icon></button> 
+                <mat-form-field [appearance]="appearance">
+                    <mat-label>CUP</mat-label>
+                    <input matInput type="text" placeholder="CUP" formControlName="cup" autocomplete="off">
+                </mat-form-field>
             </div>
-            
-            <mat-form-field [appearance]="appearance">
-                <mat-label>CIG</mat-label>
-                <input matInput type="text" placeholder="CIG" formControlName="cig" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field [appearance]="appearance">
-                <mat-label>CUP</mat-label>
-                <input matInput type="text" placeholder="CUP" formControlName="cup" autocomplete="off">
-            </mat-form-field>
-        </div>
         
-    </form>
-    <episjob-segment (check)="vai($event)" [values]="rigCat" (data)="getData($event)"></episjob-segment>
-    <episjob-add-cancelbuttons 
-        [a1]="'Cancel'" 
-        [a2]="addUpd? 'Add' : 'Update'" 
-        [type]="'rig'" 
-        [check]="newR.invalid || segment || !checkCon()" 
-        (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
-    </episjob-add-cancelbuttons>
+        </form>
+        <episjob-add-cancelbuttons 
+            [a1]="'Cancel'" 
+            [a2]="addUpd? 'Add' : 'Update'" 
+            [type]="'rig'" 
+            [check]="newR.invalid || segment || !checkCon()" 
+            (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
+        </episjob-add-cancelbuttons>
+    </div>
 </div>
-
-<div class="cont" *ngIf="!allow">Restricted Area</div>

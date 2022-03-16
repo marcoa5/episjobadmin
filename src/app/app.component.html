@@ -28,4 +28,12 @@
 <div class="content" *ngIf="userN!='login' && userN!=undefined">
   <router-outlet></router-outlet> 
 </div>
-
+<div class="menu" [class.mat-elevation-z8]="true" *ngIf="!chHome()">
+  <div class="subMenu">
+    <mat-icon class="menuIcon" (click)="goTo('/')" matTooltip="Home">home</mat-icon>
+    <mat-icon class="menuIcon" (click)="goTo('/rigs')" matTooltip="Equipment">precision_manufacturing</mat-icon> 
+    <mat-icon class="menuIcon" (click)="goTo('/customers')" matTooltip="Companies">work</mat-icon> 
+    <mat-icon class="menuIcon" (click)="goTo('/sj')" matTooltip="Service Job" *ngIf="pos=='SU' || pos=='admin' || pos=='tech' ">text_snippet</mat-icon> 
+    <mat-icon class="menuIcon" (click)="goTo('/visit')" matTooltip="Visits" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">recent_actors</mat-icon> 
+  </div>
+</div>

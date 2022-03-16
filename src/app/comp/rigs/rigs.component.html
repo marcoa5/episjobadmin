@@ -1,7 +1,7 @@
 <episjob-navbar [title]="'Equipment list'" (filter)="filter($event)"></episjob-navbar>
 <episjob-spin *ngIf="rigs.length==0"></episjob-spin>
 
-<div class="cont" *ngIf="rigs.length>0">
+<div episjobCont class="cont" *ngIf="rigs.length>0">
       <div class="card" episjobElevation *ngFor="let rig of rigs | snfilter:filtro" (click)="open(rig.model,rig.sn, rig.customer,rig.show)" [class.mat-elevation-z2]="true">
         <h3 class="rigT">{{rig.model}}</h3>
         <div class="gr">

@@ -5,7 +5,7 @@
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
         <div class="cover" [ngStyle]="{'height': filtro==''?'210px' : '145px'}"></div>
-        <div class="cont" (window:resize)="res()">
+        <div episjobCont (window:resize)="res()">
             <mat-paginator *ngIf="filtro==''"  [length]="rigs.length"
                 [pageSize]="10"
                 [pageSizeOptions]="[10,25,50,100]"
@@ -50,6 +50,6 @@
 </div>
 
 
-<div *ngIf="!allow && !allSpin" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>
 
-<episjob-spin *ngIf="allSpin"></episjob-spin>
+<episjob-spin *ngIf="allSpin" episjobCont></episjob-spin>

@@ -1,23 +1,25 @@
 <episjob-navbar [backB]="rou" [title]="addUpd? 'New Customer' : 'Edit Customer'" [cerca]="false" [home]="true"></episjob-navbar>
+<div episjobCont episjobContMaxWidth>
+    <div *ngIf="!allow">Restricted Area</div>
+    <div *ngIf="allow">
+        <episjob-h2 icon="work_outline" [data]="addUpd? 'Add New Customer' : 'Edit Customer'" padtop="0"></episjob-h2>
 
-<div class="cont" *ngIf="allow">
-    <episjob-h2 icon="work_outline" [data]="addUpd? 'Add New Customer' : 'Edit Customer'" padtop="0"></episjob-h2>
-
-    <form [formGroup]="newC" class="formCont">
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Customer Name</mat-label>
-            <input matInput type="text" placeholder="Name" formControlName="name" autocomplete="off">
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Customer Address1</mat-label>
-            <input matInput type="text" placeholder="Address 1" formControlName="address1" autocomplete="off">
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance">
-            <mat-label>Customer Address2</mat-label>
-            <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
-        </mat-form-field>
-    </form>
-    <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="newC.invalid" (info)="add(addUpd? 'addc':'updc', newC)"></episjob-add-cancelbuttons>
+        <form [formGroup]="newC" class="formCont">
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Customer Name</mat-label>
+                <input matInput type="text" placeholder="Name" formControlName="name" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Customer Address1</mat-label>
+                <input matInput type="text" placeholder="Address 1" formControlName="address1" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance">
+                <mat-label>Customer Address2</mat-label>
+                <input matInput type="text" placeholder="Address 2" formControlName="address2" autocomplete="off">
+            </mat-form-field>
+        </form>
+        <episjob-add-cancelbuttons [a1]="'Cancel'" [a2]="addUpd? 'Add' : 'Update'" [type]="'customer'" [check]="newC.invalid" (info)="add(addUpd? 'addc':'updc', newC)"></episjob-add-cancelbuttons>
+    </div>
 </div>
+    
 
-<div class="cont" *ngIf="!allow">Restricted Area</div>

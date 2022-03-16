@@ -1,11 +1,12 @@
-<div *ngIf="allow && !allSpin" class="mainCont">
+<div *ngIf="allow && !allSpin">
   <episjob-navbar title="Customer Visit" [cerca]="false"></episjob-navbar>
 
-  <div class="cont">
+  <div class="cont" episjobCont>
     <episjob-cal [date]="day" [pos]="pos" [userId]="userId" (today)="chDay($event)"></episjob-cal> 
     <episjob-visitlist [pos]="pos" [userId]="userId" [day]="day" (refresh)="refresh($event)"></episjob-visitlist>   
   </div>
 
-<div *ngIf="!allow && !allSpin">Restricted Area</div>
 
+</div>  
+<div episjobCont *ngIf="!allow && !allSpin">Restricted Area</div>
 <episjob-spin *ngIf="allSpin"></episjob-spin>

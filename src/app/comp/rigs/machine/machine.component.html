@@ -1,7 +1,7 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
 <div (window:resize)="onResize()" *ngIf="allow">
     
-    <div class="mainCont" *ngIf="customer">
+    <div class="mainCont" episjobCont *ngIf="customer">
         <episjob-top-menu [valore]="valore" [pos]="pos" [inizio]="data[0]?data[0].x:undefined" (date)="readD($event)" *ngIf="data[0]"></episjob-top-menu>
         <div class="cont">
             <div class="info">

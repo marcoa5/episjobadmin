@@ -173,5 +173,13 @@ export class AppComponent {
     this.dialog.open(NotificationListComponent, {panelClass: 'not-dialog'})
   }
 
+  chHome(){
+    if(this.router.url.split(';')[0]=='/') return true
+    return false
+  }
+
+  goTo(a:string){
+    this.router.navigate([a])
+  }
   
 }

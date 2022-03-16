@@ -126,6 +126,7 @@ export class NewrigComponent implements OnInit {
         })
       } else {
         this.rou=['rigs']
+        this.spin=false
       }
     })
     setTimeout(() => {
@@ -227,11 +228,15 @@ export class NewrigComponent implements OnInit {
       this.shipTo.controls.cig.setValue(null)
       this.shipTo.controls.cup.setValue(null)
       firebase.database().ref('CustContacts').child(this.custId).on('value',a=>{
-        this.custCon=[]
-        a.forEach(b=>{
-          this.custCon.push({name: b.val().name, mail: b.val().mail, contId:b.val().contId})
-        })
-        this.spin=false
+        if(a.val()!=null){
+          this.custCon=[]
+          a.forEach(b=>{
+            this.custCon.push({name: b.val().name, mail: b.val().mail, contId:b.val().contId})
+          })
+          this.spin=false
+        } else {
+          this.spin=false
+        }
       })
       firebase.database().ref('CustAddress').child(this.custId).on('value',a=>{
         if(a.val()!=null) this.addr=Object.values(a.val()).map((b:any)=>{return b.add}).sort()
@@ -323,8 +328,7 @@ export class NewrigComponent implements OnInit {
   checkCon(){
     let a= this.conList
     let b = this.shipTo.controls.address.value
-    if(a==undefined && (b==null || b=='')) return true
-    if(a!=undefined && (b!=null && b!='')) return true
+    if(Object.values(a).length==0 && (b==null || b=='')) return true
     return false
   }
 

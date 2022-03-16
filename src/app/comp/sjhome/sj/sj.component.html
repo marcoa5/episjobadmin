@@ -1,7 +1,7 @@
 <episjob-navbar backB="sj" title="Service Job" [cerca]="false"></episjob-navbar>
 <episjob-spin *ngIf="spin"></episjob-spin>
 <episjob-sign (closeS)="close($event)" [sign]="torc=='t'?techSign:custSign" [tc]="torc" *ngIf="!signatureClosed"></episjob-sign>
-<div class="cont" *ngIf="allow &&!spin">
+<div episjobCont episjobCont *ngIf="allow &&!spin">
     <episjob-h2 data="New Service Job" icon="text_snippet" padtop=0></episjob-h2>
     <mat-vertical-stepper #stepper class="stepper" linear=true *ngIf="!spin1">
         <mat-step [stepControl]="rigForm">
@@ -257,4 +257,4 @@
     </mat-vertical-stepper>
 </div>
 
-<div *ngIf="!allow && !spin" class="cont">Restricted Area</div>
+<div *ngIf="!allow && !spin" episjobCont>Restricted Area</div>

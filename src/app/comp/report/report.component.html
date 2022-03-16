@@ -1,7 +1,7 @@
 <episjob-navbar [title]="'Reports'" [cerca]="false" [hide]="false"></episjob-navbar>
 
 
-<div class="cont" (window:resize)="onResize()" *ngIf="allow && !allSpin">
+<div episjobCont (window:resize)="onResize()" *ngIf="allow && !allSpin">
     <div  *ngIf="pos=='SU' || pos=='admin'" >
         <episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0" (down)="certiq()" [showChBox]="info.length>1" (checkBox)="filt=!filt;filtra(strSea);" [showSearch]="info.length>1" (filter)="filtra($event)"></episjob-h2>
         <div class="contS" *ngIf="isThinking && errore==''">
@@ -56,6 +56,6 @@
     </div>
 </div> 
 
-<div class="cont" *ngIf="!allow && !allSpin">Restricted Area</div>
+<div episjobCont *ngIf="!allow && !allSpin">Restricted Area</div>
 
-<episjob-spin *ngIf="allSpin"></episjob-spin>
+<episjob-spin episjobCont *ngIf="allSpin"></episjob-spin>

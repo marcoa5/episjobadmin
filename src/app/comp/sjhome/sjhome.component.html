@@ -1,8 +1,8 @@
 <episjob-navbar [cerca]="false" title="Service Jobs"></episjob-navbar>
 
-<div class="mainCont" *ngIf="!allow">Restricted Area</div>
+<div episjobCont *ngIf="!allow">Restricted Area</div>
 <div id="test"></div>
-<div class="mainCont" *ngIf="allow"> 
+<div episjobCont *ngIf="allow"> 
     <episjob-h2 data="Actions" icon="rocket_launch" padtop=0></episjob-h2>
     <div class="butCont">
         <button mat-raised-button color="primary" (click)="go()">{{chW()? 'Start new request':'New'}}</button>
