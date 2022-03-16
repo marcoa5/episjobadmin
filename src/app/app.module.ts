@@ -133,6 +133,7 @@ import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/sube
 import { NewsubeqComponent } from './comp/rigs/machine/subeq/newsubeq/newsubeq.component';
 import { ContDirective } from './dir/cont.directive';
 import { ContMaxWidthDirective } from './dir/cont-max-width.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 export const MY_FORMATS = {
   parse: {
@@ -254,7 +255,7 @@ const appearance: MatFormFieldDefaultOptions = {
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, DragDropModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [SwupdateService, {
