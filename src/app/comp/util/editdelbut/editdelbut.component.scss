@@ -5,12 +5,12 @@
 
 .cont{
     position: fixed;
-    bottom:45px; right: 15px;
+    bottom:15px; right: 15px;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 701px) {
     .cont{
-        bottom: 15px;
+        bottom: 65px;
     }
 }
 
