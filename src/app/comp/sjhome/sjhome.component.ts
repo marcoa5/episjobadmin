@@ -279,8 +279,8 @@ export class SjhomeComponent implements OnInit {
           .then(()=>{
             localStorage.removeItem(keyLS)
             console.log('REMOVED ' + keyLS)
-            //let url:string='http://localhost:3001/'; cont.info.cc=false
-            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=false
+            //let url:string='http://localhost:3001/'; cont.info.cc=true
+            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=true
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
               let info={
                 fileName: cont.info.fileName,
