@@ -328,8 +328,8 @@ export class NewrigComponent implements OnInit {
   checkCon(){
     let a= this.conList
     let b = this.shipTo.controls.address.value
-    if(Object.values(a).length==0 && (b==null || b=='')) return true
-    return false
+    if(Object.values(a).length==0 || (b==null || b=='')) return false
+    return true
   }
 
   onCh(a:any){
