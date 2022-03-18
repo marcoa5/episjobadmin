@@ -30,11 +30,30 @@
 </div>
 <div class="menu" [class.mat-elevation-z8]="true" *ngIf="!chHome()">
   <div class="subMenu">
-    <mat-icon class="menuIcon" (click)="goTo('/')" matTooltip="Home">home</mat-icon>
-    <mat-icon class="menuIcon" (click)="goTo('/rigs')" matTooltip="Equipment">precision_manufacturing</mat-icon> 
-    <mat-icon class="menuIcon" (click)="goTo('/customers')" matTooltip="Companies">work</mat-icon> 
-    <mat-icon class="menuIcon" (click)="goTo('/sj')" matTooltip="Service Job" *ngIf="pos=='SU' || pos=='admin' || pos=='tech' ">text_snippet</mat-icon> 
-    <mat-icon class="menuIcon" (click)="goTo('/visit')" matTooltip="Visits" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">recent_actors</mat-icon> 
-    <mat-icon class="menuIcon" (click)="goTo('/contacts')" matTooltip="Contacts" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">account_box</mat-icon> 
+    <div class="single">
+      <mat-icon class="menuIcon" (click)="goTo('/')" matTooltip="Home">home</mat-icon>
+      <div class="label">Home</div>
+    </div>
+    <div class="single">
+      <mat-icon class="menuIcon" (click)="goTo('/rigs')" matTooltip="Equipment">precision_manufacturing</mat-icon> 
+      <div class="label">Equipment</div>
+    </div>
+    <div class="single">
+      <mat-icon class="menuIcon" (click)="goTo('/customers')" matTooltip="Companies">work</mat-icon> 
+      <div class="label">Companies</div>
+    </div>
+    <div class="single" *ngIf="pos=='SU' || pos=='admin' || pos=='tech' ">
+      <mat-icon class="menuIcon" (click)="goTo('/sj')" matTooltip="Service Job" >text_snippet</mat-icon> 
+      <div class="label">Service Job</div>
+    </div>
+    <div class="single" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">
+      <mat-icon class="menuIcon" (click)="goTo('/visit')" matTooltip="Visits" >recent_actors</mat-icon>
+      <div class="label">Visits</div>
+    </div>
+    <div class="single" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">
+      <mat-icon class="menuIcon" (click)="goTo('/contacts')" matTooltip="Contacts" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">account_box</mat-icon> 
+      <div class="label">Contacts</div>
+    </div>
+    
   </div>
 </div>

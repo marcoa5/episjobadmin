@@ -53,8 +53,8 @@
   background-color: $light-text;
   position: fixed; bottom:0; left:0;
   display: flex; justify-content: center; align-items: center;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .subMenu{
@@ -63,6 +63,18 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+.single{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.label{
+  font-size: 8pt;
+  text-align: center;
 }
 
 @media screen and (min-width:700px) {
@@ -82,6 +94,9 @@
     gap: 35px;
     height: 100%;
     max-height: 500px;
+  }
+  .label{
+    display:none
   }
 }
 
