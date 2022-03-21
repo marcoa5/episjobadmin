@@ -33,6 +33,7 @@ export interface hrsLabel {
   styleUrls: ['./machine.component.scss']
 })
 export class MachineComponent implements OnInit {
+  change:number=0
   cCom:any=0;
   valore: any='';
   model:string='';
@@ -664,15 +665,21 @@ export class MachineComponent implements OnInit {
     this.partReqList=[]
     let i = moment(this.inizio).format('YYYY-MM-DD')
     let f = moment(this.fine).format('YYYY-MM-DD')
-    firebase.database().ref('PartReqSent').child(this.valore).once('value',a=>{
-      a.forEach(b=>{
-        if(!this.partReqList.includes(b.val()) && b.val().date<=f && b.val().date>=i) this.partReqList.push(b.val())
-      })
+    firebase.database().ref('PartReqSent').child(this.valore).on('value',a=>{
+      this.partReqList=[]
+      setTimeout(() => {
+        this.partReqList=Object.values(a.val())
+      }, 1);
+      
     })  
   }
 
   sortDataParts(e?:any){
       this.sortParts=!this.sortParts
+      this.change=1
+      setTimeout(() => {
+        this.change=0
+      }, 1);
   }
 
   addSubEq(e:any){

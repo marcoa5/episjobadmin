@@ -43,7 +43,7 @@
                 </div>
                 <div class="item3" *ngIf="partReqList.length>0">
                     <episjob-h2 padtop="0" icon="construction" class="title" data="Parts Request" [showSort]="true" (sort)="sortDataParts($event)"></episjob-h2>
-                    <episjob-partsereq [pos]="pos" [_reqlist]="partReqList" [sortParts]="sortParts"></episjob-partsereq>
+                    <episjob-partsereq [pos]="pos" [_reqlist]="partReqList" [sortP]="change" [sortParts]="sortParts"></episjob-partsereq>
                 </div>
                 <div class="item3" *ngIf="SElist.length>0">
                     <episjob-h2 padtop="0" icon="plumbing" class="title" data="Sub Equipment" [addSubEq]="true" (addSub)="addSubEq($event)"></episjob-h2>

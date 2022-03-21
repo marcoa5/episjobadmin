@@ -14,6 +14,7 @@ export class PartsereqComponent implements OnInit {
   @Input() _reqlist:any[]=[]
   @Input() pos:string=''
   @Input() sortParts:boolean=true
+  @Input() sortP:number=0
   inizio: number = 0
   fine: number = 5
   __reqlist:any[]=[]
@@ -61,8 +62,10 @@ export class PartsereqComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.__reqlist.reverse()
-    this.reqlist=this.__reqlist.slice(this.inizio,this.fine)
+    if(this.sortP==1){
+      this.__reqlist.reverse()
+      this.reqlist=this.__reqlist.slice(this.inizio,this.fine)
+    }
   }
 
   split(e:any){
@@ -72,8 +75,10 @@ export class PartsereqComponent implements OnInit {
   }
 
   open(a:any){
-    const dialogRef = this.dialog.open(PartsdialogComponent, {panelClass: 'parts-dialog', data: a})
+    let id:string = a.sn + '/' + a.reqId
+    const dialogRef = this.dialog.open(PartsdialogComponent, {panelClass: 'parts-dialog', data: {parts:a.Parts, id: id}})
     dialogRef.afterClosed().subscribe(a=>{
+      //if(a) window.location.reload()
     })
   }
 

@@ -1,6 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { SjdialogComponent } from '../../sjlist/sjdialog/sjdialog.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import firebase from 'firebase/app'
+import { Subscription } from 'rxjs';
+import { InputhrsComponent } from 'src/app/comp/util/dialog/inputhrs/inputhrs.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-partsdialog',
@@ -8,13 +11,41 @@ import { SjdialogComponent } from '../../sjlist/sjdialog/sjdialog.component';
   styleUrls: ['./partsdialog.component.scss']
 })
 export class PartsdialogComponent implements OnInit {
+  pos:string=''
   displayedColumns: string[]=['pnshort','p/n', 'Description', 'LLP', 'Qty', 'Tot']
-  constructor(public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  test:boolean=false
+  subsList:Subscription[]=[]
+  constructor(private auth: AuthServiceService, private dialog:MatDialog,public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a) {
+          this.pos=a.Pos
+        }
+      })
+    )
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
   
   onNoClick(){
     this.dialogRef.close()
+  }
+
+  mod(a:any,i:number, cat:string){
+    if(this.pos=='SU'){
+      const gg = this.dialog.open(InputhrsComponent,{panelClass: cat=='desc'?'input-parts-dialog':'', data:{hr:a[cat]}})
+      gg.afterClosed().subscribe(y=>{
+        if(y) {
+          this.test=true
+          this.data.parts[i][cat]=y
+          if(cat=='qty') this.data.parts[i]['tot']=this.data.parts[i]['llp']*y
+          firebase.database().ref('PartReqSent').child(this.data.id).child('Parts').child(i.toString()).child(cat).set(y)
+        }
+      })
+    }
   }
 }

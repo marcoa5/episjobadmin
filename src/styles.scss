@@ -95,3 +95,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   //height: 85vh !important;
   padding:0;
 }
+
+.input-parts-dialog .mat-dialog-container {
+  width: 85vw !important;
+  max-height: 95vh !important;
+}
+.input-parts-dialog .mat-form-field-infix {
+  width: 100%;
+  max-height: 100%;
+}
