@@ -14,6 +14,8 @@ import { CustomsnackComponent } from './comp/util/customsnack/customsnack.compon
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 import {MatPaginatorIntl} from '@angular/material/paginator'
 import { SwupdateService } from './serv/swupdate.service';
+import { version } from '../../package.json';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -37,6 +39,7 @@ export class AppComponent {
   spin:boolean=true
   chName:boolean=false
   pos:string=''
+  version:string=''
   subsList:Subscription[]=[]
 
   constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar, private pag:MatPaginatorIntl, private swu: SwupdateService){
@@ -44,6 +47,8 @@ export class AppComponent {
   }
   
   ngOnInit(){
+    this.version=version
+    console.log(this.version)
     this.pag.itemsPerPageLabel='#'
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
