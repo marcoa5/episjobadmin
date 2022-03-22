@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import firebase from 'firebase/app'
-
+import { environment } from '../../../../environments/environment'
 @Component({
   selector: 'episjob-logout',
   templateUrl: './logout.component.html',
@@ -13,9 +13,11 @@ export class LogoutComponent implements OnInit {
   Visit:any|undefined
   Newrig:any|undefined
   id:string=''
+  version:string=''
   constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
+    this.version=environment.appVersion
     this.id= this.data.id
     this.pos=this.data.pos
     this.SJ=this.data.SJ

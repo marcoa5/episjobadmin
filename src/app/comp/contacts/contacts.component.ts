@@ -34,7 +34,11 @@ export class ContactsComponent implements OnInit {
         }, 1);
       }),
       this.auth._contacts.subscribe((a:any[])=>{
-        this.contacts=a
+        this.contacts=a.sort((b:any,c:any)=>{
+          if(b.name>c.name) return 1
+          if(b.name<c.name) return -1
+          return 0
+        })
         if(a.length>0){
           a.forEach(e => {
             firebase.database().ref('CustomerC').child(e.id).once('value',b=>{
