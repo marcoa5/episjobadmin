@@ -1,6 +1,6 @@
 <div  *ngIf="pos=='SU' || pos=='admin' || pos=='adminS' || pos=='sales'" class="divid">
     <div>
-        <div mat-dialog-title>Notifications</div>
+        <h2>Notifications</h2>
         <div class="ch">
             <div>
                 <mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, '_sj')">SJ Notifications</mat-checkbox>
@@ -13,18 +13,19 @@
             </div>
         </div>
     </div>
-    <div class="spacer"></div>
     <mat-divider></mat-divider>
-    
 </div>
-<span>App version: {{version}}</span>
+<h2>Version</h2>
+<div>App version: {{version}}</div>
 <mat-divider></mat-divider>
-<div mat-dialog-title>Logout</div>
-<div mat-dialog-content>Click here to logout 
+<h2>Logout</h2>
+<div class="logBut">
+    <div>Click here to logout</div> 
     <button mat-icon-button (click)="logout()" color="accent">
         <mat-icon>logout</mat-icon>
     </button>
 </div>
+
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()">Close</button>
 </div>
