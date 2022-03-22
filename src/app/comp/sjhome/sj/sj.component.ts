@@ -450,24 +450,22 @@ export class SjComponent implements OnInit {
   }
 
   sign(a:string){
-    if(!this.lock){
-      let dia:any
-      if(a=='t') {
-        dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
-        this.techSign=this.techSign_temp
-      }
-      if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
-      dia.afterClosed().subscribe((b:any)=>{
-        if(b){
-          if(a=='t') {
-            this.riskAss=b
-          }
-          if(a=='c') this.custSurv=b
-          this.torc=a
-          this.signatureClosed=false
-        }
-      }) 
+    let dia:any
+    if(a=='t') {
+      dia = this.dialog.open(RiskassComponent, {data: this.file.rs})
+      this.techSign=this.techSign_temp
     }
+    if(a=='c') dia = this.dialog.open(SurveyComponent, {data:{name: this.file.contnomec, riss:this.file.rissondaggio}})
+    dia.afterClosed().subscribe((b:any)=>{
+      if(b){
+        if(a=='t') {
+          this.riskAss=b
+        }
+        if(a=='c') this.custSurv=b
+        this.torc=a
+        this.signatureClosed=false
+      }
+    }) 
   }
 
   close(e:any){
