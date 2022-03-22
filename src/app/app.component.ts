@@ -14,7 +14,7 @@ import { CustomsnackComponent } from './comp/util/customsnack/customsnack.compon
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 import {MatPaginatorIntl} from '@angular/material/paginator'
 import { SwupdateService } from './serv/swupdate.service';
-import { version } from '../../package.json';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +47,7 @@ export class AppComponent {
   }
   
   ngOnInit(){
-    this.version=version
+    this.version=environment.appVersion
     console.log(this.version)
     this.pag.itemsPerPageLabel='#'
     this.subsList.push(
