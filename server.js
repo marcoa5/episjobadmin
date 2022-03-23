@@ -193,7 +193,6 @@ app.all('/api/maildebug', async function(req, res,next) {
 });
 
 app.get('/api/certiq', function(req,res){
-    console.log(req.query)
     let count = 0
     let code=''
     let machines=[]
@@ -209,7 +208,6 @@ app.get('/api/certiq', function(req,res){
     })
     .then(data=>{
         code=data.data.userCode
-        console.log(code)
         axios({
             method:'get',
             url: 'https://api.epiroc.com/certiq/v2/machines',
@@ -242,7 +240,6 @@ app.get('/api/certiq', function(req,res){
                     }
                 })
                 .then(gg=>{
-                    if(sr.machineSerialNr=='TMG19SED0497') console.log(gg)
                     sr.LastDayEngineHours = Math.round(gg.data.dailyUtilizationEngineHours)
                     axios({
                         method:'get',
@@ -255,7 +252,6 @@ app.get('/api/certiq', function(req,res){
                     .then((service)=>{
                         let s = service.data
                         count++
-                        //console.log(count)
                         s.forEach(sd=>{
                             if(sd.serviceStatus=='Upcoming' && sd.serviceType=='Engine'){
                                sr.serviceStep = sd.serviceAccumulator
@@ -460,7 +456,6 @@ function createMA(a){
 }
 
 function createMailOptionsNew(a){
-    console.log(a)
     let cc=[]//'mario.parravicini@epiroc.com', 'marco.fumagalli@epiroc.com','carlo.colombo@epiroc.com','marco.arato@epiroc.com']
     if(!cc.includes(a.info.ccAuth)) cc.push(a.info.ccAuth)
     const mailOptionsNew = {
