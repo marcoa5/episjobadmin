@@ -1,4 +1,4 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/3d404f3a-5bac-4ecd-9a09-a8b63591c213/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/episjobadmin",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.defaultWebAppToDeploy": "/subscriptions/728e6c8b-9b9e-48d2-8c6c-685a37d09f11/resourceGroups/Epi/providers/Microsoft.Web/sites/epirocitalia"
 }

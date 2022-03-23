@@ -8,9 +8,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "serve": "ng serve --proxy-config proxy.json",
-    "prebuild": "npm --no-git-tag-version version patch",
-    "build": "ng build --prod --aot && git add . && git commit -m \"k\" && git push origin master",
-    "azure": "ng build --prod --aot && firebase deploy && git add . && git commit -m \"k\" && git push origin master"
+    "azure": "npm --no-git-tag-version version patch && ng build --prod --aot && git add . && git commit -m \"k\" && git push origin master",
+    "firebase": "ng build --prod --aot && firebase deploy && git add . && git commit -m \"k\" && git push origin master"
   },
   "private": true,
   "dependencies": {
