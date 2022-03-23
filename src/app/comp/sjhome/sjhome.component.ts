@@ -280,7 +280,8 @@ export class SjhomeComponent implements OnInit {
             localStorage.removeItem(keyLS)
             console.log('REMOVED ' + keyLS)
             //let url:string='http://localhost:3001/'; cont.info.cc=true
-            let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=true
+            //let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=true
+            let url:string='/api/'; cont.info.cc=true
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
               let info={
                 fileName: cont.info.fileName,
@@ -383,7 +384,8 @@ export class SjhomeComponent implements OnInit {
       if(file){
         let dia = this.dialog.open(GenericComponent,{disableClose:true, data:{msg:'Generating PDF...'}})
         this.unSelect()
-        let urlserver = 'https://episjobreq.herokuapp.com/'
+        //let urlserver = 'https://episjobreq.herokuapp.com/'
+        let urlserver = '/api/'
         this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
           const blob = new Blob([o], { type: 'application/pdf' });
           const href = document.createElement('a')

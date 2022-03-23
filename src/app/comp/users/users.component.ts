@@ -33,7 +33,9 @@ export class UsersComponent implements OnInit {
         }, 1);
       })
     )
-    this.http.get('https://episjobreq.herokuapp.com/getusers').subscribe(a=>{
+    let url:string='/api/'
+    //let url:string='https://episjobreq.herokuapp.com/'
+    this.http.get(url + 'getusers').subscribe(a=>{
       Object.values(a).forEach(b=>{
         firebase.database().ref('Users').child(b.uid).once('value',c=>{
           firebase.database().ref('Login').child(b.uid + '-' + c.val().Nome + ' ' + c.val().Cognome ).limitToLast(1).once('value',d=>{

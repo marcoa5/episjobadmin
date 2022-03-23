@@ -81,7 +81,6 @@ export class NewuserComponent implements OnInit {
             area: b.val().Area? b.val().Area: null
           }
           this.userVisit = oi
-          let url = 'https://episjobreq.herokuapp.com/'
           this.userF.controls.cV.setValue(oi)
           this.userpos = b.val().Pos
           this.userF.setValue(this.data)
@@ -96,8 +95,8 @@ export class NewuserComponent implements OnInit {
   }
 
   add(a:string, b:FormGroup){
-    let url = 'https://episjobreq.herokuapp.com/'
-    //let url = 'http://localhost:3001/'
+    //let url:string = 'https://episjobreq.herokuapp.com/'
+    let url:string = '/api/'
     let params = new HttpParams()
     .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)

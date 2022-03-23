@@ -30,7 +30,8 @@ export class PartsereqComponent implements OnInit {
         partArr.push(e.pn)
       })
       //let url:string= 'http://localhost:3001'
-      let url: string='https://episjobreq.herokuapp.com'
+      //let url: string='https://episjobreq.herokuapp.com'
+      let url:string = '/api/'
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())

@@ -171,7 +171,8 @@ export class PartsComponent implements OnInit {
           if(res!=undefined){
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
-            let url:string = 'https://episjobreq.herokuapp.com/partreq'
+            //let url:string = 'https://episjobreq.herokuapp.com/partreq'
+            let url:string = '/api/'
             const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
             this.http.get(url,{params:params}).subscribe((a: any)=>{
               if(a){
