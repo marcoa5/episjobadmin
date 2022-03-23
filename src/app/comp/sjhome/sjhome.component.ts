@@ -383,9 +383,12 @@ export class SjhomeComponent implements OnInit {
     this.getFile().then((file:any)=>{
       if(file){
         let dia = this.dialog.open(GenericComponent,{disableClose:true, data:{msg:'Generating PDF...'}})
+        setTimeout(() => {
+          dia.close()
+        }, 10000);
         this.unSelect()
         //let urlserver = 'https://episjobreq.herokuapp.com/'
-        let urlserver = '/api/'
+        let urlserver:string = '/api/'
         this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe(o=>{
           const blob = new Blob([o], { type: 'application/pdf' });
           const href = document.createElement('a')
