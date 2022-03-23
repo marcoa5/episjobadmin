@@ -7,8 +7,8 @@ var admin = require("firebase-admin");
 var serviceAccount = require('./key.json')
 const porta = process.env.PORT || 3001
 const axios = require('axios')
-var moment = require('moment');
-const { auth } = require('firebase-admin');
+//var moment = require('moment');
+//const { auth } = require('firebase-admin');
 //const functions = require("firebase-functions");
 const Handlebars = require("handlebars");
 const fs = require('fs');
@@ -34,7 +34,7 @@ firebase.initializeApp({
 app.use(cors())
 app.use(bodyParser.urlencoded({limit: '50000kb',extended: true}))
 app.use(bodyParser.json({limit: '50000kb'}))
-app.use(express.static(__dirname + '/dist1'))
+app.use(express.static(__dirname + '/dist'))
 
 app.get('/api/getusers', function(req,res){
     admin.auth().listUsers(1000).then((a)=>{
