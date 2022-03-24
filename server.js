@@ -37,20 +37,20 @@ app.use(bodyParser.urlencoded({limit: '50000kb',extended: true}))
 app.use(bodyParser.json({limit: '50000kb'}))
 app.use(express.static(__dirname + '/dist'))
 
-app.get('/getusers', function(req,res){
+app.get('/api/getusers', function(req,res){
     admin.auth().listUsers(1000).then((a)=>{
         res.send(a.users)
     })
 })
 
-app.get('/getuserinfo', function(req,res){
+app.get('/api/getuserinfo', function(req,res){
     var id = req.query.id
     admin.database().ref('Users/'+ id).once('value', a=>{
         res.status(200).send(a.val())
     })
 })
 
-app.get('/createuser', function(req,res){
+app.get('/api/createuser', function(req,res){
     var Mail = req.query.Mail
     var Nome = req.query.Nome
     var Cognome = req.query.Cognome
@@ -83,7 +83,7 @@ app.get('/createuser', function(req,res){
     });
 })
 
-app.all('/updateuser', function(req,res){
+app.all('/api/updateuser', function(req,res){
     var Nome = req.query.Nome
     var Cognome = req.query.Cognome
     var Pos=req.query.Pos
@@ -99,7 +99,7 @@ app.all('/updateuser', function(req,res){
     .then(()=>res.status(200).json({status:'ok'}))
 })
 
-app.get('/delete',function(req,res){
+app.get('/api/delete',function(req,res){
     var id = req.query.id
     admin.auth().deleteUser(id)
     .then(()=>{
@@ -113,7 +113,7 @@ app.get('/delete',function(req,res){
     })
 })
 
-app.all('/mail', function(req, res,next) {
+app.all('/api/mail', function(req, res,next) {
     var arg = req.query
     if(arg.to1!=undefined){
         transporter.sendMail(createMailOptions(arg), (error, info)=>{
@@ -134,7 +134,7 @@ app.all('/mail', function(req, res,next) {
     }
 });
 
-app.all('/mailmod', async function(req, res,next) {
+app.all('/api/mailmod', async function(req, res,next) {
     var arg = req.query
     let refPdf = admin.storage().ref().child(`${arg.userN} ${arg.userC}/${arg.fileN}.pdf`)
     await refPdf.put(arg.urlPdf)
@@ -172,7 +172,7 @@ app.all('/mailmod', async function(req, res,next) {
     
 })
 
-app.all('/maildebug', async function(req, res,next) {
+app.all('/api/maildebug', async function(req, res,next) {
     var arg = req.query
     if(arg.to1!=undefined){
         transporter.sendMail(createMailOptions(arg), (error, info)=>{
@@ -193,7 +193,7 @@ app.all('/maildebug', async function(req, res,next) {
     }
 });
 
-app.get('/certiq', function(req,res){
+app.get('/api/certiq', function(req,res){
     let count = 0
     let code=''
     let machines=[]
@@ -271,7 +271,7 @@ app.get('/certiq', function(req,res){
     .catch(e=>console.log(e))
 })
 
-app.get('/partreq', cors(), function(req,res){
+app.get('/api/partreq', cors(), function(req,res){
     createMailParts(JSON.parse(req.query.info))
     .then(a=>{
         transporter.sendMail(a, (error, info)=>{
@@ -281,7 +281,7 @@ app.get('/partreq', cors(), function(req,res){
     })
 })
 
-app.all('/psdllp',function(req,res){
+app.all('/api/psdllp',function(req,res){
     let kt=0
     let a = req.query.parts
     let outP ={}
@@ -296,7 +296,7 @@ app.all('/psdllp',function(req,res){
     
 })
 
-app.all('/sjPdf', function(req,res){
+app.all('/api/sjPdf', function(req,res){
     var a = fs.readFileSync('./template.html','utf8')
     var templ = Handlebars.compile(a)
     let options = {width: '21cm', height: '29.7cm'};
@@ -306,11 +306,11 @@ app.all('/sjPdf', function(req,res){
     })
 })
 
-app.post('/sjMa', function(req,res){
+app.post('/api/sjMa', function(req,res){
     res.send(req.body)
 })
 
-app.all('/sendSJNew', function(req,res){
+app.all('/api/sendSJNew', function(req,res){
     let g = req.body
     createMA(g)
     .then(urlMa=>{
@@ -335,7 +335,7 @@ app.all('/sendSJNew', function(req,res){
     })
 })
 
-app.all('/', function(req, res,next) {
+app.all('/api/', function(req, res,next) {
     const welc = `
     <div style="position: fixed; top:0;left:0;display:flex; justify-content: center; align-items: center; width:100%; height:100%; background-color: rgb(66, 85, 99)">
         <h1 style="font-family: Arial; text-align:center; width: 100%; color: rgb(255,205,0)">Welcome to Epi_ Service Job Web Services</h1>
