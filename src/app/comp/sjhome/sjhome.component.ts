@@ -390,8 +390,7 @@ export class SjhomeComponent implements OnInit {
         //let urlserver = 'https://episjobreq.herokuapp.com/'
         let urlserver:string = '/api/'
         this.http.post(urlserver + 'sjPdf', file/*, {responseType: 'blob'}*/).subscribe((o:any)=>{
-          console.log(o)
-          /*const blob = new Blob([o], { type: 'application/pdf' });
+          const blob = new Blob([o], { type: 'application/pdf' });
           const href = document.createElement('a')
           document.body.appendChild(href)
           const url= window.URL.createObjectURL(blob)
@@ -402,7 +401,7 @@ export class SjhomeComponent implements OnInit {
           setTimeout(() => {
             window.URL.revokeObjectURL(url)
             document.body.removeChild(href)
-          }, 1);*/
+          }, 1)
         })
         this.unSelect()
       }
