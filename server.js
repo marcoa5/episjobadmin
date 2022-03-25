@@ -7,12 +7,9 @@ var admin = require("firebase-admin");
 var serviceAccount = require('./key.json')
 const porta = process.env.PORT || 3001
 const axios = require('axios')
-
-//var moment = require('moment');
-//const { auth } = require('firebase-admin');
-//const functions = require("firebase-functions");
 const Handlebars = require("handlebars");
 const fs = require('fs');
+const pup = require('puppeteer')
 var html_to_pdf = require('html-pdf-node');
 const firebase = require('firebase/app')
 require('firebase/storage')
@@ -35,7 +32,7 @@ firebase.initializeApp({
 app.use(cors())
 app.use(bodyParser.urlencoded({limit: '50000kb',extended: true}))
 app.use(bodyParser.json({limit: '50000kb'}))
-app.use(express.static(__dirname + '/dist'))
+//app.use(express.static(__dirname + '/dist'))
 
 app.get('/api/getusers', function(req,res){
     admin.auth().listUsers(1000).then((a)=>{
@@ -344,10 +341,15 @@ app.all('/api/sendSJNew', function(req,res){
 app.all('/api/', function(req, res,next) {
     const welc = `
     <div style="position: fixed; top:0;left:0;display:flex; justify-content: center; align-items: center; width:100%; height:100%; background-color: rgb(66, 85, 99)">
-        <h1 style="font-family: Arial; text-align:center; width: 100%; color: rgb(255,205,0)">Welcome to Epi_ Service Job Web Services</h1>
+        <h1 style="font-family: Arial; text-align:center; width: 100%; color: rgb(255,205,0)">Welcome to Epiroc Italia Service Job Web Services</h1>
     </div>
     `
     res.status(200).send(welc);
+    res.end();
+});
+
+app.all('/status', function(req, res,next) {
+    res.status(200).send({status: 'up'});
     res.end();
 });
 
