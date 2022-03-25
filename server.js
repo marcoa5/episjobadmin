@@ -32,7 +32,7 @@ firebase.initializeApp({
 app.use(cors())
 app.use(bodyParser.urlencoded({limit: '50000kb',extended: true}))
 app.use(bodyParser.json({limit: '50000kb'}))
-//app.use(express.static(__dirname + '/dist'))
+app.use(express.static(__dirname + '/dist'))
 
 app.get('/api/getusers', function(req,res){
     admin.auth().listUsers(1000).then((a)=>{
