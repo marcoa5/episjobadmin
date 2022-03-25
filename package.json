@@ -38,7 +38,6 @@
     "jspdf": "^2.5.1",
     "moment": "^2.29.1",
     "nodemailer": "^6.7.3",
-    "puppeteer": "^13.5.1",
     "rxjs": "~6.6.0",
     "signature_pad": "^4.0.2",
     "zone.js": "~0.11.3"
