@@ -302,12 +302,14 @@ app.all('/api/sjpdf', function(req,res){
     let options = {width: '21cm', height: '29.7cm'};
     let file = {content: templ(req.body)}
     html_to_pdf.generatePdf(file,options,(b,c)=>{
-        console.log(b,c)
-        if(b) res.send(b)
-        if(c) res.send(c)
-    })/*.then((d,a,f,)=>{
-        res.end(d)
-    })*/
+        if(b) {
+            res.status(200).send(b)
+        } else if(c) {
+            res.status(200).send(c)
+        } else {
+            res.status(200).send(req.body) 
+        }
+    })
 })
 
 app.post('/api/sjMa', function(req,res){
@@ -467,7 +469,7 @@ function createMailOptionsNew(a){
             from: `${a.author} - Epiroc Service <episerjob@gmail.com>`,
             replyTo: 'marco.fumagalli@epiroc.com',
             to: a.elencomail,
-            cc: a.info.cc? cc.join(';'):'',
+            //cc: a.info.cc? cc.join(';'):'',
             subject: a.info.subject,
             text: `In allegato scheda lavoro relativa all'intervento effettuato dal nostro tecnico Sig. ${a.author}.\nVi ringraziamo qualora abbiate aderito al nostro sondaggio.\n\n\nRisultato sondaggio:\n\nOrganizzazione intervento: ${a.rissondaggio.split('')[0]}\nConsegna Ricambi: ${a.rissondaggio.split('')[1]}\nEsecuzione Intervento: ${a.rissondaggio.split('')[2]}`,
             attachments: {
@@ -483,8 +485,9 @@ function createMailOptionsNewMA(a){
     const mailOptionsNewMA = {
             from: `${a.author} - Epiroc Service <episerjob@gmail.com>`,
             replyTo: 'marco.fumagalli@epiroc.com',
-            to: 'marco.fumagalli@epiroc.com',
-            cc: a.info.cc?'marco.arato@epiroc.com; mario.parravicini@epiroc.com; carlo.colombo@epiroc.com':'',
+            /*to be deleted*/ to: 'marco.arato@epiroc.com',
+            //to: 'marco.fumagalli@epiroc.com',
+            //cc: a.info.cc?'marco.arato@epiroc.com; mario.parravicini@epiroc.com; carlo.colombo@epiroc.com':'',
             subject: a.info.subject,
             text: `Risultato sondaggio:\n\nOrganizzazione intervento: ${a.rissondaggio.split('')[0]}\nConsegna Ricambi: ${a.rissondaggio.split('')[1]}\nEsecuzione Intervento: ${a.rissondaggio.split('')[2]}\n\nRapporto:\n${a.rappl1}\n\Osservazioni:\n${a.oss1}`,
             attachments: [{
