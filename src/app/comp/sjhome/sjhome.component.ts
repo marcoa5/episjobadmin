@@ -389,7 +389,7 @@ export class SjhomeComponent implements OnInit {
         this.unSelect()
         //let urlserver = 'https://episjobreq.herokuapp.com/'
         let urlserver:string = '/api/'
-        this.http.post(urlserver + 'sjPdf', file/*, {responseType: 'blob'}*/).subscribe((o:any)=>{
+        this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe((o:any)=>{
           const blob = new Blob([o], { type: 'application/pdf' });
           const href = document.createElement('a')
           document.body.appendChild(href)

@@ -299,7 +299,7 @@ app.all('/api/psdllp',function(req,res){
 app.all('/api/sjPdf', function(req,res){
     var a = fs.readFileSync('./template.html','utf8')
     var templ = Handlebars.compile(a)
-    let options = {width: '21cm', height: '29.7cm'};
+    let options = { format: 'A4', args: ['--no-sandbox', '--disable-setuid-sandbox'] };
     let file = {content: templ(req.body)}
     html_to_pdf.generatePdf(file,options).then((d)=>{
         res.end(d)
