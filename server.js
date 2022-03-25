@@ -294,7 +294,7 @@ app.all('/api/psdllp',function(req,res){
 })
 
 app.all('/api/sjpdf', function(req,res){
-    var a = fs.readFileSync('./template.html','utf8')
+    var a = fs.readFileSync(__dirname + '/template.html','utf8')
     var templ = Handlebars.compile(a)
     let options = {width: '21cm', height: '29.7cm'};
     let file = {content: templ(req.body)}
@@ -436,7 +436,7 @@ function createMailOptionsIntProd(a){
 
 function createPDF(b){
     return new Promise((res,rej)=>{
-        var a = fs.readFileSync('./template.html','utf8')
+        var a = fs.readFileSync(__dirname + '/template.html','utf8')
         var templ = Handlebars.compile(a)
         let options = {width: '21cm', height: '29.7cm'};
         let file = {content: templ(b)}
