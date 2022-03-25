@@ -296,14 +296,18 @@ app.all('/api/psdllp',function(req,res){
     
 })
 
-app.all('/api/sjPdf', function(req,res){
+app.all('/api/sjpdf', function(req,res){
     var a = fs.readFileSync('./template.html','utf8')
     var templ = Handlebars.compile(a)
-    let options = { format: 'A4', args: ['--no-sandbox', '--disable-setuid-sandbox'] };
+    let options = {width: '21cm', height: '29.7cm'};
     let file = {content: templ(req.body)}
-    html_to_pdf.generatePdf(file,options).then((d)=>{
+    html_to_pdf.generatePdf(file,options,(b,c)=>{
+        console.log(b,c)
+        if(b) res.send(b)
+        if(c) res.send(c)
+    })/*.then((d,a,f,)=>{
         res.end(d)
-    })
+    })*/
 })
 
 app.post('/api/sjMa', function(req,res){

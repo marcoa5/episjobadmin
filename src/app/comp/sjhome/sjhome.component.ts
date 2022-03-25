@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'episjob-sjhome',
@@ -389,19 +390,24 @@ export class SjhomeComponent implements OnInit {
         this.unSelect()
         //let urlserver = 'https://episjobreq.herokuapp.com/'
         let urlserver:string = '/api/'
-        this.http.post(urlserver + 'sjPdf', file, {responseType: 'blob'}).subscribe((o:any)=>{
-          const blob = new Blob([o], { type: 'application/pdf' });
-          const href = document.createElement('a')
-          document.body.appendChild(href)
-          const url= window.URL.createObjectURL(blob)
-          href.href=url
-          href.download= moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
-          href.click()
-          dia.close()
-          setTimeout(() => {
-            window.URL.revokeObjectURL(url)
-            document.body.removeChild(href)
-          }, 1)
+        this.http.post(urlserver + 'sjpdf', file, {responseType:'arraybuffer'}).subscribe((o:any)=>{
+          console.log(typeof o,o)
+          if(o){
+            const blob = new Blob([o], { type: 'application/pdf' });
+            const href = document.createElement('a')
+            document.body.appendChild(href)
+            const url= window.URL.createObjectURL(blob)
+            href.href=url
+            href.download= moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
+            href.click()
+            dia.close()
+            setTimeout(() => {
+              window.URL.revokeObjectURL(url)
+              document.body.removeChild(href)
+            }, 1)
+          } else {
+            dia.close()
+          }
         })
         this.unSelect()
       }
