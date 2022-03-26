@@ -9,7 +9,6 @@ const porta = process.env.PORT || 3001
 const axios = require('axios')
 const Handlebars = require("handlebars");
 const fs = require('fs');
-const pup = require('puppeteer')
 var html_to_pdf = require('html-pdf-node');
 const firebase = require('firebase/app')
 require('firebase/storage')
