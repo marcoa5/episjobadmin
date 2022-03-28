@@ -9,7 +9,6 @@ import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
-import { jsPDF } from 'jspdf';
 
 @Component({
   selector: 'episjob-sjhome',

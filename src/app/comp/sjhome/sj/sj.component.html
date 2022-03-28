@@ -243,7 +243,7 @@
                 <div class="sig">
                     <!--<button mat-raised-button color="accent" (click)="sign('c')">Customer</button>-->
                     <h4>Customer's signature</h4>
-                    <img episjobElevation width=450 height=196 [src]="custSign? custSign:blankSign" (click)="sign('c')">  
+                    <img episjobElevation width=450 height=196 [src]="custSign" (click)="sign('c')">  
                 </div>
               </div>
               <episjob-sjemail [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
