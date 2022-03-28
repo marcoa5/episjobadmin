@@ -34,7 +34,7 @@ export class PartsereqComponent implements OnInit {
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
-      this.http.get(url + '/psdllp',{params:params}).subscribe(gt=>{
+      this.http.get(url + 'psdllp',{params:params}).subscribe(gt=>{
         let total:any=0
         a.Parts.forEach((fr:any)=>{
           let index = Object.values(gt).map(y=>{return y.pn}).indexOf(fr.pn)
