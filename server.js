@@ -31,7 +31,7 @@ firebase.initializeApp({
 app.use(cors())
 app.use(bodyParser.urlencoded({limit: '50000kb',extended: true}))
 app.use(bodyParser.json({limit: '50000kb'}))
-app.use(express.static(__dirname + '/dist'))
+//app.use(express.static(__dirname + '/dist'))
 app.use(express.static(__dirname + '/template'))
 
 app.get('/getusers', function(req,res){
@@ -280,11 +280,11 @@ app.get('/partreq', cors(), function(req,res){
 
 app.all('/psdllp',function(req,res){
     let kt=0
-    let a = req.body.parts
+    let a = req.query.parts
     let outP ={}
     let r = a.split(',')
     r.forEach(b=>{
-        admin.database().ref('PSDItems').child(req.body.child).child(b).child('llp').once('value',p=>{
+        admin.database().ref('PSDItems').child(req.query.child).child(b).child('llp').once('value',p=>{
             outP[b]=({pn:b,llp: p.val()==null?0:parseFloat(p.val())})
             kt++
             if(r.length==kt) res.status(200).json(outP)
@@ -348,10 +348,6 @@ app.all('/', function(req, res,next) {
     res.end();
 });
 
-app.all('/status', function(req, res,next) {
-    res.status(200).send({status: 'up'});
-    res.end();
-});
 
 app.listen(porta, ()=>{
     console.log(`Running on port:${porta}`)
