@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1648459468116,
+  "timestamp": 1648460918500,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,10 +11,11 @@
         "ignoreVary": true
       },
       "urls": [
+        "/assets/blank.png",
         "/favicon.ico",
         "/firebase-messaging-sw.js",
         "/index.html",
-        "/main.bec20f5b7e5b47e33436.js",
+        "/main.fad4c4c4a6a6afc7d94f.js",
         "/manifest.webmanifest",
         "/polyfills.9786e999e1fb8b2b4650.js",
         "/runtime.7b63b9fd40098a2e8207.js",
@@ -85,6 +86,7 @@
     "/assets/Rigs/TH.png": "b131d956d91a7a2d490dfb72f9553f9c73bc7f27",
     "/assets/Rigs/Truck.png": "48813ab2fd26b9d6a7ef438512ac46dbe642c03c",
     "/assets/Rigs/Underground Exploration.png": "a47250ea004fb200045eb5d204c8ccc9af27f02c",
+    "/assets/blank.png": "6896c4b6c725c8dbbf7de76eca91a71757439f41",
     "/assets/icons/Logo.svg": "909e9c1e5c5d5dd198e6adbc8b88c54ceef93ea5",
     "/assets/icons/Logo_cut_grey.png": "c12c461daa4dde57b125e5ee9a1b42c6faa1d461",
     "/assets/icons/Logo_full_grey.png": "84d193d0f0c9d5eb6098321aa0c8d199f1cf3686",
@@ -100,8 +102,8 @@
     "/assets/icons/logo_grey.png": "31a9bda7d1427bf84d081fe2cf28374f86cb3096",
     "/favicon.ico": "dbb83986aa24f4f25c0c38242cbcf6abb7f7d1af",
     "/firebase-messaging-sw.js": "d16cf419b3ad2fe8275e3640429f402adde6a0a9",
-    "/index.html": "f10b99c39ada62a08924ec675c01a5f5b57e98c4",
-    "/main.bec20f5b7e5b47e33436.js": "7267c42d3ee9abcbcec8cb2b67cc8e13b80f43a0",
+    "/index.html": "bf927068f536a94ae110757f7838620214e9b2b2",
+    "/main.fad4c4c4a6a6afc7d94f.js": "5fae1c8348e8e2594beda0f4f10f27696edb253c",
     "/manifest.webmanifest": "548873a2e4eb1d3ae2ce8ef8f27c19c2cc9296b6",
     "/polyfills.9786e999e1fb8b2b4650.js": "587930b9b17d188b4b5cd9c4a2f5b0595f155fd7",
     "/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

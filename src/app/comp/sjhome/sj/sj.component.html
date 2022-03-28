@@ -235,16 +235,21 @@
             <form [formGroup]="signatureForm">
               <ng-template matStepLabel>Signatures</ng-template>
               <div class="contSig">
-                <div class="sig">
-                    <!--<button mat-raised-button color="accent" (click)="sign('t')">Technician</button>-->
+                <div>
                     <h4>Technician's signature</h4>
-                    <img episjobElevation width=450 height=196 [src]="techSign? techSign: ''" (click)="sign('t')">  
+                    <div class="sig">
+                        <!--<button mat-raised-button color="accent" (click)="sign('t')">Technician</button>-->
+                        <img episjobElevation width=450 height=190 [src]="techSign? techSign: '../../../../assets/blank.png'" (click)="sign('t')">  
+                    </div>
                 </div>
-                <div class="sig">
-                    <!--<button mat-raised-button color="accent" (click)="sign('c')">Customer</button>-->
+                <div>
                     <h4>Customer's signature</h4>
-                    <img episjobElevation width=450 height=196 [src]="custSign? custSign : ''" (click)="sign('c')">  
+                    <div class="sig">
+                        <!--<button mat-raised-button color="accent" (click)="sign('c')">Customer</button>-->
+                        <img episjobElevation width=450 height=190 [src]="custSign? custSign : '../../../../assets/blank.png'" (click)="sign('c')">  
+                    </div>
                 </div>
+               
               </div>
               <episjob-sjemail [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
               <div class="button">
