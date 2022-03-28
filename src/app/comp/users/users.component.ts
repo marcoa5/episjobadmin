@@ -7,6 +7,7 @@ import 'firebase/database'
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-users',
@@ -33,8 +34,7 @@ export class UsersComponent implements OnInit {
         }, 1);
       })
     )
-    let url:string='/api/'
-    //let url:string='https://episjobreq.herokuapp.com/'
+    let url:string=environment.url
     this.http.get(url + 'getusers').subscribe(a=>{
       Object.values(a).forEach(b=>{
         firebase.database().ref('Users').child(b.uid).once('value',c=>{

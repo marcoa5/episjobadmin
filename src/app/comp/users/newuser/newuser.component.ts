@@ -11,6 +11,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { environment } from 'src/environments/environment';
 
 
 export interface utente {
@@ -95,8 +96,7 @@ export class NewuserComponent implements OnInit {
   }
 
   add(a:string, b:FormGroup){
-    //let url:string = 'https://episjobreq.herokuapp.com/'
-    let url:string = '/api/'
+    let url:string = environment.url
     let params = new HttpParams()
     .set('Mail',b.get('mail')?.value)
     .set('Nome', b.get('nome')?.value)
@@ -129,7 +129,8 @@ export class NewuserComponent implements OnInit {
       if(result!=undefined && this.pos=='SU') {
         let params = new HttpParams()
         .set('id', result.id)
-        this.http.get('https://episjobreq.herokuapp.com/delete',{params:params}).subscribe(a=>{
+        let url:string=environment.url
+        this.http.get(url + '/delete',{params:params}).subscribe(a=>{
 
         })
         setTimeout(() => {

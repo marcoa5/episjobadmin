@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-sjhome',
@@ -279,9 +280,7 @@ export class SjhomeComponent implements OnInit {
           .then(()=>{
             localStorage.removeItem(keyLS)
             console.log('REMOVED ' + keyLS)
-            //let url:string='http://localhost:3001/'; cont.info.cc=true
-            //let url:string='https://episjobreq.herokuapp.com/'; cont.info.cc=true
-            let url:string='/api/'; cont.info.cc=true
+            let url:string=environment.url; cont.info.cc=true
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
               let info={
                 fileName: cont.info.fileName,
@@ -387,8 +386,7 @@ export class SjhomeComponent implements OnInit {
           dia.close()
         }, 10000);
         this.unSelect()
-        //let urlserver = 'https://episjobreq.herokuapp.com/'
-        let urlserver:string = '/api/'
+        let urlserver:string = environment.url
         this.http.post(urlserver + 'sjpdf', file, {responseType:'arraybuffer'}).subscribe((o:any)=>{
           console.log(typeof o,o)
           if(o){

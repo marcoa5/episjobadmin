@@ -8,6 +8,7 @@ import {Sort} from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -66,9 +67,8 @@ export class ReportComponent implements OnInit {
     this.sortedData=[]
     this.isThinking=true
     let params = new HttpParams().set("day",moment(this.chD()).format('YYYY-MM-DD'))
-    //let url:string = 'https://episjobreq.herokuapp.com/'
-    let url:string = '/api/'
-    //if(isDevMode()) url='http://localhost:3001/certiq'
+    let url:string = environment.url
+    
     this.http.get(url + 'certiq',{params:params}).subscribe(a=> {
       if(a){
         let b = Object.values(a)

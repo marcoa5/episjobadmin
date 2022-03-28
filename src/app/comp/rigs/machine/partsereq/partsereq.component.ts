@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { environment } from 'src/environments/environment';
 import { PartsdialogComponent } from './partsdialog/partsdialog.component';
 
 @Component({
@@ -28,10 +29,8 @@ export class PartsereqComponent implements OnInit {
       let partArr:string[]=[]
       a.Parts.forEach((e:any) => {
         partArr.push(e.pn)
-      })
-      //let url:string= 'http://localhost:3001'
-      //let url: string='https://episjobreq.herokuapp.com'
-      let url:string = '/api/'
+      })  
+      let url:string = environment.url
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())

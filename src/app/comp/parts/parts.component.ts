@@ -15,6 +15,7 @@ import * as moment from 'moment'
 import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { environment } from '../../../environments/environment'
 
 @Component({
   selector: 'episjob-parts',
@@ -171,8 +172,7 @@ export class PartsComponent implements OnInit {
           if(res!=undefined){
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
-            //let url:string = 'https://episjobreq.herokuapp.com/partreq'
-            let url:string = '/api/'
+            let url:string = environment.url
             const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
             this.http.get(url,{params:params}).subscribe((a: any)=>{
               if(a){
