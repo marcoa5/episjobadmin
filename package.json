@@ -1,6 +1,6 @@
 {
   "name": "episjobadmin",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -9,7 +9,7 @@
     "e2e": "ng e2e",
     "serve": "ng serve --proxy-config proxy.json",
     "azure": "npm --no-git-tag-version version patch && ng build --prod --aot && git add . && git commit -m \"k\" && git push origin master",
-    "firebase": "ng build --prod --aot && firebase deploy && git add . && git commit -m \"k\" && git push origin master"
+    "firebase": "npm --no-git-tag-version version patch && ng build --prod --aot && firebase deploy && git add . && git commit -m \"k\" && git push origin master"
   },
   "private": true,
   "dependencies": {
