@@ -1,8 +1,8 @@
 {
     "appService.deploySubpath": ".",
-    "appService.defaultWebAppToDeploy": "/subscriptions/728e6c8b-9b9e-48d2-8c6c-685a37d09f11/resourceGroups/Epi/providers/Microsoft.Web/sites/epirocitalia",
     "appService.zipIgnorePattern": [
         "node_modules{,/**}",
         ".vscode{,/**}"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/5b146912-1056-47d4-b250-a69a94445637/resourceGroups/Ita/providers/Microsoft.Web/sites/epirocitalia"
 }
