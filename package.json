@@ -1,6 +1,6 @@
 {
   "name": "episjobadmin",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -31,6 +31,7 @@
     "axios": "^0.26.1",
     "chart.js": "^3.2.1",
     "chartjs-adapter-moment": "^1.0.0",
+    "express-handlebars": "^6.0.3",
     "firebase": "^8.6.2",
     "firebase-admin": "^9.10.0",
     "handlebars": "^4.7.7",
