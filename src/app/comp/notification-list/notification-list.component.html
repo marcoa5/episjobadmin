@@ -1,13 +1,19 @@
 <!--<episjob-navbar title="Message Center" [cerca]="false"></episjob-navbar>-->
 
 <episjob-h2 padtop=0 icon="mail_outline" data="Notifications"></episjob-h2>
+<div class="buttonCont">
+    <button mat-button color="accebt" (click)="selectAll()">Select all</button>  
+    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="setRead(1)">Set Read</button>  
+    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="setRead(0)">Set Unread</button>  
+    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="delete()">Delete</button>  
+</div>
 
 <div class="cont">
     <episjob-spin *ngIf="spin==true"></episjob-spin>
     <div *ngIf="notif.length>0 && spin==false">
-        <div>Select all</div>
-        <div *ngFor="let n of notif" class="notList" [ngClass]="{'unr':n.status==0}">
-            <!--<div class="item"><input type="checkbox"></div>-->
+        
+        <div *ngFor="let n of notif; let index = index" class="notList" [ngClass]="{'unr':n.status==0}">
+            <mat-checkbox class="item" (change)="select(index, $event)" [checked]="selected.indexOf(index)>-1"></mat-checkbox>
             <div class="text" (click)="go(n)">
                 <div class="t" [ngStyle]="{'font-weight': n.status==0? '600' : '400'}">{{n.title}}</div>
                 <div class="t" [ngStyle]="{'font-weight': n.status==0? '400' : '100'}">{{n.text}}</div>

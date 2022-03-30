@@ -16,7 +16,7 @@ export class NotificationListComponent implements OnInit {
   subsList:Subscription[]=[]
   userId:string=''
   spin:boolean=true
-
+  selected:any[]=[]
   constructor(private router: Router, private auth: AuthServiceService, public dialogRef: MatDialogRef<NotificationListComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any ){}
 
@@ -69,5 +69,38 @@ export class NotificationListComponent implements OnInit {
 
   close(){
     this.dialogRef.close()
+  }
+
+  select(a:any, e:any){
+    let i = this.selected.indexOf(a)
+    if(e.checked) {
+      if(i==-1) this.selected.push(a)
+    } else {
+      if(i>-1) this.selected.splice(i,1)
+    }
+    this.selected.sort((a:any,b:any)=>{
+      if(a>b) return 1
+      if(a<b) return -1
+      return 0
+    })
+  }
+
+  selectAll(){
+    this.notif.forEach((a,index)=>{
+      this.selected.push(index)
+    })
+  }
+
+  setRead(n:number){
+    this.selected.forEach(a=>{
+      firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).child('status').set(n)
+    })
+    this.selected=[]
+  }
+
+  delete(){
+    this.selected.forEach(a=>{
+      firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).remove()
+    })
   }
 }

@@ -18,14 +18,18 @@
 
 .notList{
     display: grid;
-    grid-template-columns: auto 45px 45px;
+    grid-template-columns: 10px auto 45px 45px;
     background-color: rgb(245,245,245);
     border-radius: 5px 0;
     margin-bottom: 5px;
     border-bottom: 1px solid $dark-text;
     color: $dark-text;
     cursor: pointer;
+    align-items: baseline;
+    gap:5px;
 }
+
+
 
 .t{
     align-self: center;
