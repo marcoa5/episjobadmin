@@ -5,6 +5,7 @@
 <div class="cont">
     <episjob-spin *ngIf="spin==true"></episjob-spin>
     <div *ngIf="notif.length>0 && spin==false">
+        <div>Select all</div>
         <div *ngFor="let n of notif" class="notList" [ngClass]="{'unr':n.status==0}">
             <!--<div class="item"><input type="checkbox"></div>-->
             <div class="text" (click)="go(n)">
