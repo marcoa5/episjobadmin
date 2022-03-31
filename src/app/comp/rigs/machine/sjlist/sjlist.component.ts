@@ -28,11 +28,13 @@ export class SjlistComponent implements OnInit {
 
   
   ngOnInit(): void {
+    
   }
 
   ngOnChanges(){
     this.list.reverse()
     this._list = this.list.slice(this.inizio,this.fine)
+    console.log(this._list)
   }
 
   split(e:any){

@@ -262,7 +262,9 @@ export class MachineComponent implements OnInit {
       this.sjList=[]
       h.forEach(g=>{
         if(g.key && g.key.substring(0,8)>=iniz && g.key.substring(0,8)<=fine){
-          this.sjList.push(g.val())
+          let r = g.val()
+          r.datafin = g.key.substring(0,4) + '-' + g.key.substring(4,6)+ '-' + g.key.substring(6,8)
+          this.sjList.push(r)
         }        
       })
     })
