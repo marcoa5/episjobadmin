@@ -2,10 +2,15 @@
 
 <episjob-h2 padtop=0 icon="mail_outline" data="Notifications"></episjob-h2>
 <div class="buttonCont">
-    <button mat-button color="accebt" (click)="selectAll()">Select all</button>  
-    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="setRead(1)">Set Read</button>  
-    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="setRead(0)">Set Unread</button>  
-    <button mat-button color="accebt" *ngIf="selected.length>0" (click)="delete()">Delete</button>  
+    <div>Actions:</div>
+    <!--<button mat-stroked-button color="accent" (click)="selectAll()"><mat-icon>{{selected.length!=notif.length?'check_box_outline_blank':'check_box'}}</mat-icon></button>  
+    <button mat-stroked-button color="accent" *ngIf="selected.length>0" (click)="setRead(1)"><mat-icon>drafts</mat-icon></button>  
+    <button mat-stroked-button color="accent" *ngIf="selected.length>0" (click)="setRead(0)"><mat-icon>email</mat-icon></button>  
+    <button mat-stroked-button color="accent" *ngIf="selected.length>0" (click)="delete()"><mat-icon>delete</mat-icon></button> -->
+    <mat-icon (click)="selectAll()">{{selected.length!=notif.length?'check_box_outline_blank':'check_box'}}</mat-icon>
+    <mat-icon *ngIf="selected.length>0" (click)="setRead(1)">drafts</mat-icon>
+    <mat-icon *ngIf="selected.length>0" (click)="setRead(0)">email</mat-icon> 
+    <mat-icon *ngIf="selected.length>0" (click)="delete()">delete</mat-icon>
 </div>
 
 <div class="cont">

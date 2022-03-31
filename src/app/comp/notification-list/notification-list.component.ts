@@ -86,16 +86,22 @@ export class NotificationListComponent implements OnInit {
   }
 
   selectAll(){
-    this.notif.forEach((a,index)=>{
-      this.selected.push(index)
-    })
+    if(this.selected.length!=this.notif.length){
+      this.selected=[]
+      this.notif.forEach((a,index)=>{
+        this.selected.push(index)
+      })
+    } else {
+      this.selected=[]
+    }
+    
+    console.log(this.selected)
   }
 
   setRead(n:number){
     this.selected.forEach(a=>{
       firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).child('status').set(n)
     })
-    this.selected=[]
   }
 
   delete(){
@@ -103,4 +109,5 @@ export class NotificationListComponent implements OnInit {
       firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).remove()
     })
   }
+
 }
