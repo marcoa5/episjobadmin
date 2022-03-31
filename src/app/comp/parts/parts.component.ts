@@ -174,7 +174,7 @@ export class PartsComponent implements OnInit {
             .set("info",JSON.stringify(this.info))
             let url:string = environment.url
             const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
-            this.http.get(url,{params:params}).subscribe((a: any)=>{
+            this.http.get(url + 'partreq',{params:params, responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
