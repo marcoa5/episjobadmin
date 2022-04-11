@@ -93,6 +93,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','','','']
     },
+    {
+      id:'Contracts',
+      icon:'class', 
+      route:'contracts', 
+      dis:false, 
+      auth:['SU','admin','adminS','sales']
+    },
   ];
   subsList: Subscription[]=[]
   uId:string=''

@@ -9,6 +9,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { TechniciansComponent } from 'src/app/comp/technicians/technicians.component';
 import { of, Subscription } from 'rxjs';
+import { AlertComponent } from '../alert/alert.component';
 
 export interface co{
   id: string
@@ -72,10 +73,22 @@ export class NewcontactComponent implements OnInit {
       contId: this.contId
 
     }
-    firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
+    let check:boolean=false
+    firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
+      a.forEach(b=>{
+        if(b.val().name==dat.name) check =true
+      })
+    })
     .then(()=>{
-      this.dialogRef.close('created')
-      this.auth.getContact()
+      if(check){
+        const al = this.dialog.open(AlertComponent, {data: dat.name})
+      }else{
+        firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
+        .then(()=>{
+          this.dialogRef.close('created')
+          this.auth.getContact()
+        })
+      }
     })
   }
 

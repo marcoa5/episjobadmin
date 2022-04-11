@@ -15,14 +15,15 @@ import { MatChip } from '@angular/material/chips';
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
 import { MakeidService } from '../../../serv/makeid.service'
 import { Subscription } from 'rxjs';
-import { auth } from 'firebase-admin';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { NewdataComponent } from '../../util/dialog/newdata/newdata.component';
+import { MatStepper } from '@angular/material/stepper';
 
 export interface customer{
-  id: string,
-  c1: string,
-  c2: string,
-  c3: string
+  id: string|undefined,
+  c1: string|undefined,
+  c2: string|undefined,
+  c3: string|undefined
 }
 
 export interface contact{
@@ -65,7 +66,7 @@ export class NewvisitComponent implements OnInit {
   custFormGroup!: FormGroup;
   contactFormGroup!: FormGroup;
   custPotential!:FormGroup
-  customers!: customer[] |undefined
+  customers: customer[]=[]
   customers1: customer[] |undefined
   cId: customer[]=[]
   contacts: contact[]=[]
@@ -138,6 +139,7 @@ export class NewvisitComponent implements OnInit {
     this.subsList.push(
       this.auth._custI.subscribe(a=>{
         if(a!=undefined){
+          this.customers=[]
           this.customers=Object.values(a)
           this.customers!.sort((a:any, b:any)=> {
             if (a.c1 < b.c1) {
@@ -199,7 +201,7 @@ export class NewvisitComponent implements OnInit {
   filterCust(v:string){
     if(v!=''){
       this.customers1 = this.customers?.filter(i=>{
-        if(i.c1.toLowerCase().includes(v.toLowerCase()) || i.c2.toLowerCase().includes(v.toLowerCase()) || i.c3.toLowerCase().includes(v.toLowerCase())) return true
+        if(i.c1!.toLowerCase().includes(v.toLowerCase()) || i.c2!.toLowerCase().includes(v.toLowerCase()) || i.c3!.toLowerCase().includes(v.toLowerCase())) return true
         return false
       })
     } else {
@@ -223,18 +225,48 @@ export class NewvisitComponent implements OnInit {
     let con = this.custFormGroup.controls
     if(this.customers){
       this.cId = this.customers?.filter(v=>{
-        if(v.c1.toLowerCase()==con.c1.value.toLowerCase()) return true
+        if(v.c1!.toLowerCase()==con.c1.value.toLowerCase()) return true
         return false
       })
       if(this.cId?.length==1) {
         this.listVis=false
         con.c1.setValue(this.cId[0].c1)
-        this.conCus(this.cId[0].c2,this.cId[0].c3)
-        this.cuId(this.cId[0].id)
+        this.conCus(this.cId[0].c2!,this.cId[0].c3!)
+        this.cuId(this.cId[0].id!)
       } else {
         this.listVis=true
         this.conCus('','')
       }
+    }
+  }
+
+  goA(stepper:MatStepper){
+    if(this.cId.length==0){
+      let newCustomer:customer={c1:undefined,c2:undefined,c3:undefined,id:undefined}
+      let con = this.custFormGroup.controls
+      newCustomer.c1=con.c1.value
+      newCustomer.c2=con.c2.value
+      newCustomer.c3=con.c3.value
+      newCustomer.id='00000POT'+this.makeid.makeId(10)
+      const confirm = this.dialog.open(NewdataComponent, {data: {type:'Customer' , name: newCustomer.c1}})
+      confirm.afterClosed().subscribe(a=>{
+        if(a){
+          firebase.database().ref('CustomerC').child(newCustomer.id!).set(newCustomer)
+          .then(()=>{
+            this.customers.push(newCustomer)
+            this.customers.sort((a:any,b:any)=>{
+              if(a.c1>b.c1) return 1
+              if(a.c1<b.c1) return -1
+              return 0
+            })
+            this.cId[0]=newCustomer
+            this.cuId(newCustomer.id!)
+            stepper.next()
+          })
+        }
+      })
+    } else {
+      stepper.next()
     }
   }
 
@@ -304,7 +336,7 @@ export class NewvisitComponent implements OnInit {
   submit(){
     let info:info={
       date: moment(this.dateFormGroup.controls.date.value).format("YYYY-MM-DD"),
-      cuId: this.cId[0]?this.cId[0].id:'00000POT'+this.makeid.makeId(10),
+      cuId: this.cId[0].id!,
       c1: this.custFormGroup.controls.c1.value.toUpperCase(),
       c2: this.custFormGroup.controls.c2.value.toUpperCase(),
       c3: this.custFormGroup.controls.c3.value.toUpperCase(),
@@ -429,7 +461,7 @@ export class NewvisitComponent implements OnInit {
   }
 
   cuId(a:string){
-    firebase.database().ref('Contacts').child(a).on('value',a=>{
+    firebase.database().ref('CustContacts').child(a).on('value',a=>{
       this.custAtt=[]
       a.forEach(b=>{
         this.custAtt.push(b.val().name)
@@ -452,9 +484,10 @@ export class NewvisitComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+
       if(result!=undefined) {
         //this.newCont.emit(result)
-        this.cuId(this.cId[0].id)
+        this.cuId(this.cId[0].id!)
       }
     })
   }

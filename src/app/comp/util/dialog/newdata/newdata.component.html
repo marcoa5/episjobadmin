@@ -1,0 +1,11 @@
+<div mat-dialog-title>Add New {{data.type}}</div>
+
+<div mat-dialog-content>
+    <div>{{data.type}} {{data.name}} does not exist and will be added. Proceed?</div>
+</div>
+
+
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'add'">Update</button>
+</div>

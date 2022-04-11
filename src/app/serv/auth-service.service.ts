@@ -69,7 +69,7 @@ export class AuthServiceService {
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
   chDev(){
-    //return true
+    return true
     if(!isDevMode()) return true
     return false
   }

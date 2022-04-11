@@ -3,7 +3,7 @@
 <div episjobCont>
   <episjob-h2 icon="event_available" data="New Customer Visit" padtop="0"></episjob-h2>
 
-<mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)">
+<mat-vertical-stepper linear=true orientation="vertical" (selectionChange)="test($event)" #stepper>
   <mat-step [stepControl]="dateFormGroup">
       <ng-template matStepLabel>Select Date</ng-template>
       <form [formGroup]="dateFormGroup">
@@ -31,7 +31,7 @@
             </mat-form-field>
             <mat-list class="list custItem4" *ngIf="chList() && listVis">
               <!--<div mat-subheader>Customers List</div>-->
-              <mat-list-item *ngFor="let c of customers1" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" (click)="addC(c.c1,c.c2,c.c3,c.id)">
+              <mat-list-item *ngFor="let c of customers1" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" (click)="addC(c.c1!,c.c2!,c.c3!,c.id!)">
                 <mat-icon mat-list-icon>business</mat-icon>
                 <div mat-line>{{c.c1}}</div>
                 <div mat-line> {{c.c2}} | {{c.c3}} </div>
@@ -52,7 +52,7 @@
             
             <div class="butt">
                 <button mat-raised-button matStepperPrevious color="primary">Back</button>
-                <button mat-raised-button matStepperNext color="primary" *ngIf="!custFormGroup.invalid">Next</button>
+                <button mat-raised-button color="primary" *ngIf="!custFormGroup.invalid" (click)="goA(stepper)">Next</button>
             </div>
         </form>
   </mat-step>
@@ -108,7 +108,7 @@
           <textarea placeholder="Type notes here..." matInput formControlName="notes" rows="15"></textarea>
         </mat-form-field>
         
-        <episjob-potential [custId]="cId[0]?cId[0].id:''"></episjob-potential>
+        <episjob-potential [custId]="(cId[0] && cId[0].id)?cId[0].id:''"></episjob-potential>
 
       </div>
 

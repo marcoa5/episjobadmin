@@ -133,7 +133,9 @@ import { SubeddialogComponent } from './comp/rigs/machine/subeq/subeddialog/sube
 import { NewsubeqComponent } from './comp/rigs/machine/subeq/newsubeq/newsubeq.component';
 import { ContDirective } from './dir/cont.directive';
 import { ContMaxWidthDirective } from './dir/cont-max-width.directive';
-import { DragDropModule } from '@angular/cdk/drag-drop'
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NewdataComponent } from './comp/util/dialog/newdata/newdata.component';
+import { AlertComponent } from './comp/util/dialog/alert/alert.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -251,6 +253,8 @@ const appearance: MatFormFieldDefaultOptions = {
     NewsubeqComponent,
     ContDirective,
     ContMaxWidthDirective,
+    NewdataComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
