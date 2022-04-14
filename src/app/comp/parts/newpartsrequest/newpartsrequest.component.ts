@@ -76,13 +76,13 @@ export class NewpartsrequestComponent implements OnInit {
 
   filter(){
     let f=this.newRequest.controls.search.value
-    if(f.length>2) {
+    if(f.length<2) {
       this.chStr=true
       this.details=[]
       this.sn.emit('')
     }
     if(f.length>2){
-      this.rigs=this.rigs.filter(a=>{
+      this.rigs=this._rigs.filter(a=>{
         if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
         return false
       }) 

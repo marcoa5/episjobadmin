@@ -81,7 +81,7 @@ import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { MatStepperModule } from '@angular/material/stepper'
 import { MatRadioModule } from '@angular/material/radio'
 import { MatListModule } from '@angular/material/list';
-import { matSnackBarAnimations, MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { LabFilterPipe } from './pipe/lab-filter.pipe';
 import { ContactComponent } from './comp/customers/cliente/contact/contact.component';
@@ -101,7 +101,7 @@ import { PartsComponent } from './comp/parts/parts.component';
 import { NewpartsrequestComponent } from './comp/parts/newpartsrequest/newpartsrequest.component';
 import { RequestlistComponent } from './comp/parts/requestlist/requestlist.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component'
-import { MatChipsModule } from '@angular/material/chips';
+import { MatChipsModule, MatChipRemove } from '@angular/material/chips';
 import { ContactsComponent } from './comp/contacts/contacts.component';
 import { ContactfilterPipe } from './pipe/contactfilter.pipe';
 import { ListofrequestsComponent } from './comp/parts/listofrequests/listofrequests.component';
@@ -135,7 +135,9 @@ import { ContDirective } from './dir/cont.directive';
 import { ContMaxWidthDirective } from './dir/cont-max-width.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NewdataComponent } from './comp/util/dialog/newdata/newdata.component';
-import { AlertComponent } from './comp/util/dialog/alert/alert.component'
+import { AlertComponent } from './comp/util/dialog/alert/alert.component';
+import { ContractsComponent } from './comp/contracts/contracts.component';
+import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -255,6 +257,8 @@ const appearance: MatFormFieldDefaultOptions = {
     ContMaxWidthDirective,
     NewdataComponent,
     AlertComponent,
+    ContractsComponent,
+    NewcontractComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
@@ -265,7 +269,7 @@ const appearance: MatFormFieldDefaultOptions = {
   providers: [SwupdateService, {
     provide: MAT_DATE_LOCALE,
     useValue: 'it',
-  },
+  }, MatChipRemove
   ],
   bootstrap: [AppComponent],
 })

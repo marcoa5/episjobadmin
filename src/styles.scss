@@ -104,3 +104,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
   max-height: 100%;
 }
+
+.contract .mat-dialog-container {
+  width: 95vW !important;
+  max-width: 650px !important;
+}
+.contract .mat-form-field-infix {
+  width: 100%;
+}

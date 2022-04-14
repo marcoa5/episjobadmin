@@ -69,7 +69,7 @@ export class AuthServiceService {
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
   
   chDev(){
-    return true
+    //return true
     if(!isDevMode()) return true
     return false
   }
@@ -387,7 +387,11 @@ export class AuthServiceService {
         if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech') return true
         return false
         break
-    }
+      case 'contracts':
+        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech' || pos=='sales') return true
+        return false
+        break
+      }
     
     return false
   }

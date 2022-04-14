@@ -1,0 +1,7 @@
+<episjob-navbar title="Contract" (filter)="filter($event)"></episjob-navbar>
+<div class="cont" episjobCont *ngIf="allow && !allSpin">
+    <episjob-h2 data="List of contracts" icon="class" padtop="0" [addGeneral]="true" (addGen)="add($event)"></episjob-h2>
+</div>
+
+<div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>
+<episjob-spin *ngIf="allSpin"></episjob-spin>

@@ -4,6 +4,9 @@ import firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { InputhrsComponent } from 'src/app/comp/util/dialog/inputhrs/inputhrs.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Clipboard } from '@angular/cdk/clipboard'
+import { CopyComponent } from 'src/app/comp/util/dialog/copy/copy.component';
+import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
 
 @Component({
   selector: 'episjob-partsdialog',
@@ -15,7 +18,7 @@ export class PartsdialogComponent implements OnInit {
   displayedColumns: string[]=['pnshort','p/n', 'Description', 'LLP', 'Qty', 'Tot']
   test:boolean=false
   subsList:Subscription[]=[]
-  constructor(private auth: AuthServiceService, private dialog:MatDialog,public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(private auth: AuthServiceService, private dialog:MatDialog,public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private clipboard: Clipboard) {}
 
   ngOnInit(): void {
     this.subsList.push(
@@ -47,5 +50,14 @@ export class PartsdialogComponent implements OnInit {
         }
       })
     }
+  }
+
+  download(){
+    let exp:string='p/n\tDesc\tqty'
+    this.data.parts.forEach((a:any)=>{
+      exp+=`\n${a.pn}\t${a.desc}\t${a.qty}`
+    })
+    this.clipboard.copy(exp)
+    const dia = this.dialog.open(CopyComponent)
   }
 }

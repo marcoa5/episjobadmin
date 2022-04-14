@@ -21,6 +21,7 @@ import { NewvisitComponent } from './comp/visit/newvisit/newvisit.component';
 import { PartsComponent } from './comp/parts/parts.component';
 import { NotificationListComponent } from './comp/notification-list/notification-list.component';
 import { ContactsComponent } from './comp/contacts/contacts.component';
+import { ContractsComponent } from './comp/contracts/contracts.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
 import { SjComponent } from './comp/sjhome/sj/sj.component';
 
@@ -46,6 +47,7 @@ const routes: Routes = [
   {path: 'parts', component:PartsComponent},
   {path: 'notif', component:NotificationListComponent},
   {path: 'contacts', component:ContactsComponent},
+  {path: 'contracts', component:ContractsComponent},
   {path: 'sj', component:SjhomeComponent},
   {path: 'newsj', component:SjComponent}
 ];

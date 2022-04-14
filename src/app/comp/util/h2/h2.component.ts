@@ -20,6 +20,7 @@ export class H2Component implements OnInit {
   @Input() icon:string=''
   @Input() limitLabel:string=''
   @Input() addSubEq:boolean=false
+  @Input() addGeneral:boolean=false
   @Input() showChBox:boolean=false
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
@@ -30,6 +31,7 @@ export class H2Component implements OnInit {
   @Output() addSub = new EventEmitter()
   @Output() down=new EventEmitter()
   @Output() checkBox=new EventEmitter()
+  @Output() addGen=new EventEmitter()
   @ViewChild('chec') chec!:ElementRef
   subsList:Subscription[]=[]
   pos:string=''
@@ -70,6 +72,10 @@ export class H2Component implements OnInit {
 
   addS(e:any){
     this.addSub.emit('addSub')
+  }
+
+  addG(e:any){
+    this.addGen.emit('add')
   }
 
   lim(e:any){

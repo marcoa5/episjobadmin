@@ -21,7 +21,7 @@
                 <div class="te">Loading Sent....</div> 
             </div>
             
-            <div *ngIf="(!info || !info.sn) && pos=='SU' && _listSent.length>0">
+            <div *ngIf="(!info || !info.sn) && (pos=='SU' || pos=='admin') && _listSent.length>0">
                 <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
                 <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
             </div>  
