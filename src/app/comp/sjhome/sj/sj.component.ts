@@ -487,119 +487,135 @@ export class SjComponent implements OnInit {
 
   saveData(last?:boolean, newId?:string, info?:any){
     let i:number=1
-    let h:ma = {
-      author: (this.file && this.file.author)?this.file.author:'',
-      authorId: (this.file && this.file.authorId)?this.file.authorId:'',
-      userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
-      data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
-      prodotto1: this.rigForm.controls.model.value,
-      matricola: this.rigForm.controls.sn.value,
-      custid:this.rigForm.controls.customerid.value,
-      cliente11: this.rigForm.controls.customer.value,
-      cliente12: this.rigForm.controls.customer2.value,
-      cliente13: this.rigForm.controls.customer3.value,
-      cantiere1: this.rigForm.controls.site.value,
-      firmacc1: this.custSign,
-      firmatt1: this.techSign,
-      rappl1: this.reportForm.controls.report.value,
-      oss1: this.reportForm.controls.oss.value,
-      orem1: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
-      perc11: this.rigForm.controls.perc1h.value>0?this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
-      perc21: this.rigForm.controls.perc2h.value>0?this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
-      perc31: this.rigForm.controls.perc3h.value>0?this.rigForm.controls.perc3h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
-      nsofferta1:'',
-      vsordine:'',
-      stdspe: this.rigForm.controls.type.value,
-      apbpcs:'',
-      chbpcs:'',
-      docbpcs:'',
-      rissondaggio:`${this.custSurv.s1}${this.custSurv.s2}${this.custSurv.s3}`,
-      contnomec:this.custSurv.name,
-      contfirmac:'1',
-      contsondc:'1',
-      elencomail:this.maillist?this.maillist:'',
-      rs:this.riskAss?this.riskAss:[],
-      days: this.days?this.days:[],
-      tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
-      tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
-      tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
-      tecnico41:'',dat41:'',dat42:'',dat43:'',spov41:'',spol41:'',spsv41:'',spll41:'',stdv41:'',stdl41:'',strv41:'',strl41:'',mntv41:'',mntl41:'',mfv41:'',mfl41:'',mnfv41:'',mnfl41:'',km41:'',spv41:'',off41:'',ofs41:'',
-      tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
-      tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
-      tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
-    }
-    if(this.nuovo){
-      h.author= this.userName
-      h.authorId= this.userId
-    } else{
-      h._mod=this.userName
-    }
-    if(this.days){
-      this.days.forEach(a=>{
-        if(this.rigForm.controls.type.value=='STD') {
-          h['spov'+i +'1']=''
-          h['spol'+i +'1']=''
-          h['spsv'+i +'1']=''
-          h['spsl'+i +'1']=''
-          h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-          h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-          h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-          h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-        } else {
-          h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
-          h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
-          h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
-          h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
-          h['stdv'+i +'1']=''
-          h['stdl'+i +'1']=''
-          h['strv'+i +'1']=''
-          h['strl'+i +'1']=''
-        }
-        h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
-        h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
-        h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
-        h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
-        h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
-        h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
-        h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
-        h['spvkm'+i +'1']=a.hr['spvkm']==0?'':a.hr['spvkm']
-        h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
-        h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']    
-          h['tecnico' + i + '1']=a.tech
-          h['dat' + i + '1']=a.day
-          h['dat' + i + '2']=a.month
-          h['dat' + i + '3']=a.year
-          i++
+    new Promise((res,rej)=>{
+      console.log(this.behalf)
+      let nome:string=''
+      if(this.behalf!='' && this.behalf!=undefined) {
+        firebase.database().ref('Users').child(this.behalf).once('value',p=>{
+          if(p.val()!=null) nome=`${p.val().Nome} ${p.val().Cognome}`
         })
-    }
-    if(this.imi!='') h.imiFabi=this.imi
-    let g = h.data11
-    let d = parseInt(g.substring(0,2))
-    let m = parseInt(g.substring(3,5))-1
-    let y = parseInt(g.substring(6,10))
-    let n_d = new Date(y,m,d)
-    h.data_new=moment(n_d).format('YYYY-MM-DD')
-    h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
-    if(info){
-      h.info = info
-    }
-    if(last) {
-      let tempId:string = this.rigForm.controls.sid.value
-      h.sjid=tempId
-      h.status='deleted'
-      localStorage.setItem(tempId, JSON.stringify(h))
-    }
-    h.sjid=newId?newId:this.rigForm.controls.sid.value
-    this.file=h
-    if(this.file.sjid.substring(0,3)!='sjs') {
-      localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
-      if(navigator.onLine) {
-        firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
-      }
-    } else{
-      firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
-    }
+        .then(()=>{res(nome)})
+      } else {res(nome)}
+    }).then((name:any)=>{
+      console.log(name)
+      let h:ma = {
+          author: (name!='')?name:(this.file && this.file.author)?this.file.author:'',
+          authorId: (this.file && this.file.authorId)?this.file.authorId:'',
+          userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
+          data11: moment(this.rigForm.controls.date.value).format('DD/MM/YYYY'),
+          prodotto1: this.rigForm.controls.model.value,
+          matricola: this.rigForm.controls.sn.value,
+          custid:this.rigForm.controls.customerid.value,
+          cliente11: this.rigForm.controls.customer.value,
+          cliente12: this.rigForm.controls.customer2.value,
+          cliente13: this.rigForm.controls.customer3.value,
+          cantiere1: this.rigForm.controls.site.value,
+          firmacc1: this.custSign,
+          firmatt1: this.techSign,
+          rappl1: this.reportForm.controls.report.value,
+          oss1: this.reportForm.controls.oss.value,
+          orem1: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+          perc11: this.rigForm.controls.perc1h.value>0?this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+          perc21: this.rigForm.controls.perc2h.value>0?this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+          perc31: this.rigForm.controls.perc3h.value>0?this.rigForm.controls.perc3h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
+          nsofferta1:'',
+          vsordine:'',
+          stdspe: this.rigForm.controls.type.value,
+          apbpcs:'',
+          chbpcs:'',
+          docbpcs:'',
+          rissondaggio:`${this.custSurv.s1}${this.custSurv.s2}${this.custSurv.s3}`,
+          contnomec:this.custSurv.name,
+          contfirmac:'1',
+          contsondc:'1',
+          elencomail:this.maillist?this.maillist:'',
+          rs:this.riskAss?this.riskAss:[],
+          days: this.days?this.days:[],
+          tecnico11:'',dat11:'',dat12:'',dat13:'',spov11:'',spol11:'',spsv11:'',spll11:'',stdv11:'',stdl11:'',strv11:'',strl11:'',mntv11:'',mntl11:'',mfv11:'',mfl11:'',mnfv11:'',mnfl11:'',km11:'',spv11:'',off11:'',ofs11:'',
+          tecnico21:'',dat21:'',dat22:'',dat23:'',spov21:'',spol21:'',spsv21:'',spll21:'',stdv21:'',stdl21:'',strv21:'',strl21:'',mntv21:'',mntl21:'',mfv21:'',mfl21:'',mnfv21:'',mnfl21:'',km21:'',spv21:'',off21:'',ofs21:'',
+          tecnico31:'',dat31:'',dat32:'',dat33:'',spov31:'',spol31:'',spsv31:'',spll31:'',stdv31:'',stdl31:'',strv31:'',strl31:'',mntv31:'',mntl31:'',mfv31:'',mfl31:'',mnfv31:'',mnfl31:'',km31:'',spv31:'',off31:'',ofs31:'',
+          tecnico41:'',dat41:'',dat42:'',dat43:'',spov41:'',spol41:'',spsv41:'',spll41:'',stdv41:'',stdl41:'',strv41:'',strl41:'',mntv41:'',mntl41:'',mfv41:'',mfl41:'',mnfv41:'',mnfl41:'',km41:'',spv41:'',off41:'',ofs41:'',
+          tecnico51:'',dat51:'',dat52:'',dat53:'',spov51:'',spol51:'',spsv51:'',spll51:'',stdv51:'',stdl51:'',strv51:'',strl51:'',mntv51:'',mntl51:'',mfv51:'',mfl51:'',mnfv51:'',mnfl51:'',km51:'',spv51:'',off51:'',ofs51:'',
+          tecnico61:'',dat61:'',dat62:'',dat63:'',spov61:'',spol61:'',spsv61:'',spll61:'',stdv61:'',stdl61:'',strv61:'',strl61:'',mntv61:'',mntl61:'',mfv61:'',mfl61:'',mnfv61:'',mnfl61:'',km61:'',spv61:'',off61:'',ofs61:'',
+          tecnico71:'',dat71:'',dat72:'',dat73:'',spov71:'',spol71:'',spsv71:'',spll71:'',stdv71:'',stdl71:'',strv71:'',strl71:'',mntv71:'',mntl71:'',mfv71:'',mfl71:'',mnfv71:'',mnfl71:'',km71:'',spv71:'',off71:'',ofs71:'',
+        }
+        if(this.nuovo){
+          if(this.behalf=='' || this.behalf==undefined) {
+            h.author= this.userName
+            h.authorId= this.userId
+          }          
+        } else{
+          h._mod=this.userName
+        }
+        if(this.days){
+          this.days.forEach(a=>{
+            if(this.rigForm.controls.type.value=='STD') {
+              h['spov'+i +'1']=''
+              h['spol'+i +'1']=''
+              h['spsv'+i +'1']=''
+              h['spsl'+i +'1']=''
+              h['stdv'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+              h['stdl'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+              h['strv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+              h['strl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+            } else {
+              h['spov'+i +'1']=a.hr['spov']==0?'':a.hr['spov']
+              h['spol'+i +'1']=a.hr['spol']==0?'':a.hr['spol']
+              h['spsv'+i +'1']=a.hr['spsv']==0?'':a.hr['spsv']
+              h['spsl'+i +'1']=a.hr['spsl']==0?'':a.hr['spsl']
+              h['stdv'+i +'1']=''
+              h['stdl'+i +'1']=''
+              h['strv'+i +'1']=''
+              h['strl'+i +'1']=''
+            }
+            h['mntv'+i +'1']=a.hr['mntv']==0?'':a.hr['mntv']
+            h['mntl'+i +'1']=a.hr['mntl']==0?'':a.hr['mntl']
+            h['mfv'+i +'1']=a.hr['mfv']==0?'':a.hr['mfv']
+            h['mfl'+i +'1']=a.hr['mfl']==0?'':a.hr['mfl']
+            h['mnfv'+i +'1']=a.hr['mnfv']==0?'':a.hr['mnfv']
+            h['mnfl'+i +'1']=a.hr['mnfl']==0?'':a.hr['mnfl']
+            h['km'+i +'1']=a.hr['km']==0?'':a.hr['km'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+            h['spv'+i +'1']=a.hr['spv']==0?'':a.hr['spv']
+            h['spvkm'+i +'1']=a.hr['spvkm']==0?'':a.hr['spvkm']
+            h['off'+i +'1']=a.hr['off']==0?'':a.hr['off']
+            h['ofs'+i +'1']=a.hr['ofs']==0?'':a.hr['ofs']    
+              h['tecnico' + i + '1']=a.tech
+              h['dat' + i + '1']=a.day
+              h['dat' + i + '2']=a.month
+              h['dat' + i + '3']=a.year
+              i++
+            })
+        }
+        if(this.imi!='') h.imiFabi=this.imi
+        let g = h.data11
+        let d = parseInt(g.substring(0,2))
+        let m = parseInt(g.substring(3,5))-1
+        let y = parseInt(g.substring(6,10))
+        let n_d = new Date(y,m,d)
+        h.data_new=moment(n_d).format('YYYY-MM-DD')
+        h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
+        if(info){
+          h.info = info
+        }
+        if(last) {
+          let tempId:string = this.rigForm.controls.sid.value
+          h.sjid=tempId
+          h.status='deleted'
+          localStorage.setItem(tempId, JSON.stringify(h))
+        }
+        h.sjid=newId?newId:this.rigForm.controls.sid.value
+        this.file=h
+        if(this.file.sjid.substring(0,3)!='sjs') {
+          localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+          if(navigator.onLine) {
+            firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
+          }
+        } else{
+          firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
+        }
+    })
+    
+
   }
 
   loadData(a:any, b:string){

@@ -69,14 +69,14 @@
                     <input matInput type="text" placeholder="CUP" formControlName="cup" autocomplete="off">
                 </mat-form-field>
             </div>
-        
+            <episjob-add-cancelbuttons 
+                [a1]="'Cancel'" 
+                [a2]="addUpd? 'Add' : 'Update'" 
+                [type]="'rig'" 
+                [check]="newR.invalid || segment || !checkCon()" 
+                (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
+            </episjob-add-cancelbuttons>
         </form>
-        <episjob-add-cancelbuttons 
-            [a1]="'Cancel'" 
-            [a2]="addUpd? 'Add' : 'Update'" 
-            [type]="'rig'" 
-            [check]="newR.invalid || segment || !checkCon()" 
-            (info)="add(addUpd? 'addr':'updr', newR, shipTo)">
-        </episjob-add-cancelbuttons>
+        
     </div>
 </div>
