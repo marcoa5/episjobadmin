@@ -1,6 +1,56 @@
 <episjob-navbar title="Contract" (filter)="filter($event)"></episjob-navbar>
 <div class="cont" episjobCont *ngIf="allow && !allSpin">
     <episjob-h2 data="List of contracts" icon="class" padtop="0" [addGeneral]="true" (addGen)="add($event)"></episjob-h2>
+    <!--<table matSort class="mat-elevation-z2" (matSortChange)="sortData($event)">
+        <tr>
+           <th mat-sort-header="sn">s/n</th> 
+           <th mat-sort-header="model">Model</th> 
+           <th mat-sort-header="customer">Customer</th> 
+           <th mat-sort-header="type">Type</th> 
+           <th mat-sort-header="start">Start</th> 
+           <th mat-sort-header="end">End</th>
+        </tr>
+        <tr *ngFor="let c of sortedData">
+            <td>{{c.sn}}</td>
+            <td>{{c.model}}</td>
+            <td>{{c.customer}}</td>
+            <td>{{c.type}}</td>
+            <td>{{c.start}}</td>
+            <td>{{c.end}}</td>
+        </tr>
+
+
+    </table>-->
+    
+    
+    <table mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
+        <ng-container matColumnDef="sn">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n </th>
+          <td mat-cell *matCellDef="let element"> {{element.sn}} </td>
+        </ng-container>
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Model </th>
+            <td mat-cell *matCellDef="let element"> {{element.model}} </td>
+          </ng-container>
+        <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+            <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        </ng-container>
+        <ng-container matColumnDef="start">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Start </th>
+            <td mat-cell *matCellDef="let element"> {{element.start}} </td>
+        </ng-container>
+        <ng-container matColumnDef="end">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> End </th>
+            <td mat-cell *matCellDef="let element"> {{element.end}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 </div>
 
 <div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>

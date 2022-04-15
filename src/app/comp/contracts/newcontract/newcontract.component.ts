@@ -7,7 +7,9 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { AlertComponent } from '../../util/dialog/alert/alert.component';
- 
+import firebase from 'firebase/app';
+import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdialog/contractalreadyexistsdialog.component';
+
 @Component({
   selector: 'episjob-newcontract',
   templateUrl: './newcontract.component.html',
@@ -50,8 +52,8 @@ export class NewcontractComponent implements OnInit {
 
   ngOnInit(): void {
     let r = this.inputData.controls
-    r.model.disable()
-    r.customer.disable()
+    //r.model.disable()
+    //r.customer.disable()
     if(this.data.new) this.inputData.controls.id.setValue(this.makeid.makeId(7))
     this.subsList.push(
       this.auth._rigs.subscribe(a=>{
@@ -120,5 +122,20 @@ export class NewcontractComponent implements OnInit {
   
   removeFile(a:MatChip){
     console.log(a)
+  }
+
+  save(){
+    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
+      if(a.val()!=null) {
+        const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
+        diy.afterClosed().subscribe(ref=>{
+          if(ref!=undefined){
+            this.dialogRef.close(this.inputData.value)
+          }
+        })
+      } else {
+        this.dialogRef.close(this.inputData.value)
+      }
+    })
   }
 }

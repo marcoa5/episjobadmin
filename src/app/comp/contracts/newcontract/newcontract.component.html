@@ -38,7 +38,7 @@
             <mat-form-field [appearance]="appearance" class="search">
                 <mat-label>Contract type</mat-label>
                 <mat-select formControlName="type">
-                  <mat-option *ngFor="let t of types" [value]="t.value">
+                  <mat-option *ngFor="let t of types" [value]="t.text">
                     {{t.text}}
                   </mat-option>
                 </mat-select>
@@ -54,23 +54,7 @@
               
                 <mat-error *ngIf="inputData.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                 <mat-error *ngIf="inputData.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-            </mat-form-field>  
-            <div>
-                <div class="title">
-                    <h4>Attachments</h4>
-                    <mat-icon class="add" (click)="fu.click()">add_circle</mat-icon>
-                    <input #fu type="file" (change)="fileUpload($event)" accept="image/jpg, image/jpeg, image/png, .ico,.pdf" multiple/>
-                </div>
-                <div class="imeicont" >
-                    <mat-chip-list multiple>
-                        <mat-chip #c="matChip" *ngFor="let f of nameList" [value]="f" (removed)="removeFile(c)">
-                            {{f}}
-                            <mat-icon matChipRemove>cancel</mat-icon>
-                        </mat-chip>
-                        
-                    </mat-chip-list>
-                </div>
-            </div>          
+            </mat-form-field>        
         </div>
         
     </form>
@@ -78,5 +62,5 @@
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0">Reset</button>
     <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="inputData.value" [disabled]="inputData.invalid">OK</button>
+    <button mat-raised-button color="primary" [disabled]="inputData.invalid" (click)="save()">OK</button>
 </div>

@@ -137,7 +137,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NewdataComponent } from './comp/util/dialog/newdata/newdata.component';
 import { AlertComponent } from './comp/util/dialog/alert/alert.component';
 import { ContractsComponent } from './comp/contracts/contracts.component';
-import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component'
+import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component';
+import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -259,6 +260,7 @@ const appearance: MatFormFieldDefaultOptions = {
     AlertComponent,
     ContractsComponent,
     NewcontractComponent,
+    ContractalreadyexistsdialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
