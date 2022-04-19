@@ -22,6 +22,7 @@ export class H2Component implements OnInit {
   @Input() addSubEq:boolean=false
   @Input() addGeneral:boolean=false
   @Input() showChBox:boolean=false
+  @Input() dlTooltip:string = 'Copy Data'
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
   @Output() copy = new EventEmitter()

@@ -18,7 +18,7 @@
         <mat-icon *ngIf="addSubEq && pos=='SU'" matSuffix (click)="addS($event)" matTooltip="Add New Sub Equipment" matTooltipPosition="below">add_circle</mat-icon>
         <mat-icon *ngIf="addGeneral && (pos=='SU' || pos=='adminS' || pos=='admin')" matSuffix (click)="addG($event)" matTooltip="Add New" matTooltipPosition="below">add_circle</mat-icon>
         <mat-icon *ngIf="showMol" matSuffix (click)="openMol()" matTooltip="Open MOL" matTooltipPosition="below">link</mat-icon>
-        <mat-icon *ngIf="showDL" matSuffix matTooltip="Copy data" matTooltipPosition="below" (click)="copyData()">file_download</mat-icon>
+        <mat-icon *ngIf="showDL" matSuffix [matTooltip]="dlTooltip" matTooltipPosition="below" (click)="copyData()">file_download</mat-icon>
         <mat-icon *ngIf="showSort" matSuffix matTooltip="Ascending/Descending" matTooltipPosition="below" (click)="sortData()">import_export</mat-icon>
     </div>
 </div>

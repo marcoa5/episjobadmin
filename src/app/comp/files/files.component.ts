@@ -6,9 +6,12 @@ import 'firebase/storage'
 import{ BackService } from '../../serv/back.service'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { ActivatedRoute } from '@angular/router';
-import { timeStamp } from 'console';
+import { Clipboard } from '@angular/cdk/clipboard'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { CopyComponent } from '../util/dialog/copy/copy.component';
 
 @Component({
   selector: 'episjob-files',
@@ -33,7 +36,7 @@ export class FilesComponent implements OnInit {
   allSpin:boolean=true
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute) { }
+  constructor(private auth: AuthServiceService, private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute, private clip: Clipboard, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.paginator.itemsPerPageLabel = '#'
@@ -91,5 +94,26 @@ export class FilesComponent implements OnInit {
     this.start = e.pageIndex * e.pageSize 
     this.end = e.pageIndex* e.pageSize + e.pageSize
     this.files1=this.files.slice(this.start,this.end)
+  }
+
+  survey(e:any){
+    const dia = this.dialog.open(GenericComponent, {data: {msg: 'Collecting information'}})
+    setTimeout(() => {
+      dia.close()
+    }, 10000);
+    let str = `Technician\tDate\tCustomer\tMachine\tSerial nr\tPlanning\tDeliveries\tExecution`
+    firebase.database().ref('Saved').once('value',a=>{
+      a.forEach(b=>{
+        b.forEach(c=>{
+          if(c.val().tecnico11!=undefined && isFinite(parseInt(c.val().rissondaggio.split('')[0]))) {
+            str += `\n${c.val().tecnico11}\t${c.val().data11}\t${c.val().cliente11}\t${c.val().prodotto1}\t${c.val().matricola}\t${c.val().rissondaggio.split('')[0]}\t${c.val().rissondaggio.split('')[1]}\t${c.val().rissondaggio.split('')[2]}`
+          }
+        })
+      })
+    }).then(()=>{
+      this.clip.copy(str)
+      dia.close()
+      const newDia=this.dialog.open(CopyComponent)
+    })
   }
 }
