@@ -15,9 +15,10 @@ import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdated
 import {Clipboard} from '@angular/cdk/clipboard';
 import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { Subscription } from 'rxjs';
+import { generate, Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
+import { GenericComponent } from '../../util/dialog/generic/generic.component';
 
 
 export interface hrsLabel {
@@ -605,20 +606,29 @@ export class MachineComponent implements OnInit {
   }
 
   reportHrs(){
+    const dia = this.dialog.open(GenericComponent, {data:{msg:'Collecting data'}})
+    setTimeout(() => {
+      dia.close()
+    }, 10000);
     this.elenco=[]
     this.elenco.push('sn;model;date;eng;perc1;perc2;perc3')
+    let length:number=0
+    let index:number=0
     firebase.database().ref('Hours').child(this.valore).once('value',a=>{
-      a.forEach(b=>{
-        let c = b.val()
-        let _date = [b.key?.slice(0,4),'-',b.key?.slice(4)].join('')
-        let date = [_date.slice(0,7),'-',_date.slice(7)].join('')
-        firebase.database().ref('MOL').child(this.valore).once('value',rig=>{
-          this.elenco.push(`${this.valore};${rig.val().model};${date};${c.orem=='c'?0:c.orem};${c.perc1?(c.perc1=='c'?0:c.perc1):0};${c.perc2?(c.perc2=='c'?0:c.perc2):0};${c.perc3?(c.perc3=='c'?0:c.perc3):0}`)
+      length = Object.values(a.val()).length
+      new Promise((res,rej)=>{
+        a.forEach(b=>{
+          let c = b.val()
+          let _date = [b.key?.slice(0,4),'-',b.key?.slice(4)].join('')
+          let date = [_date.slice(0,7),'-',_date.slice(7)].join('')
+          firebase.database().ref('MOL').child(this.valore).once('value',rig=>{
+            this.elenco.push(`${this.valore};${rig.val().model};${date};${c.orem=='c'?0:c.orem};${c.perc1?(c.perc1=='c'?0:c.perc1):0};${c.perc2?(c.perc2=='c'?0:c.perc2):0};${c.perc3?(c.perc3=='c'?0:c.perc3):0}`)
+          }).then(()=>{
+            index++
+            if(index==length) {res('')}
+          })
         })
-      })
-    })
-    .then(()=>{
-      setTimeout(() => {
+      }).then(()=>{
         this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
         const dialogconf = new MatDialogConfig;
         dialogconf.disableClose=false;
@@ -626,11 +636,16 @@ export class MachineComponent implements OnInit {
         const dialogRef = this.dialog.open(CopyComponent, {
           data: {}
         });
-      }, 1000);
+        dia.close()
+      })
     })
   }
 
   reportSJ(){
+    const dia = this.dialog.open(GenericComponent, {data:{msg:'Collecting data'}})
+    setTimeout(() => {
+      dia.close()
+    }, 10000);
     this.elenco=[]
     this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
     firebase.database().ref('Saved').child(this.valore).once('value',b=>{
@@ -660,6 +675,7 @@ export class MachineComponent implements OnInit {
       const dialogRef = this.dialog.open(CopyComponent, {
         data: {}
       });
+      dia.close()
     })
   }
 
