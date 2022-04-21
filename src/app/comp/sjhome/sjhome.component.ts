@@ -275,10 +275,7 @@ export class SjhomeComponent implements OnInit {
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           let keyLS:string=localStorage.key(i)!
           let content:string=localStorage.getItem(localStorage.key(i)!)!
-          let cont:any = {}
-          cont=JSON.parse(content)
-          cont.info={}
-          cont.info.cc={}
+          let cont:any = JSON.parse(content)
           firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
           .then(()=>{
             localStorage.removeItem(keyLS)

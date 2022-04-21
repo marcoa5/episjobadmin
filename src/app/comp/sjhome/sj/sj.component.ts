@@ -603,17 +603,13 @@ export class SjComponent implements OnInit {
         }
         h.sjid=newId?newId:this.rigForm.controls.sid.value
         this.file=h
-        if(this.file.sjid.substring(0,3)!='sjs') {
-          localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
-          if(navigator.onLine) {
-            firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
-          }
+        localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+        if(this.file.sjid.substring(0,3)!='sjs' && navigator.onLine) {
+          firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
         } else{
           firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
         }
     })
-    
-
   }
 
   loadData(a:any, b:string){
