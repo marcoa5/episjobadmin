@@ -275,7 +275,10 @@ export class SjhomeComponent implements OnInit {
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           let keyLS:string=localStorage.key(i)!
           let content:string=localStorage.getItem(localStorage.key(i)!)!
-          let cont = JSON.parse(content)
+          let cont:any = {}
+          cont=JSON.parse(content)
+          cont.info={}
+          cont.info.cc={}
           firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
           .then(()=>{
             localStorage.removeItem(keyLS)
@@ -360,6 +363,7 @@ export class SjhomeComponent implements OnInit {
 
   getFile(){
     let file:any|undefined
+    console.log(this.sjId)
     return new Promise((res,rej)=>{
       if(this.sjId.substring(0,3)=='sjs') {
         firebase.database().ref('sjDraft').child('sent').child(this.sjId).once('value',a=>{

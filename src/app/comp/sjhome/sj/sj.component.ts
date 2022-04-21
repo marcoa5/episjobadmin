@@ -488,7 +488,6 @@ export class SjComponent implements OnInit {
   saveData(last?:boolean, newId?:string, info?:any){
     let i:number=1
     new Promise((res,rej)=>{
-      console.log(this.behalf)
       let nome:string=''
       if(this.behalf!='' && this.behalf!=undefined) {
         firebase.database().ref('Users').child(this.behalf).once('value',p=>{
@@ -497,7 +496,6 @@ export class SjComponent implements OnInit {
         .then(()=>{res(nome)})
       } else {res(nome)}
     }).then((name:any)=>{
-      console.log(name)
       let h:ma = {
           author: (name!='')?name:(this.file && this.file.author)?this.file.author:'',
           authorId: (this.file && this.file.authorId)?this.file.authorId:'',
