@@ -42,8 +42,9 @@ export class AttachmentdialogComponent implements OnInit {
   }
 
   async fileUpload(e:any){
-    let a = e.target.files
+    let a:File[] = e.target.files
     for(let i =0;i<a.length;i++){
+      
       const r= this.dialog.open(GenericComponent,{data:{msg:'Loading "'+ a[i].name+'"...'}})
         setTimeout(() => {
           r.close()
@@ -54,19 +55,20 @@ export class AttachmentdialogComponent implements OnInit {
         const dia=this.dialog.open(AttachalreadyexistsComponent,{data:a[i].name})
         await dia.afterClosed().toPromise().then(res=>{
           if(res) {
-            ref.put(a[i]).then(()=>{
-              r.close()
+            a[i].arrayBuffer().then(file=>{
+              ref.put(file).then(()=>{
+                r.close()
+              })
             })
-            
           }
         })
       })
       .catch(()=>{
-        ref.put(a[i])
-        .then(()=>{
-          r.close()
-          this.contractList.push({name:a[i].name,path:'Contracts/' + this.data.info.id + a[i].name,ico:a[i].name.split('.').slice(-1).toString()})
-          
+        a[i].arrayBuffer().then(file=>{
+          ref.put(file).then(()=>{
+            this.contractList.push({name:a[i].name,path:'Contracts/' + this.data.info.id +'/'+ a[i].name,ico:a[i].name.split('.').slice(-1).toString()})
+            r.close()
+          })
         })
       })
     }
