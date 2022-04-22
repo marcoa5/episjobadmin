@@ -280,7 +280,7 @@ export class SjhomeComponent implements OnInit {
           .then(()=>{
             localStorage.removeItem(keyLS)
             console.log('REMOVED ' + keyLS)
-            let url:string=environment.url; cont.info.cc=true
+            let url:string=environment.url; cont.info.cc=false
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
               let info={
                 fileName: cont.info.fileName,
