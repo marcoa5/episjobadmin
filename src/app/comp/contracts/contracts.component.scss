@@ -3,3 +3,14 @@
 table{
     width: 100%;
 }
+
+.actions{
+    cursor:pointer;
+}
+
+.icoCont{
+    display: grid;
+    grid-template-columns: 25px 1fr;
+    align-items: center;
+    gap:5px;
+}

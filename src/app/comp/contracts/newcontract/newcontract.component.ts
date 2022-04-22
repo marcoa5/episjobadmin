@@ -63,6 +63,23 @@ export class NewcontractComponent implements OnInit {
         }
       })
     )
+    if(this.data.info) {
+      let a = this.data.info
+      let g=this.inputData.controls
+      g.id.setValue(a.id)
+      this.chStr=false
+      this.details=['1']
+      //g.sn.disable()
+      //g.model.disable()
+      //g.customer.disable()
+      g.sn.setValue(a.sn)
+      g.model.setValue(a.model)
+      g.customer.setValue(a.customer)
+      g.custCode.setValue(a.custCode)
+      g.type.setValue(a.type)
+      g.start.setValue(new Date(a.start))
+      g.end.setValue(new Date(a.end))
+    }
   }
 
   ngOnDestroy(){

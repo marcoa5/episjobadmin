@@ -112,3 +112,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .contract .mat-form-field-infix {
   width: 100%;
 }
+
+.attachment .mat-dialog-container {
+  width: 95vW !important;
+  max-width: 650px !important;
+}
+.attachment .mat-form-field-infix {
+  min-width: 40vw;
+  width: 100%;
+}

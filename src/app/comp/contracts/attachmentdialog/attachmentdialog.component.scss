@@ -1,0 +1,39 @@
+@import '../../../../epi.scss';
+
+.fileList{
+    
+}
+
+.file{
+    display:grid;
+    grid-template-columns: 30px 1fr 30px;
+    align-items: center;
+    gap:15px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin:10px 5px;
+}
+
+.file:hover{
+    background-color: lightgrey;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.del{
+    color:white
+}
+
+.del:hover{
+    color:unset;
+}
+
+.addNewCont{
+    display: flex;
+    justify-content: flex-start;
+    gap:15px;
+    align-items: center;
+}
+h4{margin:0}

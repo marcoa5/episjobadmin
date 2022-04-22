@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewcontractComponent } from './newcontract/newcontract.component';
@@ -8,6 +8,9 @@ import * as moment from 'moment';
 import { ContractalreadyexistsdialogComponent } from './contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
+import { AttachmentdialogComponent } from './attachmentdialog/attachmentdialog.component';
+import { GenericComponent } from '../util/dialog/generic/generic.component';
 
 export interface cont {
   sn: string;
@@ -16,6 +19,7 @@ export interface cont {
   type: string;
   start: string;
   end: string;
+  daysleft:number;
 }
 
 
@@ -32,7 +36,7 @@ export class ContractsComponent implements OnInit {
   contractList:cont[]=[]
   sortedData:cont[]=[]
 
-  displayedColumns:string[]=['sn','model','customer','type','start','end']
+  displayedColumns:string[]=['sn','model','customer','type','start','end','attachment','edit','delete']
   subsList:Subscription[]=[]
   constructor(private auth:AuthServiceService, private dialog: MatDialog) { }
 
@@ -49,10 +53,20 @@ export class ContractsComponent implements OnInit {
       this.allSpin=false
     }, 1000);
     this.loadContracts()
+    this.onResize()
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<800) {
+      this.displayedColumns=['sn','type','attachment','edit','delete']
+    } else {
+      this.displayedColumns=['sn','model','customer','type','start','end','left','attachment','edit','delete']
+    }
   }
 
   loadContracts(){
@@ -60,24 +74,36 @@ export class ContractsComponent implements OnInit {
       this.contractList=[]
       a.forEach(b=>{
         b.forEach(c=>{
-          this.contractList.push(c.val())
+          c.forEach(d=>{
+            let g=d.val()
+            g.daysleft=this.chDate(d.val().end)
+            this.contractList.push(g)
+          })
         })
       })
       this.sortedData=this.contractList.slice()
     })
   }
 
-  filter(a:any){
-    this.filtro=a
+  filter(c:any){
+    let a:string=c.toLowerCase()
+    this.sortedData=this.contractList.filter((b:any)=>{
+      if(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.type.toLowerCase().includes(a)) return true
+      return false
+    })
   }
 
-  add(e:any){
-    const dia = this.dialog.open(NewcontractComponent, {panelClass:'contract',data:{new:true}})
+  add(e?:any){
+    const dia = this.dialog.open(NewcontractComponent, {panelClass:'contract',data:{new:e?false:true,info:e?e:undefined}})
     dia.afterClosed().subscribe(res=>{
       if(res!=undefined){
+        console.log(res)
         res.start = moment(res.start).format('YYYY-MM-DD')
         res.end = moment(res.end).format('YYYY-MM-DD')
-        firebase.database().ref('Contracts').child(res.sn).child(res.type).set(res)
+        firebase.database().ref('Contracts').child(res.sn).child(res.type).child(res.id).set(res)
+        .then(()=>{
+          this.attach(res)
+        })
       }
     })
   }
@@ -104,12 +130,47 @@ export class ContractsComponent implements OnInit {
           return compare(a.start, b.start, isAsc);
         case 'end':
           return compare(a.end, b.end, isAsc);
+        case 'left':
+          return compare(a.daysleft, b.daysleft, isAsc);
         default:
           return 0;
       }
     });
   }
-  
+
+  delete(i:any){
+    const dia = this.dialog.open(DeldialogComponent,{data:{id:'contract',desc:i.type + ' on s/n ' + i.sn + ' and all attachments'}})
+    dia.afterClosed().subscribe(a=>{
+      if(a) firebase.database().ref('Contracts').child(i.sn).child(i.type).remove()
+      .then(()=>{
+        firebase.storage().ref('Contracts').child(i.id).delete()
+        .then(()=>{})
+        .catch(err=>{})
+      })
+    })
+  }
+
+  attach(e:any){
+    let wait = this.dialog.open(GenericComponent, {data: {msg:'Looking for attachments...'}})
+    setTimeout(() => {
+      wait.close()
+    }, 10000);
+    let dia:MatDialogRef<AttachmentdialogComponent,any>
+    firebase.storage().ref('Contracts').child(e.id).listAll().then(list=>{
+      if(list) wait.close()
+      if(list.items.length==0) {
+        dia = this.dialog.open(AttachmentdialogComponent, {panelClass: 'attachment', data:{info:e,list:'new'}})
+      } else {
+        dia = this.dialog.open(AttachmentdialogComponent, {panelClass: 'attachment', data:{info:e,list:list.items}})
+      }
+    })    
+  }
+
+  chDate(a:any){
+    let da = moment(new Date(a))
+    let today = moment(new Date())
+    return da.diff(today,'days')
+  }
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

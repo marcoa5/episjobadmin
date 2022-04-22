@@ -138,7 +138,9 @@ import { NewdataComponent } from './comp/util/dialog/newdata/newdata.component';
 import { AlertComponent } from './comp/util/dialog/alert/alert.component';
 import { ContractsComponent } from './comp/contracts/contracts.component';
 import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component';
-import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component'
+import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component';
+import { AttachmentdialogComponent } from './comp/contracts/attachmentdialog/attachmentdialog.component';
+import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexists/attachalreadyexists.component'
 
 export const MY_FORMATS = {
   parse: {
@@ -261,6 +263,8 @@ const appearance: MatFormFieldDefaultOptions = {
     ContractsComponent,
     NewcontractComponent,
     ContractalreadyexistsdialogComponent,
+    AttachmentdialogComponent,
+    AttachalreadyexistsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

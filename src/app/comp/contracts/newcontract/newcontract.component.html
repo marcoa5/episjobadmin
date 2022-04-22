@@ -8,7 +8,7 @@
                 <mat-label>IDr</mat-label>
             </mat-form-field>
             <mat-form-field [appearance]="appearance" class="search">
-                <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" cdkFocusInitial>
+                <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" [readonly]="this.data.info && this.data.info.sn!=undefined">
                 <mat-label>Search s/n, model or customer</mat-label>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
@@ -24,15 +24,15 @@
         <div *ngIf="details.length>0">
             <mat-form-field [appearance]="appearance" class="search">
                 <mat-label>Model</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="model">
+                <input matInput type="text" autocomplete="off" formControlName="model" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
             <mat-form-field [appearance]="appearance" class="search">
                 <mat-label>Customer</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="customer">
+                <input matInput type="text" autocomplete="off" formControlName="customer" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
             <mat-form-field [appearance]="appearance" class="search hid">
                 <mat-label>CustomerCode</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="custCode">
+                <input matInput type="text" autocomplete="off" formControlName="custCode" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
             <h4>Contract data</h4>
             <mat-form-field [appearance]="appearance" class="search">
@@ -46,8 +46,8 @@
             <mat-form-field appearance="fill" style="width:100%;">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
-                  <input matStartDate formControlName="start" placeholder="Start date">
-                  <input matEndDate formControlName="end" placeholder="End date">
+                  <input matStartDate formControlName="start" placeholder="Start date" [readonly]="true">
+                  <input matEndDate formControlName="end" placeholder="End date" [readonly]="true">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-date-range-picker #picker></mat-date-range-picker>
