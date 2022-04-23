@@ -43,7 +43,17 @@ export class ContractsComponent implements OnInit {
   ngOnInit(): void {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
-        if(a) this.pos=a.Pos
+        if(a) {
+          this.pos=a.Pos
+          if(this.pos!='SU' && this.pos!='admin' && this.pos!='adminS'){
+            let i:number=0
+            i=this.displayedColumns.indexOf('edit')
+            if(i>=0) this.displayedColumns.splice(i,1)
+            let j:number=0
+            j=this.displayedColumns.indexOf('delete')
+            if(j>=0) this.displayedColumns.splice(j,1)
+          }
+        }
         setTimeout(() => {
           this.allow=this.auth.allow('contracts',this.pos)
         }, 1);

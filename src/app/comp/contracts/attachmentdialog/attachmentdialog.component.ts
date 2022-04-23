@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app'
-import { generate } from 'rxjs';
+import { generate, Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { AttachalreadyexistsComponent } from '../attachalreadyexists/attachalreadyexists.component';
@@ -13,15 +14,28 @@ import { AttachalreadyexistsComponent } from '../attachalreadyexists/attachalrea
 export class AttachmentdialogComponent implements OnInit {
   attachmentExists:boolean|undefined
   contractList:any[]=[]
-  constructor(public dialog:MatDialog, public dialogRef:MatDialogRef<AttachmentdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any ) { }
+  pos:string=''
+  subsList:Subscription[]=[]
+  constructor(private auth:AuthServiceService, public dialog:MatDialog, public dialogRef:MatDialogRef<AttachmentdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any ) { }
 
   ngOnInit(): void {
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a){
+          this.pos=a.Pos
+        }
+      })
+    )
     if(this.data.list!='new'){
       this.data.list.forEach((a:any)=>{
         this.contractList.push({name:a.name,path:a.fullPath,ico:a.name.split('.').slice(-1).toString()})
       })
     }
     
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   onNoClick(){
