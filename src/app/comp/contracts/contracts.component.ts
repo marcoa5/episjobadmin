@@ -82,14 +82,14 @@ export class ContractsComponent implements OnInit {
   loadContracts(){
     firebase.database().ref('Contracts').on('value',a=>{
       this.contractList=[]
-      a.forEach(b=>{
-        b.forEach(c=>{
+      a.forEach(c=>{
+        //b.forEach(c=>{
           c.forEach(d=>{
             let g=d.val()
             g.daysleft=this.chDate(d.val().end)
             this.contractList.push(g)
           })
-        })
+        //})
       })
       this.sortedData=this.contractList.slice()
     })
@@ -107,10 +107,9 @@ export class ContractsComponent implements OnInit {
     const dia = this.dialog.open(NewcontractComponent, {panelClass:'contract',data:{new:e?false:true,info:e?e:undefined}})
     dia.afterClosed().subscribe(res=>{
       if(res!=undefined){
-        console.log(res)
         res.start = moment(res.start).format('YYYY-MM-DD')
         res.end = moment(res.end).format('YYYY-MM-DD')
-        firebase.database().ref('Contracts').child(res.sn).child(res.type).child(res.id).set(res)
+        firebase.database().ref('Contracts').child(res.sn).child(res.id).set(res)
         .then(()=>{
           this.attach(res)
         })
@@ -151,7 +150,7 @@ export class ContractsComponent implements OnInit {
   delete(i:any){
     const dia = this.dialog.open(DeldialogComponent,{data:{id:'contract',desc:i.type + ' on s/n ' + i.sn + ' and all attachments'}})
     dia.afterClosed().subscribe(a=>{
-      if(a) firebase.database().ref('Contracts').child(i.sn).child(i.type).remove()
+      if(a) firebase.database().ref('Contracts').child(i.sn).remove()
       .then(()=>{
         firebase.storage().ref('Contracts').child(i.id).listAll()
         .then(f=>{

@@ -5,7 +5,7 @@
         <div *ngFor="let c of contractList; let i=index" class="file">
             <mat-icon (click)="open(c.path)">{{c.ico=='pdf'?'picture_as_pdf':(c.ico=='doc'||c.ico=='docx'||c.ico=='docm')?'article':(c.ico=='xls'||c.ico=='xlsx'||c.ico=='xlsm')?'table_view':'note'}}</mat-icon>
             <div (click)="open(c.path)" class="names">{{c.name}}</div>
-            <mat-icon *ngIf="pos=='SU' || pos=='admin' || pos=='adminS'" class="del" (click)="delete(c.path, c.name,i)">delete</mat-icon>
+            <mat-icon *ngIf="pos=='SU' || pos=='admin' || pos=='adminS'" class="del" (click)="delete(c.path, c.name,i)" matTooltip="Delete">delete</mat-icon>
         </div>
         <mat-divider></mat-divider>
     </div>

@@ -140,7 +140,7 @@ import { ContractsComponent } from './comp/contracts/contracts.component';
 import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component';
 import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import { AttachmentdialogComponent } from './comp/contracts/attachmentdialog/attachmentdialog.component';
-import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexists/attachalreadyexists.component'
+import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexists/attachalreadyexists.component';
 
 export const MY_FORMATS = {
   parse: {

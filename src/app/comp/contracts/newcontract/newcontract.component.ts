@@ -26,9 +26,12 @@ export class NewcontractComponent implements OnInit {
   nameList:any[]=[]
   types:any[]=[
     {value: 'certiq', text:'Certiq'},
-    {value: 'rocecop', text:'ROC & COP Care'},
-    {value: 'careeco', text:'Care Economy'},
-    {value: 'carestd', text:'Care Standard'},
+    {value: 'rocecop', text:'ROC & COP Care (con olii)'},
+    {value: 'rocecoplub', text:'ROC & COP Care (senza olii)'},
+    {value: 'careeco', text:'Care Economy (con olii)'},
+    {value: 'careecolub', text:'Care Economy (senza olii)'},
+    {value: 'carestd', text:'Care Standard (con olii)'},
+    {value: 'carestdlub', text:'Care Standard (senza olii)'},
     {value: 'minecare', text:'MINE Care'},
     {value: 'rigcare', text:'RIG Care'},
     {value: 'frame', text:'Frame Agreement'},
@@ -142,7 +145,7 @@ export class NewcontractComponent implements OnInit {
   }
 
   save(){
-    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
+    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).once('value',a=>{
       if(a.val()!=null) {
         const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
         diy.afterClosed().subscribe(ref=>{

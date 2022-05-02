@@ -43,14 +43,19 @@ export class AttachmentdialogComponent implements OnInit {
   }
 
   open(path:string){
+    console.log(path)
+    let sp:string[]=path.split('/')
+    //return
     const dia=this.dialog.open(GenericComponent,{data:{msg:'Loading...'}})
     setTimeout(() => {
       dia.close()
     }, 10000);
-    let ref = firebase.storage().ref(path)
-    ref.getMetadata().then(data=>console.log(data))
+    let ref = firebase.storage().ref(sp[0]).child(sp[1]).child(sp[2])
+    //ref.getMetadata().then(data=>{})
     ref.getDownloadURL()
-    .then(url=>{window.open(url)})
+    .then(url=>{
+      window.open(url)
+    })
     .catch(err=>{console.log(err)})
     .finally(()=>{dia.close()})
   }
@@ -78,11 +83,9 @@ export class AttachmentdialogComponent implements OnInit {
         })
       })
       .catch(()=>{
-        a[i].arrayBuffer().then(file=>{
-          ref.put(file).then(()=>{
-            this.contractList.push({name:a[i].name,path:'Contracts/' + this.data.info.id +'/'+ a[i].name,ico:a[i].name.split('.').slice(-1).toString()})
-            r.close()
-          })
+        ref.put(a[i]).then(()=>{
+          this.contractList.push({name:a[i].name,path:'Contracts/' + this.data.info.id +'/'+ a[i].name,ico:a[i].name.split('.').slice(-1).toString()})
+          r.close()
         })
       })
     }
@@ -104,5 +107,4 @@ export class AttachmentdialogComponent implements OnInit {
       }
     })
   }
-
 }
