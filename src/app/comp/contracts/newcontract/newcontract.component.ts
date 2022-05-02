@@ -145,7 +145,7 @@ export class NewcontractComponent implements OnInit {
   }
 
   save(){
-    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).once('value',a=>{
+    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
       if(a.val()!=null) {
         const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
         diy.afterClosed().subscribe(ref=>{

@@ -11,6 +11,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { AttachmentdialogComponent } from './attachmentdialog/attachmentdialog.component';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { Router } from '@angular/router';
 
 export interface cont {
   sn: string;
@@ -38,7 +39,7 @@ export class ContractsComponent implements OnInit {
 
   displayedColumns:string[]=['sn','model','customer','type','start','end','attachment','edit','delete']
   subsList:Subscription[]=[]
-  constructor(private auth:AuthServiceService, private dialog: MatDialog) { }
+  constructor(private router:Router, private auth:AuthServiceService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -82,14 +83,14 @@ export class ContractsComponent implements OnInit {
   loadContracts(){
     firebase.database().ref('Contracts').on('value',a=>{
       this.contractList=[]
-      a.forEach(c=>{
-        //b.forEach(c=>{
+      a.forEach(b=>{
+        b.forEach(c=>{
           c.forEach(d=>{
             let g=d.val()
             g.daysleft=this.chDate(d.val().end)
             this.contractList.push(g)
           })
-        //})
+        })
       })
       this.sortedData=this.contractList.slice()
     })
@@ -109,7 +110,7 @@ export class ContractsComponent implements OnInit {
       if(res!=undefined){
         res.start = moment(res.start).format('YYYY-MM-DD')
         res.end = moment(res.end).format('YYYY-MM-DD')
-        firebase.database().ref('Contracts').child(res.sn).child(res.id).set(res)
+        firebase.database().ref('Contracts').child(res.sn).child(res.type).child(res.id).set(res)
         .then(()=>{
           this.attach(res)
         })
@@ -150,7 +151,7 @@ export class ContractsComponent implements OnInit {
   delete(i:any){
     const dia = this.dialog.open(DeldialogComponent,{data:{id:'contract',desc:i.type + ' on s/n ' + i.sn + ' and all attachments'}})
     dia.afterClosed().subscribe(a=>{
-      if(a) firebase.database().ref('Contracts').child(i.sn).remove()
+      if(a) firebase.database().ref('Contracts').child(i.sn).child(i.type).remove()
       .then(()=>{
         firebase.storage().ref('Contracts').child(i.id).listAll()
         .then(f=>{
@@ -183,6 +184,14 @@ export class ContractsComponent implements OnInit {
     let da = moment(new Date(a))
     let today = moment(new Date())
     return da.diff(today,'days')
+  }
+
+  openRig(a:string){
+    this.router.navigate(['machine', {sn:a}])
+  }
+
+  openCust(a:string){
+    this.router.navigate(['cliente',{id:a}])
   }
 }
 
