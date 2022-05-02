@@ -19,6 +19,7 @@ export class AttachmentdialogComponent implements OnInit {
   constructor(private auth:AuthServiceService, public dialog:MatDialog, public dialogRef:MatDialogRef<AttachmentdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a){
@@ -36,6 +37,7 @@ export class AttachmentdialogComponent implements OnInit {
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
+    firebase.database().ref('Contracts').child(this.data.info.sn).child(this.data.info.id).child('att').set(this.contractList.length)
   }
 
   onNoClick(){
