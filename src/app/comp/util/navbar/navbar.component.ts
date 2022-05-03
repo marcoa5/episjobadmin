@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'episjob-navbar',
@@ -13,7 +14,9 @@ export class NavbarComponent implements OnInit {
   @Input() backB:any = ''
   @Output() filter = new EventEmitter()
   @Input() hide:boolean=true
-  constructor(private router:Router) { }
+  
+  constructor(private router:Router, private location:Location) { }
+
   oldPosition:number=0;
   currentPosition:number=0;
   scrollaV:boolean =true;
@@ -53,11 +56,12 @@ export class NavbarComponent implements OnInit {
   }
 
   back(){
-    if(typeof this.backB == 'string') {
+    this.location.back()
+    /*if(typeof this.backB == 'string') {
       this.router.navigate([this.backB])
     }else {
       this.router.navigate(this.backB)
-    }
+    }*/
   }
 
   largh(e:any){
