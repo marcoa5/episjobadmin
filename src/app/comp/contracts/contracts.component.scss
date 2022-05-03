@@ -12,6 +12,12 @@ table{
     cursor:pointer;
 }
 
+th{
+    position:sticky;
+    top: 118px;
+    background-color: white;
+}
+
 .icoCont{
     display: grid;
     grid-template-columns: 25px 1fr;
