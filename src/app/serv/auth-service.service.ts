@@ -391,6 +391,10 @@ export class AuthServiceService {
         if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech' || pos=='sales') return true
         return false
         break
+      case 'workshop':
+        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech') return true
+        return false
+        break
       }
     
     return false

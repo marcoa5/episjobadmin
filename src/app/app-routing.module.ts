@@ -24,6 +24,7 @@ import { ContactsComponent } from './comp/contacts/contacts.component';
 import { ContractsComponent } from './comp/contracts/contracts.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
 import { SjComponent } from './comp/sjhome/sj/sj.component';
+import { WorkshopComponent } from './comp/workshop/workshop.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -49,7 +50,8 @@ const routes: Routes = [
   {path: 'contacts', component:ContactsComponent},
   {path: 'contracts', component:ContractsComponent},
   {path: 'sj', component:SjhomeComponent},
-  {path: 'newsj', component:SjComponent}
+  {path: 'newsj', component:SjComponent},
+  {path: 'workshop', component:WorkshopComponent}
 ];
 
 @NgModule({

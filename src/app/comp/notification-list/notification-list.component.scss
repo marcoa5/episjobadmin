@@ -18,7 +18,7 @@
 
 .notList{
     display: grid;
-    grid-template-columns: 10px auto 45px 45px;
+    grid-template-columns: 30px auto 45px 45px;
     background-color: rgb(245,245,245);
     border-radius: 5px 0;
     margin-bottom: 5px;
@@ -78,4 +78,8 @@ button{
 
 .unr{
     background-color: $light-text;
+}
+
+.item{
+    margin: 0 10px;
 }

@@ -1,0 +1,9 @@
+<episjob-navbar title="Workshop hours" [cerca]="false"></episjob-navbar>
+<div episjobCont *ngIf="allow">
+    <episjob-h2 icon="home_work" data="File list" padtop=0 [addGeneral]="true" (addGen)="add($event)"></episjob-h2>
+
+</div>
+
+<div episjobCont *ngIf="!allow">
+    Restricted area
+</div>

@@ -44,7 +44,6 @@ export class AttachmentdialogComponent implements OnInit {
   }
 
   open(path:string){
-    console.log(path)
     let sp:string[]=path.split('/')
     //return
     const dia=this.dialog.open(GenericComponent,{data:{msg:'Loading...'}})

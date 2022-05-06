@@ -89,7 +89,9 @@ export class PartsComponent implements OnInit {
         this.list=[]
         b.forEach(c=>{
           c.forEach(d=>{
-            this.list.push(d.val())
+            let r = d.val()
+            r.sel=0
+            this.list.push(r)
           })
           
         })
@@ -98,7 +100,11 @@ export class PartsComponent implements OnInit {
       firebase.database().ref('PartReq').child(this.userId).on('value',b=>{
         this.list=[]
         b.forEach(c=>{
-          if(c.val().usedId==this.userId) this.list.push(c.val())
+          if(c.val().usedId==this.userId) {
+            let r = c.val()
+            r.sel=0
+            this.list.push(r)
+          }
         })
       })
     }
@@ -138,7 +144,6 @@ export class PartsComponent implements OnInit {
         this.reqId=this.makeid.makeId(5)
         this.info['reqId']=this.reqId
         this.info['usedId']=this.userId
-        //firebase.database().ref('PartReq').child(this.userId).child(this.reqId).set(this.info)
         this.partList=[]
       }
     })

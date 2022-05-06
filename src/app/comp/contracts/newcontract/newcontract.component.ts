@@ -58,14 +58,6 @@ export class NewcontractComponent implements OnInit {
     //r.model.disable()
     //r.customer.disable()
     if(this.data.new) this.inputData.controls.id.setValue(this.makeid.makeId(7))
-    this.subsList.push(
-      this.auth._rigs.subscribe(a=>{
-        if(a) {
-          this._rigs=a
-          this.rigs=this._rigs
-        }
-      })
-    )
     if(this.data.info) {
       let a = this.data.info
       let g=this.inputData.controls
@@ -93,21 +85,10 @@ export class NewcontractComponent implements OnInit {
     this.dialogRef.close()
   }
 
-  filter(){
-    let f=this.inputData.controls.sn.value
-    this.details=[]
-    if(f.length>0){
-      this.chStr=true
-      this.rigs=this._rigs.filter(a=>{
-        if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
-        return false
-      }) 
-    } else {
-      this.rigs= this._rigs
-    }
-  }
+
 
   sel(a:any){
+    console.log(a)
     this.chStr=false
     this.details=[
       {value: a.sn, lab: 'Serial nr.', click:'', url:''},

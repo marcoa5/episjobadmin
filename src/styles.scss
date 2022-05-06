@@ -114,10 +114,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .attachment .mat-dialog-container {
-  width: 95vW !important;
+  width: 95vw;
   max-width: 650px !important;
 }
 .attachment .mat-form-field-infix {
-  min-width: 40vw;
   width: 100%;
 }
