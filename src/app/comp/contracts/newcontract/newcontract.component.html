@@ -41,7 +41,7 @@
     </form>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0 && this.data.info && this.data.info.sn!=undefined">Reset</button>
+    <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0 && (!this.data.info || this.data.info.sn==undefined)">Reset</button>
     <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
     <button mat-raised-button color="primary" [disabled]="inputData.invalid" (click)="save()">OK</button>
 </div>
