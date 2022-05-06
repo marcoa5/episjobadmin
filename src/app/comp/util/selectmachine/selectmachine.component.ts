@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscriber, Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
   styleUrls: ['./selectmachine.component.scss']
 })
 export class SelectmachineComponent implements OnInit {
+  @Input() infoInput:string|undefined
   chStr:boolean=true
   details:any[]=[]
   inputData!:FormGroup
@@ -42,6 +43,7 @@ export class SelectmachineComponent implements OnInit {
         }
       })
     )
+    if(this.infoInput) this.sel(this.infoInput)
   }
 
   ngOnDestroy(){

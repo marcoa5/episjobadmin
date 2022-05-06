@@ -1,0 +1,6 @@
+<div mat-dialog-title>Save data</div>
+<div mat-dialog-content>Save updated data as new draft?</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">Yes</button>
+</div>

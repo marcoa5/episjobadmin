@@ -1,63 +1,66 @@
-<h4>Add part Numbers</h4>
+<episjob-navbar title="New request" [cerca]="false"></episjob-navbar>
 
-<form class="reqCont" [formGroup]="addPart">
-    <mat-form-field [appearance]="appearance">
-        <mat-label>Part Number</mat-label>
-        <input matInput #pn1 type="number" autocomplete="off" min="0" max="9999999999" formControlName="pn" (input)="newPn($event)"> 
-    </mat-form-field> 
-    <mat-form-field [appearance]="appearance" >
-        <mat-label>Description</mat-label>
-        <input matInput type="text" autocomplete="off" formControlName="desc"> 
-    </mat-form-field>  
-    <div class="end">
-        <mat-form-field [appearance]="appearance" class="inp" >
-            <mat-label>Q.ty</mat-label>
-            <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
+<div episjobCont>
+    <episjob-h2 icon="rocket_launch" data="Request for {{info.sn? info.sn:''}}" padtop="0"></episjob-h2>
+    <h4>Add part Numbers</h4>
+    <form class="reqCont" [formGroup]="addPart">
+        <mat-form-field [appearance]="appearance">
+            <mat-label>Part Number</mat-label>
+            <input matInput #pn1 type="number" autocomplete="off" min="0" max="9999999999" formControlName="pn" (input)="newPn($event)"> 
         </mat-form-field> 
-        <button mat-mini-fab class="but" [disabled]="addPart.controls.pn.value<1 || addPart.controls.desc.value=='' || addPart.controls.qty.value<1" (click)="add()" color="primary" [class.mat-elevation-z1]="true"><mat-icon>add</mat-icon></button>
+        <mat-form-field [appearance]="appearance" >
+            <mat-label>Description</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="desc"> 
+        </mat-form-field>  
+        <div class="end">
+            <mat-form-field [appearance]="appearance" class="inp" >
+                <mat-label>Q.ty</mat-label>
+                <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
+            </mat-form-field> 
+            <button mat-mini-fab class="but" [disabled]="addPart.controls.pn.value<1 || addPart.controls.desc.value=='' || addPart.controls.qty.value<1" (click)="add()" color="primary" [class.mat-elevation-z1]="true"><mat-icon>add</mat-icon></button>
+        </div>
+        
+    </form>
+    <div *ngIf="partList.data.length==0" class="importCont">
+        <h4>Import from external source</h4>
+        <button mat-raised-button color="primary" (click)="import()">Import</button>
     </div>
-    
-</form>
-<div *ngIf="partList.data.length==0" class="importCont">
-    <h4>Import from external source</h4>
-    <button mat-raised-button color="primary" (click)="import()">Import</button>
+    <div *ngIf="partList.data.length>0" class="bodyCont">
+        
+            <h4 class="head">Part List</h4>
+        
+        
+        <table mat-table [dataSource]="partList" class="tab mat-elevation-z2">
+            <ng-container matColumnDef="ref">
+                <th mat-header-cell *matHeaderCellDef class="cen i1"> REF. </th>
+                <td mat-cell *matCellDef="let e; let i = index;"  class="cen i1">{{i+1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="pn">
+            <th mat-header-cell *matHeaderCellDef class="i2"> PART NUMBER </th>
+            <td mat-cell *matCellDef="let e"> {{e.pn}} </td>
+            </ng-container>
+            <ng-container matColumnDef="desc">
+                <th mat-header-cell *matHeaderCellDef class="i3"> DESCRIPTION </th>
+                <td mat-cell *matCellDef="let e; let i = index" (click)="upd(i,e.desc,'desc')" class="pun"> {{e.desc}} </td>
+            </ng-container>
+            <ng-container matColumnDef="qty">
+                <th mat-header-cell *matHeaderCellDef  class="cen i4"> Q.TY </th>
+                <td mat-cell *matCellDef="let e; let i = index"  class="cen pun"  (click)="upd(i,e.qty,'qty')"> {{e.qty}} </td>
+            </ng-container>
+            <ng-container matColumnDef="del">
+                <th mat-header-cell *matHeaderCellDef  class="cen i5">DEL</th>
+                <td mat-cell *matCellDef="let e; let i= index"  class="cen i5"> 
+                    <button mat-icon-button color="accent" (click)="del(i)"><mat-icon>delete</mat-icon></button>    
+                </td>
+            </ng-container>
+        
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="butG">
+            <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="clearL()">Clear</button>
+            <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="save()">Save</button>
+            <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit</button>
+        </div>
+    </div>
 </div>
-<div *ngIf="partList.data.length>0" class="bodyCont">
-    
-        <h4 class="head">Part List</h4>
-    
-    
-    <table mat-table [dataSource]="partList" class="tab mat-elevation-z2">
-        <ng-container matColumnDef="ref">
-            <th mat-header-cell *matHeaderCellDef class="cen i1"> REF. </th>
-            <td mat-cell *matCellDef="let e; let i = index;"  class="cen i1">{{i+1}}</td>
-        </ng-container>
-        <ng-container matColumnDef="pn">
-          <th mat-header-cell *matHeaderCellDef class="i2"> PART NUMBER </th>
-          <td mat-cell *matCellDef="let e"> {{e.pn}} </td>
-        </ng-container>
-        <ng-container matColumnDef="desc">
-            <th mat-header-cell *matHeaderCellDef class="i3"> DESCRIPTION </th>
-            <td mat-cell *matCellDef="let e; let i = index" (click)="upd(i,e.desc,'desc')" class="pun"> {{e.desc}} </td>
-        </ng-container>
-        <ng-container matColumnDef="qty">
-            <th mat-header-cell *matHeaderCellDef  class="cen i4"> Q.TY </th>
-            <td mat-cell *matCellDef="let e; let i = index"  class="cen pun"  (click)="upd(i,e.qty,'qty')"> {{e.qty}} </td>
-        </ng-container>
-        <ng-container matColumnDef="del">
-            <th mat-header-cell *matHeaderCellDef  class="cen i5">DEL</th>
-            <td mat-cell *matCellDef="let e; let i= index"  class="cen i5"> 
-                <button mat-icon-button color="accent" (click)="del(i)"><mat-icon>delete</mat-icon></button>    
-            </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <div class="butG">
-        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="clearL()">Clear</button>
-        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="back()">Back</button>
-        <button mat-raised-button [disabled]="partList.data.length==0" color="primary" (click)="submit()">Submit</button>
-      </div>
-</div>
-

@@ -88,17 +88,20 @@ export class NewcontractComponent implements OnInit {
 
 
   sel(a:any){
-    console.log(a)
-    this.chStr=false
-    this.details=[
-      {value: a.sn, lab: 'Serial nr.', click:'', url:''},
-      {value: a.model, lab: 'Model', click:'', url:''},
-      {value: a.customer, lab: 'Customer', click:'', url:''},
-    ]
-    this.inputData.controls.sn.setValue(a.sn)
-    this.inputData.controls.model.setValue(a.model)
-    this.inputData.controls.customer.setValue(a.customer)
-    this.inputData.controls.custCode.setValue(a.custid)
+    if(a) {      
+      this.chStr=false
+      this.details=[
+        {value: a.sn, lab: 'Serial nr.', click:'', url:''},
+        {value: a.model, lab: 'Model', click:'', url:''},
+        {value: a.customer, lab: 'Customer', click:'', url:''},
+      ]
+      this.inputData.controls.sn.setValue(a.sn)
+      this.inputData.controls.model.setValue(a.model)
+      this.inputData.controls.customer.setValue(a.customer)
+      this.inputData.controls.custCode.setValue(a.custid)
+    } else {
+      this.details=[]
+    }
   }
 
   reset(){

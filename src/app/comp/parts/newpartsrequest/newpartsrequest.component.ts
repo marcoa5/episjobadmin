@@ -40,7 +40,7 @@ export class NewpartsrequestComponent implements OnInit {
     this.technicians=[]
     this.tech=undefined
     this.subsList.push(
-      this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a}),
+      //this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a}),
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         this.nome=a.Nome + ' ' + a.Cognome
@@ -74,7 +74,7 @@ export class NewpartsrequestComponent implements OnInit {
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
-  filter(){
+  /*filter(){
     let f=this.newRequest.controls.search.value
     if(f.length<2) {
       this.chStr=true
@@ -89,16 +89,20 @@ export class NewpartsrequestComponent implements OnInit {
     } else {
       this.rigs= this._rigs
     }
-  }
+  }*/
 
   sel(a:any){
-    this.chStr=false
-    this.details=[
-      {value: a.sn, lab: 'Serial nr.', click:'', url:''},
-      {value: a.model, lab: 'Model', click:'', url:''},
-      {value: a.customer, lab: 'Customer', click:'', url:''},
-    ]
-    this.sn.emit(a.sn)
+    if(a){
+      this.chStr=false
+      this.details=[
+        {value: a.sn, lab: 'Serial nr.', click:'', url:''},
+        {value: a.model, lab: 'Model', click:'', url:''},
+        {value: a.customer, lab: 'Customer', click:'', url:''},
+      ]
+      this.sn.emit(a.sn)
+    } else {
+      this.details=[]
+    }
   }
 
   rem(){

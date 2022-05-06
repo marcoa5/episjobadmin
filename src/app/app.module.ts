@@ -144,6 +144,7 @@ import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexis
 import { WorkshopComponent } from './comp/workshop/workshop.component';
 import { NewfileComponent } from './comp/workshop/newfile/newfile.component';
 import { SelectmachineComponent } from './comp/util/selectmachine/selectmachine.component';
+import { SavedialogComponent } from './comp/util/dialog/savedialog/savedialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -271,6 +272,7 @@ const appearance: MatFormFieldDefaultOptions = {
     WorkshopComponent,
     NewfileComponent,
     SelectmachineComponent,
+    SavedialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -93,7 +93,6 @@ export class PartsComponent implements OnInit {
             r.sel=0
             this.list.push(r)
           })
-          
         })
       })
     } else if(this.pos=='tech'){
@@ -144,57 +143,11 @@ export class PartsComponent implements OnInit {
         this.reqId=this.makeid.makeId(5)
         this.info['reqId']=this.reqId
         this.info['usedId']=this.userId
+        this.info['new']=true
         this.partList=[]
+        this.router.navigate(['partrequest',{info:JSON.stringify(this.info),new:true}])
       }
     })
-  }
-
-  submit(e:any[]){
-    if(this.pos=='customer'){
-      let list:string=''
-      e.forEach(a=>{
-        if(list!='') list += `\n${a.pn}\t${a.qty}`
-      })
-      this.clipboard.copy(list)
-      //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')
-    } else {
-      let shipTo:any=''
-      firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
-        if(a.val()!=null){
-          shipTo={
-            cont: a.val().cont?Object.values(a.val().cont):'',
-            address: a.val().address?a.val().address:'',
-            cig: a.val().cig?a.val().cig:'',
-            cup: a.val().cup?a.val().cup:''
-          }
-        }
-      })
-      .then(()=>{
-        this.info['shipTo']=shipTo?shipTo:''
-        this.info['date']=moment(new Date()).format('YYYY-MM-DD')
-        const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
-        dialegRef.afterClosed().subscribe(res=>{
-          if(res!=undefined){
-            let params = new HttpParams()
-            .set("info",JSON.stringify(this.info))
-            let url:string = environment.url
-            const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
-            this.http.get(url + 'partreq',{params:params, responseType: 'json'}).subscribe((a: any)=>{
-              if(a){
-                firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
-                .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
-                .then(()=>{
-                  wait.close()
-                  this.clear()
-                  console.log('SENT ' + a)
-                })
-                )
-              }
-            })
-          }
-        })
-      })
-    }
   }
 
   saveList(e:any){
@@ -235,18 +188,23 @@ export class PartsComponent implements OnInit {
     this.info=this.list[this.listId]
     this.reqId=this.list[this.listId].reqId
     this.partList=this.list[this.listId].Parts
+    this.info['new']=false
+    this.info['Parts']=this.partList
+    this.router.navigate(['partrequest',{info:JSON.stringify(this.info)}])
+
   }
 
-  openSent(a:number){
-    this.info=this.listSent[a]
-    this.reqId=this.listSent[a].reqId
-    this.partList=this.listSent[a].Parts
+  openSent(a:any){
+    firebase.database().ref('PartReqSent').child(a.sn).child(a.reqId).once('value',a=>{
+      this.router.navigate(['partrequest',{info:JSON.stringify(a.val())}])
+    })
   }
 
-  openD(a:number){
-    this.info=this.list[a]
-    this.reqId=this.list[a].reqId
-    this.partList=this.list[a].Parts
+  openD(a:any){
+    firebase.database().ref('PartReq').child(a.usedId).child(a.reqId).once('value',a=>{
+      this.router.navigate(['partrequest',{info:JSON.stringify(a.val())}])
+    })
+    //
   }
 
   delete(){
@@ -255,7 +213,7 @@ export class PartsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res=>{
       if(res!=undefined){
         firebase.database().ref('PartReq').child(this.userReqId).child(this.reqId).remove()
-      }
+      } 
     })
     this.listId=-1
   }

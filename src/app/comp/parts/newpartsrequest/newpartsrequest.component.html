@@ -1,36 +1,22 @@
 <div mat-dialog-title>Select rig</div>
 <div mat-dialog-content class="mainCont">
-  <form [formGroup]="newRequest" class="req">
-    <mat-form-field [appearance]="appearance" class="search" *ngIf="details.length==0">
-        <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()">
-        <mat-label>Search s/n, model or customer</mat-label>
-        <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
-    <div class="list" *ngIf="chStr">
-        <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
-            <p class="text t1 sm">{{r.sn}}</p>
-            <p class="text sm">{{r.model}}</p>
-            <p class="text med"><strong>{{r.sn}}</strong> - {{r.model}}</p>
-            <p class="text">{{r.customer}}</p>
-        </div>
-    </div>        
-  </form>
+  <episjob-selectmachine (info)="sel($event)"></episjob-selectmachine>
   <div class="cont" *ngIf="details.length>0">
-  <episjob-label [values]="details"></episjob-label>
-  <h4 class="typeH">Request type</h4>
-  <mat-radio-group class="button" [(ngModel)]="type">
-    <mat-radio-button value="Service">Service</mat-radio-button>
-    <mat-radio-button value="CustomerSupport">Customer Support</mat-radio-button>
-  </mat-radio-group>
-  <h4 class="typeH">Originator</h4>
-  <mat-form-field appearance="fill" class="orig">
-    <mat-label>Originator</mat-label>
-    <mat-select [(value)]="tech">
-      <mat-option *ngFor="let t of technicians" [value]="t.id">
-        {{t.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+    <episjob-label [values]="details"></episjob-label>
+    <h4 class="typeH">Request type</h4>
+    <mat-radio-group class="button" [(ngModel)]="type">
+      <mat-radio-button value="Service">Service</mat-radio-button>
+      <mat-radio-button value="CustomerSupport">Customer Support</mat-radio-button>
+    </mat-radio-group>
+    <h4 class="typeH">Originator</h4>
+    <mat-form-field appearance="fill" class="orig">
+      <mat-label>Originator</mat-label>
+      <mat-select [(value)]="tech">
+        <mat-option *ngFor="let t of technicians" [value]="t.id">
+          {{t.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
 </div>
 <div mat-dialog-actions align="end">

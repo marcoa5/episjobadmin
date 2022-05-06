@@ -5,7 +5,7 @@
         <mat-label>IDr</mat-label>
     </mat-form-field>
     <mat-form-field [appearance]="appearance" class="search">
-        <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" [readonly]="sn()">
+        <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" [readonly]="infoInput">
         <mat-label>Search s/n, model or customer</mat-label>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>

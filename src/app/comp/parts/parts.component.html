@@ -1,31 +1,30 @@
 <episjob-navbar [cerca]="false" title="Parts Request"></episjob-navbar>
-<div episjobCont episjobContMaxWidth class="cont">
+<div episjobCont [episjobContMaxWidth]="1500" class="cont">
     <div *ngIf="allow && !allSpin">
         <div class="item2">
-            <episjob-h2 [data]="'Request ' + infoRig()" icon="rocket_launch" padtop=0></episjob-h2>
+            <episjob-h2 data="Request" icon="rocket_launch" padtop=0></episjob-h2>
             <div class="cont1">
                 <div class="butCont">
-                    <button mat-raised-button color="primary" (click)="start()" *ngIf="!info || !info.sn">Start new request</button>
-                    <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" *ngIf="!info || !info.sn">Open draft</button>
-                    <button mat-raised-button color="primary" [disabled]="listId<0 || chDel" (click)="delete()" *ngIf="!info || !info.sn">Delete draft</button>
+                    <button mat-raised-button color="primary" (click)="start()">Start new request</button>
+                    <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" >Open draft</button>
+                    <button mat-raised-button color="primary" [disabled]="listId<0 || chDel" (click)="delete()">Delete draft</button>
                 </div>
                 <span class="spacer" *ngIf="false"></span>
                 <span *ngIf="false">or select a draft from the below list:</span>
             </div>
-            <div *ngIf="(!info || !info.sn) && list.length>0">
+            <div *ngIf="list.length>0">
                 <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
-                <episjob-listofrequests [list]="list" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
+                <episjob-listofrequests [list]="list" [selected]="listId" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
             <div *ngIf="pos=='SU' && spin" class="load">
                 <episjob-spin></episjob-spin>
                 <div class="te">Loading Sent....</div> 
             </div>
             
-            <div *ngIf="(!info || !info.sn) && (pos=='SU' || pos=='admin') && _listSent.length>0">
+            <div *ngIf="(pos=='SU' || pos=='admin') && _listSent.length>0">
                 <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
                 <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
             </div>  
-            <episjob-requestlist [listP]="partList" *ngIf="info && info.sn" (send)="submit($event)" (list)="saveList($event)" (clear)="clear()"></episjob-requestlist>
         </div>
     </div>
     <div *ngIf="!allow && !allSpin">Restricted Area</div>

@@ -1,7 +1,7 @@
 <div mat-dialog-title>{{data.new? 'Add new' : 'Edit'}} contract</div>
 <div mat-dialog-content>
     <form [formGroup]="inputData" class="req">
-        <episjob-selectmachine (info)="sel($event)"></episjob-selectmachine> 
+        <episjob-selectmachine [infoInput]="data.info" (info)="sel($event)"></episjob-selectmachine> 
         <div *ngIf="details.length>0">
             <mat-form-field [appearance]="appearance" class="search">
                 <mat-label>Model</mat-label>
@@ -41,7 +41,7 @@
     </form>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0">Reset</button>
+    <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0 && this.data.info && this.data.info.sn!=undefined">Reset</button>
     <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
     <button mat-raised-button color="primary" [disabled]="inputData.invalid" (click)="save()">OK</button>
 </div>

@@ -5,11 +5,20 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase/app'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
 import { ImportpartsComponent } from '../../util/dialog/importparts/importparts.component';
 import * as moment from 'moment'
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { Subscription } from 'rxjs';
+import { Clipboard } from '@angular/cdk/clipboard'
+import { SubmitvisitComponent } from '../../util/dialog/submitvisit/submitvisit.component';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { GenericComponent } from '../../util/dialog/generic/generic.component';
+import { Location } from '@angular/common';
+import { SavedialogComponent } from '../../util/dialog/savedialog/savedialog.component';
 
 export interface el{
   pn: string
@@ -22,18 +31,21 @@ export interface el{
   styleUrls: ['./requestlist.component.scss']
 })
 export class RequestlistComponent implements OnInit {
-  @Input() listP: any[]=[]
+  /*@Input()*/ listP: any[]=[]
   @Output() send=new EventEmitter()
   @Output() list=new EventEmitter()
   @Output() clear= new EventEmitter()
-
+  mod:boolean=false
+  info:any
   partList!: MatTableDataSource<el>
   addPart!: FormGroup
   appearance: MatFormFieldAppearance = 'fill'
   displayedColumns:string[]=['ref','pn','desc','qty','del']
   chPn:boolean= false
+  pos:string=''
+  subsList:Subscription[]=[]
 
-  constructor(private quarter: GetquarterService, private fb: FormBuilder, public dialog: MatDialog, public router: Router) {
+  constructor(private location: Location, private http:HttpClient, private clipboard:Clipboard, private auth:AuthServiceService , private route:ActivatedRoute, private quarter: GetquarterService, private fb: FormBuilder, public dialog: MatDialog, public router: Router) {
     this.addPart = fb.group({
       pn: ['',Validators.required],
       desc: ['',Validators.required],
@@ -47,7 +59,16 @@ export class RequestlistComponent implements OnInit {
   @ViewChild("pn1") pn1!:ElementRef;
 
   ngOnInit(): void {
-    
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a) this.pos=a.Pos
+      })
+    )
+    this.route.params.subscribe(a=>{
+      this.info=JSON.parse(a.info)
+      if(JSON.parse(a.info).new) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+      if(JSON.parse(a.info).Parts) this.partList.data=JSON.parse(a.info).Parts
+    })
   }
 
   ngOnChanges(){
@@ -56,6 +77,14 @@ export class RequestlistComponent implements OnInit {
       setTimeout(() => {
         this.pn1.nativeElement.focus()
       }, 150);
+    }
+  }
+
+  ngOnDestroy(){
+    if(this.mod) {
+      const dia = this.dialog.open(SavedialogComponent,{data:'',disableClose:true})
+      dia.afterClosed().subscribe(a=>{if(a) this.saveList()})
+      this.subsList.forEach(a=>{a.unsubscribe()})
     }
   }
 
@@ -95,12 +124,11 @@ export class RequestlistComponent implements OnInit {
     let arr = this.partList.data
     arr.push({pn: a, desc: b, qty:c})
     this.partList.data=arr
-    this.list.emit(this.partList.data)
     this.addPart.reset()
     l.desc.disable()
     l.qty.disable()
     this.pn1.nativeElement.focus()
-
+    this.mod=true
   }
 
   del(a:number){
@@ -111,17 +139,14 @@ export class RequestlistComponent implements OnInit {
         arr.splice(a,1)
         this.partList.data=arr
         this.list.emit(this.partList.data)
+        this.mod=true
       }
       this.pn1.nativeElement.focus()
     })
   }
 
-  submit(){
-    this.send.emit(this.partList.data)
-  }
-
-  back(){
-    this.clear.emit('clear')
+  save(){
+    this.saveList()
   }
 
   upd(a:number,b:string,c:string){
@@ -131,8 +156,10 @@ export class RequestlistComponent implements OnInit {
         let y:any= this.partList.data[a]
         y[c]=result
         this.list.emit(this.partList.data)
+        this.mod=true
       }
     })
+
   }
 
   import(){
@@ -150,15 +177,17 @@ export class RequestlistComponent implements OnInit {
             } else {
               templist.push({pn: ('0000000000'+c[0]).slice(-10),desc:c[1],qty:parseInt(c[2])})
             }
-          } else if(c.length==1){}
-          else{
+            this.mod=true
+          } else if(c.length==1){
+
+          } else{
             cherr=true
           }
         })
         setTimeout(() => {
           if(!cherr) {
             this.partList.data=templist
-            this.list.emit(this.partList.data)
+            //this.list.emit(this.partList.data)
           } else {
             alert('Wrong data format')
           }
@@ -172,9 +201,67 @@ export class RequestlistComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result=>{
       if(result!=undefined){
         this.partList.data=[]
-        this.list.emit(this.partList.data)
+        this.mod=true
+        //this.list.emit(this.partList.data)
       }
     })
+  }
+
+  submit(){
+    if(this.pos=='customer'){
+      /*let list:string=''
+      e.forEach(a=>{
+        if(list!='') list += `\n${a.pn}\t${a.qty}`
+      })
+      this.clipboard.copy(list)
+      //window.open('https://shoponline.epiroc.com/Quote/AddItemsExcel')*/
+    } else {
+      let shipTo:any=''
+      firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
+        if(a.val()!=null){
+          shipTo={
+            cont: a.val().cont?Object.values(a.val().cont):'',
+            address: a.val().address?a.val().address:'',
+            cig: a.val().cig?a.val().cig:'',
+            cup: a.val().cup?a.val().cup:''
+          }
+        }
+      })
+      .then(()=>{
+        this.info['shipTo']=shipTo?shipTo:''
+        this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+        const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
+        dialegRef.afterClosed().subscribe(res=>{
+          if(res!=undefined){
+            let params = new HttpParams()
+            .set("info",JSON.stringify(this.info))
+            let url:string = environment.url
+            const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
+            setTimeout(() => {
+              wait.close()
+            }, 10000);
+            this.http.get(url + 'partreq',{params:params, responseType: 'json'}).subscribe((a: any)=>{
+              if(a){
+                firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
+                .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
+                .then(()=>{
+                  wait.close()
+                  this.location.back()
+                  console.log('SENT ' + a)
+                })
+                )
+              } else {alert('Error')}
+            })
+          }
+        })
+      })
+    }
+  }
+
+  saveList(){
+    this.info['Parts']= this.partList.data
+    firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).set(this.info)
+    this.mod=false
   }
 }
 

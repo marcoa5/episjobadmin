@@ -93,6 +93,7 @@ export class ContractsComponent implements OnInit {
         })
       })
       this.sortedData=this.contractList.slice()
+      this.sortData({active:'left',direction:'asc'})
     })
   }
 
