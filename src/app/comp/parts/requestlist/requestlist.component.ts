@@ -238,10 +238,10 @@ export class RequestlistComponent implements OnInit {
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
             let url:string = environment.url
-            const wait = this.dialog.open(GenericComponent, {data:{msg:'Sending....'}})
+            const wait = this.dialog.open(GenericComponent, {disableClose:true, data:{msg:'Sending....'}})
             setTimeout(() => {
               wait.close()
-            }, 10000);
+            }, 20000);
             this.http.get(url + 'partreq',{params:params, responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
