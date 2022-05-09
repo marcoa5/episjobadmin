@@ -230,6 +230,8 @@ export class RequestlistComponent implements OnInit {
       .then(()=>{
         this.info['shipTo']=shipTo?shipTo:''
         this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+        this.saveList()
+        //this.info['Parts']=this.partList
         const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
         dialegRef.afterClosed().subscribe(res=>{
           if(res!=undefined){

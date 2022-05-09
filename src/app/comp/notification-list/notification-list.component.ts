@@ -94,8 +94,6 @@ export class NotificationListComponent implements OnInit {
     } else {
       this.selected=[]
     }
-    
-    console.log(this.selected)
   }
 
   setRead(n:number){
