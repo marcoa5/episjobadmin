@@ -77,6 +77,7 @@ export class MachineComponent implements OnInit {
   access:any[]=[]
   area:string=''
   partReqList:any[]=[]
+  contract:any[]=[]
   subsList:Subscription[]=[]
   
   constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
@@ -124,6 +125,7 @@ export class MachineComponent implements OnInit {
     })
     .then(()=>{
       this.loadSubEquipment()
+      this.loadContract()
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
@@ -730,6 +732,26 @@ export class MachineComponent implements OnInit {
         res(data)
       })      
     })
+  }
+
+  loadContract(){
+    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS' || this.pos=='sales' || this.pos=='tech'){
+      firebase.database().ref('Contracts').child(this.valore).once('value',a=>{
+        if(a.val()!=null) {
+          a.forEach(b=>{
+            b.forEach(c=>{
+              console.log([a.key , b.key , c.key])
+              firebase.storage().ref('Contracts').child(c.val().id).listAll()
+              .then(list=>{
+                let items:any[]=[]
+                if(list.items.length>0) items=list.items
+                this.contract.push({type:c.val().type,expdate:c.val().end, info:c.val(), list:items})
+              })
+            })
+          })
+        }
+      })
+    }
   }
 }
  

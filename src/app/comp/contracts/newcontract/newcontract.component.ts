@@ -9,6 +9,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { AlertComponent } from '../../util/dialog/alert/alert.component';
 import firebase from 'firebase/app';
 import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdialog/contractalreadyexistsdialog.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'episjob-newcontract',
@@ -88,7 +89,7 @@ export class NewcontractComponent implements OnInit {
 
 
   sel(a:any){
-    if(a) {      
+    if(a) {
       this.chStr=false
       this.details=[
         {value: a.sn, lab: 'Serial nr.', click:'', url:''},
@@ -98,7 +99,7 @@ export class NewcontractComponent implements OnInit {
       this.inputData.controls.sn.setValue(a.sn)
       this.inputData.controls.model.setValue(a.model)
       this.inputData.controls.customer.setValue(a.customer)
-      this.inputData.controls.custCode.setValue(a.custid)
+      this.inputData.controls.custCode.setValue(a.custCode)
     } else {
       this.details=[]
     }
@@ -129,17 +130,27 @@ export class NewcontractComponent implements OnInit {
   }
 
   save(){
-    firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
-      if(a.val()!=null) {
-        const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
-        diy.afterClosed().subscribe(ref=>{
-          if(ref!=undefined){
-            this.dialogRef.close(this.inputData.value)
-          }
-        })
-      } else {
-        this.dialogRef.close(this.inputData.value)
-      }
-    })
+    let f:FormGroup=this.inputData
+    let g=f.controls
+    let i:any=this.data.info
+    if(g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type){
+      firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
+        if(a.val()!=null) {
+          const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
+          diy.afterClosed().subscribe(ref=>{
+            if(ref!=undefined){
+              this.dialogRef.close(this.inputData.value)
+            } else{
+              this.dialogRef.close()
+            }
+          })
+        } else {
+          this.dialogRef.close(this.inputData.value)
+        }
+      })
+    } else {
+      this.dialogRef.close()
+    }
+    
   }
 }

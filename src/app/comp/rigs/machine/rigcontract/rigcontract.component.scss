@@ -1,0 +1,21 @@
+@import '../../../../../epi.scss';
+
+.cont{
+    color: $dark-text;
+    overflow: hidden;
+    width:100%;
+}
+
+table{
+    width: 100%;
+}
+
+.tableCont{
+    height: 350px;
+    max-height: 350px;
+    overflow-y: auto;
+}
+
+td{
+    cursor: pointer;
+}

@@ -49,6 +49,10 @@
                     <episjob-h2 padtop="0" icon="plumbing" class="title" data="Sub Equipment" [addSubEq]="true" (addSub)="addSubEq($event)"></episjob-h2>
                     <episjob-subeq [pos]="pos" [list]="SElist"></episjob-subeq>
                 </div>
+                <div class="item3" *ngIf="contract.length>0">
+                    <episjob-h2 padtop="0" icon="class" class="title" data="Contracts"></episjob-h2>
+                    <episjob-rigcontract [list]="contract"></episjob-rigcontract>
+                </div>
             </div>
         </div>
     </div>
