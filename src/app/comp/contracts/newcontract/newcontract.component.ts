@@ -18,6 +18,7 @@ import * as moment from 'moment';
 })
 export class NewcontractComponent implements OnInit {
   fees:any[]=[]
+  discounts:any[]=[]
   inputData!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   _rigs:any[]=[]
@@ -27,6 +28,7 @@ export class NewcontractComponent implements OnInit {
   fileList:any[]=[]
   nameList:any[]=[]
   feesMod:boolean=false
+  discMod:boolean=false
   types:any[]=[
     {value: 'certiq', text:'Certiq'},
     {value: 'rocecop', text:'ROC & COP Care (con olii)'},
@@ -89,8 +91,6 @@ export class NewcontractComponent implements OnInit {
     this.dialogRef.close()
   }
 
-
-
   sel(a:any){
     if(a) {
       if(a.custid && a.custid!='') a.custCode = a.custid
@@ -138,9 +138,10 @@ export class NewcontractComponent implements OnInit {
     let g=f.controls
     let v=f.value
     let i:any=this.data.info
-    if(!i || this.feesMod || (i && (g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type))){
+    if(!i || this.discMod || this.feesMod || (i && (g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type))){
       firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
         v.fees=this.fees
+        v.discounts=this.discounts
         if(a.val()!=null) {
           const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
           diy.afterClosed().subscribe(ref=>{
@@ -164,7 +165,15 @@ export class NewcontractComponent implements OnInit {
     this.fees=e
   }
 
+  getDiscount(e:any){
+    this.discounts=e
+  }
+
   chMod(e:any){
     this.feesMod=e
+  }
+
+  chModDisc(e:any){
+    this.discMod=e
   }
 }
