@@ -40,6 +40,7 @@ export class NewcontractComponent implements OnInit {
     {value: 'frame', text:'Frame Agreement'},
     {value: 'baas', text:'BaaS'},
     {value: 'sac', text:'SaC'},
+    {value: 'only', text:'Only Fees'},
   ]
   subsList:Subscription[]=[]
 
