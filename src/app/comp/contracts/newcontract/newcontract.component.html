@@ -35,7 +35,9 @@
               
                 <mat-error *ngIf="inputData.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                 <mat-error *ngIf="inputData.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-            </mat-form-field>        
+            </mat-form-field>  
+            <h4>Service fees</h4>
+            <episjob-tarifs [list]="data.info.fees" (valuemod)="chMod($event)" (save)="getFees($event)"></episjob-tarifs>    
         </div>
         
     </form>

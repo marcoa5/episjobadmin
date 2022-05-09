@@ -17,6 +17,7 @@ import * as moment from 'moment';
   styleUrls: ['./newcontract.component.scss']
 })
 export class NewcontractComponent implements OnInit {
+  fees:any[]=[]
   inputData!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   _rigs:any[]=[]
@@ -25,6 +26,7 @@ export class NewcontractComponent implements OnInit {
   details:any[]=[]
   fileList:any[]=[]
   nameList:any[]=[]
+  feesMod:boolean=false
   types:any[]=[
     {value: 'certiq', text:'Certiq'},
     {value: 'rocecop', text:'ROC & COP Care (con olii)'},
@@ -90,6 +92,7 @@ export class NewcontractComponent implements OnInit {
 
   sel(a:any){
     if(a) {
+      if(a.custid && a.custid!='') a.custCode = a.custid
       this.chStr=false
       this.details=[
         {value: a.sn, lab: 'Serial nr.', click:'', url:''},
@@ -132,25 +135,35 @@ export class NewcontractComponent implements OnInit {
   save(){
     let f:FormGroup=this.inputData
     let g=f.controls
+    let v=f.value
     let i:any=this.data.info
-    if(g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type){
+    if(!i || this.feesMod || (i && (g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type))){
       firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
+        v.fees=this.fees
         if(a.val()!=null) {
           const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
           diy.afterClosed().subscribe(ref=>{
             if(ref!=undefined){
-              this.dialogRef.close(this.inputData.value)
+              this.dialogRef.close(v)
             } else{
               this.dialogRef.close()
             }
           })
         } else {
-          this.dialogRef.close(this.inputData.value)
+          this.dialogRef.close(v)
         }
       })
     } else {
       this.dialogRef.close()
     }
     
+  }
+
+  getFees(e:any){
+    this.fees=e
+  }
+
+  chMod(e:any){
+    this.feesMod=e
   }
 }

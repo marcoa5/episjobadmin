@@ -146,6 +146,7 @@ import { NewfileComponent } from './comp/workshop/newfile/newfile.component';
 import { SelectmachineComponent } from './comp/util/selectmachine/selectmachine.component';
 import { SavedialogComponent } from './comp/util/dialog/savedialog/savedialog.component';
 import { RigcontractComponent } from './comp/rigs/machine/rigcontract/rigcontract.component';
+import { TarifsComponent } from './comp/contracts/newcontract/tarifs/tarifs.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -275,6 +276,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SelectmachineComponent,
     SavedialogComponent,
     RigcontractComponent,
+    TarifsComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
