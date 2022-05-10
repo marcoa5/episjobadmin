@@ -38,9 +38,9 @@ export class RigcontractComponent implements OnInit {
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
-  open(i:any){
+  open(info:any, i:number){
     let read:boolean=(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS')?false:true
-    const dia = this.dialog.open(NewcontractComponent,{data:{info:i, new:false, read:read}})
+    const dia = this.dialog.open(NewcontractComponent,{data:{info:info, new:false, read:read}})
   }
 
   split(e:any){

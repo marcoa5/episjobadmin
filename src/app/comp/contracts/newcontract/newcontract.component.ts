@@ -65,6 +65,8 @@ export class NewcontractComponent implements OnInit {
     //r.customer.disable()
     if(this.data.new) this.inputData.controls.id.setValue(this.makeid.makeId(7))
     if(this.data.info) {
+      this.discounts=this.data.info.discounts
+      this.fees=this.data.info.fees
       let a = this.data.info
       let g=this.inputData.controls
       g.id.setValue(a.id)

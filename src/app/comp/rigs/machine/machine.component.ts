@@ -737,10 +737,10 @@ export class MachineComponent implements OnInit {
   loadContract(){
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS' || this.pos=='sales' || this.pos=='tech'){
       firebase.database().ref('Contracts').child(this.valore).on('value',a=>{
+        this.contract=[]
         if(a.val()!=null) {
           a.forEach(b=>{
             b.forEach(c=>{
-              console.log([a.key , b.key , c.key])
               firebase.storage().ref('Contracts').child(c.val().id).listAll()
               .then(list=>{
                 let items:any[]=[]
