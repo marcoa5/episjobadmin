@@ -10,7 +10,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
   styleUrls: ['./discounts.component.scss']
 })
 export class DiscountsComponent implements OnInit {
-  labels:any[]=[{lab:'RDT discount',dim:1, type:'number'},{lab:'PSD Discount',dim:1,type:'number'},{lab:'Transport truck',dim:0.5,type:'text',ph:'XX% + X.XXEUR'},{lab:'Transport air',dim:0.5,type:'text',ph:'XX% + X.XXEUR'}]
+  labels:any[]=[{lab:'RDT discount',dim:1, type:'number'},{lab:'PSD Discount',dim:1,type:'number'},{lab:'truck transport',dim:0.5,type:'text',ph:'XX% + X.XXEUR'},{lab:'air transport',dim:0.5,type:'text',ph:'XXEUR + XX%'}]
   discount!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   @Input() list:any
