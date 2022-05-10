@@ -138,21 +138,30 @@ export class NewcontractComponent implements OnInit {
     let g=f.controls
     let v=f.value
     let i:any=this.data.info
+    v.fees=this.fees
+    v.discounts=this.discounts
+    v.start = moment(v.start).format('YYYY-MM-DD')
+    v.end = moment(v.end).format('YYYY-MM-DD')
     if(!i || this.discMod || this.feesMod || (i && (g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type))){
       firebase.database().ref('Contracts').child(this.inputData.controls.sn.value).child(this.inputData.controls.type.value).once('value',a=>{
-        v.fees=this.fees
-        v.discounts=this.discounts
         if(a.val()!=null) {
           const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
           diy.afterClosed().subscribe(ref=>{
             if(ref!=undefined){
-              this.dialogRef.close(v)
+              
+              firebase.database().ref('Contracts').child(v.sn).child(v.type).child(v.id).set(v)
+              .then(()=>{
+                this.dialogRef.close(v)
+              })
             } else{
               this.dialogRef.close()
             }
           })
         } else {
-          this.dialogRef.close(v)
+          firebase.database().ref('Contracts').child(v.sn).child(v.type).child(v.id).set(v)
+          .then(()=>{
+            this.dialogRef.close(v)
+          })
         }
       })
     } else {

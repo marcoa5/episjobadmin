@@ -736,7 +736,7 @@ export class MachineComponent implements OnInit {
 
   loadContract(){
     if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS' || this.pos=='sales' || this.pos=='tech'){
-      firebase.database().ref('Contracts').child(this.valore).once('value',a=>{
+      firebase.database().ref('Contracts').child(this.valore).on('value',a=>{
         if(a.val()!=null) {
           a.forEach(b=>{
             b.forEach(c=>{

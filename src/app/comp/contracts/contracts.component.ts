@@ -109,12 +109,7 @@ export class ContractsComponent implements OnInit {
     const dia = this.dialog.open(NewcontractComponent, {panelClass:'contract',data:{new:e?false:true,info:e?e:undefined}})
     dia.afterClosed().subscribe(res=>{
       if(res!=undefined){
-        res.start = moment(res.start).format('YYYY-MM-DD')
-        res.end = moment(res.end).format('YYYY-MM-DD')
-        firebase.database().ref('Contracts').child(res.sn).child(res.type).child(res.id).set(res)
-        .then(()=>{
-          this.attach(res)
-        })
+        this.attach(res)
       }
     })
   }
