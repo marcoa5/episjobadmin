@@ -140,8 +140,8 @@ export class NewcontractComponent implements OnInit {
     let g=f.controls
     let v=f.value
     let i:any=this.data.info
-    v.fees=this.fees
-    v.discounts=this.discounts
+    if(this.fees) v.fees=this.fees
+    if(this.discounts) v.discounts=this.discounts
     v.start = moment(v.start).format('YYYY-MM-DD')
     v.end = moment(v.end).format('YYYY-MM-DD')
     if(!i || this.discMod || this.feesMod || (i && (g.sn.value!=i.sn || g.model.value!=i.model || g.customer.value!=i.customer||moment(g.end.value).format('YYYY-MM-DD')!=i.end||moment(g.start.value).format('YYYY-MM-DD')!=i.start||g.type.value!=i.type))){
@@ -150,7 +150,6 @@ export class NewcontractComponent implements OnInit {
           const diy = this.dialog.open(ContractalreadyexistsdialogComponent, {data:{sn: this.inputData.controls.sn.value, type:this.inputData.controls.type.value}})
           diy.afterClosed().subscribe(ref=>{
             if(ref!=undefined){
-              
               firebase.database().ref('Contracts').child(v.sn).child(v.type).child(v.id).set(v)
               .then(()=>{
                 this.dialogRef.close(v)
