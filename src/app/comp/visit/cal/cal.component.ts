@@ -4,6 +4,7 @@ import { DaytypeService } from '../../../serv/daytype.service'
 import firebase from 'firebase/app'
 import 'firebase/database'
 import 'firebase/messaging'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-cal',
@@ -20,7 +21,7 @@ export class CalComponent implements OnInit {
   @Input() userId:string|undefined
   @Input() refresh:boolean=false
   @Output() today= new EventEmitter()
-  constructor(private holy:DaytypeService) { }
+  constructor(private holy:DaytypeService, private auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.start()  
@@ -105,7 +106,7 @@ export class CalComponent implements OnInit {
           let giorno = b.key?.substring(6,8)
           let nuovo = `${anno}-${mese}-${giorno}`
           let id= Object.keys(b.val()).toString().substring(0,28)
-          if((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && id==this.userId)) {
+          if(this.auth.acc('AdminSalesRights') || (this.auth.acc('Salesman') && id==this.userId)) {
             this.month.forEach(gt=>{
               if(moment(gt.full).format('YYYY-MM-DD')==nuovo) gt.visit='1'
             })

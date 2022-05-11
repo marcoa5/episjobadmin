@@ -59,7 +59,7 @@ export class NewuserComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('users',this.pos)
+          this.allow=this.auth.allow('SU',this.pos)
         }, 1);
       })
     )
@@ -126,11 +126,11 @@ export class NewuserComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined && this.pos=='SU') {
+      if(result!=undefined && this.auth.acc('SURights')) {
         let params = new HttpParams()
         .set('id', result.id)
         let url:string=environment.url
-        this.http.get(url + '/delete',{params:params}).subscribe(a=>{
+        this.http.get(url + 'delete',{params:params}).subscribe(a=>{
 
         })
         setTimeout(() => {

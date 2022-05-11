@@ -19,7 +19,7 @@ export class AddbutComponent implements OnInit {
     this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
       setTimeout(() => {
-        this.allow=this.auth.allow('addbut',this.pos)
+        this.allow=this.auth.allow('SU',this.pos)
       }, 10);
     })
   }

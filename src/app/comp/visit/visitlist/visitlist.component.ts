@@ -9,6 +9,7 @@ import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.compon
 import { ActivatedRoute } from '@angular/router';
 import { VisitdetailsComponent } from '../../util/dialog/visitdetails/visitdetails.component';
 import { MatChip } from '@angular/material/chips';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-visitlist',
@@ -24,7 +25,7 @@ export class VisitlistComponent implements OnInit {
   _listV:any|undefined
   listV:any|undefined
   spin:boolean=false
-  constructor(private router: Router, private dialog:MatDialog, private route:ActivatedRoute) { }
+  constructor(private router: Router, private dialog:MatDialog, private route:ActivatedRoute, private auth: AuthServiceService) { }
 
   ngOnInit(): void {
     
@@ -40,7 +41,7 @@ export class VisitlistComponent implements OnInit {
       this.listV=[]
       a.forEach(b=>{
         b.forEach(c=>{
-          if((b.key?.substring(0,28)==this.userId && this.pos=='sales') || (this.pos=='SU' || this.pos=='adminS')){
+          if((b.key?.substring(0,28)==this.userId && this.auth.acc('Salesman') || this.auth.acc('AdminSalesRights'))){
             let gty = c.val()
             gty['url']= a.key+'/'+b.key+'/'+c.key
             this._listV.push(gty)
@@ -73,6 +74,10 @@ export class VisitlistComponent implements OnInit {
         this.refresh.emit(result)
       } 
     })
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 
 }

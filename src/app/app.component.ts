@@ -186,5 +186,9 @@ export class AppComponent {
   goTo(a:string){
     this.router.navigate([a])
   }
+
+  chPos(a:string):boolean{
+    return this.auth.acc(a)
+  }
   
 }

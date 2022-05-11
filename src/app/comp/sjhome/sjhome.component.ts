@@ -45,7 +45,7 @@ export class SjhomeComponent implements OnInit {
           this.userId=a.uid
         }
         setTimeout(() => {
-          this.allow= this.auth.allow('sj',this.pos)
+          this.allow= this.auth.allow('TechAll',this.pos)
         }, 1);
       }),
       this.auth._custI.subscribe(a=>{
@@ -183,7 +183,7 @@ export class SjhomeComponent implements OnInit {
           let _draft =Object.values(draft.val())
           let length:number=_draft.length
           draft.forEach(d=>{
-            if(((this.pos=='tech' && d.val().authorId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.pos=='tech')|| (this.pos!='tech')))) {
+            if(((this.auth.acc('Technician') && d.val().authorId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.auth.acc('Technician'))|| (this.pos!='tech')))) {
               s=parseInt(d.val().lastM)
               let _l
               _l=localStorage.getItem(d.key!)
@@ -226,13 +226,14 @@ export class SjhomeComponent implements OnInit {
   }
 
   loadSent(n?:number){
+    console.log(this.pos)
     if((n==undefined || n ==null)) n=5
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
-        if(this.pos=='tech' && this.userId==b.val().authorId) {
+        if(this.auth.acc('Technician') && this.userId==b.val().authorId) {
           this._listSent.push(b.val())
-        } else if(this.pos!='tech'){
+        } else if(this.pos!='tech' && this.pos!='techwsadmin'){
           this._listSent.push(b.val())
         }
       })
@@ -491,5 +492,9 @@ export class SjhomeComponent implements OnInit {
       }).slice(0,e.target.value)
     }
     
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 }

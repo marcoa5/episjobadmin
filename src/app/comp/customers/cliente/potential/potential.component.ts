@@ -80,5 +80,9 @@ export class PotentialComponent implements OnInit {
     firebase.database().ref('Potential').child(this.custId + '-' + this.name.replace(/&/g,'').replace(/\./g,'')).child(this.refYear).child(e.target.getAttribute('formControlName')).set(e.target.value)
   }
 
+  chPos(a:string){
+    return this.auth.acc(a)
+  }
+
 }
 

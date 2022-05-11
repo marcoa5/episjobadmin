@@ -91,7 +91,7 @@ export class ClienteComponent implements OnInit {
       return b.custid==this.id
     }).forEach(c=>{
       this._rigsLabels.push({value: c.model,lab:c.sn,click:c.sn, url:'machine'})
-      if(this.pos=='sales'){
+      if(this.auth.acc('CustomerGetFleet')){
         this.auth._access.subscribe(p=>{
           this.rigsLabels=this._rigsLabels.filter(t=>{
             let i = p.map((y:any)=>{return y.sn}).indexOf(t.lab)
@@ -116,7 +116,7 @@ export class ClienteComponent implements OnInit {
                   if(c.val()!=null){
                     c.forEach(d=>{
                       if(d.val()!=null){
-                        if(d.val().cuId==this.id && ((this.pos=='SU' || this.pos=='adminS') || (this.pos=='sales' && this.userId == c.key?.toString().substring(0,28)))){
+                        if(d.val().cuId==this.id && ((this.auth.acc('CustomerGetVisit')) || (this.auth.acc('CustomerGetVisitSales') && this.userId == c.key?.toString().substring(0,28)))){
                           let gty = d.val()
                           gty['url']= b.key+'/'+c.key + '/' + d.key
                           this.listV.push(gty)
@@ -194,6 +194,10 @@ export class ClienteComponent implements OnInit {
         data: {}
       });
     })
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 }
 

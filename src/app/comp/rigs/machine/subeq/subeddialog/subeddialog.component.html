@@ -50,8 +50,8 @@
     </form>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" *ngIf="!data.new && pos=='SU'" (click)="delete()" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
-    <button mat-raised-button color="primary" *ngIf="!data.new && pos=='SU' && data.cat=='Rock Drill'" (click)="transfer()" matTooltip="Transfer"><mat-icon>swap_horiz</mat-icon></button>
+    <button mat-raised-button color="primary" *ngIf="!data.new && chPos('SURights')" (click)="delete()" matTooltip="Delete"><mat-icon>delete</mat-icon></button>
+    <button mat-raised-button color="primary" *ngIf="!data.new && chPos('SURights') && data.cat=='Rock Drill'" (click)="transfer()" matTooltip="Transfer"><mat-icon>swap_horiz</mat-icon></button>
     <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial *ngIf="data.new">Cancel</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">Ok</button>
 </div>

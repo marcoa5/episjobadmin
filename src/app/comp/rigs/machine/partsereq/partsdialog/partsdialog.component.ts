@@ -39,7 +39,7 @@ export class PartsdialogComponent implements OnInit {
   }
 
   mod(a:any,i:number, cat:string){
-    if(this.pos=='SU'){
+    if(this.auth.acc('SURights')){
       const gg = this.dialog.open(InputhrsComponent,{panelClass: cat=='desc'?'input-parts-dialog':'', data:{hr:a[cat]}})
       gg.afterClosed().subscribe(y=>{
         if(y) {
@@ -59,5 +59,9 @@ export class PartsdialogComponent implements OnInit {
     })
     this.clipboard.copy(exp)
     const dia = this.dialog.open(CopyComponent)
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 }

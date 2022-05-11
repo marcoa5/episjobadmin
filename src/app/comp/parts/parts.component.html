@@ -16,14 +16,15 @@
                 <episjob-h2 data="Drafts" icon="mode"></episjob-h2>
                 <episjob-listofrequests [list]="list" [selected]="listId" (index)="ind($event)" (indexD)="openD($event)"></episjob-listofrequests>
             </div>
-            <div *ngIf="pos=='SU' && spin" class="load">
-                <episjob-spin></episjob-spin>
-                <div class="te">Loading Sent....</div> 
-            </div>
-            
-            <div *ngIf="(pos=='SU' || pos=='admin') && _listSent.length>0">
-                <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
-                <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
+            <div *ngIf="chPos('AdminTechRigths')">
+                <div *ngIf="spin" class="load">
+                    <episjob-spin></episjob-spin>
+                    <div class="te">Loading Sent....</div> 
+                </div>
+                <div *ngIf="_listSent.length>0">
+                    <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
+                    <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
+                </div>  
             </div>  
         </div>
     </div>

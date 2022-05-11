@@ -26,7 +26,7 @@ export class TechniciansComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('technicians',this.pos)
+          this.allow=this.auth.allow('TechAdmin',this.pos)
         }, 1)
       }),
       this.auth._tech.subscribe(a=>{

@@ -56,7 +56,7 @@ export class ContractsComponent implements OnInit {
           }
         }
         setTimeout(() => {
-          this.allow=this.auth.allow('contracts',this.pos)
+          this.allow=this.auth.allow('Internal',this.pos)
         }, 1);
       })
     )

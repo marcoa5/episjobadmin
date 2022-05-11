@@ -1,7 +1,26 @@
-<episjob-navbar title="Workshop hours" [cerca]="false"></episjob-navbar>
-<div episjobCont *ngIf="allow">
+<episjob-navbar title="Workshop hours" [cerca]="true" (filter)="fil($event)"></episjob-navbar>
+<div episjobCont [episjobContMaxWidth]="1500" *ngIf="allow">
     <episjob-h2 icon="home_work" data="File list" padtop=0 [addGeneral]="true" (addGen)="add($event)"></episjob-h2>
-
+    <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
+        <ng-container matColumnDef="file">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> File</th>
+          <td mat-cell *matCellDef="let e"> {{e.file}} </td>
+        </ng-container>
+        <ng-container matColumnDef="model">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Machine </th>
+            <td mat-cell *matCellDef="let e"> {{e.model}} </td>
+        </ng-container>
+        <ng-container matColumnDef="sn">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n </th>
+            <td mat-cell *matCellDef="let e"> {{e.sn}} </td>
+        </ng-container>
+        <ng-container matColumnDef="customer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+            <td mat-cell *matCellDef="let e"> {{e.customer}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
 </div>
 
 <div episjobCont *ngIf="!allow">

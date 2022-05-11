@@ -39,7 +39,7 @@ export class RigcontractComponent implements OnInit {
   }
 
   open(info:any, i:number){
-    let read:boolean=(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS')?false:true
+    let read:boolean=(this.auth.acc('AdminRights'))?false:true
     const dia = this.dialog.open(NewcontractComponent,{data:{info:info, new:false, read:read}})
   }
 

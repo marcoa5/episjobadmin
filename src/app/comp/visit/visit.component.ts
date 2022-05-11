@@ -32,7 +32,7 @@ export class VisitComponent implements OnInit {
         this.pos=a.Pos
         this.userId=a.uid
         setTimeout(() => {
-          this.allow = this.auth.allow('visit',this.pos)
+          this.allow = this.auth.allow('SalesAll',this.pos)
           this.allSpin=false
         }, 1);
       })

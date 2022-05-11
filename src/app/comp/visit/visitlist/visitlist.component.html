@@ -1,4 +1,4 @@
-<div class="cont" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
+<div class="cont" *ngIf="chPos('SalesRights')">
   <episjob-h2 [data]="'Visits on ' + today" icon="list" padtop="0"></episjob-h2>
   <div class="newVisit" [class.mat-elevation-z1]="true" (click)="newV()">
     <button mat-icon-button ><mat-icon>add_circle</mat-icon></button>

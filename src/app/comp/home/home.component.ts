@@ -15,6 +15,8 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 })
 export class HomeComponent implements OnInit {
   pos:string=''
+  subPos:string=''
+  fil:string=''
   nome:string=''
   spin:boolean=true
   buttons:any = [
@@ -22,26 +24,26 @@ export class HomeComponent implements OnInit {
       id:'Equipment',
       icon:'precision_manufacturing', 
       route:'rigs', 
-      auth:['SU','admin','adminS','tech','sales','customer']
+      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer']
     },
     {
       id:'Companies',
       icon:'work', 
       route:'customers', 
-      auth:['SU','admin','adminS','tech','sales','customer']
+      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer']
     },
     {
       id:'ServiceJob',
       icon:'text_snippet', 
       route:'sj', 
-      auth:['SU','admin','adminS','tech']
+      auth:['SU','admin','adminS','tech','techwsadmin']
     },
     {
       id:'Parts',
       icon:'construction', 
       route:'parts', 
       dis:false, 
-      auth:['SU','admin','adminS','tech','customer']
+      auth:['SU','admin','adminS','tech','customer','techwsadmin']
     },
     {
       id:'Files',
@@ -105,7 +107,7 @@ export class HomeComponent implements OnInit {
       icon:'home_work', 
       route:'workshop', 
       dis:false, 
-      auth:['SU','admin','adminS','tech']
+      auth:['SU','admin','adminS','techwsadmin']
     },
   ];
   subsList: Subscription[]=[]

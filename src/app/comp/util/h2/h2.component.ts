@@ -95,4 +95,8 @@ export class H2Component implements OnInit {
     if(window.innerWidth>500) return true
     return false 
   }
+
+  chPos(a:string){
+    return this.auth.acc(a)
+  }
 }

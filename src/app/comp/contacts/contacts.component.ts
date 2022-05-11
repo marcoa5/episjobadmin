@@ -30,7 +30,7 @@ export class ContactsComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('contacts',this.pos)
+          this.allow=this.auth.allow('Internal',this.pos)
         }, 1);
       }),
       this.auth._contacts.subscribe((a:any[])=>{

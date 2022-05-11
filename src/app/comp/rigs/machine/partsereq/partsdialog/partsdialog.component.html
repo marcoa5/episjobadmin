@@ -7,11 +7,11 @@
         </ng-container> 
         <ng-container matColumnDef="p/n">
             <th mat-header-cell *matHeaderCellDef class="lar"> p/n </th>
-            <td mat-cell *matCellDef="let a; let i = index" class="lar" [class.curs]="pos=='SU'"  (click)="mod(a,i,'pn')"> {{a.pn}} </td>
+            <td mat-cell *matCellDef="let a; let i = index" class="lar" [class.curs]="chPos('SURights')"  (click)="mod(a,i,'pn')"> {{a.pn}} </td>
         </ng-container>
         <ng-container matColumnDef="Description">
             <th mat-header-cell *matHeaderCellDef class="_lar"> Description </th>
-            <td mat-cell *matCellDef="let a; let i = index" class="_lar" [class.curs]="pos=='SU'" (click)="mod(a,i,'desc')"> {{a.desc}} </td>
+            <td mat-cell *matCellDef="let a; let i = index" class="_lar" [class.curs]="chPos('SURights')" (click)="mod(a,i,'desc')"> {{a.desc}} </td>
         </ng-container>            
         <ng-container matColumnDef="LLP">
             <th mat-header-cell *matHeaderCellDef class="right" class="lar"> LLp </th>
@@ -19,7 +19,7 @@
         </ng-container>      
         <ng-container matColumnDef="Qty">
             <th mat-header-cell *matHeaderCellDef class="center qty" class="lar"> Qty </th>
-            <td mat-cell *matCellDef="let a; let i=index" class="center qty" class="lar" [class.curs]="pos=='SU'"  (click)="mod(a,i,'qty')"> {{a.qty}} </td>
+            <td mat-cell *matCellDef="let a; let i=index" class="center qty" class="lar" [class.curs]="chPos('SURights')"  (click)="mod(a,i,'qty')"> {{a.qty}} </td>
         </ng-container>      
         <ng-container matColumnDef="Tot">
             <th mat-header-cell *matHeaderCellDef class="right"> Tot </th>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 @Component({
   selector: 'episjob-rig-table',
   templateUrl: './rig-table.component.html',
@@ -15,7 +16,8 @@ export class RigTableComponent implements OnInit {
   ore:any[]=[]
   oreSl:any[]=[]
   displayedColumns: string[]=['Date', 'Engine']
-  constructor() { }
+
+  constructor(private auth:AuthServiceService) { }
 
   ngOnInit(): void {
 
@@ -69,6 +71,10 @@ export class RigTableComponent implements OnInit {
     this.inizio = e.pageIndex * e.pageSize
     this.fine = this.inizio + e.pageSize
     this.oreSl = this.ore.slice(this.inizio,this.fine)
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 
 }

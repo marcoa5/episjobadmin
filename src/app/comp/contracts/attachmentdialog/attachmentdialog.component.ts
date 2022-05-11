@@ -107,4 +107,8 @@ export class AttachmentdialogComponent implements OnInit {
       }
     })
   }
+
+  chPos(a:string):boolean{
+    return this.auth.acc(a)
+  }
 }

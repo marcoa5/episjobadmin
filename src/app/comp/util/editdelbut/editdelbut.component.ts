@@ -59,7 +59,7 @@ export class EditdelbutComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined && this.pos=='SU') {
+      if(result!=undefined && this.auth.acc('SURights')) {
         firebase.database().ref(this.func).child(result).remove()
         if(this.func=='CustomerC'){
           firebase.database().ref('CustContacts').child(result).remove()
@@ -133,6 +133,10 @@ export class EditdelbutComponent implements OnInit {
         const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
       }
     })
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 
 }

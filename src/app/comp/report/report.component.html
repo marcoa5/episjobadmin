@@ -2,58 +2,57 @@
 
 
 <div episjobCont (window:resize)="onResize()" *ngIf="allow && !allSpin">
-    <div  *ngIf="pos=='SU' || pos=='admin'" >
-        <episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0" (down)="certiq()" [showChBox]="info.length>1" (checkBox)="filt=!filt;filtra(strSea);" [showSearch]="info.length>1" (filter)="filtra($event)"></episjob-h2>
-        <div class="contS" *ngIf="isThinking && errore==''">
-            <mat-spinner color="accent"></mat-spinner>
-        </div>
-        <div class="contS" *ngIf="errore!=''">
-            {{errore}}
-        </div>
-        <div *ngIf="sortedData.length>0">
-            <table matSort (matSortChange)="sortData($event)" class="contT">
-                <thead>
-                    <tr>
-                        <th>Notes</th>
-                        <th mat-sort-header="day">Hrs on<br>{{lastWorkingDay()}}</th>
-                        <th mat-sort-header="."></th>
-                        <th mat-sort-header="pred">Service Pred Date</th>
-                        <th mat-sort-header="serial" >Serial Nr</th>
-                        <th mat-sort-header="model">Model</th>
-                        <th mat-sort-header="company">Company</th>
-                        <th mat-sort-header="site">Site</th>
-                        <th mat-sort-header="hrs">Engine Hrs</th>
-                        <th mat-sort-header="step">Service Int</th>
-                        <th mat-sort-header="next">Next Service in</th>
-                    </tr>
-                </thead>
-              
-                <tr *ngFor="let rig of sortedData" [ngClass]="{'mat-elevation-z8': width()}"[class.mat-elevation-z8]="true">
-                    <td [ngStyle]="{'background-color':rig.machineNote==4?'indianred':rig.machineNote==3?'lightgreen':rig.machineNote==5?'gold':'white'}">
-                        <select (change)="salva($event, rig.machineSerialNr)" [value]="rig.machineNote">
-                            <option value=1>No SA</option>
-                            <option value=2>SA</option>
-                            <option value=3>PO/U</option>
-                            <option value=4>PO/O</option>
-                            <option value=5>Done</option>
-                        </select>
-                    </td>
-                  <td>{{rig.LastDayEngineHours}}</td>
-                  <td><div *ngIf="rig.hoursLeftToService>0" class="circ" [ngStyle]="{'background-color': rig.hoursLeftToService<=50? 'indianred' : rig.hoursLeftToService>50 && rig.hoursLeftToService<=100? 'gold':'lightgreen'}"></div></td>
-                  <td>{{rig.servicePredictedDate|dateconv}}</td>
-
-                  <td>{{rig.machineSerialNr}}</td>
-                  <td>{{rig.machineModel}}</td>
-                  <td>{{rig.machineCompany}}</td>
-                  <td>{{rig.machineSite}}</td>
-                  <td>{{rig.machineHrs}}</td>
-                  <td>{{rig.serviceStep}}</td>
-                  <td>{{rig.hoursLeftToService}}</td>
-    
-                </tr>
-              </table>
-        </div>
+    <episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0" (down)="certiq()" [showChBox]="info.length>1" (checkBox)="filt=!filt;filtra(strSea);" [showSearch]="info.length>1" (filter)="filtra($event)"></episjob-h2>
+    <div class="contS" *ngIf="isThinking && errore==''">
+        <mat-spinner color="accent"></mat-spinner>
     </div>
+    <div class="contS" *ngIf="errore!=''">
+        {{errore}}
+    </div>
+    <div *ngIf="sortedData.length>0">
+        <table matSort (matSortChange)="sortData($event)" class="contT">
+            <thead>
+                <tr>
+                    <th>Notes</th>
+                    <th mat-sort-header="day">Hrs on<br>{{lastWorkingDay()}}</th>
+                    <th mat-sort-header="."></th>
+                    <th mat-sort-header="pred">Service Pred Date</th>
+                    <th mat-sort-header="serial" >Serial Nr</th>
+                    <th mat-sort-header="model">Model</th>
+                    <th mat-sort-header="company">Company</th>
+                    <th mat-sort-header="site">Site</th>
+                    <th mat-sort-header="hrs">Engine Hrs</th>
+                    <th mat-sort-header="step">Service Int</th>
+                    <th mat-sort-header="next">Next Service in</th>
+                </tr>
+            </thead>
+            
+            <tr *ngFor="let rig of sortedData" [ngClass]="{'mat-elevation-z8': width()}"[class.mat-elevation-z8]="true">
+                <td [ngStyle]="{'background-color':rig.machineNote==4?'indianred':rig.machineNote==3?'lightgreen':rig.machineNote==5?'gold':'white'}">
+                    <select (change)="salva($event, rig.machineSerialNr)" [value]="rig.machineNote">
+                        <option value=1>No SA</option>
+                        <option value=2>SA</option>
+                        <option value=3>PO/U</option>
+                        <option value=4>PO/O</option>
+                        <option value=5>Done</option>
+                    </select>
+                </td>
+                <td>{{rig.LastDayEngineHours}}</td>
+                <td><div *ngIf="rig.hoursLeftToService>0" class="circ" [ngStyle]="{'background-color': rig.hoursLeftToService<=50? 'indianred' : rig.hoursLeftToService>50 && rig.hoursLeftToService<=100? 'gold':'lightgreen'}"></div></td>
+                <td>{{rig.servicePredictedDate|dateconv}}</td>
+
+                <td>{{rig.machineSerialNr}}</td>
+                <td>{{rig.machineModel}}</td>
+                <td>{{rig.machineCompany}}</td>
+                <td>{{rig.machineSite}}</td>
+                <td>{{rig.machineHrs}}</td>
+                <td>{{rig.serviceStep}}</td>
+                <td>{{rig.hoursLeftToService}}</td>
+
+            </tr>
+            </table>
+    </div>
+
 </div> 
 
 <div episjobCont *ngIf="!allow && !allSpin">Restricted Area</div>

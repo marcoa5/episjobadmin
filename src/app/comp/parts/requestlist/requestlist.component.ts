@@ -208,7 +208,7 @@ export class RequestlistComponent implements OnInit {
   }
 
   submit(){
-    if(this.pos=='customer'){
+    if(this.auth.acc('PartsRequestListSubmit')){
       /*let list:string=''
       e.forEach(a=>{
         if(list!='') list += `\n${a.pn}\t${a.qty}`

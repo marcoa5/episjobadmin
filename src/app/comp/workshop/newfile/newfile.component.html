@@ -1,26 +1,44 @@
 <div mat-dialog-title>{{data.new? 'New' : 'Edit'}} File</div>
 <div mat-dialog-content>
-    <episjob-selectmachine (info)="dat($event)"></episjob-selectmachine>
-    <form [formGroup]="rigData" *ngIf="details!=undefined && details!=''">
-        <mat-form-field [appearance]="appearance" class="input">
-            <input matInput type="text" autocomplete="off" formControlName="sn">
-            <mat-label>Serial nr.</mat-label>
+    <form [formGroup]="rigData">
+        <h4>Select File type</h4>
+        <mat-form-field [appearance]="appearance" class="sel">
+            <mat-label>File type</mat-label>
+            <mat-select #type formControlName="type" (selectionChange)="sel()">
+              <mat-option *ngFor="let f of types" [value]="f.val">{{f.desc}}</mat-option>
+            </mat-select>
         </mat-form-field>
-        <mat-form-field [appearance]="appearance" class="input">
-            <input matInput type="text" autocomplete="off" formControlName="model">
-            <mat-label>Model</mat-label>
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance" class="input">
-            <input matInput type="text" autocomplete="off" formControlName="customer">
-            <mat-label>Customer</mat-label>
-        </mat-form-field>
-        <mat-form-field [appearance]="appearance" class="input hid">
-            <input matInput type="text" autocomplete="off" formControlName="custid">
-            <mat-label>CustId</mat-label>
-        </mat-form-field>
+        <episjob-selectmachine (info)="dat($event)" *ngIf="type.value"></episjob-selectmachine>
+        <div *ngIf="details!=undefined && details!=''">
+            <mat-form-field [appearance]="appearance" class="input">
+                <input matInput type="text" autocomplete="off" formControlName="file">
+                <mat-label>File Name</mat-label>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance" class="input hid">
+                <input matInput type="text" autocomplete="off" formControlName="sn">
+                <mat-label>Serial</mat-label>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance" class="input">
+                <input matInput type="text" autocomplete="off" formControlName="model">
+                <mat-label>Model</mat-label>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance" class="input hid">
+                <input matInput type="text" autocomplete="off" formControlName="id">
+                <mat-label>id</mat-label>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance" class="input">
+                <input matInput type="text" autocomplete="off" formControlName="customer">
+                <mat-label>Customer</mat-label>
+            </mat-form-field>
+            <mat-form-field [appearance]="appearance" class="input hid">
+                <input matInput type="text" autocomplete="off" formControlName="custid">
+                <mat-label>CustId</mat-label>
+            </mat-form-field>
+        </div>
+        
     </form>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="'yes'">Ok</button>
+    <button mat-raised-button color="primary" (click)="save(rigData.value)">Ok</button>
 </div>

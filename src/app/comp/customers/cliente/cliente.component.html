@@ -14,7 +14,7 @@
         <episjob-h2 padtop=0 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
-    <div class="item4" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales'">
+    <div class="item4" *ngIf="chPos('SalesRights')">
         <episjob-h2 padtop=0 icon="trending_up" [data]="'Sales Potential ' + anno"></episjob-h2> 
         <episjob-potential [custId]="id"></episjob-potential>
     </div>
@@ -22,7 +22,7 @@
             <episjob-h2 padtop=0 icon="checklist" data="To Do"></episjob-h2> 
             <episjob-todo [custId]="id"></episjob-todo> 
         </div>-->
-    <div class="item5" *ngIf="(pos=='SU' || pos=='adminS' || pos=='sales') && listV.length>0">
+    <div class="item5" *ngIf="chPos('SalesRights') && listV.length>0">
         <episjob-h2 padtop=0 icon="event_available" data="Visits"></episjob-h2> 
         <episjob-visits [list]="listV"></episjob-visits> 
     </div>

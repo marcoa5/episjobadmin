@@ -97,14 +97,14 @@ export class MachineComponent implements OnInit {
   start(){
     this.route.params.subscribe(r=>{
       this.valore=r.sn
-      if(this.pos=='customer' || this.pos=='sales'){
+      if(this.auth.acc('MachinePermissions')){
         firebase.database().ref('RigAuth').child(this.valore).child('a'+this.area).once('value',gt=>{
           if(gt.val()=='1') {
-            this.allow=this.auth.allow('machine',this.pos)
+            this.allow=this.auth.allow('All',this.pos)
           } else {this.allow=false}
         })
       } else {
-        this.allow=this.auth.allow('machine',this.pos)
+        this.allow=this.auth.allow('All',this.pos)
       }
     })
     this.f(1)
@@ -293,7 +293,7 @@ export class MachineComponent implements OnInit {
   }
 
   de(a:string){
-    if(this.pos=='SU'){
+    if(this.auth.acc('SURights')){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -301,7 +301,7 @@ export class MachineComponent implements OnInit {
         data: {name: a.replace(/\-/g,'')}
       });
       dialogRef.afterClosed().subscribe(result => {
-        if(result!=undefined && this.pos=='SU') {
+        if(result!=undefined && this.auth.acc('SURights')) {
           firebase.database().ref(`Hours/${this.valore}/${result}`).remove()
           this.f(1)
           //this.location.back()
@@ -314,7 +314,7 @@ export class MachineComponent implements OnInit {
       let a:string = e[0]
       let b:any = e[1]
       let c:string = e[2]
-      if(this.pos=='SU'){
+      if(this.auth.acc('SURights')){
         const dialogconf = new MatDialogConfig();
         dialogconf.disableClose=false;
         dialogconf.autoFocus=false;
@@ -323,7 +323,7 @@ export class MachineComponent implements OnInit {
         });
   
         dialogRef.afterClosed().subscribe(result => {
-          if(result!=undefined && this.pos=='SU') {
+          if(result!=undefined && this.auth.acc('SURights')) {
             firebase.database().ref(`Hours/${this.valore}/${b.replace(/\-/g,'')}`).child(c).set(result)
             this.f(1)
           }
@@ -517,7 +517,7 @@ export class MachineComponent implements OnInit {
   }
 
   addCD(a:any){
-    if(this.pos=='SU'){
+    if(this.auth.acc('SURights')){
       const dialogconf = new MatDialogConfig();
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;
@@ -527,7 +527,7 @@ export class MachineComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         let fd = result.split('/')
-        if(result!=undefined && this.pos=='SU') {
+        if(result!=undefined && this.auth.acc('SURights')) {
           let r1 = moment(new Date(fd[2],fd[1]-1,fd[0])).format('YYYYMMDD')
           let r2
           if(this.data[0] !=null) r2 = this.data[0].x.replace(/\-/g,'')
@@ -735,7 +735,7 @@ export class MachineComponent implements OnInit {
   }
 
   loadContract(){
-    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS' || this.pos=='sales' || this.pos=='tech'){
+    if(this.auth.acc('InternalRights')){
       firebase.database().ref('Contracts').child(this.valore).on('value',a=>{
         this.contract=[]
         if(a.val()!=null) {

@@ -334,8 +334,35 @@ export class AuthServiceService {
     })
   }
 
-  allow(f:string, pos: string, sn?:string):boolean{
-    switch(f){
+  allow(page:string, pos1: string, subPos?:string):boolean{
+    let pos:string=this.epiUser.Pos
+    switch(pos){
+      case('SU'):
+      if(['Admin','All','Internal','SalesAll','SU','TechAdmin','TechAll','TechExt','TechInt','ws'].includes(page)) return true
+      return false
+      break
+      case('admin'):
+      if(['Admin','All','Internal','TechAdmin','TechAll','TechExt','TechInt','ws'].includes(page)) return true
+      return false
+      break
+      case('adminS'):
+      if(['Admin','All','Internal','SalesAll'].includes(page)) return true
+      return false
+      break
+      case('tech'):
+      if(['All','Internal','TechAll','TechInt'].includes(page)) return true
+      return false
+      break
+      case('sales'):
+      if(['All','Internal','SalesAll'].includes(page)) return true
+      return false
+      break
+      case('customer'):
+      if(['All'].includes(page)) return true
+      return false
+      break
+    }
+    /*switch(f){
       case 'newrig':
         if(pos=='SU') return true
         return false
@@ -376,7 +403,7 @@ export class AuthServiceService {
         return false
         break
       case 'parts':
-        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech'|| pos=='customer') return true
+        if(pos=='SU' || pos=='admin' || pos=='adminS' || pos=='tech'|| pos=='customer' || pos=='techwsadmin') return true
         return false
         break
       case 'visit':
@@ -384,7 +411,7 @@ export class AuthServiceService {
         return false
         break
       case 'sj':
-        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech') return true
+        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech' || pos=='techwsadmin') return true
         return false
         break
       case 'contracts':
@@ -392,11 +419,52 @@ export class AuthServiceService {
         return false
         break
       case 'workshop':
-        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='tech') return true
+        if(pos=='SU' || pos=='adminS' || pos=='admin' || pos=='techwsadmin') return true
         return false
         break
-      }
-    
+      }*/
+    return false
+  }
+
+  acc(position:string):boolean{
+    /*
+    SURights: SU
+    AdminRights: SU, admin, adminS
+    AdminTechRights: SU, admin
+    AdminSalesRights: SU, adminS
+    SalesRights: SU, adminS,sales
+    Salesman: sales
+    TechRights: SU, admin, tech
+    InternalRights: SU, admin, adminS, tech, sales
+    Technician: tech
+    */
+    let pos:string=this.epiUser.Pos
+    switch(pos){
+      case('SU'):
+        if(['AdminRights','TechRights','SalesRights','AdminTechRights','SURights','InternalRights','AdminSalesRights'].includes(position)) return true
+        return false
+        break
+      case('admin'):
+        if(['AdminRights','TechRights','AdminTechRights','InternalRights'].includes(position)) return true
+        return false
+        break
+      case('adminS'):
+        if(['AdminRights','SalesRights','CustomerGetVisit','InternalRights','AdminSalesRights'].includes(position)) return true
+        return false
+        break
+      case('tech'):
+        if(['TechRights','PartsLoadDraftTech','InternalRights','Technician'].includes(position)) return true
+        return false
+        break
+      case('sales'):
+        if(['SalesRights','CustomerGetFleet','CustomerGetVisitSales','MachinePermissions','InternalRights','Salesman'].includes(position)) return true
+        return false
+        break
+      case('customer'):
+        if(['PartsRequestListSubmit','MachinePermissions'].includes(position)) return true
+        return false
+        break
+    }
     return false
   }
 }

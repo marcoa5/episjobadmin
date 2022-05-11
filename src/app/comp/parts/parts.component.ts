@@ -51,7 +51,7 @@ export class PartsComponent implements OnInit {
         this.pos=a.Pos
         this.userId=a.uid
         setTimeout(() => {
-          this.allow=this.auth.allow('parts',this.pos)
+          this.allow=this.auth.allow('Internal',this.pos)
           this.allSpin=false
           if(this.allow==true){
             this.loadlist()
@@ -84,7 +84,7 @@ export class PartsComponent implements OnInit {
   }
 
   loadlist(){
-    if(this.pos=='SU' || this.pos=='admin' || this.pos=='adminS'||this.pos=='tech'){
+    if(this.auth.acc('AdminTechRights')){
       firebase.database().ref('PartReq').on('value',b=>{
         this.list=[]
         b.forEach(c=>{
@@ -95,7 +95,7 @@ export class PartsComponent implements OnInit {
           })
         })
       })
-    } else if(this.pos=='tech'){
+    } else if(this.auth.acc('PartsLoadDraftTech')){
       firebase.database().ref('PartReq').child(this.userId).on('value',b=>{
         this.list=[]
         b.forEach(c=>{
@@ -111,7 +111,7 @@ export class PartsComponent implements OnInit {
 
   loadsent(){
     this.spin=true
-    if(this.pos=='SU'){
+    if(this.auth.acc('AdminTechRights')){
       firebase.database().ref('PartReqSent').on('value',b=>{
         this._listSent=[]
         b.forEach(c=>{
@@ -169,7 +169,7 @@ export class PartsComponent implements OnInit {
 
   ind(e:any){
     if(e!='-1'){
-      if(this.pos=='SU') this.userReqId=e[1].usedId
+      if(this.auth.acc('SURights')) this.userReqId=e[1].usedId
       this.listId=parseInt(e[0])
       firebase.database().ref('PartReq').child(this.userReqId).child(e[1].reqId).once('value',a=>{
         if(a.val()==null) {
@@ -222,5 +222,9 @@ export class PartsComponent implements OnInit {
     this.info=undefined
     this.reqId=''
     this.listId=-1
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 }

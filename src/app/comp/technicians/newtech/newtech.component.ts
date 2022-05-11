@@ -38,7 +38,7 @@ export class NewtechComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('technicians',this.pos)
+          this.allow=this.auth.allow('TechAdmin',this.pos)
         }, 1);
       })
     )
@@ -66,7 +66,7 @@ export class NewtechComponent implements OnInit {
 
   add(a:any,b:FormGroup){
     let g:string[] = [b.get('fn')?.value,b.get('sn')?.value]
-    if(a=='addt' && this.pos=='SU'){
+    if(a=='addt' && this.auth.acc('SURights')){
       firebase.database().ref('Tech/' + g[0].toUpperCase()).set({
         s: g[1].toUpperCase(),
       }).then(()=>{
@@ -74,7 +74,7 @@ export class NewtechComponent implements OnInit {
       })
       
     }
-    if(a=='updt' && this.pos=='SU'){
+    if(a=='updt' && this.auth.acc('SURights')){
       firebase.database().ref('Tech/' + this.origName).remove()
       .then(()=>{
         firebase.database().ref('Tech/' + g[0].toUpperCase()).set({
@@ -96,7 +96,7 @@ export class NewtechComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result!=undefined && this.pos=='SU') {
+      if(result!=undefined && this.auth.acc('SURights')) {
         firebase.database().ref('Tech/' + result).remove()
         this.location.back()
       }

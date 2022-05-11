@@ -47,7 +47,7 @@ export class NewpartsrequestComponent implements OnInit {
         this.tId=a.uid
       })
     )
-    if(this.pos=='SU' || this.pos=='admin'){
+    if(this.auth.acc('AdminTechRights')){
       firebase.database().ref('Users').once('value',a=>{
         a.forEach(b=>{
           this.technicians.push({name: b.val().Nome + ' ' + b.val().Cognome, id:b.key})

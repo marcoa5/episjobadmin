@@ -50,7 +50,7 @@ export class ReportComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('report',this.pos)
+          this.allow=this.auth.allow('SU',this.pos)
         }, 1);
         this.allSpin=false
       })
@@ -208,6 +208,10 @@ export class ReportComponent implements OnInit {
 
   chB(e:any){
     console.log(e)
+  }
+
+  chPos(a:string):boolean{
+    return this.auth.acc(a)
   }
   
 }

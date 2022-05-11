@@ -165,4 +165,8 @@ export class SubeddialogComponent implements OnInit {
       }
     })
   }
+
+  chPos(a:string){
+    return this.auth.acc(a)
+  }
 }

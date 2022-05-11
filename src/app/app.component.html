@@ -43,16 +43,16 @@
       <mat-icon class="menuIcon" (click)="goTo('/customers')" matTooltip="Companies">work</mat-icon> 
       <div class="label">Companies</div>
     </div>
-    <div class="single" *ngIf="pos=='SU' || pos=='admin' || pos=='tech' " (click)="goTo('/sj')">
+    <div class="single" *ngIf="chPos('menuGoToSj')" (click)="goTo('/sj')">
       <mat-icon class="menuIcon" matTooltip="Service Job" >text_snippet</mat-icon> 
       <div class="label">ServiceJob</div>
     </div>
-    <div class="single" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' " (click)="goTo('/visit')">
+    <div class="single" *ngIf="chPos('SalesRights')" (click)="goTo('/visit')">
       <mat-icon class="menuIcon" matTooltip="Visits" >recent_actors</mat-icon>
       <div class="label">Visits</div>
     </div>
-    <div class="single" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' " (click)="goTo('/contacts')">
-      <mat-icon class="menuIcon" matTooltip="Contacts" *ngIf="pos=='SU' || pos=='adminS' || pos=='sales' ">account_box</mat-icon> 
+    <div class="single" *ngIf="chPos('SalesRights')" (click)="goTo('/contacts')">
+      <mat-icon class="menuIcon" matTooltip="Contacts">account_box</mat-icon> 
       <div class="label">Contacts</div>
     </div>
     

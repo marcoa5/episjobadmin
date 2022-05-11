@@ -73,7 +73,7 @@ export class NewrigComponent implements OnInit {
         this.uName= a.Nome + ' ' + a.Cognome
         this.pos=a.Pos
         setTimeout(() => {
-          this.allow=this.auth.allow('newrig',this.pos)
+          this.allow=this.auth.allow('SU',this.pos)
         }, 1);
       }),
       this.auth._fleet.subscribe(a=>{}),
@@ -81,7 +81,7 @@ export class NewrigComponent implements OnInit {
     )
     this.subsList.push(this.auth._customers.subscribe(a=>this.customers=a))
     this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
-    this.allow=this.auth.allow('newrig',this.pos)
+    this.allow=this.auth.allow('SU',this.pos)
   
     this.route.params.subscribe(a=>{
       this.serial= a.name

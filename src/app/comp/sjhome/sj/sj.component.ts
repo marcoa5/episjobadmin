@@ -305,7 +305,7 @@ export class SjComponent implements OnInit {
           this.userId=a.uid
           this.userName=a.Nome + ' ' + a.Cognome
           setTimeout(() => {
-            this.allow=this.auth.allow('sj',this.pos) 
+            this.allow=this.auth.allow('TechAll',this.pos) 
             
           }, 1);
         }
@@ -363,7 +363,7 @@ export class SjComponent implements OnInit {
   }
 
   loadTech(){
-    if(this.pos=='SU'){
+    if(this.auth.acc('SURights')){
       firebase.database().ref('Users').once('value',t=>{
         t.forEach(rf=>{
           if(rf.val().Pos=='tech') this.technicians.push({name: rf.val().Nome + ' ' + rf.val().Cognome, id:rf.key})
