@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import firebase from 'firebase/app'
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { environment } from '../../../../environments/environment'
 @Component({
   selector: 'episjob-logout',
@@ -14,7 +15,7 @@ export class LogoutComponent implements OnInit {
   Newrig:any|undefined
   id:string=''
   version:string=''
-  constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.version=environment.appVersion
@@ -36,5 +37,9 @@ export class LogoutComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  chPos(a:string){
+    return this.auth.acc(a)
   }
 }
