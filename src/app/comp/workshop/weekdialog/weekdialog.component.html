@@ -1,0 +1,39 @@
+<div mat-dialog-title>Add Hours</div>
+<div mat-dialog-content>
+    <div class="header">
+        <button mat-icon-button (click)="moveWeek('-')"><mat-icon>arrow_left</mat-icon></button>
+        <div>Move Week ({{mese}} {{anno}})</div>
+        <button mat-icon-button (click)="moveWeek('+')"><mat-icon>arrow_right</mat-icon></button>  
+    </div>
+    <div class="week">
+        <form [formGroup]="weekForm" >
+            <div *ngFor="let d of week; let i = index" class="formGroup">
+                <mat-form-field [appearance]="appearance" class="hid">
+                    <mat-label>{{d|dateconvday}}</mat-label>
+                    <input type="number" autocomplete="off" matInput [formControlName]="'dd'+(i+1)" readonly>
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <mat-label>{{d|dateconv}}</mat-label>
+                    <input type="number" autocomplete="off" matInput [formControlName]="'d'+(i+1)" readonly>
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <mat-label>V1</mat-label>
+                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v1'+(i+1)" (input)="write(d,'v1',i)">
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <mat-label>V2</mat-label>
+                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v2'+(i+1)" (input)="write(d,'v2',i)" >
+                </mat-form-field>
+                <mat-form-field [appearance]="appearance">
+                    <mat-label>V8</mat-label>
+                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v8'+(i+1)" (input)="write(d,'v8',i)" >
+                </mat-form-field>               
+            </div>
+            
+        </form>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'test'">Ok</button>
+</div>

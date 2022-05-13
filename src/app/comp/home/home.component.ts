@@ -24,26 +24,26 @@ export class HomeComponent implements OnInit {
       id:'Equipment',
       icon:'precision_manufacturing', 
       route:'rigs', 
-      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer']
+      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer','wsadmin']
     },
     {
       id:'Companies',
       icon:'work', 
       route:'customers', 
-      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer']
+      auth:['SU','admin','adminS','tech','techwsadmin','sales','customer','wsadmin']
     },
     {
       id:'ServiceJob',
       icon:'text_snippet', 
       route:'sj', 
-      auth:['SU','admin','adminS','tech','techwsadmin']
+      auth:['SU','admin','adminS','tech','techwsadmin','wsadmin']
     },
     {
       id:'Parts',
       icon:'construction', 
       route:'parts', 
       dis:false, 
-      auth:['SU','admin','adminS','tech','customer','techwsadmin']
+      auth:['SU','admin','adminS','tech','customer','techwsadmin','wsadmin']
     },
     {
       id:'Files',
@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
       icon:'home_work', 
       route:'workshop', 
       dis:false, 
-      auth:['SU','admin','adminS','techwsadmin']
+      auth:['SU','admin','adminS','techwsadmin','wsadmin']
     },
   ];
   subsList: Subscription[]=[]

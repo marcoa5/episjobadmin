@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewfileComponent } from './newfile/newfile.component';
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import { weekdays } from 'moment';
+import { WeekdialogComponent } from './weekdialog/weekdialog.component';
+import { Clipboard } from '@angular/cdk/clipboard'
+import * as moment from 'moment';
+import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { CopyComponent } from '../util/dialog/copy/copy.component';
 
 @Component({
   selector: 'episjob-workshop',
@@ -17,12 +23,22 @@ export class WorkshopComponent implements OnInit {
   subPos:string=''
   list:any[]=[]
   sortedData:any[]=[]
-  displayedColumns:string[]=['file','sn','model','customer']
+  displayedColumns:string[]=[]
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, private dialog: MatDialog) { }
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard) { }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<550){
+      this.displayedColumns=['file','add','archive','report']
+    } else{
+      this.displayedColumns=['file',/*'sn',*/'model','customer','add','archive','report']
+    }
+  }
 
   ngOnInit(): void {
+    this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {
@@ -56,13 +72,6 @@ export class WorkshopComponent implements OnInit {
 
   add(e:any){
     const dia=this.dialog.open(NewfileComponent,{panelClass: 'attachment',data:{new:false}})
-    dia.afterClosed().subscribe(a=>{
-      if(a){
-        this.list.push(a)
-        this.sortedData=this.list.slice()
-        console.log(this.sortedData)
-      }
-    })
   }
 
   sortData(sort: Sort) {
@@ -93,7 +102,6 @@ export class WorkshopComponent implements OnInit {
     let e:string=b.toLowerCase()
     if(e){
       this.sortedData=this.list.filter(a=>{
-        console.log(a.customer.toLowerCase().includes(e) , a.file.toLowerCase().includes(e), a.model.toLowerCase().includes(e) , a.sn.toLowerCase().includes(e))
         if(a.customer.toLowerCase().includes(e) || a.file.toLowerCase().includes(e) || a.model.toLowerCase().includes(e) || a.sn.toLowerCase().includes(e)) return a
         return false
       })
@@ -103,6 +111,75 @@ export class WorkshopComponent implements OnInit {
 
   }
 
+  addHrs(e:any){
+    const dia=this.dialog.open(WeekdialogComponent, {panelClass: 'contract', data:e})
+    dia.afterClosed().subscribe(a=>{})
+  }
+
+  chPos(a:string,b?:string){
+    if(b=='archive' && !this.auth.acc(a)){
+      if(this.displayedColumns.indexOf('archive')>=0) this.displayedColumns.splice(this.displayedColumns.indexOf('archive'),1)
+    
+    }
+    return this.auth.acc(a)
+  }
+
+  archive(e:any){
+    console.log(e)
+  }
+
+  report(a:any){
+    const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
+    setTimeout(() => {
+      dia.close()
+    }, 10000);
+    let exp:string=''
+    firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
+      exp=`${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
+      if(p.val()!=null && p.val().days){
+        let d:any=p.val().days
+        let minimo=Object.keys(d).sort().splice(0,1)
+        let dif = new Date(minimo.toString()).getDay()-1
+        let massimo=Object.keys(d).sort().splice(-1)
+        let m1=moment(new Date(minimo.toString())).subtract(dif,'days')
+        let m2=moment(new Date(massimo.toString()))
+        let ch:number=0
+        for(let i = 0; i<(m2.diff(m1,'days')+1);i++){
+          firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).child('days').child(moment(m1).add(i,'days').format('YYYY-MM-DD')).once('value',k=>{
+            let chDay = new Date(moment(m1).add(i,'days').format('YYYY-MM-DD')).getDay()
+            let day:string=''
+            switch(chDay){
+              case 0: day= 'DOMENICA'
+              break
+              case 1: day= 'LUNEDI'
+              break
+              case 2: day= 'MARTEDI'
+              break
+              case 3: day= 'MERCOLEDI'
+              break
+              case 4: day= 'GIOVEDI'
+              break
+              case 5: day= 'VENERDI'
+              break
+              case 6: day= 'SABATO'
+              break
+            }
+            if(ch>0 && chDay==1) exp+=`\n`
+            ch++
+            if(k.val()!=null){
+              exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
+            } else {
+              exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
+            }
+          })
+        }
+      }
+    }).then(()=>{
+      this.clip.copy(exp)
+      const dd = this.dialog.open(CopyComponent)
+      dia.close()
+    })
+  }
 }
 
 function compare(a: number | string, b: number | string, isAsc: boolean) {

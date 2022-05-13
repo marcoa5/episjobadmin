@@ -148,6 +148,8 @@ import { SavedialogComponent } from './comp/util/dialog/savedialog/savedialog.co
 import { RigcontractComponent } from './comp/rigs/machine/rigcontract/rigcontract.component';
 import { TarifsComponent } from './comp/contracts/newcontract/tarifs/tarifs.component';
 import { DiscountsComponent } from './comp/contracts/newcontract/discounts/discounts.component';
+import { WeekdialogComponent } from './comp/workshop/weekdialog/weekdialog.component';
+import { DateconvdayPipe } from './pipe/dateconvday.pipe';
 
 export const MY_FORMATS = {
   parse: {
@@ -279,6 +281,8 @@ const appearance: MatFormFieldDefaultOptions = {
     RigcontractComponent,
     TarifsComponent,
     DiscountsComponent,
+    WeekdialogComponent,
+    DateconvdayPipe,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

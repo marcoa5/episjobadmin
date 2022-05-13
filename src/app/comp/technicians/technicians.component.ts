@@ -19,6 +19,7 @@ export class TechniciansComponent implements OnInit {
   subsList:Subscription[]=[]
   allow:boolean=false
   allSpin:boolean=true
+  list:any
   constructor(private router:Router, public route: ActivatedRoute, public auth: AuthServiceService) { }
 
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class TechniciansComponent implements OnInit {
       })
     )
     this.allSpin=false  
+    
   }
 
   ngOnDestroy(){

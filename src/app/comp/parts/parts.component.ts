@@ -1,21 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { SavevisitComponent } from '../util/dialog/savevisit/savevisit.component';
 import { NewpartsrequestComponent } from './newpartsrequest/newpartsrequest.component';
 import { MakeidService } from '../../serv/makeid.service'
 import firebase from 'firebase/app';
 import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
-import { Subscription } from 'rxjs';
+import { observable, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { Clipboard } from '@angular/cdk/clipboard'
-import * as moment from 'moment'
-import { SubmitvisitComponent } from '../util/dialog/submitvisit/submitvisit.component';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
-import { GenericComponent } from '../util/dialog/generic/generic.component';
-import { environment } from '../../../environments/environment'
+
 
 @Component({
   selector: 'episjob-parts',
@@ -45,21 +41,26 @@ export class PartsComponent implements OnInit {
 
   //@ViewChild('search') search!: ElementRef
 
-  ngOnInit(): void {
-    this.subsList.push(
-      this.auth._userData.subscribe(a=>{
-        this.pos=a.Pos
-        this.userId=a.uid
-        setTimeout(() => {
-          this.allow=this.auth.allow('Internal',this.pos)
-          this.allSpin=false
-          if(this.allow==true){
-            this.loadlist()
-            this.loadsent()
-          }
-        }, 1);
-      })
-    )
+  ngOnInit() {
+    return new Promise(res=>{
+      this.subsList.push(
+        this.auth._userData.subscribe(a=>{
+            this.pos=a.Pos
+            this.userId=a.uid
+            setTimeout(() => {
+              this.allow=this.auth.allow('Internal',this.pos)
+              this.allSpin=false
+              res('')
+            }, 1);
+          
+        })
+      )
+    }).then(()=>{
+      if(this.allow==true){
+        this.loadlist()
+        this.loadsent()
+      }
+    })    
   }
 
   ngOnChanges(){
@@ -113,20 +114,21 @@ export class PartsComponent implements OnInit {
     this.spin=true
     if(this.auth.acc('AdminTechRights')){
       firebase.database().ref('PartReqSent').on('value',b=>{
+        let l:number=Object.values(b.val()).length
+        let i:number=0
         this._listSent=[]
         b.forEach(c=>{
           c.forEach(d=>{
             let g = d.val()
             g.sel=0
             this._listSent.push(g)
-            this.listSent=this._listSent
+            this.listSent=this._listSent.slice()
             this.spin=false
           })
         })
       })
     }
   }
-
 
   start(){
     const dialogconf = new MatDialogConfig();

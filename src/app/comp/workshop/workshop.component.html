@@ -18,6 +18,21 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
             <td mat-cell *matCellDef="let e"> {{e.customer}} </td>
         </ng-container>
+        <ng-container matColumnDef="add">
+            <th mat-header-cell *matHeaderCellDef> Hrs </th>
+            <td mat-cell *matCellDef="let e"> <mat-icon (click)="addHrs(e)">timer</mat-icon> </td>
+        </ng-container>
+        <div *ngIf="chPos('AdminRights','archive')">
+            <ng-container matColumnDef="archive">
+                <th mat-header-cell *matHeaderCellDef> Arc </th>
+                <td mat-cell *matCellDef="let e" (click)="archive(e)"> <mat-icon>archive</mat-icon> </td>
+            </ng-container> 
+             
+        </div>
+        <ng-container matColumnDef="report">
+            <th mat-header-cell *matHeaderCellDef> Rep </th>
+            <td mat-cell *matCellDef="let e" (click)="report(e)"> <mat-icon>download</mat-icon> </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

@@ -226,14 +226,13 @@ export class SjhomeComponent implements OnInit {
   }
 
   loadSent(n?:number){
-    console.log(this.pos)
     if((n==undefined || n ==null)) n=5
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
         if(this.auth.acc('Technician') && this.userId==b.val().authorId) {
           this._listSent.push(b.val())
-        } else if(this.pos!='tech' && this.pos!='techwsadmin'){
+        } else if(this.pos!='tech' && this.pos!='wsadmin'){
           this._listSent.push(b.val())
         }
       })

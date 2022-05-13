@@ -361,6 +361,10 @@ export class AuthServiceService {
       if(['All'].includes(page)) return true
       return false
       break
+      case('wsadmin'):
+      if(['All','Internal','TechAll','ws'].includes(page)) return true
+      return false
+      break
     }
     /*switch(f){
       case 'newrig':
@@ -441,11 +445,11 @@ export class AuthServiceService {
     let pos:string=this.epiUser.Pos
     switch(pos){
       case('SU'):
-        if(['AdminRights','TechRights','SalesRights','AdminTechRights','SURights','InternalRights','AdminSalesRights'].includes(position)) return true
+        if(['AdminRights','TechRights','SalesRights','AdminTechRights','SURights','InternalRights','AdminSalesRights','Workshop'].includes(position)) return true
         return false
         break
       case('admin'):
-        if(['AdminRights','TechRights','AdminTechRights','InternalRights'].includes(position)) return true
+        if(['AdminRights','TechRights','AdminTechRights','InternalRights','Workshop'].includes(position)) return true
         return false
         break
       case('adminS'):
@@ -464,6 +468,10 @@ export class AuthServiceService {
         if(['PartsRequestListSubmit','MachinePermissions'].includes(position)) return true
         return false
         break
+      case('wsadmin'):
+        if(['TechRights','PartsLoadDraftTech','InternalRights','Workshop'].includes(position)) return true
+        return false
+      break
     }
     return false
   }
