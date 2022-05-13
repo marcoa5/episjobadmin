@@ -22,6 +22,7 @@ export class WorkshopComponent implements OnInit {
   pos:string=''
   subPos:string=''
   list:any[]=[]
+  filtro:string=''
   sortedData:any[]=[]
   displayedColumns:string[]=[]
   subsList:Subscription[]=[]
@@ -67,6 +68,7 @@ export class WorkshopComponent implements OnInit {
         })
       }
       this.sortedData=this.list.slice()
+      this.fil(this.filtro)
     })
   }
 
@@ -99,10 +101,10 @@ export class WorkshopComponent implements OnInit {
   }
 
   fil(b:any){
-    let e:string=b.toLowerCase()
-    if(e){
+    this.filtro=b.toLowerCase()
+    if(this.filtro){
       this.sortedData=this.list.filter(a=>{
-        if(a.customer.toLowerCase().includes(e) || a.file.toLowerCase().includes(e) || a.model.toLowerCase().includes(e) || a.sn.toLowerCase().includes(e)) return a
+        if(a.customer.toLowerCase().includes(this.filtro) || a.file.toLowerCase().includes(this.filtro) || a.model.toLowerCase().includes(this.filtro) || a.sn.toLowerCase().includes(this.filtro)) return a
         return false
       })
     } else {
@@ -179,6 +181,10 @@ export class WorkshopComponent implements OnInit {
       const dd = this.dialog.open(CopyComponent)
       dia.close()
     })
+  }
+
+  go(a:any,b:any){
+    
   }
 }
 

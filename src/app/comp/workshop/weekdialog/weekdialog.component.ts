@@ -99,7 +99,7 @@ export class WeekdialogComponent implements OnInit {
 
   write(d:string,lab:string,i:number){
     if(this.weekForm.controls[lab+(i+1)].value>0) firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).set(this.weekForm.controls[lab+(i+1)].value)
-    if(this.weekForm.controls[lab+(i+1)].value==0) firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).remove()
+    if(this.weekForm.controls[lab+(i+1)].value==0 || this.weekForm.controls[lab+(i+1)].value=='') firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).remove()
   }
 
 }
