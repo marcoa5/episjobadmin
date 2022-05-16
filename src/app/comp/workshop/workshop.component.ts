@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { CopyComponent } from '../util/dialog/copy/copy.component';
 import { SelectmonthComponent } from './selectmonth/selectmonth.component';
+import { ArchivedialogComponent } from './archivedialog/archivedialog.component';
 
 @Component({
   selector: 'episjob-workshop',
@@ -128,13 +129,24 @@ export class WorkshopComponent implements OnInit {
   }
 
   archive(e:any){
-    console.log(e)
+    const arc = this.dialog.open(ArchivedialogComponent, {data:{file:e.file}})
+    arc.afterClosed().subscribe(a=>{
+      if(a){
+        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).once('value',h=>{
+          firebase.database().ref('wsFiles').child('archived').child(e.sn).child(e.id).set(h.val())
+        }).then(()=>{
+          firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).remove()
+        })
+      }
+    })
   }
 
   report(a:any){
     const mese = this.dialog.open(SelectmonthComponent, {data:''})
     mese.afterClosed().subscribe(da=>{
       if(da){
+        let dy=da.getDay()==0?7:da.getDay()
+        console.log(dy)
         const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
         setTimeout(() => {
           dia.close()
@@ -143,8 +155,8 @@ export class WorkshopComponent implements OnInit {
         firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
           //exp=`\t${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
           if(p.val()!=null){
-            let m1=moment(da).subtract(da.getDay()-1,'days')
-            let m2=moment(da).subtract(da.getDay()-1,'days').add(1,'weeks').subtract(1,'days')
+            let m1=moment(da).subtract(dy-1,'days')
+            let m2=moment(da).subtract(dy-1,'days').add(1,'weeks').subtract(1,'days')
             let ch:number=0
             for(let i = 0; i<(m2.diff(m1,'days')+1);i++){
               firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).child('days').child(moment(m1).add(i,'days').format('YYYY-MM-DD')).once('value',k=>{
@@ -166,8 +178,6 @@ export class WorkshopComponent implements OnInit {
                   case 6: day= 'SABATO'
                   break
                 }
-                if(ch>0 && chDay==1) exp+=`\n`
-                ch++
                 if(k.val()!=null){
                   exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
                 } else {

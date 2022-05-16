@@ -151,6 +151,7 @@ import { DiscountsComponent } from './comp/contracts/newcontract/discounts/disco
 import { WeekdialogComponent } from './comp/workshop/weekdialog/weekdialog.component';
 import { DateconvdayPipe } from './pipe/dateconvday.pipe';
 import { SelectmonthComponent } from './comp/workshop/selectmonth/selectmonth.component';
+import { ArchivedialogComponent } from './comp/workshop/archivedialog/archivedialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -285,6 +286,7 @@ const appearance: MatFormFieldDefaultOptions = {
     WeekdialogComponent,
     DateconvdayPipe,
     SelectmonthComponent,
+    ArchivedialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
