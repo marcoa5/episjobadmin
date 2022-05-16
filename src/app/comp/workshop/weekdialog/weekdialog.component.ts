@@ -11,12 +11,13 @@ import firebase from 'firebase/app';
 })
 export class WeekdialogComponent implements OnInit {
   week:any[]=[]
+  weekNr:any|undefined
   start:string=''
   weekForm!:FormGroup
   appearance:MatFormFieldAppearance='fill'
   mese:string=''
   anno:string=''
-  constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) private data:any, private fb:FormBuilder) {
+  constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder) {
     this.weekForm = fb.group({
       d1:[''],d2:[''],d3:[''],d4:[''],d5:[''],d6:[''],d7:[''],
       dd1:[''],dd2:[''],dd3:[''],dd4:[''],dd5:[''],dd6:[''],dd7:[''],
@@ -38,6 +39,10 @@ export class WeekdialogComponent implements OnInit {
   }
 
   createWeek(){
+    let currentDate: any = new Date(this.start);
+    let startDate:any = new Date(currentDate.getFullYear(), 0, 1);
+    var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000))
+    this.weekNr = Math.ceil((currentDate.getDay() + 1 + days) / 7);
     this.anno=moment(new Date(this.start)).format('YYYY')
     let m1:string=moment(new Date(this.start)).format('MM')
     let m2:string=moment(new Date(this.start)).add(6,'days').format('MM')
@@ -103,3 +108,4 @@ export class WeekdialogComponent implements OnInit {
   }
 
 }
+

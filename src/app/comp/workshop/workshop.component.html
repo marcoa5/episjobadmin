@@ -10,6 +10,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Machine </th>
             <td mat-cell *matCellDef="let e"> {{e.model}} </td>
         </ng-container>
+        <ng-container matColumnDef="SJ">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SJ Nr. </th>
+            <td mat-cell *matCellDef="let e"> {{e.sj}} </td>
+        </ng-container>
         <ng-container matColumnDef="sn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n </th>
             <td mat-cell *matCellDef="let e"> {{e.sn}} </td>

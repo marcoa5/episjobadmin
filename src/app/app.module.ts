@@ -54,7 +54,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TablefilterPipe } from './pipe/tablefilter.pipe';
 import { InputhrsComponent } from './comp/util/dialog/inputhrs/inputhrs.component'
 import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AuthSingleRigComponent } from './comp/rigs/machine/auth-single-rig/auth-single-rig.component';
 import { RigTableComponent } from './comp/rigs/machine/rig-table/rig-table.component';
 import { TopMenuComponent } from './comp/rigs/machine/top-menu/top-menu.component';
@@ -292,10 +292,8 @@ const appearance: MatFormFieldDefaultOptions = {
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, DragDropModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [SwupdateService, {
-    provide: MAT_DATE_LOCALE,
-    useValue: 'it',
-  }, MatChipRemove
+  providers: [
+    SwupdateService, MatChipRemove
   ],
   bootstrap: [AppComponent],
 })

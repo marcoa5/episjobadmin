@@ -1,6 +1,11 @@
 <div mat-dialog-title>{{data.new? 'New' : 'Edit'}} File</div>
 <div mat-dialog-content>
     <form [formGroup]="rigData">
+        <h4>Type Service Job nr.</h4>
+        <mat-form-field [appearance]="appearance" class="sel">
+            <mat-label>SJ Nr.</mat-label>
+            <input #SJ matInput type="text" autocomplete="off" maxlength="6" minlength="6" formControlName="sj">
+        </mat-form-field>
         <h4>Select File type</h4>
         <mat-form-field [appearance]="appearance" class="sel">
             <mat-label>File type</mat-label>
@@ -8,7 +13,7 @@
               <mat-option *ngFor="let f of types" [value]="f.val">{{f.desc}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <episjob-selectmachine (info)="dat($event)" *ngIf="type.value"></episjob-selectmachine>
+        <episjob-selectmachine (info)="dat($event)" *ngIf="type && type.value && SJ && SJ.value && SJ.value.length==6"></episjob-selectmachine>
         <div *ngIf="details!=undefined && details!=''">
             <mat-form-field [appearance]="appearance" class="input">
                 <input matInput type="text" autocomplete="off" formControlName="file">

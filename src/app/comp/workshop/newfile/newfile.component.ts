@@ -31,7 +31,8 @@ export class NewfileComponent implements OnInit {
       custid: ['',Validators.required],
       sn: ['',Validators.required],
       id: [this.makeid.makeId(6),Validators.required],
-      type:['',Validators.required]
+      type:['',Validators.required],
+      sj: ['',Validators.required]
     })
   }
 
@@ -62,6 +63,7 @@ export class NewfileComponent implements OnInit {
   }
 
   save(a:any){
+    console.log(a)
     firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).set(a)
     this.dialogRef.close(a)
   }

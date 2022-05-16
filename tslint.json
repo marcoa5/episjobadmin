@@ -43,6 +43,7 @@
         ]
       }
     ],
+    "no-duplicate-imports": [true, {"allow-namespace-imports": true}],
     "no-console": [
       true,
       "debug",

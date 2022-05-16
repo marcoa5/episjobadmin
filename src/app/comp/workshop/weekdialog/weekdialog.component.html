@@ -1,10 +1,10 @@
-<div mat-dialog-title>Add Hours</div>
+<div mat-dialog-title>Add Hours to {{data.file}}</div>
 <div mat-dialog-content>
-    <div class="header">
+    <h4 class="header">
         <button mat-icon-button (click)="moveWeek('-')"><mat-icon>arrow_left</mat-icon></button>
-        <div>Move Week ({{mese}} {{anno}})</div>
+        <div>WEEK {{weekNr}} ({{mese}} {{anno}})</div>
         <button mat-icon-button (click)="moveWeek('+')"><mat-icon>arrow_right</mat-icon></button>  
-    </div>
+    </h4>
     <div class="week">
         <form [formGroup]="weekForm" >
             <div *ngFor="let d of week; let i = index" class="formGroup">

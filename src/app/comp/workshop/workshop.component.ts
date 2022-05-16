@@ -33,9 +33,9 @@ export class WorkshopComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<550){
-      this.displayedColumns=['file','add','archive','report']
+      this.displayedColumns=['file','SJ','add','archive','report']
     } else{
-      this.displayedColumns=['file',/*'sn',*/'model','customer','add','archive','report']
+      this.displayedColumns=['file','SJ','model','customer','add','archive','report']
     }
   }
 
@@ -133,58 +133,58 @@ export class WorkshopComponent implements OnInit {
 
   report(a:any){
     const mese = this.dialog.open(SelectmonthComponent, {data:''})
-    
-    /*
-    const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
-    setTimeout(() => {
-      dia.close()
-    }, 10000);
-    let exp:string=''
-    firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
-      exp=`\t${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
-      if(p.val()!=null && p.val().days){
-        let d:any=p.val().days
-        let minimo=Object.keys(d).sort().splice(0,1)
-        let dif = new Date(minimo.toString()).getDay()-1
-        let massimo=Object.keys(d).sort().splice(-1)
-        let m1=moment(new Date(minimo.toString())).subtract(dif,'days')
-        let m2=moment(new Date(massimo.toString()))
-        let ch:number=0
-        for(let i = 0; i<(m2.diff(m1,'days')+1);i++){
-          firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).child('days').child(moment(m1).add(i,'days').format('YYYY-MM-DD')).once('value',k=>{
-            let chDay = new Date(moment(m1).add(i,'days').format('YYYY-MM-DD')).getDay()
-            let day:string=''
-            switch(chDay){
-              case 0: day= 'DOMENICA'
-              break
-              case 1: day= 'LUNEDI'
-              break
-              case 2: day= 'MARTEDI'
-              break
-              case 3: day= 'MERCOLEDI'
-              break
-              case 4: day= 'GIOVEDI'
-              break
-              case 5: day= 'VENERDI'
-              break
-              case 6: day= 'SABATO'
-              break
+    mese.afterClosed().subscribe(da=>{
+      if(da){
+        const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
+        setTimeout(() => {
+          dia.close()
+        }, 10000);
+        let exp:string=''
+        firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
+          //exp=`\t${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
+          if(p.val()!=null){
+            let m1=moment(da).subtract(da.getDay()-1,'days')
+            let m2=moment(da).subtract(da.getDay()-1,'days').add(1,'weeks').subtract(1,'days')
+            let ch:number=0
+            for(let i = 0; i<(m2.diff(m1,'days')+1);i++){
+              firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).child('days').child(moment(m1).add(i,'days').format('YYYY-MM-DD')).once('value',k=>{
+                let chDay = new Date(moment(m1).add(i,'days').format('YYYY-MM-DD')).getDay()
+                let day:string=''
+                switch(chDay){
+                  case 0: day= 'DOMENICA'
+                  break
+                  case 1: day= 'LUNEDI'
+                  break
+                  case 2: day= 'MARTEDI'
+                  break
+                  case 3: day= 'MERCOLEDI'
+                  break
+                  case 4: day= 'GIOVEDI'
+                  break
+                  case 5: day= 'VENERDI'
+                  break
+                  case 6: day= 'SABATO'
+                  break
+                }
+                if(ch>0 && chDay==1) exp+=`\n`
+                ch++
+                if(k.val()!=null){
+                  exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
+                } else {
+                  exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
+                }
+              })
             }
-            if(ch>0 && chDay==1) exp+=`\n`
-            ch++
-            if(k.val()!=null){
-              exp+=`\t${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
-            } else {
-              exp+=`\t${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
-            }
-          })
-        }
+          }
+        }).then(()=>{
+          this.clip.copy(exp)
+          const dd = this.dialog.open(CopyComponent)
+          dia.close()
+        })
       }
-    }).then(()=>{
-      this.clip.copy(exp)
-      const dd = this.dialog.open(CopyComponent)
-      dia.close()
-    })*/
+    })
+    /*
+    */
   }
 
   go(a:any,b:any){

@@ -1,8 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDatepicker } from '@angular/material/datepicker';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as moment from 'moment';
 
 @Component({
   selector: 'episjob-selectmonth',
@@ -10,26 +8,24 @@ import * as moment from 'moment';
   styleUrls: ['./selectmonth.component.scss']
 })
 export class SelectmonthComponent implements OnInit {
-  selectMonthForm!:FormGroup
-  date = new FormControl(moment());
+  date= new FormControl(new Date())
   constructor(private dialogRef:MatDialogRef<SelectmonthComponent>, @Inject(MAT_DIALOG_DATA) private data:any, private fb:FormBuilder) {
-
-  }
-
-  ngOnInit(): void {
     
   }
 
-  onNoClick(){
-    this.dialogRef.close()
+  ngOnInit() {
   }
 
-  setMonthAndYear(normalizedMonthAndYear: moment.Moment, datepicker: MatDatepicker<moment.Moment>) {
-    const ctrlValue = this.date.value;
-    ctrlValue.month(normalizedMonthAndYear.month());
-    ctrlValue.year(normalizedMonthAndYear.year());
-    this.date.setValue(ctrlValue);
-    datepicker.close();
+  setMonthAndYear(e:any, dp:any) {
+    this.date.setValue(e)
+    dp.close()
+
+    this.dialogRef.close(e)
+  }
+
+
+  onNoClick(){
+    this.dialogRef.close()
   }
 
 }
