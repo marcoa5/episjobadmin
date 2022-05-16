@@ -43,7 +43,7 @@ export class SjlistComponent implements OnInit {
   }
 
   open(n:number){
-    const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data: this.list[n]})
+    const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data: this._list[n]})
     dialogSJ.afterClosed().subscribe(a=>{
     })
   }

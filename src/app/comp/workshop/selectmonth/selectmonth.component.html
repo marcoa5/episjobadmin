@@ -1,0 +1,17 @@
+<div mat-dialog-title>Select Month</div>
+<div mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Month and Year</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-hint>MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp
+                        startView="multi-year"
+                        panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>  
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="'test'">Ok</button>
+</div>

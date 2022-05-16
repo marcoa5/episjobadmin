@@ -11,6 +11,7 @@ import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { CopyComponent } from '../util/dialog/copy/copy.component';
+import { SelectmonthComponent } from './selectmonth/selectmonth.component';
 
 @Component({
   selector: 'episjob-workshop',
@@ -131,13 +132,16 @@ export class WorkshopComponent implements OnInit {
   }
 
   report(a:any){
+    const mese = this.dialog.open(SelectmonthComponent, {data:''})
+    
+    /*
     const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
     setTimeout(() => {
       dia.close()
     }, 10000);
     let exp:string=''
     firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
-      exp=`${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
+      exp=`\t${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
       if(p.val()!=null && p.val().days){
         let d:any=p.val().days
         let minimo=Object.keys(d).sort().splice(0,1)
@@ -169,9 +173,9 @@ export class WorkshopComponent implements OnInit {
             if(ch>0 && chDay==1) exp+=`\n`
             ch++
             if(k.val()!=null){
-              exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
+              exp+=`\t${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
             } else {
-              exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
+              exp+=`\t${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
             }
           })
         }
@@ -180,7 +184,7 @@ export class WorkshopComponent implements OnInit {
       this.clip.copy(exp)
       const dd = this.dialog.open(CopyComponent)
       dia.close()
-    })
+    })*/
   }
 
   go(a:any,b:any){
