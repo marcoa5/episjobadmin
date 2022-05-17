@@ -156,6 +156,7 @@ import { SjnumberdialogComponent } from './comp/workshop/sjnumberdialog/sjnumber
 import { SubmitweekdialogComponent } from './comp/workshop/weekdialog/submitweekdialog/submitweekdialog.component';
 import { WorkshopfilesComponent } from './comp/rigs/machine/workshopfiles/workshopfiles.component';
 import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
+import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialog/filedialog.component';
 
 export const MY_FORMATS = {
   parse: {
@@ -167,10 +168,6 @@ export const MY_FORMATS = {
       dateA11yLabel: 'DD/MM/YYYY',
       monthYearA11yLabel: 'MM YYYY',
   },
-};
-
-const appearance: MatFormFieldDefaultOptions = {
-  appearance: 'standard'
 };
 
 @NgModule({
@@ -295,6 +292,7 @@ const appearance: MatFormFieldDefaultOptions = {
     SubmitweekdialogComponent,
     WorkshopfilesComponent,
     DateconvshortPipe,
+    FiledialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

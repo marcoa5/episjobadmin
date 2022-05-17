@@ -9,15 +9,12 @@ import { MatInput } from '@angular/material/input';
   styleUrls: ['./sjnumberdialog.component.scss']
 })
 export class SjnumberdialogComponent implements OnInit {
-  sj=new FormControl(this.data?this.data.sj:'')
+  sj=new FormControl(this.data.info?this.data.info.sj:'')
   constructor(private dialogRef:MatDialogRef<SjnumberdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { }
   
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit(){
-    //if(this.data.sj) this.sj.setValue(this.data.sj)
+    
   }
 
   onNoClick(){

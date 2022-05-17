@@ -765,7 +765,6 @@ export class MachineComponent implements OnInit {
             let temp:any=b.val()
             if(b.val().days){
               let fr = Object.keys(b.val().days)
-              console.log(fr[0], fr[fr.length-1])
               temp.min = fr[0]
               temp.max = fr[fr.length-1]
             }

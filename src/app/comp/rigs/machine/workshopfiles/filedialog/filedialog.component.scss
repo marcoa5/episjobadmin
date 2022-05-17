@@ -1,0 +1,10 @@
+@import '../../../../../../epi.scss';
+
+.cont{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.cur{
+    cursor: pointer;
+}

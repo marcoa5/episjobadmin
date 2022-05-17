@@ -10,6 +10,7 @@ import { AlertComponent } from '../../util/dialog/alert/alert.component';
 import firebase from 'firebase/app';
 import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import * as moment from 'moment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-newcontract',

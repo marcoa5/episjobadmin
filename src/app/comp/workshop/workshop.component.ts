@@ -39,7 +39,7 @@ export class WorkshopComponent implements OnInit {
     if(window.innerWidth<550){
       this.displayedColumns=['file','SJ','ws','add','archive','report']
     } else{
-      this.displayedColumns=['file','SJ','ws','model','customer','hrs','add','archive','report']
+      this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','add','archive','report']
     }
   }
 
@@ -207,10 +207,19 @@ export class WorkshopComponent implements OnInit {
   }
 
   openSJNr(e:any){
-    const d = this.dialog.open(SjnumberdialogComponent, {data:e})
+    const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'sj'}})
     d.afterClosed().subscribe(a=>{
       if(a){
         firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('sj').set(a)
+      }
+    })
+  }
+
+  openFileNr(e:any){
+    const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'file'}})
+    d.afterClosed().subscribe(a=>{
+      if(a){
+        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('fileNr').set(a)
       }
     })
   }

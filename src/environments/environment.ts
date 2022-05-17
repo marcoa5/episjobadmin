@@ -5,6 +5,7 @@
 export const environment = {
   appVersion: require('../../package.json').version + '-dev',
   production: false,
+  appearance: 'fill',
   workshops:[
     {val:'VER', desc: 'VERNIA SRL'},
     {val:'FEA', desc: 'FEA SERVICE SRL'},
