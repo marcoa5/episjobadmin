@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
 import { MakeidService } from 'src/app/serv/makeid.service';
+import { environment } from '../../../../environments/environment'
 
 @Component({
   selector: 'episjob-newfile',
@@ -14,6 +15,7 @@ export class NewfileComponent implements OnInit {
   details:any|undefined
   rigData!:FormGroup
   appearance:MatFormFieldAppearance='fill'
+  workshops:any[]=environment.workshops
   types:any[]=[
     {val:"H", desc: "H - HAT"},
     {val:"L", desc: "L - LHD"},
@@ -32,12 +34,12 @@ export class NewfileComponent implements OnInit {
       sn: ['',Validators.required],
       id: [this.makeid.makeId(6),Validators.required],
       type:['',Validators.required],
-      sj: ['',Validators.required]
+      sj: ['',Validators.required],
+      ws: ['',Validators.required]
     })
   }
 
   ngOnInit(): void {
-    console.log(this.data)
   }
 
   onNoClick(){
@@ -45,9 +47,7 @@ export class NewfileComponent implements OnInit {
   }
 
   sel(){
-    if(this.details){
-      this.rigData.controls.file.setValue(`${this.rigData.controls.type.value} ${this.details.sn}`)
-    }
+    
   }
 
   dat(e:any){
@@ -63,7 +63,6 @@ export class NewfileComponent implements OnInit {
   }
 
   save(a:any){
-    console.log(a)
     firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).set(a)
     this.dialogRef.close(a)
   }

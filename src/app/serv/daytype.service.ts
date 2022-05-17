@@ -7,8 +7,8 @@ export class DaytypeService {
 
   constructor() { }
 
-  dayType(a: any): any{
-    let y = parseInt(moment(a).format('YYYY'))
+  dayType(day: Date): any{
+    let y = parseInt(moment(day).format('YYYY'))
     let holy: string[]=[
       moment(new Date(y, 0,1)).format('YYYY-MM-DD'),
       moment(new Date(y,0,6)).format('YYYY-MM-DD'),
@@ -25,9 +25,9 @@ export class DaytypeService {
     ]
     holy.push(moment(Easter(y)).format('YYYY-MM-DD'))
     holy.push(moment(new Date(moment(Easter(y)).add(1,'days').format('YYYY-MM-DD'))).format('YYYY-MM-DD'))
-    if(holy.includes(moment(a).format('YYYY-MM-DD'))) return false
+    if(holy.includes(moment(day).format('YYYY-MM-DD'))) return false
   
-    if(a.getDay()==0 || a.getDay()==6) return false
+    if(day.getDay()==0 || day.getDay()==6) return false
     return true
     
   }

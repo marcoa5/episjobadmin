@@ -1,9 +1,14 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatFormFieldAppearance } from '@angular/material/form-field'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment'; 
 import firebase from 'firebase/app';
+import { DaytypeService } from 'src/app/serv/daytype.service';
+import { DaytypesjService } from 'src/app/serv/daytypesj.service';
+import { SubmitweekdialogComponent } from './submitweekdialog/submitweekdialog.component';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 @Component({
   selector: 'episjob-weekdialog',
   templateUrl: './weekdialog.component.html',
@@ -17,7 +22,11 @@ export class WeekdialogComponent implements OnInit {
   appearance:MatFormFieldAppearance='fill'
   mese:string=''
   anno:string=''
-  constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder) {
+  disa:boolean=false
+  pos:string=''
+  subsList:Subscription[]=[]
+
+  constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder, private day:DaytypesjService, private dialog:MatDialog, private auth:AuthServiceService) {
     this.weekForm = fb.group({
       d1:[''],d2:[''],d3:[''],d4:[''],d5:[''],d6:[''],d7:[''],
       dd1:[''],dd2:[''],dd3:[''],dd4:[''],dd5:[''],dd6:[''],dd7:[''],
@@ -31,8 +40,32 @@ export class WeekdialogComponent implements OnInit {
     let today:Date=new Date()
     this.start= moment(today).subtract(today.getDay()-1,'days').format('YYYY-MM-DD')
     this.createWeek()
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a){
+          this.pos=a.Pos
+        }
+      })
+    )
   }
 
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+    let sum:number=0
+    firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').once('value',a=>{
+      sum=0
+      if(a.val()!=null){
+        a.forEach(b=>{
+          b.forEach(c=>{
+            if(c.key!='lock') sum+=c.val()
+          })
+        })
+      }
+    })
+    .then(()=>{
+      firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('hrs').set(sum)
+    })
+  }
 
   onNoClick(){
     this.dialogRef.close()
@@ -80,17 +113,33 @@ export class WeekdialogComponent implements OnInit {
     this.week=[]
     for(let i =0;i<7;i++){
       let yi = moment(this.start).add(i,'days').format('YYYY-MM-DD')
-      this.week.push(yi)
+      this.week.push({day:yi,holy:this.day.dayType(new Date(yi))})
       this.weekForm.controls['v1'+(i+1)].setValue(0)
       this.weekForm.controls['v2'+(i+1)].setValue(0)
       this.weekForm.controls['v8'+(i+1)].setValue(0)
+      //console.log(this.day.dayType(new Date(yi)))
       firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(yi).once('value',a=>{
         if(a.val()){
           a.forEach(b=>{
-            let u=this.week.indexOf(a.key)+1
-            this.weekForm.controls[b.key!+u].setValue(b.val())
-            
+            let u=this.week.map(f=>{return f.day}).indexOf(a.key)+1
+            if(b.key!='lock') this.weekForm.controls[b.key!+u].setValue(b.val())
+            if(b.key=='lock' && b.val()==true) {
+              this.weekForm.controls['v1'+(i+1)].disable()
+              this.weekForm.controls['v2'+(i+1)].disable()
+              this.weekForm.controls['v8'+(i+1)].disable()
+              this.disa=true
+            } else if(b.key=='lock' && (b.val()==false)){
+              this.weekForm.controls['v1'+(i+1)].enable()
+              this.weekForm.controls['v2'+(i+1)].enable()
+              this.weekForm.controls['v8'+(i+1)].enable()
+              this.disa=false
+            }
           })
+        } else {
+          this.weekForm.controls['v1'+(i+1)].enable()
+          this.weekForm.controls['v2'+(i+1)].enable()
+          this.weekForm.controls['v8'+(i+1)].enable()
+          this.disa=false
         }
       })
     }
@@ -102,10 +151,38 @@ export class WeekdialogComponent implements OnInit {
     this.createWeek()
   }
 
-  write(d:string,lab:string,i:number){
-    if(this.weekForm.controls[lab+(i+1)].value>0) firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).set(this.weekForm.controls[lab+(i+1)].value)
-    if(this.weekForm.controls[lab+(i+1)].value==0 || this.weekForm.controls[lab+(i+1)].value=='') firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).remove()
+  write(y:any,lab:string,i:number){
+    let d:string = y.day
+    if(this.weekForm.controls[lab+(i+1)].value>0) {
+      let ref = firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d)
+      ref.child(lab).set(this.weekForm.controls[lab+(i+1)].value)
+      ref.child('lock').set(false)
+    }
+    if((this.weekForm.controls['v1'+(i+1)].value==0 || this.weekForm.controls['v1'+(i+1)].value=='')&&(this.weekForm.controls['v2'+(i+1)].value==0 || this.weekForm.controls['v2'+(i+1)].value=='')&&(this.weekForm.controls['v8'+(i+1)].value==0 || this.weekForm.controls['v8'+(i+1)].value=='')) {
+      firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).remove()
+    } else if(this.weekForm.controls[lab+(i+1)].value==0 || this.weekForm.controls[lab+(i+1)].value=='') {
+      firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(d).child(lab).remove()
+    }
+
   }
 
+  save(){
+    const d = this.dialog.open(SubmitweekdialogComponent, {data:{nr:this.weekNr}})
+    d.afterClosed().subscribe(res=>{
+      if(res){
+        this.week.map(i=>{return i.day}).forEach(r=>{
+          firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(r).child('lock').set(true)
+        })
+        this.createWeek()
+      }
+    })
+  }
+
+  unlock(){
+    this.week.map(a=>{return a.day}).forEach(r=>{
+      firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').child(r).child('lock').set(false)
+    })
+    this.createWeek()
+  }
 }
 

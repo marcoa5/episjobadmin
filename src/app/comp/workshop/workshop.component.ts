@@ -13,6 +13,7 @@ import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { CopyComponent } from '../util/dialog/copy/copy.component';
 import { SelectmonthComponent } from './selectmonth/selectmonth.component';
 import { ArchivedialogComponent } from './archivedialog/archivedialog.component';
+import { SjnumberdialogComponent } from './sjnumberdialog/sjnumberdialog.component';
 
 @Component({
   selector: 'episjob-workshop',
@@ -25,18 +26,20 @@ export class WorkshopComponent implements OnInit {
   subPos:string=''
   list:any[]=[]
   filtro:string=''
+  ws:string=''
   sortedData:any[]=[]
   displayedColumns:string[]=[]
   subsList:Subscription[]=[]
+  spin:boolean=true
 
   constructor(private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard) { }
   
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<550){
-      this.displayedColumns=['file','SJ','add','archive','report']
+      this.displayedColumns=['file','SJ','ws','add','archive','report']
     } else{
-      this.displayedColumns=['file','SJ','model','customer','add','archive','report']
+      this.displayedColumns=['file','SJ','ws','model','customer','hrs','add','archive','report']
     }
   }
 
@@ -45,6 +48,7 @@ export class WorkshopComponent implements OnInit {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {
+          this.ws=a.ws?a.ws:''
           this.pos=a.Pos
           setTimeout(() => {
             this.allow=this.auth.allow('ws',this.pos, this.subPos)
@@ -65,12 +69,13 @@ export class WorkshopComponent implements OnInit {
       if(a.val()!=null){
         a.forEach(b=>{
           b.forEach(c=>{
-            this.list.push(c.val())
+            if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') this.list.push(c.val())
           })
         })
       }
       this.sortedData=this.list.slice()
       this.fil(this.filtro)
+      this.spin=false
     })
   }
 
@@ -106,7 +111,7 @@ export class WorkshopComponent implements OnInit {
     this.filtro=b.toLowerCase()
     if(this.filtro){
       this.sortedData=this.list.filter(a=>{
-        if(a.customer.toLowerCase().includes(this.filtro) || a.file.toLowerCase().includes(this.filtro) || a.model.toLowerCase().includes(this.filtro) || a.sn.toLowerCase().includes(this.filtro)) return a
+        if(a.ws.toLowerCase().includes(this.filtro) || a.customer.toLowerCase().includes(this.filtro) || a.file.toLowerCase().includes(this.filtro) || a.model.toLowerCase().includes(this.filtro) || a.sn.toLowerCase().includes(this.filtro)) return a
         return false
       })
     } else {
@@ -199,6 +204,15 @@ export class WorkshopComponent implements OnInit {
 
   go(a:any,b:any){
     
+  }
+
+  openSJNr(e:any){
+    const d = this.dialog.open(SjnumberdialogComponent, {data:e})
+    d.afterClosed().subscribe(a=>{
+      if(a){
+        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('sj').set(a)
+      }
+    })
   }
 }
 

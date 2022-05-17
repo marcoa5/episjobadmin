@@ -21,3 +21,23 @@
         grid-template-columns: repeat(1, 1fr) repeat(3, 20%);
     }
 }
+
+::ng-deep .holy {
+    color:red;
+    .mat-form-field-label {
+      color: red;
+    }
+    .mat-form-field {
+        color: red;
+      }
+}
+
+::ng-deep .sat {
+    color: $light-text;
+    .mat-form-field-label {
+      color: $light-text;
+    }
+    .mat-form-field {
+        color: $light-text;
+      }
+}

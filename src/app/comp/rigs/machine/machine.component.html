@@ -53,6 +53,10 @@
                     <episjob-h2 padtop="0" icon="class" class="title" data="Contracts"></episjob-h2>
                     <episjob-rigcontract [list]="contract"></episjob-rigcontract>
                 </div>
+                <div class="item3" *ngIf="files.length>0">
+                    <episjob-h2 padtop="0" icon="home_work" class="title" data="Workshop Files"></episjob-h2>
+                    <episjob-workshopfiles [list]="files"></episjob-workshopfiles>
+                </div>
             </div>
         </div>
     </div>

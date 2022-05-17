@@ -20,19 +20,24 @@
             <mat-form-field [appearance]="appearance" id="nr">
                 <mat-label>Pos</mat-label>
                 <mat-select [(value)]="userpos" formControlName="posiz">
-                <mat-option value="SU">Super User</mat-option>
-                <mat-option value="admin">Administrator</mat-option>
-                <mat-option value="adminS">Sales Administrator</mat-option>
-                <mat-option value="tech">Technician</mat-option>
-                <mat-option value="techwsadmin">Workshop Admin</mat-option>
-                <mat-option value="sales">Sales</mat-option>
-                <mat-option value="customer">Customer</mat-option>
-                <mat-option value="wsadmin">Workshop Admin</mat-option>
+                    <mat-option value="SU">Super User</mat-option>
+                    <mat-option value="admin">Administrator</mat-option>
+                    <mat-option value="adminS">Sales Administrator</mat-option>
+                    <mat-option value="tech">Technician</mat-option>
+                    <mat-option value="sales">Sales</mat-option>
+                    <mat-option value="customer">Customer</mat-option>
+                    <mat-option value="wsadmin">Workshop Admin</mat-option>
                 </mat-select>
             </mat-form-field> 
+            <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='wsadmin'">
+                <mat-label>Workshop</mat-label>
+                <mat-select #ws formControlName="ws">
+                  <mat-option *ngFor="let w of workshops" [value]="w.val">{{w.desc}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='sales' || userF.controls.posiz.value=='customer'">
-            <mat-label>Area</mat-label>
-            <input matInput type="number" formControlName="area" autocomplete="off" min="1" max="99">
+                <mat-label>Area</mat-label>
+                <input matInput type="number" formControlName="area" autocomplete="off" min="1" max="99">
             </mat-form-field>
             <mat-checkbox formControlName="cV" (change)="chSel($event)">Can visit customers</mat-checkbox>
         </form>

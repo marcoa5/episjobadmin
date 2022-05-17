@@ -21,6 +21,7 @@ export interface utente {
   posiz?: string|''
   cV?: boolean
   area?: number
+  ws:string|null
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class NewuserComponent implements OnInit {
   userpos:string|undefined
   userVisit:boolean = false
   allow:boolean=false
+  workshops:any[]=environment.workshops
   subsList:Subscription[]=[]
 
   constructor(private auth: AuthServiceService, private router: Router, private http:HttpClient, private route: ActivatedRoute, private fb: FormBuilder, private location:Location, private dialog: MatDialog) {
@@ -48,11 +50,11 @@ export class NewuserComponent implements OnInit {
       mail: ['', [Validators.required, Validators.email]],
       posiz: ['', [Validators.required]],
       area: 0,
-      cV: [false]
-    }, {
-      validators: [this.areaValidator]
-  })
-   }
+      cV: [false],
+      ws:''
+    }, 
+    //{validators: [this.areaValidator]}
+  )}
 
   ngOnInit(): void {
     this.subsList.push(
@@ -79,7 +81,8 @@ export class NewuserComponent implements OnInit {
             cognome: b.val().Cognome,
             posiz: b.val().Pos,
             cV: oi,
-            area: b.val().Area? b.val().Area: null
+            area: b.val().Area? b.val().Area: null,
+            ws:b.val().ws?b.val().ws:null
           }
           this.userVisit = oi
           this.userF.controls.cV.setValue(oi)
@@ -105,6 +108,7 @@ export class NewuserComponent implements OnInit {
     .set('km', '0.06')
     .set('id', this.id)
     .set('userVisit', this.userVisit + '')
+    .set('ws',b.get('ws')?.value)
     .set('Area', b.get('area')?.value)
     if(a=='addu') params.set('Mail', b.get('mail')!.value)
     if(a=='addu') {
@@ -150,7 +154,7 @@ export class NewuserComponent implements OnInit {
   areaValidator(a: { controls: { posiz: { value: string; }; }; get: (arg0: string) => AbstractControl; } | null){
     if(a!=null && a.controls.posiz.value=='sales'){
       return Validators.required(a.get('area')) ? {
-        myEmailFieldConditionallyRequired: true,
+        test: true,
       } : null;
     }
     return false

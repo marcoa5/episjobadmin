@@ -5,9 +5,16 @@
 export const environment = {
   appVersion: require('../../package.json').version + '-dev',
   production: false,
+  workshops:[
+    {val:'VER', desc: 'VERNIA SRL'},
+    {val:'FEA', desc: 'FEA SERVICE SRL'},
+    {val:'OMI', desc: 'OMI SRL'},
+    {val:'AFM', desc: 'AFMAC SRL'},
+  ],
   //url: 'http://localhost:3001/'
   url: 'https://episjobreq.herokuapp.com/'
   //url: '/api/'
+
 };
 
 /*

@@ -152,6 +152,10 @@ import { WeekdialogComponent } from './comp/workshop/weekdialog/weekdialog.compo
 import { DateconvdayPipe } from './pipe/dateconvday.pipe';
 import { SelectmonthComponent } from './comp/workshop/selectmonth/selectmonth.component';
 import { ArchivedialogComponent } from './comp/workshop/archivedialog/archivedialog.component';
+import { SjnumberdialogComponent } from './comp/workshop/sjnumberdialog/sjnumberdialog.component';
+import { SubmitweekdialogComponent } from './comp/workshop/weekdialog/submitweekdialog/submitweekdialog.component';
+import { WorkshopfilesComponent } from './comp/rigs/machine/workshopfiles/workshopfiles.component';
+import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
 
 export const MY_FORMATS = {
   parse: {
@@ -287,6 +291,10 @@ const appearance: MatFormFieldDefaultOptions = {
     DateconvdayPipe,
     SelectmonthComponent,
     ArchivedialogComponent,
+    SjnumberdialogComponent,
+    SubmitweekdialogComponent,
+    WorkshopfilesComponent,
+    DateconvshortPipe,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

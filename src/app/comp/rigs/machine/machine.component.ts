@@ -78,6 +78,7 @@ export class MachineComponent implements OnInit {
   area:string=''
   partReqList:any[]=[]
   contract:any[]=[]
+  files:any[]=[]
   subsList:Subscription[]=[]
   
   constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
@@ -126,6 +127,7 @@ export class MachineComponent implements OnInit {
     .then(()=>{
       this.loadSubEquipment()
       this.loadContract()
+      this.loadWsFiles()
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
@@ -748,6 +750,26 @@ export class MachineComponent implements OnInit {
                 this.contract.push({type:c.val().type,expdate:c.val().end, info:c.val(), list:items})
               })
             })
+          })
+        }
+      })
+    }
+  }
+
+  loadWsFiles(){
+    if(this.auth.acc('AdminRights')){
+      firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
+        this.files=[]
+        if(a.val()!=null){
+          a.forEach(b=>{
+            let temp:any=b.val()
+            if(b.val().days){
+              let fr = Object.keys(b.val().days)
+              console.log(fr[0], fr[fr.length-1])
+              temp.min = fr[0]
+              temp.max = fr[fr.length-1]
+            }
+            this.files.push(temp)
           })
         }
       })

@@ -1,0 +1,11 @@
+<div mat-dialog-title>Service Job Nr.</div>
+<div mat-dialog-content>
+    <mat-form-field appearance="fill">
+        <mat-label>SJ Number</mat-label>
+        <input matInput type="text" autocomplete="off" [formControl]="sj" minlength="6" maxlength="6">
+      </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="sj.invalid">Ok</button>
+</div>

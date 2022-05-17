@@ -1,6 +1,7 @@
 <episjob-navbar title="Workshop hours" [cerca]="true" (filter)="fil($event)"></episjob-navbar>
 <div episjobCont [episjobContMaxWidth]="1500" *ngIf="allow">
     <episjob-h2 icon="home_work" data="File list" padtop=0 [addGeneral]="true" (addGen)="add($event)"></episjob-h2>
+    <episjob-spin *ngIf="sortedData.length==0 && spin"></episjob-spin>
     <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
         <ng-container matColumnDef="file">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> File</th>
@@ -12,7 +13,11 @@
         </ng-container>
         <ng-container matColumnDef="SJ">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> SJ Nr. </th>
-            <td mat-cell *matCellDef="let e"> {{e.sj}} </td>
+            <td mat-cell *matCellDef="let e" (click)="openSJNr(e)" class="cur"> {{e.sj}} </td>
+        </ng-container>
+        <ng-container matColumnDef="ws">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Workshop </th>
+            <td mat-cell *matCellDef="let e"> {{e.ws}} </td>
         </ng-container>
         <ng-container matColumnDef="sn">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n </th>
@@ -22,8 +27,12 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
             <td mat-cell *matCellDef="let e" (click)="go('customer',e.custId)"> {{e.customer}} </td>
         </ng-container>
+        <ng-container matColumnDef="hrs">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Hrs </th>
+            <td mat-cell *matCellDef="let e"> {{e.hrs}} </td>
+        </ng-container>
         <ng-container matColumnDef="add">
-            <th mat-header-cell *matHeaderCellDef> Hrs </th>
+            <th mat-header-cell *matHeaderCellDef> Add </th>
             <td mat-cell *matCellDef="let e"> <mat-icon (click)="addHrs(e)">timer</mat-icon> </td>
         </ng-container>
         <div *ngIf="chPos('AdminRights','archive')">
