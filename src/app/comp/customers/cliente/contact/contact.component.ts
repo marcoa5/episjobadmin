@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 
@@ -17,7 +16,6 @@ export class ContactComponent implements OnInit {
   rou:any
   pos:string|undefined
   custForm:FormGroup
-  appearance:MatFormFieldAppearance='fill'
   subsList:Subscription[]=[]
 
   constructor(private route: ActivatedRoute, fb: FormBuilder, private auth:AuthServiceService) {

@@ -1,7 +1,7 @@
 <div mat-dialog-title>Visit Details</div>
 <div mat-dialog-content class="cont">
     <episjob-label [values]="val" fillfit="fit"></episjob-label>
-    <mat-form-field appearance="fill" class="data">
+    <mat-form-field  class="data">
         <mat-label>Date</mat-label>
         <input matInput [matDatepicker]="picker" [(ngModel)]="giorno" autocomplete="off" (dateInput)="chDate($event)">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -18,7 +18,7 @@
     </div>
     <h4>Notes</h4>
     
-    <mat-form-field appearance="fill" class="textA">
+    <mat-form-field  class="textA">
         <textarea matInput placeholder="Notes" [value]="notes" (input)="test($event)" rows="10"></textarea>
     </mat-form-field> 
     

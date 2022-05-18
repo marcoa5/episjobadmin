@@ -1,38 +1,38 @@
 <div mat-dialog-title>File data</div>
 <div mat-dialog-content class="cont">
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>File Name</mat-label>
         <input type="text" matInput readonly [formControl]="fileName">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>Serial nr</mat-label>
         <input type="text" matInput readonly [formControl]="sn">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>Model</mat-label>
         <input type="text" matInput readonly [formControl]="model">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>Customer</mat-label>
         <input type="text" matInput readonly [formControl]="customer">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>Hours</mat-label>
         <input type="text" matInput readonly [formControl]="hrs">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>SJ nr</mat-label>
         <input type="text" matInput readonly [formControl]="sj">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>File nr</mat-label>
         <input type="text" matInput readonly [formControl]="fileNr">
     </mat-form-field>
-    <mat-form-field [appearance]="appearance">
+    <mat-form-field>
         <mat-label>Workshop</mat-label>
         <input type="text" matInput readonly [formControl]="ws">
     </mat-form-field>
-    <mat-icon class="ico" (click)="download()" class="cur" matTooltip="Download hours details">cloud_download</mat-icon>  
+    <mat-icon class="ico" (click)="download(data)" class="cur" matTooltip="Download hours details">cloud_download</mat-icon>  
 </div>  
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>

@@ -8,7 +8,7 @@
       <ng-template matStepLabel>Select Date</ng-template>
       <form [formGroup]="dateFormGroup">
         <div class="cont dateCont">
-          <mat-form-field [appearance]="appearance" class="dateItem1">
+          <mat-form-field  class="dateItem1">
             <mat-label>Choose a date</mat-label>
             <input matInput [matDatepicker]="picker" formControlName="date"> 
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -24,7 +24,7 @@
       <ng-template matStepLabel>Customer</ng-template>
         <form [formGroup]="custFormGroup" class="custForm">
           <div class="custCont">
-            <mat-form-field [appearance]="appearance" class="custItem1">
+            <mat-form-field  class="custItem1">
               <mat-label>Customer Name</mat-label>
               <input matInput type="text" placeholder="Customer Name" formControlName="c1" autocomplete="off" (keyup)="clearCust()">
             <mat-error>Choose a customer from the list or type a new name</mat-error>
@@ -37,12 +37,12 @@
                 <div mat-line> {{c.c2}} | {{c.c3}} </div>
               </mat-list-item>
             </mat-list>
-            <mat-form-field [appearance]="appearance" class="custItem2">
+            <mat-form-field  class="custItem2">
               <mat-label>Customer Address 1</mat-label>
               <input matInput type="text" placeholder="Customer Address 1" formControlName="c2"  autocomplete="off">
               <mat-error>Type Address Line 1</mat-error>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance"  class="custItem3">
+            <mat-form-field   class="custItem3">
               <mat-label>Customer Address 2</mat-label>
               <input matInput type="text" placeholder="Customer Address 2" formControlName="c3"  autocomplete="off">
               <mat-error>Type Address Line 2</mat-error>
@@ -59,7 +59,7 @@
   <mat-step [stepControl]="contactFormGroup">
     <ng-template matStepLabel>Contact</ng-template>
     <form [formGroup]="contactFormGroup">
-      <mat-form-field appearance="fill" style="display:none">
+      <mat-form-field  style="display:none">
         <mat-label>List</mat-label>
         <input matInput formControlName="list">
       </mat-form-field>
@@ -91,7 +91,7 @@
     <ng-template matStepLabel>Notes</ng-template>
     <form [formGroup]="visitNotes">
       <div class="notesCont">
-        <mat-form-field [appearance]="appearance" class="notesItem1">
+        <mat-form-field  class="notesItem1">
           <mat-label>Place</mat-label>
           <input matInput type="text" autocomplete="off" placeholder="Place" formControlName="place" (keyup)="checkPlace($event)">
           <mat-error>Choose a place from the list</mat-error>
@@ -104,7 +104,7 @@
           </mat-list-item>
         </mat-list>
         <h4>Notes</h4>
-        <mat-form-field [appearance]="appearance" class="notesItem3">
+        <mat-form-field  class="notesItem3">
           <textarea placeholder="Type notes here..." matInput formControlName="notes" rows="15"></textarea>
         </mat-form-field>
         

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import firebase from 'firebase/app';
@@ -15,7 +15,7 @@ export class SjemailComponent implements OnInit {
   @Input() mail:string=''
   @Input() disabled:boolean=false
   email!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   emailList:string[]=[]
   @ViewChild('nm') nm!:ElementRef
   @Output() listOfEmail = new EventEmitter()

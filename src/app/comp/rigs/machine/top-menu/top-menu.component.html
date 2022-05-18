@@ -1,7 +1,7 @@
 <episjob-h2 icon="edit_calendar" data="Data Filter" padtop=0></episjob-h2>
 <div class="t"> 
         <div class="dateC">
-            <mat-form-field appearance="fill" class="ff">
+            <mat-form-field  class="ff">
                 <mat-label>Date range</mat-label>
                 <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
                     <input (keypress)="prev($event)" matStartDate formControlName="start" placeholder="Start date">

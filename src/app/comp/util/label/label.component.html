@@ -1,8 +1,15 @@
-<div [ngClass]="{'txtcontFill':fillfit=='fill','txtcontFit':fillfit=='fit'}"  *ngIf="values.length>0">
+<!--<div [ngClass]="{'txtcontFill':fillfit=='fill','txtcontFit':fillfit=='fit'}"  *ngIf="values.length>0">
     <div *ngFor="let h of valuesN | labFilter" class="divtxt">
         <div (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
             <div class="txtlabel">{{h.lab}}</div>
             <div class="txt">{{h.value}}</div>
         </div>
     </div>
+</div>-->
+<div [ngClass]="{'txtcontFill':fillfit=='fill','txtcontFit':fillfit=='fit'}">
+    <mat-form-field *ngFor="let h of valuesN | labFilter" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
+        <mat-label>{{h.lab}}</mat-label>
+        <input matInput type="text" [value]="h.value" readonly>
+    </mat-form-field> 
 </div>
+

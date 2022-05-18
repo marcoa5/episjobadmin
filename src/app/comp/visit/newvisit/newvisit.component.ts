@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import { MatFormFieldAppearance } from '@angular/material/form-field'
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper'
 import firebase from 'firebase/app';
 import { ActivatedRoute } from '@angular/router'
 import * as moment from 'moment'
@@ -59,7 +58,6 @@ export interface info{
   }]
 })
 export class NewvisitComponent implements OnInit {
-  appearance:MatFormFieldAppearance="fill"
   dateFormGroup!: FormGroup;
   visitNotes!: FormGroup;
   potential:any;

@@ -1,7 +1,7 @@
 <div mat-dialog-title>Travel Expenses</div>
 <div mat-dialog-content class="cont">
     <form [formGroup]="travelE">
-        <mat-form-field appearance="fill">
+        <mat-form-field >
             <mat-label>Km</mat-label>
             <input matInput type="number" min=0 [max]="max" autocomplete="off" #km cdkFocusInitial formControlName="km" (input)="chMax($event)">
         </mat-form-field>

@@ -1,11 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import firebase from 'firebase/app'
 import { MatDialogRef} from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { unescapeIdentifier } from '@angular/compiler';
 
 @Component({
   selector: 'episjob-newpartsrequest',
@@ -15,7 +13,6 @@ import { unescapeIdentifier } from '@angular/compiler';
 export class NewpartsrequestComponent implements OnInit {
   newRequest!: FormGroup
   type: any
-  appearance: MatFormFieldAppearance = 'fill'
   rigs:any[]=[]
   _rigs:any[]=[]
   chStr:boolean=true

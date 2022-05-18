@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms'
 
 @Component({
@@ -11,7 +10,6 @@ export class SegmentComponent implements OnInit {
   @Output() check = new EventEmitter()
   @Output() data = new EventEmitter()
   @Input() values: any
-  appearance:MatFormFieldAppearance='fill'
   con:string='s'
   seg:FormGroup
 

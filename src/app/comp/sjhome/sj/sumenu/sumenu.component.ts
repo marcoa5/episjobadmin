@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 
 @Component({
   selector: 'episjob-sumenu',
@@ -10,7 +10,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
 export class SumenuComponent implements OnInit {
   @Input() sent:boolean=false
   sumenu!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   constructor(private fb: FormBuilder) { 
     this.sumenu=fb.group({
       commessa:[''],

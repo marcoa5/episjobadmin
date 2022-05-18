@@ -1,19 +1,19 @@
 <episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
 
 <div *ngIf="allow && !allSpin">
-
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
-        <div class="cover" [ngStyle]="{'height': filtro==''?'210px' : '145px'}"></div>
+        <div class="cover"></div>
         <div episjobCont (window:resize)="res()">
-            <mat-paginator *ngIf="filtro==''"  [length]="rigs.length"
+            <episjob-h2 icon="compare_arrows" data="Set Access Rights" class="up" padtop="0"></episjob-h2>
+            <mat-paginator [length]="rigs.length"
                 [pageSize]="10"
                 [pageSizeOptions]="[10,25,50,100]"
                 (page)="pageEvent($event)" class="nav">
             </mat-paginator>
             <div class="tabcont">
               <table style="width:100%">
-                <tr class="title" [ngStyle]="{'top': filtro==''? '210px': '140px'}">
+                <tr class="title" >
                    <th class="c" >Serial</th> 
                    <th class="c" *ngIf="wid">Model</th> 
                    <th class="c" *ngIf="wid">Customer</th> 

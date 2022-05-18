@@ -672,7 +672,7 @@ export class MachineComponent implements OnInit {
       })
     })
     .then(()=>{
-      this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
+      this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t').replace(/[.]/g,','))
       const dialogconf = new MatDialogConfig;
       dialogconf.disableClose=false;
       dialogconf.autoFocus=false;

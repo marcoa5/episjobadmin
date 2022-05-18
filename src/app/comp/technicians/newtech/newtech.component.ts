@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -18,7 +18,6 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
   styleUrls: ['./newtech.component.scss']
 })
 export class NewtechComponent implements OnInit {
-  appearance:MatFormFieldAppearance="fill"
   addUpd:boolean = true
   newT:FormGroup;
   pos:string=''

@@ -9,7 +9,7 @@ import { MatInput } from '@angular/material/input';
   styleUrls: ['./sjnumberdialog.component.scss']
 })
 export class SjnumberdialogComponent implements OnInit {
-  sj=new FormControl(this.data.info?this.data.info.sj:'')
+  sj=new FormControl(this.data.title=='sj'?(this.data.info?this.data.info.sj:''):(this.data.info?this.data.info.fileNr:''))
   constructor(private dialogRef:MatDialogRef<SjnumberdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any) { }
   
 

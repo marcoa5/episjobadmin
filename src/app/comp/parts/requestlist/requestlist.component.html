@@ -4,16 +4,16 @@
     <episjob-h2 icon="rocket_launch" data="Request for {{info.sn? info.sn:''}}" padtop="0"></episjob-h2>
     <h4>Add part Numbers</h4>
     <form class="reqCont" [formGroup]="addPart">
-        <mat-form-field [appearance]="appearance">
+        <mat-form-field>
             <mat-label>Part Number</mat-label>
             <input matInput #pn1 type="number" autocomplete="off" min="0" max="9999999999" formControlName="pn" (input)="newPn($event)"> 
         </mat-form-field> 
-        <mat-form-field [appearance]="appearance" >
+        <mat-form-field >
             <mat-label>Description</mat-label>
             <input matInput type="text" autocomplete="off" formControlName="desc"> 
         </mat-form-field>  
         <div class="end">
-            <mat-form-field [appearance]="appearance" class="inp" >
+            <mat-form-field class="inp" >
                 <mat-label>Q.ty</mat-label>
                 <input matInput type="number" autocomplete="off" min="1" formControlName="qty"> 
             </mat-form-field> 

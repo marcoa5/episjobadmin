@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
@@ -15,7 +15,7 @@ import { SpvComponent } from './spv/spv.component'
 export class NewdayComponent implements OnInit {
   subsList:Subscription[]=[]
   tech:any[]=[]
-  appearance:MatFormFieldAppearance='fill'
+  
   newDay!:FormGroup
   dayType:string=''
   @ViewChild('spvVC') spvVC!: ElementRef

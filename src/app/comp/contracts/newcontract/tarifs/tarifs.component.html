@@ -1,5 +1,5 @@
 <form [formGroup]="fees" class="cont">
-    <mat-form-field [appearance]="appearance" *ngFor="let d of labels">
+    <mat-form-field *ngFor="let d of labels">
         <mat-label>{{d.lab.toUpperCase()}}</mat-label>
         <input matInput type="number" min=0 [step]="d.dim" [formControlName]="d.lab" autocomplete="off" (input)="send($event)" (change)="mod($event)" [readonly]="pos!='SU' && pos!='admin' && pos!='adminS'">
     </mat-form-field>

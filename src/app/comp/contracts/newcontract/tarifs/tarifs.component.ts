@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
@@ -17,8 +16,7 @@ export class TarifsComponent implements OnInit {
   fees!:FormGroup
   pos:string=''
   modif:boolean=false
-  appearance:MatFormFieldAppearance='fill'
-  labels:any[]=[{lab:'km',dim:0.1},{lab:'mf',dim:0.5},{lab:'mnf',dim:0.5},{lab:'mnt',dim:0.5},{lab:'off',dim:0.5},{lab:'spo',di:0.5},{lab:'std',dim:0.5},{lab:'ofs',dim:0.5},{lab:'sps',dim:0.5},{lab:'sts',dim:0.5},{lab:'spv',dim:0.5},{lab:'day',dim:10},{lab:'lump sum travel',dim:10}]
+  labels:any[]=[{lab:'spo',di:0.5},{lab:'sps',dim:0.5},{lab:'std',dim:0.5},{lab:'str',dim:0.5},{lab:'mnt',dim:0.5},{lab:'mf',dim:0.5},{lab:'mnf',dim:0.5},{lab:'km',dim:0.1},{lab:'spv',dim:0.5},{lab:'off',dim:0.5},{lab:'ofs',dim:0.5},{lab:'day',dim:10},{lab:'lump sum travel',dim:10}]
   subsList:Subscription[]=[]
   
   constructor(private fb:FormBuilder, private auth:AuthServiceService) {

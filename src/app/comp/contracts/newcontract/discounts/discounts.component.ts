@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
@@ -10,9 +9,8 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
   styleUrls: ['./discounts.component.scss']
 })
 export class DiscountsComponent implements OnInit {
-  labels:any[]=[{lab:'RDT discount',dim:1, type:'number'},{lab:'PSD Discount',dim:1,type:'number'},{lab:'truck transport',dim:0.5,type:'text',ph:'XX% + X.XXEUR'},{lab:'air transport',dim:0.5,type:'text',ph:'XXEUR + XX%'}]
+  labels:any[]=[{lab:'RDT discount',dim:1, type:'number'},{lab:'PSD Discount',dim:1,type:'number'},{lab:'truck transport',dim:0.5,type:'text',ph:'XX% + X.XXEUR'},{lab:'air transport',dim:0.5,type:'text',ph:'XX% + X.XXEUR'}]
   discount!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
   @Input() list:any
   @Output() save=new EventEmitter()
   @Output() valuemod=new EventEmitter()

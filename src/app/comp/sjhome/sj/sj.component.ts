@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
@@ -237,7 +237,6 @@ export class SjComponent implements OnInit {
   spin:boolean=true
   spin1:boolean=false
   lock:boolean=false
-  appearance:MatFormFieldAppearance='fill'
   riskAss:any[]=[]
   file!:ma
   sent:boolean=false

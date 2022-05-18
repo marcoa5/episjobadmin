@@ -3,20 +3,20 @@
     <form [formGroup]="inputData" class="req">
         <episjob-selectmachine [infoInput]="data.info" (info)="sel($event)"></episjob-selectmachine> 
         <div *ngIf="details.length>0">
-            <mat-form-field [appearance]="appearance" class="search">
+            <mat-form-field class="search">
                 <mat-label>Model</mat-label>
                 <input matInput type="text" autocomplete="off" formControlName="model" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" class="search">
+            <mat-form-field class="search">
                 <mat-label>Customer</mat-label>
                 <input matInput type="text" autocomplete="off" formControlName="customer" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" class="search hid">
+            <mat-form-field class="search hid">
                 <mat-label>CustomerCode</mat-label>
                 <input matInput type="text" autocomplete="off" formControlName="custCode" [readonly]="this.data.info && this.data.info.sn!=undefined">
             </mat-form-field>
             <h4>Contract data</h4>
-            <mat-form-field [appearance]="appearance" class="search">
+            <mat-form-field class="search">
                 <mat-label>Contract type</mat-label>
                 <mat-select formControlName="type"  >
                   <mat-option *ngFor="let t of types" [value]="t.text" >
@@ -24,7 +24,7 @@
                   </mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" style="width:100%;">
+            <mat-form-field style="width:100%;">
                 <mat-label>Enter a date range</mat-label>
                 <mat-date-range-input [rangePicker]="picker">
                   <input matStartDate formControlName="start" placeholder="Start date" [readonly]="true">

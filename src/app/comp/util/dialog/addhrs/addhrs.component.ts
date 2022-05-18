@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 
@@ -11,7 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 })
 export class AddhrsComponent implements OnInit {
   hrsData:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   constructor(public dialogRef: MatDialogRef<AddhrsComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder) { 
     this.hrsData= fb.group({
       date: [new Date(),Validators.required],

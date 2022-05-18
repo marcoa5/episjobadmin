@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { Subscriber, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
@@ -16,7 +16,7 @@ export class SelectmachineComponent implements OnInit {
   inputData!:FormGroup
   _rigs:any[]=[]
   rigs:any[]=[]
-  appearance:MatFormFieldAppearance='fill'
+  
   serial:string=''
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]

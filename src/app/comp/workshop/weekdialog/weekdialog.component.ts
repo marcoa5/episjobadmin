@@ -1,10 +1,8 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatFormFieldAppearance } from '@angular/material/form-field'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment'; 
 import firebase from 'firebase/app';
-import { DaytypeService } from 'src/app/serv/daytype.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { SubmitweekdialogComponent } from './submitweekdialog/submitweekdialog.component';
 import { Subscription } from 'rxjs';
@@ -19,11 +17,12 @@ export class WeekdialogComponent implements OnInit {
   weekNr:any|undefined
   start:string=''
   weekForm!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   mese:string=''
   anno:string=''
   disa:boolean=false
   pos:string=''
+  firstLetter:string=''
   subsList:Subscription[]=[]
 
   constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder, private day:DaytypesjService, private dialog:MatDialog, private auth:AuthServiceService) {
@@ -37,6 +36,7 @@ export class WeekdialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.firstLetter=this.data.ws.substring(0,1)
     let today:Date=new Date()
     this.start= moment(today).subtract(today.getDay()-1,'days').format('YYYY-MM-DD')
     this.createWeek()
@@ -72,10 +72,7 @@ export class WeekdialogComponent implements OnInit {
   }
 
   createWeek(){
-    let currentDate: any = new Date(this.start);
-    let startDate:any = new Date(currentDate.getFullYear(), 0, 1);
-    var days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000))
-    this.weekNr = Math.ceil((currentDate.getDay() + 1 + days) / 7);
+    this.weekNr = getWeekNumber(new Date(this.start))
     this.anno=moment(new Date(this.start)).format('YYYY')
     let m1:string=moment(new Date(this.start)).format('MM')
     let m2:string=moment(new Date(this.start)).add(6,'days').format('MM')
@@ -184,5 +181,13 @@ export class WeekdialogComponent implements OnInit {
     })
     this.createWeek()
   }
+}
+
+function getWeekNumber(d:any) {
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7))
+  var yearStart:any = new Date(Date.UTC(d.getUTCFullYear(),0,1))
+  var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7)
+  return weekNo
 }
 

@@ -1,13 +1,14 @@
   <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
 <div *ngIf="allow && !allSpin" episjobCont>
+  <div class="panel"></div>
   <div *ngIf="start>-1">
     <episjob-spin *ngIf="start<0"></episjob-spin>
-    <episjob-h2 padtop=0 icon="description" data="Service Jobs list" [showDL]="true" [dlTooltip]="'Download survey results'" (copy)="survey($event)"></episjob-h2>
-      <mat-paginator *ngIf="filtro==''"  [length]="files.length"
+      <episjob-h2 class="el" padtop=0 icon="description" data="Service Jobs list" [showDL]="true" [dlTooltip]="'Download survey results'" (copy)="survey($event)"></episjob-h2>
+      <mat-paginator class="el" *ngIf="filtro==''"  [length]="files.length"
         [pageSize]="10"
         [pageSizeOptions]="lungh"
         (page)="pageEvent($event)">
-      </mat-paginator>
+      </mat-paginator>  
     <div class="cont">
       
       

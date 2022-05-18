@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import firebase from 'firebase/app'
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
@@ -24,7 +24,7 @@ export interface co{
 export class NewcontactComponent implements OnInit {
   id:string=''
   newCont!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   oldName:string=''
   comp:any[]=[]
   contId:string=''
@@ -41,6 +41,7 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.data)
     this.subsList.push(
       this.auth._fleet.subscribe(a=>{if(a) this.rigs=a})
     )
@@ -71,7 +72,6 @@ export class NewcontactComponent implements OnInit {
       mail: this.newCont.controls.mail.value,
       custId:this.id,
       contId: this.contId
-
     }
     let check:boolean=false
     firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
@@ -80,7 +80,7 @@ export class NewcontactComponent implements OnInit {
       })
     })
     .then(()=>{
-      if(check){
+      if(check && this.data.typ=='new'){
         const al = this.dialog.open(AlertComponent, {data: dat.name})
       }else{
         firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)

@@ -57,11 +57,16 @@ export class NavbarComponent implements OnInit {
 
   back(){
     this.location.back()
+    console.log(document.referrer)
     /*if(typeof this.backB == 'string') {
       this.router.navigate([this.backB])
     }else {
       this.router.navigate(this.backB)
     }*/
+  }
+
+  next(){
+    this.location.forward()
   }
 
   largh(e:any){

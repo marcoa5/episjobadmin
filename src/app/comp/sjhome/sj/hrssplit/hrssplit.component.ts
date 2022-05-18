@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import { ComdatedialogComponent } from 'src/app/comp/util/dialog/comdatedialog/comdatedialog.component';
 
 export interface list{
@@ -34,7 +34,7 @@ export class HrssplitComponent implements OnInit {
 		{name: 'RigScan', val: 'RigScan'},
 		{name: 'Stazione di ricarica', val: 'Stazione di ricarica'},
 	]
-  appearance: MatFormFieldAppearance='fill'
+  
   hrssum:number=0
   list:list[]=[]
   constructor(private fb:FormBuilder, public dialogRef: MatDialogRef<ComdatedialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {

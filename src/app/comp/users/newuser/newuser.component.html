@@ -4,20 +4,20 @@
     <div *ngIf="allow">
         <episjob-h2 icon="account_circle" [data]="addUpd? 'Add New User' : 'Update User'" padtop=0></episjob-h2>
         <form class="formCont" [formGroup]="userF">
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field >
                 <mat-label>Nome</mat-label>
                 <input matInput type="text" formControlName="nome" autocomplete="off">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field >
                 <mat-label>Cognome</mat-label>
                 <input matInput type="text" formControlName="cognome" autocomplete="off">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field >
                 <mat-label>Mail</mat-label>
                 <input matInput type="email" formControlName="mail" autocomplete="off">
                 <mat-error>Type a valid email address</mat-error>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" id="nr">
+            <mat-form-field  id="nr">
                 <mat-label>Pos</mat-label>
                 <mat-select [(value)]="userpos" formControlName="posiz">
                     <mat-option value="SU">Super User</mat-option>
@@ -29,13 +29,13 @@
                     <mat-option value="wsadmin">Workshop Admin</mat-option>
                 </mat-select>
             </mat-form-field> 
-            <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='wsadmin'">
+            <mat-form-field  *ngIf="userF.controls.posiz.value=='wsadmin'">
                 <mat-label>Workshop</mat-label>
                 <mat-select #ws formControlName="ws">
                   <mat-option *ngFor="let w of workshops" [value]="w.val">{{w.desc}}</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance" *ngIf="userF.controls.posiz.value=='sales' || userF.controls.posiz.value=='customer'">
+            <mat-form-field  *ngIf="userF.controls.posiz.value=='sales' || userF.controls.posiz.value=='customer'">
                 <mat-label>Area</mat-label>
                 <input matInput type="number" formControlName="area" autocomplete="off" min="1" max="99">
             </mat-form-field>

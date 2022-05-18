@@ -1,6 +1,6 @@
 <div mat-dialog-title>{{data.title=='sj'?'Service Job':'File'}} Nr.</div>
 <div mat-dialog-content>
-    <mat-form-field appearance="fill">
+    <mat-form-field >
         <mat-label>SJ Number</mat-label>
         <input matInput type="text" autocomplete="off" [formControl]="sj" minlength="6" maxlength="6">
       </mat-form-field>

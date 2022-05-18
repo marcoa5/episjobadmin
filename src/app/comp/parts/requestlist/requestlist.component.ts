@@ -1,7 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { MatTableDataSource } from '@angular/material/table';
 import firebase from 'firebase/app'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
@@ -39,7 +38,6 @@ export class RequestlistComponent implements OnInit {
   info:any
   partList!: MatTableDataSource<el>
   addPart!: FormGroup
-  appearance: MatFormFieldAppearance = 'fill'
   displayedColumns:string[]=['ref','pn','desc','qty','del']
   chPn:boolean= false
   pos:string=''

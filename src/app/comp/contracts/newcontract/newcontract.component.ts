@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
@@ -10,7 +9,6 @@ import { AlertComponent } from '../../util/dialog/alert/alert.component';
 import firebase from 'firebase/app';
 import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import * as moment from 'moment';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-newcontract',
@@ -21,7 +19,6 @@ export class NewcontractComponent implements OnInit {
   fees:any[]=[]
   discounts:any[]=[]
   inputData!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
   _rigs:any[]=[]
   rigs:any[]=[]
   chStr:boolean=true

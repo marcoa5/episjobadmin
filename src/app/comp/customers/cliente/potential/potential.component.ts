@@ -2,12 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import firebase from 'firebase/app';
 import 'firebase/database'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field'
-import * as moment from 'moment';
 import { GetPotYearService } from '../../../../serv/get-pot-year.service';
 import { Subscription } from 'rxjs';
-import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { unsupported } from '@angular/compiler/src/render3/view/util';
+import { AuthServiceService } from 'src/app/serv/auth-service.service'
 
 export interface fam{
   bl?: string
@@ -26,7 +23,6 @@ export class PotentialComponent implements OnInit {
   @Input() custId:string=''
   name: string=''
   custPot!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
   refYear:any=''
   potTot:any=0
   pos:string=''

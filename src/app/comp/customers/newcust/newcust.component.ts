@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { ActivatedRoute, Router } from '@angular/router'
 import { Location } from '@angular/common'
 import { MatDialog,MatDialogConfig } from '@angular/material/dialog'
@@ -26,7 +25,6 @@ export interface cl {
 export class NewcustComponent implements OnInit {
   @Output() dati = new EventEmitter<string>()
   newC:FormGroup;
-  appearance:MatFormFieldAppearance="fill"
   addUpd:boolean=true
   origin:string[]=[]
   pos:string=''

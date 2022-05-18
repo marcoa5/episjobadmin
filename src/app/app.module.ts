@@ -158,6 +158,10 @@ import { WorkshopfilesComponent } from './comp/rigs/machine/workshopfiles/worksh
 import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
 import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialog/filedialog.component';
 
+const appearance: MatFormFieldDefaultOptions = {
+  appearance: 'outline'
+};
+
 export const MY_FORMATS = {
   parse: {
       dateInput: 'DD/MM/YYYY',
@@ -301,7 +305,11 @@ export const MY_FORMATS = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    SwupdateService, MatChipRemove
+    SwupdateService, MatChipRemove,
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: appearance
+    }
   ],
   bootstrap: [AppComponent],
 })

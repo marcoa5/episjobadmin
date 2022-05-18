@@ -7,7 +7,7 @@
         <mat-step [stepControl]="rigForm">
             <form [formGroup]="searchForm">
                 <ng-template matStepLabel>Select machine</ng-template>
-                <mat-form-field [appearance]="appearance" style="width:100%" class="search">
+                <mat-form-field style="width:100%" class="search">
                 <mat-label>Search</mat-label>
                 <input matInput placeholder="Search" formControlName="search" (input)="searchCust($event)" autocomplete=off>
                 <mat-icon matSuffix>search</mat-icon>
@@ -31,11 +31,11 @@
                 <div [ngClass]="{'hide':pos!='SU'}"> 
                     <h4>SJ data</h4>
                     <div class="onlysu">
-                        <mat-form-field appearance="fill">
+                        <mat-form-field >
                             <mat-label>Service Job ID</mat-label>
                             <input matInput type="text" formControlName="sid">
                         </mat-form-field>
-                        <mat-form-field appearance="fill">
+                        <mat-form-field >
                             <mat-label>On Behalf of...</mat-label>
                             <mat-select [(value)]="behalf">
                                 <mat-option *ngFor="let t of technicians" [value]="t.id">
@@ -48,63 +48,63 @@
                 </div>
                 <h4>Machine data</h4>
                 <div class="group4">
-                    <mat-form-field [appearance]="appearance" class="data">
+                    <mat-form-field class="data">
                         <mat-label>Data</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="date" (input)="saveData()">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Rig sn</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="sn">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Rig p/n</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="pn">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Model</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="model">
                     </mat-form-field>
                 </div>
                 <h4>Customer Data</h4>
                 <div class="group4">
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Customer</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="customer">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance" class="hidden">
+                    <mat-form-field class="hidden">
                         <mat-label>Customer ID</mat-label>
                         <input #cId matInput type="text" autocomplete="off" formControlName="customerid">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Customer Address 1</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="customer2">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Customer Address 2</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="customer3">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Site</mat-label>
                         <input matInput type="text" autocomplete="off" formControlName="site">
                     </mat-form-field>
                 </div>
                 <h4>Running Hours</h4>
                 <div class="group4">
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Engine Hrs</mat-label>
                         <input matInput type="number" min="0" autocomplete="off" formControlName="engh">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Perc1 Hrs</mat-label>
                         <input matInput type="number" min="0" autocomplete="off" formControlName="perc1h">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Perc2 Hrs</mat-label>
                         <input matInput type="number" min="0" autocomplete="off" formControlName="perc2h">
                     </mat-form-field>
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Perc3 Hrs</mat-label>
                         <input matInput type="number" min="0" autocomplete="off" formControlName="perc3h">
                     </mat-form-field>
@@ -128,12 +128,12 @@
             <form [formGroup]="reportForm" (input)="saveData()">
               <ng-template matStepLabel>Service Report</ng-template>
               <h4>Service Report</h4>
-              <mat-form-field [appearance]="appearance" class="area">
+              <mat-form-field class="area">
                 <mat-label>Report</mat-label>
                 <textarea matInput formControlName="report" [rows]="5"  (input)="maiusc('report')"></textarea>
               </mat-form-field>
               <h4>Notes</h4>
-              <mat-form-field [appearance]="appearance"  class="area">
+              <mat-form-field  class="area">
                 <mat-label>Notes</mat-label>
                 <textarea matInput formControlName="oss" [rows]="2" (input)="maiusc('oss')"></textarea>
               </mat-form-field>

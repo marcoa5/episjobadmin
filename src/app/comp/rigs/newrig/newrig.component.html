@@ -4,27 +4,27 @@
     <div *ngIf="allow">
         <episjob-h2 icon="precision_manufacturing" [data]="addUpd? 'Add New Equipment' : 'Edit Equipment'" padtop=0></episjob-h2>
         <form [formGroup]="newR" class="formCont">
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field>
                 <mat-label>Serial Nr</mat-label>
                 <input matInput type="text" placeholder="Serial" formControlName="sn" autocomplete="off" (blur)="chExist($event)">
                 <mat-error *ngIf="newR.controls.sn.hasError('already')">S/n already exists</mat-error>
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field>
                 <mat-label>Item Nr</mat-label>
                 <input matInput type="text" placeholder="Item nr" formControlName="in" autocomplete="off">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field>
                 <mat-label>Model</mat-label>
                 <input matInput type="text" placeholder="Model" formControlName="model" autocomplete="off">
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field>
                 <mat-label>Customer</mat-label>
                 <mat-select formControlName="customer" [(value)]="custId" (selectionChange)="getCustInfo()">
                     <mat-option *ngFor="let c of customers" [value]="c.id">{{c.c1}}</mat-option>
                 </mat-select>
                 <!--<input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">-->
             </mat-form-field>
-            <mat-form-field [appearance]="appearance">
+            <mat-form-field>
                 <mat-label>Site</mat-label>
                 <input matInput type="text" placeholder="Site" formControlName="site" autocomplete="off">
             </mat-form-field>
@@ -47,7 +47,7 @@
             </div>
             <div class="formCont ship">
                 <div class="addF">
-                    <mat-form-field [appearance]="appearance">
+                    <mat-form-field>
                         <mat-label>Address</mat-label>
                         <mat-select (selectionChange)="onCh(shipTo.controls.address.value)" formControlName="address">
                             <mat-option *ngFor="let a of addr" [value]="a">
@@ -60,11 +60,11 @@
                     <button mat-mini-fab [class.mat-elevation-z1]=true color="primary" class="but" (click)="addAdd()"><mat-icon>add</mat-icon></button> 
                 </div>
                 
-                <mat-form-field [appearance]="appearance">
+                <mat-form-field>
                     <mat-label>CIG</mat-label>
                     <input matInput type="text" placeholder="CIG" formControlName="cig" autocomplete="off">
                 </mat-form-field>
-                <mat-form-field [appearance]="appearance">
+                <mat-form-field>
                     <mat-label>CUP</mat-label>
                     <input matInput type="text" placeholder="CUP" formControlName="cup" autocomplete="off">
                 </mat-form-field>

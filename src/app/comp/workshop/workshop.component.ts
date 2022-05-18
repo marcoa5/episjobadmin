@@ -14,6 +14,7 @@ import { CopyComponent } from '../util/dialog/copy/copy.component';
 import { SelectmonthComponent } from './selectmonth/selectmonth.component';
 import { ArchivedialogComponent } from './archivedialog/archivedialog.component';
 import { SjnumberdialogComponent } from './sjnumberdialog/sjnumberdialog.component';
+import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service';
 
 @Component({
   selector: 'episjob-workshop',
@@ -32,14 +33,14 @@ export class WorkshopComponent implements OnInit {
   subsList:Subscription[]=[]
   spin:boolean=true
 
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard) { }
+  constructor(private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard, private exp:GetworkshopreportService) { }
   
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<550){
-      this.displayedColumns=['file','SJ','ws','add','archive','report']
+      this.displayedColumns=['file','SJ','ws','add','archive']
     } else{
-      this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','add','archive','report']
+      this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','add','archive','report','tot']
     }
   }
 
@@ -222,6 +223,10 @@ export class WorkshopComponent implements OnInit {
         firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('fileNr').set(a)
       }
     })
+  }
+
+  total(e:any){
+    this.exp.report(e)
   }
 }
 

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 import firebase from 'firebase/app'
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { environment } from '../../../../environments/environment'
@@ -14,7 +14,7 @@ import { environment } from '../../../../environments/environment'
 export class NewfileComponent implements OnInit {
   details:any|undefined
   rigData!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
   workshops:any[]=environment.workshops
   types:any[]=[
     {val:"H", desc: "H - HAT"},

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
@@ -13,7 +12,6 @@ export class AuthSingleRigComponent implements OnInit {
   largh:number=0
   @Input() sn:string=''
   a:number[]=[0,0,0,0,0]
-  appearance:MatFormFieldAppearance="fill"
   minWidth:number = 1100;
   salesMen=[
     {name: 'Claudio Cossu', area:1},

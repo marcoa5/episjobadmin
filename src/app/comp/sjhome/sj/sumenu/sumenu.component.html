@@ -1,30 +1,30 @@
 <form [formGroup]="sumenu">
     <div class="group4" *ngIf="sent">  
-        <mat-form-field appearance="fill">
+        <mat-form-field >
             <mat-label>Commessa</mat-label>
             <input matInput type="text" formControlName="commessa" autocomplete="off">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field >
             <mat-label>Ns Offerta</mat-label>
             <input matInput type="text" formControlName="nsofferta" autocomplete="off">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field >
             <mat-label>Vs Ordine</mat-label>
             <input matInput type="text" formControlName="vsordine" autocomplete="off">
         </mat-form-field>
-        <mat-form-field [appearance]="appearance" class="data">
+        <mat-form-field  class="data">
             <mat-label>Apertura BPCS</mat-label>
             <input matInput [matDatepicker]="picker1" formControlName="dateBPCS" autocomplete="off">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
-        <mat-form-field [appearance]="appearance" class="data">
+        <mat-form-field  class="data">
             <mat-label>Chiusura BPCS</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="closeBPCS" autocomplete="off">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
             <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <mat-form-field >
             <mat-label>Doc BPCS</mat-label>
             <input matInput type="number" formControlName="docBPCS" autocomplete="off" (keydown)="chLen($event)">
         </mat-form-field> 

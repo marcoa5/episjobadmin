@@ -2,7 +2,7 @@
 <div mat-dialog-content>
     <p>Remaining labor hours: {{data.sum -hrssum}}</p>
     <form [formGroup]="hrs" class="add">
-        <mat-form-field [appearance]=appearance class="input">
+        <mat-form-field  class="input">
             <mat-label>Family</mat-label>
             <mat-select [disabled]="data.sum-hrssum==0" #fams formControlName="family">
                 <mat-option *ngFor="let f of fam" [value]="f.val">
@@ -11,7 +11,7 @@
             </mat-select>
         </mat-form-field>  
         <div class="mini">
-            <mat-form-field [appearance]=appearance class="input" >
+            <mat-form-field  class="input" >
                 <mat-label>Hours</mat-label>
                 <input #hrd matInput type="number" min=0 step="0.25" [max]="data.sum-hrssum" autocomplete="off" formControlName="hr">
             </mat-form-field>

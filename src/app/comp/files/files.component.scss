@@ -22,3 +22,25 @@
 .nomeF{
     margin-left: 15px;
 }
+
+episjob-h2{
+    position: sticky;
+    top:120px;
+}
+
+mat-paginator{
+    position: sticky;
+    top:180px;
+}
+
+.panel{
+    background-color: white;
+    position: fixed;
+    top: 0; left:-10px;
+    width:200%; height: 253px;
+    z-index: 1;
+}
+
+.el{
+    z-index: 300;
+}

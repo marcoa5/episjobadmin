@@ -55,7 +55,7 @@ export class PartsdialogComponent implements OnInit {
   download(){
     let exp:string='p/n\tDesc\tqty'
     this.data.parts.forEach((a:any)=>{
-      exp+=`\n${a.pn}\t${a.desc}\t${a.qty}`
+      exp+=`\n"${a.pn}"\t${a.desc}\t${a.qty}`
     })
     this.clipboard.copy(exp)
     const dia = this.dialog.open(CopyComponent)

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
+
 
 @Component({
   selector: 'episjob-survey',
@@ -9,7 +9,7 @@ import { MatFormFieldAppearance } from '@angular/material/form-field';
   styleUrls: ['./survey.component.scss']
 })
 export class SurveyComponent implements OnInit {
-  appearance: MatFormFieldAppearance='fill'
+  
   surveyForm!:FormGroup
   surveyList:string[]=[
     'Organizzazione Intervento:',

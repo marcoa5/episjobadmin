@@ -2,7 +2,7 @@
     <h4>Email Addresses</h4>
     <div class="newMailCont">
         <form [formGroup]="email">
-            <mat-form-field [appearance]="appearance" class="new">
+            <mat-form-field  class="new">
                 <mat-label>New Email</mat-label>
                 <input #nm matInput type="email" formControlName="newmail" [matAutocomplete]="auto">
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">

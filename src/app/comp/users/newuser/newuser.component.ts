@@ -5,7 +5,6 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { FormGroup, FormBuilder, Validators, Form, AbstractControl } from '@angular/forms'
-import { MatFormFieldAppearance } from '@angular/material/form-field'
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Location } from '@angular/common'
@@ -36,7 +35,6 @@ export class NewuserComponent implements OnInit {
   pos: string=''
   data: utente | undefined
   userF:FormGroup
-  appearance:MatFormFieldAppearance="fill"
   userpos:string|undefined
   userVisit:boolean = false
   allow:boolean=false

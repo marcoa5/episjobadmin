@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, Form, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router'
-import { MatFormFieldAppearance } from '@angular/material/form-field';
 import { FormBuilder } from '@angular/forms'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import firebase from 'firebase/app'
@@ -13,7 +12,6 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { MatChip } from '@angular/material/chips';
 import { NewcontactComponent } from '../../util/dialog/newcontact/newcontact.component';
-import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component';
 import { NewaddressComponent } from '../../util/dialog/newaddress/newaddress.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
 
@@ -30,7 +28,6 @@ export class NewrigComponent implements OnInit {
   rou:any[]=[]
   rigs: any[]=[]
   rig: string[]=[]
-  appearance:MatFormFieldAppearance="fill"
   newR:FormGroup;
   shipTo:FormGroup;
   addUpd:boolean = true

@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldAppearance, MatFormFieldControl } from '@angular/material/form-field';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 @Component({
   selector: 'episjob-riskass',
@@ -63,7 +62,7 @@ export class RiskassComponent implements OnInit {
     })
   }
   risk1!:FormGroup
-  appearance:MatFormFieldAppearance='fill'
+  
 
 
   ngOnInit(): void {
