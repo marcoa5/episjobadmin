@@ -4,10 +4,11 @@
         <div class="item2">
             <episjob-h2 data="Request" icon="rocket_launch" padtop=0></episjob-h2>
             <div class="cont1">
-                <div class="butCont">
+                <div class="butCont" [ngClass]="chPos('AdminTechRights')?'butCont' : 'butContA'">
                     <button mat-raised-button color="primary" (click)="start()">Start new request</button>
                     <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" >Open draft</button>
                     <button mat-raised-button color="primary" [disabled]="listId<0 || chDel" (click)="delete()">Delete draft</button>
+                    <button mat-raised-button color="primary" *ngIf="chPos('AdminTechRights')" (click)="report()">Quotes Report</button>
                 </div>
                 <span class="spacer" *ngIf="false"></span>
                 <span *ngIf="false">or select a draft from the below list:</span>

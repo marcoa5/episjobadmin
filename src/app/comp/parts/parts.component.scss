@@ -32,6 +32,13 @@
     gap: 10px;
     grid-template-columns: repeat(3, 1fr);
 }
+
+.butCont{
+    width:100%;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+}
 .formCont{
     display: flex;
     justify-content: flex-end;
