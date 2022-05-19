@@ -1,5 +1,5 @@
 <episjob-navbar [backB]="rou" [title]="addUpd? 'New Customer' : 'Edit Customer'" [cerca]="false" [home]="true"></episjob-navbar>
-<div episjobCont episjobContMaxWidth>
+<div episjobCont episjobContMaxWidth="1000">
     <div *ngIf="!allow">Restricted Area</div>
     <div *ngIf="allow">
         <episjob-h2 icon="work_outline" [data]="addUpd? 'Add New Customer' : 'Edit Customer'" padtop="0"></episjob-h2>

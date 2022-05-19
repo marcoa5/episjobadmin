@@ -1,5 +1,5 @@
 <episjob-navbar [backB]="rou" [title]="addUpd? 'New Equipment' : 'Edit Equipment' " [home]="true" [cerca]="false"></episjob-navbar>
-<div episjobCont episjobContMaxWidth>
+<div episjobCont episjobContMaxWidth="1000">
     <div *ngIf="!allow">Restricted Area</div>
     <div *ngIf="allow">
         <episjob-h2 icon="precision_manufacturing" [data]="addUpd? 'Add New Equipment' : 'Edit Equipment'" padtop=0></episjob-h2>

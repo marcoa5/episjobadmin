@@ -1,5 +1,5 @@
 <episjob-navbar [title]="addUpd? 'New Technician': 'Edit Technician'" [backB]="'technicians'" [home]="true" [cerca]="false"></episjob-navbar>
-<div episjobCont episjobContMaxWidth>
+<div episjobCont episjobContMaxWidth="1000">
     <div  *ngIf="allow">
         <episjob-h2 icon="engineering" [data]="addUpd? 'Add New Technician' : 'Edit Technician'" padtop="0"></episjob-h2>
         <form [formGroup]="newT" class="formCont">

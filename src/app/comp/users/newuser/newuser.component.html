@@ -1,5 +1,5 @@
 <episjob-navbar [backB]="'users'" [home]="true" [title]="addUpd? 'New User' : 'Update User'" [cerca]="false"></episjob-navbar>
-<div episjobCont episjobContMaxWidth>
+<div episjobCont episjobContMaxWidth="1000">
     <div *ngIf="!allow">Restricted Area</div>
     <div *ngIf="allow">
         <episjob-h2 icon="account_circle" [data]="addUpd? 'Add New User' : 'Update User'" padtop=0></episjob-h2>

@@ -4,7 +4,7 @@
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
     <div *ngIf="rigs.length>0 && checkWidth()">
         <div class="cover"></div>
-        <div episjobCont (window:resize)="res()">
+        <div episjobCont episjobContMaxWidth="1500" (window:resize)="res()">
             <episjob-h2 icon="compare_arrows" data="Set Access Rights" class="up" padtop="0"></episjob-h2>
             <mat-paginator [length]="rigs.length"
                 [pageSize]="10"

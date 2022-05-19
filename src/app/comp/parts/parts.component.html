@@ -2,7 +2,7 @@
 <div episjobCont [episjobContMaxWidth]="1500" class="cont">
     <div *ngIf="allow && !allSpin">
         <div class="item2">
-            <episjob-h2 data="Request" icon="rocket_launch" padtop=0></episjob-h2>
+            <episjob-h2 data="Actions" icon="rocket_launch" padtop=0></episjob-h2>
             <div class="cont1">
                 <div class="butCont" [ngClass]="chPos('AdminTechRights')?'butCont' : 'butContA'">
                     <button mat-raised-button color="primary" (click)="start()">Start new request</button>
