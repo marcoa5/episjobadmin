@@ -298,8 +298,9 @@ export class NewrigComponent implements OnInit {
     if(a.selected){
       this.conList[b.contId]=b
     } else {
-      this.conList[b.contId]=null
+      this.conList[b.contId]=undefined
     }
+    console.log(this.conList)
     this.checkCon()
   }
 
@@ -323,7 +324,9 @@ export class NewrigComponent implements OnInit {
   }
 
   checkCon(){
-    let a= this.conList
+    let a= Object.values(this.conList)
+    console.log(a)
+    
     let b = this.shipTo.controls.address.value
     if(Object.values(a)[0]==null && (b==null || b=='')) return true
     if(Object.values(a)[0]==null || (b==null || b=='')) return false
