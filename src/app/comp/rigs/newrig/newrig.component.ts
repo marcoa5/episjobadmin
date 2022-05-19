@@ -298,9 +298,8 @@ export class NewrigComponent implements OnInit {
     if(a.selected){
       this.conList[b.contId]=b
     } else {
-      this.conList[b.contId]=undefined
+      delete this.conList[b.contId]
     }
-    console.log(this.conList)
     this.checkCon()
   }
 
@@ -324,9 +323,7 @@ export class NewrigComponent implements OnInit {
   }
 
   checkCon(){
-    let a= Object.values(this.conList)
-    console.log(a)
-    
+    let a= this.conList
     let b = this.shipTo.controls.address.value
     if(Object.values(a)[0]==null && (b==null || b=='')) return true
     if(Object.values(a)[0]==null || (b==null || b=='')) return false
