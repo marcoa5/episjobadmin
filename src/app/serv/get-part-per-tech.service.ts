@@ -8,12 +8,14 @@ import { GetquarterService } from './getquarter.service';
 import { promise } from 'protractor';
 import { SelectrangedialogComponent } from '../comp/util/dialog/selectrangedialog/selectrangedialog.component';
 import * as moment from 'moment';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { CopyComponent } from '../comp/util/dialog/copy/copy.component';
 @Injectable({
   providedIn: 'root'
 })
 export class GetPartPerTechService {
 
-  constructor(private dialog:MatDialog, private getH:GetquarterService, private http:HttpClient) { }
+  constructor(private dialog:MatDialog, private getH:GetquarterService, private http:HttpClient, private clip:Clipboard) { }
 
   loadParts(){
     return new Promise(res=>{
@@ -37,9 +39,18 @@ export class GetPartPerTechService {
             let i:string=moment(resp[0]).format('YYYY-MM-DD')
             let f:string=moment(resp[1]).format('YYYY-MM-DD')
             this.getSingleList(rawList,names,f,i)
-            .then((list)=>{
+            .then((list:any)=>{
               d.close()
-              res([list,i,f])
+              let exp:string=`Parts Report\nFrom:\t${moment(i).format('DD/MM/YYYY')}\nTo:\t${moment(f).format('DD/MM/YYYY')}\n\nName\tQty\tTot Amout`
+              let leng:number = list.length
+              let indexy:number =0
+              list.forEach((b:any)=>{
+                exp+='\n'+b.toString().replace(/,/g,'\t').replace(/[.]/g,',')
+                indexy++
+                if(indexy==leng) {
+                  res(exp)
+                }
+              })
             })
           } else{
             d.close()
@@ -48,6 +59,8 @@ export class GetPartPerTechService {
       })
     })
   }
+
+  
 
   getSingleList(rawList:any[],names:any[], fine:string,inizio:string){
     let list:any[]=[]

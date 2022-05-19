@@ -157,7 +157,8 @@ import { SubmitweekdialogComponent } from './comp/workshop/weekdialog/submitweek
 import { WorkshopfilesComponent } from './comp/rigs/machine/workshopfiles/workshopfiles.component';
 import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
 import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialog/filedialog.component';
-import { SelectrangedialogComponent } from './comp/util/dialog/selectrangedialog/selectrangedialog.component';
+import { SelectrangedialogComponent } from './comp/util/dialog/selectrangedialog/selectrangedialog.component'
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -298,12 +299,12 @@ export const MY_FORMATS = {
     WorkshopfilesComponent,
     DateconvshortPipe,
     FiledialogComponent,
-    SelectrangedialogComponent,
+    SelectrangedialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
     AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
-    BrowserAnimationsModule,MatToolbarModule, MatIconModule, MatButtonModule, DragDropModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
+    BrowserAnimationsModule,MatToolbarModule, MatIconModule, ClipboardModule, MatButtonModule, DragDropModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

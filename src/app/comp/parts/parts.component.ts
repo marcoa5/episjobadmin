@@ -7,11 +7,11 @@ import firebase from 'firebase/app';
 import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { Subscription } from 'rxjs';
-import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { Clipboard } from '@angular/cdk/clipboard'
+import { AuthServiceService } from 'src/app/serv/auth-service.service'
 import { GetPartPerTechService } from 'src/app/serv/get-part-per-tech.service';
 import { CopyComponent } from '../util/dialog/copy/copy.component';
-import * as moment from 'moment';
+import * as moment from 'moment'
+import { Clipboard } from '@angular/cdk/clipboard'
 
 
 @Component({
@@ -38,7 +38,7 @@ export class PartsComponent implements OnInit {
   subsList:Subscription[]=[]
 
 
-  constructor(private ppt:GetPartPerTechService , public clip: Clipboard, public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService) { }
+  constructor(private ppt:GetPartPerTechService , public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService, public clip:Clipboard) { }
 
   //@ViewChild('search') search!: ElementRef
 
@@ -232,15 +232,10 @@ export class PartsComponent implements OnInit {
   }
 
   report(){
-    this.ppt.loadParts().then((a:any)=>{
-      let exp:string=`Parts Report\nFrom:\t${moment(a[1]).format('DD/MM/YYYY')}\nTo:\t${moment(a[2]).format('DD/MM/YYYY')}\n\nName\tQty\tTot Amout\n`
-      if(a){
-        a[0].forEach((b:any)=>{
-          exp+=b.toString().replace(/,/g,'\t').replace(/[.]/g,',')+'\n'
-          this.clip.copy(exp)
-        })        
-      }
-        //this.dialog.open(CopyComponent)
-    })
+    this.ppt.loadParts().then((text:any)=>{
+      navigator.clipboard.writeText(text).then(()=>{
+        this.dialog.open(CopyComponent)
+      })
+    })    
   }
 }
