@@ -65,7 +65,7 @@ export class WorkshopComponent implements OnInit {
     )
     setTimeout(() => {
       this.spin=false
-    }, 10000);
+    }, 5000);
   }
 
   ngOnChanges(){
@@ -75,7 +75,6 @@ export class WorkshopComponent implements OnInit {
       this.spin=false
       //if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
     }
-
   }
 
   calcCurrMonth(){
@@ -152,9 +151,14 @@ export class WorkshopComponent implements OnInit {
 
   fil(b:string){
     this.filter=b.toLowerCase()
-    if(this.filter){
+    if(this.filter && this.filter.substring(0,1)=='*'){
       this.sortedData=this.list.filter(a=>{
-        if(a.fileNr.toLowerCase().includes(this.filter) ||a.sj.toLowerCase().includes(this.filter) ||a.ws.toLowerCase().includes(this.filter) || a.customer.toLowerCase().includes(this.filter) || a.file.toLowerCase().includes(this.filter) || a.model.toLowerCase().includes(this.filter) || a.sn.toLowerCase().includes(this.filter)) return a
+        if(a.ws.toLowerCase().includes(this.filter.substring(1,1000))) return a
+        return false
+      })
+    }else if(this.filter && this.filter.substring(0,1)!='*'){
+      this.sortedData=this.list.filter(a=>{
+        if(a.fileNr.toLowerCase().includes(this.filter) ||a.sj.toLowerCase().includes(this.filter) ||a.customer.toLowerCase().includes(this.filter) || a.file.toLowerCase().includes(this.filter) || a.model.toLowerCase().includes(this.filter) || a.sn.toLowerCase().includes(this.filter)) return a
         return false
       })
     } else {

@@ -758,7 +758,7 @@ export class MachineComponent implements OnInit {
 
   loadWsFiles(){
     if(this.auth.acc('AdminRights')){
-      firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
+      firebase.database().ref('wsFiles').child('open').child(this.valore).once('value',a=>{
         this.files=[]
         if(a.val()!=null){
           a.forEach(b=>{
@@ -771,6 +771,21 @@ export class MachineComponent implements OnInit {
             this.files.push(temp)
           })
         }
+      }).then(()=>{
+        firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
+          this.files=[]
+          if(a.val()!=null){
+            a.forEach(b=>{
+              let temp:any=b.val()
+              if(b.val().days){
+                let fr = Object.keys(b.val().days)
+                temp.min = fr[0]
+                temp.max = fr[fr.length-1]
+              }
+              this.files.push(temp)
+            })
+          }
+        })
       })
     }
   }
