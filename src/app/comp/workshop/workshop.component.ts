@@ -73,7 +73,7 @@ export class WorkshopComponent implements OnInit {
     this.fil(this.filter)
     if(this.list.length>0) {
       this.spin=false
-      if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
+      //if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
     }
 
   }
@@ -95,15 +95,15 @@ export class WorkshopComponent implements OnInit {
   }
 
   getTotalSum(){
-    return this.list.map(a=>a.hrs).reduce((a,b)=>a+b,0)
+    return this.sortedData.map(a=>a.hrs).reduce((a,b)=>a+b,0)
   }
 
   getYearlySum(){
-    return this.list.map(a=>a.yearsum).reduce((a,b)=>a+b,0)
+    return this.sortedData.map(a=>a.yearsum).reduce((a,b)=>a+b,0)
   }
 
   getMonthlySum(){
-    return this.list.map(a=>a.monthsum).reduce((a,b)=>a+b,0)
+    return this.sortedData.map(a=>a.monthsum).reduce((a,b)=>a+b,0)
   }
   
   ngOnDestroy(){

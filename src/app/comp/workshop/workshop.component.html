@@ -1,6 +1,7 @@
 
-    <episjob-h2 [showSearch]="sortedData.length>0" (filter)="fil($event)" icon="home_work" [data]="title" [padtop]="pad" [addGeneral]="type=='f'" (addGen)="add($event)"></episjob-h2>
+    <episjob-h2 [showSearch]="list.length>0" (filter)="fil($event)" icon="home_work" [data]="title" [padtop]="pad" [addGeneral]="type=='f'" (addGen)="add($event)"></episjob-h2>
     <episjob-spin *ngIf="sortedData.length==0 && spin"></episjob-spin>
+    <div *ngIf="list.length>0 && sortedData.length==0">No Data to display</div>
     <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
         <ng-container matColumnDef="file">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> File</th>
