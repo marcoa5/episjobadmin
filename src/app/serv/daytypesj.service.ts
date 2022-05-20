@@ -19,10 +19,10 @@ export class DaytypesjService {
       moment(new Date(y,7,15)).format('YYYY-MM-DD'),
       moment(new Date(y,10,1)).format('YYYY-MM-DD'),
       moment(new Date(y,11,8)).format('YYYY-MM-DD'),
-      moment(new Date(y,11,24)).format('YYYY-MM-DD'),
+      //moment(new Date(y,11,24)).format('YYYY-MM-DD'),
       moment(new Date(y,11,25)).format('YYYY-MM-DD'),
       moment(new Date(y,11,26)).format('YYYY-MM-DD'),
-      moment(new Date(y,11,31)).format('YYYY-MM-DD'),
+      //moment(new Date(y,11,31)).format('YYYY-MM-DD'),
     ]
     holy.push(moment(Easter(y)).format('YYYY-MM-DD'))
     holy.push(moment(new Date(moment(Easter(y)).add(1,'days').format('YYYY-MM-DD'))).format('YYYY-MM-DD'))

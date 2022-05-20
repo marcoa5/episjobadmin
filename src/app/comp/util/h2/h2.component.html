@@ -1,24 +1,27 @@
 <div class="cont" [class.cont1]="showMol || showDL || showAdd || showSort || (addSubEq && chPos('SURights')) || (addGeneral && chPos('AdminRights'))" [class.cont2]="(showSearch && !showChBox) || showLimit" [class.cont3]="showSearch && showChBox" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
     <mat-icon *ngIf="icon!=''" (click)="download()">{{icon}}</mat-icon>
     <h2>{{data}}</h2>
-    <label class="container" *ngIf="showChBox">{{width()?'Only SA' : 'SA'}}
-        <input type="checkbox" class="cb" #chec (change)="ch($event)">
-        <span class="checkmark"></span>
-    </label>
-    <div *ngIf="showSearch" class="seaCont">
-        <input type="text" (input)="fil($event)" autocomplete="off">
-        <mat-icon>search</mat-icon>
+    <div class="actions">
+        <label class="container" *ngIf="showChBox">{{width()?'Only SA' : 'SA'}}
+            <input type="checkbox" class="cb" #chec (change)="ch($event)">
+            <span class="checkmark"></span>
+        </label>
+        <div *ngIf="showSearch" class="seaCont">
+            <input type="text" (input)="fil($event)" autocomplete="off">
+            <mat-icon>search</mat-icon>
+        </div>
+        <div class="limCont" *ngIf="showLimit">
+            <div class="lab">{{limitLabel}}</div>
+            <input type="number" min=1 (input)="lim($event)" value=5 autocomplete="off">
+        </div>
+        <div [class.butt1]="showMol || showDL || showSort || (addSubEq && chPos('SURights')) || (addGeneral && chPos('AdminRights'))" [class.butt2]="showAdd && chPos('SURights')" *ngIf="(showAdd && chPos('SURights')) || (addSubEq && chPos('SURights')) || showMol || showDL || showSort || (addGeneral && chPos('AdminRights'))">
+            <mat-icon *ngIf="showAdd && chPos('SURights')" matSuffix (click)="add($event)" matTooltip="Add Commissioning Date" matTooltipPosition="below">add_circle</mat-icon>
+            <mat-icon *ngIf="addSubEq && chPos('SURights')" matSuffix (click)="addS($event)" matTooltip="Add New Sub Equipment" matTooltipPosition="below">add_circle</mat-icon>
+            <mat-icon *ngIf="addGeneral && chPos('AdminRights')" matSuffix (click)="addG($event)" matTooltip="Add New" matTooltipPosition="below">add_circle</mat-icon>
+            <mat-icon *ngIf="showMol" matSuffix (click)="openMol()" matTooltip="Open MOL" matTooltipPosition="below">link</mat-icon>
+            <mat-icon *ngIf="showDL" matSuffix [matTooltip]="dlTooltip" matTooltipPosition="below" (click)="copyData()">file_download</mat-icon>
+            <mat-icon *ngIf="showSort" matSuffix matTooltip="Ascending/Descending" matTooltipPosition="below" (click)="sortData()">import_export</mat-icon>
+        </div>  
     </div>
-    <div class="limCont" *ngIf="showLimit">
-        <div class="lab">{{limitLabel}}</div>
-        <input type="number" min=1 (input)="lim($event)" value=5 autocomplete="off">
-    </div>
-    <div [class.butt1]="showMol || showDL || showSort || (addSubEq && chPos('SURights')) || (addGeneral && chPos('AdminRights'))" [class.butt2]="showAdd && chPos('SURights')" *ngIf="(showAdd && chPos('SURights')) || (addSubEq && chPos('SURights')) || showMol || showDL || showSort || (addGeneral && chPos('AdminRights'))">
-        <mat-icon *ngIf="showAdd && chPos('SURights')" matSuffix (click)="add($event)" matTooltip="Add Commissioning Date" matTooltipPosition="below">add_circle</mat-icon>
-        <mat-icon *ngIf="addSubEq && chPos('SURights')" matSuffix (click)="addS($event)" matTooltip="Add New Sub Equipment" matTooltipPosition="below">add_circle</mat-icon>
-        <mat-icon *ngIf="addGeneral && chPos('AdminRights')" matSuffix (click)="addG($event)" matTooltip="Add New" matTooltipPosition="below">add_circle</mat-icon>
-        <mat-icon *ngIf="showMol" matSuffix (click)="openMol()" matTooltip="Open MOL" matTooltipPosition="below">link</mat-icon>
-        <mat-icon *ngIf="showDL" matSuffix [matTooltip]="dlTooltip" matTooltipPosition="below" (click)="copyData()">file_download</mat-icon>
-        <mat-icon *ngIf="showSort" matSuffix matTooltip="Ascending/Descending" matTooltipPosition="below" (click)="sortData()">import_export</mat-icon>
-    </div>
+    
 </div>

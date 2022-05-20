@@ -1,7 +1,5 @@
 @import '../../../../epi.scss';
 
-
-
 h2{
     margin:0;
     white-space: nowrap;
@@ -26,6 +24,11 @@ mat-icon{
     grid-template-columns: 1fr 1fr;
 }
 
+.actions{
+  display: flex;
+  justify-content: flex-end;
+  gap:15px;
+}
 
 .cont{
     color: $light-text;

@@ -7,5 +7,22 @@ table{
 mat-icon{cursor: pointer;}
 
 .cur{
-    cursor: text;
+    cursor: pointer;
+}
+
+.totRow{
+    font-weight: 900;
+}
+
+::ng-deep .mat-sort-header-container {
+    display:flex;
+    justify-content:center;
+}
+
+.cen{
+    text-align: center;
+}
+
+.right{
+    text-align: right;
 }

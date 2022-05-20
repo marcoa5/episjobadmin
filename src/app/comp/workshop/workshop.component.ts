@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
@@ -22,11 +22,15 @@ import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service
   styleUrls: ['./workshop.component.scss']
 })
 export class WorkshopComponent implements OnInit {
+  @Input() filter:string=''
+  @Input() list:any[]=[]
+  @Input() title:string=''
+  @Input() pad:number=30
+  @Input() type:string=''
   allow:boolean=false
   pos:string=''
   subPos:string=''
-  list:any[]=[]
-  filtro:string=''
+
   ws:string=''
   sortedData:any[]=[]
   displayedColumns:string[]=[]
@@ -37,10 +41,12 @@ export class WorkshopComponent implements OnInit {
   
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if(window.innerWidth<550){
-      this.displayedColumns=['file','SJ','ws','add','archive']
+    if(window.innerWidth<850){
+      if(this.type=='f') this.displayedColumns=['file','SJ','ws','add','archive']
+      if(this.type=='a') this.displayedColumns=['file','SJ','ws']
     } else{
-      this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','add','archive','report','tot']
+      if(this.type=='f') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','year','month','add','report','tot','archive']
+      if(this.type=='a') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','report','tot']
     }
   }
 
@@ -57,27 +63,51 @@ export class WorkshopComponent implements OnInit {
         }
       })
     )
-    this.loadFiles()
+    setTimeout(() => {
+      this.spin=false
+    }, 10000);
+  }
+
+  ngOnChanges(){
+    this.sortedData=this.list.slice()
+    this.fil(this.filter)
+    if(this.list.length>0) {
+      this.spin=false
+      if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
+    }
+
+  }
+
+  calcCurrMonth(){
+    return new Promise(res=>{
+      let ch:number=this.list.length
+      let ind:number=0
+      let sum:any={}
+      this.list.forEach(a=>{
+        if(a.monthsum>0){
+          if(sum[a.ws]==undefined) sum[a.ws]=0
+          sum[a.ws]+=a.monthsum 
+        }
+        ind++
+        if(ind==ch) res(sum)
+      })
+    })
+  }
+
+  getTotalSum(){
+    return this.list.map(a=>a.hrs).reduce((a,b)=>a+b,0)
+  }
+
+  getYearlySum(){
+    return this.list.map(a=>a.yearsum).reduce((a,b)=>a+b,0)
+  }
+
+  getMonthlySum(){
+    return this.list.map(a=>a.monthsum).reduce((a,b)=>a+b,0)
   }
   
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
-  }
-
-  loadFiles(){
-    firebase.database().ref('wsFiles').child('open').on('value',a=>{
-      this.list=[]
-      if(a.val()!=null){
-        a.forEach(b=>{
-          b.forEach(c=>{
-            if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') this.list.push(c.val())
-          })
-        })
-      }
-      this.sortedData=this.list.slice()
-      this.fil(this.filtro)
-      this.spin=false
-    })
   }
 
   add(e:any){
@@ -110,17 +140,21 @@ export class WorkshopComponent implements OnInit {
           return compare(a.fileNr, b.fileNr, isAsc)
         case 'ws':
           return compare(a.ws, b.ws, isAsc)
+        case 'month':
+          return compare(a.monthsum, b.monthsum, isAsc)
+        case 'year':
+          return compare(a.yearsum, b.yearsum, isAsc)
         default:
           return 0;
       }
     });
   }
 
-  fil(b:any){
-    this.filtro=b.toLowerCase()
-    if(this.filtro){
+  fil(b:string){
+    this.filter=b.toLowerCase()
+    if(this.filter){
       this.sortedData=this.list.filter(a=>{
-        if(a.ws.toLowerCase().includes(this.filtro) || a.customer.toLowerCase().includes(this.filtro) || a.file.toLowerCase().includes(this.filtro) || a.model.toLowerCase().includes(this.filtro) || a.sn.toLowerCase().includes(this.filtro)) return a
+        if(a.fileNr.toLowerCase().includes(this.filter) ||a.sj.toLowerCase().includes(this.filter) ||a.ws.toLowerCase().includes(this.filter) || a.customer.toLowerCase().includes(this.filter) || a.file.toLowerCase().includes(this.filter) || a.model.toLowerCase().includes(this.filter) || a.sn.toLowerCase().includes(this.filter)) return a
         return false
       })
     } else {
@@ -216,21 +250,25 @@ export class WorkshopComponent implements OnInit {
   }
 
   openSJNr(e:any){
-    const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'sj'}})
-    d.afterClosed().subscribe(a=>{
-      if(a){
-        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('sj').set(a)
-      }
-    })
+    if(this.type=='f'){
+      const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'sj'}})
+      d.afterClosed().subscribe(a=>{
+        if(a){
+          firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('sj').set(a)
+        }
+      })
+    }
   }
 
   openFileNr(e:any){
-    const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'file'}})
-    d.afterClosed().subscribe(a=>{
-      if(a){
-        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('fileNr').set(a)
-      }
-    })
+    if(this.type=='f'){
+      const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'file'}})
+      d.afterClosed().subscribe(a=>{
+        if(a){
+          firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).child('fileNr').set(a)
+        }
+      })
+    }
   }
 
   total(e:any){

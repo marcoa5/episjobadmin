@@ -24,8 +24,8 @@ import { ContactsComponent } from './comp/contacts/contacts.component';
 import { ContractsComponent } from './comp/contracts/contracts.component';
 import { SjhomeComponent } from './comp/sjhome/sjhome.component';
 import { SjComponent } from './comp/sjhome/sj/sj.component';
-import { WorkshopComponent } from './comp/workshop/workshop.component';
 import { RequestlistComponent } from './comp/parts/requestlist/requestlist.component';
+import { WorkshophomeComponent } from './comp/workshophome/workshophome.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -52,7 +52,7 @@ const routes: Routes = [
   {path: 'contracts', component:ContractsComponent},
   {path: 'sj', component:SjhomeComponent},
   {path: 'newsj', component:SjComponent},
-  {path: 'workshop', component:WorkshopComponent},
+  {path: 'workshop', component:WorkshophomeComponent},
   {path: 'partrequest', component:RequestlistComponent}
 ];
 

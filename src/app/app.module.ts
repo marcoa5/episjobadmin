@@ -159,6 +159,7 @@ import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
 import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialog/filedialog.component';
 import { SelectrangedialogComponent } from './comp/util/dialog/selectrangedialog/selectrangedialog.component'
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { WorkshophomeComponent } from './comp/workshophome/workshophome.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -299,7 +300,8 @@ export const MY_FORMATS = {
     WorkshopfilesComponent,
     DateconvshortPipe,
     FiledialogComponent,
-    SelectrangedialogComponent
+    SelectrangedialogComponent,
+    WorkshophomeComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

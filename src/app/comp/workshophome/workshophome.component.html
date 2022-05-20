@@ -1,0 +1,9 @@
+<episjob-navbar title="Workshop hours" (filter)="fil($event)"></episjob-navbar>
+<div episjobCont [episjobContMaxWidth]="1500" *ngIf="allow">
+    <episjob-workshop [filter]="filtro" [list]="list" [title]="'File List'" [pad]="0" type="f"></episjob-workshop>
+    <episjob-workshop [filter]="filtro" [list]="listA" [title]="'Archive'" [pad]="30" *ngIf="listA.length>0" type="a"></episjob-workshop>
+</div>
+
+<div episjobCont *ngIf="!allow">
+    Restricted area
+</div>
