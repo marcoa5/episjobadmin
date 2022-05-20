@@ -14,14 +14,8 @@ mat-icon{cursor: pointer;}
     font-weight: 900;
 }
 
-::ng-deep .mat-sort-header-container {
-    display:flex;
-    justify-content:center;
-}
-
 .left{
-    display:flex;
-    justify-content:center;
+    text-align: center;
 }
 
 .cen{
