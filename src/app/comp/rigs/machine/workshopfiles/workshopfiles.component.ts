@@ -23,9 +23,9 @@ export class WorkshopfilesComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<800){
-      this.displayedColumns=['type', 'sn', 'hrs']
+      this.displayedColumns=['type', 'status', 'hrs']
     } else {
-      this.displayedColumns=['type', 'sn', 'hrs', 'from','to']
+      this.displayedColumns=['type', 'status', 'hrs', 'from','to']
     }
   }
 
@@ -36,6 +36,7 @@ export class WorkshopfilesComponent implements OnInit {
       return 0
     })
     this._list = this.list.slice(this.inizio,this.fine)
+
   }
 
   open(fileData:any){

@@ -5,9 +5,9 @@
                 <th mat-header-cell *matHeaderCellDef class="cur"> Type </th>
                 <td mat-cell *matCellDef="let a; let i = index" (click)="open(a)"> {{a.type}} </td>
             </ng-container>
-            <ng-container matColumnDef="sn" >
-                <th mat-header-cell *matHeaderCellDef class="cur"> s/n </th>
-                <td mat-cell *matCellDef="let a; let i = index" (click)="open(a)"> {{a.sn}} </td>
+            <ng-container matColumnDef="status" >
+                <th mat-header-cell *matHeaderCellDef class="cur"> Status </th>
+                <td mat-cell *matCellDef="let a; let i = index" (click)="open(a)"> {{a.status}} </td>
             </ng-container>
             <ng-container matColumnDef="hrs">
                 <th mat-header-cell *matHeaderCellDef class="cur"> hrs </th>
