@@ -18,15 +18,15 @@
                 </mat-form-field>
                 <mat-form-field [ngClass]="{'holy':d.holy=='fest', 'sat':d.holy=='sat'}">
                     <mat-label>{{firstLetter}}1</mat-label>
-                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v1'+(i+1)" (input)="write(d,'v1',i)" [readonly]="d.holy!='fer'">
+                    <input type="number" autocomplete="off" min="0"  step="0.5" matInput [formControlName]="'v1'+(i+1)" (input)="write(d,'v1',i)" [readonly]="d.holy!='fer'">
                 </mat-form-field>
                 <mat-form-field [ngClass]="{'holy':d.holy=='fest', 'sat':d.holy=='sat'}">
                     <mat-label>{{firstLetter}}2</mat-label>
-                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v2'+(i+1)" (input)="write(d,'v2',i)" [readonly]="d.holy=='fest'">
+                    <input type="number" autocomplete="off" min="0"  step="0.5" matInput [formControlName]="'v2'+(i+1)" (input)="write(d,'v2',i)" [readonly]="d.holy=='fest'">
                 </mat-form-field>
                 <mat-form-field [ngClass]="{'holy':d.holy=='fest', 'sat':d.holy=='sat'}">
                     <mat-label>{{firstLetter}}8</mat-label>
-                    <input type="number" autocomplete="off" min="0" matInput [formControlName]="'v8'+(i+1)" (input)="write(d,'v8',i)" [readonly]="d.holy!='fest'">
+                    <input type="number" autocomplete="off" min="0"  step="0.5" matInput [formControlName]="'v8'+(i+1)" (input)="write(d,'v8',i)" [readonly]="d.holy!='fest'">
                 </mat-form-field>               
             </div>
             

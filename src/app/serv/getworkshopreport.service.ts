@@ -21,7 +21,7 @@ export class GetworkshopreportService {
           exp+=`${temp.v1?temp.v1:'0'}\t${temp.v2?temp.v2:'0'}\t${temp.v8?temp.v8:'0'}\n`
         }
       })
-      this.clip.copy(exp)
+      this.clip.copy(exp.replace(/[.]/g,','))
       const d = this.dialog.open(CopyComponent)
     }
   }

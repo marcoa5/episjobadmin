@@ -102,6 +102,14 @@ export class WorkshopComponent implements OnInit {
           return compare(a.customer, b.customer, isAsc);
         case 'file':
           return compare(a.file, b.file, isAsc);
+        case 'hrs':
+          return compare(a.hrs, b.hrs, isAsc);
+        case 'SJ':
+          return compare(a.sj, b.sj, isAsc);
+        case 'filenr':
+          return compare(a.fileNr, b.fileNr, isAsc)
+        case 'ws':
+          return compare(a.ws, b.ws, isAsc)
         default:
           return 0;
       }
@@ -193,7 +201,7 @@ export class WorkshopComponent implements OnInit {
             }
           }
         }).then(()=>{
-          this.clip.copy(exp)
+          this.clip.copy(exp.replace(/[.]/g,','))
           const dd = this.dialog.open(CopyComponent)
           dia.close()
         })
