@@ -15,6 +15,7 @@ import { SelectmonthComponent } from './selectmonth/selectmonth.component';
 import { ArchivedialogComponent } from './archivedialog/archivedialog.component';
 import { SjnumberdialogComponent } from './sjnumberdialog/sjnumberdialog.component';
 import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'episjob-workshop',
@@ -37,7 +38,7 @@ export class WorkshopComponent implements OnInit {
   subsList:Subscription[]=[]
   spin:boolean=true
 
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard, private exp:GetworkshopreportService) { }
+  constructor(private router:Router, private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard, private exp:GetworkshopreportService) { }
   
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -249,10 +250,6 @@ export class WorkshopComponent implements OnInit {
     */
   }
 
-  go(a:any,b:any){
-    
-  }
-
   openSJNr(e:any){
     if(this.type=='f'){
       const d = this.dialog.open(SjnumberdialogComponent, {data:{info:e,title:'sj'}})
@@ -277,6 +274,12 @@ export class WorkshopComponent implements OnInit {
 
   total(e:any){
     this.exp.report(e)
+  }
+
+  goTo(route:string, key:string, val:string){
+    let obj:any={}
+    obj[key]=val
+    this.router.navigate([route,obj])
   }
 }
 

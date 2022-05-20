@@ -19,10 +19,19 @@ mat-icon{cursor: pointer;}
     justify-content:center;
 }
 
+.left{
+    display:flex;
+    justify-content:center;
+}
+
 .cen{
     text-align: center;
 }
 
 .right{
     text-align: right;
+}
+
+.cur{
+    cursor:pointer;
 }

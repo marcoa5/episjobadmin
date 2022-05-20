@@ -767,13 +767,13 @@ export class MachineComponent implements OnInit {
               let fr = Object.keys(b.val().days)
               temp.min = fr[0]
               temp.max = fr[fr.length-1]
+              temp.status='Open'
             }
             this.files.push(temp)
           })
         }
       }).then(()=>{
         firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
-          this.files=[]
           if(a.val()!=null){
             a.forEach(b=>{
               let temp:any=b.val()
@@ -781,6 +781,7 @@ export class MachineComponent implements OnInit {
                 let fr = Object.keys(b.val().days)
                 temp.min = fr[0]
                 temp.max = fr[fr.length-1]
+                temp.status='Archived'
               }
               this.files.push(temp)
             })

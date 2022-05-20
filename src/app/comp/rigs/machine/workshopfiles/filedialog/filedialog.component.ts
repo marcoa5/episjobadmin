@@ -20,6 +20,7 @@ export class FiledialogComponent implements OnInit {
   sj=new FormControl(this.data.sj)
   fileNr=new FormControl(this.data.fileNr)
   ws=new FormControl(this.data.ws)
+  status=new FormControl(this.data.status)
   constructor(private dialogRef:MatDialogRef<FiledialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private clip:Clipboard, private dialog:MatDialog, private exp:GetworkshopreportService) { }
 
   ngOnInit(): void {
