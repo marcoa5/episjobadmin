@@ -19,6 +19,8 @@ export class WorkshophomeComponent implements OnInit {
   _listA:any[]=[]
   list:any[]=[]
   listA:any[]=[]
+  _tempList:any[]=[]
+  tempList:any[]=[]
   subsList:Subscription[]=[]
   constructor(private auth:AuthServiceService) { }
 
@@ -36,6 +38,7 @@ export class WorkshophomeComponent implements OnInit {
     )
     this.loadFiles()
     this.loadArchived()
+    this.loadTemp()
   }
 
   ngOnDestroy(){
@@ -104,4 +107,13 @@ export class WorkshophomeComponent implements OnInit {
     })
   }
 
+  loadTemp(){
+    if(this.pos=='SU'){
+      firebase.database().ref('wsFiles').child('temp').on('value',a=>{
+        this._tempList=[]
+        this._tempList.push(a.val())
+        this.tempList=this._tempList.slice()
+      })
+    }
+  }
 }

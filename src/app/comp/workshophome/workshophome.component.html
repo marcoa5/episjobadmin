@@ -1,5 +1,6 @@
 <episjob-navbar title="Workshop hours" [cerca]="false"></episjob-navbar>
 <div episjobCont [episjobContMaxWidth]="1500" *ngIf="allow">
+    <episjob-templist *ngIf="pos=='SU'" [list]="tempList"></episjob-templist>
     <episjob-workshop [filter]="filtro" [list]="list" [title]="'File List'" [pad]="0" type="f"></episjob-workshop>
     <episjob-workshop [filter]="filtro" [list]="listA" [title]="'Archive'" [pad]="30" *ngIf="listA.length>0" type="a"></episjob-workshop>
 </div>

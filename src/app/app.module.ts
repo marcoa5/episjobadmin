@@ -141,25 +141,26 @@ import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.c
 import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import { AttachmentdialogComponent } from './comp/contracts/attachmentdialog/attachmentdialog.component';
 import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexists/attachalreadyexists.component';
-import { WorkshopComponent } from './comp/workshop/workshop.component';
-import { NewfileComponent } from './comp/workshop/newfile/newfile.component';
+import { WorkshopComponent } from './comp/workshophome/workshop/workshop.component';
+import { NewfileComponent } from './comp/workshophome/workshop/newfile/newfile.component';
 import { SelectmachineComponent } from './comp/util/selectmachine/selectmachine.component';
 import { SavedialogComponent } from './comp/util/dialog/savedialog/savedialog.component';
 import { RigcontractComponent } from './comp/rigs/machine/rigcontract/rigcontract.component';
 import { TarifsComponent } from './comp/contracts/newcontract/tarifs/tarifs.component';
 import { DiscountsComponent } from './comp/contracts/newcontract/discounts/discounts.component';
-import { WeekdialogComponent } from './comp/workshop/weekdialog/weekdialog.component';
+import { WeekdialogComponent } from './comp/workshophome/workshop/weekdialog/weekdialog.component';
 import { DateconvdayPipe } from './pipe/dateconvday.pipe';
-import { SelectmonthComponent } from './comp/workshop/selectmonth/selectmonth.component';
-import { ArchivedialogComponent } from './comp/workshop/archivedialog/archivedialog.component';
-import { SjnumberdialogComponent } from './comp/workshop/sjnumberdialog/sjnumberdialog.component';
-import { SubmitweekdialogComponent } from './comp/workshop/weekdialog/submitweekdialog/submitweekdialog.component';
+import { SelectmonthComponent } from './comp/workshophome/workshop/selectmonth/selectmonth.component';
+import { ArchivedialogComponent } from './comp/workshophome/workshop/archivedialog/archivedialog.component';
+import { SjnumberdialogComponent } from './comp/workshophome/workshop/sjnumberdialog/sjnumberdialog.component';
+import { SubmitweekdialogComponent } from './comp/workshophome/workshop/weekdialog/submitweekdialog/submitweekdialog.component';
 import { WorkshopfilesComponent } from './comp/rigs/machine/workshopfiles/workshopfiles.component';
 import { DateconvshortPipe } from './pipe/dateconvshort.pipe';
 import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialog/filedialog.component';
 import { SelectrangedialogComponent } from './comp/util/dialog/selectrangedialog/selectrangedialog.component'
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { WorkshophomeComponent } from './comp/workshophome/workshophome.component';
+import { TemplistComponent } from './comp/workshophome/templist/templist.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -301,7 +302,8 @@ export const MY_FORMATS = {
     DateconvshortPipe,
     FiledialogComponent,
     SelectrangedialogComponent,
-    WorkshophomeComponent
+    WorkshophomeComponent,
+    TemplistComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
