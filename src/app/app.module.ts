@@ -160,7 +160,6 @@ import { FiledialogComponent } from './comp/rigs/machine/workshopfiles/filedialo
 import { SelectrangedialogComponent } from './comp/util/dialog/selectrangedialog/selectrangedialog.component'
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { WorkshophomeComponent } from './comp/workshophome/workshophome.component';
-import { TemplistComponent } from './comp/workshophome/templist/templist.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -303,7 +302,6 @@ export const MY_FORMATS = {
     FiledialogComponent,
     SelectrangedialogComponent,
     WorkshophomeComponent,
-    TemplistComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

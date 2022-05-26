@@ -70,12 +70,29 @@ export class WorkshopComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.sortedData=this.list.slice()
-    this.fil(this.filter)
-    if(this.list.length>0) {
-      this.spin=false
-      //if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
-    }
+    let ch=this.list.length
+    let index:number=0
+    new Promise((res)=>{
+      this.list.forEach(a=>{
+        firebase.database().ref('wsFiles').child('sent').child(a.sn).child(a.id).child('days').on('value',k=>{
+          if(k.val()!=null) { 
+            a.temp=true
+          } else {
+            delete a.temp
+          }
+          index ++
+          if(index==ch) res('')
+        })
+      })
+    }).then(()=>{
+      this.sortedData=this.list.slice()
+      this.fil(this.filter)
+      if(this.list.length>0) {
+        this.spin=false
+        //if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
+      }
+    })
+    
   }
 
   calcCurrMonth(){

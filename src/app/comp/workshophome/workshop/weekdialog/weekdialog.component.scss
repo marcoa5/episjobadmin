@@ -41,3 +41,23 @@
         color: orange;
       }
 }
+
+    ::ng-deep .temp{
+        color: green;
+        .mat-form-field-label {
+            color: green;
+          }
+          .mat-form-field {
+              color: green;
+            }
+     }
+
+     ::ng-deep .sent{
+        color: blueviolet;
+        .mat-form-field-label {
+            color: blueviolet;
+          }
+          .mat-form-field {
+              color: blueviolet;
+            }
+     }
