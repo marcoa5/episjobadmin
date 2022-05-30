@@ -55,7 +55,7 @@ export class WeekdialogComponent implements OnInit {
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
     let sum:number=0
-    firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').once('value',a=>{
+    /*firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').once('value',a=>{
       sum=0
       if(a.val()!=null){
         a.forEach(b=>{
@@ -67,7 +67,7 @@ export class WeekdialogComponent implements OnInit {
     })
     .then(()=>{
       firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('hrs').set(sum)
-    })
+    })*/
   }
 
   onNoClick(){

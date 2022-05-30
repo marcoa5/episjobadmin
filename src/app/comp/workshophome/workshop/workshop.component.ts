@@ -112,7 +112,6 @@ export class WorkshopComponent implements OnInit {
   }
 
   getTotalSum(){
-    console.log(this.sortedData)
     return this.sortedData.map(a=>a.hrs).reduce((a,b)=>a+b,0)
   }
 

@@ -60,6 +60,7 @@ export class WorkshophomeComponent implements OnInit {
                 let t=c.val()
                 t.monthsum=a[0]
                 t.yearsum=a[1]
+                t.hrs=a[2]
                 this.list.push(t)
               })
             }
@@ -74,25 +75,26 @@ export class WorkshophomeComponent implements OnInit {
     return new Promise(res=>{
       let sumM:number=0
       let sumY:number=0
+      let sumT:number=0
       let check:string=moment(new Date()).format('YYYY-MM')
       let days:string[]=data?Object.keys(data):[]
       let ch:number=days.length
       let ind:number=0
       if(days.length>1){
         days.forEach(a=>{
+          let hrs:any=Object.values(data)[days.indexOf(a)]
+          sumT+=(hrs.v1?hrs.v1:0)+(hrs.v2?hrs.v2:0)+(hrs.v8?hrs.v8:0)
           if(a.substring(0,7)==check) {
-            let hrs:any=Object.values(data)[days.indexOf(a)]
-            sumM+=hrs.v1?hrs.v1:0+hrs.v2?hrs.v2:0+hrs.v8?hrs.v8:0
+            sumM+=(hrs.v1?hrs.v1:0)+(hrs.v2?hrs.v2:0)+(hrs.v8?hrs.v8:0)
           }
           if(a.substring(0,4)==check.substring(0,4)){
-            let hrs:any=Object.values(data)[days.indexOf(a)]
-            sumY+=hrs.v1?hrs.v1:0+hrs.v2?hrs.v2:0+hrs.v8?hrs.v8:0
+            sumY+=(hrs.v1?hrs.v1:0)+(hrs.v2?hrs.v2:0)+(hrs.v8?hrs.v8:0)
           }
           ind++
-          if(ind==ch) res([sumM,sumY])
+          if(ind==ch) res([sumM,sumY,sumT])
         })
       } else {
-        res([0,0])
+        res([0,0,0])
       }
     })
   }
