@@ -1,7 +1,7 @@
 <episjob-spin *ngIf="!dataSource"></episjob-spin>
 
-<div class="tablecont" *ngIf="dataSource" [class.mat-elevation-z2]="true"> 
-    <div class="tableCont">
+<div *ngIf="dataSource" [class.mat-elevation-z2]="true"> 
+    <div episjobTablecont>
         <table mat-table [dataSource]="oreSl" class="mat-elevation-z0" [ngStyle]="{'cursor' : chPos('SURights')? 'pointer' : 'standard'}">
             <ng-container matColumnDef="Date">
             <th mat-header-cell *matHeaderCellDef> Date </th>
