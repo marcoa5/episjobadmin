@@ -41,17 +41,17 @@
         <ng-container matColumnDef="hrs">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Hrs </th>
             <td mat-cell *matCellDef="let e" class="cen"> {{e.hrs}} </td>
-            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getTotalSum()}}</td>
+            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getTotalSum()?getTotalSum():0}}</td>
         </ng-container>
         <ng-container matColumnDef="year">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Year Hrs </th>
             <td mat-cell *matCellDef="let e" class="cen"> {{e.yearsum}} </td>
-            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getYearlySum()}}</td>
+            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getYearlySum()?getYearlySum():0}}</td>
         </ng-container>
         <ng-container matColumnDef="month">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Month Hrs </th>
             <td mat-cell *matCellDef="let e" class="cen"> {{e.monthsum}} </td>
-            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getMonthlySum()}}</td>
+            <td mat-footer-cell *matFooterCellDef  class="cen totRow">{{getMonthlySum()?getMonthlySum():0}}</td>
         </ng-container>
         <ng-container matColumnDef="add">
             <th mat-header-cell *matHeaderCellDef> Add </th>

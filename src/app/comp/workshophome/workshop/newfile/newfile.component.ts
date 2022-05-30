@@ -63,6 +63,7 @@ export class NewfileComponent implements OnInit {
   }
 
   save(a:any){
+    a.hrs=0
     firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).set(a)
     this.dialogRef.close(a)
   }
