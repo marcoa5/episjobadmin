@@ -198,17 +198,36 @@ export class WorkshopComponent implements OnInit {
     return this.auth.acc(a)
   }
 
-  archive(e:any){
+  getFileSum(f:any){
+    return new Promise((res,rej)=> {
+      let gg:any[]=Object.keys(f.days)
+      let sum:number=0
+      let ch:number=gg.length
+      let index:number=0
+      gg.forEach(a=>{
+        let b:any=Object.values(f.days)[Object.keys(f.days).indexOf(a)]
+        sum+=(b.v1?b.v1:0)+(b.v2?b.v2:0)+(b.v8?b.v8:0)
+        index++
+        if(index==ch) {res(sum)}
+      }) 
+    })    
+  }
+
+  async archive(e:any){
+    const hrs = await this.getFileSum(e)
     const arc = this.dialog.open(ArchivedialogComponent, {data:{file:e.file}})
     arc.afterClosed().subscribe(a=>{
       if(a){
         firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).once('value',h=>{
-          firebase.database().ref('wsFiles').child('archived').child(e.sn).child(e.id).set(h.val())
+          let vals=h.val()
+          vals.hrs=hrs
+          firebase.database().ref('wsFiles').child('archived').child(e.sn).child(e.id).set(vals)
         }).then(()=>{
           firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).remove()
         })
       }
     })
+
   }
 
   report(a:any){
