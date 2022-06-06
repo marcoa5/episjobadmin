@@ -233,6 +233,7 @@ export class PartsComponent implements OnInit {
 
   report(){
     this.ppt.loadParts().then((text:any)=>{
+      console.log(`Data exported:\n\n\n${text}`)
       navigator.clipboard.writeText(text).then(()=>{
         this.dialog.open(CopyComponent)
       })
