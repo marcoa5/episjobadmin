@@ -69,14 +69,15 @@ export class PartsComponent implements OnInit {
   }
 
   sea(e:any){
+    let g:string = e.toLowerCase()
     this.listSent=this._listSent.filter(r=>{
       return (
-        r.sn.toLowerCase().includes(e.toLowerCase()) ||
-        r.customer.toLowerCase().includes(e.toLowerCase()) ||
-        r.author.toLowerCase().includes(e.toLowerCase()) ||
-        r.model.toLowerCase().includes(e.toLowerCase()) ||
-        r.orig.toLowerCase().includes(e.toLowerCase()) ||
-        r.type.toLowerCase().includes(e.toLowerCase())
+        r.sn.toLowerCase().replace(/[.]/g,'').includes(g) ||
+        r.customer.toLowerCase().replace(/[.]/g,'').includes(g) ||
+        r.author.toLowerCase().replace(/[.]/g,'').includes(g) ||
+        r.model.toLowerCase().replace(/[.]/g,'').includes(g) ||
+        r.orig.toLowerCase().replace(/[.]/g,'').includes(g) ||
+        r.type.toLowerCase().replace(/[.]/g,'').includes(g)
       )
     })
   }
