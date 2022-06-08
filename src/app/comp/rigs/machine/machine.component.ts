@@ -738,7 +738,7 @@ export class MachineComponent implements OnInit {
 
   loadContract(){
     if(this.auth.acc('InternalRights')){
-      firebase.database().ref('Contracts').child(this.valore).on('value',a=>{
+      firebase.database().ref('Contracts').child('active').child(this.valore).on('value',a=>{
         this.contract=[]
         if(a.val()!=null) {
           a.forEach(b=>{

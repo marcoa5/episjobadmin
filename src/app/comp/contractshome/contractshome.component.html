@@ -1,0 +1,9 @@
+<episjob-navbar title="Contracts" [cerca]="false"></episjob-navbar>
+<div *ngIf="allow" episjobCont>
+    <episjob-contracts [contractList]="contractList" *ngIf="!contractsSpin"></episjob-contracts>
+    <episjob-spin *ngIf="contractsSpin "></episjob-spin>
+    <episjob-archivedcontracts [archivedList]="archivedList" *ngIf="!archivedSpin && archivedList.length>0"></episjob-archivedcontracts>
+    <episjob-spin *ngIf="archivedSpin"></episjob-spin>
+</div>
+
+<div *ngIf="!allow" episjobCont>Restricted Area</div>

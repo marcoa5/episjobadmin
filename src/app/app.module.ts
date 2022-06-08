@@ -136,18 +136,18 @@ import { ContMaxWidthDirective } from './dir/cont-max-width.directive';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NewdataComponent } from './comp/util/dialog/newdata/newdata.component';
 import { AlertComponent } from './comp/util/dialog/alert/alert.component';
-import { ContractsComponent } from './comp/contracts/contracts.component';
-import { NewcontractComponent } from './comp/contracts/newcontract/newcontract.component';
-import { ContractalreadyexistsdialogComponent } from './comp/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component';
-import { AttachmentdialogComponent } from './comp/contracts/attachmentdialog/attachmentdialog.component';
-import { AttachalreadyexistsComponent } from './comp/contracts/attachalreadyexists/attachalreadyexists.component';
+import { ContractsComponent } from './comp/contractshome/contracts/contracts.component';
+import { NewcontractComponent } from './comp/contractshome/contracts/newcontract/newcontract.component';
+import { ContractalreadyexistsdialogComponent } from './comp/contractshome/contracts/contractalreadyexistsdialog/contractalreadyexistsdialog.component';
+import { AttachmentdialogComponent } from './comp/contractshome/contracts/attachmentdialog/attachmentdialog.component';
+import { AttachalreadyexistsComponent } from './comp/contractshome/contracts/attachalreadyexists/attachalreadyexists.component';
 import { WorkshopComponent } from './comp/workshophome/workshop/workshop.component';
 import { NewfileComponent } from './comp/workshophome/workshop/newfile/newfile.component';
 import { SelectmachineComponent } from './comp/util/selectmachine/selectmachine.component';
 import { SavedialogComponent } from './comp/util/dialog/savedialog/savedialog.component';
 import { RigcontractComponent } from './comp/rigs/machine/rigcontract/rigcontract.component';
-import { TarifsComponent } from './comp/contracts/newcontract/tarifs/tarifs.component';
-import { DiscountsComponent } from './comp/contracts/newcontract/discounts/discounts.component';
+import { TarifsComponent } from './comp/contractshome/contracts//newcontract/tarifs/tarifs.component';
+import { DiscountsComponent } from './comp/contractshome/contracts/newcontract/discounts/discounts.component';
 import { WeekdialogComponent } from './comp/workshophome/workshop/weekdialog/weekdialog.component';
 import { DateconvdayPipe } from './pipe/dateconvday.pipe';
 import { SelectmonthComponent } from './comp/workshophome/workshop/selectmonth/selectmonth.component';
@@ -162,6 +162,9 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
 import { WorkshophomeComponent } from './comp/workshophome/workshophome.component';
 import { TablecontDirective } from './dir/tablecont.directive';
 import { MachinecontDirective } from './dir/machinecont.directive';
+import { ContractshomeComponent } from './comp/contractshome/contractshome.component';
+import { ArchivedcontractsComponent } from './comp/contractshome/archivedcontracts/archivedcontracts.component';
+import { ArchivecontractdialogComponent } from './comp/contractshome/contracts/archivecontractdialog/archivecontractdialog.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -306,6 +309,9 @@ export const MY_FORMATS = {
     WorkshophomeComponent,
     TablecontDirective,
     MachinecontDirective,
+    ContractshomeComponent,
+    ArchivedcontractsComponent,
+    ArchivecontractdialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -1,0 +1,6 @@
+<form [formGroup]="discount" class="cont">
+    <mat-form-field *ngFor="let d of labels">
+        <mat-label>{{d.lab.toUpperCase()}}</mat-label>
+        <input matInput [type]="d.type" [placeholder]="d.ph?d.ph:''" [step]="d.dim" [formControlName]="d.lab" autocomplete="off" (input)="send($event)" [readonly]="pos!='SU' && pos!='admin' && pos!='adminS'">
+    </mat-form-field>
+</form>

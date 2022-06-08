@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
       auth:['SU','adminS','sales','']
     },
     {
-      id:'Contacts',
+      id:'People',
       icon:'account_box', 
       route:'contacts', 
       dis:false, 

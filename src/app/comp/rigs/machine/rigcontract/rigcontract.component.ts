@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { AttachmentdialogComponent } from 'src/app/comp/contracts/attachmentdialog/attachmentdialog.component';
-import { NewcontractComponent } from 'src/app/comp/contracts/newcontract/newcontract.component';
+import { AttachmentdialogComponent } from 'src/app/comp/contractshome/contracts/attachmentdialog/attachmentdialog.component';
+import { NewcontractComponent } from 'src/app/comp/contractshome/contracts/newcontract/newcontract.component';
 import { NewcontactComponent } from 'src/app/comp/util/dialog/newcontact/newcontact.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
