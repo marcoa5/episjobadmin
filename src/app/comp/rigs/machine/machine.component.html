@@ -1,4 +1,5 @@
 <episjob-navbar [backB]="'rigs'" [title]="'Equipment'" [cerca]="false"  [home]="true"></episjob-navbar>
+
 <div (window:resize)="onResize()" *ngIf="allow">
     
     <div class="mainCont" episjobCont *ngIf="customer">
@@ -62,5 +63,5 @@
     </div>
     <episjob-editdelbut [valore]="valore" [machine]="true" class="butt" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()" (sjReport)="reportSJ()"></episjob-editdelbut>
 </div>
-<div class="mainCont" *ngIf="!allow">Restricted area</div>
+<div class="mainCont" episjobCont *ngIf="!allow">Restricted area</div>
 

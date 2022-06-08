@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
       icon:'class', 
       route:'contracts', 
       dis:false, 
-      auth:['SU','admin','adminS','sales']
+      auth:['SU','admin','adminS','sales','tech']
     },
     {
       id:'Workshop',
