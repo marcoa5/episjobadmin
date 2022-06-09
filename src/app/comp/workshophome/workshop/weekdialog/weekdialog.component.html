@@ -7,7 +7,7 @@
     </h4>
     <div class="week">
         <form [formGroup]="weekForm" >
-            <div *ngFor="let d of week; let i = index" class="formGroup" >
+            <div *ngFor="let d of week; let i = index" [ngClass]="{'formGroup':!chPos('AdminTechRights'),'formGroupSU':chPos('AdminTechRights')}" >
                 <mat-form-field class="hid" [ngClass]="{'holy':d.holy=='fest', 'sat':d.holy=='sat','temp':d.temp, 'sent':d.sent}">
                     <mat-label>{{d.day|dateconvday}}</mat-label>
                     <input type="number" autocomplete="off" matInput [formControlName]="'dd'+(i+1)" readonly>
@@ -26,8 +26,13 @@
                 </mat-form-field>
                 <mat-form-field [ngClass]="{'holy':d.holy=='fest', 'sat':d.holy=='sat','temp':d.temp, 'sent':d.sent}">
                     <mat-label>{{firstLetter}}8{{d.temp?'*':''}}</mat-label>
-                    <input type="number" autocomplete="off" min="0"  step="0.5" matInput [formControlName]="'v8'+(i+1)" (input)="write(d,'v8',i)" [readonly]="d.holy!='fest'">
-                </mat-form-field>               
+                    <input type="number" autocomplete="off" min="0"  step="0.5" matInput [formControlName]="'v8'+(i+1)" (input)="write(d,'v8',i)" [readonly]="d.holy!='fest'">          
+                </mat-form-field>
+                <div class="icons" *ngIf="chPos('AdminTechRights')">
+                    <button mat-icon-button *ngIf="d.lock" (click)="lock(i)"><mat-icon  class="locked">lock</mat-icon></button>
+                    <button mat-icon-button *ngIf="!d.lock"  (click)="lock(i)"><mat-icon >lock_open</mat-icon> </button>
+                </div>
+                
             </div>
         </form>
     </div>

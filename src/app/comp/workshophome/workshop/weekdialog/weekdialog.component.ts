@@ -182,6 +182,15 @@ export class WeekdialogComponent implements OnInit {
           }
         })
         .finally(()=>{
+          ref=firebase.database().ref('wsFiles').child('lockws')
+          ref.child(this.data.sn).child(this.data.id).child('days').child(yi).once('value',a=>{
+            let u=this.week.map(f=>{return f.day}).indexOf(a.key)+1
+            if(a.val()!=null) {
+              this.week[u-1].lock=true
+            } else {
+              this.week[u-1].lock=false
+            }
+          })
           ref=firebase.database().ref('wsFiles').child('sent')
           ref.child(this.data.sn).child(this.data.id).child('days').child(yi).once('value',a=>{
             if(a.val()!=null){
@@ -303,6 +312,27 @@ export class WeekdialogComponent implements OnInit {
       })
     })
     this.createWeek()
+  }
+
+  chPos(role:string){
+    return this.auth.acc(role)
+  }
+
+  lock(i:number){
+    let ref=firebase.database().ref('wsFiles').child('lockws').child(this.data.sn).child(this.data.id).child('days').child(this.week[i].day)
+    ref.once('value',a=>{
+      if(a.val()==null) {
+        ref.set({lock:true})
+        .then(()=>{
+          this.week[i].lock=true
+        })
+      } else {
+        ref.remove()
+        .then(()=>{
+          this.week[i].lock=false
+        })
+      }
+    })
   }
 }
 

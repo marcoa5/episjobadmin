@@ -13,6 +13,16 @@
     gap:0 5px;
 }
 
+.formGroupSU{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) repeat(3, 15%) 24px;
+  gap:0 5px;
+}
+
+.formGroup, .formGroupSU{
+  align-items: center;
+}
+
 @media screen and (max-width:500px) {
     .hid{
         display: none;
@@ -20,6 +30,19 @@
     .formGroup{
         grid-template-columns: repeat(1, 1fr) repeat(3, 20%);
     }
+
+    .formGroupSU{
+      grid-template-columns: repeat(1, 1fr) repeat(3, 20%) 24px;
+  }
+}
+
+.icons{
+  cursor: pointer;
+  margin-top: -16px;
+}
+
+.locked{
+  color:red;
 }
 
 ::ng-deep .holy {
