@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { Router } from '@angular/router'
 import { Location } from '@angular/common'
 
@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
   @Input() backB:any = ''
   @Output() filter = new EventEmitter()
   @Input() hide:boolean=true
-  
+  chLar:boolean=true
   constructor(private router:Router, private location:Location) { }
 
   oldPosition:number=0;
@@ -26,6 +26,14 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.largh(1)
     this.scrollaV= true
+    this.onResize()
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    setTimeout(() => {
+      if(window.innerWidth>500) {this.chLar=true} else {this.chLar=false}
+    }, 1);
   }
 
   scrolla(e:Event){
@@ -75,11 +83,6 @@ export class NavbarComponent implements OnInit {
     } else {
       this.lar=false
     } 
-  }
-
-  chLar(){
-    if(window.innerWidth>550) return true
-    return false
   }
 
   homeNav(){

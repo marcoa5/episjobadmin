@@ -39,6 +39,7 @@ export class AppComponent {
   spin:boolean=true
   chName:boolean=false
   pos:string=''
+  size:boolean=true
   version:string=''
   subsList:Subscription[]=[]
 
@@ -126,31 +127,27 @@ export class AppComponent {
   @HostListener('window:resize', ['$event'])
   onResize() {
     return new Promise(res=>{
-      if(window.innerHeight<window.innerWidth){
-        this.orient=true
-        res('')
-      } else {
-        this.orient = false
-        res('')
-      }
-      if(window.innerWidth>500) {
-        this.screenSize =true
-        res('')
-      } else {
-        this.screenSize =false
-        res('')
-      }
+      setTimeout(() => {
+        if(window.innerHeight<window.innerWidth){
+          this.orient=true
+          res('')
+        } else {
+          this.orient = false
+          res('')
+        }
+        if(window.innerWidth>500) {
+          this.screenSize =true
+          res('')
+        } else {
+          this.screenSize =false
+          res('')
+        }
+      }, 1)
     })
   }
-  userName(a:any){
+  /*userName(a:any){
     this.userN=a
-  }
-
-  size(){
-    if(window.innerWidth>500) return true
-    return false
-  }
-
+  }*/
 
   logout(){
     let info = {
@@ -166,11 +163,6 @@ export class AppComponent {
     const dialogRef = this.dialog.open(LogoutComponent, {
       data: info
     });
-  }
-
-  userExists(){
-    if(this.userN && this.userN!='null') return true
-    return false 
   }
 
   navNot(){

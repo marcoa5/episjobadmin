@@ -7,14 +7,14 @@
     <!--<span class="bold">{{screenSize? 'Admin Tool' : ''}}</span>
     <span class="example-spacer"> </span>-->
     
-    <span class="contUser" *ngIf="userExists()">
+    <span class="contUser" *ngIf="userN && userN!='null'">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="chName">
         <mat-icon>person</mat-icon>
-        {{size()? nome + ' ' + cognome: userN}}
+        {{screenSize? nome + ' ' + cognome: userN}}
       </button>
       
     </span>
-    <span class="notif" *ngIf="userExists()">
+    <span class="notif" *ngIf="userN && userN!='null'">
       <button mat-raised-button class="example-icon" (click)="navNot()" color="accent" [matBadge]="not" matBadgeColor="warn" [matBadgeHidden]="not==0" *ngIf="chName">
         <mat-icon>mail_outline</mat-icon>
       </button>

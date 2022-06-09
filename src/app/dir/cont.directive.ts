@@ -10,18 +10,21 @@ export class ContDirective {
   }
 
   ngOnInit(){
-    this.onResize()
     this.el.nativeElement.style.setProperty('margin', '10px 0')
     this.el.nativeElement.style.setProperty('gap', '10px')
+    this.onResize()
+
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if(window.innerWidth<701){
-      this.el.nativeElement.style.setProperty('padding', '50px 10px 80px 10px')
-    } else {
-      this.el.nativeElement.style.setProperty('padding', '50px 10px 30px 75px')
-    }
+      setTimeout(() => {
+        if(window.innerWidth<701){
+          this.el.nativeElement.style.setProperty('padding', '50px 10px 80px 10px')
+        } else {
+          this.el.nativeElement.style.setProperty('padding', '50px 10px 30px 75px')
+        }
+      }, 1);
   }
 
 
