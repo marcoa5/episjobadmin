@@ -13,9 +13,9 @@ table{
 }
 
 .icoCont{
-    display: grid;
-    grid-template-columns: 25px 1fr;
+    display: flex;
     align-items: center;
+    justify-content: center;
     gap:5px;
 }
 
@@ -25,4 +25,13 @@ table{
 
 .cursor{
     cursor: pointer;
+}
+
+:host ::ng-deep .cen .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+.cen{
+    text-align: center;
 }

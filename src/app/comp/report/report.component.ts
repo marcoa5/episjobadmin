@@ -36,7 +36,32 @@ export class ReportComponent implements OnInit {
   _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
   allow:boolean=false
-  info:any[]=[]
+  info:any[]=[{
+    "machineItemNumber": "8992009970",
+    "machineCompany": "Manfredi Technique srl (Cave Gioia)",
+    "machineSite": "Carrara",
+    "machineModel": "FlexiROC D50 -10SF",
+    "machineSerialNr": "TMG16SED0091",
+    "LastDayEngineHours": 0,
+    "serviceStep": "250 (A-250)",
+    "hoursLeftToService": 250,
+    "servicePredictedDate": "2018-12-03T23:56:06Z",
+    "machineHrs": 0,
+    "machineNote": "1"
+},
+{
+  "machineItemNumber": "8992009970",
+  "machineCompany": "Manfredi Technique srl (Cave Gioia)",
+  "machineSite": "Carrara",
+  "machineModel": "FlexiROC D50 -10SF",
+  "machineSerialNr": "TMG16SED0091",
+  "LastDayEngineHours": 0,
+  "serviceStep": "250 (A-250)",
+  "hoursLeftToService": 250,
+  "servicePredictedDate": "2018-12-03T23:56:06Z",
+  "machineHrs": 0,
+  "machineNote": "1"
+},]
   allSpin:boolean=true
   strSea:string=''
   subsList:Subscription[]=[]
@@ -55,6 +80,7 @@ export class ReportComponent implements OnInit {
         this.allSpin=false
       })
     )
+    this.sortedData=this.info.slice()
   }
 
   ngOnDestroy(){

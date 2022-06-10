@@ -6,6 +6,7 @@ table{
 
 mat-icon{cursor: pointer;}
 
+
 .cur{
     cursor: pointer;
 }
@@ -19,7 +20,8 @@ mat-icon{cursor: pointer;}
 }
 
 .cen{
-    text-align: center;
+    text-align: center !important;
+
 }
 
 .right{
@@ -34,4 +36,9 @@ mat-icon{cursor: pointer;}
     background-color: blueviolet;
     color:white;
     border-radius: 15px;
+}
+
+:host ::ng-deep .cen .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
 }

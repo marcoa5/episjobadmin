@@ -47,7 +47,7 @@ export class WorkshopComponent implements OnInit {
       if(this.type=='a') this.displayedColumns=['file','SJ','ws']
     } else{
       if(this.type=='f') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','year','month','add','report','tot','archive']
-      if(this.type=='a') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','report','tot']
+      if(this.type=='a') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','tot']
     }
   }
 

@@ -32,3 +32,12 @@ th{
 .cursor{
     cursor: pointer;
 }
+
+:host ::ng-deep .cen .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+.cen{
+    text-align: center;
+}

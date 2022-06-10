@@ -1,0 +1,7 @@
+@import '../../../epi.scss';
+
+.main{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:15px;
+}
