@@ -166,9 +166,6 @@ export class ContractsComponent implements OnInit {
     })    
   }
 
-
-
-
   openRig(a:string){
     this.router.navigate(['machine', {sn:a}])
   }

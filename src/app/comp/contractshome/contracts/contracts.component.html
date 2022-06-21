@@ -15,7 +15,7 @@
     </ng-container>
     <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        <td mat-cell *matCellDef="let element" class="cursor" (click)="add(element)"> {{element.type}} </td>
     </ng-container>
     <ng-container matColumnDef="start">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="cen"> Start </th>
