@@ -89,7 +89,7 @@ export class WorkshopComponent implements OnInit {
       this.fil(this.filter)
       if(this.list.length>0) {
         this.spin=false
-        //if(this.type=='f') this.calcCurrMonth().then(a=>console.log(a))
+
       }
     })
     

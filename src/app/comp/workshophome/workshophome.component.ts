@@ -80,7 +80,7 @@ export class WorkshophomeComponent implements OnInit {
       let days:string[]=data?Object.keys(data):[]
       let ch:number=days.length
       let ind:number=0
-      if(days.length>1){
+      if(days.length>0){
         days.forEach(a=>{
           let hrs:any=Object.values(data)[days.indexOf(a)]
           sumT+=(hrs.v1?hrs.v1:0)+(hrs.v2?hrs.v2:0)+(hrs.v8?hrs.v8:0)
