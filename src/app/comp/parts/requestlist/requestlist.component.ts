@@ -240,7 +240,7 @@ export class RequestlistComponent implements OnInit {
             setTimeout(() => {
               wait.close()
             }, 20000);
-            this.http.get(url + 'partreq',{params:params, responseType: 'json'}).subscribe((a: any)=>{
+            this.http.post(url + 'partreq',this.info, {responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()

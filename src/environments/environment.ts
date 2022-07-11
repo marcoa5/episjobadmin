@@ -13,8 +13,8 @@ export const environment = {
     {val:'AFM', desc: 'AF MAC & SERVICE SRL'},
     {val:'CAR', desc: 'OFFICINA CARUSO SRL'},
   ],
-  //url: 'http://localhost:3001/'
-  url: 'https://episjobreq.herokuapp.com/'
+  url: 'http://localhost:3001/'
+  //url: 'https://episjobreq.herokuapp.com/'
   //url: '/api/'
 
 };
