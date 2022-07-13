@@ -68,22 +68,12 @@ export class SjlistComponent implements OnInit {
 
   delete(n:number){
     let a = this._list[n]
-    let name = a.datafin.replace(/-/g,'') + '-' + a.tecnico11
-    firebase.database().ref('Saved').child(a.matricola).child(name).once('value',g=>{
+    firebase.database().ref('Saved').child(a.matricola.toUpperCase()).child(a.path).once('value',g=>{
+      console.log(g.val())
       if(g.val()!=null) {
         const dia = this.dialog.open(DeldialogComponent, {data:{name:'Doc nr', desc:'SJ nr. ' + a.docbpcs + ' - ' + a.data11}})
         dia.afterClosed().subscribe(res=>{
-          if(res) firebase.database().ref('Saved').child(a.matricola).child(name).remove()
-        })
-      } else {
-        name = a.datafin.replace(/-/g,'')
-        firebase.database().ref('Saved').child(a.matricola).child(name).once('value',g=>{
-          if(g.val()!=null) {
-            const dia = this.dialog.open(DeldialogComponent, {data:{name:'Doc nr', desc:'SJ nr. ' + a.docbpcs + ' - ' + a.data11}})
-            dia.afterClosed().subscribe(res=>{
-              if(res) firebase.database().ref('Saved').child(a.matricola).child(name).remove()
-            })
-          }
+          if(res) firebase.database().ref('Saved').child(a.matricola).child(a.path).remove()
         })
       }
     })

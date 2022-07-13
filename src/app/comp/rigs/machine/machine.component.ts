@@ -269,6 +269,7 @@ export class MachineComponent implements OnInit {
         if(g.key && g.key.substring(0,8)>=iniz && g.key.substring(0,8)<=fine){
           let r = g.val()
           r.datafin = g.key.substring(0,4) + '-' + g.key.substring(4,6)+ '-' + g.key.substring(6,8)
+          r.path = g.key
           this.sjList.push(r)
         }        
       })

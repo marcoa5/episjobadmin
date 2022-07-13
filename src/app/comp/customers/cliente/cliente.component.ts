@@ -84,6 +84,10 @@ export class ClienteComponent implements OnInit {
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
+  loadAddress(){
+    firebase.database().ref('CustAddress').
+  }
+
   getFleet(a:any[]){
     this.rigsLabels=[]
     this._rigsLabels=[]
