@@ -6,6 +6,11 @@ import { Router } from '@angular/router'
 import { MatPaginatorIntl } from '@angular/material/paginator'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SjdialogComponent } from './sjdialog/sjdialog.component';
+import { Subscription } from 'rxjs';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { DeldialogComponent } from 'src/app/comp/util/dialog/deldialog/deldialog.component';
+import * as moment from 'moment'
+import { ignoreElements } from 'rxjs/operators';
 
 @Component({
   selector: 'episjob-sjlist',
@@ -24,16 +29,29 @@ export class SjlistComponent implements OnInit {
   @Input() customer:string = ''
   @Input() model:string = ''
   @Input() sortDA:boolean=true
-  constructor(private router: Router, private paginator: MatPaginatorIntl, private dialog: MatDialog) { }
+  subsList:Subscription[]=[]
+  pos:string=''
+  constructor(private router: Router, private paginator: MatPaginatorIntl, private dialog: MatDialog, private auth:AuthServiceService) { }
 
   
   ngOnInit(): void {
-    
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a) {
+          this.pos=a.Pos
+          if(this.pos=='SU') this.displayedColumns=['Date', 'Doc#', 'Tech','del']
+        }
+      })
+    )
   }
 
   ngOnChanges(){
     this.list.reverse()
     this._list = this.list.slice(this.inizio,this.fine)
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   split(e:any){
@@ -45,6 +63,29 @@ export class SjlistComponent implements OnInit {
   open(n:number){
     const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data: this._list[n]})
     dialogSJ.afterClosed().subscribe(a=>{
+    })
+  }
+
+  delete(n:number){
+    let a = this._list[n]
+    let name = a.datafin.replace(/-/g,'') + '-' + a.tecnico11
+    firebase.database().ref('Saved').child(a.matricola).child(name).once('value',g=>{
+      if(g.val()!=null) {
+        const dia = this.dialog.open(DeldialogComponent, {data:{name:'Doc nr', desc:'SJ nr. ' + a.docbpcs + ' - ' + a.data11}})
+        dia.afterClosed().subscribe(res=>{
+          if(res) firebase.database().ref('Saved').child(a.matricola).child(name).remove()
+        })
+      } else {
+        name = a.datafin.replace(/-/g,'')
+        firebase.database().ref('Saved').child(a.matricola).child(name).once('value',g=>{
+          if(g.val()!=null) {
+            const dia = this.dialog.open(DeldialogComponent, {data:{name:'Doc nr', desc:'SJ nr. ' + a.docbpcs + ' - ' + a.data11}})
+            dia.afterClosed().subscribe(res=>{
+              if(res) firebase.database().ref('Saved').child(a.matricola).child(name).remove()
+            })
+          }
+        })
+      }
     })
   }
 }

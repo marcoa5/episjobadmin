@@ -13,6 +13,10 @@
             <th mat-header-cell *matHeaderCellDef class="center"> Tech </th>
             <td mat-cell *matCellDef="let a; let i = index" (click)="open(i)" class="center"> {{a.tecnico11}} </td>
         </ng-container>
+        <ng-container matColumnDef="del">
+            <th mat-header-cell *matHeaderCellDef class="center"> Del </th>
+            <td mat-cell *matCellDef="let a; let i = index" (click)="delete(i)" class="center"><mat-icon>delete</mat-icon> </td>
+        </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
