@@ -165,6 +165,7 @@ import { MachinecontDirective } from './dir/machinecont.directive';
 import { ContractshomeComponent } from './comp/contractshome/contractshome.component';
 import { ArchivedcontractsComponent } from './comp/contractshome/archivedcontracts/archivedcontracts.component';
 import { ArchivecontractdialogComponent } from './comp/contractshome/contracts/archivecontractdialog/archivecontractdialog.component';
+import { AddressDialogComponent } from './comp/customers/cliente/address-dialog/address-dialog.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -312,6 +313,7 @@ export const MY_FORMATS = {
     ContractshomeComponent,
     ArchivedcontractsComponent,
     ArchivecontractdialogComponent,
+    AddressDialogComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

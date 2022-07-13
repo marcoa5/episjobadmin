@@ -75,7 +75,6 @@ export class ContractshomeComponent implements OnInit {
   getDownload(list:any[]){
     let data:string=''
     this.getKeys(list).then((keys:any)=>{
-      console.log(keys)
       keys.sort()
       data+=(keys.join('\t')+'\n').toUpperCase()
       list.forEach(item=>{

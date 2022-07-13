@@ -10,6 +10,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CopyComponent } from '../../util/dialog/copy/copy.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { AddressDialogComponent } from './address-dialog/address-dialog.component';
+import { AttachmentdialogComponent } from '../../contractshome/contracts/attachmentdialog/attachmentdialog.component';
 
 export interface rigsLabel {
   lab: string
@@ -45,7 +48,13 @@ export class ClienteComponent implements OnInit {
   rigs:any[]=[]
   subsList:Subscription[]=[]
   routeP!:Subscription
-  constructor(public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {}
+  _address:any[]=[]
+  address:any[]=[]
+  add!:FormGroup
+
+  constructor(private fb: FormBuilder, public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
+    this.add=this.fb.group({})
+  }
 
   ngOnInit(): void {
     this.routeP = this.route.params.subscribe(a=>{
@@ -77,6 +86,7 @@ export class ClienteComponent implements OnInit {
       this.auth._fleet.subscribe(a=>{this.getFleet(a)})
     )
     this.getVisits() 
+    this.loadAddress()
   }
 
   ngOnDestroy(){
@@ -85,7 +95,28 @@ export class ClienteComponent implements OnInit {
   }
 
   loadAddress(){
-    firebase.database().ref('CustAddress').
+    firebase.database().ref('CustAddress').child(this.id).on('value',a=>{
+      this._address=[]
+      this.address=[]
+      if(a.val()!=null){
+        let index:number=0
+        let check:number = Object.keys(a.val()).length
+        new Promise(res=>{
+          a.forEach(b=>{
+            index++
+            let c=b.val()
+            this._address.push({value: c.add,path:this.id + '/' + b.key})
+            if(index==check) res('')
+          })
+        }).then(()=>{
+          this.add = this.fb.group({})
+          this._address.forEach((t,i)=>{
+            this.add.addControl('ad'+i,new FormControl(t.value))
+          })
+          this.address=this._address.slice()
+        }) 
+      }
+    })
   }
 
   getFleet(a:any[]){
@@ -202,6 +233,26 @@ export class ClienteComponent implements OnInit {
 
   chPos(a:string){
     return this.auth.acc(a)
+  }
+
+  open(value:string,path:string){
+    const dia = this.dialog.open(AddressDialogComponent, {panelClass: 'attachment' , data:{value:value, path:path}})
+    dia.afterClosed().subscribe(res=>{
+      if(res) {
+        firebase.database().ref('CustAddress').child(path).child('add').set(res)
+        .then(()=>{
+          firebase.database().ref('shipTo').once('value',k=>{
+            if(k.val()){
+              k.forEach(o=>{
+                if(o.val().address==value) {
+                  firebase.database().ref('shipTo').child(o.key!).child('address').set(res)
+                }
+              })
+            }
+          })
+        })
+      }
+    })
   }
 }
 

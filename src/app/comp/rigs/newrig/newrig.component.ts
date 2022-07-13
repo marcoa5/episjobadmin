@@ -41,7 +41,7 @@ export class NewrigComponent implements OnInit {
   custId:string=''
   conList:any={}
   spin:boolean=true
-  addr:any[]=[]
+  addr:any={}
   addV:any
   cId:string=''
   subsList:Subscription[]=[]
@@ -218,7 +218,7 @@ export class NewrigComponent implements OnInit {
   }
 
   getCustInfo(){
-    this.addr=[]
+    this.addr={}
     return new Promise((res,rej)=>{
       this.conList={}
       this.shipTo.controls.address.setValue(null)
@@ -236,7 +236,13 @@ export class NewrigComponent implements OnInit {
         }
       })
       firebase.database().ref('CustAddress').child(this.custId).on('value',a=>{
-        if(a.val()!=null) this.addr=Object.values(a.val()).map((b:any)=>{return b.add}).sort()
+        console.log(a.val())
+        if(a.val()!=null) {
+          a.forEach(b=>{
+            this.addr[b.key!]=a.val().add
+          })
+        }
+        console.log(this.addr)
         res('ok')
       })
     })

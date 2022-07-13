@@ -14,7 +14,16 @@
         <episjob-h2 padtop=0 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
-    <div class="item4" *ngIf="chPos('SalesRights')">
+    <div class="item4">
+        <episjob-h2 padtop=0 icon="map" *ngIf="address!=undefined && address.length>0" data="ShipTo Addresses"></episjob-h2> 
+        <form [formGroup]="add" class="addList">
+            <mat-form-field *ngFor="let a of address; let i = index" (click)="open(a.value,a.path)" class="cur">
+                <mat-label>{{a.lab}}</mat-label>
+                <input matInput readonly [formControlName]="'ad' + i" >
+            </mat-form-field>
+        </form>
+    </div>    
+    <div class="item5" *ngIf="chPos('SalesRights')">
         <episjob-h2 padtop=0 icon="trending_up" [data]="'Sales Potential ' + anno"></episjob-h2> 
         <episjob-potential [custId]="id"></episjob-potential>
     </div>
