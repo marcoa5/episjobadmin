@@ -8,6 +8,7 @@
     </form>
 </div>
 <div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="delete(data.value)"><mat-icon>delete</mat-icon></button>
     <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
     <button mat-raised-button color="primary" [disabled]="check() || add.invalid" [mat-dialog-close]="add.controls.address.value">Update</button>
 </div>

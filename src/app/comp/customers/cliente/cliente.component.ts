@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { AddressDialogComponent } from './address-dialog/address-dialog.component';
 import { AttachmentdialogComponent } from '../../contractshome/contracts/attachmentdialog/attachmentdialog.component';
+import { NewaddressComponent } from '../../util/dialog/newaddress/newaddress.component';
+import { MakeidService } from 'src/app/serv/makeid.service';
 
 export interface rigsLabel {
   lab: string
@@ -52,7 +54,7 @@ export class ClienteComponent implements OnInit {
   address:any[]=[]
   add!:FormGroup
 
-  constructor(private fb: FormBuilder, public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
+  constructor(private makeId:MakeidService , private fb: FormBuilder, public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
     this.add=this.fb.group({})
   }
 
@@ -102,10 +104,10 @@ export class ClienteComponent implements OnInit {
         let index:number=0
         let check:number = Object.keys(a.val()).length
         new Promise(res=>{
-          a.forEach(b=>{
+          a.forEach((b)=>{
             index++
             let c=b.val()
-            this._address.push({value: c.add,path:this.id + '/' + b.key})
+            this._address.push({value: c.add,path:this.id + '/' + b.key,lab:'Address #'+index})
             if(index==check) res('')
           })
         }).then(()=>{
@@ -238,7 +240,7 @@ export class ClienteComponent implements OnInit {
   open(value:string,path:string){
     const dia = this.dialog.open(AddressDialogComponent, {panelClass: 'attachment' , data:{value:value, path:path}})
     dia.afterClosed().subscribe(res=>{
-      if(res) {
+      if(res && res!='delete') {
         firebase.database().ref('CustAddress').child(path).child('add').set(res)
         .then(()=>{
           firebase.database().ref('shipTo').once('value',k=>{
@@ -251,6 +253,31 @@ export class ClienteComponent implements OnInit {
             }
           })
         })
+      } else if(res=='delete') {
+        console.log(path)
+        firebase.database().ref('CustAddress').child(path).remove()
+        .then(()=>{
+          firebase.database().ref('shipTo').once('value',k=>{
+            if(k.val()){
+              k.forEach(o=>{
+                if(o.val().address==value) {
+                  firebase.database().ref('shipTo').child(o.key!).child('address').remove()
+                }
+              })
+            }
+          })
+        })
+      }
+    })
+  }
+
+  addAddress(){
+    console.log(this.id)
+    const dia= this.dialog.open(NewaddressComponent)
+    dia.afterClosed().subscribe(res=>{
+      if(res) {
+        let addId:string = this.makeId.makeId(8)
+        firebase.database().ref('CustAddress').child(this.id).child(addId).child('add').set(res)
       }
     })
   }

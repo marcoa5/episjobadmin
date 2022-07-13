@@ -35,6 +35,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() newCont = new EventEmitter()
   @Output() sjReport = new EventEmitter()
   @Output() hrsReport = new EventEmitter()
+  @Output() addA = new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -133,6 +134,10 @@ export class EditdelbutComponent implements OnInit {
         const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
       }
     })
+  }
+
+  addAdd(){
+    this.addA.emit('ok')
   }
 
   chPos(a:string){
