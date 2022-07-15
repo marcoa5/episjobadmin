@@ -22,6 +22,12 @@
     column-gap: 15px;
 }
 
+@media screen and (max-width:600px) {
+    .addList{
+        grid-template-columns: 1fr;
+    }    
+}
+
 .cur{
     cursor: pointer;
 }
