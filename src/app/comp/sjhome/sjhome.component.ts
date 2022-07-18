@@ -226,7 +226,7 @@ export class SjhomeComponent implements OnInit {
   }
 
   loadSent(n?:number){
-    if((n==undefined || n ==null)) n=5
+    //if((n==undefined || n ==null)) n=10
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
       this._listSent=[]
       a.forEach(b=>{
@@ -240,7 +240,7 @@ export class SjhomeComponent implements OnInit {
         if(a.data_new>b.data_new) return -1
         if(a.data_new<b.data_new) return 1
         return 0
-      }).slice(0,n)
+      }).slice()
     })   
   }
 
