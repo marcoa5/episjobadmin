@@ -54,6 +54,16 @@
     margin-bottom: 5px;
 }
 
+.contUp{
+    display: grid;
+    grid-template-columns: 1fr 40px;
+}
+
+.contUp1{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
 @media screen and (max-width:800px){
     .cont{
         grid-template-columns: repeat(2, 1fr);

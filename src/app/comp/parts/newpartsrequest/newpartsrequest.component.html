@@ -6,17 +6,32 @@
     <h4 class="typeH">Request type</h4>
     <mat-radio-group class="button" [(ngModel)]="type">
       <mat-radio-button value="Service">Service</mat-radio-button>
-      <mat-radio-button value="CustomerSupport">Customer Support</mat-radio-button>
+      <mat-radio-button value="CustomerSupport" *ngIf="customer!='IMI FABI'">Customer Support</mat-radio-button>
+      <mat-radio-button value="Customer" *ngIf="customer=='IMI FABI'">Customer</mat-radio-button>
     </mat-radio-group>
-    <h4 class="typeH">Originator</h4>
-    <mat-form-field class="orig">
-      <mat-label>Originator</mat-label>
-      <mat-select [(value)]="tech">
-        <mat-option *ngFor="let t of technicians" [value]="t.id">
-          {{t.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div class="origdate">
+      <div class="orig">
+        <h4 class="typeH">Originator</h4>
+        <mat-form-field class="orig">
+          <mat-label>Originator</mat-label>
+          <mat-select [(value)]="tech">
+            <mat-option *ngFor="let t of technicians" [value]="t.id">
+              {{t.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="date">
+        <h4 class="typeH">Date</h4>
+        <mat-form-field>
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="datepicker" [(ngModel)]="date">
+          <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+          <mat-datepicker #datepicker>
+          </mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
 </div>
 <div mat-dialog-actions align="end">

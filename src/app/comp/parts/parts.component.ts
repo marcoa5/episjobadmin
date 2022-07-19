@@ -144,6 +144,7 @@ export class PartsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
         this.info=result
+        console.log(this.info)
         this.reqId=this.makeid.makeId(5)
         this.info['reqId']=this.reqId
         this.info['usedId']=this.userId

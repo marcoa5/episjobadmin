@@ -4,6 +4,9 @@ import firebase from 'firebase/app'
 import { MatDialogRef} from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { MatFormFieldAppearance } from '@angular/material/form-field';
+import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 
 @Component({
   selector: 'episjob-newpartsrequest',
@@ -23,6 +26,8 @@ export class NewpartsrequestComponent implements OnInit {
   tech:any
   nome:string=''
   tId:string=''
+  customer:string=''
+  date:Date|undefined
   @Output() sn=new EventEmitter()
   
   constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
@@ -34,6 +39,7 @@ export class NewpartsrequestComponent implements OnInit {
   @ViewChild('sea') sea1!: ElementRef
   
   ngOnInit(): void {
+    this.date=new Date()
     this.technicians=[]
     this.tech=undefined
     this.subsList.push(
@@ -96,8 +102,10 @@ export class NewpartsrequestComponent implements OnInit {
         {value: a.model, lab: 'Model', click:'', url:''},
         {value: a.customer, lab: 'Customer', click:'', url:''},
       ]
+      this.customer=a.customer.substring(0,8).toUpperCase()
       this.sn.emit(a.sn)
     } else {
+      this.customer=''
       this.details=[]
     }
   }
@@ -125,7 +133,7 @@ export class NewpartsrequestComponent implements OnInit {
       b=a.val().Nome + ' ' + a.val().Cognome
     })
     .then(()=>{
-      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0'})
+      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0', date:moment(this.date).format('YYYY-MM-DD')})
     })
     
   }

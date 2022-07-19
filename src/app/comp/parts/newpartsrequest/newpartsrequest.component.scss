@@ -81,7 +81,7 @@
     align-items: flex-start;
 }
 
-.button{
+.button, .button1{
     //margin-top: 5px;
     display: grid;
     grid-template-columns: 1fr;
@@ -94,6 +94,9 @@
 @media screen and (min-width:650px) {
     .button{
         grid-template-columns: repeat(2, 1fr);
+    }  
+    .button1{
+        grid-template-columns: repeat(3, 1fr);
     }  
 }
 
@@ -116,4 +119,14 @@
     .orig{
         width:100%;
     }
+}
+
+.origdate{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:15px;
+}
+
+.orig, .date{
+    width: 100%;
 }

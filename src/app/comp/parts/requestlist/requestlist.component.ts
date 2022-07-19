@@ -64,8 +64,9 @@ export class RequestlistComponent implements OnInit {
     )
     this.route.params.subscribe(a=>{
       this.info=JSON.parse(a.info)
-      if(JSON.parse(a.info).new) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+      //if(JSON.parse(a.info).new) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
       if(JSON.parse(a.info).Parts) this.partList.data=JSON.parse(a.info).Parts
+      console.log(this.info)
     })
   }
 
@@ -227,7 +228,7 @@ export class RequestlistComponent implements OnInit {
       })
       .then(()=>{
         this.info['shipTo']=shipTo?shipTo:''
-        this.info['date']=moment(new Date()).format('YYYY-MM-DD')
+        //if(!this.info.date) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
         this.saveList()
         //this.info['Parts']=this.partList
         const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
@@ -240,6 +241,7 @@ export class RequestlistComponent implements OnInit {
             setTimeout(() => {
               wait.close()
             }, 20000);
+            console.log(this.info)
             this.http.post(url + 'partreq',this.info, {responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)

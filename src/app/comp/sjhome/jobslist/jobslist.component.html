@@ -21,10 +21,13 @@
     </div>
 </div>
 <div class="contL">
-    <div *ngFor="let l of list; let i = index" class="cont" (click)="sel(l.sjid, i)" (dblclick)="directgo(l.sjid,i)" [ngClass]="l.sel==1? 'sel':''">
-        <div class="text bold">{{l.data_new}}</div>
-        <div class="text bold">{{l.matricola}}</div>
-        <div class="text">{{l.prodotto1}}</div>
-        <div class="text">{{l.cliente11}}</div>
+    <div *ngFor="let l of list; let i = index" [ngClass]="chPos('SURights')? 'contUp':'contUp1'" >
+        <div class="cont" [ngClass]="l.sel==1? 'sel':''" (click)="sel(l.sjid, i)" (dblclick)="directgo(l.sjid,i)">
+            <div class="text bold">{{l.data_new}}</div>
+            <div class="text bold">{{l.matricola}}</div>
+            <div class="text">{{l.prodotto1}}</div>
+            <div class="text">{{l.cliente11}}</div>   
+        </div>
+        <div class="text" *ngIf="chPos('SURights')" (click)="delete(l,i)"><mat-icon>delete</mat-icon></div>
     </div>
 </div>

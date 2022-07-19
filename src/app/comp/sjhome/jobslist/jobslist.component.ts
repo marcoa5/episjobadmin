@@ -1,4 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import firebase from 'firebase/app'
+import { MatDialog } from '@angular/material/dialog';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 
 @Component({
   selector: 'episjob-jobslist',
@@ -13,7 +17,7 @@ export class JobslistComponent implements OnInit {
   sortDirS:string=''
   sortIcon:string='date'
   sortIconS:string='date'
-  constructor() { }
+  constructor(private auth:AuthServiceService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
   }
@@ -67,5 +71,18 @@ export class JobslistComponent implements OnInit {
 
   directgo(id:string,b:number){
     this.directopen.emit(id)
+  }
+
+  delete(a:any,b:number){
+    let id = a.sjid
+    let type:string=id.substring(2,3)=='d'?'draft':'sent'
+    const d = this.dialog.open(DeldialogComponent,{data:{name:'Service Job (' + a.prodotto1 + ' - ' + a.cliente11 + ')'  }})
+    d.afterClosed().subscribe(res=>{
+      if(res) firebase.database().ref('sjDraft').child(type).child(id).remove()
+    })
+  }
+
+  chPos(pos:string){
+    return this.auth.acc(pos)
   }
 }

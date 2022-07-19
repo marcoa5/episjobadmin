@@ -342,12 +342,11 @@ export class SjComponent implements OnInit {
               this.spin=false
             })
           }else {
-            b= localStorage.getItem(a.id)
+            b=localStorage.getItem(a.id)
             if(b) this.loadData(JSON.parse(b),a.id)
             this.spin1 = false
             this.spin = false
           }
-  
         } else{
           this.spin = false
         }
@@ -376,18 +375,22 @@ export class SjComponent implements OnInit {
     this.rigs=this._rigs.filter((b:any)=>{
       return(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.site.toLowerCase().includes(a) )
     })
-    this.selRig()
+    this.selRig(this.rigs.length==1?this.rigs[0].sn:undefined)
   } 
 
-  fil(a:string){
+  fil(serial:string, rigNotExisting?:any){
+
     this.rigs=this._rigs.filter((b:any)=>{
-      return b.sn==a
+      return b.sn==serial
     })
-    this.selRig()
+    this.selRig(serial, rigNotExisting)
+    
   }
 
-  selRig(){
-    if(this.rigs.length==1) {
+  selRig(serial?:string, rigNotExisting?:any){
+    if(this.rigs.length==1 && !serial) {
+
+    } else if(this.rigs.length==1 && serial){
       if(this.rigForm.controls.sid.value=='' || this.rigForm.controls.sid.value==null) this.rigForm.controls.sid.setValue('sjdraft' + this.id.makeId(5))
       this.rigForm.controls.date.setValue(new Date())
       this.rigForm.controls.sn.setValue(this.rigs[0].sn)
@@ -399,7 +402,11 @@ export class SjComponent implements OnInit {
       this.rigForm.controls.customer3.setValue(this.customers[this.rigs[0].custid].c3)
       this.rigForm.controls.site.setValue(this.rigs[0].site)
       this.rigForm.controls.type.setValue('SPE')
-    } else {
+    }else if(this.rigs.length==0 && serial) {
+
+      this.rigs=[rigNotExisting]
+    }else {
+
       this.rigForm.reset()
     }
   }
@@ -618,10 +625,19 @@ export class SjComponent implements OnInit {
       this.sent=true
     }
     this.rigForm.controls.sid.setValue(b)
+    try{
+      if(a.matricola) this.rigForm.controls.pn.setValue(this.rigs.filter((i:any)=>{return i.sn==a.matricola})[0].in)
+    } catch{}
     this.behalf=a.userId
     this.rigForm.controls.model.setValue(a.prodotto1)
     this.rigForm.controls.sn.setValue(a.matricola)
-    this.fil(a.matricola)
+    this.fil(a.matricola, {
+      customer:a.cliente11,
+      in: a.pn,
+      model: a.prodotto1,
+      site:a.cantiere1,
+      sn: a.matricola
+    })
     setTimeout(() => {
       let g = a.data11
       let d = parseInt(g.substring(0,2))
@@ -630,6 +646,8 @@ export class SjComponent implements OnInit {
       let n_d = new Date(y,m,d)
       this.rigForm.controls.date.setValue(n_d)
     }, 100);
+    
+    //this.rigForm.controls.pn.setValue(this.rigs[a.matricola].pn)
     this.rigForm.controls.customerid.setValue(a.custid)
     this.rigForm.controls.customer.setValue(a.cliente11)
     this.rigForm.controls.customer2.setValue(a.cliente12)
@@ -644,7 +662,6 @@ export class SjComponent implements OnInit {
     this.rigForm.controls.perc1h.setValue(parseInt(a.perc11.replace(/[.]/g,'')))
     this.rigForm.controls.perc2h.setValue(parseInt(a.perc21.replace(/[.]/g,'')))
     this.rigForm.controls.perc3h.setValue(parseInt(a.perc31.replace(/[.]/g,'')))
-
     this.custSurv.s1=a.rissondaggio.substring(0,1)
     this.custSurv.s2=a.rissondaggio.substring(1,2)
     this.custSurv.s3=a.rissondaggio.substring(2,3)
