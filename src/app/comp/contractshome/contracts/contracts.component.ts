@@ -4,16 +4,11 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewcontractComponent } from './newcontract/newcontract.component';
 import firebase from 'firebase/app';
-import * as moment from 'moment';
-import { ContractalreadyexistsdialogComponent } from './contractalreadyexistsdialog/contractalreadyexistsdialog.component';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { Sort } from '@angular/material/sort';
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 import { AttachmentdialogComponent } from './attachmentdialog/attachmentdialog.component';
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { Router } from '@angular/router';
-import { SpinComponent } from '../../util/spin/spin.component';
-import { ArchivedialogComponent } from '../../workshophome/workshop/archivedialog/archivedialog.component';
 import { ArchivecontractdialogComponent } from './archivecontractdialog/archivecontractdialog.component';
 
 export interface cont {
@@ -25,7 +20,6 @@ export interface cont {
   end: string;
   daysleft:number;
 }
-
 
 @Component({
   selector: 'episjob-contracts',
@@ -44,7 +38,7 @@ export class ContractsComponent implements OnInit {
   subsList:Subscription[]=[]
   constructor(private router:Router, private auth:AuthServiceService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {3
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {

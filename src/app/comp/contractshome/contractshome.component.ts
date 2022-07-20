@@ -64,7 +64,7 @@ export class ContractshomeComponent implements OnInit {
             })
           })
         }).then((a:any)=>{
-          this.getDownload(a)
+          //this.getDownload(a)
         })
       } else {
         this.contractsSpin=false
@@ -91,7 +91,7 @@ export class ContractshomeComponent implements OnInit {
         })
         data+=temp.join('\t') + '\n'
       })
-      //console.log(data)
+      console.log(data)
       navigator.clipboard.writeText(data)
     })
   }

@@ -37,7 +37,7 @@
                 <mat-error *ngIf="inputData.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
             </mat-form-field>  
             <h4>Service fees</h4>
-            <episjob-tarifs [type]="data.info.type" [list]="(data.info && data.info.fees)?data.info.fees:[]" (valuemod)="chMod($event)" (save)="getFees($event)"></episjob-tarifs>
+            <episjob-tarifs [type]="data.info?data.info.type:undefined" [list]="(data.info && data.info.fees)?data.info.fees:[]" (valuemod)="chMod($event)" (save)="getFees($event)"></episjob-tarifs>
             <h4>Discounts & Transport Costs</h4>
             <episjob-discounts [list]="(data.info && data.info.discounts)?data.info.discounts:[]" (valuemod)="chModDisc($event)" (save)="getDiscount($event)"></episjob-discounts>
         </div>

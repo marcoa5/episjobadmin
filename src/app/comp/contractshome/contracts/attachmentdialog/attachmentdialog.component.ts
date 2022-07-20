@@ -42,7 +42,6 @@ export class AttachmentdialogComponent implements OnInit {
     } else {
       ref=firebase.database().ref('Contracts').child('active')
     }
-    console.log(ref)
     ref.child(this.data.info.sn).child(this.data.info.type).child(this.data.info.id).child('att').set(this.contractList.length)
   }
 

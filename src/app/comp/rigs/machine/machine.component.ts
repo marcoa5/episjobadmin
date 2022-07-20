@@ -153,6 +153,8 @@ export class MachineComponent implements OnInit {
               this.rigLabels=this._rigLabels
             }
           })
+        } else{
+          this.rigLabels=this._rigLabels
         }
         if(this.data[0] && this.data[0].y!='c' && this.data[0]!=undefined) {
           this.showAdd=true

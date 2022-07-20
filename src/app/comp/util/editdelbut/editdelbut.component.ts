@@ -144,4 +144,7 @@ export class EditdelbutComponent implements OnInit {
     return this.auth.acc(a)
   }
 
+  hrsPartReq(){
+    console.log('test')
+  }
 }

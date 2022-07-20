@@ -29,8 +29,8 @@ export class TarifsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.typeAd=this.type.substring(0,14)
-    console.log(this.typeAd)
+    console.log(this.labels)
+    this.typeAd=this.type?this.type.substring(0,14):''
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) this.pos=a.Pos
