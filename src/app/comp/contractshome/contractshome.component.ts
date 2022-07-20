@@ -64,7 +64,7 @@ export class ContractshomeComponent implements OnInit {
             })
           })
         }).then((a:any)=>{
-          //this.getDownload(a)
+          this.getDownload(a)
         })
       } else {
         this.contractsSpin=false

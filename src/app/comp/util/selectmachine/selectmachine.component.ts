@@ -11,20 +11,25 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 })
 export class SelectmachineComponent implements OnInit {
   @Input() infoInput:string|undefined
+  @Input() search:string=''
   chStr:boolean=true
   details:any[]=[]
   inputData!:FormGroup
   _rigs:any[]=[]
   rigs:any[]=[]
-  
+  readOnly:boolean=false
   serial:string=''
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
   constructor(private fb:FormBuilder, public auth: AuthServiceService) {
-    this.inputData=fb.group({
+    this.inputData= new FormGroup({})
+  }
+
+  ngOnInit(): void {
+    this.inputData=this.fb.group({
       id:['', Validators.required],
-      sn:[''],
+      sn:[this.search],
       model:['', Validators.required],
       customer:['', Validators.required],
       custCode:['', Validators.required],
@@ -32,18 +37,23 @@ export class SelectmachineComponent implements OnInit {
       start:['', Validators.required],
       end:['', Validators.required]
     })
-  }
-
-  ngOnInit(): void {
     this.subsList.push(
       this.auth._rigs.subscribe(a=>{
         if(a) {
           this._rigs=a
           this.rigs=this._rigs.slice()
+          if(this.search && this.search!='' && this.rigs.length>1) {
+            this.filter().then(()=>{this.sel(this.rigs[0])})
+            this.readOnly=true
+          }
         }
       })
     )
     if(this.infoInput) this.sel(this.infoInput)
+  }
+
+  ngAfterViewInit(){
+    
   }
 
   ngOnDestroy(){
@@ -53,18 +63,21 @@ export class SelectmachineComponent implements OnInit {
   }
 
   filter(){
-    let f=this.inputData.controls.sn.value
-    this.details=[]
-    if(f.length>0){
-      this.chStr=true
-      this.rigs=this._rigs.filter(a=>{
-        if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
-        return false
-      }) 
-    } else {
-      this.rigs= this._rigs
-    }
-    this.info.emit(undefined)
+    return new Promise(res=>{
+      let f:string=this.inputData.controls.sn.value
+      this.details=[]
+      if(f && f.length>0){
+        this.chStr=true
+        this.rigs=this._rigs.filter(a=>{
+          if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
+          return false
+        }) 
+        res('')
+      } else {
+        this.rigs= this._rigs
+      }
+      this.info.emit(undefined)
+    })
   }
 
   sel(a:any){

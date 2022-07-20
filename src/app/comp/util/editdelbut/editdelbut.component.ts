@@ -30,12 +30,14 @@ export class EditdelbutComponent implements OnInit {
   @Input() id:string|undefined
   @Input() check:boolean=true
   @Input() valore:string=''
+  @Input() addP:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
   @Output() sjReport = new EventEmitter()
   @Output() hrsReport = new EventEmitter()
   @Output() addA = new EventEmitter()
+  @Output() addParts = new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -145,6 +147,6 @@ export class EditdelbutComponent implements OnInit {
   }
 
   hrsPartReq(){
-    console.log('test')
+    this.addParts.emit('')
   }
 }

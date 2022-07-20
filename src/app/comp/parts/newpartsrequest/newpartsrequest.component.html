@@ -1,6 +1,6 @@
 <div mat-dialog-title>Select rig</div>
 <div mat-dialog-content class="mainCont">
-  <episjob-selectmachine (info)="sel($event)"></episjob-selectmachine>
+  <episjob-selectmachine [search]="data.sn" (info)="sel($event)"></episjob-selectmachine>
   <div class="cont" *ngIf="details.length>0">
     <episjob-label [values]="details"></episjob-label>
     <h4 class="typeH">Request type</h4>

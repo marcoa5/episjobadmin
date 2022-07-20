@@ -66,7 +66,6 @@ export class RequestlistComponent implements OnInit {
       this.info=JSON.parse(a.info)
       //if(JSON.parse(a.info).new) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
       if(JSON.parse(a.info).Parts) this.partList.data=JSON.parse(a.info).Parts
-      console.log(this.info)
     })
   }
 

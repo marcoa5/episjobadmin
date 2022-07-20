@@ -19,6 +19,8 @@ import { generate, Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
+import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsrequest.component';
+import { MakeidService } from 'src/app/serv/makeid.service';
 
 
 export interface hrsLabel {
@@ -79,19 +81,24 @@ export class MachineComponent implements OnInit {
   partReqList:any[]=[]
   contract:any[]=[]
   files:any[]=[]
+  info:any={}
+  userId:string=''
   subsList:Subscription[]=[]
   
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
+  constructor(private makeid: MakeidService, private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
     Chart.register()
-    this.subsList.push(this.auth._userData.subscribe((a: { Pos: string; Nome: string; Cognome: string; Area: string; })=>{
-      this.pos=a.Pos
-      this.name = a.Nome + ' ' + a.Cognome
-      this.area=a.Area
-    }))
+    this.subsList.push(
+      this.auth._userData.subscribe((a: { Pos: string; Nome: string; Cognome: string; Area: string; uid:string })=>{
+        this.pos=a.Pos
+        this.name = a.Nome + ' ' + a.Cognome
+        this.area=a.Area
+        this.userId=a.uid
+      })
+    )
     this.start() 
   }
 
@@ -792,6 +799,20 @@ export class MachineComponent implements OnInit {
         })
       })
     }
+  }
+
+  addP(){
+    const dia = this.dialog.open(NewpartsrequestComponent, {data:{sn:this.valore}})
+    dia.afterClosed().subscribe(result => {
+      if(result!=undefined) {
+        this.info=result
+        this.info['reqId']=this.makeid.makeId(5)
+        this.info['usedId']=this.userId
+        this.info['new']=true
+        //this.partList=[]
+        this.router.navigate(['partrequest',{info:JSON.stringify(this.info),new:true}])
+      }
+    })
   }
 }
  

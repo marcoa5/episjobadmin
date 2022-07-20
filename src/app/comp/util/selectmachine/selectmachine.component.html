@@ -1,11 +1,11 @@
 <form [formGroup]="inputData" class="req">
-    <h4>Select machine</h4>
+    <h4>Select machine input:{{infoInput}} - read:{{readOnly}}</h4>
     <mat-form-field  class="search hid">
         <input matInput #sea type="text" autocomplete="off" formControlName="id">
         <mat-label>IDr</mat-label>
     </mat-form-field>
     <mat-form-field  class="search">
-        <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" [readonly]="infoInput">
+        <input matInput #sea type="text" autocomplete="off" formControlName="sn" (input)="filter()" [readonly]="infoInput || readOnly">
         <mat-label>Search s/n, model or customer</mat-label>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>

@@ -1,11 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, Inject } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms'
 import firebase from 'firebase/app'
-import { MatDialogRef} from '@angular/material/dialog'
+import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { MatFormFieldAppearance } from '@angular/material/form-field';
-import { environment } from 'src/environments/environment';
 import * as moment from 'moment';
 
 @Component({
@@ -30,7 +28,7 @@ export class NewpartsrequestComponent implements OnInit {
   date:Date|undefined
   @Output() sn=new EventEmitter()
   
-  constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService) {
+  constructor(public fb: FormBuilder, public dialogRef: MatDialogRef<NewpartsrequestComponent>, public auth:AuthServiceService, @Inject(MAT_DIALOG_DATA) public data:any) {
     this.newRequest = fb.group({
       search: ['']
     })
@@ -43,13 +41,17 @@ export class NewpartsrequestComponent implements OnInit {
     this.technicians=[]
     this.tech=undefined
     this.subsList.push(
-      //this.auth._fleet.subscribe(a=>{this._rigs=a; this.rigs=a}),
+      this.auth._fleet.subscribe(a=>{
+        this._rigs=a; this.rigs=a
+        //if(this.rigs && this.data.sn) this.sel(this.rigs.filter(o=>{return o.sn==this.data.sn}))
+      }),
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
         this.nome=a.Nome + ' ' + a.Cognome
         this.tId=a.uid
       })
     )
+    
     if(this.auth.acc('AdminTechRights')){
       firebase.database().ref('Users').once('value',a=>{
         a.forEach(b=>{
