@@ -23,6 +23,7 @@ import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsre
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
+import { Xliff2 } from '@angular/compiler';
 
 export interface hrsLabel {
   lab: string
@@ -861,46 +862,29 @@ export class MachineComponent implements OnInit {
     .then(()=>{
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out);
       let range=XLSX.utils.decode_range(worksheet['!ref']!)
-      for(let colNum=range.s.c; colNum<=range.e.c; colNum++){{
-        let cc = worksheet[XLSX.utils.encode_cell({r: 0, c: colNum})]
-        cc.s={
-          alignment:{
-            horizontal:'center'
-          },
-          font:{
-            color:{
-              rgb:'425563'
-            },
-            bold:true,
-            name:'arial'
-          }, 
-          fill:{
-            fgColor: {
-              rgb:'FFCD00'
-            }/*, bgColor:{rgb:'425563'}*/}
-          }
-      }}
-      for(let r=1;r<=range.e.r;r++){
-        for(let c=0;c<=range.e.c;c++){
-          let cell = worksheet[XLSX.utils.encode_cell({r:r,c:c})]
-          cell.s={
-            font:{
-              name: 'arial'
-            }
-          }
-        }
-      }
+      
       for(let r=1;r<=range.e.r;r++){
         let cel = worksheet[XLSX.utils.encode_cell({r:r,c:range.e.c})]
         let c2=XLSX.utils.encode_cell({r:r,c:range.e.c-1})
         let c1=XLSX.utils.encode_cell({r:r,c:range.e.c-2})
         cel.f=c1 + '*' + c2
       }
+      for(let c=0;c<=range.e.c;c++){
+        let h = XLSX.utils.encode_cell({r:0,c:c})
+        console.log(c,h, worksheet[h].v)
+        if(worksheet[h].v=='Date' || worksheet[h].v=='sn'||worksheet[h].v=='pn'||worksheet[h].v=='Qty'){
+          for(let r=1;r<=range.e.r;r++){
+            let cell=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
+            console.log(cell)
+            cell.s={alignment:{horizontal:'center'}}
+          }
+        }
+      }
       
       worksheet['!cols']=[]
       Object.keys(out[0])
       .forEach(a=>{
-        a=='ShipAddress'?worksheet['!cols']?.push({wpx: 250}):
+        a=='ShipAddress'||a=='Description'?worksheet['!cols']?.push({wpx: 250}):
         a=='LLP' || a=='Qty'|| a=='Tot'?worksheet['!cols']?.push({wpx: 60}):
         worksheet['!cols']?.push({wpx: 100})
       })
