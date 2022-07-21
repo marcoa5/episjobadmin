@@ -239,8 +239,7 @@ export class RequestlistComponent implements OnInit {
             const wait = this.dialog.open(GenericComponent, {disableClose:true, data:{msg:'Sending....'}})
             setTimeout(() => {
               wait.close()
-            }, 20000);
-            console.log(this.info)
+            }, 20000)
             this.http.post(url + 'partreq',this.info, {responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)

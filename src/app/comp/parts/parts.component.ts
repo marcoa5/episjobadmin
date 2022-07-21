@@ -49,7 +49,7 @@ export class PartsComponent implements OnInit {
             this.pos=a.Pos
             this.userId=a.uid
             setTimeout(() => {
-              this.allow=this.auth.allow('Internal',this.pos)
+              this.allow=this.auth.allow('All',this.pos)
               this.allSpin=false
               res('')
             }, 1);

@@ -465,7 +465,7 @@ export class AuthServiceService {
         return false
         break
       case('customer'):
-        if(['PartsRequestListSubmit','MachinePermissions'].includes(position)) return true
+        if(['PartsRequestListSubmit','MachinePermissions','NewPartsReqService'].includes(position)) return true
         return false
         break
       case('wsadmin'):

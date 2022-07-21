@@ -5,9 +5,9 @@
     <episjob-label [values]="details"></episjob-label>
     <h4 class="typeH">Request type</h4>
     <mat-radio-group class="button" [(ngModel)]="type">
-      <mat-radio-button value="Service">Service</mat-radio-button>
-      <mat-radio-button value="CustomerSupport" *ngIf="customer!='IMI FABI'">Customer Support</mat-radio-button>
-      <mat-radio-button value="Customer" *ngIf="customer=='IMI FABI'">Customer</mat-radio-button>
+      <mat-radio-button value="Service" *ngIf="!chPos('NewPartsReqService')">Service</mat-radio-button>
+      <mat-radio-button value="CustomerSupport" *ngIf="!sol">Customer Support</mat-radio-button>
+      <mat-radio-button value="Customer" *ngIf="sol" [checked]="chCheck('NewPartsReqService')">Customer</mat-radio-button>
     </mat-radio-group>
     <div class="origdate">
       <div class="orig">

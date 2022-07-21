@@ -24,7 +24,7 @@ export class NewpartsrequestComponent implements OnInit {
   tech:any
   nome:string=''
   tId:string=''
-  customer:string=''
+  sol:boolean=false
   date:Date|undefined
   @Output() sn=new EventEmitter()
   
@@ -104,10 +104,16 @@ export class NewpartsrequestComponent implements OnInit {
         {value: a.model, lab: 'Model', click:'', url:''},
         {value: a.customer, lab: 'Customer', click:'', url:''},
       ]
-      this.customer=a.customer.substring(0,8).toUpperCase()
+      firebase.database().ref('SOL').child(a.custid).child('sol').once('value',g=>{
+        if(g.val()){
+          this.sol=g.val()
+        } else {
+          this.sol= false
+        }
+      })
       this.sn.emit(a.sn)
     } else {
-      this.customer=''
+      this.sol=false
       this.details=[]
     }
   }
@@ -137,6 +143,14 @@ export class NewpartsrequestComponent implements OnInit {
     .then(()=>{
       this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0', date:moment(this.date).format('YYYY-MM-DD')})
     })
-    
+  }
+
+  chPos(a:string):boolean{
+    let b:boolean= this.auth.acc(a)
+    return b
+  }
+
+  chCheck(a:string){
+    return this.auth.acc(a)
   }
 }

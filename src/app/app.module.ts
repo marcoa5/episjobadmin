@@ -92,7 +92,6 @@ import { ThousandsPipe } from './pipe/thousands.pipe';
 import { MatSortModule } from '@angular/material/sort';
 import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component';
-import { TodoComponent } from './comp/customers/cliente/todo/todo.component'
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
 import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
@@ -166,6 +165,7 @@ import { ContractshomeComponent } from './comp/contractshome/contractshome.compo
 import { ArchivedcontractsComponent } from './comp/contractshome/archivedcontracts/archivedcontracts.component';
 import { ArchivecontractdialogComponent } from './comp/contractshome/contracts/archivecontractdialog/archivecontractdialog.component';
 import { AddressDialogComponent } from './comp/customers/cliente/address-dialog/address-dialog.component';
+import { SolComponent } from './comp/customers/cliente/sol/sol.component';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -245,7 +245,6 @@ export const MY_FORMATS = {
     ThousandsPipe,
     VisitlistComponent,
     SaveaccountComponent,
-    TodoComponent,
     CalComponent,
     VisitdetailsComponent,
     VisitsComponent,
@@ -314,6 +313,7 @@ export const MY_FORMATS = {
     ArchivedcontractsComponent,
     ArchivecontractdialogComponent,
     AddressDialogComponent,
+    SolComponent,
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
