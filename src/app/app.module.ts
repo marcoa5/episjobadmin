@@ -166,6 +166,7 @@ import { ArchivedcontractsComponent } from './comp/contractshome/archivedcontrac
 import { ArchivecontractdialogComponent } from './comp/contractshome/contracts/archivecontractdialog/archivecontractdialog.component';
 import { AddressDialogComponent } from './comp/customers/cliente/address-dialog/address-dialog.component';
 import { SolComponent } from './comp/customers/cliente/sol/sol.component';
+import { ExcelService } from './serv/excelexport.service';
 
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
@@ -322,7 +323,7 @@ export const MY_FORMATS = {
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
-    SwupdateService, MatChipRemove,
+    ExcelService, SwupdateService, MatChipRemove,
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: appearance

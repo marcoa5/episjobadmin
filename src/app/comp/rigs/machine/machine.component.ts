@@ -21,13 +21,27 @@ import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component'
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsrequest.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
-
+import { ExcelService } from 'src/app/serv/excelexport.service'
+import * as XLSX from 'xlsx-js-style'
 
 export interface hrsLabel {
   lab: string
   value: any
   click: any
   url: any
+}
+   
+export interface output {
+  Date: Date|undefined
+  sn: string|undefined
+  Model: string|undefined
+  Originator: string|undefined
+  ShipAddress:string|undefined
+  pn:string|undefined
+  Description:string|undefined
+  LLP:number|null
+  Qty:number|null
+  Tot:number|null
 }
 
 @Component({
@@ -85,7 +99,7 @@ export class MachineComponent implements OnInit {
   userId:string=''
   subsList:Subscription[]=[]
   
-  constructor(private makeid: MakeidService, private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
+  constructor(private excel:ExcelService , private makeid: MakeidService, private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -820,24 +834,84 @@ export class MachineComponent implements OnInit {
     setTimeout(() => {
       d.close()
     }, 20000);
-    let output:string=`Date\ts/n\tModel\tOriginator\tShip Address\tp/n\tDescription\tLLP\tQ.ty\n`
+    let out:any[]=[]
     let length:number=this.partReqList.length
     let check:number=0
     new Promise(res=>{
       this.partReqList.forEach(req=>{
         req.Parts.forEach((part:any)=>{
-          let row:string=`${req.date}\t${req.sn}\t${req.model}\t${req.orig}\t${req.shipTo.address?req.shipTo.address:''}\t${part.pn}\t${part.desc}\t${part.llp.toString().replace(/[.]/g,',')}\t${part.qty}\n`
-          output+=row
+          let row:output={
+            Date:new Date(req.date),
+            sn:req.sn,
+            Model:req.model,
+            Originator:req.orig,
+            ShipAddress:req.shipTo.address?req.shipTo.address:'',
+            pn:part.pn,
+            Description:part.desc,
+            LLP:part.llp,
+            Qty:part.qty,
+            Tot:0
+          }
+          out.push(row)
         })
         check++
         if(check==length) res('')
       })
     })
     .then(()=>{
-      console.log('Text to be copied: ' + output)
-      navigator.clipboard.writeText(output)
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out);
+      let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      for(let colNum=range.s.c; colNum<=range.e.c; colNum++){{
+        let cc = worksheet[XLSX.utils.encode_cell({r: 0, c: colNum})]
+        cc.s={
+          alignment:{
+            horizontal:'center'
+          },
+          font:{
+            color:{
+              rgb:'425563'
+            },
+            bold:true,
+            name:'arial'
+          }, 
+          fill:{
+            fgColor: {
+              rgb:'FFCD00'
+            }/*, bgColor:{rgb:'425563'}*/}
+          }
+      }}
+      for(let r=1;r<=range.e.r;r++){
+        for(let c=0;c<=range.e.c;c++){
+          let cell = worksheet[XLSX.utils.encode_cell({r:r,c:c})]
+          cell.s={
+            font:{
+              name: 'arial'
+            }
+          }
+        }
+      }
+      for(let r=1;r<=range.e.r;r++){
+        let cel = worksheet[XLSX.utils.encode_cell({r:r,c:range.e.c})]
+        let c2=XLSX.utils.encode_cell({r:r,c:range.e.c-1})
+        let c1=XLSX.utils.encode_cell({r:r,c:range.e.c-2})
+        cel.f=c1 + '*' + c2
+      }
+      
+      worksheet['!cols']=[]
+      Object.keys(out[0])
+      .forEach(a=>{
+        a=='ShipAddress'?worksheet['!cols']?.push({wpx: 250}):
+        a=='LLP' || a=='Qty'|| a=='Tot'?worksheet['!cols']?.push({wpx: 60}):
+        worksheet['!cols']?.push({wpx: 100})
+      })
+      let Sheets:any={}
+      Sheets[this.valore]=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: [this.valore] 
+      }
+      this.excel.exportAsExcelFile(workbook,this.valore + ' - Part Request History')
       d.close()
-      this.dialog.open(CopyComponent)
     })
   }
 }

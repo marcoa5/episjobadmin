@@ -1,6 +1,6 @@
 {
   "name": "episjobadmin",
-  "version": "1.2.116",
+  "version": "1.2.117",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -30,6 +30,7 @@
     "axios": "^0.26.1",
     "chart.js": "^3.2.1",
     "chartjs-adapter-moment": "^1.0.0",
+    "file-saver": "^2.0.5",
     "firebase": "^8.6.2",
     "firebase-admin": "^9.10.0",
     "handlebars": "^4.7.7",
@@ -38,6 +39,7 @@
     "nodemailer": "^6.7.3",
     "rxjs": "~6.6.0",
     "signature_pad": "^4.0.2",
+    "xlsx-js-style": "^1.2.0",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
@@ -45,6 +47,7 @@
     "@angular/cli": "~11.2.6",
     "@angular/compiler-cli": "~11.2.7",
     "@angular/localize": "^11.2.7",
+    "@types/file-saver": "^2.0.5",
     "@types/jasmine": "~3.6.0",
     "@webappm/pwa-icons": "^1.0.12",
     "codelyzer": "^6.0.0",
