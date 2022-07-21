@@ -12,6 +12,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { auth } from 'firebase-admin';
 import { NewsubeqComponent } from '../../rigs/machine/subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from '../../rigs/machine/subeq/subeddialog/subeddialog.component';
+import { ImportpartsComponent } from '../dialog/importparts/importparts.component';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -31,6 +32,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() check:boolean=true
   @Input() valore:string=''
   @Input() addP:boolean=false
+  @Input() parts:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -38,6 +40,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() hrsReport = new EventEmitter()
   @Output() addA = new EventEmitter()
   @Output() addParts = new EventEmitter()
+  @Output() expParts= new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -148,5 +151,9 @@ export class EditdelbutComponent implements OnInit {
 
   hrsPartReq(){
     this.addParts.emit('')
+  }
+
+  exportParts(){
+    this.expParts.emit('')
   }
 }

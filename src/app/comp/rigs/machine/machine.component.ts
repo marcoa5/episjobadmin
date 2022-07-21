@@ -814,5 +814,31 @@ export class MachineComponent implements OnInit {
       }
     })
   }
+
+  exportParts(){
+    const d = this.dialog.open(GenericComponent,{data:{msg:'Retreiving data....'}})
+    setTimeout(() => {
+      d.close()
+    }, 20000);
+    let output:string=`Date\ts/n\tModel\tOriginator\tShip Address\tp/n\tDescription\tLLP\tQ.ty\n`
+    let length:number=this.partReqList.length
+    let check:number=0
+    new Promise(res=>{
+      this.partReqList.forEach(req=>{
+        req.Parts.forEach((part:any)=>{
+          let row:string=`${req.date}\t${req.sn}\t${req.model}\t${req.orig}\t${req.shipTo.address?req.shipTo.address:''}\t${part.pn}\t${part.desc}\t${part.llp.toString().replace(/[.]/g,',')}\t${part.qty}\n`
+          output+=row
+        })
+        check++
+        if(check==length) res('')
+      })
+    })
+    .then(()=>{
+      console.log('Text to be copied: ' + output)
+      navigator.clipboard.writeText(output)
+      d.close()
+      this.dialog.open(CopyComponent)
+    })
+  }
 }
  

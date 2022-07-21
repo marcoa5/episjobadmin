@@ -1,6 +1,6 @@
 {
   "name": "episjobadmin",
-  "version": "1.2.115",
+  "version": "1.2.116",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
