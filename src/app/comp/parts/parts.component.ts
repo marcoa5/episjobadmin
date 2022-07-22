@@ -8,10 +8,10 @@ import 'firebase/database'
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service'
-import { GetPartPerTechService } from 'src/app/serv/get-part-per-tech.service';
-import { CopyComponent } from '../util/dialog/copy/copy.component';
-import * as moment from 'moment'
+import { GetPartPerTechService } from 'src/app/serv/get-part-per-tech.service'
+import * as XLSX from 'xlsx-js-style'
 import { Clipboard } from '@angular/cdk/clipboard'
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 
 @Component({
@@ -38,7 +38,7 @@ export class PartsComponent implements OnInit {
   subsList:Subscription[]=[]
 
 
-  constructor(private ppt:GetPartPerTechService , public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService, public clip:Clipboard) { }
+  constructor(private excel:ExcelService, private ppt:GetPartPerTechService , public dialog: MatDialog, public router: Router, public makeid: MakeidService, public route: ActivatedRoute, public auth:AuthServiceService, public clip:Clipboard) { }
 
   //@ViewChild('search') search!: ElementRef
 
@@ -233,11 +233,27 @@ export class PartsComponent implements OnInit {
   }
 
   report(){
-    this.ppt.loadParts().then((text:any)=>{
-      console.log(`Data exported:\n\n\n${text}`)
-      navigator.clipboard.writeText(text).then(()=>{
-        this.dialog.open(CopyComponent)
+    this.ppt.loadParts().then((val:any)=>{
+      let out:any[]=val[0]
+      let i:string=val[1]
+      let f:string=val[2]
+      out.sort((a:any,b:any)=>{
+        if(a.Name>b.Name) return 1
+        if(a.Name<b.Name) return -1
+        return 0
       })
+      let name='Parts Requests'
+      let cols:string[]=['Qty']
+
+      let colWidth:any[]=[120,60,60]
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
+      let Sheets:any={}
+      Sheets[name]=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: [name] 
+      }
+      this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
     })    
   }
 }

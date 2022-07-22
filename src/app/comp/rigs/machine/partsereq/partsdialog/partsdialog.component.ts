@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 import { InputhrsComponent } from 'src/app/comp/util/dialog/inputhrs/inputhrs.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Clipboard } from '@angular/cdk/clipboard'
-import { CopyComponent } from 'src/app/comp/util/dialog/copy/copy.component';
+import * as XLSX from 'xlsx-js-style'
 import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 @Component({
   selector: 'episjob-partsdialog',
@@ -18,7 +19,7 @@ export class PartsdialogComponent implements OnInit {
   displayedColumns: string[]=['pnshort','p/n', 'Description', 'LLP', 'Qty', 'Tot']
   test:boolean=false
   subsList:Subscription[]=[]
-  constructor(private auth: AuthServiceService, private dialog:MatDialog,public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private clipboard: Clipboard) {}
+  constructor(private excel:ExcelService, private auth: AuthServiceService, private dialog:MatDialog,public dialogRef: MatDialogRef<PartsdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private clipboard: Clipboard) {}
 
   ngOnInit(): void {
     this.subsList.push(
@@ -53,12 +54,55 @@ export class PartsdialogComponent implements OnInit {
   }
 
   download(){
-    let exp:string='P/n\tDesc\tqty'
-    this.data.parts.forEach((a:any)=>{
-      exp+=`\n"${a.pn}"\t${a.desc}\t${a.qty}`
+    let name:string=''
+    firebase.database().ref('PartReqSent').child(this.data.id).once('value',k=>{
+      name=k.val().sn + ' - ' + k.val().date
     })
-    this.clipboard.copy(exp)
-    const dia = this.dialog.open(CopyComponent)
+    .then(()=>{
+      const d = this.dialog.open(GenericComponent,{disableClose:true, data:{msg:'Retreiving data...'}})
+      setTimeout(() => {
+        d.close
+      }, 20000);
+      let out:any[]=[]//:string='P/n\tDesc\tqty'
+      let check:number=0
+      let length:number=this.data.parts.length
+      new Promise(res=>{
+        this.data.parts.forEach((a:any)=>{
+          out.push({
+            Pn:a.pn,
+            Description:a.desc,
+            Qty:a.qty
+          })
+          check++
+          if(check==length) res('')
+        })
+      })
+      .then(()=>{
+        if(out.length>0) {
+          out.sort((a:any,b:any)=>{
+            if(a.Date>b.Date) return 1
+            if(a.Date<b.Date) return -1
+            return 0
+          })
+          let cols:string[]=['Pn','Qty']
+          let colWidth:any[]=[120,250,60]
+  
+          const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
+  
+          let Sheets:any={}
+          Sheets[name]=worksheet
+          const workbook: XLSX.WorkBook = { 
+            Sheets, 
+            SheetNames: [name] 
+          }
+          this.excel.exportAsExcelFile(workbook,name + ' - Parts request',cols,colWidth)
+          d.close()
+        } else {
+          alert('No data to be exported')
+          d.close()
+        }
+      })
+    })
   }
 
   chPos(a:string){

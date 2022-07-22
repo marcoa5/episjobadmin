@@ -13,7 +13,6 @@ import { InputhrsComponent } from '../../util/dialog/inputhrs/inputhrs.component
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
-import { CopyComponent } from '../../util/dialog/copy/copy.component'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { generate, Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
@@ -594,25 +593,59 @@ export class MachineComponent implements OnInit {
   }
   
   dlData(e:any){
-    let y:any[]=[`Date;Serial Nr;Machine;Family;Hours;Technician`]
-    this.sjList.map(x=>{
-      if(x.imiFabi){
-        let r:string = x.imiFabi
-        let as = r.slice(0,-1)
-        let ws = as.split('@')
-        ws.forEach(rf=>{
-          let d= `${x.data11.substring(6,10)}-${x.data11.substring(3,5)}-${x.data11.substring(0,2)}`
-          y.push(`${d};${x.matricola};${x.prodotto1};${rf.split(';')[0]};${rf.split(';')[1]};${x.tecnico11}`)
-        })
-      }
+    const dia=this.dialog.open(GenericComponent, {data:{msg:'Retreiving data...'}})
+    setTimeout(() => {
+      dia.close()
+    }, 20000);
+    let y:any[]=[]//`Date;Serial Nr;Machine;Family;Hours;Technician`]
+    let check:number=0
+    let length:number=this.sjList.length
+    new Promise(res=>{
+      this.sjList.forEach(x=>{
+        if(x.imiFabi){
+          let r:string = x.imiFabi
+          let as = r.slice(0,-1)
+          let ws = as.split('@')
+          ws.forEach(rf=>{
+            let d= `${x.data11.substring(6,10)}-${x.data11.substring(3,5)}-${x.data11.substring(0,2)}`
+            y.push({
+              Date:d,
+              sn: x.matricola,
+              Machine: x.prodotto1,
+              Family: rf.split(';')[0],
+              Hrs:rf.split(';')[1],
+              Technician:x.tecnico11
+            }) 
+          })
+        }
+        check++
+        if(check==length) res('')
+      })
     })
-    this.clipboard.copy(y.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
-    const dialogconf = new MatDialogConfig();
-    dialogconf.disableClose=false;
-    dialogconf.autoFocus=false;
-    const dialogRef = this.dialog.open(CopyComponent, {
-      data: {}
-    });
+    .then(()=>{
+      y.sort((a:any,b:any)=>{
+        if(a.Date>b.Date) return 1
+        if(a.Date<b.Date) return -1
+        return 0
+      })
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(y);
+      
+      //Center columns
+      let cols:string[]=['Date','sn','Hrs']
+
+      let colWidth:any[]=[120,120,120,120,60,120]
+
+      //columns Width
+      
+      let Sheets:any={}
+      Sheets['Files']=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: ['Files'] 
+      }
+      this.excel.exportAsExcelFile(workbook,this.valore + ' - Hours Details',cols,colWidth)
+      dia.close()
+    })
   }
 
   sortDataTable(e:any){
@@ -640,7 +673,7 @@ export class MachineComponent implements OnInit {
       dia.close()
     }, 10000);
     this.elenco=[]
-    this.elenco.push('sn;model;date;eng;perc1;perc2;perc3')
+    //this.elenco.push('sn;model;date;eng;perc1;perc2;perc3')
     let length:number=0
     let index:number=0
     firebase.database().ref('Hours').child(this.valore).once('value',a=>{
@@ -651,32 +684,86 @@ export class MachineComponent implements OnInit {
           let _date = [b.key?.slice(0,4),'-',b.key?.slice(4)].join('')
           let date = [_date.slice(0,7),'-',_date.slice(7)].join('')
           firebase.database().ref('MOL').child(this.valore).once('value',rig=>{
-            this.elenco.push(`${this.valore};${rig.val().model};${date};${c.orem=='c'?0:c.orem};${c.perc1?(c.perc1=='c'?0:c.perc1):0};${c.perc2?(c.perc2=='c'?0:c.perc2):0};${c.perc3?(c.perc3=='c'?0:c.perc3):0}`)
+            this.elenco.push({
+              sn:this.valore,
+              Model:rig.val().model,
+              Date:new Date(date),
+              EngHrs:c.orem=='c'?0:c.orem,
+              Perc1:c.perc1?(c.perc1=='c'?0:c.perc1):0,
+              Perc2:c.perc2?(c.perc2=='c'?0:c.perc2):0,
+              Perc3:c.perc3?(c.perc3=='c'?0:c.perc3):0,
+            })
           }).then(()=>{
             index++
             if(index==length) {res('')}
           })
         })
       }).then(()=>{
-        this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
-        const dialogconf = new MatDialogConfig;
-        dialogconf.disableClose=false;
-        dialogconf.autoFocus=false;
-        const dialogRef = this.dialog.open(CopyComponent, {
-          data: {}
-        });
-        dia.close()
+        let cols:string[]=['sn','Model','Date','EngHrs','Perc1','Perc2','Perc3']
+        let colWidth:any[]=[120,120,120,60,60,60,60]
+        new Promise(res=>{
+          let length:number=this.elenco.length
+          let check:number=0
+          let a1:boolean=false
+          let a2:boolean=false
+          let a3:boolean=false
+          this.elenco.forEach(a=>{
+            if(a.Perc1!=0) a1=true
+            if(a.Perc2!=0) a2=true
+            if(a.Perc3!=0) a3=true
+            check++
+            let check1:number=0
+            if(check==length) {
+              this.elenco.forEach(t=>{
+                if(!a1) {
+                  delete t.Perc1
+                  cols.splice(4,1)
+                  colWidth.splice(4,1)
+                }
+                if(!a2) {
+                  delete t.Perc2
+                  cols.splice(5,1)
+                  colWidth.splice(5,1)
+                }
+                if(!a3) {
+                  delete t.Perc3
+                  cols.splice(6,1)
+                  colWidth.splice(6,1)
+                }
+                check1++
+                if(check1==length) res('')
+              })
+            }
+          })
+        }).then(()=>{
+          this.elenco.sort((a:any,b:any)=>{
+            if(a.Date>b.Date) return 1
+            if(a.Date<b.Date) return -1
+            return 0
+          })
+          const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.elenco)
+          let Sheets:any={}
+          Sheets[this.valore]=worksheet
+          const workbook: XLSX.WorkBook = { 
+            Sheets, 
+            SheetNames: [this.valore] 
+          }
+          this.excel.exportAsExcelFile(workbook,this.valore + ' - Service Job History',cols,colWidth)
+          dia.close()
+        })
       })
     })
   }
 
   reportSJ(){
+
     const dia = this.dialog.open(GenericComponent, {data:{msg:'Collecting data'}})
     setTimeout(() => {
       dia.close()
     }, 10000);
+
     this.elenco=[]
-    this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
+    //this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
     firebase.database().ref('Saved').child(this.valore).once('value',b=>{
       b.forEach(c=>{
           let x = c.val()
@@ -693,17 +780,40 @@ export class MachineComponent implements OnInit {
             viaggio+=newDayTravel
             lavoro+=newDayWork
           }
-          this.elenco.push(x.matricola+';'+x.prodotto1+';'+x.data11+';'+x.docbpcs+';'+x.orem1+';'+x.perc11+';'+x.perc21+';'+x.perc31+';'+viaggio+';'+lavoro+';'+ind)
+          let dd=new Date(x.data11.substring(6,10),x.data11.substring(3,5),x.data11.substring(0,2))
+          this.elenco.push({
+            sn:x.matricola,
+            Model:x.prodotto1,
+            Date:dd,
+            SJnr:x.docbpcs,
+            EngHrs:x.orem1,
+            Perc1:x.perc11,
+            Perc2:x.perc21,
+            Perc3:x.perc31,
+            Travel:viaggio,
+            Working:lavoro,
+            Days:ind
+          })
       })
     })
     .then(()=>{
-      this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t').replace(/[.]/g,','))
-      const dialogconf = new MatDialogConfig;
-      dialogconf.disableClose=false;
-      dialogconf.autoFocus=false;
-      const dialogRef = this.dialog.open(CopyComponent, {
-        data: {}
-      });
+      this.elenco.sort((a:any,b:any)=>{
+        if(a.Date>b.Date) return 1
+        if(a.Date<b.Date) return -1
+        return 0
+      })
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.elenco)
+      
+      let cols:string[]=['sn','Model','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','Travel','Working','Days']
+      let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
+
+      let Sheets:any={}
+      Sheets[this.valore]=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: [this.valore] 
+      }
+      this.excel.exportAsExcelFile(workbook,this.valore + ' - Service Job History',cols,colWidth)
       dia.close()
     })
   }
@@ -846,7 +956,7 @@ export class MachineComponent implements OnInit {
             sn:req.sn,
             Model:req.model,
             Originator:req.orig,
-            ShipAddress:req.shipTo.address?req.shipTo.address:'',
+            ShipAddress:req.shipTo && req.shipTo.address?req.shipTo.address:'',
             pn:part.pn,
             Description:part.desc,
             LLP:part.llp,
@@ -860,6 +970,22 @@ export class MachineComponent implements OnInit {
       })
     })
     .then(()=>{
+      out.sort((a:any,b:any)=>{
+        if(a.Date>b.Date) return 1
+        if(a.Date<b.Date) return -1
+        return 0
+      })
+
+      let cols:string[]=[
+        'Date',
+        'sn',
+        'Model',
+        'Originator',
+        'pn',
+        'Qty'
+      ]
+
+      let colWidth:any[]=[120,120,120,120,250,120,250,60,60,60]
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out);
       let range=XLSX.utils.decode_range(worksheet['!ref']!)
       
@@ -869,32 +995,13 @@ export class MachineComponent implements OnInit {
         let c1=XLSX.utils.encode_cell({r:r,c:range.e.c-2})
         cel.f=c1 + '*' + c2
       }
-      for(let c=0;c<=range.e.c;c++){
-        let h = XLSX.utils.encode_cell({r:0,c:c})
-        console.log(c,h, worksheet[h].v)
-        if(worksheet[h].v=='Date' || worksheet[h].v=='sn'||worksheet[h].v=='pn'||worksheet[h].v=='Qty'){
-          for(let r=1;r<=range.e.r;r++){
-            let cell=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
-            console.log(cell)
-            cell.s={alignment:{horizontal:'center'}}
-          }
-        }
-      }
-      
-      worksheet['!cols']=[]
-      Object.keys(out[0])
-      .forEach(a=>{
-        a=='ShipAddress'||a=='Description'?worksheet['!cols']?.push({wpx: 250}):
-        a=='LLP' || a=='Qty'|| a=='Tot'?worksheet['!cols']?.push({wpx: 60}):
-        worksheet['!cols']?.push({wpx: 100})
-      })
       let Sheets:any={}
       Sheets[this.valore]=worksheet
       const workbook: XLSX.WorkBook = { 
         Sheets, 
         SheetNames: [this.valore] 
       }
-      this.excel.exportAsExcelFile(workbook,this.valore + ' - Part Request History')
+      this.excel.exportAsExcelFile(workbook,this.valore + ' - Part Request History',cols,colWidth)
       d.close()
     })
   }

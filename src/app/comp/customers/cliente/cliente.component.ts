@@ -1,4 +1,4 @@
-import { Component, isDevMode, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment'
 import { ActivatedRoute, Router } from '@angular/router'
 import firebase from 'firebase/app'
@@ -6,15 +6,16 @@ import 'firebase/auth'
 import 'firebase/database'
 import { GetPotYearService } from '../../../serv/get-pot-year.service'
 import { Clipboard } from '@angular/cdk/clipboard'
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { CopyComponent } from '../../util/dialog/copy/copy.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { AddressDialogComponent } from './address-dialog/address-dialog.component';
-import { AttachmentdialogComponent } from '../../contractshome/contracts/attachmentdialog/attachmentdialog.component';
 import { NewaddressComponent } from '../../util/dialog/newaddress/newaddress.component';
 import { MakeidService } from 'src/app/serv/makeid.service';
+import * as XLSX from 'xlsx-js-style'
+import { GenericComponent } from '../../util/dialog/generic/generic.component';
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 export interface rigsLabel {
   lab: string
@@ -54,7 +55,7 @@ export class ClienteComponent implements OnInit {
   address:any[]=[]
   add!:FormGroup
 
-  constructor(private makeId:MakeidService , private fb: FormBuilder, public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
+  constructor(private excel:ExcelService, private makeId:MakeidService , private fb: FormBuilder, public auth: AuthServiceService, public route: ActivatedRoute, private router: Router, private year: GetPotYearService, public clipboard: Clipboard, private dialog: MatDialog) {
     this.add=this.fb.group({})
   }
 
@@ -198,8 +199,12 @@ export class ClienteComponent implements OnInit {
   }
 
   report(){
+    const d=this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Retreiving data...'}})
+    setTimeout(() => {
+      d.close()
+    }, 20000);
     this.elenco=[]
-    this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
+    //this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
     firebase.database().ref('Saved').once('value',a=>{
         a.forEach(b=>{
             b.forEach(c=>{
@@ -217,19 +222,44 @@ export class ClienteComponent implements OnInit {
                       viaggio+=newDayTravel
                       lavoro+=newDayWork
                     }
-                    this.elenco.push(x.matricola+';'+x.prodotto1+';'+x.data11+';'+x.docbpcs+';'+x.orem1+';'+x.perc11+';'+x.perc21+';'+x.perc31+';'+viaggio+';'+lavoro+';'+ind)
+                    let dd=new Date(x.data11.substring(6,10),x.data11.substring(3,5),x.data11.substring(0,2))
+                    this.elenco.push({
+                      sn:x.matricola,
+                      Model:x.prodotto1,
+                      Date:dd,
+                      SJnr:x.docbpcs,
+                      EngHrs:x.orem1,
+                      Perc1:x.perc11,
+                      Perc2:x.perc21,
+                      Perc3:x.perc31,
+                      TravelHrs:viaggio,
+                      WorkingHrs:lavoro,
+                      Days:ind
+                    })
                 }
             })
         })
     })
     .then(()=>{
-      this.clipboard.copy(this.elenco.toString().replace(/,/g,'\n').replace(/;/g,'\t'))
-      const dialogconf = new MatDialogConfig;
-      dialogconf.disableClose=false;
-      dialogconf.autoFocus=false;
-      const dialogRef = this.dialog.open(CopyComponent, {
-        data: {}
-      });
+      let out=this.elenco
+      out.sort((a:any,b:any)=>{
+        if(a.sn>b.sn) return 1
+        if(a.sn<b.sn) return -1
+        return 0
+      })
+      let name=this.cust1 + ' - SJ History'
+      let cols:string[]=['sn','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','TravelHrs','WorkingHrs','Day']
+
+      let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
+      let Sheets:any={}
+      Sheets['SJ History']=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: ['SJ History'] 
+      }
+      this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+      d.close()
     })
   }
 

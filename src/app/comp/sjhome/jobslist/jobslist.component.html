@@ -28,6 +28,6 @@
             <div class="text">{{l.prodotto1}}</div>
             <div class="text">{{l.cliente11}}</div>   
         </div>
-        <div class="text" *ngIf="chPos('SURights')" (click)="delete(l,i)"><mat-icon>delete</mat-icon></div>
+        <div class="text" *ngIf="chPos('SURights') && list[0].sjid.substring(2,3)!='d'" (click)="delete(l,i)"><mat-icon>delete</mat-icon></div>
     </div>
 </div>

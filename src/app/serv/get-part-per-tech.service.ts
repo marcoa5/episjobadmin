@@ -9,7 +9,7 @@ import { promise } from 'protractor';
 import { SelectrangedialogComponent } from '../comp/util/dialog/selectrangedialog/selectrangedialog.component';
 import * as moment from 'moment';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { CopyComponent } from '../comp/util/dialog/copy/copy.component';
+import { blockParams } from 'handlebars';
 @Injectable({
   providedIn: 'root'
 })
@@ -41,14 +41,19 @@ export class GetPartPerTechService {
             this.getSingleList(rawList,names,f,i)
             .then((list:any)=>{
               d.close()
-              let exp:string=`Parts Report\nFrom:\t${moment(i).format('DD/MM/YYYY')}\nTo:\t${moment(f).format('DD/MM/YYYY')}\n\nName\tQty\tTot Amout`
+              let exp:any[]=[]//string=`Parts Report\nFrom:\t${moment(i).format('DD/MM/YYYY')}\nTo:\t${moment(f).format('DD/MM/YYYY')}\n\nName\tQty\tTot Amout`
               let leng:number = list.length
               let indexy:number =0
               list.forEach((b:any)=>{
-                exp+='\n'+b.toString().replace(/,/g,'\t').replace(/[.]/g,',')
+                exp.push({
+                  Name:b[0],
+                  Qty:b[1],
+                  Amount:b[2]
+                })
+                //exp+='\n'+b.toString().replace(/,/g,'\t').replace(/[.]/g,',')
                 indexy++
                 if(indexy==leng) {
-                  res(exp)
+                  res([exp,i,f])
                 }
               })
             })

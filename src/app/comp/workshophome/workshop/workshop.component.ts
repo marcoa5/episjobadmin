@@ -10,12 +10,13 @@ import { WeekdialogComponent } from './weekdialog/weekdialog.component';
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as moment from 'moment';
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
-import { CopyComponent } from '../../util/dialog/copy/copy.component';
+import * as XLSX from 'xlsx-js-style'
 import { SelectmonthComponent } from './selectmonth/selectmonth.component';
 import { ArchivedialogComponent } from './archivedialog/archivedialog.component';
 import { SjnumberdialogComponent } from './sjnumberdialog/sjnumberdialog.component';
 import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service';
 import { Router } from '@angular/router';
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 @Component({
   selector: 'episjob-workshop',
@@ -38,7 +39,7 @@ export class WorkshopComponent implements OnInit {
   subsList:Subscription[]=[]
   spin:boolean=true
 
-  constructor(private router:Router, private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard, private exp:GetworkshopreportService) { }
+  constructor(private excel:ExcelService, private router:Router, private auth: AuthServiceService, private dialog: MatDialog, private clip:Clipboard, private exp:GetworkshopreportService) { }
   
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -231,57 +232,7 @@ export class WorkshopComponent implements OnInit {
   }
 
   report(a:any){
-    const mese = this.dialog.open(SelectmonthComponent, {data:''})
-    mese.afterClosed().subscribe(da=>{
-      if(da){
-        let dy=da.getDay()==0?7:da.getDay()
-        console.log(dy)
-        const dia = this.dialog.open(GenericComponent,{data:{msg:'Exporting data...'}})
-        setTimeout(() => {
-          dia.close()
-        }, 10000);
-        let exp:string=''
-        firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).once('value',p=>{
-          //exp=`\t${p.val().file}\n${p.val().model}\n${p.val().customer}\n\n${'GIORNO'}\t${'DATA'}\t${'V1'}\t${'V2'}\t${'V8'}\n`
-          if(p.val()!=null){
-            let m1=moment(da).subtract(dy-1,'days')
-            let m2=moment(da).subtract(dy-1,'days').add(1,'weeks').subtract(1,'days')
-            let ch:number=0
-            for(let i = 0; i<(m2.diff(m1,'days')+1);i++){
-              firebase.database().ref('wsFiles').child('open').child(a.sn).child(a.id).child('days').child(moment(m1).add(i,'days').format('YYYY-MM-DD')).once('value',k=>{
-                let chDay = new Date(moment(m1).add(i,'days').format('YYYY-MM-DD')).getDay()
-                let day:string=''
-                switch(chDay){
-                  case 0: day= 'DOMENICA'
-                  break
-                  case 1: day= 'LUNEDI'
-                  break
-                  case 2: day= 'MARTEDI'
-                  break
-                  case 3: day= 'MERCOLEDI'
-                  break
-                  case 4: day= 'GIOVEDI'
-                  break
-                  case 5: day= 'VENERDI'
-                  break
-                  case 6: day= 'SABATO'
-                  break
-                }
-                if(k.val()!=null){
-                  exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t${k.val().v1?k.val().v1:''}\t${k.val().v2?k.val().v2:''}\t${k.val().v8?k.val().v8:''}\n`
-                } else {
-                  exp+=`${day.toUpperCase()}\t${moment(m1).add(i,'days').format('DD-MM-YYYY')}\t\t\t\n`
-                }
-              })
-            }
-          }
-        }).then(()=>{
-          this.clip.copy(exp.replace(/[.]/g,','))
-          const dd = this.dialog.open(CopyComponent)
-          dia.close()
-        })
-      }
-    })
+    this.exp.month(a)
     /*
     */
   }

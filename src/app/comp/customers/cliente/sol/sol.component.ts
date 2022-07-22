@@ -21,7 +21,6 @@ export class SolComponent implements OnInit {
 
   ngOnInit(): void {
     firebase.database().ref('SOL').child(this.custId).child('sol').once('value',a=>{
-      console.log(a.val())
       this.check.controls.cb.setValue(a.val())
     })
   }
