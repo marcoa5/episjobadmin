@@ -22,7 +22,7 @@ import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsre
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
-import { Xliff2 } from '@angular/compiler';
+import { ThisReceiver, Xliff2 } from '@angular/compiler';
 
 export interface hrsLabel {
   lab: string
@@ -797,24 +797,44 @@ export class MachineComponent implements OnInit {
       })
     })
     .then(()=>{
-      this.elenco.sort((a:any,b:any)=>{
-        if(a.Date>b.Date) return 1
-        if(a.Date<b.Date) return -1
-        return 0
-      })
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.elenco)
       
-      let cols:string[]=['sn','Model','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','Travel','Working','Days']
-      let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
-
-      let Sheets:any={}
-      Sheets[this.valore]=worksheet
-      const workbook: XLSX.WorkBook = { 
-        Sheets, 
-        SheetNames: [this.valore] 
-      }
-      this.excel.exportAsExcelFile(workbook,this.valore + ' - Service Job History',cols,colWidth)
-      dia.close()
+      new Promise(res=>{
+        let a1:boolean=false
+        let a2:boolean=false
+        let a3:boolean=false
+        let check:number=0
+        let length:number=this.elenco.length
+        this.elenco.forEach(item=>{
+          if(item.Perc1!=null) a1=true
+          if(item.Perc2!=null) a2=true
+          if(item.Perc3!=null) a3=true
+          check++
+          if(length==check) res([a1,a2,a3])
+        })
+      })
+      .then((ris:any)=>{
+        if(ris[0]==false) this.elenco.forEach(a=>{delete a.Perc1})
+        if(ris[1]==false) this.elenco.forEach(a=>{delete a.Perc2})
+        if(ris[2]==false) this.elenco.forEach(a=>{delete a.Perc3})
+        this.elenco.sort((a:any,b:any)=>{
+          if(a.Date>b.Date) return 1
+          if(a.Date<b.Date) return -1
+          return 0
+        })
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.elenco)
+        
+        let cols:string[]=['sn','Model','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','Travel','Working','Days']
+        let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
+  
+        let Sheets:any={}
+        Sheets[this.valore]=worksheet
+        const workbook: XLSX.WorkBook = { 
+          Sheets, 
+          SheetNames: [this.valore] 
+        }
+        this.excel.exportAsExcelFile(workbook,this.valore + ' - Service Job History',cols,colWidth)
+        dia.close()
+      })
     })
   }
 
@@ -988,6 +1008,17 @@ export class MachineComponent implements OnInit {
       let colWidth:any[]=[120,120,120,120,250,120,250,60,60,60]
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out);
       let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      for(let c=0;c<=range.e.c;c++){
+        let cel = worksheet[XLSX.utils.encode_cell({r:0,c:c})]
+        if(cel.v=='LLP' || cel.v=='Tot'){
+          for(let r=1;r<=range.e.r;r++){
+            let cel1 = worksheet[XLSX.utils.encode_cell({r:r,c:c})]
+            if(cel1){
+              cel1.z = "#,##0.00"
+            }
+          }
+        }
+      }
       
       for(let r=1;r<=range.e.r;r++){
         let cel = worksheet[XLSX.utils.encode_cell({r:r,c:range.e.c})]
