@@ -3,7 +3,8 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
 import * as moment from 'moment'
-import { getSafePropertyAccessString, JitSummaryResolver } from '@angular/compiler';
+import * as XLSX from 'xlsx-js-style'
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 @Component({
   selector: 'episjob-contractshome',
@@ -20,7 +21,7 @@ export class ContractshomeComponent implements OnInit {
   archivedList:any[]=[]
 
   subsList:Subscription[]=[]
-  constructor(private auth:AuthServiceService) { }
+  constructor(private excel:ExcelService , private auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -63,8 +64,6 @@ export class ContractshomeComponent implements OnInit {
               })
             })
           })
-        }).then((a:any)=>{
-          this.getDownload(a)
         })
       } else {
         this.contractsSpin=false
@@ -72,29 +71,7 @@ export class ContractshomeComponent implements OnInit {
     })
   }
 
-  getDownload(list:any[]){
-    let data:string=''
-    this.getKeys(list).then((keys:any)=>{
-      keys.sort()
-      data+=(keys.join('\t')+'\n').toUpperCase()
-      list.forEach(item=>{
-        let temp:any[]=[]
-        keys.forEach((k:any)=>{
-          if(k.substring(0,1)=='0') {
-            temp[keys.indexOf(k)]=item[k.substring(1,10000)]
-          } else if(k.substring(0,1)=='1'){
-            try{
-              if(item.fees[k.substring(1,10000)]) temp[keys.indexOf(k)]=parseFloat(item.fees[k.substring(1,10000)]).toFixed(2).replace(/[.]/g,',')
-            } catch {}
-          }
-          //if(keys.indexOf('1' + k)>-1) temp[keys.indexOf('1' + k)]=item[k]
-        })
-        data+=temp.join('\t') + '\n'
-      })
-      console.log(data)
-      navigator.clipboard.writeText(data)
-    })
-  }
+  
 
   getKeys(list:any[]){
     let keysList:string[]=[]
@@ -121,7 +98,6 @@ export class ContractshomeComponent implements OnInit {
       })
     })
   }
-
 
   loadArchived(){
     firebase.database().ref('Contracts').child('archived').on('value',a=>{

@@ -1,33 +1,24 @@
-<div class="head" [class.mat-elevation-z2]="false">
-    <div class="h" (click)="sort('data_new')">
-        <span>Date</span>
-        <span *ngIf="sortIcon=='data_new' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-        <span *ngIf="sortIcon=='data_new' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-    </div>
-    <div class="h" (click)="sort('matricola')">
-        <span>Serial Nr</span>
-        <span *ngIf="sortIcon=='matricola' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-        <span *ngIf="sortIcon=='matricola' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-    </div>
-    <div class="h" (click)="sort('prodotto1')">
-        <span>Machine</span>
-        <span *ngIf="sortIcon=='prodotto1' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-        <span *ngIf="sortIcon=='prodotto1' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-    </div>
-    <div class="h" (click)="sort('cliente11')">
-        <span>Customer</span>
-        <span *ngIf="sortIcon=='cliente11' && sortDir=='up'" style="padding:0;margin:0"><mat-icon >arrow_drop_up</mat-icon></span>
-        <span *ngIf="sortIcon=='cliente11' && sortDir=='down'"><mat-icon>arrow_drop_down</mat-icon></span>
-    </div>
-</div>
-<div class="contL">
-    <div *ngFor="let l of list; let i = index" [ngClass]="chPos('SURights')? 'contUp':'contUp1'" >
-        <div class="cont" [ngClass]="l.sel==1? 'sel':''" (click)="sel(l.sjid, i)" (dblclick)="directgo(l.sjid,i)">
-            <div class="text bold">{{l.data_new}}</div>
-            <div class="text bold">{{l.matricola}}</div>
-            <div class="text">{{l.prodotto1}}</div>
-            <div class="text">{{l.cliente11}}</div>   
-        </div>
-        <div class="text" *ngIf="chPos('SURights') && list[0].sjid.substring(2,3)!='d'" (click)="delete(l,i)"><mat-icon>delete</mat-icon></div>
-    </div>
-</div>
+<table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
+      <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" [ngClass]="{'sel':e.sel==1}"> {{e.data_new | dateconv}} </td>
+    </ng-container>
+    <ng-container matColumnDef="sn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n</th>
+        <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" [ngClass]="{'sel':e.sel==1}"> {{e.matricola}} </td>
+      </ng-container>
+      <ng-container matColumnDef="customer">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer</th>
+        <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" [ngClass]="{'sel':e.sel==1}"> {{e.cliente11}} </td>
+      </ng-container>
+      <ng-container matColumnDef="model">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Model</th>
+        <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" [ngClass]="{'sel':e.sel==1}"> {{e.prodotto1}} </td>
+      </ng-container>
+      <ng-container matColumnDef="del">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Del</th>
+        <td mat-cell *matCellDef="let e" class="cur" (click)="delete(e)" [ngClass]="{'sel':e.sel==1}"> <mat-icon>delete</mat-icon> </td>
+      </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

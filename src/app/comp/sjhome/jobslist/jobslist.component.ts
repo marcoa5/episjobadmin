@@ -3,6 +3,9 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
 import { MatDialog } from '@angular/material/dialog';
 import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
+import { Sort } from '@angular/material/sort';
+import { Subscription } from 'rxjs';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'episjob-jobslist',
@@ -13,17 +16,35 @@ export class JobslistComponent implements OnInit {
   @Input() list:any[]=[]
   @Output() select=new EventEmitter()
   @Output() directopen=new EventEmitter()
-  sortDir:string=''
-  sortDirS:string=''
-  sortIcon:string='date'
-  sortIconS:string='date'
+  pos:string=''
+  sortedData:any[]=[]
+  displayedColumns=['date','sn', 'customer','model']
+  subsList:Subscription[]=[]
+
   constructor(private auth:AuthServiceService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
-    
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a) {
+          this.pos=a.Pos
+          if (a.Pos=='SU' && this.list[0].sjid.substring(2,3)=='d') this.displayedColumns=['date','sn', 'customer','model','del']
+        }
+      })
+    )
   }
 
-  sort(a:string){
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{
+      a.unsubscribe()
+    })
+  }
+
+  ngOnChanges(){
+    this.sortedData=this.list.slice()
+  }
+
+  /*sort(a:string){
     this.sortIcon=a
     if(this.sortDir=='') {
       this.sortDir='up'
@@ -53,17 +74,41 @@ export class JobslistComponent implements OnInit {
         }
       })
     }
+  }*/
+
+  sortData(sort: Sort) {
+    const data = this.list.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'date':
+          return compare(a.data_new, b.data_new, isAsc);
+        case 'sn':
+          return compare(a.matricola, b.matricola, isAsc);
+        case 'customer':
+          return compare(a.cliente11, b.cliente11, isAsc);
+        case 'model':
+          return compare(a.prodotto1, b.prodotto1, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
 
-  sel(a:string, b:number){
-    if(this.list[b].sel==0 || this.list[b].sel==null || this.list[b].sel==undefined){
-      this.list.forEach((e:any) => {
+  sel(index:number){
+    if(this.sortedData[index].sel==0 || this.sortedData[index].sel==null || this.sortedData[index].sel==undefined){
+      this.sortedData.forEach((e:any) => {
         e.sel=0
       });
-      this.list[b].sel=1
-      this.select.emit(this.list[b].sjid)
+      this.sortedData[index].sel=1
+      this.select.emit(this.sortedData[index].sjid)
     } else {
-      this.list.forEach((e:any) => {
+      this.sortedData.forEach((e:any) => {
         e.sel=0
       })
       this.select.emit('')
@@ -74,7 +119,7 @@ export class JobslistComponent implements OnInit {
     this.directopen.emit(id)
   }
 
-  delete(a:any,b:number){
+  delete(a:any){
     let id = a.sjid
     let type:string=id.substring(2,3)=='d'?'draft':'sent'
     const d = this.dialog.open(DeldialogComponent,{data:{name:'Service Job (' + a.prodotto1 + ' - ' + a.cliente11 + ')'  }})
@@ -86,4 +131,8 @@ export class JobslistComponent implements OnInit {
   chPos(pos:string){
     return this.auth.acc(pos)
   }
+}
+
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

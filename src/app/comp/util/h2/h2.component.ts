@@ -84,7 +84,7 @@ export class H2Component implements OnInit {
   }
 
   download(){
-    if(this.data=='Certiq Report') {this.down.emit('d')}
+    this.down.emit('d')
   }
 
   ch(e:any){

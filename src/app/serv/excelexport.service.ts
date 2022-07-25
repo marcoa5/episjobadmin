@@ -21,7 +21,15 @@ public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsT
         if(worksheet[h].v==r){
           for(let r=1;r<=range.e.r;r++){
             let cell=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
-            cell.s={alignment:{horizontal:'center'}}
+            if(cell) {
+              cell.s={alignment:{horizontal:'center'}}
+            }else {
+              let c1:any={}
+              c1.s={}
+              c1.s.alignment={}
+              c1.s.alignment.horizontal='center'
+            }
+
           }
         }
       }
@@ -35,12 +43,23 @@ public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsT
       if(!cc.s.font.bold) cc.s.font.bold=true
       if(!cc.s.fill) cc.s.fill={}
       if(!cc.s.fill.fgColor) cc.s.fill.fgColor={rgb:'FFCD00'}
+      if(cc && !cc.s) cc.s={}
+      cc.s.font.name= 'arial'
+      cc.s.font.sz=10
+
+
     }}
     for(let r=1;r<=range.e.r;r++){
       for(let c=0;c<=range.e.c;c++){
         let cell = worksheet[XLSX.utils.encode_cell({r:r,c:c})]
-        if(!cell.s) cell.s={}
-        if(!cell.s.font) cell.s.font={name: 'arial',sz:10}
+        if(cell && !cell.s) cell.s={}
+        if(cell && !cell.s.font) cell.s.font={name: 'arial',sz:10}
+        if(!cell){
+          let c1:any={}
+          c1.s={}
+          c1.s.font={name: 'arial',sz:10}
+          worksheet[XLSX.utils.encode_cell({r:r,c:c})]=c1
+        }
       }
     }
   })

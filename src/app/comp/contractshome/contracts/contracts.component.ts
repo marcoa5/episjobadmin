@@ -10,6 +10,8 @@ import { AttachmentdialogComponent } from './attachmentdialog/attachmentdialog.c
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { Router } from '@angular/router';
 import { ArchivecontractdialogComponent } from './archivecontractdialog/archivecontractdialog.component';
+import * as XLSX from 'xlsx-js-style'
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 export interface cont {
   sn: string;
@@ -36,7 +38,7 @@ export class ContractsComponent implements OnInit {
 
   displayedColumns:string[]=[]
   subsList:Subscription[]=[]
-  constructor(private router:Router, private auth:AuthServiceService, private dialog: MatDialog) { }
+  constructor(private excel:ExcelService, private router:Router, private auth:AuthServiceService, private dialog: MatDialog) { }
 
   ngOnInit(): void {3
     this.subsList.push(
@@ -182,6 +184,84 @@ export class ContractsComponent implements OnInit {
         })
       }
     })
+  }
+
+  getDownload(list:any[]){
+    let output:any[]=[]
+    let check:number=0
+    let length:number=list.length
+    new Promise(res=>{
+      list.map((item:any, index:number)=>{
+        let temp:any={}
+        let keys = Object.keys(item).sort()
+        keys.forEach(k=>{
+          temp[k]=item[k]
+        })
+        delete temp['att']
+        delete temp['id']
+        delete temp['custCode']
+        if(item.discounts){
+          let newK=Object.keys(item.discounts)
+          newK.forEach(a=>{
+            let newVal:any=Object.values(item.discounts)[newK.indexOf(a)]
+            if(a.substring(0,3)=='RDT' || a.substring(0,3)=='PSD') newVal=parseInt(newVal.toString())
+            temp['disc_'+a]= newVal
+          })
+        }
+
+        if(item.fees){
+          let newK=Object.keys(item.fees)
+          newK.forEach(a=>{
+            let newVal:any=Object.values(item.fees)[newK.indexOf(a)]
+            newVal=parseFloat(parseFloat(newVal.toString()).toFixed(2))
+            temp['fees_'+a]= newVal
+          })
+        }
+        temp['start']=new Date(temp['start'])
+        temp['end']=new Date(temp['end'])
+        delete temp['fees']
+        delete temp['discounts']
+        output.push(temp)
+        check++
+        if(check==length) res('')
+      })
+    })
+    .then(()=>{
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(output);
+      //Center columns
+      let cols:string[]=['daysleft','end','model','sn','start','disc_PSD Discount','disc_RDT discount','disc_air transport','disc_truck transport','fees_day','fees_km','fees_lump sum travel','fees_mf','fees_mnf','fees_mnt','fees_off','fees_ofs','fees_spo','fees_sps','fees_spv','fees_std','fees_str','fees_COP CARE','fees_ROC CARE','fees_ROC&COP CARE']
+      let colWidth:any[]=[250,60,120,120,120,120,250]
+      for (var i=0; i<21; i++) {
+        colWidth.push(80);
+      }
+      let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      //columns Width
+      for(let c=0;c<=range.e.c;c++){
+        let cell=worksheet[XLSX.utils.encode_cell({r:0,c:c})]
+        if(cell.v.substring(0,4)=='fees') {
+          for(let r=1;r<=range.e.r;r++){
+            let cell1=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
+            if(cell1) {
+              cell1.z="0.00"
+            } else {
+              let c1:any={}
+                c1.v=''
+                c1.t='n'
+                c1.z="0.00"
+                worksheet[XLSX.utils.encode_cell({r:r,c:c})]=c1
+            }
+          }
+        }
+      }
+      let Sheets:any={}
+      Sheets['Contracts']=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: ['Contracts'] 
+      }
+      this.excel.exportAsExcelFile(workbook,'List of Contracts',cols,colWidth)
+    })
+
   }
 }
 
