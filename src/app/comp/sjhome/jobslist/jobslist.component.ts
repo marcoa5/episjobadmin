@@ -28,7 +28,7 @@ export class JobslistComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         if(a) {
           this.pos=a.Pos
-          if (a.Pos=='SU' && this.list[0].sjid.substring(2,3)=='d') this.displayedColumns=['date','sn', 'customer','model','del']
+          if (a.Pos=='SU' && this.list[0].sjid.substring(2,3)=='s') this.displayedColumns=['date','sn', 'customer','model','del']
         }
       })
     )
@@ -115,7 +115,7 @@ export class JobslistComponent implements OnInit {
     }
   }
 
-  directgo(id:string,b:number){
+  directgo(id:string){
     this.directopen.emit(id)
   }
 
