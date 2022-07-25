@@ -49,7 +49,7 @@ export class AppComponent {
   
   ngOnInit(){
     this.version=environment.appVersion
-    console.log(this.version)
+    this.onResize()
     this.pag.itemsPerPageLabel='#'
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
