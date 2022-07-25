@@ -228,10 +228,10 @@ export class ClienteComponent implements OnInit {
                       Model:x.prodotto1,
                       Date:dd,
                       SJnr:x.docbpcs,
-                      EngHrs:x.orem1.replace(/[.]/,''),
-                      Perc1:x.perc11.replace(/[.]/,''),
-                      Perc2:x.perc21.replace(/[.]/,''),
-                      Perc3:x.perc31.replace(/[.]/,''),
+                      EngHrs:x.orem1?parseInt(x.orem1.replace(/[.]/,'')):0,
+                      Perc1:x.perc11?parseInt(x.perc11.replace(/[.]/,'')):0,
+                      Perc2:x.perc21?parseInt(x.perc21.replace(/[.]/,'')):0,
+                      Perc3:x.perc31?parseInt(x.perc31.replace(/[.]/,'')):0,
                       TravelHrs:viaggio,
                       WorkingHrs:lavoro,
                       Days:ind
@@ -248,7 +248,7 @@ export class ClienteComponent implements OnInit {
         return 0
       })
       let name=this.cust1 + ' - SJ History'
-      let cols:string[]=['sn','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','TravelHrs','WorkingHrs','Day']
+      let cols:string[]=['sn','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','TravelHrs','WorkingHrs','Days']
 
       let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)

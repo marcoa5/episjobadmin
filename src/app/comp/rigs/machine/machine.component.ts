@@ -609,7 +609,7 @@ export class MachineComponent implements OnInit {
           ws.forEach(rf=>{
             let d= `${x.data11.substring(6,10)}-${x.data11.substring(3,5)}-${x.data11.substring(0,2)}`
             y.push({
-              Date:d,
+              Date:new Date(d),
               sn: x.matricola,
               Machine: x.prodotto1,
               Family: rf.split(';')[0],
@@ -786,10 +786,10 @@ export class MachineComponent implements OnInit {
             Model:x.prodotto1,
             Date:dd,
             SJnr:x.docbpcs,
-            EngHrs:x.orem1,
-            Perc1:x.perc11,
-            Perc2:x.perc21,
-            Perc3:x.perc31,
+            EngHrs:x.orem1?parseInt(x.orem1.replace(/[.]/,'')):null,
+            Perc1:x.perc11?parseInt(x.perc11.replace(/[.]/,'')):null,
+            Perc2:x.perc21?parseInt(x.perc21.replace(/[.]/,'')):null,
+            Perc3:x.perc31?parseInt(x.perc31.replace(/[.]/,'')):null,
             Travel:viaggio,
             Working:lavoro,
             Days:ind

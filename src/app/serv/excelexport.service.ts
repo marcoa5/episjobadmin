@@ -49,7 +49,7 @@ public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsT
 }
 private saveAsExcelFile(buffer: any, fileName: string): void {
    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-   FileSaver.saveAs(data, fileName + '_'+ /*new  Date().getTime() +*/ EXCEL_EXTENSION);
+   FileSaver.saveAs(data, fileName + '_'+ new  Date().getTime() + EXCEL_EXTENSION);
 }
 }
 
