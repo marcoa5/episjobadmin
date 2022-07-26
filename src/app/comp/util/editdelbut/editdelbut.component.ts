@@ -22,6 +22,7 @@ import { ImportpartsComponent } from '../dialog/importparts/importparts.componen
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
   @Input() cliente:boolean=false
+  @Input() contracts:boolean=false
   @Input() machine:boolean=false
   @Input() addHr:boolean=false
   @Input() cont:boolean=false
@@ -41,6 +42,8 @@ export class EditdelbutComponent implements OnInit {
   @Output() addA = new EventEmitter()
   @Output() addParts = new EventEmitter()
   @Output() expParts= new EventEmitter()
+  @Output() expCon=new EventEmitter()
+  @Output() addCon=new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -155,5 +158,13 @@ export class EditdelbutComponent implements OnInit {
 
   exportParts(){
     this.expParts.emit('')
+  }
+
+  exportContract(){
+    this.expCon.emit('')
+  }
+
+  addContract(){
+    this.addCon.emit('')
   }
 }

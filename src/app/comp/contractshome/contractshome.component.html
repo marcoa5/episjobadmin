@@ -7,5 +7,6 @@
         <episjob-spin *ngIf="archivedSpin"></episjob-spin>  
     </div>
 </div>
+<episjob-editdelbut [contracts]="true" (expCon)="getDownload()" (addCon)="add()"></episjob-editdelbut>
 
 <div *ngIf="!allow" episjobCont>Restricted Area</div>
