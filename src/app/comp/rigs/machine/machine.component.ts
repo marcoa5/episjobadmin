@@ -765,6 +765,7 @@ export class MachineComponent implements OnInit {
     this.elenco=[]
     //this.elenco.push('sn;model;date;SJ nr;Eng hrs;Perc1 hrs;Perc2 hrs;Perc3 hrs;Travel hrs;Working hrs;Days')
     firebase.database().ref('Saved').child(this.valore).once('value',b=>{
+      console.log(b.val())
       b.forEach(c=>{
           let x = c.val()
           let lavoro:number=0, viaggio:number=0, ind:number=0
@@ -797,8 +798,8 @@ export class MachineComponent implements OnInit {
       })
     })
     .then(()=>{
-      
       new Promise(res=>{
+        console.log(this.elenco)
         let a1:boolean=false
         let a2:boolean=false
         let a3:boolean=false
@@ -809,6 +810,7 @@ export class MachineComponent implements OnInit {
           if(item.Perc2!=null) a2=true
           if(item.Perc3!=null) a3=true
           check++
+          console.log(check,length)
           if(length==check) res([a1,a2,a3])
         })
       })

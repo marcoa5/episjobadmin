@@ -16,6 +16,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import * as XLSX from 'xlsx-js-style'
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { ExcelService } from 'src/app/serv/excelexport.service';
+import { MessageComponent } from '../../util/dialog/message/message.component';
 
 export interface rigsLabel {
   lab: string
@@ -241,25 +242,31 @@ export class ClienteComponent implements OnInit {
         })
     })
     .then(()=>{
-      let out=this.elenco
-      out.sort((a:any,b:any)=>{
-        if(a.sn>b.sn) return 1
-        if(a.sn<b.sn) return -1
-        return 0
-      })
-      let name=this.cust1 + ' - SJ History'
-      let cols:string[]=['sn','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','TravelHrs','WorkingHrs','Days']
-
-      let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
-      let Sheets:any={}
-      Sheets['SJ History']=worksheet
-      const workbook: XLSX.WorkBook = { 
-        Sheets, 
-        SheetNames: ['SJ History'] 
+      if(this.elenco.length>0){
+        let out=this.elenco
+        out.sort((a:any,b:any)=>{
+          if(a.sn>b.sn) return 1
+          if(a.sn<b.sn) return -1
+          return 0
+        })
+        let name=this.cust1 + ' - SJ History'
+        let cols:string[]=['sn','Date','SJnr','EngHrs','Perc1','Perc2','Perc3','TravelHrs','WorkingHrs','Days']
+  
+        let colWidth:any[]=[120,120,120,120,60,60,60,60,60,60,60]
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
+        let Sheets:any={}
+        Sheets['SJ History']=worksheet
+        const workbook: XLSX.WorkBook = { 
+          Sheets, 
+          SheetNames: ['SJ History'] 
+        }
+        this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+        d.close()
+      }else{
+        this.dialog.open(MessageComponent,{data:{msg:'No Service jobs for this customer', title: 'No data'}})
+        d.close()
       }
-      this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
-      d.close()
+      
     })
   }
 
@@ -302,7 +309,6 @@ export class ClienteComponent implements OnInit {
   }
 
   addAddress(){
-    console.log(this.id)
     const dia= this.dialog.open(NewaddressComponent)
     dia.afterClosed().subscribe(res=>{
       if(res) {

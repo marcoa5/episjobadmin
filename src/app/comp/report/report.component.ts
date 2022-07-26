@@ -36,7 +36,7 @@ export class ReportComponent implements OnInit {
   _sortedData:any[]=[]
   displayedColumns:any=['Serial Number', 'Model','Company','Site','Engine Hrs','Service Int','Hours to next service','.', 'Service pred date','Prev working day hours' ]
   allow:boolean=false
-  info:any[]=[{
+  info:any[]=[/*{
     "machineItemNumber": "8992009970",
     "machineCompany": "Manfredi Technique srl (Cave Gioia)",
     "machineSite": "Carrara",
@@ -61,7 +61,7 @@ export class ReportComponent implements OnInit {
   "servicePredictedDate": "2018-12-03T23:56:06Z",
   "machineHrs": 0,
   "machineNote": "1"
-},]
+},*/]
   allSpin:boolean=true
   strSea:string=''
   subsList:Subscription[]=[]

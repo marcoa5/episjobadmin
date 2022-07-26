@@ -26,6 +26,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() machine:boolean=false
   @Input() addHr:boolean=false
   @Input() cont:boolean=false
+  @Input() sj:boolean=false
   @Input() func:string|undefined
   @Input() nome:string|undefined
   @Input() seriale:string|undefined
