@@ -81,9 +81,8 @@ export class FilesComponent implements OnInit {
   filter(a:any){
     if(a!=''){
       this.filtro=a
-      this.files1 = this.files
-    } 
-    if (a=='') {
+      this.files1 = this.files.slice()
+    } else {
       this.filtro=''
       this.start=1
       this.end =10

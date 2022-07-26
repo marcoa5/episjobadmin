@@ -4,7 +4,7 @@
 .cont{
     display: grid;
     gap: 15px;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 }
 
 .file{
@@ -17,6 +17,7 @@
     padding: 10px 5px;
     cursor: pointer;
     overflow: hidden;
+    z-index: 1500;
 }
 
 .nomeF{
