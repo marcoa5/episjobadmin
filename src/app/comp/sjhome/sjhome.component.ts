@@ -183,7 +183,7 @@ export class SjhomeComponent implements OnInit {
           let _draft =Object.values(draft.val())
           let length:number=_draft.length
           draft.forEach(d=>{
-            if(((this.auth.acc('Technician') && d.val().authorId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.auth.acc('Technician'))|| (this.pos!='tech')))) {
+            if(((this.auth.acc('Technician') && d.val().userId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.auth.acc('Technician'))|| (this.pos!='tech')))) {
               s=parseInt(d.val().lastM)
               let _l
               _l=localStorage.getItem(d.key!)
