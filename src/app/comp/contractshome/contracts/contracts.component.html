@@ -1,4 +1,4 @@
-<episjob-h2 data="List of contracts" icon="class" padtop="0" [showSearch]="sortedData.length>0" (filter)="filter($event)"></episjob-h2>    
+<episjob-h2 data="List of contracts" icon="class" padtop="0" [showSearch]="true" (filter)="filter($event)"></episjob-h2>    
 <div *ngIf="sortedData.length==0">No Data</div>    
 <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
     <ng-container matColumnDef="sn">
