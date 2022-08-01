@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { ComdatedialogComponent } from 'src/app/comp/util/dialog/comdatedialog/comdatedialog.component';
+import { environment } from 'src/environments/environment';
 
 export interface list{
   fam: string
@@ -16,24 +17,7 @@ export interface list{
 })
 export class HrssplitComponent implements OnInit {
   hrs!: FormGroup
-  fam = [
-		{name: '', val: 0},
-		{name: 'Avviamento', val: 'Avviamento'},
-		{name: 'Carro/Cabina', val: 'Carro/Cabina'},
-		{name: 'Motore Diesel/Batteria', val: 'Motore Diesel/Batteria'},
-		{name: 'RCS', val: 'RCS'},
-		{name: 'Perforazione', val: 'Perforazione'},
-		{name: 'Braccio Benna', val: 'Braccio Benna'},
-		{name: 'Trasmissione', val: 'Trasmissione'},
-		{name: 'Imp. Elettrico', val: 'Imp. Elettrico'},
-		{name: 'Imp. Idraulico', val: 'Imp. Idraulico'},
-		{name: 'Imp. Aria/Acqua', val: 'Imp. Aria/Acqua'},
-		{name: 'Braccio/Slitta', val: 'Braccio/Slitta'},
-		{name: 'Perforatrice', val: 'Perforatrice'},
-		{name: 'Bullonatura', val: 'Bullonatura'},
-		{name: 'RigScan', val: 'RigScan'},
-		{name: 'Stazione di ricarica', val: 'Stazione di ricarica'},
-	]
+  fam = environment.imiFabiFam
   
   hrssum:number=0
   list:list[]=[]
