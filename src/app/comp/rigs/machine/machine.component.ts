@@ -686,10 +686,10 @@ export class MachineComponent implements OnInit {
               sn:this.valore,
               Model:rig.val().model,
               Date:new Date(date),
-              EngHrs:c.orem=='c'?0:c.orem,
-              Perc1:c.perc1?(c.perc1=='c'?0:c.perc1):0,
-              Perc2:c.perc2?(c.perc2=='c'?0:c.perc2):0,
-              Perc3:c.perc3?(c.perc3=='c'?0:c.perc3):0,
+              EngHrs:c.orem=='c'?0:parseInt(c.orem),
+              Perc1:c.perc1?(c.perc1=='c'?0:parseInt(c.perc1)):0,
+              Perc2:c.perc2?(c.perc2=='c'?0:parseInt(c.perc2)):0,
+              Perc3:c.perc3?(c.perc3=='c'?0:parseInt(c.perc3)):0,
             })
           }).then(()=>{
             index++
