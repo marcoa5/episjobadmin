@@ -14,7 +14,7 @@ import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.compon
 import { ComdatedialogComponent } from '../../util/dialog/comdatedialog/comdatedialog.component'
 import {Clipboard} from '@angular/cdk/clipboard';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { generate, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { NewsubeqComponent } from './subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from './subeq/subeddialog/subeddialog.component';
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
@@ -22,7 +22,6 @@ import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsre
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
-import { ThisReceiver, Xliff2 } from '@angular/compiler';
 
 export interface hrsLabel {
   lab: string
@@ -552,9 +551,8 @@ export class MachineComponent implements OnInit {
       });
 
       dialogRef.afterClosed().subscribe(result => {
-        let fd = result.split('/')
         if(result!=undefined && this.auth.acc('SURights')) {
-          let r1 = moment(new Date(fd[2],fd[1]-1,fd[0])).format('YYYYMMDD')
+          let r1 = moment(result).format('YYYYMMDD')
           let r2
           if(this.data[0] !=null) r2 = this.data[0].x.replace(/\-/g,'')
           

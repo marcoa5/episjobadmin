@@ -1,4 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 @Component({
@@ -8,8 +9,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 })
 export class ComdatedialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<ComdatedialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  date:FormGroup=new FormGroup({
+    comDate:new FormControl('')
+  })
+  constructor(public dialogRef: MatDialogRef<ComdatedialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    
+  }
   chOk:boolean=true
+  
+
   ngOnInit(): void {
   }
 
@@ -20,5 +28,4 @@ export class ComdatedialogComponent implements OnInit {
   ch(e:any){
     if(e.target.value == null) {this.chOk = true} else {this.chOk = false}
   }
-
 }

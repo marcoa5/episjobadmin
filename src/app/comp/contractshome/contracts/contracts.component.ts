@@ -90,6 +90,8 @@ export class ContractsComponent implements OnInit {
       if(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.type.toLowerCase().includes(a)) return true
       return false
     })
+    this.sortData({active:'left',direction:'asc'})
+
   }
 
   /*add(e?:any){
