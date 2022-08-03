@@ -17,31 +17,30 @@
     padding: 10px 5px;
     cursor: pointer;
     overflow: hidden;
-    z-index: 1500;
 }
 
 .nomeF{
     margin-left: 15px;
 }
 
-episjob-h2{
+.el{
     position: sticky;
     top:120px;
+    z-index: 2;
 }
 
-mat-paginator{
-    position: sticky;
-    top:180px;
-}
-
-.panel{
+.panel, .panelShort{
     background-color: white;
     position: fixed;
     top: 0; left:-10px;
-    width:200%; height: 253px;
+    width:200%; 
     z-index: 1;
 }
 
-.el{
-    z-index: 300;
+.panel{
+    height: 253px;
+}
+
+.panelShort{
+    height: 165px;
 }

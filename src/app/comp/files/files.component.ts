@@ -35,6 +35,7 @@ export class FilesComponent implements OnInit {
   allow:boolean=false
   //auth:string[]=[]
   allSpin:boolean=true
+  searchEmpty:boolean=true
   subsList:Subscription[]=[]
 
   constructor(private excel:ExcelService, private auth: AuthServiceService, private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute, private clip: Clipboard, private dialog: MatDialog) { }
@@ -80,9 +81,11 @@ export class FilesComponent implements OnInit {
 
   filter(a:any){
     if(a!=''){
+      this.searchEmpty=false
       this.filtro=a
       this.files1 = this.files.slice()
     } else {
+      this.searchEmpty=true
       this.filtro=''
       this.start=1
       this.end =10
@@ -149,7 +152,7 @@ export class FilesComponent implements OnInit {
         Sheets, 
         SheetNames: ['Files'] 
       }
-      this.excel.exportAsExcelFile(workbook,'Service Jobs List',cols,colWidth)
+      this.excel.exportAsExcelFile(workbook,'SJ Survey List',cols,colWidth)
       dia.close()
     })
   }
