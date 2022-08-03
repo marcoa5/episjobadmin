@@ -48,7 +48,7 @@ export class GetPartPerTechService {
                 exp.push({
                   Name:b[0],
                   Qty:b[1],
-                  Amount:b[2].replace(/[.]/g,',')
+                  Amount:parseFloat(b[2])
                 })
                 //exp+='\n'+b.toString().replace(/,/g,'\t').replace(/[.]/g,',')
                 indexy++

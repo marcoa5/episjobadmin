@@ -394,7 +394,7 @@ export class MachineComponent implements OnInit {
             data:this.dataCha,
             borderColor: 'rgb(66,85,99)',
             pointBackgroundColor:'rgb(66,85,99)',
-            backgroundColor: 'rgb(255,205,0)',
+            backgroundColor: 'rgb(255,199,44)',
             fill: true,
           }]
         },

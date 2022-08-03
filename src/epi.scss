@@ -59,7 +59,7 @@ $mat-light-theme-foreground: (
 );
 
 // Dark Theme text
-$light-text: #ffcd00;
+$light-text: #ffc72c;
 $light-primary-text: $light-text;
 $light-accent-text: rgba($light-primary-text, 0.7);
 $light-disabled-text: rgba($light-primary-text, 0.5);
@@ -149,7 +149,7 @@ $mat-dark-theme-background: (
 // Theme Config
 
 body {
-  --primary-color: #ffcd00;
+  --primary-color: #ffc72c;
   --primary-lighter-color: #fff0b3;
   --primary-darker-color: #ffba00;
   --text-primary-color: #{$dark-primary-text};
@@ -158,10 +158,10 @@ body {
 }
 
 $mat-primary: (
-  main: #ffcd00,
+  main: #ffc72c,
   lighter: #fff0b3,
   darker: #ffba00,
-  200: #ffcd00, // For slide toggle,
+  200: #ffc72c, // For slide toggle,
   contrast : (
     main: $dark-primary-text,
     lighter: $dark-primary-text,

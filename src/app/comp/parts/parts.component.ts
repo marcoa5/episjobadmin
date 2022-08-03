@@ -235,8 +235,6 @@ export class PartsComponent implements OnInit {
   report(){
     this.ppt.loadParts().then((val:any)=>{
       let out:any[]=val[0]
-      let i:string=val[1]
-      let f:string=val[2]
       out.sort((a:any,b:any)=>{
         if(a.Name>b.Name) return 1
         if(a.Name<b.Name) return -1
@@ -245,8 +243,18 @@ export class PartsComponent implements OnInit {
       let name='Parts Requests'
       let cols:string[]=['Qty']
 
-      let colWidth:any[]=[120,60,60]
+      let colWidth:any[]=[120,60,100]
       const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
+      let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      for(let c=0;c<=range.e.c;c++){
+        let cell=worksheet[XLSX.utils.encode_cell({r:0,c:c})]
+        if(cell.v=='Amount'){
+          for(let r=1;r<=range.e.r;r++){
+            let cell1=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
+            cell1.z='#,##0.00'
+          }
+        }
+      }
       let Sheets:any={}
       Sheets[name]=worksheet
       const workbook: XLSX.WorkBook = { 
