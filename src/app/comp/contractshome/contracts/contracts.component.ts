@@ -86,6 +86,7 @@ export class ContractsComponent implements OnInit {
 
   filter(c:any){
     let a:string=c.toLowerCase()
+    console.log(a)
     this.sortedData=this.contractList.filter((b:any)=>{
       if(b.sn.toLowerCase().includes(a) || b.model.toLowerCase().includes(a) || b.customer.toLowerCase().includes(a) || b.type.toLowerCase().includes(a)) return true
       return false
@@ -104,7 +105,7 @@ export class ContractsComponent implements OnInit {
   }*/
 
   sortData(sort: Sort) {
-    const data = this.contractList.slice();
+    const data = this.sortedData.slice();
     if (!sort.active || sort.direction === '') {
       this.sortedData = data;
       return;

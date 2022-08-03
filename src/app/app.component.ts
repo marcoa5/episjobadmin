@@ -183,4 +183,8 @@ export class AppComponent {
     return this.auth.acc(a)
   }
   
+  width(){
+    if(window.innerWidth<500) return false
+    return true
+  }
 }

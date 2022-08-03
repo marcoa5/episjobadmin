@@ -10,7 +10,7 @@
     <span class="contUser" *ngIf="userN && userN!='null'">
       <button mat-raised-button class="example-icon" color="accent" (click)="logout()" *ngIf="chName">
         <mat-icon>person</mat-icon>
-        {{screenSize? nome + ' ' + cognome: userN}}
+        {{width()? nome + ' ' + cognome: userN}}
       </button>
       
     </span>
