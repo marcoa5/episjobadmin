@@ -30,7 +30,6 @@ export class AppComponent {
   showFiller:boolean=false;
   nome:string = ''
   cognome:string = ''
-  screenSize:boolean=true
   userId:string=''
   SJ:any
   Visit:any
@@ -135,13 +134,6 @@ export class AppComponent {
           this.orient = false
           res('')
         }
-        if(window.innerWidth>500) {
-          this.screenSize =true
-          res('')
-        } else {
-          this.screenSize =false
-          res('')
-        }
       }, 1)
     })
   }
@@ -184,7 +176,7 @@ export class AppComponent {
   }
   
   width(){
-    if(window.innerWidth<500) return false
+    if(window.innerWidth<550) return false
     return true
   }
 }
