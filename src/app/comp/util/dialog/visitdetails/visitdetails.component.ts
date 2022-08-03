@@ -4,6 +4,7 @@ import { DeldialogComponent } from '../deldialog/deldialog.component'
 import firebase from 'firebase/app'
 import { UpddialogComponent } from '../upddialog/upddialog.component';
 import * as moment from 'moment'
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class VisitdetailsComponent implements OnInit {
   day:string=''
   giorno!:Date
   dayNew!:Date
-  constructor(public dialogRef: MatDialogRef<VisitdetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public dialog:MatDialog) { 
+  constructor(private ch:CheckwidthService, public dialogRef: MatDialogRef<VisitdetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public dialog:MatDialog) { 
     
   }
 
@@ -118,5 +119,9 @@ export class VisitdetailsComponent implements OnInit {
 
   chDate(e:any){
     this.dayNew=e.target.value
+  }
+
+  chW(){
+    return this.ch.isTouch()
   }
 }

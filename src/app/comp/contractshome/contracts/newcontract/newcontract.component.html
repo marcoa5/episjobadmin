@@ -31,7 +31,7 @@
                   <input matEndDate formControlName="end" placeholder="End date" [readonly]="true">
                 </mat-date-range-input>
                 <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
-                <mat-date-range-picker #picker></mat-date-range-picker>
+                <mat-date-range-picker [touchUi]="chW()" #picker></mat-date-range-picker>
               
                 <mat-error *ngIf="inputData.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
                 <mat-error *ngIf="inputData.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>

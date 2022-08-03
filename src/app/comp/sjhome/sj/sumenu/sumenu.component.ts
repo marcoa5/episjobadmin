@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ export class SumenuComponent implements OnInit {
   @Input() sent:boolean=false
   sumenu!:FormGroup
   
-  constructor(private fb: FormBuilder) { 
+  constructor(private ch:CheckwidthService, private fb: FormBuilder) { 
     this.sumenu=fb.group({
       commessa:[''],
       nsofferta:[''],
@@ -28,5 +29,9 @@ export class SumenuComponent implements OnInit {
   chLen(e:any){
     if(e.target.value.length==6 && e.key!="Backspace" && e.key!="Delete" && e.key!='ArrowLeft' && e.key!='ArrowRight') return false
     return true
+  }
+
+  chW(){
+    return this.ch.isTouch()
   }
 }

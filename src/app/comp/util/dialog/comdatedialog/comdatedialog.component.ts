@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 @Component({
   selector: 'episjob-comdatedialog',
@@ -12,7 +13,7 @@ export class ComdatedialogComponent implements OnInit {
   date:FormGroup=new FormGroup({
     comDate:new FormControl('')
   })
-  constructor(public dialogRef: MatDialogRef<ComdatedialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private chw:CheckwidthService, public dialogRef: MatDialogRef<ComdatedialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     
   }
   chOk:boolean=true
@@ -27,5 +28,9 @@ export class ComdatedialogComponent implements OnInit {
 
   ch(e:any){
     if(e.target.value == null) {this.chOk = true} else {this.chOk = false}
+  }
+
+  chW(){
+    return this.chw.isTouch()
   }
 }

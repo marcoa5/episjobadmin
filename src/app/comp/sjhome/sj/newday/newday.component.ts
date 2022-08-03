@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { SpvComponent } from './spv/spv.component'
 
@@ -21,7 +22,7 @@ export class NewdayComponent implements OnInit {
   @ViewChild('spvVC') spvVC!: ElementRef
   @ViewChild('spvkmVC') spvkmVC!: ElementRef
   
-  constructor(private dialog: MatDialog, private auth: AuthServiceService, public dialogRef: MatDialogRef<NewdayComponent>,
+  constructor(private chw:CheckwidthService, private dialog: MatDialog, private auth: AuthServiceService, public dialogRef: MatDialogRef<NewdayComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb:FormBuilder,
     private getday:DaytypesjService,
@@ -183,5 +184,9 @@ export class NewdayComponent implements OnInit {
         this.newDay.controls.spvkm.setValue(a[0])
       }
     })
+  }
+
+  chW(){
+    return this.chw.isTouch()
   }
 }

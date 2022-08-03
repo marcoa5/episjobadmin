@@ -19,7 +19,7 @@
                 <mat-label>Date</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="date" (dateChange)="newDate()" autocomplete="off">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <mat-datepicker [touchUi]="chW()" #picker></mat-datepicker>
             </mat-form-field>
         </div>
         <div class="items">

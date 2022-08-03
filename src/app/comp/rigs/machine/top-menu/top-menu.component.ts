@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms'
 import * as moment from 'moment'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class TopMenuComponent implements OnInit {
   @Input() pos:string=''
   @Input() inizio:string=moment(new Date(1990,0,1)).format('YYYY-MM-DD')
   @Output() date = new EventEmitter()
-  constructor(private auth:AuthServiceService) { }
+  constructor(private ch:CheckwidthService, private auth:AuthServiceService) { }
 
   ngOnInit(): void {
     
@@ -61,5 +62,9 @@ export class TopMenuComponent implements OnInit {
 
   chPos(a:string){
     return this.auth.acc(a)
+  }
+
+  chW(){
+    return this.ch.isTouch()
   }
 }

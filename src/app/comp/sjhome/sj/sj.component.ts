@@ -14,6 +14,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app'
 import { HrssplitComponent } from './hrssplit/hrssplit.component';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 export interface ma{
   [k:string]: string|number|any;
@@ -261,7 +262,7 @@ export class SjComponent implements OnInit {
   templist:string=''
   nuovo:boolean=true
   imi:string=""
-  constructor(private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
+  constructor(private ch:CheckwidthService, private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
@@ -720,5 +721,9 @@ export class SjComponent implements OnInit {
 
   maiusc(a:string){
     this.reportForm.controls[a].setValue(this.reportForm.controls[a].value.toUpperCase())
+  }
+
+  chW(){
+    return this.ch.isTouch()
   }
 }

@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewdataComponent } from '../../util/dialog/newdata/newdata.component';
 import { MatStepper } from '@angular/material/stepper';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 export interface customer{
   id: string|undefined,
@@ -86,7 +87,7 @@ export class NewvisitComponent implements OnInit {
   custAtt:string[]=[]
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService, public makeid: MakeidService) { }
+  constructor(private ch:CheckwidthService, private auth: AuthServiceService, private dialog: MatDialog, private location: Location, private _formBuilder: FormBuilder, private route:ActivatedRoute, private router: Router, public notif: NotifService, public makeid: MakeidService) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -488,5 +489,9 @@ export class NewvisitComponent implements OnInit {
         this.cuId(this.cId[0].id!)
       }
     })
+  }
+
+  chW(){
+    return this.ch.isTouch()
   }
 }

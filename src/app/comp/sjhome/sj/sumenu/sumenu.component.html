@@ -16,13 +16,13 @@
             <mat-label>Apertura BPCS</mat-label>
             <input matInput [matDatepicker]="picker1" formControlName="dateBPCS" autocomplete="off">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
+            <mat-datepicker [touchUi]="chW()" #picker1></mat-datepicker>
         </mat-form-field>
         <mat-form-field  class="data">
             <mat-label>Chiusura BPCS</mat-label>
             <input matInput [matDatepicker]="picker2" formControlName="closeBPCS" autocomplete="off">
             <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
+            <mat-datepicker [touchUi]="chW()" #picker2></mat-datepicker>
         </mat-form-field>
         <mat-form-field >
             <mat-label>Doc BPCS</mat-label>

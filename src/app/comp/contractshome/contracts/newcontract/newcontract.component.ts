@@ -9,6 +9,7 @@ import { AlertComponent } from '../../../util/dialog/alert/alert.component';
 import firebase from 'firebase/app';
 import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdialog/contractalreadyexistsdialog.component';
 import * as moment from 'moment';
+import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 
 @Component({
   selector: 'episjob-newcontract',
@@ -44,7 +45,7 @@ export class NewcontractComponent implements OnInit {
   ]
   subsList:Subscription[]=[]
 
-  constructor(public dialogRef:MatDialogRef<NewcontractComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb: FormBuilder, private auth:AuthServiceService, private makeid:MakeidService, private dialog:MatDialog) {
+  constructor(private ch: CheckwidthService, public dialogRef:MatDialogRef<NewcontractComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb: FormBuilder, private auth:AuthServiceService, private makeid:MakeidService, private dialog:MatDialog) {
     this.inputData=fb.group({
       id:['', Validators.required],
       sn:[''],
@@ -183,5 +184,9 @@ export class NewcontractComponent implements OnInit {
 
   chModDisc(e:any){
     this.discMod=e
+  }
+
+  chW():boolean{
+    return this.ch.isTouch()
   }
 }
