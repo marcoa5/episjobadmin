@@ -79,6 +79,10 @@ export class SjhomeComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
   syncDraft(){
     return new Promise((res,rej)=>{
       this.spin=true
@@ -131,10 +135,8 @@ export class SjhomeComponent implements OnInit {
             }).then(()=>{
               firebase.database().ref('sjDraft').child('sent').child(k!).once('value',y=>{
                 if(y.val()!=null) {
-                  console.log(k)
                   localStorage.removeItem(k!)
                   console.log('REMOVED ' + k!)
-
                 }
               }).then(()=>{
                 firebase.database().ref('sjDraft').child('draft').child(k!).once('value',y=>{
@@ -142,14 +144,14 @@ export class SjhomeComponent implements OnInit {
                   if(_info) l=JSON.parse(_info).lastM
                   s=y.val()?.lastM
                   if((l && l>s) || s==null) {
-                    console.log('local')
+                    console.log(k, 'local')
                     let t:string|null = localStorage.getItem(k!)
                     if(k) firebase.database().ref('sjDraft').child('draft').child(k).set(JSON.parse(t!))
                   } else if(l!<s){
-                    console.log('server')
+                    console.log(k, 'server')
                     if(k) localStorage.setItem(k, JSON.stringify(y.val()))
                   } else if(l==s){
-                    console.log('uguale')
+                    console.log(k, 'uguale')
                   }
                 })
                 .then(()=>{
@@ -185,19 +187,16 @@ export class SjhomeComponent implements OnInit {
           draft.forEach(d=>{
             if(((this.auth.acc('Technician') && d.val().userId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.auth.acc('Technician'))|| (this.pos!='tech')))) {
               s=parseInt(d.val().lastM)
-              let _l
-              _l=localStorage.getItem(d.key!)
+              let _l=localStorage.getItem(d.key!)
               if(_l) l=JSON.parse(_l!).lastM
               if(l>s){
-                console.log('local')
-                firebase.database().ref('sjDraft').child('draft').child(d.key!).set(
-                  JSON.parse(localStorage.getItem(d.key!)!)
-                )
+                console.log(d.key, 'local')
+                firebase.database().ref('sjDraft').child('draft').child(d.key!).set(JSON.parse(localStorage.getItem(d.key!)!))
               } else if(s>l){
-                console.log('server')
+                console.log(d.key, 'server')
                 localStorage.setItem(d.key!,JSON.stringify(d.val()))
               } else if(s==l){
-                console.log('uguale')
+                console.log(d.key, 'uguale')
               }
             }
             kt++
@@ -248,9 +247,8 @@ export class SjhomeComponent implements OnInit {
   }
 
   checkDeleted(){
-    return new Promise((res,rej)=>{
+    return new Promise((res)=>{
       let l = localStorage.length
-      let k:number=0
       let nuo:any
       for(let i=0;i<localStorage.length;i++){
         if(localStorage.key(i)?.substring(0,7)=="sjdraft" && JSON.parse(localStorage.getItem(localStorage.key(i)!)!).status=='deleted'){
