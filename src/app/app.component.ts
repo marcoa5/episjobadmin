@@ -40,6 +40,7 @@ export class AppComponent {
   pos:string=''
   size:boolean=true
   version:string=''
+  rigs:any[]=[]
   subsList:Subscription[]=[]
 
   constructor(private dialog:MatDialog, public router: Router, public auth :AuthServiceService, private snack: MatSnackBar, private pag:MatPaginatorIntl, private swu: SwupdateService){

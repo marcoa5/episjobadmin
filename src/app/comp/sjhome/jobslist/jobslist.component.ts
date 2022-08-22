@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, HostListener} from '@angular/core';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
 import { MatDialog } from '@angular/material/dialog';
@@ -28,16 +28,33 @@ export class JobslistComponent implements OnInit {
       this.auth._userData.subscribe(a=>{
         if(a) {
           this.pos=a.Pos
-          if (a.Pos=='SU' && this.list[0].sjid.substring(2,3)=='s') this.displayedColumns=['date','sn', 'customer','model','del']
         }
       })
     )
+    this.onResize()
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{
       a.unsubscribe()
     })
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<500){
+      if (this.pos=='SU' && this.list[0].sjid.substring(2,3)=='s') {
+        this.displayedColumns=['date','sn','model','del']
+      } else {
+        this.displayedColumns=['date','sn','model']
+      }
+    } else {
+      if (this.pos=='SU' && this.list[0].sjid.substring(2,3)=='s') {
+        this.displayedColumns=['date','sn', 'customer','model','del']
+      } else {
+        this.displayedColumns=['date','sn', 'customer','model']
+      }
+    }
   }
 
   ngOnChanges(){

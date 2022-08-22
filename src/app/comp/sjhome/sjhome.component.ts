@@ -221,7 +221,10 @@ export class SjhomeComponent implements OnInit {
       } else {
         k++
       }
-      if(k==l) this.list1=this.list
+      if(k==l) {
+        this.list1=this.list
+      }
+
     }
   }
 

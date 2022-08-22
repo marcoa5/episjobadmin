@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
@@ -13,6 +13,8 @@ export class AddbutComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   @Input() fun:string|undefined
+  @Output() exp=new EventEmitter()
+  @Output() expDet=new EventEmitter()
   constructor(private router: Router, private auth: AuthServiceService) {}
 
   ngOnInit(): void {
@@ -26,5 +28,17 @@ export class AddbutComponent implements OnInit {
 
   new(){
     if(this.allow) this.router.navigate([this.fun])
+  }
+
+  export(){
+    this.exp.emit()
+  }
+
+  exportDetails(){
+    this.expDet.emit()
+  }
+
+  chPos(pos:string){
+    return this.auth.acc(pos)
   }
 }

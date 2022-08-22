@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { GetfleetutilizationService } from 'src/app/serv/getfleetutilization.service';
 import { BackService } from '../../serv/back.service'
 
 
@@ -21,7 +22,7 @@ export class RigsComponent implements OnInit {
   subsList:Subscription[]=[]
   
   
-  constructor(public router: Router, public bak:BackService, public auth: AuthServiceService) {}
+  constructor(private fleetHrs:GetfleetutilizationService, public router: Router, public bak:BackService, public auth: AuthServiceService) {}
 
   ngOnInit(): void {
     this.subsList.push(
@@ -85,5 +86,12 @@ export class RigsComponent implements OnInit {
     this.filtro=a
   }
 
+  export(){
+    this.fleetHrs.getHRS(this.rigs,false)
+  }
+
+  exportDetails(){
+    this.fleetHrs.getHRS(this.rigs,true)
+  }
 
 }

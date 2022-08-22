@@ -1,10 +1,13 @@
-button{
+.cont{
     position: fixed;
     bottom: 15px; right: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap:10px;
 }
 
 @media screen and (max-width:701px) {
-    button{
+    .cont{
         bottom: 75px;
     }
 }

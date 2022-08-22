@@ -1,7 +1,7 @@
 <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
-      <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" (dblclick)="directgo(e.sjid)" [ngClass]="{'sel':e.sel==1}"> {{e.data_new | dateconv}} </td>
+      <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" (dblclick)="directgo(e.sjid)" [ngClass]="{'sel':e.sel==1}"> {{e.data_new | dateconvshort}} </td>
     </ng-container>
     <ng-container matColumnDef="sn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n</th>
