@@ -144,14 +144,14 @@ export class SjhomeComponent implements OnInit {
                   if(_info) l=JSON.parse(_info).lastM
                   s=y.val()?.lastM
                   if((l && l>s) || s==null) {
-                    console.log(k, 'local')
                     let t:string|null = localStorage.getItem(k!)
+                    console.log(k, JSON.parse(t!).matricola,JSON.parse(t!).cliente11, 'L')
                     if(k) firebase.database().ref('sjDraft').child('draft').child(k).set(JSON.parse(t!))
                   } else if(l!<s){
-                    console.log(k, 'server')
+                    console.log(k, y.val().matricola,y.val().cliente11, 'S')
                     if(k) localStorage.setItem(k, JSON.stringify(y.val()))
                   } else if(l==s){
-                    console.log(k, 'uguale')
+                    console.log(k, y.val().matricola,y.val().cliente11, '=')
                   }
                 })
                 .then(()=>{
@@ -188,15 +188,19 @@ export class SjhomeComponent implements OnInit {
             if(((this.auth.acc('Technician') && d.val().userId==this.userId)|| this.pos!='tech')&&(d.val()!=null && ((d.val().userId==this.userId && this.auth.acc('Technician'))|| (this.pos!='tech')))) {
               s=parseInt(d.val().lastM)
               let _l=localStorage.getItem(d.key!)
-              if(_l) l=JSON.parse(_l!).lastM
+              if(_l && JSON.parse(_l).lastM) {
+                l=JSON.parse(_l!).lastM
+              } else {
+                l=0
+              }
               if(l>s){
-                console.log(d.key, 'local')
+                console.log(d.key, d.val().matricola, d.val().cliente11, 'L')
                 firebase.database().ref('sjDraft').child('draft').child(d.key!).set(JSON.parse(localStorage.getItem(d.key!)!))
               } else if(s>l){
-                console.log(d.key, 'server')
+                console.log(d.key,d.val().matricola,d.val().cliente11, 'S')
                 localStorage.setItem(d.key!,JSON.stringify(d.val()))
               } else if(s==l){
-                console.log(d.key, 'uguale')
+                console.log(d.key,d.val().matricola,d.val().cliente11, '=')
               }
             }
             kt++
