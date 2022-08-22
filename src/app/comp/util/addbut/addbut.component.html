@@ -1,11 +1,11 @@
 <div class="cont">
-    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('SURights')" (click)="export()" matTooltip="Export data without details">
+    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights')" (click)="export()" matTooltip="Export data without details">
         <mat-icon>download</mat-icon>
     </button>  
-    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('SURights')" (click)="exportDetails()" matTooltip="Export data with details">
+    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights')" (click)="exportDetails()" matTooltip="Export data with details">
         <mat-icon>browser_updated</mat-icon>
     </button>  
-    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow" (click)="new()">
+    <button cdkDrag mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('SURights')" (click)="new()">
         <mat-icon>add</mat-icon>
     </button>
 </div>
