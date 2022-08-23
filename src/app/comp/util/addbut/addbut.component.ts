@@ -12,6 +12,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 export class AddbutComponent implements OnInit {
   pos:string=''
   allow:boolean=false
+  @Input() exportFleet:boolean=false
   @Input() fun:string|undefined
   @Output() exp=new EventEmitter()
   @Output() expDet=new EventEmitter()

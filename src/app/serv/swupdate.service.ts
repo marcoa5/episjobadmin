@@ -14,8 +14,7 @@ constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
 showAppUpdateAlert() {
   const header = 'App Update'
   const message = 'The app has been updated from server. click ok to reload'
-  const action = this.doAppUpdate
-  const msg = this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message, action: action}})
+  const msg = this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message}})
   msg.afterClosed().subscribe(o=>{
     if(o) this.doAppUpdate()
   })
