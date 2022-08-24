@@ -190,12 +190,12 @@ export class ContractshomeComponent implements OnInit {
           for(let r=1;r<=range.e.r;r++){
             let cell1=worksheet[XLSX.utils.encode_cell({r:r,c:c})]
             if(cell1) {
-              cell1.z="0.00"
+              cell1.z="#,##0.00"
             } else {
               let c1:any={}
                 c1.v=''
                 c1.t='n'
-                c1.z="0.00"
+                c1.z="#,##0.00"
                 worksheet[XLSX.utils.encode_cell({r:r,c:c})]=c1
             }
           }

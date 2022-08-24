@@ -7,7 +7,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Clipboard } from '@angular/cdk/clipboard'
 import * as XLSX from 'xlsx-js-style'
 import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
-import { ExcelService } from 'src/app/serv/excelexport.service';
+import { ExcelService } from 'src/app/serv/excelexport.service'
 
 @Component({
   selector: 'episjob-partsdialog',
@@ -71,7 +71,9 @@ export class PartsdialogComponent implements OnInit {
           out.push({
             Pn:a.pn,
             Description:a.desc,
-            Qty:a.qty
+            LLp:a.llp,
+            Qty:a.qty,
+            Tot:0        
           })
           check++
           if(check==length) res('')
@@ -88,7 +90,15 @@ export class PartsdialogComponent implements OnInit {
           let colWidth:any[]=[120,250,60]
   
           const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(out)
-  
+          let range=XLSX.utils.decode_range(worksheet['!ref']!)
+          for(let r=1;r<=range.e.r;r++){
+            let cel = worksheet[XLSX.utils.encode_cell({r:r,c:range.e.c})]
+            let c2=XLSX.utils.encode_cell({r:r,c:range.e.c-1})
+            let c1=XLSX.utils.encode_cell({r:r,c:range.e.c-2})
+            cel.f=c1 + '*' + c2
+            cel.z="#,##0.00"
+            worksheet[c1].z="#,##0.00"
+          }
           let Sheets:any={}
           Sheets[name]=worksheet
           const workbook: XLSX.WorkBook = { 

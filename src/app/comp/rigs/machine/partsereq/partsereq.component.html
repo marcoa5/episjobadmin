@@ -1,17 +1,17 @@
 <div episjobMachinecont *ngIf="reqlist.length>0" [class.mat-elevation-z2]="true">
   <div episjobTablecont>
-    <table mat-table [dataSource]="reqlist" class="mat-elevation-z0">
+    <table matSort (matSortChange)="sortData($event)" mat-table [dataSource]="reqlist" class="mat-elevation-z0">
         <ng-container matColumnDef="Date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let a" (click)="open(a)"> {{a.date | dateconv}} </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+          <td mat-cell *matCellDef="let a" (click)="open(a)"> {{a.date | dateconv}} </td>
         </ng-container>
         <ng-container matColumnDef="Author">
-            <th mat-header-cell *matHeaderCellDef class="center"> Author </th>
+            <th mat-header-cell *matHeaderCellDef class="center" mat-sort-header> Author </th>
             <td mat-cell *matCellDef="let a" class="center" (click)="open(a)"> {{a.orig}} </td>
         </ng-container>             
         <ng-container matColumnDef="Amount">
-        <th mat-header-cell *matHeaderCellDef class="right"> Amount </th>
-        <td mat-cell *matCellDef="let a" class="right" (click)="open(a)"> {{a.Parts.totAmount | currency:'EUR':'symbol-narrow':'1.2-2'}} </td>
+          <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Amount </th>
+          <td mat-cell *matCellDef="let a" class="right" (click)="open(a)"> {{a.Parts.totAmount | currency:'EUR':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -14,12 +14,12 @@
             <td mat-cell *matCellDef="let a; let i = index" class="_lar" [class.curs]="chPos('SURights')" (click)="mod(a,i,'desc')"> {{a.desc}} </td>
         </ng-container>            
         <ng-container matColumnDef="LLP">
-            <th mat-header-cell *matHeaderCellDef class="right" class="lar"> LLp </th>
-            <td mat-cell *matCellDef="let a" class="right" class="lar"> {{a.llp | currency:'EUR':'symbol-narrow':'1.2-2'}} </td>
+            <th mat-header-cell *matHeaderCellDef class="right lar"> LLp </th>
+            <td mat-cell *matCellDef="let a" class="right lar"> {{a.llp | currency:'EUR':'symbol-narrow':'1.2-2'}} </td>
         </ng-container>      
         <ng-container matColumnDef="Qty">
-            <th mat-header-cell *matHeaderCellDef class="center qty" class="lar"> Qty </th>
-            <td mat-cell *matCellDef="let a; let i=index" class="center qty" class="lar" [class.curs]="chPos('SURights')"  (click)="mod(a,i,'qty')"> {{a.qty}} </td>
+            <th mat-header-cell *matHeaderCellDef class="center qty lar"> Qty </th>
+            <td mat-cell *matCellDef="let a; let i=index" class="center qty lar" [class.curs]="chPos('SURights')"  (click)="mod(a,i,'qty')"> {{a.qty}} </td>
         </ng-container>      
         <ng-container matColumnDef="Tot">
             <th mat-header-cell *matHeaderCellDef class="right"> Tot </th>

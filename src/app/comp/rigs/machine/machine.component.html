@@ -43,7 +43,7 @@
                     <episjob-imifabi [list]="sjList" ></episjob-imifabi>
                 </div>
                 <div class="item3" *ngIf="partReqList.length>0">
-                    <episjob-h2 padtop="0" icon="construction" class="title" data="Parts Request" [showSort]="true" (sort)="sortDataParts($event)"></episjob-h2>
+                    <episjob-h2 padtop="0" icon="construction" class="title" data="Parts Request" (sort)="sortDataParts($event)"></episjob-h2>
                     <episjob-partsereq [pos]="pos" [_reqlist]="partReqList" [sortP]="change" [sortParts]="sortParts"></episjob-partsereq>
                 </div>
                 <div class="item3" *ngIf="SElist.length>0">
