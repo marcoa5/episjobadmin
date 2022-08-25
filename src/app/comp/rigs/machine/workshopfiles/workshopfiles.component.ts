@@ -1,5 +1,7 @@
+import { ListKeyManager } from '@angular/cdk/a11y';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, HostListener, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, _closeDialogVia } from '@angular/material/dialog';
 import { FiledialogComponent } from './filedialog/filedialog.component';
 
 @Component({
@@ -18,6 +20,12 @@ export class WorkshopfilesComponent implements OnInit {
 
   ngOnInit(): void {
     this.onResize()
+    this.list.sort((a:any,b:any)=>{
+      if(a.min>b.min) return -1
+      if(a.min<b.min) return 1
+      return 0
+    })
+    this._list=this.list.slice(this.inizio,this.fine)
   }
 
   @HostListener('window:resize', ['$event'])
@@ -30,13 +38,7 @@ export class WorkshopfilesComponent implements OnInit {
   }
 
   ngOnChanges(){
-    this.list.sort((a:any,b:any)=>{
-      if(a.cat>b.cat) return 1
-      if(a.cat<b.cat) return -1
-      return 0
-    })
-    this._list = this.list.slice(this.inizio,this.fine)
-
+    
   }
 
   open(fileData:any){
@@ -46,7 +48,7 @@ export class WorkshopfilesComponent implements OnInit {
   split(e:any){
     this.inizio = e.pageIndex * e.pageSize
     this.fine = this.inizio + e.pageSize
-    this._list = this.list.slice(this.inizio,this.fine)
+    //this._list = this.list.slice(this.inizio,this.fine)
   }
 
   sort(s:string){

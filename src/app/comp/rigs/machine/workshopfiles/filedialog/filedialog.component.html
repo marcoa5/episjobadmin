@@ -36,9 +36,9 @@
         <mat-label>Workshop</mat-label>
         <input type="text" matInput readonly [formControl]="ws">
     </mat-form-field>
-    <mat-icon class="ico" (click)="download(data)" class="cur" matTooltip="Download hours details">cloud_download</mat-icon>  
 </div>  
 <div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="download(data)" matTooltip="Download file details"><mat-icon>cloud_download</mat-icon></button>
     <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="'ok'">ok</button>
 </div>

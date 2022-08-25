@@ -912,23 +912,10 @@ export class MachineComponent implements OnInit {
   }
 
   loadWsFiles(){
-    if(this.auth.acc('AdminRights')){
-      firebase.database().ref('wsFiles').child('open').child(this.valore).once('value',a=>{
-        this.files=[]
-        if(a.val()!=null){
-          a.forEach(b=>{
-            let temp:any=b.val()
-            if(b.val().days){
-              let fr = Object.keys(b.val().days)
-              temp.min = fr[0]
-              temp.max = fr[fr.length-1]
-              temp.status='Open'
-            }
-            this.files.push(temp)
-          })
-        }
-      }).then(()=>{
-        firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
+    let tFiles:any[]=[]
+    return new Promise((res,rej)=>{
+      if(this.auth.acc('AdminRights')){
+        firebase.database().ref('wsFiles').child('open').child(this.valore).once('value',a=>{
           if(a.val()!=null){
             a.forEach(b=>{
               let temp:any=b.val()
@@ -936,14 +923,40 @@ export class MachineComponent implements OnInit {
                 let fr = Object.keys(b.val().days)
                 temp.min = fr[0]
                 temp.max = fr[fr.length-1]
-                temp.status='Archived'
+                temp.status='Open'
               }
-              this.files.push(temp)
+              tFiles.push(temp)
             })
           }
+        }).then(()=>{
+          firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
+            let length:number = Object.keys(a.val()).length
+            let check:number=0
+            if(a.val()!=null){
+              a.forEach(b=>{
+                let temp:any=b.val()
+                if(b.val().days){
+                  let fr = Object.keys(b.val().days)
+                  temp.min = fr[0]
+                  temp.max = fr[fr.length-1]
+                  temp.status='Archived'
+                }
+                tFiles.push(temp)
+                check++
+                if(check==length) {
+                  res(tFiles)
+                }
+              })
+            }
+          })
         })
-      })
-    }
+      } else{
+        rej('')
+      }
+    }).then((list:any)=>{
+      this.files=list
+    })
+    
   }
 
   addP(){

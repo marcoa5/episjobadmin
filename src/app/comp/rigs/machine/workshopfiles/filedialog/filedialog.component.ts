@@ -24,7 +24,6 @@ export class FiledialogComponent implements OnInit {
   constructor(private dialogRef:MatDialogRef<FiledialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private clip:Clipboard, private dialog:MatDialog, private exp:GetworkshopreportService) { }
 
   ngOnInit(): void {
-   
   }
 
   onNoClick(){

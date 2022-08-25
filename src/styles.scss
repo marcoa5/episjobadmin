@@ -88,6 +88,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .parts-dialog .mat-dialog-container {
   width: 95vw !important;
   max-height: 95vh !important;
+  max-width: 1200px !important;
 }
 .parts-dialog .mat-form-field-infix {
   width: 100%;
@@ -123,6 +124,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .filedialog .mat-dialog-container {
   min-width: 300px !important;
+  max-width: 750px !important;
+  width: 35vw !important;
 }
 .filedialog .mat-form-field-infix {
   width: 100%;
