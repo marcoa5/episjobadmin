@@ -25,8 +25,8 @@ export class GetfleetutilizationService {
         let cols:string[]=[]
         let colWidth:any[]=[]
         if(details){
-          cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov']
-          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,120,60]
+          cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov','Year']
+          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,60,120,60]
         } else {
           cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov','Year']
           colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,60,120,60]
@@ -93,7 +93,7 @@ export class GetfleetutilizationService {
                       Sn:a.sn,
                       Model: a.model,
                       Customer: a.customer,
-                      Year:comm.substring(0,4),
+                      Year:comm.substring(0,4)?parseInt(comm.substring(0,4)):'',
                       Site: a.site,
                       Prov: a.site.substring(a.site.length-3,a.site.length-1)
                     })
@@ -116,7 +116,7 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
-                    Year:comm.substring(0,4),
+                    Year:comm.substring(0,4)?parseInt(comm.substring(0,4)):'',
                     Site: a.site,
                     Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
@@ -134,7 +134,7 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
-                    Year:comm.substring(0,4),
+                    Year:comm.substring(0,4)?parseInt(comm.substring(0,4)):'',
                     Site: a.site,
                     Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
