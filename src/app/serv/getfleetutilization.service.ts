@@ -25,11 +25,11 @@ export class GetfleetutilizationService {
         let cols:string[]=[]
         let colWidth:any[]=[]
         if(details){
-          cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat']
-          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,120]
+          cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov']
+          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,120,60]
         } else {
-          cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat']
-          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,120]
+          cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov']
+          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,120,60]
         }
         
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data)
@@ -89,7 +89,8 @@ export class GetfleetutilizationService {
                       Sn:a.sn,
                       Model: a.model,
                       Customer: a.customer,
-                      Site: a.site
+                      Site: a.site,
+                      Prov: a.site.substring(a.site.length-3,a.site.length-1)
                     })
                   })
                   temp.push({
@@ -110,7 +111,8 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
-                    Site: a.site
+                    Site: a.site,
+                    Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
                 } else {
                   temp.push({
@@ -126,7 +128,8 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
-                    Site: a.site
+                    Site: a.site,
+                    Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
                 }
               }
