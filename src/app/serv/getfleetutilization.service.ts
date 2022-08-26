@@ -26,10 +26,10 @@ export class GetfleetutilizationService {
         let colWidth:any[]=[]
         if(details){
           cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat']
-          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250]
+          colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,120]
         } else {
           cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat']
-          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250]
+          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,120]
         }
         
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data)
@@ -55,7 +55,6 @@ export class GetfleetutilizationService {
     return new Promise(res=>{
       rigs.forEach(a=>{
         firebase.database().ref('Hours').child(a.sn).once('value',s=>{
-          
             firebase.database().ref('Categ').child(a.sn).once('value',h=>{
               if(s.val()!=null){
                 let dates=Object.keys(s.val())
@@ -89,7 +88,8 @@ export class GetfleetutilizationService {
                       Perc3_avg:'',
                       Sn:a.sn,
                       Model: a.model,
-                      Customer: a.customer
+                      Customer: a.customer,
+                      Site: a.site
                     })
                   })
                   temp.push({
@@ -109,7 +109,8 @@ export class GetfleetutilizationService {
                     Perc3_avg:isNumber(avgP3)?parseInt(avgP3.toFixed(0)):0,
                     Sn:a.sn,
                     Model: a.model,
-                    Customer: a.customer
+                    Customer: a.customer,
+                    Site: a.site
                   })
                 } else {
                   temp.push({
@@ -124,7 +125,8 @@ export class GetfleetutilizationService {
                     Perc3_avg:isNumber(avgP3)?parseInt(avgP3.toFixed(0)):0,
                     Sn:a.sn,
                     Model: a.model,
-                    Customer: a.customer
+                    Customer: a.customer,
+                    Site: a.site
                   })
                 }
               }
