@@ -28,8 +28,8 @@ export class GetfleetutilizationService {
           cols=['Type','Date','Eng','Perc1','Perc2','Perc3','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov']
           colWidth=[60,120,120,120,120,60,60,60,60,60,60,60,60,60,120,250,250,120,60]
         } else {
-          cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov']
-          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,120,60]
+          cols=['Type','Eng_avg','Perc1_avg','Perc2_avg','Perc3_avg','Sn','Div','Segment','Fam','SubCat','Prov','Year']
+          colWidth=[60,120,120,120,120,60,60,60,60,120,250,250,60,120,60]
         }
         
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data)
@@ -115,6 +115,10 @@ export class GetfleetutilizationService {
                     Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
                 } else {
+                  let comm:string=''
+                  s.forEach(tg=>{
+                    if(tg.val().orem=='c') comm=tg.key!
+                  })
                   temp.push({
                     Type:'Avg',
                     Div:h.val().div,
@@ -128,6 +132,7 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
+                    Year:comm.substring(0,4),
                     Site: a.site,
                     Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
