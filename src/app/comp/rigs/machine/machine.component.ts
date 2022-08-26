@@ -611,7 +611,7 @@ export class MachineComponent implements OnInit {
               sn: x.matricola,
               Machine: x.prodotto1,
               Family: rf.split(';')[0],
-              Hrs:rf.split(';')[1],
+              Hrs:parseFloat(rf.split(';')[1]),
               Technician:x.tecnico11
             }) 
           })
