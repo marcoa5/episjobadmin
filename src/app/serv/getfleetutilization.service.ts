@@ -68,6 +68,10 @@ export class GetfleetutilizationService {
                 let avgP1=diff>0?((parseInt(hrsF.perc1=='c'?0:hrsF.perc1)-parseInt(hrsI.perc1=='c'?0:hrsI.perc1))/diff*365):0
                 let avgP2=diff>0?((parseInt(hrsF.perc2=='c'?0:hrsF.perc2)-parseInt(hrsI.perc2=='c'?0:hrsI.perc2))/diff*365):0
                 let avgP3=diff>0?((parseInt(hrsF.perc3=='c'?0:hrsF.perc3)-parseInt(hrsI.perc3=='c'?0:hrsI.perc3))/diff*365):0
+                let comm:string=''
+                  s.forEach(tg=>{
+                    if(tg.val().orem=='c') comm=tg.key!
+                  })
                 if(details){
                   s.forEach(g=>{
                     let da = g.key!
@@ -89,6 +93,7 @@ export class GetfleetutilizationService {
                       Sn:a.sn,
                       Model: a.model,
                       Customer: a.customer,
+                      Year:comm.substring(0,4),
                       Site: a.site,
                       Prov: a.site.substring(a.site.length-3,a.site.length-1)
                     })
@@ -111,14 +116,11 @@ export class GetfleetutilizationService {
                     Sn:a.sn,
                     Model: a.model,
                     Customer: a.customer,
+                    Year:comm.substring(0,4),
                     Site: a.site,
                     Prov: a.site.substring(a.site.length-3,a.site.length-1)
                   })
                 } else {
-                  let comm:string=''
-                  s.forEach(tg=>{
-                    if(tg.val().orem=='c') comm=tg.key!
-                  })
                   temp.push({
                     Type:'Avg',
                     Div:h.val().div,
