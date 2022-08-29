@@ -145,7 +145,6 @@ export class SjhomeComponent implements OnInit {
                   s=y.val()?.lastM
                   if((l && l>s) || s==null) {
                     let t:string|null = localStorage.getItem(k!)
-                    console.log(k, JSON.parse(t!).matricola,JSON.parse(t!).cliente11, 'L')
                     if(k) firebase.database().ref('sjDraft').child('draft').child(k).set(JSON.parse(t!))
                   } else if(l!<s){
                     console.log(k, y.val().matricola,y.val().cliente11, 'S')
