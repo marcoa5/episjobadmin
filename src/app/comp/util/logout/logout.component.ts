@@ -32,6 +32,7 @@ export class LogoutComponent implements OnInit {
 
   logout(){
     this.onNoClick()
+    localStorage.clear()
     firebase.auth().signOut()
   }
 
