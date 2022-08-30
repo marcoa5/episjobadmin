@@ -158,11 +158,12 @@ export class AuthServiceService {
     return new Promise(res=>{
       let server:any=undefined
       let local:any=localStorage.getItem('Fleetupd')
-      firebase.database().ref('Update').child('MOLupd').once('value',snap=>{
+      firebase.database().ref('Updates').child('MOLupd').once('value',snap=>{
         if(snap.val()) server=snap.val()
       })
       .catch(()=>{res('')})
       .then(()=>{
+        //console.log('Local: ' + local, 'Server: ' + server)
         if(local==server) {
           console.log('No Fleet update')
         }

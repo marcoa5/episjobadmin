@@ -91,7 +91,7 @@ export class NewcustComponent implements OnInit {
                 })
               })
             }
-            localStorage.setItem('Custupd',moment(new Date()).format('YYYYMMDDHHmmss'))
+            firebase.database().ref('Updates').child('Custupd').set(moment(new Date).format('YYYYMMDDHHmmss'))
             this.router.navigate(['cliente',{id:this.origin[0]}])
           })
           .catch(err=> console.log(err))
@@ -103,7 +103,7 @@ export class NewcustComponent implements OnInit {
         g.id = newId
         firebase.database().ref('CustomerC/').child(newId).set(g)
         .then(()=>{
-          localStorage.setItem('Custupd',moment(new Date()).format('YYYYMMDDHHmmss'))
+          firebase.database().ref('Updates').child('Custupd').set(moment(new Date).format('YYYYMMDDHHmmss'))
           this.location.back()
         })
         .catch(err=> console.log(err))

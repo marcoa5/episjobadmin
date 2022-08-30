@@ -103,11 +103,11 @@ export class NotificationListComponent implements OnInit {
   }
 
   delete(){
-    console.log(this.selected)
-    return
-    this.selected.forEach(a=>{
+    let toBeDeleted:any[]=this.selected.slice()
+    this.selected=[]
+    toBeDeleted.forEach(a=>{
+      console.log(this.notif[a].date)
       firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).remove()
     })
   }
-
 }
