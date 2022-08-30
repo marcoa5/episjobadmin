@@ -9,6 +9,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { MakeidService } from '../../../serv/makeid.service'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import * as moment from 'moment';
 
 export interface cl {
   c1: string
@@ -90,16 +91,21 @@ export class NewcustComponent implements OnInit {
                 })
               })
             }
+            localStorage.setItem('Custupd',moment(new Date()).format('YYYYMMDDHHmmss'))
             this.router.navigate(['cliente',{id:this.origin[0]}])
           })
           .catch(err=> console.log(err))
+          
         }
       })
     } else if(e=='addc' && this.allow){
         let newId = this.makeId.makeId(10)
         g.id = newId
         firebase.database().ref('CustomerC/').child(newId).set(g)
-        .then(()=>{this.location.back()})
+        .then(()=>{
+          localStorage.setItem('Custupd',moment(new Date()).format('YYYYMMDDHHmmss'))
+          this.location.back()
+        })
         .catch(err=> console.log(err))
     }
   }

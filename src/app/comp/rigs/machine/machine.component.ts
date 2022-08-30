@@ -930,9 +930,9 @@ export class MachineComponent implements OnInit {
           }
         }).then(()=>{
           firebase.database().ref('wsFiles').child('archived').child(this.valore).once('value',a=>{
-            let length:number = Object.keys(a.val()).length
-            let check:number=0
             if(a.val()!=null){
+              let length:number = Object.keys(a.val()).length
+              let check:number=0
               a.forEach(b=>{
                 let temp:any=b.val()
                 if(b.val().days){

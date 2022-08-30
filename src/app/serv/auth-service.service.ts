@@ -156,57 +156,74 @@ export class AuthServiceService {
 
   getFleetData(){
     return new Promise(res=>{
-      firebase.database().ref('Categ').on('value',a=>{
-        let cat:any[] = []
-        a.forEach((b:any)=>{
-          cat[b.key]=b.val().subCat
-        })
-        this.categ.next(cat)
-        this.epiCateg=cat
+      let server:any=undefined
+      let local:any=localStorage.getItem('Fleetupd')
+      firebase.database().ref('Update').child('MOLupd').once('value',snap=>{
+        if(snap.val()) server=snap.val()
       })
-      if(this.epiUser){
-        if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
-          if(this.epiRigs.length==0){
-            console.log('Downloading fleet...')
-            firebase.database().ref('MOL').on('value',async (a)=>{
-              let b=Object.values(a.val())
-              this.rigs.next(b)
-              this.epiRigs=b
-              this.getFleet(this.epiRigs,this.epiCateg)
-              res('')
-            })
-            this.getFleet(this.epiRigs,this.epiCateg)
-          }
-        } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
-          let area:string = this.epiUser.Area
-          let list:any[]=[]
-          firebase.database().ref('MOL').on('value',a=>{
-            let ip:number=0
-            let l = Object.values(a.val()).length
-            a.forEach(b=>{
-              let item:any
-              firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
-                if(r.val()=='1') {
-                  item=b.val()
-                  firebase.database().ref('Categ').child(b.val().sn).child('subCat').once('value',r=>{
-                    if(r!=null) item['categ']=r.val()
-                  })
-                  .then(()=>{
-                    list.push(item)
-                  })
-                }
-                ip++
-                if(l==ip) {
-                  this.rigs.next(list)
-                  this.epiRigs=list
-                  this.getFleet(this.epiRigs, this.epiCateg)
-                  res('')
-                }
-              })
-            })            
-          })
+      .catch(()=>{res('')})
+      .then(()=>{
+        if(local==server) {
+          console.log('No Fleet update')
         }
-      }
+        if(!local || local<server){
+          firebase.database().ref('Categ').on('value',a=>{
+            let cat:any[] = []
+            a.forEach((b:any)=>{
+              cat[b.key]=b.val().subCat
+            })
+            this.categ.next(cat)
+            this.epiCateg=cat
+          })
+          if(this.epiUser){
+            if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
+              if(this.epiRigs.length==0){
+                console.log('Downloading fleet...')
+                firebase.database().ref('MOL').on('value',async (a)=>{
+                  let b=Object.values(a.val())
+                  this.rigs.next(b)
+                  this.epiRigs=b
+                  this.getFleet(this.epiRigs,this.epiCateg)
+                  res('')
+                })
+                this.getFleet(this.epiRigs,this.epiCateg)
+              }
+            } else if(this.epiUser.Pos=='sales' || this.epiUser.Pos=='customer'){
+              let area:string = this.epiUser.Area
+              let list:any[]=[]
+              firebase.database().ref('MOL').on('value',a=>{
+                let ip:number=0
+                let l = Object.values(a.val()).length
+                a.forEach(b=>{
+                  let item:any
+                  firebase.database().ref('RigAuth').child(b.val().sn).child('a'+area).once('value',r=>{
+                    if(r.val()=='1') {
+                      item=b.val()
+                      firebase.database().ref('Categ').child(b.val().sn).child('subCat').once('value',r=>{
+                        if(r!=null) item['categ']=r.val()
+                      })
+                      .then(()=>{
+                        list.push(item)
+                      })
+                    }
+                    ip++
+                    if(l==ip) {
+                      this.rigs.next(list)
+                      this.epiRigs=list
+                      this.getFleet(this.epiRigs, this.epiCateg)
+                      res('')
+                    }
+                  })
+                })            
+              })
+            }
+            localStorage.setItem('Fleetupd',server)
+          }
+        } else {
+          res('')
+        }
+      })
+      
     })
   }
 
@@ -230,74 +247,91 @@ export class AuthServiceService {
 
   getCustData(){
     return new Promise(res=>{
-      if(this.epiUser){
-        if(this.epiUser.Pos!='customer'){
-          if(this.epiCustomers.length==0){
-            console.log('Downloading customers...')
-            let custIndex
-            firebase.database().ref('CustomerC').on('value',a=>{
-              custIndex=a.val()
-              let b:any[]=[]
-              let rt:any[]=[]
-              if(this.epiUser){
-                b=Object.values(a.val())
-                b.sort((a: any, b: any) => {
-                  if (a['c1'] < b['c1']) {
-                    return -1;
-                  } else if (a['c1'] > b['c1']) {
-                    return 1;
-                  } else {
-                    return 0;
+      let server:any=undefined
+      let local:any=localStorage.getItem('Custupd')
+      firebase.database().ref('Updates').child('Custupd').once('value',snap=>{
+        if(snap.val()) server=snap.val()
+      })
+      .catch(()=>{res('')})
+      .then(()=>{
+        if(local==server) {
+          console.log('No Customer update')
+        }
+        if(!local || local<server){
+          if(this.epiUser){
+            if(this.epiUser.Pos!='customer'){
+              if(this.epiCustomers.length==0){
+                console.log('Downloading customers...')
+                let custIndex
+                firebase.database().ref('CustomerC').on('value',a=>{
+                  custIndex=a.val()
+                  let b:any[]=[]
+                  let rt:any[]=[]
+                  if(this.epiUser){
+                    b=Object.values(a.val())
+                    b.sort((a: any, b: any) => {
+                      if (a['c1'] < b['c1']) {
+                        return -1;
+                      } else if (a['c1'] > b['c1']) {
+                        return 1;
+                      } else {
+                        return 0;
+                      }
+                    })
+                    let c:any[]
+                    if(this.epiUser.Pos=='customer'){
+                      c = b.filter(t=>{
+                        if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
+                      })
+                    } else{
+                      c=b
+                    }
+                    localStorage.setItem('customers',JSON.stringify(c))
+                    localStorage.setItem('custI',JSON.stringify(custIndex))
+                    this.customers.next(c)
+                    this.custI.next(custIndex)
+                    this.epiCustomers=c 
+                    localStorage.setItem('Custupd',server)
+                    res('')
                   }
                 })
-                let c:any[]
-                if(this.epiUser.Pos=='customer'){
-                  c = b.filter(t=>{
-                    if(this.epiFleet.map(t=>{return t.custid}).includes(t.id)) return t
-                  })
-                } else{
-                  c=b
-                }
-                localStorage.setItem('customers',JSON.stringify(c))
-                localStorage.setItem('custI',JSON.stringify(custIndex))
-                this.customers.next(c)
-                this.custI.next(custIndex)
-                this.epiCustomers=c 
-                res('')
               }
-            })
+            } else {
+              let subs:Subscription = this._fleet.subscribe(a=>{
+                if(a.length>0){
+                  let cu:any=[]
+                  let cuI:any={}
+                  let i:number=0
+                  new Promise((res,rej)=>{
+                    a.forEach((e:any) => {
+                      firebase.database().ref('CustomerC').child(e.custid).once('value',y=>{
+                        if(y!=null && cu.map((r:any)=>{return r.id}).indexOf(e.custid)==-1) {
+                          cu.push(y.val())
+                          cuI[e.custid]=y.val()
+                        }
+                        i++
+                        if(i==a.length) res('')
+                      })
+                    })
+                  })
+                  .then(() => {
+                    this.customers.next(cu)
+                    this.custI.next(cuI)
+                    localStorage.setItem('customers',JSON.stringify(cu))
+                    localStorage.setItem('custI',JSON.stringify(cuI))
+                    this.epiCustomers=cu
+                    localStorage.setItem('Custupd',server)
+                    res('')
+                  });
+                }
+              }) 
+              subs.unsubscribe()
+            }
           }
         } else {
-          let subs:Subscription = this._fleet.subscribe(a=>{
-             if(a.length>0){
-              let cu:any=[]
-              let cuI:any={}
-              let i:number=0
-              new Promise((res,rej)=>{
-                a.forEach((e:any) => {
-                  firebase.database().ref('CustomerC').child(e.custid).once('value',y=>{
-                    if(y!=null && cu.map((r:any)=>{return r.id}).indexOf(e.custid)==-1) {
-                      cu.push(y.val())
-                      cuI[e.custid]=y.val()
-                    }
-                    i++
-                    if(i==a.length) res('')
-                  })
-                })
-              })
-              .then(() => {
-                this.customers.next(cu)
-                this.custI.next(cuI)
-                localStorage.setItem('customers',JSON.stringify(cu))
-                localStorage.setItem('custI',JSON.stringify(cuI))
-                this.epiCustomers=cu
-                res('')
-              });
-             }
-          }) 
-          subs.unsubscribe()
+          res('')
         }
-      }
+      })
     })
   }
 
