@@ -1,7 +1,30 @@
 <episjob-spin *ngIf="spin"></episjob-spin>
 
-
+<div class="header">
+    <div class="subHeader">
+        <button mat-stroked-button class="row" *ngIf="role">
+            <mat-icon class="green">check_circle</mat-icon>
+            User role: {{role}}
+        </button>
+        <button mat-stroked-button class="row">
+            <mat-icon [ngClass]="{'red':chOnline(),'green':!chOnline()}">check_circle</mat-icon>
+            Network Status: {{!chOnline()? 'Online':'Offline'}}
+        </button>
+    </div>
+    <div class="subHeader">
+        <button mat-stroked-button class="row cur" *ngIf="fleetUptodate!=undefined" (click)="updateMOL()">
+            <mat-icon [ngClass]="{'red':!fleetUptodate,'green':fleetUptodate}">check_circle</mat-icon>
+            Fleet Local Database: {{fleetUptodate?  rigs.length + ' machines' :'Not updated'}}
+        </button>
+        <button mat-stroked-button class="row cur" *ngIf="custUptodate!=undefined" (click)="updateCust()">
+            <mat-icon [ngClass]="{'red':!custUptodate,'green':custUptodate}">check_circle</mat-icon>
+            Customer Local Database: {{custUptodate? + customers.length + ' companies':'Not updated'}}
+        </button>
+    </div>
+    
+</div>
 <div id="start" *ngIf="!spin">
+    
     <div class="butC" *ngFor="let a of buttons | disbutton: pos">
         <button mat-raised-button class="but" color="accent" (click)="nav(a.route, a.auth)" [disabled]="a.dis==false?chOnline():false">
             <div>
