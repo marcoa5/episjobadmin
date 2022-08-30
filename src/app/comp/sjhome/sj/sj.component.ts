@@ -726,4 +726,13 @@ export class SjComponent implements OnInit {
   chW(){
     return this.ch.isTouch()
   }
+
+  chOffline(){
+    return !navigator.onLine
+  }
+
+  back(){
+    this.saveData()
+    this.router.navigate(['sj'])
+  }
 }

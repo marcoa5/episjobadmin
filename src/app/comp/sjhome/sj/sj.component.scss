@@ -13,10 +13,6 @@
     gap: 15px; 
 }
 
-.cont{
-    
-}
-
 .stepper{
     max-width: 1000px;
 }
@@ -83,12 +79,16 @@
 .button{
     padding-top: 30px;
     width:100%;
-    display: flex;
+    display: grid;
     justify-content: flex-end;
+    gap:15px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .but{
     flex: 1 1 auto;
+    margin:0;
+    padding: 0;
 }
 
 .searchForm{padding-bottom: 30px;}

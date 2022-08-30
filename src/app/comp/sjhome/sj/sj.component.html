@@ -254,7 +254,8 @@
               <episjob-sjemail [id]="rigForm.controls.customerid.value" (listOfEmail)="getList($event)" [mail]="templist"></episjob-sjemail>
               <div class="button">
                   <button mat-raised-button matStepperPrevious color="primary" class="but">Back</button>
-                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist==''">Send</button>
+                  <button mat-raised-button color="primary" class="but" (click)="back()">Save&Close</button>
+                  <button mat-raised-button matStepperNext color="primary" [disabled]="false" class="but" (click)="send()" [disabled]="(techSign=='' || custSign=='') || (!days || days.length<1) || (reportForm.invalid) || rigForm.invalid || maillist=='' || chOffline()">Send</button>
               </div>
             </form>
             
