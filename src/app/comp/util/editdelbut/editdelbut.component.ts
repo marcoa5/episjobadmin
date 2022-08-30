@@ -13,6 +13,8 @@ import { auth } from 'firebase-admin';
 import { NewsubeqComponent } from '../../rigs/machine/subeq/newsubeq/newsubeq.component';
 import { SubeddialogComponent } from '../../rigs/machine/subeq/subeddialog/subeddialog.component';
 import { ImportpartsComponent } from '../dialog/importparts/importparts.component';
+import * as moment from 'moment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -48,7 +50,7 @@ export class EditdelbutComponent implements OnInit {
   show:boolean=false
   subsList:Subscription[]=[]
 
-  constructor(private location: Location, public dialog: MatDialog, public auth:AuthServiceService) { }
+  constructor(private router:Router, private location: Location, public dialog: MatDialog, public auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.subsList.push(
@@ -74,14 +76,16 @@ export class EditdelbutComponent implements OnInit {
         if(this.func=='CustomerC'){
           firebase.database().ref('CustContacts').child(result).remove()
           firebase.database().ref('CustAddress').child(result).remove()
+          firebase.database().ref('Updates').child('Custupd').set(moment(new Date).format('YYYYMMDDHHmmss'))
         }else if(this.func=='MOL') {
           firebase.database().ref('RigAuth').child(result).remove()
           firebase.database().ref('Hours').child(result).remove()
           firebase.database().ref('Categ').child(result).remove()
           firebase.database().ref('SubEquipment').child(result).remove()
           firebase.database().ref('ShipTo').child(result).remove()
+          firebase.database().ref('Updates').child('MOLupd').set(moment(new Date).format('YYYYMMDDHHmmss'))
         }
-        this.location.back()
+        this.router.navigate(['rigs'])
       }
     });
   } 
