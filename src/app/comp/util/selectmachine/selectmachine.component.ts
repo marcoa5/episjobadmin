@@ -38,7 +38,7 @@ export class SelectmachineComponent implements OnInit {
       end:['', Validators.required]
     })
     this.subsList.push(
-      this.auth._rigs.subscribe(a=>{
+      this.auth._fleet.subscribe(a=>{
         if(a) {
           this._rigs=a
           this.rigs=this._rigs.slice()
