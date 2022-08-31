@@ -10,6 +10,8 @@ import 'firebase/database'
 import { MakeidService } from '../../../serv/makeid.service'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { CustalreadyexistdialogComponent } from '../../util/dialog/custalreadyexistdialog/custalreadyexistdialog.component';
 
 export interface cl {
   c1: string
@@ -30,7 +32,9 @@ export class NewcustComponent implements OnInit {
   origin:string[]=[]
   pos:string=''
   rou:any[]=[]
+  customers:any[]=[]
   allow:boolean=false
+  subsList:Subscription[]=[]
   constructor(private auth: AuthServiceService, private fb:FormBuilder, private location:Location, private route:ActivatedRoute, private router:Router, private dialog:MatDialog, public makeId:MakeidService) {
     this.newC = fb.group({
       name:['',[Validators.required]],
@@ -47,8 +51,11 @@ export class NewcustComponent implements OnInit {
 
   ngOnInit(): void {
     this.allow=this.auth.allow('SU',this.pos)
-
-    
+    this.subsList.push(
+      this.auth._customers.subscribe(a=>{
+        if(a) this.customers=a
+      })
+    )
     this.route.params.subscribe(a=>{
       if(a.id && a.c1 && a.c2 && a.c3) {
         this.origin=[a.id,a.c1,a.c2,a.c3]
@@ -63,6 +70,10 @@ export class NewcustComponent implements OnInit {
         this.rou=['customers']
       }
     })
+  }
+
+  ngOnDestroy(){
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   add(e:any, a:FormGroup){
@@ -99,6 +110,10 @@ export class NewcustComponent implements OnInit {
         }
       })
     } else if(e=='addc' && this.allow){
+      let result= this.customers.filter(o=>{
+        return o.c1 == g.c1
+      })
+      if(result.length==0){
         let newId = this.makeId.makeId(10)
         g.id = newId
         firebase.database().ref('CustomerC').child(newId).set(g)
@@ -107,6 +122,9 @@ export class NewcustComponent implements OnInit {
           this.location.back()
         })
         .catch(err=> console.log(err))
+      } else {
+        this.dialog.open(CustalreadyexistdialogComponent, {data: g.c1})
+      }
     }
   }
 

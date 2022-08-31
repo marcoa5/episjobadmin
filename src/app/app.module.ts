@@ -167,7 +167,8 @@ import { ArchivecontractdialogComponent } from './comp/contractshome/contracts/a
 import { AddressDialogComponent } from './comp/customers/cliente/address-dialog/address-dialog.component';
 import { SolComponent } from './comp/customers/cliente/sol/sol.component';
 import { ExcelService } from './serv/excelexport.service'
-import { MessageComponent } from './comp/util/dialog/message/message.component'
+import { MessageComponent } from './comp/util/dialog/message/message.component';
+import { CustalreadyexistdialogComponent } from './comp/util/dialog/custalreadyexistdialog/custalreadyexistdialog.component'
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -315,7 +316,8 @@ export const MY_FORMATS = {
     ArchivecontractdialogComponent,
     AddressDialogComponent,
     SolComponent,
-    MessageComponent
+    MessageComponent,
+    CustalreadyexistdialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
