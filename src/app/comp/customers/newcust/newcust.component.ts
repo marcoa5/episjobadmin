@@ -101,7 +101,7 @@ export class NewcustComponent implements OnInit {
     } else if(e=='addc' && this.allow){
         let newId = this.makeId.makeId(10)
         g.id = newId
-        firebase.database().ref('CustomerC/').child(newId).set(g)
+        firebase.database().ref('CustomerC').child(newId).set(g)
         .then(()=>{
           firebase.database().ref('Updates').child('Custupd').set(moment(new Date).format('YYYYMMDDHHmmss'))
           this.location.back()

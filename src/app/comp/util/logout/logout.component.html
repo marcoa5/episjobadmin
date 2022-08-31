@@ -18,6 +18,13 @@
 <h2>Version</h2>
 <div>App version: {{version}}</div>
 <mat-divider></mat-divider>
+<h2>Clear Updates</h2>
+<div class="clearCont">
+    <button mat-raised-button (click)="clear('cust')">Clear Customers</button>
+    <button mat-raised-button (click)="clear('fleet')">Clear Fleet</button> 
+</div>
+
+<mat-divider></mat-divider>
 <h2>Logout</h2>
 <div class="logBut">
     <div>Click here to logout</div> 

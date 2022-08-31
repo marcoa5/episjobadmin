@@ -43,4 +43,15 @@ export class LogoutComponent implements OnInit {
   chPos(a:string){
     return this.auth.acc(a)
   }
+
+  clear(func:string):void{
+    switch (func){
+      case 'fleet':
+        localStorage.removeItem('Fleetupd')
+        break
+      case 'cust':
+        localStorage.removeItem('Custupd')
+        break
+    }
+  }
 }
