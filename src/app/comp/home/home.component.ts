@@ -125,6 +125,8 @@ export class HomeComponent implements OnInit {
   constructor(public router :Router, public auth:AuthServiceService) {}
   
   ngOnInit(): void {
+    if(localStorage.getItem('Fleetupd')==undefined) localStorage.removeItem('Fleetupd')
+    if(localStorage.getItem('Fleetupd')==undefined) localStorage.removeItem('Custupd')
     setInterval(()=>{
       this.chMOLstatus()
       this.chCustSatus()
