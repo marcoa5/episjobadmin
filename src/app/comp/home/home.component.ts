@@ -117,6 +117,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','admin','adminS','techwsadmin','wsadmin']
     },
+    {
+      id:'Pricing',
+      icon:'sell', 
+      route:'pricing', 
+      dis:false, 
+      auth:['SU']
+    },
   ];
   rigs:any[]=[]
   customers:any[]=[]

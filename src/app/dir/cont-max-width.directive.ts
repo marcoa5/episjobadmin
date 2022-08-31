@@ -4,7 +4,7 @@ import { Directive, ElementRef, Input } from '@angular/core';
   selector: '[episjobContMaxWidth]'
 })
 export class ContMaxWidthDirective {
-  @Input() episjobContMaxWidth:any=1000
+  @Input() episjobContMaxWidth:any=1500
   constructor(private el:ElementRef) { 
     
   }

@@ -1,0 +1,6 @@
+<episjob-navbar [cerca]="false" title="Parts Pricing"></episjob-navbar>
+<div episjobCont [episjobContMaxWidth]="1500" *ngIf="allow">
+    <episjob-h2 data="Set part price" icon="sell" padtop=0></episjob-h2>
+    <episjob-newprice></episjob-newprice>
+</div>
+<div episjobCont *ngIf="!allow">Restricted area</div>

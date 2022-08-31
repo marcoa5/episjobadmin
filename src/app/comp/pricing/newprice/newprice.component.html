@@ -1,0 +1,30 @@
+<form [formGroup]="item" class="cont">
+    <div class="subCont">
+        <mat-form-field>
+            <mat-label>Part Number</mat-label>
+            <input matInput formControlName="pn" autocomplete="off" (input)="chPrice()">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Period</mat-label>
+            <mat-select formControlName="period" (selectionChange)="chPrice()">
+              <mat-option *ngFor="let p of periods" [value]="p.value" >
+                {{p.text}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="subCont">
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="desc" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>LLP (Format ####.##)</mat-label>
+            <input matInput formControlName="llp" autocomplete="off">
+        </mat-form-field>
+    </div>
+</form>
+
+<div class="butCont">
+    <button mat-raised-button color="primary" [disabled]="item.invalid" (click)="add()">{{newItem?'Add':'Update'}}</button>
+</div>
