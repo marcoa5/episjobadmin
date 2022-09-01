@@ -126,6 +126,7 @@ export class HomeComponent implements OnInit {
     },
   ];
   rigs:any[]=[]
+  chOffline:boolean=false
   offLine:boolean|undefined
   customers:any[]=[]
   subsList: Subscription[]=[]
@@ -133,9 +134,19 @@ export class HomeComponent implements OnInit {
   constructor(public router :Router, public auth:AuthServiceService) {}
   
   ngOnInit(): void {
+    if(navigator.onLine){
+      this.chOffline=false
+    }else {
+      this.chOffline=true
+    }
     if(localStorage.getItem('Fleetupd')==undefined) localStorage.removeItem('Fleetupd')
     if(localStorage.getItem('Fleetupd')==undefined) localStorage.removeItem('Custupd')
     setInterval(()=>{
+      if(navigator.onLine){
+        this.chOffline=false
+      }else {
+        this.chOffline=true
+      }
       this.chMOLstatus()
       this.chCustSatus()
     }, 2000)
@@ -166,6 +177,7 @@ export class HomeComponent implements OnInit {
       }),
       this.auth._customers.subscribe(a=>{
         if(a) this.customers=a
+        console.log(this.customers)
       })
     )
   }
@@ -189,14 +201,6 @@ export class HomeComponent implements OnInit {
       this.chCustupd()
     }
     
-  }
-
-  chOnline(){
-    if(navigator.onLine){
-      return false
-    } else {
-      return true
-    }
   }
 
   ngOnDestroy(){

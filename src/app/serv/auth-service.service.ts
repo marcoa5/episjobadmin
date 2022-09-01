@@ -289,10 +289,11 @@ export class AuthServiceService {
                     }
                     localStorage.setItem('customers',JSON.stringify(c))
                     localStorage.setItem('custI',JSON.stringify(custIndex))
+                    localStorage.setItem('Custupd',server)
                     this.customers.next(c)
                     this.custI.next(custIndex)
                     this.epiCustomers=c 
-                    localStorage.setItem('Custupd',server)
+                    
                     res('')
                   }
                 })
@@ -320,8 +321,8 @@ export class AuthServiceService {
                     this.custI.next(cuI)
                     localStorage.setItem('customers',JSON.stringify(cu))
                     localStorage.setItem('custI',JSON.stringify(cuI))
-                    this.epiCustomers=cu
                     localStorage.setItem('Custupd',server)
+                    this.epiCustomers=cu
                     res('')
                   });
                 }
