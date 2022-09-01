@@ -126,6 +126,7 @@ export class HomeComponent implements OnInit {
     },
   ];
   rigs:any[]=[]
+  offLine:boolean|undefined
   customers:any[]=[]
   subsList: Subscription[]=[]
   uId:string=''
@@ -213,19 +214,28 @@ export class HomeComponent implements OnInit {
   }
 
   chMOLupd(){
-    if(this.localM && this.serverM && this.localM==this.serverM){
-      this.fleetUptodate= true
-    } else {
-      this.fleetUptodate= false
+    if(navigator.onLine){
+      if(this.localM && this.serverM && this.localM==this.serverM){
+        this.fleetUptodate= true
+      } else {
+        this.fleetUptodate= false
+      }
+    } else{
+      this.fleetUptodate=false
     }
   }
 
   chCustupd(){
-    if(this.localC && this.serverC && this.localC==this.serverC){
-      this.custUptodate= true
+    if(navigator.onLine){
+      if(this.localC && this.serverC && this.localC==this.serverC){
+        this.custUptodate= true
+      } else {
+        this.custUptodate= false
+      }
     } else {
       this.custUptodate= false
     }
+    
   }
   
   updateMOL(){

@@ -26,5 +26,5 @@
 </form>
 
 <div class="butCont">
-    <button mat-raised-button color="primary" [disabled]="item.invalid" (click)="add()">{{newItem?'Add':'Update'}}</button>
+    <button mat-raised-button color="primary" [disabled]="item.invalid && chOffline()" (click)="add()">{{newItem?'Add':'Update'}}</button>
 </div>

@@ -63,4 +63,8 @@ export class NewpriceComponent implements OnInit {
     })
   }
 
+  chOffline(){
+    return !navigator.onLine
+  }
+
 }
