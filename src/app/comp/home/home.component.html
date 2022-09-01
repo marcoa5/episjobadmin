@@ -13,11 +13,13 @@
     </div>
     <div class="subHeader">
         <button mat-stroked-button class="row cur"  (click)="updateMOL()">
-            <mat-icon [ngClass]="{'red':!fleetUptodate,'green':fleetUptodate}">{{fleetUptodate? 'check_circle':'cancel'}}</mat-icon>
+            <mat-icon [ngClass]="{'red':!fleetUptodate,'green':fleetUptodate}" *ngIf="fleetUptodate!=undefined">{{fleetUptodate? 'check_circle':'cancel'}}</mat-icon>
+            <div *ngIf="fleetUptodate==undefined"></div>
             Fleet Local Database: <span>{{rigs.length + ' machines'}}</span>
         </button>
         <button mat-stroked-button class="row cur"  (click)="updateCust()">
-            <mat-icon [ngClass]="{'red':!custUptodate,'green':custUptodate}">{{custUptodate? 'check_circle':'cancel'}}</mat-icon>
+            <mat-icon [ngClass]="{'red':!custUptodate,'green':custUptodate}" *ngIf="custUptodate!=undefined">{{custUptodate? 'check_circle':'cancel'}}</mat-icon>
+            <div *ngIf="custUptodate==undefined"></div>
             Customer Local Database: <span>{{customers.length + ' companies'}}</span>
         </button>
     </div>

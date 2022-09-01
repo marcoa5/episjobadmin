@@ -221,7 +221,7 @@ export class HomeComponent implements OnInit {
         this.fleetUptodate= false
       }
     } else{
-      this.fleetUptodate=false
+      this.fleetUptodate=undefined
     }
   }
 
@@ -233,7 +233,7 @@ export class HomeComponent implements OnInit {
         this.custUptodate= false
       }
     } else {
-      this.custUptodate= false
+      this.custUptodate= undefined
     }
     
   }
