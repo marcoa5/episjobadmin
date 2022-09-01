@@ -2,13 +2,13 @@
 <form class="container" [formGroup]="form">
   <mat-form-field>
     <mat-label>UserName</mat-label>
-    <input matInput type="text" autocomplete="off" [disabled]="spin" (keyup)="delChErr()" formControlName="username">
+    <input matInput type="text" autocomplete="off" (keyup)="delChErr()" formControlName="username">
     <mat-error *ngIf="form.hasError('email','username')">Invalid email</mat-error>
     <mat-error *ngIf="form.hasError('required','username')">Invalid email</mat-error>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput [type]="vis ? 'password' : 'text'"  [disabled]="spin" (keyup)="delChErr()" formControlName="password">
+    <input matInput [type]="vis ? 'password' : 'text'" (keyup)="delChErr()" formControlName="password" autocomplete="off">
     <mat-icon matSuffix style="cursor:pointer" (click)="vis=!vis">{{vis? 'visibility' : 'visibility_off'}}</mat-icon>
     <mat-error *ngIf="form.hasError('required','password')">Invalid password</mat-error>
     <mat-error *ngIf="form.hasError('minlength','password')">Password must be at least 6 digits</mat-error>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -129,11 +129,32 @@ export class HomeComponent implements OnInit {
   chOffline:boolean=false
   offLine:boolean|undefined
   customers:any[]=[]
+  wide:boolean=false
   subsList: Subscription[]=[]
   uId:string=''
   constructor(public router :Router, public auth:AuthServiceService) {}
   
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.onResize()
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        this.pos=a.Pos
+        this.nome = a.Nome + ' ' + a.Cognome
+        this.spin=false
+        this.uId=a.uid
+        switch(a.Pos) {
+          case 'SU':  this.role='SuperUser'; break;
+          case 'admin': this.role='Technical Admin'; break;
+          case 'adminS': this.role='Sales Admin'; break;
+          case 'tech': this.role='Technician'; break;
+          case 'sales': this.role='Sales man'; break;
+          case 'customer': this.role='Customer'; break;
+          case 'wsadmin':  this.role='Workshop admin'; break;
+        }
+      })
+    )
+    await this.addFleetSubscription()
+    await this.addCustSubscription()
     if(navigator.onLine){
       this.chOffline=false
     }else {
@@ -156,30 +177,39 @@ export class HomeComponent implements OnInit {
     firebase.database().ref('Updates').child('Custupd').on('value',m=>{
       if(m.val()!=null) this.serverC = m.val()
     })
-    this.subsList.push(
-      this.auth._userData.subscribe(a=>{
-        this.pos=a.Pos
-        this.nome = a.Nome + ' ' + a.Cognome
-        this.spin=false
-        this.uId=a.uid
-        switch(a.Pos) {
-          case 'SU':  this.role='SuperUser'; break;
-          case 'admin': this.role='Technical Admin'; break;
-          case 'adminS': this.role='Sales Admin'; break;
-          case 'tech': this.role='Technician'; break;
-          case 'sales': this.role='Sales man'; break;
-          case 'customer': this.role='Customer'; break;
-          case 'wsadmin':  this.role='Workshop admin'; break;
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<650) {
+      this.wide=false
+    } else{
+      this.wide=true
+    }
+  }
+
+  addFleetSubscription(){
+    return new Promise(res=>{
+      this.subsList.push(
+        this.auth._fleet.subscribe(a=>{
+          if(a) {
+            this.rigs=a
+            res('')
+          }
+        }),
+      )
+    })
+  }
+
+  addCustSubscription(){
+    return new Promise(res=>{
+      this.auth._customers.subscribe(t=>{
+        if(t) {
+          this.customers=t
+          res('')
         }
-      }),
-      this.auth._fleet.subscribe(a=>{
-        if(a) this.rigs=a
-      }),
-      this.auth._customers.subscribe(a=>{
-        if(a) this.customers=a
-        console.log(this.customers)
       })
-    )
+    })
   }
 
   chMOLstatus(){

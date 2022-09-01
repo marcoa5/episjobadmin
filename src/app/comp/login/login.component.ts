@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   vis:boolean=true;
   stile:string="standard"
   spin:boolean=false
-  form:any
+  form!:FormGroup
   chErr:boolean=false
   constructor(fb: FormBuilder,private dialog: MatDialog, private router:Router) {
     this.form = fb.group({
@@ -35,6 +35,8 @@ export class LoginComponent implements OnInit {
 
   login(a: FormGroup){
     this.spin=true
+    this.form.controls.password.disable()
+    this.form.controls.username.disable()
     let una = a.get('username')?.value
     let pwd = a.get('password')?.value
     firebase.auth().signInWithEmailAndPassword(una,pwd)
@@ -45,6 +47,8 @@ export class LoginComponent implements OnInit {
          this.uN = b.Nome.substring(0,1) + b.Cognome.substring(0,1)
          this.userN.emit(this.uN)
          this.spin=false
+         this.form.controls.password.enable()
+         this.form.controls.username.enable()
 
        })
        .catch(err=>{
@@ -52,6 +56,8 @@ export class LoginComponent implements OnInit {
           console.log(err)
         }
         this.spin=false
+        this.form.controls.password.enable()
+        this.form.controls.username.enable()
        })
     })
     .catch(err=>{
@@ -59,6 +65,8 @@ export class LoginComponent implements OnInit {
         
         this.chErr=true
         this.spin=false
+        this.form.controls.password.enable()
+        this.form.controls.username.enable()
         console.error(err)
       }
     })

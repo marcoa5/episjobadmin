@@ -4,24 +4,23 @@
     <div class="subHeader">
         <button mat-stroked-button class="row" *ngIf="role">
             <mat-icon class="green">check_circle</mat-icon>
-            User role: {{role}}
+            {{wide?'User role: '+role:role}}
         </button>
         <button mat-stroked-button class="row">
             <mat-icon [ngClass]="{'red':chOffline,'green':!chOffline}">{{!chOffline? 'wifi':'wifi_off'}}e</mat-icon>
-            Network Status: {{!chOffline? 'Online':'Offline'}}
+           {{wide?'Network Status: ' + (!chOffline? 'Online':'Offline'):!chOffline? 'Online':'Offline'}}
         </button>
     </div>
     <div class="subHeader">
         <button mat-stroked-button class="row cur"  (click)="updateMOL()">
             <mat-icon [ngClass]="{'red':!fleetUptodate,'green':fleetUptodate}">{{fleetUptodate==undefined?'wifi_off':(fleetUptodate? 'check_circle':'cancel')}}</mat-icon>
-            Fleet Local Database: <span>{{rigs.length + ' machines'}}</span>
+            {{wide?'Fleet Local Database: '+rigs.length + ' machines':rigs.length + ' machines'}}
         </button>
         <button mat-stroked-button class="row cur"  (click)="updateCust()">
             <mat-icon [ngClass]="{'red':!custUptodate,'green':custUptodate}">{{custUptodate==undefined? 'wifi_off':(custUptodate? 'check_circle':'cancel')}}</mat-icon>
-            Customer Local Database: <span>{{customers.length + ' companies'}}</span>
+            {{wide?'Customer Local Database: '+customers.length + ' companies':customers.length + ' companies'}}
         </button>
     </div>
-    
 </div>
 <div id="start" *ngIf="!spin">
     
@@ -34,4 +33,5 @@
             
         </button>
     </div>
+    
 </div>
