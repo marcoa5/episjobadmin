@@ -599,9 +599,6 @@ export class SjComponent implements OnInit {
         let n_d = new Date(y,m,d)
         h.data_new=moment(n_d).format('YYYY-MM-DD')
         h.lastM = moment(new Date()).format('YYYYMMDDHHmmss')
-        if(info){
-          h.info = info
-        }
         if(last) {
           let tempId:string = this.rigForm.controls.sid.value
           h.sjid=tempId
@@ -610,6 +607,11 @@ export class SjComponent implements OnInit {
         }
         h.sjid=newId?newId:this.rigForm.controls.sid.value
         this.file=h
+        let info:any={
+          subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
+          fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
+        }
+        this.file.info=info
         localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
         if(this.file.sjid.substring(0,3)!='sjs') {
           firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
