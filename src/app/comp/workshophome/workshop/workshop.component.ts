@@ -17,6 +17,7 @@ import { SjnumberdialogComponent } from './sjnumberdialog/sjnumberdialog.compone
 import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service';
 import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/serv/excelexport.service';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 
 @Component({
   selector: 'episjob-workshop',
@@ -50,10 +51,10 @@ export class WorkshopComponent implements OnInit {
       if(this.type=='f') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','year','month','add','report','tot','archive']
       if(this.type=='a') this.displayedColumns=['file','SJ','filenr','ws','model','customer','hrs','tot']
     }
+    if(this.type=='f' && this.pos=='SU') this.displayedColumns.push('del')
   }
 
   ngOnInit(): void {
-    this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {
@@ -65,6 +66,7 @@ export class WorkshopComponent implements OnInit {
         }
       })
     )
+    this.onResize()
     setTimeout(() => {
       this.spin=false
     }, 5000);
@@ -266,7 +268,16 @@ export class WorkshopComponent implements OnInit {
   goTo(route:string, key:string, val:string){
     let obj:any={}
     obj[key]=val
-    this.router.navigate([route,obj])
+    if(val!='none' && val!='EPIROC ITALIA SRL') this.router.navigate([route,obj])
+  }
+
+  deleteFile(e:any){
+    let d = this.dialog.open(DeldialogComponent, {data:{name:e.file}})
+    d.afterClosed().subscribe(res=>{
+      if(res) {
+        firebase.database().ref('wsFiles').child('open').child(e.sn).child(e.id).remove()
+      }
+    })
   }
 }
 

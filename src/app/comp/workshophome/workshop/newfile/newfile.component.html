@@ -14,7 +14,7 @@
               <mat-option *ngFor="let f of types" [value]="f.val">{{f.desc}}</mat-option>
             </mat-select>
         </mat-form-field>
-        <episjob-selectmachine (info)="dat($event)" *ngIf="type && type.value && ws && ws.value"></episjob-selectmachine>
+        <episjob-selectmachine [comp]="true" (info)="dat($event)" *ngIf="type && type.value && ws && ws.value"></episjob-selectmachine>
         <div *ngIf="details!=undefined && details!=''">
             <mat-form-field  class="input">
                 <input matInput type="text" autocomplete="off" formControlName="file">
@@ -25,7 +25,7 @@
                 <mat-label>Serial</mat-label>
             </mat-form-field>
             <mat-form-field  class="input">
-                <input matInput type="text" autocomplete="off" formControlName="model">
+                <input matInput type="text" autocomplete="off" formControlName="model" (input)="editFileName()">
                 <mat-label>Model</mat-label>
             </mat-form-field>
             <mat-form-field  class="input hid">

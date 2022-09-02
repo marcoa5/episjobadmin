@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Subscriber, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { MakeidService } from 'src/app/serv/makeid.service';
 
 @Component({
   selector: 'episjob-selectmachine',
@@ -12,6 +13,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 export class SelectmachineComponent implements OnInit {
   @Input() infoInput:string|undefined
   @Input() search:string=''
+  @Input() comp:boolean=false
   chStr:boolean=true
   details:any[]=[]
   inputData!:FormGroup
@@ -22,7 +24,7 @@ export class SelectmachineComponent implements OnInit {
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
-  constructor(private fb:FormBuilder, public auth: AuthServiceService) {
+  constructor(private id:MakeidService, private fb:FormBuilder, public auth: AuthServiceService) {
     this.inputData= new FormGroup({})
   }
 
@@ -41,6 +43,14 @@ export class SelectmachineComponent implements OnInit {
       this.auth._fleet.subscribe(a=>{
         if(a) {
           this._rigs=a
+          if(this.comp){
+            this._rigs.push({
+              model: 'COMPONENT',
+              sn: 'COMPONENT',
+              customer: 'EPIROC ITALIA SRL',
+              custid:'OL0HyfZy4q'
+            })
+          }
           this.rigs=this._rigs.slice()
           if(this.search && this.search!='' && this.rigs.length>1) {
             this.filter().then(()=>{this.sel(this.rigs[0])})
