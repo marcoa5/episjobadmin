@@ -80,7 +80,7 @@ export class NewfileComponent implements OnInit {
   }
 
   editFileName(){
-    if(this.rigData.controls.sn.value=='Component'){
+    if(this.rigData.controls.sn.value.toLowerCase()=='component'){
       this.rigData.controls.file.setValue(`${this.rigData.controls.type.value} ${this.rigData.controls.model.value}`)
     }
   }
