@@ -60,6 +60,7 @@ export class WorkshophomeComponent implements OnInit {
                 let t=c.val()
                 t.monthsum=a[0]
                 t.yearsum=a[1]
+                console.log(a)
                 t.hrs=a[2]
                 this.list.push(t)
               })
