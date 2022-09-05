@@ -12,14 +12,13 @@ constructor(private readonly updates: SwUpdate, private dialog: MatDialog) {
   });
 }
 showAppUpdateAlert() {
-  const header = 'App Update'
+  this.doAppUpdate()
+  /*const header = 'App Update'
   const message = 'The app has been updated from server. click ok to reload'
   const msg = this.dialog.open(AppupdComponent, {disableClose: true, data: {header: header, message: message}})
-  this.doAppUpdate()
-  return
   msg.afterClosed().subscribe(o=>{
     if(o) this.doAppUpdate()
-  })
+  })*/
 }
 doAppUpdate() {
     this.updates.activateUpdate().then(() => {
