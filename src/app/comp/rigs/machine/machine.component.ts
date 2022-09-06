@@ -272,9 +272,9 @@ export class MachineComponent implements OnInit {
       if (this.data.length>0){
         this.hrsLabels=[  
           {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
-          {value:this.impAvg!=[] && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
-          {value:this.impAvg!=[] && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
-          {value:this.impAvg!=[] && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
+          {value:this.impAvg && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
+          {value:this.impAvg && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
+          {value:this.impAvg && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
         ]  
       }
     }
@@ -947,15 +947,22 @@ export class MachineComponent implements OnInit {
                   res(tFiles)
                 }
               })
+            } else {
+              if(tFiles.length>0){
+                res(tFiles)
+              } else {
+                rej('No Files')
+              }
             }
           })
         })
       } else{
-        rej('')
+        rej('Rejected')
       }
     }).then((list:any)=>{
       this.files=list
     })
+    .catch(err=>{console.log(err)})
     
   }
 

@@ -6,6 +6,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { ConditionalExpr } from '@angular/compiler';
 
 @Component({
   selector: 'episjob-auth',
@@ -15,7 +16,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 export class AuthComponent implements OnInit {
   pos:string=''
   rigs:any[]=[]
-  access:any[]=[]
+  access:any|undefined
   rigs1:any[]=[]
   filtro:string=''
   wid:boolean=true
@@ -38,10 +39,12 @@ export class AuthComponent implements OnInit {
           this.allSpin=false
         }, 1);
       }),
-      this.auth._rigs.subscribe(a=>this.rigs=a),
-      this.auth._accessI.subscribe(a=>{
-        this.access=a
-        if(a && this.rigs.length>0){
+      this.auth._fleet.subscribe(a=>{
+        this.rigs=a
+      }),
+      this.auth._accessI.subscribe(a=>{ 
+        if(Object.keys(a).length>0){
+          this.access=a
           this.rigs1 = this.rigs.map(a=>{
             a['a1']=this.access[a.sn].a1
             a['a2']=this.access[a.sn].a2
@@ -52,7 +55,8 @@ export class AuthComponent implements OnInit {
             a['a99']=this.access[a.sn].a99
             return a
           }).slice(this.start,this.end)
-        }})
+        }
+      })
     )    
   }
 
