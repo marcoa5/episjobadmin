@@ -4,6 +4,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
+import { identifierModuleUrl } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,10 @@ export class AuthServiceService {
   private customers:Subject<any>=new BehaviorSubject<any>([])
   private contacts:Subject<any>=new BehaviorSubject<any>([])
   private tech:Subject<any>=new BehaviorSubject<any>([])
+  private contracts:Subject<any>=new BehaviorSubject<any>([])
+  private contractsArch:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
+
   
   chDev(){
     return true
@@ -89,6 +93,28 @@ export class AuthServiceService {
       this.tech.next(b)
     }
     return this.tech.asObservable()
+  }
+
+  get _contracts(){
+    this.getContracts()
+    let a=localStorage.getItem('Contracts')
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.contracts.next(b)
+    }
+    return this.contracts.asObservable()
+  }
+
+  get _contractsArch(){
+    this.getContractsArch()
+    let a=localStorage.getItem('ContractsArch')
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.contractsArch.next(b)
+    }
+    return this.contractsArch.asObservable()
   }
 
   get _userData(){
@@ -166,8 +192,7 @@ export class AuthServiceService {
         //console.log('Local: ' + local, 'Server: ' + server)
         if(local==server) {
           console.log('No Fleet update')
-        }
-        if(!local || local<server){
+        }else if(!local || local<server){
           firebase.database().ref('Categ').on('value',a=>{
             let cat:any[] = []
             a.forEach((b:any)=>{
@@ -177,9 +202,9 @@ export class AuthServiceService {
             this.epiCateg=cat
           })
           if(this.epiUser){
+            console.log('Downloading fleet...')
             if(this.epiUser.Pos!='sales' && this.epiUser.Pos!='customer'){
               if(this.epiRigs.length==0){
-                console.log('Downloading fleet...')
                 firebase.database().ref('MOL').on('value',async (a)=>{
                   let b=Object.values(a.val())
                   this.rigs.next(b)
@@ -257,12 +282,12 @@ export class AuthServiceService {
       .then(()=>{
         if(local==server) {
           console.log('No Customer update')
-        }
-        if(!local || local<server){
+        } else if(!local || local<server){
           if(this.epiUser){
+            console.log('Downloading customers...')
             if(this.epiUser.Pos!='customer'){
               if(this.epiCustomers.length==0){
-                console.log('Downloading customers...')
+                
                 let custIndex
                 firebase.database().ref('CustomerC').on('value',a=>{
                   custIndex=a.val()
@@ -367,6 +392,118 @@ export class AuthServiceService {
       this.userData.next(c)
       this.epiUser=c
     })
+  }
+
+  getContracts(){
+    let contractList:any[]=[]
+    return new Promise(res=>{
+      let server:any=undefined
+      let local:any=localStorage.getItem('Contractsupd')
+      firebase.database().ref('Updates').child('Contractsupd').once('value',snap=>{
+        if(snap.val()) {
+          server=snap.val()
+        } else {
+          server=moment(new Date()).format('YYYYMMDDHHmmss')
+        }
+      })
+      .catch(()=>{res('')})
+      .then(()=>{
+        if(local==server) {
+          console.log('No Contracts update')
+        } else if(!local || local<server){
+          if(this.epiUser){
+            console.log('Downloading contracts...')
+            firebase.database().ref('Contracts').child('active').on('value',a=>{
+              if(a.val()){
+                let leng:number=Object.values(a.val()).length
+                let ch:number=0
+                contractList=[]
+                a.forEach(b=>{
+                  b.forEach(c=>{
+                    c.forEach(d=>{
+                      let g=d.val()
+                      let da = moment(new Date(d.val().end))
+                      let today = moment(new Date())
+                      g.daysleft=da.diff(today,'days')
+                      contractList.push(g)
+                      ch++
+                      if(ch==leng) {
+                        res(contractList)
+                        this.contracts.next(contractList)
+                        localStorage.setItem('Contractsupd',server)
+                        localStorage.setItem('Contracts',JSON.stringify(contractList))
+                      }
+                    })
+                  })
+                })
+              } else{
+                res('')
+                this.contracts.next([])
+                localStorage.setItem('Contractsupd',server)
+                localStorage.setItem('Contracts',JSON.stringify([]))
+              }
+            })
+          }
+        }
+      })
+    })  
+
+  }
+
+  getContractsArch(){
+    let contractList:any[]=[]
+    return new Promise(res=>{
+      let server:any=undefined
+      let local:any=localStorage.getItem('ContractArchsupd')
+      firebase.database().ref('Updates').child('ContractsArchupd').once('value',snap=>{
+        if(snap.val()) {
+          server=snap.val()
+        } else {
+          server=moment(new Date()).format('YYYYMMDDHHmmss')
+        }
+      })
+      .catch(()=>{res('')})
+      .then(()=>{
+        if(local==server) {
+          console.log('No Contracts Archive update')
+        } else if(!local || local<server){
+          if(this.epiUser){
+            console.log('Downloading contracts archive...')
+            firebase.database().ref('Contracts').child('archived').on('value',a=>{
+              if(a.val()){
+                let leng:number=Object.values(a.val()).length
+                let ch:number=0
+                contractList=[]
+                a.forEach(b=>{
+                  b.forEach(c=>{
+                    c.forEach(d=>{
+                      let g=d.val()
+                      let da = moment(new Date(d.val().end))
+                      let today = moment(new Date())
+                      g.daysleft=da.diff(today,'days')
+                      contractList.push(g)
+                      ch++
+                      if(ch==leng) {
+                        res(contractList)
+                        this.contracts.next(contractList)
+                        localStorage.setItem('ContractArchsupd',server)
+                        localStorage.setItem('ContractsArch',JSON.stringify(contractList))
+                      }
+                    })
+                  })
+                })
+              } else{
+                this.contracts.next([])
+                localStorage.setItem('ContractArchsupd',server)
+                localStorage.setItem('ContractsArch',JSON.stringify([]))
+                res('')
+              }
+            })
+          }
+        }
+      })
+    })  
+
   }
 
   allow(page:string, pos1: string, subPos?:string):boolean{

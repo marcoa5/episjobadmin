@@ -151,6 +151,7 @@ export class NewcontractComponent implements OnInit {
             if(ref!=undefined){
               firebase.database().ref('Contracts').child('active').child(v.sn).child(v.type).child(v.id).set(v)
               .then(()=>{
+                firebase.database().ref('Updates').child('Contractsupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
                 this.dialogRef.close(v)
               })
             } else{

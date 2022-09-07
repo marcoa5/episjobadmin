@@ -1,16 +1,13 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { NewcontractComponent } from './newcontract/newcontract.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service'
 import firebase from 'firebase/app';
+import * as moment from 'moment'
 import { Sort } from '@angular/material/sort';
-import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
-import { AttachmentdialogComponent } from './attachmentdialog/attachmentdialog.component';
-import { GenericComponent } from '../../util/dialog/generic/generic.component';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component'
 import { Router } from '@angular/router';
-import { ArchivecontractdialogComponent } from './archivecontractdialog/archivecontractdialog.component';
-import * as XLSX from 'xlsx-js-style'
+import { ArchivecontractdialogComponent } from './archivecontractdialog/archivecontractdialog.component'
 import { ExcelService } from 'src/app/serv/excelexport.service';
 import { AttachService } from 'src/app/serv/attach.service';
 
@@ -190,6 +187,9 @@ export class ContractsComponent implements OnInit {
             firebase.database().ref('Contracts').child('archived').child(el.sn).child(el.type).set(a.val())
             .then(()=>{
               firebase.database().ref('Contracts').child('active').child(el.sn).remove()
+              .then(()=>{
+                firebase.database().ref('Updates').child('ContractsArchupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
+              })
             })
           }
         })

@@ -30,15 +30,9 @@
     width:100%;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
 }
 
-.butCont{
-    width:100%;
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
-}
 .formCont{
     display: flex;
     justify-content: flex-end;
@@ -46,11 +40,6 @@
 .sea{
     max-width: 450px;
     width:100%;
-}
-@media screen and (max-width:450px) {
-    .butCont{
-        grid-template-columns: repeat(1, 1fr);
-    }
 }
 
 @media screen and (max-width:800px){

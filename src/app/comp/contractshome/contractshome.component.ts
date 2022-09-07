@@ -5,11 +5,9 @@ import firebase from 'firebase/app'
 import * as moment from 'moment'
 import * as XLSX from 'xlsx-js-style'
 import { ExcelService } from 'src/app/serv/excelexport.service';
-import { NewcontractComponent } from './contracts/newcontract/newcontract.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { GenericComponent } from '../util/dialog/generic/generic.component';
-import { AttachmentdialogComponent } from './contracts/attachmentdialog/attachmentdialog.component';
 import { AttachService } from 'src/app/serv/attach.service';
+import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'episjob-contractshome',
@@ -38,42 +36,33 @@ export class ContractshomeComponent implements OnInit {
 
           }, 1);
         }
+      }),
+      this.auth._contracts.subscribe(a=>{
+        if(a.length>0) {
+          this.contractsSpin=false
+          this.contractList=a.slice()
+        }
+      }),
+      this.auth._contractsArch.subscribe(a=>{
+        if(a.length>0) {
+          this.archivedSpin=false
+          this.archivedList=a.slice()
+        } else {
+          this.archivedSpin=false
+        }
       })
     )
-    this.loadContracts()
-    this.loadArchived()
+    //this.loadArchived()
   }
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
-  loadContracts(){
-    firebase.database().ref('Contracts').child('active').on('value',a=>{
-      if(a.val()){
-        new Promise(res=>{
-          let leng:number=Object.values(a.val()).length
-          let ch:number=0
-          this.contractList=[]
-          a.forEach(b=>{
-            b.forEach(c=>{
-              c.forEach(d=>{
-                let g=d.val()
-                g.daysleft=this.chDate(d.val().end)
-                this.contractList.push(g)
-                ch++
-                if(ch==leng) {
-                  this.contractsSpin=false
-                  res(this.contractList)
-                }
-              })
-            })
-          })
-        })
-      } else {
-        this.contractsSpin=false
-      }
-    })
+  loadContracts(list:any[]){
+    this.contractList=list
+    console.log(this.contractList)
+    console.log('none')
   }
 
   
@@ -104,7 +93,7 @@ export class ContractshomeComponent implements OnInit {
     })
   }
 
-  loadArchived(){
+  /*loadArchived(){
     firebase.database().ref('Contracts').child('archived').on('value',a=>{
       if(a.val()) {
         let leng:number=Object.values(a.val()).length
@@ -125,7 +114,7 @@ export class ContractshomeComponent implements OnInit {
         this.archivedSpin=false
       }
     })
-  }
+  }*/
 
   chDate(a:any){
     let da = moment(new Date(a))

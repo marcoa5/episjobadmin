@@ -35,6 +35,7 @@ export class PartsComponent implements OnInit {
   userReqId:string='none'
   search:string=''
   spin:boolean=false
+  showSent:boolean=false
   subsList:Subscription[]=[]
 
 
@@ -59,7 +60,7 @@ export class PartsComponent implements OnInit {
     }).then(()=>{
       if(this.allow==true){
         this.loadlist()
-        this.loadsent()
+        //this.loadsent()
       }
     })    
   }
@@ -263,5 +264,10 @@ export class PartsComponent implements OnInit {
       }
       this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
     })    
+  }
+
+  showSentList(){
+    this.showSent=true
+    this.loadsent()
   }
 }
