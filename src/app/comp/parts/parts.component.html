@@ -9,7 +9,6 @@
                     <button mat-raised-button color="primary" [disabled]="listId<0" (click)="open()" >Open draft</button>
                     <button mat-raised-button color="primary" [disabled]="listId<0 || chDel" (click)="delete()">Delete draft</button>
                     <button mat-raised-button color="primary" *ngIf="chPos('AdminTechRights')" (click)="report()">Quotes Report</button>
-                    <button mat-raised-button color="primary" (click)="showSentList()" *ngIf="chPos('AdminTechRights') && !showSent">Load Sent</button>
                 </div>
                 <span class="spacer" *ngIf="false"></span>
                 <span *ngIf="false">or select a draft from the below list:</span>
@@ -27,7 +26,7 @@
                         <episjob-spin></episjob-spin>
                         <div class="te">Loading Sent....</div> 
                     </div>
-                    <div *ngIf="_listSent.length>0 && showSent">
+                    <div *ngIf="listSent.length>0">
                         <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
                         <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
                     </div>  

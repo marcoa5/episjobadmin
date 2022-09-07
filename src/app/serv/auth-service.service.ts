@@ -69,6 +69,7 @@ export class AuthServiceService {
   private tech:Subject<any>=new BehaviorSubject<any>([])
   private contracts:Subject<any>=new BehaviorSubject<any>([])
   private contractsArch:Subject<any>=new BehaviorSubject<any>([])
+  private partsSent:Subject<any>=new BehaviorSubject<any>([])
   private custI:Subject<any>=new BehaviorSubject<any>(undefined)
 
   
@@ -115,6 +116,17 @@ export class AuthServiceService {
       this.contractsArch.next(b)
     }
     return this.contractsArch.asObservable()
+  }
+
+  get _partsSent(){
+    this.getPartsSent()
+    let a=localStorage.getItem('PartsSent')
+    let b:any
+    if(a!=null) {
+      b = JSON.parse(a)
+      this.partsSent.next(b)
+    }
+    return this.partsSent.asObservable()
   }
 
   get _userData(){
@@ -415,11 +427,12 @@ export class AuthServiceService {
             console.log('Downloading contracts...')
             firebase.database().ref('Contracts').child('active').on('value',a=>{
               if(a.val()){
-                let leng:number=Object.values(a.val()).length
+                let leng:number=0
                 let ch:number=0
                 contractList=[]
                 a.forEach(b=>{
                   b.forEach(c=>{
+                    leng+=Object.keys(c.val()).length
                     c.forEach(d=>{
                       let g=d.val()
                       let da = moment(new Date(d.val().end))
@@ -428,19 +441,19 @@ export class AuthServiceService {
                       contractList.push(g)
                       ch++
                       if(ch==leng) {
-                        res(contractList)
-                        this.contracts.next(contractList)
                         localStorage.setItem('Contractsupd',server)
                         localStorage.setItem('Contracts',JSON.stringify(contractList))
+                        this.contracts.next(contractList)
+                        res(contractList)
                       }
                     })
                   })
                 })
               } else{
-                res('')
                 this.contracts.next([])
                 localStorage.setItem('Contractsupd',server)
                 localStorage.setItem('Contracts',JSON.stringify([]))
+                res('')
               }
             })
           }
@@ -485,7 +498,7 @@ export class AuthServiceService {
                       ch++
                       if(ch==leng) {
                         res(contractList)
-                        this.contracts.next(contractList)
+                        this.contractsArch.next(contractList)
                         localStorage.setItem('ContractArchsupd',server)
                         localStorage.setItem('ContractsArch',JSON.stringify(contractList))
                       }
@@ -493,17 +506,67 @@ export class AuthServiceService {
                   })
                 })
               } else{
-                this.contracts.next([])
+                this.contractsArch.next([])
                 localStorage.setItem('ContractArchsupd',server)
                 localStorage.setItem('ContractsArch',JSON.stringify([]))
-                res('')
+                res([])
               }
             })
           }
         }
       })
     })  
+  }
 
+  getPartsSent(){
+    let parts:any[]=[]
+    return new Promise(res=>{
+      let server:any=undefined
+      let local:any=localStorage.getItem('PartsSentupd')
+      firebase.database().ref('Updates').child('PartsSentupd').once('value',snap=>{
+        if(snap.val()) {
+          server=snap.val()
+        } else {
+          server=moment(new Date()).format('YYYYMMDDHHmmss')
+        }
+      })
+      .catch(()=>{res('')})
+      .then(()=>{
+        if(local==server) {
+          console.log('No Parts Sent List update')
+        } else if(!local || local<server){
+          if(this.epiUser){
+            let check:number=0
+            let length:number=0
+            console.log('Downloading Parts Sent List...')
+            firebase.database().ref('PartReqSent').on('value',b=>{
+              parts=[]
+              b.forEach(c=>{
+                length+=Object.keys(c.val()).length
+                c.forEach(d=>{
+                  let g = d.val()
+                  g.sel=0
+                  parts.push(g)
+                  check++
+                  //console.log(check,length)
+                  if(check==length) {
+                    this.partsSent.next(parts)
+                    localStorage.setItem('PartsSentupd',server)
+                    localStorage.setItem('PartsSent',JSON.stringify(parts))
+                    res(parts)
+                  }
+                })
+              })
+            })
+          }
+        } else {
+          this.partsSent.next([])
+          localStorage.setItem('PartsSentupd',server)
+          localStorage.setItem('PartsSent',JSON.stringify([]))
+          res([])
+        }
+      })
+    })
   }
 
   allow(page:string, pos1: string, subPos?:string):boolean{

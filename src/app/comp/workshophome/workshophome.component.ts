@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
 import * as moment from 'moment';
+import { unary } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'episjob-workshophome',
@@ -52,22 +53,31 @@ export class WorkshophomeComponent implements OnInit {
   loadFiles(){
     firebase.database().ref('wsFiles').child('open').on('value',a=>{
       this._list=[]
+      this.list=[]
       if(a.val()!=null){
+        let length:number=0
+        let check:number=0
         a.forEach(b=>{
+          length+=Object.keys(b.val()).length
           b.forEach(c=>{
             if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') {
-              this.calcMonth(c.val().days).then((a:any)=>{
+              this.calcMonth(c.val().days)
+              .then((u:any)=>{
                 let t=c.val()
-                t.monthsum=a[0]
-                t.yearsum=a[1]
-                t.hrs=a[2]
-                this.list.push(t)
+                t.monthsum=u[0]
+                t.yearsum=u[1]
+                t.hrs=u[2]
+                this._list.push(t)
+                check++
+                if(check==length) {
+                  this.list=this._list.slice()
+                }
               })
             }
           })
         })
       }
-      this.list=this._list.slice()
+      
     })
   }
 
@@ -100,16 +110,27 @@ export class WorkshophomeComponent implements OnInit {
   }
 
   loadArchived(){
-    firebase.database().ref('wsFiles').child('archived').on('value',a=>{
-      this._listA=[]
-      if(a.val()!=null){
-        a.forEach(b=>{
-          b.forEach(c=>{
-            if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') this._listA.push(c.val())
+    return new Promise(res=>{
+      firebase.database().ref('wsFiles').child('archived').on('value',a=>{
+        let _listA:any[]=[]
+        let check:number=0
+        let length:number=0
+        if(a.val()!=null){
+          a.forEach(b=>{
+            length+=Object.keys(b.val()).length
+            b.forEach(c=>{
+              if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') {
+                _listA.push(c.val())
+              }
+              check++
+              if(check==length) res(_listA)
+            })
           })
-        })
-      }
-      this.listA=this._listA.slice()
+        }
+      })
+    })
+    .then((listAr:any)=>{
+      this.listA=listAr.slice()
     })
   }
 

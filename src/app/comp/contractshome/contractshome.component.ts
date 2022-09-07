@@ -37,16 +37,18 @@ export class ContractshomeComponent implements OnInit {
           }, 1);
         }
       }),
-      this.auth._contracts.subscribe(a=>{
-        if(a.length>0) {
+      this.auth._contracts.subscribe(e=>{
+        if(e.length>0) {
           this.contractsSpin=false
-          this.contractList=a.slice()
+          this.contractList=e.slice()
+        }else {
+          this.contractsSpin=false
         }
       }),
-      this.auth._contractsArch.subscribe(a=>{
-        if(a.length>0) {
+      this.auth._contractsArch.subscribe(v=>{
+        if(v.length>0) {
           this.archivedSpin=false
-          this.archivedList=a.slice()
+          this.archivedList=v.slice()
         } else {
           this.archivedSpin=false
         }

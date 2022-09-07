@@ -245,6 +245,7 @@ export class RequestlistComponent implements OnInit {
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
                 .then(()=>firebase.database().ref('PartReq').child(this.info.usedId).child(this.info.reqId).remove()
                 .then(()=>{
+                  firebase.database().ref('Updates').child('PartsSentupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
                   wait.close()
                   this.location.back()
                   console.log('SENT ' + a)

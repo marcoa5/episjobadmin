@@ -60,7 +60,7 @@ export class PartsComponent implements OnInit {
     }).then(()=>{
       if(this.allow==true){
         this.loadlist()
-        //this.loadsent()
+        this.loadsent()
       }
     })    
   }
@@ -116,20 +116,14 @@ export class PartsComponent implements OnInit {
   loadsent(){
     this.spin=true
     if(this.auth.acc('AdminTechRights')){
-      firebase.database().ref('PartReqSent').on('value',b=>{
-        let l:number=Object.values(b.val()).length
-        let i:number=0
-        this._listSent=[]
-        b.forEach(c=>{
-          c.forEach(d=>{
-            let g = d.val()
-            g.sel=0
-            this._listSent.push(g)
-            this.listSent=this._listSent.slice()
+      this.subsList.push(
+        this.auth._partsSent.subscribe(a=>{
+          if(a.length>0) {
+            this.listSent=a.slice()
             this.spin=false
-          })
+          }
         })
-      })
+      )
     }
   }
 
@@ -264,10 +258,5 @@ export class PartsComponent implements OnInit {
       }
       this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
     })    
-  }
-
-  showSentList(){
-    this.showSent=true
-    this.loadsent()
   }
 }
