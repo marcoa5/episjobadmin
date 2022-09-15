@@ -60,6 +60,7 @@ export class WorkshophomeComponent implements OnInit {
         a.forEach(b=>{
           length+=Object.keys(b.val()).length
           b.forEach(c=>{
+            check++
             if((this.pos=='wsadmin' && c.val().ws==this.ws) || this.pos!='wsadmin') {
               this.calcMonth(c.val().days)
               .then((u:any)=>{
@@ -68,7 +69,6 @@ export class WorkshophomeComponent implements OnInit {
                 t.yearsum=u[1]
                 t.hrs=u[2]
                 this._list.push(t)
-                check++
                 if(check==length) {
                   this.list=this._list.slice()
                 }
