@@ -25,7 +25,7 @@ export const environment = {
 		{name: 'Imp. Elettrico', val: 'Imp. Elettrico'},
 		{name: 'Imp. Idraulico', val: 'Imp. Idraulico'},
 		{name: 'Imp. Aria/Acqua', val: 'Imp. Aria/Acqua'},
-    {name: 'Imp. Antincendio', val:'Imp Antincendio'},
+    	{name: 'Imp. Antincendio', val:'Imp Antincendio'},
 		{name: 'Braccio/Slitta', val: 'Braccio/Slitta'},
 		{name: 'Perforatrice', val: 'Perforatrice'},
 		{name: 'Bullonatura', val: 'Bullonatura'},

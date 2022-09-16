@@ -37,7 +37,7 @@ export class SjhomeComponent implements OnInit {
   tech:any[]=[]
   constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {
@@ -62,10 +62,10 @@ export class SjhomeComponent implements OnInit {
     )
     if(navigator.onLine) {
       this.syncSignature()
-      this.checkApproval()
-      .then((a)=>{
-        console.log(a)
-        this.loadSent()
+      let d = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Generating PDF and Sending Service Job...'}})
+      await this.checkApproval()
+      d.close()
+      this.loadSent()
         this.checkDeleted()
         .then(()=>{
           this.syncDraft()
@@ -73,7 +73,6 @@ export class SjhomeComponent implements OnInit {
             this.loadSJ()
           })
         })
-      })
     } else {
       this.loadSJ()
     }
@@ -282,24 +281,25 @@ export class SjhomeComponent implements OnInit {
           let cont:any = JSON.parse(content)
           firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
           .then(()=>{
-            
             console.log('REMOVED ' + keyLS)
             let url:string=environment.url; cont.info.cc=true
-            this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
+            this.http.post(url + 'sendSJNew',cont).subscribe((result)=>{
               localStorage.removeItem(keyLS)
-              console.log(res) 
+              console.log(result) 
               let _mails = cont.elencomail.split(';')
               let mail = _mails.join(', ')
               this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
+              kt++
+              if(kt==l) {
+                console.log('GO')
+                res('Sent checked 297')
+              }
             })
-            kt++
-            if(kt==l) {
-              res('Sent checked 297')
-            }
           })
         } else {
           kt++
           if(kt==l) {
+            console.log('GO')
             res('Sent checked 303')
           }
         }
