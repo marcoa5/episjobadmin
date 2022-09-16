@@ -492,7 +492,7 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days.length==0?'':this.days.length)
   }
 
-  saveData(last?:boolean, newId?:string, info?:any){
+  saveData(last?:boolean, newId?:string){
     let i:number=1
     new Promise((res,rej)=>{
       let nome:string=''
@@ -677,14 +677,14 @@ export class SjComponent implements OnInit {
   }
 
   send(){
-    let info:any={
+    /*let info:any={
       subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
       fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
-    }
+    }*/
     localStorage.getItem(this.rigForm.controls.sid.value)
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
-    this.saveData(true,g,info)
+    this.saveData(true,g)
     this.router.navigate(['sj'])
   }
 

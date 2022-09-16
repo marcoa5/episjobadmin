@@ -282,14 +282,11 @@ export class SjhomeComponent implements OnInit {
           let cont:any = JSON.parse(content)
           firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
           .then(()=>{
-            localStorage.removeItem(keyLS)
+            
             console.log('REMOVED ' + keyLS)
             let url:string=environment.url; cont.info.cc=true
             this.http.post(url + 'sendSJNew',cont).subscribe((res)=>{
-              let info={
-                fileName: cont.info.fileName,
-                urlPdf: cont.info.urlPdf
-              }
+              localStorage.removeItem(keyLS)
               console.log(res) 
               let _mails = cont.elencomail.split(';')
               let mail = _mails.join(', ')
