@@ -35,7 +35,6 @@ export const environment = {
   url: 'http://localhost:3001/'
   //url: 'https://episjobreq.herokuapp.com/'
   //url: '/api/'
-
 };
 
 /*

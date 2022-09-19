@@ -276,17 +276,17 @@ export class SjhomeComponent implements OnInit {
       let l = localStorage.length
       let url:string=environment.url; 
       for(let i=0;i<l;i++){
-        if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
-          let keyLS:string=localStorage.key(i)!
-          let cont:any=JSON.parse(localStorage.getItem(keyLS)!)
+        let keyLS:string=localStorage.key(i)!
+        let cont:any=JSON.parse(localStorage.getItem(keyLS)!)
+        if(keyLS.substring(0,6)=="sjsent" ){
           cont.info.cc=true
           console.log('Sending ' + keyLS)
           this.http.post(url + 'sendSJNew',cont).subscribe(
             (result:any)=>{
               console.log(result)
               if(result) {
-                localStorage.removeItem(keyLS)
-                firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!)).then(()=>{console.log('REMOVED ' + keyLS)})  
+                localStorage.removeItem(keyLS) 
+                firebase.database().ref('sjDraft').child('sent').child(keyLS).set(cont)
                 let mail = cont.elencomail.split(';').join(', ')
                 this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
               }
