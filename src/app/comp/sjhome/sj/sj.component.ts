@@ -15,6 +15,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import firebase from 'firebase/app'
 import { HrssplitComponent } from './hrssplit/hrssplit.component';
 import { CheckwidthService } from 'src/app/serv/checkwidth.service';
+import { environment } from 'src/environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { GenericComponent } from '../../util/dialog/generic/generic.component';
+import { SendSJService } from 'src/app/serv/send-sj.service';
 
 export interface ma{
   [k:string]: string|number|any;
@@ -262,7 +266,7 @@ export class SjComponent implements OnInit {
   templist:string=''
   nuovo:boolean=true
   imi:string=""
-  constructor(private ch:CheckwidthService, private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
+  constructor(private sendSJ:SendSJService, private _snackBar: MatSnackBar, private ch:CheckwidthService, private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
       search:''
@@ -503,7 +507,8 @@ export class SjComponent implements OnInit {
         .then(()=>{res(nome)})
       } else {res(nome)}
     }).then((name:any)=>{
-      let h:ma = {
+      return new Promise(resp=>{
+        let h:ma = {
           author: (name!='')?name:(this.file && this.file.author)?this.file.author:'',
           authorId: (this.file && this.file.authorId)?this.file.authorId:'',
           userId: (this.behalf!='' && this.behalf!=undefined)?this.behalf:this.userId,
@@ -613,11 +618,13 @@ export class SjComponent implements OnInit {
         }
         this.file.info=info
         localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+        resp('')
         /*if(this.file.sjid.substring(0,3)!='sjs') {
           firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
         } else{
           firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
         }*/
+      })
     })
   }
 
@@ -676,7 +683,7 @@ export class SjComponent implements OnInit {
     this.hoursForm.controls.check.setValue(this.days?this.days.length:0)
   }
 
-  send(){
+  async send(){
     /*let info:any={
       subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
       fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
@@ -684,8 +691,10 @@ export class SjComponent implements OnInit {
     localStorage.getItem(this.rigForm.controls.sid.value)
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
-    this.saveData(true,g)
-    this.router.navigate(['sj'])
+    await this.saveData(true,g)
+    this.sendSJ.send(g,this.file)
+    .then(()=>{this.router.navigate(['sj'])})
+    .catch(()=>{this.router.navigate(['sj'])})
   }
 
   getList(e:any){

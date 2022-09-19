@@ -22,6 +22,7 @@ import { NewpartsrequestComponent } from '../../parts/newpartsrequest/newpartsre
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
+import { SumWsHrsService } from 'src/app/serv/sum-ws-hrs.service';
 
 export interface hrsLabel {
   lab: string
@@ -98,7 +99,7 @@ export class MachineComponent implements OnInit {
   userId:string=''
   subsList:Subscription[]=[]
   
-  constructor(private excel:ExcelService , private makeid: MakeidService, private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
+  constructor(private sumHr:SumWsHrsService, private excel:ExcelService , private makeid: MakeidService, private auth: AuthServiceService, private dialog: MatDialog, public route: ActivatedRoute, public bak: BackService, public router:Router, private clipboard: Clipboard) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -925,6 +926,7 @@ export class MachineComponent implements OnInit {
                 temp.max = fr[fr.length-1]
                 temp.status='Open'
               }
+              this.sumHr.sum(temp)
               tFiles.push(temp)
             })
           }

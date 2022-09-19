@@ -10,6 +10,7 @@ import * as moment from 'moment'
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { environment } from 'src/environments/environment';
+import { SendSJService } from 'src/app/serv/send-sj.service';
 
 @Component({
   selector: 'episjob-sjhome',
@@ -35,7 +36,7 @@ export class SjhomeComponent implements OnInit {
   rigs:any[]=[]
   customers:any[]=[]
   tech:any[]=[]
-  constructor(private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
+  constructor(private sendSJ:SendSJService ,private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
   async ngOnInit() {
     this.subsList.push(
@@ -62,9 +63,7 @@ export class SjhomeComponent implements OnInit {
     )
     if(navigator.onLine) {
       this.syncSignature()
-      //let d = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Generating PDF and Sending Service Job...'}})
       await this.checkApproval()
-      //d.close()
       this.loadSent()
         this.checkDeleted()
         .then(()=>{
@@ -270,39 +269,26 @@ export class SjhomeComponent implements OnInit {
     })
   }
 
-  checkApproval(){
+  async checkApproval(){
     let kt:number =0
-    return new Promise((res,rej)=>{
+    return new Promise(async (res,rej)=>{
       let l = localStorage.length
       let url:string=environment.url; 
       for(let i=0;i<l;i++){
-        let keyLS:string=localStorage.key(i)!
-        let cont:any=JSON.parse(localStorage.getItem(keyLS)!)
+        let keyLS:string=''
+        if(localStorage.key(i)) keyLS=localStorage.key(i)!
         if(keyLS.substring(0,6)=="sjsent" ){
-          cont.info.cc=true
+          let cont:any=JSON.parse(localStorage.getItem(keyLS)!)
           console.log('Sending ' + keyLS)
-          this.http.post(url + 'sendSJNew',cont).subscribe(
-            (result:any)=>{
-              console.log(result)
-              if(result) {
-                localStorage.removeItem(keyLS) 
-                firebase.database().ref('sjDraft').child('sent').child(keyLS).set(cont)
-                let mail = cont.elencomail.split(';').join(', ')
-                this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
-              }
-            },
-            (error:any)=>{
-              console.log('ERRORE: '+ error.message)
-              this._snackBar.open('Unable to send mail','',{duration:8000})
-            })
+          await this.sendSJ.send(keyLS,cont)
           kt++
           if(kt==l) {
-            res('Sent checked 300')
+            res('Sent checked 307')
           }
         } else {
           kt++
           if(kt==l) {
-            res('Sent checked 305')
+            res('Sent checked 307')
           }
         }
       }

@@ -7,6 +7,7 @@ import { DaytypesjService } from 'src/app/serv/daytypesj.service';
 import { SubmitweekdialogComponent } from './submitweekdialog/submitweekdialog.component';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service'
+import { SumWsHrsService } from 'src/app/serv/sum-ws-hrs.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class WeekdialogComponent implements OnInit {
   rej:boolean=false
   subsList:Subscription[]=[]
 
-  constructor(private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder, private day:DaytypesjService, private dialog:MatDialog, private auth:AuthServiceService) {
+  constructor(private sumHrs:SumWsHrsService, private dialogRef:MatDialogRef<WeekdialogComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb:FormBuilder, private day:DaytypesjService, private dialog:MatDialog, private auth:AuthServiceService) {
     this.weekForm = fb.group({
       d1:[''],d2:[''],d3:[''],d4:[''],d5:[''],d6:[''],d7:[''],
       dd1:[''],dd2:[''],dd3:[''],dd4:[''],dd5:[''],dd6:[''],dd7:[''],
@@ -55,19 +56,7 @@ export class WeekdialogComponent implements OnInit {
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
     let sum:number=0
-    firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('days').once('value',a=>{
-      sum=0
-      if(a.val()!=null){
-        a.forEach(b=>{
-          b.forEach(c=>{
-            if(c.key=='v1' || c.key=='v2' || c.key=='v8') sum+=c.val()
-          })
-        })
-      }
-    })
-    .then(()=>{
-      firebase.database().ref('wsFiles').child('open').child(this.data.sn).child(this.data.id).child('hrs').set(sum)
-    })
+    this.sumHrs.sum(this.data)
   }
 
   onNoClick(){

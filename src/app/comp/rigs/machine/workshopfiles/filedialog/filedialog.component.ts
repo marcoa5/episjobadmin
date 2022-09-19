@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Clipboard } from '@angular/cdk/clipboard'
-import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service';
-
+import { GetworkshopreportService } from 'src/app/serv/getworkshopreport.service'
 @Component({
   selector: 'episjob-filedialog',
   templateUrl: './filedialog.component.html',
