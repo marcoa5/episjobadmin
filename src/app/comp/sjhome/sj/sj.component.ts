@@ -613,11 +613,11 @@ export class SjComponent implements OnInit {
         }
         this.file.info=info
         localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
-        if(this.file.sjid.substring(0,3)!='sjs') {
+        /*if(this.file.sjid.substring(0,3)!='sjs') {
           firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
         } else{
           firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
-        }
+        }*/
     })
   }
 

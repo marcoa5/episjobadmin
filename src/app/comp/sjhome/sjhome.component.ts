@@ -62,9 +62,9 @@ export class SjhomeComponent implements OnInit {
     )
     if(navigator.onLine) {
       this.syncSignature()
-      let d = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Generating PDF and Sending Service Job...'}})
+      //let d = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Generating PDF and Sending Service Job...'}})
       await this.checkApproval()
-      d.close()
+      //d.close()
       this.loadSent()
         this.checkDeleted()
         .then(()=>{
@@ -120,7 +120,7 @@ export class SjhomeComponent implements OnInit {
     return new Promise((res,rej)=>{
       setTimeout(() => {
         rej('error')
-      }, 2000);
+      }, 20000);
       for(let i=0; i<localStorage.length;i++){
         let k:string|null = localStorage.key(i)
         if(k?.substring(0,7)=="sjdraft"){
@@ -146,10 +146,10 @@ export class SjhomeComponent implements OnInit {
                     let t:string|null = localStorage.getItem(k!)
                     if(k) firebase.database().ref('sjDraft').child('draft').child(k).set(JSON.parse(t!))
                   } else if(l!<s){
-                    console.log(k, y.val().matricola,y.val().cliente11, 'S')
+                    //console.log(k, y.val().matricola,y.val().cliente11, 'S')
                     if(k) localStorage.setItem(k, JSON.stringify(y.val()))
                   } else if(l==s){
-                    console.log(k, y.val().matricola,y.val().cliente11, '=')
+                    //console.log(k, y.val().matricola,y.val().cliente11, '=')
                   }
                 })
                 .then(()=>{
@@ -192,13 +192,13 @@ export class SjhomeComponent implements OnInit {
                 l=0
               }
               if(l>s){
-                console.log(d.key, d.val().matricola, d.val().cliente11, 'L')
+                //console.log(d.key, d.val().matricola, d.val().cliente11, 'L')
                 firebase.database().ref('sjDraft').child('draft').child(d.key!).set(JSON.parse(localStorage.getItem(d.key!)!))
               } else if(s>l){
-                console.log(d.key,d.val().matricola,d.val().cliente11, 'S')
+                //console.log(d.key,d.val().matricola,d.val().cliente11, 'S')
                 localStorage.setItem(d.key!,JSON.stringify(d.val()))
               } else if(s==l){
-                console.log(d.key,d.val().matricola,d.val().cliente11, '=')
+                //console.log(d.key,d.val().matricola,d.val().cliente11, '=')
               }
             }
             kt++
@@ -274,33 +274,35 @@ export class SjhomeComponent implements OnInit {
     let kt:number =0
     return new Promise((res,rej)=>{
       let l = localStorage.length
+      let url:string=environment.url; 
       for(let i=0;i<l;i++){
         if(localStorage.key(i)?.substring(0,6)=="sjsent" ){
           let keyLS:string=localStorage.key(i)!
-          let content:string=localStorage.getItem(localStorage.key(i)!)!
-          let cont:any = JSON.parse(content)
-          firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!))
-          .then(()=>{
-            console.log('REMOVED ' + keyLS)
-            let url:string=environment.url; cont.info.cc=true
-            this.http.post(url + 'sendSJNew',cont).subscribe((result)=>{
-              localStorage.removeItem(keyLS)
-              console.log(result) 
-              let _mails = cont.elencomail.split(';')
-              let mail = _mails.join(', ')
-              this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
-              kt++
-              if(kt==l) {
-                console.log('GO')
-                res('Sent checked 297')
+          let cont:any=JSON.parse(localStorage.getItem(keyLS)!)
+          cont.info.cc=true
+          console.log('Sending ' + keyLS)
+          this.http.post(url + 'sendSJNew',cont).subscribe(
+            (result:any)=>{
+              console.log(result)
+              if(result) {
+                localStorage.removeItem(keyLS)
+                firebase.database().ref('sjDraft').child('sent').child(keyLS).set(JSON.parse(localStorage.getItem(keyLS)!)).then(()=>{console.log('REMOVED ' + keyLS)})  
+                let mail = cont.elencomail.split(';').join(', ')
+                this._snackBar.open('Mail sent to ' + mail,'',{duration:8000})
               }
+            },
+            (error:any)=>{
+              console.log('ERRORE: '+ error.message)
+              this._snackBar.open('Unable to send mail','',{duration:8000})
             })
-          })
+          kt++
+          if(kt==l) {
+            res('Sent checked 300')
+          }
         } else {
           kt++
           if(kt==l) {
-            console.log('GO')
-            res('Sent checked 303')
+            res('Sent checked 305')
           }
         }
       }
