@@ -47,7 +47,7 @@ export class SelectmachineComponent implements OnInit {
             this._rigs.push({
               model: 'COMPONENT',
               sn: 'COMPONENT',
-              customer: 'EPIROC ITALIA SRL',
+              customer: 'EPIROC',
               custid:'OL0HyfZy4q'
             })
           }

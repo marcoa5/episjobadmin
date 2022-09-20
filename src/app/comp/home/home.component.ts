@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
       route:'sj', 
       auth:['SU','admin','adminS','tech','techwsadmin','wsadmin']
     },
-    {
+    /*{
       id:'Parts',
       icon:'construction', 
       route:'parts', 
@@ -66,7 +66,7 @@ export class HomeComponent implements OnInit {
       route:'visit', 
       dis:false, 
       auth:['SU','adminS','sales','']
-    },
+    },*/
     {
       id:'People',
       icon:'account_box', 
@@ -89,7 +89,7 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU','','','']
     },
-    {
+    /*{
       id:'Access',
       icon:'done_all', 
       route:'auth', 
@@ -123,7 +123,7 @@ export class HomeComponent implements OnInit {
       route:'pricing', 
       dis:false, 
       auth:['SU']
-    },
+    },*/
   ];
   rigs:any[]=[]
   chOffline:boolean=false

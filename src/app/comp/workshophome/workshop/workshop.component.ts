@@ -268,7 +268,7 @@ export class WorkshopComponent implements OnInit {
   goTo(route:string, key:string, val:string){
     let obj:any={}
     obj[key]=val
-    if(val!='none' && val!='EPIROC ITALIA SRL') this.router.navigate([route,obj])
+    if(val!='none' && val!='EPIROC') this.router.navigate([route,obj])
   }
 
   deleteFile(e:any){
