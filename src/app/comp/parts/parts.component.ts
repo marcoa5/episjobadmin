@@ -119,7 +119,8 @@ export class PartsComponent implements OnInit {
       this.subsList.push(
         this.auth._partsSent.subscribe(a=>{
           if(a.length>0) {
-            this.listSent=a.slice()
+            this._listSent=a.slice()
+            this.listSent=this._listSent.slice()
             this.spin=false
           }
         })
