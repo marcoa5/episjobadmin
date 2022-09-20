@@ -14,6 +14,7 @@ import { renderFlagCheckIfStmt } from '@angular/compiler/src/render3/view/templa
 })
 export class JobslistComponent implements OnInit {
   @Input() list:any[]=[]
+  @Input() alreadySent:boolean=false
   @Output() select=new EventEmitter()
   @Output() directopen=new EventEmitter()
   pos:string=''
@@ -43,13 +44,13 @@ export class JobslistComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<500){
-      if (this.pos=='SU' && this.list[0].sjid.substring(2,3)=='s') {
+      if (this.pos=='SU' && this.alreadySent) {
         this.displayedColumns=['date','sn','model','del']
       } else {
         this.displayedColumns=['date','sn','model']
       }
     } else {
-      if (this.pos=='SU' && this.list[0].sjid.substring(2,3)=='s') {
+      if (this.pos=='SU' && this.alreadySent) {
         this.displayedColumns=['date','sn', 'customer','model','del']
       } else {
         this.displayedColumns=['date','sn', 'customer','model']
