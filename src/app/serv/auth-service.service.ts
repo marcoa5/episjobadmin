@@ -22,14 +22,14 @@ export class AuthServiceService {
   constructor() {
     try{
       firebase.initializeApp({
-        apiKey: "AIzaSyBtO5C1bOO70EL0IPPO-BDjJ40Kb03erj4",
-        authDomain: "epi-serv-job.firebaseapp.com",
-        databaseURL: "https://epi-serv-job-default-rtdb.firebaseio.com",
-        projectId: "epi-serv-job",
-        storageBucket: "epi-serv-job.appspot.com",
-        messagingSenderId: "793133030101",
-        appId: "1:793133030101:web:1c046e5fcb02b42353a05c",
-        measurementId: "G-Y0638WJK1X"
+        apiKey: "AIzaSyA9OHPbSNKBJUE7DqLAopJkfMMICo8hkHw",
+        authDomain: "episjobadmingrc.firebaseapp.com",
+        databaseURL: "https://episjobadmingrc-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "episjobadmingrc",
+        storageBucket: "episjobadmingrc.appspot.com",
+        messagingSenderId: "918912403305",
+        appId: "1:918912403305:web:0625c675490aa000c91ff8",
+        measurementId: "G-9V5PZWZW8B"
       })
       if(navigator.onLine){
         console.log('online')
