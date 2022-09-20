@@ -13,7 +13,6 @@ export class SendSJService {
   constructor(private dialog: MatDialog, private http:HttpClient, private _snackBar:MatSnackBar) { }
 
   send(id:string, data:any){
-    console.log(data)
     data.info.cc=true
     return new Promise((res,rej)=>{
       let url:string=environment.url; 
