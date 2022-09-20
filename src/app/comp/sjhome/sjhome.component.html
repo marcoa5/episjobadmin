@@ -19,6 +19,6 @@
     <episjob-spin *ngIf="spin && listSent.length==0 && chPos('SURights')"></episjob-spin>
     <div *ngIf="!spin && listSent.length>0">
         <episjob-h2 icon=approval data="Sent for approval"></episjob-h2>
-        <episjob-jobslist [list]="listSent" (select)="select($event, 'sent')" (directopen)="open($event)"></episjob-jobslist>
+        <episjob-jobslist [alreadySent]=true [list]="listSent" (select)="select($event, 'sent')" (directopen)="open($event)"></episjob-jobslist>
     </div>
 </div>

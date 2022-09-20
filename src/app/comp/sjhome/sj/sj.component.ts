@@ -686,7 +686,8 @@ export class SjComponent implements OnInit {
     localStorage.getItem(this.rigForm.controls.sid.value)
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
-    await this.saveData(true,g).then(a=>{console.log(a)})
+    await this.saveData(true,g)
+    this.file.sjid=g
     this.sendSJ.send(g,this.file)
     .then(()=>{this.router.navigate(['sj'])})
     .catch(()=>{this.router.navigate(['sj'])})
