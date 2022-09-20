@@ -497,17 +497,17 @@ export class SjComponent implements OnInit {
   }
 
   saveData(last?:boolean, newId?:string){
-    let i:number=1
-    new Promise((res,rej)=>{
-      let nome:string=''
-      if(this.behalf!='' && this.behalf!=undefined) {
-        firebase.database().ref('Users').child(this.behalf).once('value',p=>{
-          if(p.val()!=null) nome=`${p.val().Nome} ${p.val().Cognome}`
-        })
-        .then(()=>{res(nome)})
-      } else {res(nome)}
-    }).then((name:any)=>{
-      return new Promise(resp=>{
+    return new Promise(resp=>{
+      let i:number=1
+      new Promise((res,rej)=>{
+        let nome:string=''
+        if(this.behalf!='' && this.behalf!=undefined) {
+          firebase.database().ref('Users').child(this.behalf).once('value',p=>{
+            if(p.val()!=null) nome=`${p.val().Nome} ${p.val().Cognome}`
+          })
+          .then(()=>{res(nome)})
+        } else {res(nome)}
+      }).then((name:any)=>{
         let h:ma = {
           author: (name!='')?name:(this.file && this.file.author)?this.file.author:'',
           authorId: (this.file && this.file.authorId)?this.file.authorId:'',
@@ -619,11 +619,6 @@ export class SjComponent implements OnInit {
         this.file.info=info
         localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
         resp('')
-        /*if(this.file.sjid.substring(0,3)!='sjs') {
-          firebase.database().ref('sjDraft').child('draft').child(this.file.sjid).set(this.file)
-        } else{
-          firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
-        }*/
       })
     })
   }
