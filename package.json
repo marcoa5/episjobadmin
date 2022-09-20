@@ -1,6 +1,6 @@
 {
-  "name": "episjobadmingrc",
-  "version": "1.0.1",
+  "name": "episjobadmin",
+  "version": "1.3.83",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
