@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "episjobadmingrc"
+  },
+  "targets": {
+    "episjobadmin": {
+      "hosting": {
+        "episjobadmingrc": [
+          "grc-service"
+        ]
+      }
+    }
   }
 }
