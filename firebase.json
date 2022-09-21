@@ -1,6 +1,5 @@
 {
   "hosting": {
-    "site": "grc-service",
     "public": "dist",
     "ignore": [
       "firebase.json",
