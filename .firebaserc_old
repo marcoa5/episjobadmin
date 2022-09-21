@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "episjobadmingrc"
+  },
+  "targets": {
+    "episjobadmingrc": {
+      "hosting": {
+        "episjobadmingrc": [
+          "grc-service"
+        ]
+      }
+    }
+  }
+}
