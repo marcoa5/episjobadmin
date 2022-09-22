@@ -152,7 +152,7 @@ export class NewcontractComponent implements OnInit {
               firebase.database().ref('Contracts').child('active').child(v.sn).child(v.type).child(v.id).set(v)
               .then(()=>{
                 firebase.database().ref('Updates').child('Contractsupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
-                this.dialogRef.close(v)
+                .then(()=>{this.dialogRef.close(v)})
               })
             } else{
               this.dialogRef.close()
@@ -161,7 +161,8 @@ export class NewcontractComponent implements OnInit {
         } else {
           firebase.database().ref('Contracts').child('active').child(v.sn).child(v.type).child(v.id).set(v)
           .then(()=>{
-            this.dialogRef.close(v)
+            firebase.database().ref('Updates').child('Contractsupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
+            .then(()=>{this.dialogRef.close(v)})
           })
         }
       })
