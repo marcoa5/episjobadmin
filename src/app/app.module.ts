@@ -170,7 +170,8 @@ import { ExcelService } from './serv/excelexport.service'
 import { MessageComponent } from './comp/util/dialog/message/message.component';
 import { CustalreadyexistdialogComponent } from './comp/util/dialog/custalreadyexistdialog/custalreadyexistdialog.component';
 import { PricingComponent } from './comp/pricing/pricing.component';
-import { NewpriceComponent } from './comp/pricing/newprice/newprice.component'
+import { NewpriceComponent } from './comp/pricing/newprice/newprice.component';
+import { SelectdialogComponent } from './comp/files/selectdialog/selectdialog.component'
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -321,7 +322,8 @@ export const MY_FORMATS = {
     MessageComponent,
     CustalreadyexistdialogComponent,
     PricingComponent,
-    NewpriceComponent
+    NewpriceComponent,
+    SelectdialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

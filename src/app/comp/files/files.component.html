@@ -4,14 +4,18 @@
   <div *ngIf="start>-1" class="el">
     <episjob-spin *ngIf="start<0"></episjob-spin>
       <episjob-h2 padtop=0 icon="description" data="Service Jobs list" [showDL]="true" [dlTooltip]="'Download survey results'" (copy)="survey($event)"></episjob-h2>
-      <mat-paginator *ngIf="filtro==''"  [length]="files.length"
-        [pageSize]="10"
-        [pageSizeOptions]="lungh"
-        (page)="pageEvent($event)">
-      </mat-paginator>
+      <div class="topCont">
+        <button mat-raised-button class="nomar" color="primary" (click)="selectDownload()"><mat-icon>download</mat-icon></button>
+        <mat-paginator *ngIf="filtro==''"  [length]="files.length"
+          [pageSize]="10"
+          [pageSizeOptions]="lungh"
+          (page)="pageEvent($event)">
+        </mat-paginator>
+      </div>
+      
   </div> 
   <div class="cont">
-    <div class="file" *ngFor="let a of files1 | filefilter: filtro ; let i = index " [class.mat-elevation-z2]="true" (click)="open(a.name)">
+    <div class="file" *ngFor="let a of files1 | filefilter: filtro ; let i = index " [class.mat-elevation-z2]="true" (click)="open(a.name, $event)">
         <mat-icon>picture_as_pdf</mat-icon>
         <div class="nomeF">{{a.name}}</div>
     </div>

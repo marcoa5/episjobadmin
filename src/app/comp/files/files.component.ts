@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import * as XLSX from 'xlsx-js-style'
 import { ExcelService } from 'src/app/serv/excelexport.service';
+import { SelectdialogComponent } from './selectdialog/selectdialog.component';
 
 @Component({
   selector: 'episjob-files',
@@ -36,6 +37,7 @@ export class FilesComponent implements OnInit {
   //auth:string[]=[]
   allSpin:boolean=true
   searchEmpty:boolean=true
+  selected:number=0
   subsList:Subscription[]=[]
 
   constructor(private excel:ExcelService, private auth: AuthServiceService, private bak: BackService, private paginator:MatPaginatorIntl, public route: ActivatedRoute, private clip: Clipboard, private dialog: MatDialog) { }
@@ -54,14 +56,14 @@ export class FilesComponent implements OnInit {
     firebase.storage().ref('Closed').listAll()
     .then(a=>{
       a.items.map(async b=>{
-          let f = {name:b.name}
+          let f = {name:b.name, sel:false}
           this.files.push(f)
           if (this.files.length==a.items.length){
-            await this.files.reverse()
+            this.files.reverse()
             this.lungh.push(this.files.length)
             this.start=0
             this.end=10
-            this.files1 = this.files.slice(this.start,this.end)
+            this.slice(this.start,this.end)
           }
       })
     })
@@ -71,32 +73,39 @@ export class FilesComponent implements OnInit {
     this.subsList.forEach(a=>{a.unsubscribe()})
   }
   
-  open(a:string){
+  open(a:string, e:any){
     firebase.storage().ref('Closed').child(a).getDownloadURL()
     .then(b=>{
       window.open(b)
     })
-    
   }
 
   filter(a:any){
     if(a!=''){
       this.searchEmpty=false
       this.filtro=a
-      this.files1 = this.files.slice()
+      this.slice()
     } else {
       this.searchEmpty=true
       this.filtro=''
       this.start=1
       this.end =10
-      this.files1 = this.files.slice(0,10)
+      this.slice(0,10)
+    }
+  }
+
+  slice(i?:number,f?:number){
+    if(i!=undefined && f!=undefined) {
+      this.files1=this.files.slice(i,f)
+    } else {
+      this.files1=this.files.slice()
     }
   }
 
   pageEvent(e:any){
     this.start = e.pageIndex * e.pageSize 
     this.end = e.pageIndex* e.pageSize + e.pageSize
-    this.files1=this.files.slice(this.start,this.end)
+    this.slice(this.start,this.end)
   }
 
   survey(e:any){
@@ -154,6 +163,36 @@ export class FilesComponent implements OnInit {
       }
       this.excel.exportAsExcelFile(workbook,'SJ Survey List',cols,colWidth)
       dia.close()
+    })
+  }
+
+  selectDownload(){
+    let d = this.dialog.open(SelectdialogComponent,{panelClass:'dl-dialog', data:this.files})
+    d.afterClosed().subscribe((res:any[])=>{
+      if(res){
+        res.forEach((n:any)=>{
+          firebase.storage().ref('Closed').child(n.name).getDownloadURL()
+          .then(b=>{
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = (event) => {
+              var blob = xhr.response
+              const href = document.createElement('a')
+              document.body.appendChild(href)
+              const url= window.URL.createObjectURL(blob)
+              href.href=url
+              href.download= n.name + '.pdf'
+              href.click()
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url)
+                document.body.removeChild(href)
+              }, 1)
+            };
+            xhr.open('GET', b)
+            xhr.send()
+           })
+        })
+      }
     })
   }
 }
