@@ -687,9 +687,12 @@ export class SjComponent implements OnInit {
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
     await this.saveData(true,g)
-    this.sendSJ.send(g,this.file)
-    .then(()=>{this.router.navigate(['sj'])})
-    .catch(()=>{this.router.navigate(['sj'])})
+    firebase.database().ref('sjDraft').child('sent').child(g).set(this.file)
+    .then(()=>{
+      this.sendSJ.send(g,this.file)
+      .then(()=>{this.router.navigate(['sj'])})
+      .catch(()=>{this.router.navigate(['sj'])})
+    })
   }
 
   getList(e:any){

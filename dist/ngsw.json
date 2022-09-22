@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1663857979943,
+  "timestamp": 1663861494359,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,7 +15,7 @@
         "/favicon.ico",
         "/firebase-messaging-sw.js",
         "/index.html",
-        "/main.944da7bc6efaf3214455.js",
+        "/main.80b1de66f4a730bc67ef.js",
         "/manifest.webmanifest",
         "/polyfills.417612bdb82217a81c4b.js",
         "/runtime.7b63b9fd40098a2e8207.js",
@@ -102,8 +102,8 @@
     "/assets/icons/logo_grey.png": "31a9bda7d1427bf84d081fe2cf28374f86cb3096",
     "/favicon.ico": "dbb83986aa24f4f25c0c38242cbcf6abb7f7d1af",
     "/firebase-messaging-sw.js": "d16cf419b3ad2fe8275e3640429f402adde6a0a9",
-    "/index.html": "90a6de4005c2646420976307f87c6580964e29ee",
-    "/main.944da7bc6efaf3214455.js": "f737a07f5a51cbe34d4cca1d77bbc989983f4785",
+    "/index.html": "c813c87814cb0cfd071967a05177e46c7ee267dd",
+    "/main.80b1de66f4a730bc67ef.js": "350dc2d4ebd47f904c6a0f1bcc74b61c93e6d260",
     "/manifest.webmanifest": "548873a2e4eb1d3ae2ce8ef8f27c19c2cc9296b6",
     "/polyfills.417612bdb82217a81c4b.js": "7a1f0d316ed2d8f78ba864126a896ddf873451c9",
     "/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",

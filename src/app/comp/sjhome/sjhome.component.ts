@@ -63,7 +63,7 @@ export class SjhomeComponent implements OnInit {
     )
     if(navigator.onLine) {
       this.syncSignature()
-      await this.checkApproval()
+      //await this.checkApproval()
       this.loadSent()
         this.checkDeleted()
         .then(()=>{
