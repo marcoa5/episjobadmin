@@ -501,7 +501,7 @@ export class SjComponent implements OnInit {
       let i:number=1
       new Promise((res,rej)=>{
         let nome:string=''
-        if(this.behalf!='' && this.behalf!=undefined) {
+        if(this.behalf!='' && this.behalf!=undefined && navigator.onLine) {
           firebase.database().ref('Users').child(this.behalf).once('value',p=>{
             if(p.val()!=null) nome=`${p.val().Nome} ${p.val().Cognome}`
           })
@@ -742,6 +742,9 @@ export class SjComponent implements OnInit {
 
   back(){
     this.saveData()
-    this.router.navigate(['sj'])
+    .then(()=>{
+      this.router.navigate(['sj'])
+    })
+    
   }
 }

@@ -72,7 +72,7 @@ export class HomeComponent implements OnInit {
       icon:'account_box', 
       route:'contacts', 
       dis:false, 
-      auth:['SU','admin','adminS','sales']
+      auth:['SU','admin','adminS','sales','tech']
     },
     {
       id:'Technicians',
