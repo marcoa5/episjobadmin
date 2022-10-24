@@ -5,6 +5,7 @@ import 'firebase/database'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
 import { identifierModuleUrl } from '@angular/compiler';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,10 @@ export class AuthServiceService {
                 localStorage.setItem('user',JSON.stringify(c))
                 this.userData.next(c)
                 let time:string = moment(new Date).format('YYYY-MM-DD HH:mm:ss')
-                firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({Login: time})
+                firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({
+                  Login: time,
+                  AppVersion: environment.appVersion
+                })
               }
             })
           } else{
