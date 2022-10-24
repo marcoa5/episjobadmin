@@ -189,6 +189,9 @@ export class ContractsComponent implements OnInit {
               firebase.database().ref('Contracts').child('active').child(el.sn).remove()
               .then(()=>{
                 firebase.database().ref('Updates').child('ContractsArchupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
+                .then(()=>{
+                  document.location.reload()
+                })
               })
             })
           }

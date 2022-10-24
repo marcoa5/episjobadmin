@@ -28,7 +28,7 @@
                     </div>
                     <div *ngIf="_listSent.length>0">
                         <episjob-h2 data="Sent" icon="forward_to_inbox" [showSearch]="true" (filter)="sea($event)"></episjob-h2>
-                        <episjob-listofrequests [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
+                        <episjob-listofrequests [sent]="true" [list]="listSent" (indexD)="openSent($event)"></episjob-listofrequests>
                     </div>  
                 </div>
             </div>  

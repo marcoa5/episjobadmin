@@ -1,8 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewChild, HostListener} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app'
 import 'firebase/database'
+import * as moment from 'moment';
+import { DateconvPipe } from 'src/app/pipe/dateconv.pipe';
+import { DeldialogComponent } from '../../util/dialog/deldialog/deldialog.component';
 
 @Component({
   selector: 'episjob-listofrequests',
@@ -12,12 +17,13 @@ import 'firebase/database'
 export class ListofrequestsComponent implements OnInit {
   @Input() list: any[]=[]
   @Input() selected:number=0
+  @Input() sent: boolean=false
   @Output() index = new EventEmitter()
   @Output() indexD=new EventEmitter()
-  displayedColumns:string[]=['sn','model','customer','date','type','author','orig']
+  displayedColumns:string[]=['sn','model','customer','date','type','author','orig','del']
   sortedData:any[]=[]
 
-  constructor(private router: Router) { }
+  constructor(private dialog:MatDialog, private router: Router,private _snackBar:MatSnackBar) { }
 
   ngOnInit(): void {
     this.onResize()
@@ -39,6 +45,7 @@ export class ListofrequestsComponent implements OnInit {
     } else {
       this.displayedColumns=['sn','model','customer','date','type','author','orig']
     }
+    if(this.sent) this.displayedColumns.push('del')
   }
 
   go(a:any, e:any){
@@ -101,6 +108,18 @@ export class ListofrequestsComponent implements OnInit {
         this.index.emit([e,this.sortedData[e]])
       }
     }
+  }
+
+  delete(e:any){
+    let d = this.dialog.open(DeldialogComponent, {data:{name:'Parts request to ' + e.model + " " + e.sn + " (" + e.customer + ") on " + moment(e.date).format("DD/MM/YYYY")}})
+    d.afterClosed().subscribe(res=>{
+      if(res){
+        firebase.database().ref('PartReqSent').child(e.sn).child(e.reqId).remove()
+        .then(()=>{
+          this._snackBar.open(res + " deleted",'',{duration:5000})
+        })
+      }
+    })
   }
 }
 
