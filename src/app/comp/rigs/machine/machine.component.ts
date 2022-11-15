@@ -183,7 +183,6 @@ export class MachineComponent implements OnInit {
         //if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
         if(a==1) this.filter(this.inizio,this.fine)
         this.checkComm()
-        this.lastRead()
       })
     }) 
   }
@@ -278,6 +277,7 @@ export class MachineComponent implements OnInit {
           {value:this.impAvg && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
         ]  
       }
+      this.lastRead()
     }
     this.loadServiceJobs(i,f)
   }
@@ -487,9 +487,6 @@ export class MachineComponent implements OnInit {
     await this.filter(e[0],e[1]) 
     this.loadPartsReq()
     this.checkComm()
-    .then(()=>{
-      this.lastRead()
-    })
   }
 
   avgHrs(){
@@ -755,7 +752,6 @@ export class MachineComponent implements OnInit {
   }
 
   reportSJ(){
-
     const dia = this.dialog.open(GenericComponent, {data:{msg:'Collecting data'}})
     setTimeout(() => {
       dia.close()
