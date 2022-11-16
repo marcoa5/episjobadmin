@@ -266,6 +266,7 @@ export class SjComponent implements OnInit {
   templist:string=''
   nuovo:boolean=true
   imi:string=""
+  sjType:string='d'
   constructor(private sendSJ:SendSJService, private _snackBar: MatSnackBar, private ch:CheckwidthService, private router: Router, private id: MakeidService, private http: HttpClient ,private dialog: MatDialog, private auth: AuthServiceService, private fb:FormBuilder, private day:DaytypesjService, private route: ActivatedRoute) {
     this.objectKeys = Object.keys;
     this.searchForm=this.fb.group({
@@ -330,6 +331,7 @@ export class SjComponent implements OnInit {
     setTimeout(() => {
       this.route.params.subscribe(a=>{
         if(a.type=='s') {
+          this.sjType='s'
           this.nuovo=false
           this.lock=true
         }
@@ -617,7 +619,11 @@ export class SjComponent implements OnInit {
           fileName: `${moment(new Date()).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
         }
         this.file.info=info
-        localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+        if(this.sjType=='s') {
+          firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
+        } else{
+          localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+        }
         resp('')
       })
     })
