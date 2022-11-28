@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
