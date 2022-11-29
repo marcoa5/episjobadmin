@@ -19,7 +19,7 @@ export class JobslistComponent implements OnInit {
   @Output() directopen=new EventEmitter()
   pos:string=''
   sortedData:any[]=[]
-  displayedColumns=['date','sn', 'customer','model']
+  displayedColumns=['date','author','sn', 'customer','model']
   subsList:Subscription[]=[]
 
   constructor(private auth:AuthServiceService, private dialog:MatDialog) { }
@@ -43,7 +43,7 @@ export class JobslistComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if(window.innerWidth<500){
+    if(window.innerWidth<700){
       if (this.pos=='SU' && this.alreadySent) {
         this.displayedColumns=['date','sn','model','del']
       } else {
@@ -51,9 +51,9 @@ export class JobslistComponent implements OnInit {
       }
     } else {
       if (this.pos=='SU' && this.alreadySent) {
-        this.displayedColumns=['date','sn', 'customer','model','del']
+        this.displayedColumns=['date','author','sn', 'customer','model','del']
       } else {
-        this.displayedColumns=['date','sn', 'customer','model']
+        this.displayedColumns=['date','author','sn', 'customer','model']
       }
     }
   }

@@ -3,6 +3,10 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date</th>
       <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" (dblclick)="directgo(e.sjid)" [ngClass]="{'sel':e.sel==1}"> {{e.data_new | dateconvshort}} </td>
     </ng-container>
+    <ng-container matColumnDef="author">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Author</th>
+      <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" (dblclick)="directgo(e.sjid)" [ngClass]="{'sel':e.sel==1}"> {{e.author}} </td>
+    </ng-container>
     <ng-container matColumnDef="sn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n</th>
         <td mat-cell *matCellDef="let e; let i=index" class="cur" (click)="sel(i)" (dblclick)="directgo(e.sjid)" [ngClass]="{'sel':e.sel==1}"> {{e.matricola}} </td>
