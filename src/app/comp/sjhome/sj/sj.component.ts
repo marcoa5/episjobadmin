@@ -697,7 +697,10 @@ export class SjComponent implements OnInit {
     .then(()=>{*/
       this.sendSJ.send(g,this.file)
       .then(()=>{this.router.navigate(['sj'])})
-      .catch(()=>{this.router.navigate(['sj'])})
+      .catch(err=>{
+        console.log(err)
+        this.router.navigate(['sj'])
+      })
     //})
   }
 
