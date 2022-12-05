@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ArchivecontractdialogComponent } from './archivecontractdialog/archivecontractdialog.component'
 import { ExcelService } from 'src/app/serv/excelexport.service';
 import { AttachService } from 'src/app/serv/attach.service';
+import 'moment-timezone'
 
 export interface cont {
   sn: string;
@@ -188,7 +189,7 @@ export class ContractsComponent implements OnInit {
             .then(()=>{
               firebase.database().ref('Contracts').child('active').child(el.sn).remove()
               .then(()=>{
-                firebase.database().ref('Updates').child('ContractsArchupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
+                firebase.database().ref('Updates').child('ContractsArchupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
                 .then(()=>{
                   document.location.reload()
                 })

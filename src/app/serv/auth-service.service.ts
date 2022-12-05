@@ -4,7 +4,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import * as moment from 'moment'
-import { identifierModuleUrl } from '@angular/compiler';
+import 'moment-timezone'
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -419,7 +419,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment(new Date()).format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})
@@ -476,7 +476,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment(new Date()).format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})
@@ -531,7 +531,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment(new Date()).format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})

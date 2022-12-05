@@ -11,6 +11,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { environment } from 'src/environments/environment';
 import { SendSJService } from 'src/app/serv/send-sj.service';
+import 'moment-timezone'
 
 @Component({
   selector: 'episjob-sjhome',
@@ -65,13 +66,13 @@ export class SjhomeComponent implements OnInit {
       this.syncSignature()
       //await this.checkApproval()
       this.loadSent()
-        this.checkDeleted()
+      this.checkDeleted()
+      .then(()=>{
+        this.syncDraft()
         .then(()=>{
-          this.syncDraft()
-          .then(()=>{
-            this.loadSJ()
-          })
+          this.loadSJ()
         })
+      })
     } else {
       this.loadSJ()
     }
@@ -319,7 +320,7 @@ export class SjhomeComponent implements OnInit {
           firebase.database().ref('sjDraft').child('draft').child(del).remove()
           .then(()=>{
             firebase.database().ref('sjDraft').child('deleted').child(del).set({
-              lastM: moment(new Date()).format('YYYYMMDDHHmmss'),
+              lastM: moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'),
               status: 'deleted'
             })
           })
@@ -385,7 +386,7 @@ export class SjhomeComponent implements OnInit {
             document.body.appendChild(href)
             const url= window.URL.createObjectURL(blob)
             href.href=url
-            href.download= moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
+            href.download= moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
             href.click()
             dia.close()
             setTimeout(() => {
@@ -413,7 +414,7 @@ export class SjhomeComponent implements OnInit {
         document.body.appendChild(href)
         const url= window.URL.createObjectURL(blob)
         href.href=url
-        href.download=moment(new Date()).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.ma'
+        href.download=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.ma'
         href.click()
         dia.close()
         setTimeout(() => {
