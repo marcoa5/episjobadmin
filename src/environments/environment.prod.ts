@@ -1,4 +1,5 @@
 export const environment = {
+	zone:'Europe/Rome',
   workshops:[
     {val:'VER', desc: 'VERNIA SRL'},
     {val:'FEA', desc: 'F.E.A. SERVICE SRL'},

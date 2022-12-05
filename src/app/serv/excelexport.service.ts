@@ -3,6 +3,7 @@ import * as FileSaver from 'file-saver'
 import * as moment from 'moment';
 import * as XLSX from 'xlsx-js-style'
 import 'moment-timezone'
+import { environment } from 'src/environments/environment';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -71,7 +72,7 @@ public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsT
 }
 private saveAsExcelFile(buffer: any, fileName: string): void {
    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-   FileSaver.saveAs(data, fileName + '_'+ moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss') + EXCEL_EXTENSION);
+   FileSaver.saveAs(data, fileName + '_'+ moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss') + EXCEL_EXTENSION);
 }
 }
 

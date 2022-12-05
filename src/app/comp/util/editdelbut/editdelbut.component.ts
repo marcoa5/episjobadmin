@@ -16,6 +16,7 @@ import { ImportpartsComponent } from '../dialog/importparts/importparts.componen
 import * as moment from 'moment';
 import { Router } from '@angular/router';
 import 'moment-timezone'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-editdelbut',
@@ -77,14 +78,14 @@ export class EditdelbutComponent implements OnInit {
         if(this.func=='CustomerC'){
           firebase.database().ref('CustContacts').child(result).remove()
           firebase.database().ref('CustAddress').child(result).remove()
-          firebase.database().ref('Updates').child('Custupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+          firebase.database().ref('Updates').child('Custupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
         }else if(this.func=='MOL') {
           firebase.database().ref('RigAuth').child(result).remove()
           firebase.database().ref('Hours').child(result).remove()
           firebase.database().ref('Categ').child(result).remove()
           firebase.database().ref('SubEquipment').child(result).remove()
           firebase.database().ref('ShipTo').child(result).remove()
-          firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+          firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
         }
         this.router.navigate(['rigs'])
       }

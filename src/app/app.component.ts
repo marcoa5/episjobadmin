@@ -109,7 +109,7 @@ export class AppComponent {
           token: t,
           pos: this.pos,
           name: this.nome,
-          date: moment.tz(new Date(),'Europe/Rome').format('YYYY-MM-DD - HH:mm:ss'),
+          date: moment.tz(new Date(),environment.zone).format('YYYY-MM-DD - HH:mm:ss'),
           id:this.userId,
         })
       })

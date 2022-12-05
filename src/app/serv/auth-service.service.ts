@@ -42,7 +42,7 @@ export class AuthServiceService {
                 c['uid']=r!.uid
                 localStorage.setItem('user',JSON.stringify(c))
                 this.userData.next(c)
-                let time:string = moment.tz(new Date(),'Europe/Rome').format('YYYY-MM-DD HH:mm:ss')
+                let time:string = moment.tz(new Date(),environment.zone).format('YYYY-MM-DD HH:mm:ss')
                 firebase.database().ref('Login').child(c.uid+'-'+c.Nome + ' ' + c.Cognome).child(time).set({
                   Login: time,
                   AppVersion: environment.appVersion
@@ -419,7 +419,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})
@@ -476,7 +476,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})
@@ -531,7 +531,7 @@ export class AuthServiceService {
         if(snap.val()) {
           server=snap.val()
         } else {
-          server=moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')
+          server=moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')
         }
       })
       .catch(()=>{res('')})

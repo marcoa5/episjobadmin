@@ -16,6 +16,7 @@ import { NewaddressComponent } from '../../util/dialog/newaddress/newaddress.com
 import { MakeidService } from 'src/app/serv/makeid.service';
 import * as moment from 'moment';
 import 'moment-timezone'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-newrig',
@@ -179,7 +180,7 @@ export class NewrigComponent implements OnInit {
       })
       this.childAdd['sn']=g[0].toUpperCase()
       firebase.database().ref('Categ').child(g[0].toUpperCase()).set(this.childAdd)
-      firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+      firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
       this.router.navigate(['machine', {sn: g[0].toUpperCase()}])
       this.sendNot(g[0].toUpperCase(),g[1],g[5].toUpperCase())
     }
@@ -214,7 +215,7 @@ export class NewrigComponent implements OnInit {
             this.sendNot(g[0].toUpperCase(),g[1],g[5].toUpperCase())
           })
           this.router.navigate(['machine', {sn: this.serial}])
-          firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+          firebase.database().ref('Updates').child('MOLupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
         }
       })
     }

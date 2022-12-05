@@ -10,6 +10,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { DeldialogComponent } from 'src/app/comp/util/dialog/deldialog/deldialog.component';
 import { NewsubeqComponent } from '../newsubeq/newsubeq.component';
 import 'moment-timezone'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-subeddialog',
@@ -80,7 +81,7 @@ export class SubeddialogComponent implements OnInit {
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child(c).set((e.target?e.target.value:e))
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('cat').set(this.data.cat)
         firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('sn').set(this.data.rigsn)
-        firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('modified on ' + moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')).set(
+        firebase.database().ref('SubEquipment').child(this.data.rigsn).child(this.data.id).child('modified on ' + moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')).set(
           {by :this.userName, 
             item: c,
             on: new Date(), 
@@ -113,7 +114,7 @@ export class SubeddialogComponent implements OnInit {
       if(a){
         let r = a[0]
         r['transfer']={}
-        r.transfer[moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss')]={from: a[0].rigsn}
+        r.transfer[moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')]={from: a[0].rigsn}
         firebase.database().ref('SubEquipment').child(a[1]).child(a[0].id).set(a[0]).then(()=>{
           firebase.database().ref('SubEquipment').child(a[0].sn).child(a[0].id).remove()
           .catch((error)=>console.log(error))

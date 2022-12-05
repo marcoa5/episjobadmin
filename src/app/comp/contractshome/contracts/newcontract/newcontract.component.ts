@@ -11,6 +11,7 @@ import { ContractalreadyexistsdialogComponent } from '../contractalreadyexistsdi
 import * as moment from 'moment';
 import { CheckwidthService } from 'src/app/serv/checkwidth.service';
 import 'moment-timezone'
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-newcontract',
@@ -152,7 +153,7 @@ export class NewcontractComponent implements OnInit {
             if(ref!=undefined){
               firebase.database().ref('Contracts').child('active').child(v.sn).child(v.type).child(v.id).set(v)
               .then(()=>{
-                firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+                firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
                 .then(()=>{this.dialogRef.close(v)})
               })
             } else{
@@ -162,7 +163,7 @@ export class NewcontractComponent implements OnInit {
         } else {
           firebase.database().ref('Contracts').child('active').child(v.sn).child(v.type).child(v.id).set(v)
           .then(()=>{
-            firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),'Europe/Rome').format('YYYYMMDDHHmmss'))
+            firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
             .then(()=>{this.dialogRef.close(v)})
           })
         }
