@@ -15,6 +15,7 @@ import { NotificationListComponent } from './comp/notification-list/notification
 import {MatPaginatorIntl} from '@angular/material/paginator'
 import { SwupdateService } from './serv/swupdate.service';
 import {environment} from '../environments/environment';
+import 'moment-timezone'
 
 @Component({
   selector: 'app-root',
@@ -108,7 +109,7 @@ export class AppComponent {
           token: t,
           pos: this.pos,
           name: this.nome,
-          date: moment(new Date()).format('YYYY-MM-DD - HH:mm:ss'),
+          date: moment.tz(new Date(),'Europe/Rome').format('YYYY-MM-DD - HH:mm:ss'),
           id:this.userId,
         })
       })
