@@ -39,11 +39,13 @@ export class UsersComponent implements OnInit {
       Object.values(a).forEach(b=>{
         firebase.database().ref('Users').child(b.uid).once('value',c=>{
           firebase.database().ref('Login').child(b.uid + '-' + c.val().Nome + ' ' + c.val().Cognome ).limitToLast(1).once('value',d=>{
-            let aa:any, bb:any=undefined
+            let aa:any, bb:any=undefined, version:string|undefined
             if(d.val()!=null) {
               bb = Object.keys(d.val())
-            } 
-            this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid, lastlog: bb?bb:''})
+              let temp:any=Object.values(d.val())
+              version=temp[0].AppVersion
+            }
+            this.users.push({nome: c.val().Nome, cognome: c.val().Cognome, pos: c.val().Pos, mail: b.email, uid:b.uid, lastlog: bb?(version?bb + ' (' + version + ')':bb):''})
             this.users.sort((a: any, b: any) => {
               if (a.lastlog < b.lastlog) {
                 return 1;
