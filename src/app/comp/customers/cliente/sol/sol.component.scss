@@ -3,3 +3,7 @@
 .cb{
     margin-bottom: 15px;
 }
+
+::ng-deep .mat-checkbox .mat-checkbox-label {
+    white-space: initial;
+}
