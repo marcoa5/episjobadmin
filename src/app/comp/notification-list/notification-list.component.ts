@@ -31,6 +31,7 @@ export class NotificationListComponent implements OnInit {
           } else {
             this.notif=[]
           }
+          console.log(b.val())
           b.forEach(c=>{
             let f = moment(c.val().date).format('YYYYMMDD')
             if(f<ora && c.key) firebase.database().ref('Notif').child(a.uid).child(c.key).remove()
@@ -55,6 +56,7 @@ export class NotificationListComponent implements OnInit {
   }
 
   go(a:any){
+    console.log(a.date)
     let c = (a.url.split(','))
     let d = [c[0],JSON.parse(c[1])]
     if(a.status==0) firebase.database().ref('Notif').child(a.userId).child(a.date).child('status').set(1)
