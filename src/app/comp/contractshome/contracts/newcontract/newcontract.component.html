@@ -18,8 +18,8 @@
             <h4>Contract data</h4>
             <mat-form-field class="search">
                 <mat-label>Contract type</mat-label>
-                <mat-select formControlName="type"  >
-                  <mat-option *ngFor="let t of types" [value]="t.text" >
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let t of types" [value]="t.text" [disabled]="t.disabled">
                     {{t.text}}
                   </mat-option>
                 </mat-select>
@@ -47,5 +47,5 @@
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="reset()" *ngIf="details.length>0 && (!this.data.info || this.data.info.sn==undefined)">Reset</button>
     <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
-    <button mat-raised-button color="primary" [disabled]="inputData.invalid" (click)="save()">OK</button>
+    <button mat-raised-button color="primary" [disabled]="inputData.invalid" (click)="save()">Save</button>
 </div>

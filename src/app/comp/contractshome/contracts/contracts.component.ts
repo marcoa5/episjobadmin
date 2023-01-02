@@ -138,13 +138,16 @@ export class ContractsComponent implements OnInit {
     dia.afterClosed().subscribe(a=>{
       if(a) firebase.database().ref('Contracts').child('active').child(i.sn).child(i.type).remove()
       .then(()=>{
-        firebase.storage().ref('Contracts').child(i.id).listAll()
-        .then(f=>{
-          f.items.forEach(t=>{
-            t.delete()
+        firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
+        .then(()=>{
+          firebase.storage().ref('Contracts').child(i.id).listAll()
+          .then(f=>{
+            f.items.forEach(t=>{
+              t.delete()
+            })
           })
+          .catch(err=>console.log(err))
         })
-        .catch(err=>console.log(err))
       })
     })
   }

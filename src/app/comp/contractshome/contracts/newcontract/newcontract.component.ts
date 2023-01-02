@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatChip } from '@angular/material/chips';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { AlertComponent } from '../../../util/dialog/alert/alert.component';
@@ -30,20 +30,23 @@ export class NewcontractComponent implements OnInit {
   nameList:any[]=[]
   feesMod:boolean=false
   discMod:boolean=false
+  contractList:any[]=[]
+  contractListFiltered:any[]=[]
+  typesDisabled:any[]=[]
   types:any[]=[
-    {value: 'certiq', text:'Certiq'},
-    {value: 'rocecop', text:'ROC & COP Care (con olii)'},
-    {value: 'rocecoplub', text:'ROC & COP Care (senza olii)'},
-    {value: 'careeco', text:'Care Economy (con olii)'},
-    {value: 'careecolub', text:'Care Economy (senza olii)'},
-    {value: 'carestd', text:'Care Standard (con olii)'},
-    {value: 'carestdlub', text:'Care Standard (senza olii)'},
-    {value: 'minecare', text:'MINE Care'},
-    {value: 'rigcare', text:'RIG Care'},
-    {value: 'frame', text:'Frame Agreement'},
-    {value: 'baas', text:'BaaS'},
-    {value: 'sac', text:'SaC'},
-    {value: 'only', text:'Only Fees'},
+    {value: 'certiq', text:'Certiq', disabled:false},
+    {value: 'rocecop', text:'ROC & COP Care (con olii)', disabled:false},
+    {value: 'rocecoplub', text:'ROC & COP Care (senza olii)', disabled:false},
+    {value: 'careeco', text:'Care Economy (con olii)', disabled:false},
+    {value: 'careecolub', text:'Care Economy (senza olii)', disabled:false},
+    {value: 'carestd', text:'Care Standard (con olii)', disabled:false},
+    {value: 'carestdlub', text:'Care Standard (senza olii)', disabled:false},
+    {value: 'minecare', text:'MINE Care', disabled:false},
+    {value: 'rigcare', text:'RIG Care', disabled:false},
+    {value: 'frame', text:'Frame Agreement', disabled:false},
+    {value: 'baas', text:'BaaS', disabled:false},
+    {value: 'sac', text:'SaC', disabled:false},
+    {value: 'only', text:'Only Fees', disabled:false},
   ]
   subsList:Subscription[]=[]
 
@@ -84,6 +87,11 @@ export class NewcontractComponent implements OnInit {
       g.start.setValue(new Date(a.start))
       g.end.setValue(new Date(a.end))
     }
+    this.subsList.push(
+      this.auth._contracts.subscribe(a=>{
+        if(a) this.contractList=a
+      })
+    )
   }
 
   ngOnDestroy(){
@@ -107,6 +115,17 @@ export class NewcontractComponent implements OnInit {
       this.inputData.controls.model.setValue(a.model)
       this.inputData.controls.customer.setValue(a.customer)
       this.inputData.controls.custCode.setValue(a.custCode)
+      this.contractListFiltered=[]
+      this.types.forEach(r=>{r.disabled=false})
+      this.contractList.filter(t=>{ 
+        if(t.sn==this.inputData.controls.sn.value) {
+          this.types.forEach(i=>{
+            if(i.text==t.type){
+              i.disabled=true
+            }
+          })
+        }
+      })
     } else {
       this.details=[]
     }
@@ -192,5 +211,9 @@ export class NewcontractComponent implements OnInit {
 
   chW():boolean{
     return this.ch.isTouch()
+  }
+
+  conso(){
+    console.log(this.fileList)
   }
 }
