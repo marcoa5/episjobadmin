@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app'
+import * as moment from 'moment';
 import { generate, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { environment } from 'src/environments/environment';
 import { DeldialogComponent } from '../../../util/dialog/deldialog/deldialog.component';
 import { GenericComponent } from '../../../util/dialog/generic/generic.component';
 import { AttachalreadyexistsComponent } from '../attachalreadyexists/attachalreadyexists.component';
@@ -82,6 +84,7 @@ export class AttachmentdialogComponent implements OnInit {
           if(res) {
             a[i].arrayBuffer().then(file=>{
               ref.put(file).then(()=>{
+                firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
                 r.close()
               })
             })
@@ -107,6 +110,7 @@ export class AttachmentdialogComponent implements OnInit {
         }, 10000);
         firebase.storage().ref(a).delete()
         .then(()=>{
+          firebase.database().ref('Updates').child('Contractsupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
           this.contractList.splice(i,1)
           r.close()
         })
