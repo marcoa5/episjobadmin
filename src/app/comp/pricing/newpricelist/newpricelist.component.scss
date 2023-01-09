@@ -1,0 +1,14 @@
+@import '../../../../epi.scss';
+
+input[type="file"] {
+    display: none;
+}
+
+form{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.but{
+    margin-bottom:15px;
+}

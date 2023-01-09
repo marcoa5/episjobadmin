@@ -25,6 +25,9 @@ import { environment } from 'src/environments/environment';
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() editItem:boolean = true
+  @Input() deleteItem:boolean=true
+  @Input() pricelist:boolean = false
   @Input() cliente:boolean=false
   @Input() contracts:boolean=false
   @Input() machine:boolean=false
@@ -49,6 +52,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() expParts= new EventEmitter()
   @Output() expCon=new EventEmitter()
   @Output() addCon=new EventEmitter()
+  @Output() newPriceL=new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -173,5 +177,9 @@ export class EditdelbutComponent implements OnInit {
 
   addContract(){
     this.addCon.emit('')
+  }
+
+  addPriceList(){
+    this.newPriceL.emit('')
   }
 }

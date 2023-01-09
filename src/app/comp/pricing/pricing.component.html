@@ -4,3 +4,4 @@
     <episjob-newprice></episjob-newprice>
 </div>
 <div episjobCont *ngIf="!allow">Restricted area</div>
+<episjob-editdelbut [pricelist]="true" [editItem]="false" [deleteItem]="false" (newPriceL)="newPriceList()"></episjob-editdelbut> 

@@ -1,10 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import * as moment from 'moment'
 
 
 @Component({
@@ -131,9 +134,10 @@ export class HomeComponent implements OnInit {
   wide:boolean=false
   subsList: Subscription[]=[]
   uId:string=''
-  constructor(public router :Router, public auth:AuthServiceService) {}
+  constructor(public router :Router, public auth:AuthServiceService, private http:HttpClient,private _snackBar:MatSnackBar) {}
   
   async ngOnInit() {
+    this.getHrsFromServer()
     this.onResize()
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
@@ -290,5 +294,38 @@ export class HomeComponent implements OnInit {
       this.chCustSatus()
     }, 200);
   }
+
+  getHrsFromServer(){
+    firebase.database().ref('Updates').child('Certiqupd').once('value',a=>{
+      if(a.val()!=null){
+        let rt:string = a.val().toString()
+        let y = rt.substring(0,4)
+        let m = rt.substring(4,6)
+        let d = rt.substring(6,8)
+        let last = new Date(parseInt(y),parseInt(m)-1,parseInt(d))
+        console.log(moment(new Date()).diff(last, 'days'))
+      }
+      /*
+      let y = this._snackBar.open("Updating Hours from Certiq...",'')
+    setTimeout(() => {
+      y.dismiss()
+    }, 10000);
+    this.http.get(environment.url + 'certiqHrs').subscribe(async (data:any)=>{
+      await this.calculateHrs(data)
+      y.dismiss()
+    })
+      */
+    })
+  }
+
+  calculateHrs(list:any){
+    return new Promise((res,rej)=>{
+      if(list) {
+        console.log(list)
+        res(list)
+      } 
+    })
+  }
+
 }
  

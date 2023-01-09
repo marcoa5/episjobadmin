@@ -1,0 +1,24 @@
+<div mat-dialog-title>Add Price List</div>
+<div mat-dialog-content>
+    <form [formGroup]="info">
+        <mat-form-field>
+            <mat-label>Select Period</mat-label>
+            <input matInput type="text" autocomplete="off" formControlName="half">
+        </mat-form-field>
+        <div class="but" (click)="fu.click()">
+            <button mat-raised-button color="primary"  matTooltip="Upload Price List" cdkFocusInitial><mat-icon>cloud_upload</mat-icon>    Upload</button>
+            <input #fu type="file" (change)="fileUpload($event)" accept=".txt"/>
+        </div> 
+        <mat-form-field *ngIf="show">
+            <mat-label>Content</mat-label>
+            <textarea matInput formControlName="list" [rows]="15"></textarea>
+        </mat-form-field>
+    </form>
+
+
+
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="ret()" [disabled]="info.invalid">Save</button>
+</div>
