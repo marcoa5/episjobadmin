@@ -8,6 +8,7 @@ import 'firebase/database'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import * as moment from 'moment'
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -303,26 +304,54 @@ export class HomeComponent implements OnInit {
         let m = rt.substring(4,6)
         let d = rt.substring(6,8)
         let last = new Date(parseInt(y),parseInt(m)-1,parseInt(d))
-        console.log(moment(new Date()).diff(last, 'days'))
+        let range:number = moment(new Date()).diff(last, 'days')
+        console.log('Certiq updated ' + range + ' days ago')
+        if(range>6){
+          let y = this._snackBar.open("Updating Hours from Certiq...",'')
+          setTimeout(() => {
+            y.dismiss()
+          }, 10000);
+          this.http.get(environment.url + 'certiqHrs').subscribe(async (data:any)=>{
+            await this.calculateHrs(data)
+            y.dismiss()
+          })
+        }
       }
-      /*
-      let y = this._snackBar.open("Updating Hours from Certiq...",'')
-    setTimeout(() => {
-      y.dismiss()
-    }, 10000);
-    this.http.get(environment.url + 'certiqHrs').subscribe(async (data:any)=>{
-      await this.calculateHrs(data)
-      y.dismiss()
-    })
-      */
     })
   }
 
   calculateHrs(list:any){
     return new Promise((res,rej)=>{
       if(list) {
-        console.log(list)
-        res(list)
+        let elenco = Object.keys(list)
+        let len:number = elenco.length
+        let index:number=0
+        elenco.forEach(e=>{
+          let item:any[]=list[e]
+          let temp:any={}
+          let upd:string =''
+          item.forEach(i=>{
+            if(upd=='' || upd<(moment(i.timeStamp).format('YYYYMMDD'))) upd=moment(i.timeStamp).format('YYYYMMDD')
+            if(i.name=='cumulativeEngineHours') temp.orem=Math.round(i.value)
+            if(i.name=='cumulativeDrillHours'){
+              temp['perc'+i.nodeIndex]=Math.round(i.value)
+            }
+            temp.source='Automatic Certiq update'
+          })
+          if(temp.orem>10){
+            if(temp.perc1!=undefined?temp.perc1>0:true && temp.perc2!=undefined?temp.perc2>0:true && temp.perc3!=undefined?temp.perc3>0:true) {
+              console.log(e,upd,temp)
+              firebase.database().ref('Hours').child(e).child(upd).set(temp)
+            }
+          }
+          index++
+          if(len==index) {
+            firebase.database().ref('Updates').child('Certiqupd').set(moment(new Date()).format('YYYYMMDDHHmmss'))
+            .then(()=>{
+              res(list)
+            })
+          }
+        })
       } 
     })
   }
