@@ -46,6 +46,10 @@ export class NewpriceComponent implements OnInit {
           this.newItem=true
         }
       })
+    } else{
+      this.item.controls.llp.setValue('')
+      this.item.controls.desc.setValue('')
+      this.newItem=true
     }
   }
 

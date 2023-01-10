@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   @Input() cerca:boolean=true
   @Input() home:boolean=false
   @Input() backB:any = ''
+  @Input() inputFilter:string=''
   @Output() filter = new EventEmitter()
   @Input() hide:boolean=true
   chLar:boolean=true
@@ -27,6 +28,7 @@ export class NavbarComponent implements OnInit {
     this.largh(1)
     this.scrollaV= true
     this.onResize()
+    this.value=this.inputFilter
   }
 
   @HostListener('window:resize', ['$event'])

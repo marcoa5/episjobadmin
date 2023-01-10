@@ -35,6 +35,8 @@ export class RigsComponent implements OnInit {
       })
     )
     this.largh(1)
+    let fil:string = localStorage.getItem('rigFilter')!
+    if(fil) this.filtro=fil
   }
 
   ngOnDestroy(){
@@ -83,6 +85,7 @@ export class RigsComponent implements OnInit {
   }
   
   filter(a:any){
+    localStorage.setItem('rigFilter',a)
     this.filtro=a
   }
 

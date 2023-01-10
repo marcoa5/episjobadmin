@@ -13,6 +13,7 @@ export class LogoutComponent implements OnInit {
   SJ:any|undefined
   Visit:any|undefined
   Newrig:any|undefined
+  Certiq:any|undefined
   id:string=''
   version:string=''
   constructor(public dialogRef: MatDialogRef<LogoutComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private auth:AuthServiceService) { }
@@ -24,6 +25,7 @@ export class LogoutComponent implements OnInit {
     this.SJ=this.data.SJ
     this.Visit=this.data.Visit
     this.Newrig=this.data.Newrig
+    this.Certiq=this.data.Certiq
   }
 
   mod(e:any, b:string){

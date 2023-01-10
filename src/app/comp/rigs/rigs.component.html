@@ -1,4 +1,4 @@
-<episjob-navbar [title]="'Equipment list'"  (filter)="filter($event)"></episjob-navbar>
+<episjob-navbar [title]="'Equipment list'" [inputFilter]="filtro" (filter)="filter($event)"></episjob-navbar>
 <episjob-spin *ngIf="rigs.length==0"></episjob-spin>
 
 <div episjobCont class="cont" *ngIf="rigs.length>0">
