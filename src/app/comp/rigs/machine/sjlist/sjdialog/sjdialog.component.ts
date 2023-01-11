@@ -1,6 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app'
+import { ConsuntivoComponent } from 'src/app/comp/util/dialog/consuntivo/consuntivo.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs';
+import { NewcustComponent } from 'src/app/comp/customers/newcust/newcust.component';
+import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'episjob-sjdialog',
@@ -8,8 +15,8 @@ import firebase from 'firebase/app'
   styleUrls: ['./sjdialog.component.scss']
 })
 export class SjdialogComponent implements OnInit {
-
-  constructor(public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  dataBalance:any
+  constructor(private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
     
@@ -23,6 +30,66 @@ export class SjdialogComponent implements OnInit {
     this.dialogRef.close()
     firebase.storage().ref('Closed/' + a).getDownloadURL()
     .then(a=>{window.open(a)})
+  }
+
+  chPos(a:string):boolean{
+    return this.auth.acc(a)
+  }
+
+  balance(){
+    /*
+    
+    let dia = this.dialog.open(ConsuntivoComponent,{disableClose:true,data:{}})*/
+    new Observable((sub)=>{
+      if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') {
+        firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
+          if(info.val()!=null){
+            sub.next(info.val())
+          } else {
+            sub.next('')
+          }
+        })
+      } else {
+        this.bal.generateBalance(this.data)
+        .then((result)=>{
+          let info:any={
+            type:'_preview',
+            info:result
+          }
+          this.http.post(environment.url+'consuntivo',info,{responseType:'arraybuffer'}).subscribe(o=>{
+            if(o){
+              const blob = new Blob([o], { type: 'application/pdf' });
+              const href = document.createElement('a')
+              document.body.appendChild(href)
+              const url= window.URL.createObjectURL(blob)
+              href.href=url
+              href.download= 'test.pdf'
+              href.click()
+              setTimeout(() => {
+                window.URL.revokeObjectURL(url)
+                document.body.removeChild(href)
+              }, 1)
+            }
+          })
+          return
+          firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).set({result})
+          .then(()=>{
+            firebase.database().ref('Saved').child(this.data.matricola).child(this.data.path).child('balance').set(1)
+            .then(()=>{
+              this.data.balance=1
+              sub.next('ok')
+            })
+          })
+        })
+      }    
+    }).subscribe(res=>{
+      console.log(res)
+    })
+  }
+
+  getBalance(){
+    if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') return 'Edit Balance'
+    return 'Generate Balance'
   }
 
 }

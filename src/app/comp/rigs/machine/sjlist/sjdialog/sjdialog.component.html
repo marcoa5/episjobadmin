@@ -7,12 +7,17 @@
         <h4>{{data.tecnico11}}</h4>
         <h4>Site:</h4>
         <h4>{{data.cantiere1}}</h4>
-        <h4>Download:</h4>
-        <mat-icon class="ico" (click)="download(data.filename)">cloud_download</mat-icon>  
+        <h4>Actions:</h4>  
+        <div class="butCont">
+            <button mat-raised-button color="primary" (click)="download(data.filename)">Dowload SJ</button>
+            <button mat-raised-button color="primary" *ngIf="chPos('SURights')" (click)="balance()">{{getBalance()}}</button>  
+        </div>
     </div>
     <div class="reportCont">
         <p><strong>Report: </strong>{{data.rappl1}}</p>  
     </div>
+    
+    
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()" >Ok</button>
