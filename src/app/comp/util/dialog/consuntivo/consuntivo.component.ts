@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'episjob-consuntivo',
@@ -7,10 +7,12 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./consuntivo.component.scss']
 })
 export class ConsuntivoComponent implements OnInit {
-
-  constructor(private dialogRef:MatDialogRef<ConsuntivoComponent,any>) { }
+  keys:any[]=[]
+  constructor(private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any) { }
 
   ngOnInit(): void {
+    this.keys= Object.keys(this.data)
+
   }
 
   onNoClick(){

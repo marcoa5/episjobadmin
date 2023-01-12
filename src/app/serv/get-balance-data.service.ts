@@ -1,6 +1,7 @@
 import {Observable} from 'rxjs'
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app'
+import { findReadVarNames } from '@angular/compiler/src/output/output_ast';
 @Injectable({
   providedIn: 'root'
 })
@@ -30,6 +31,15 @@ export class GetBalanceDataService {
             sub2.next(l.val().address)
           } else {
             sub2.next('')
+          }
+        })
+      })
+      let macItNr=new Observable(sub=>{
+        firebase.database().ref('MOL').child(rawData.matricola).child('in').once('value',t=>{
+          if(t.val()!=null) {
+            sub.next(t.val())
+          } else {
+            sub.next('')
           }
         })
       })
@@ -186,12 +196,12 @@ export class GetBalanceDataService {
           items[check]={item: 'MANODOPERA FESTIVA NOTTURNA LAVORO',qty:mfnotl}
           check++
         }
-        if(km){
-          items[check]={item: 'KILOMETRI',qty:km}
+        if(spv){
+          items[check]={item: 'SPESE VIAGGIO',amt:spv,qty:1}
           check++
         }
-        if(spv){
-          items[check]={item: 'SPESE VIAGGIO',qty:spv}
+        if(km){
+          items[check]={item: 'KILOMETRI',qty:km}
           check++
         }
         if(off){
@@ -202,7 +212,9 @@ export class GetBalanceDataService {
           items[check]={item: 'MANODOPERA OFFICINA STRAORDINARIA',qty:ofs}
           check++
         }
-        for(let cr=check;cr<=23;cr++) {items[cr]={}}
+        for(let cr=check;cr<=check;cr++) {
+          items[cr]={item: 'DRIVER',qty:3,amt:121.34,pn:"3115158200"}
+        }
         sub.next(items)
       })
 
@@ -210,22 +222,26 @@ export class GetBalanceDataService {
         shipto.subscribe((s:any)=>{
           if(s!='') s = s.split(' - ')
           items.subscribe(i=>{
-            let info:any={
-              custCode:r,
-              data:rawData.data11,
-              docBPCS:rawData.docBPCS,
-              customer1:rawData.cliente11,
-              customer2:rawData.cliente12,
-              customer3:rawData.cliente13,
-              shipTo1: s[0]?s[0]:'',
-              shipTo2: s[1]?s[1]:'',
-              shipTo3: s[2]?s[2]:'',
-              yourRef:rawData.vsordine,
-              ourRef:'',
-              terms:'',
-              items:i
-            }
-            res(info)
+            macItNr.subscribe((m:any)=>{
+              let info:any={
+                custCode:r,
+                data:rawData.data11,
+                docBPCS:rawData.docbpcs,
+                shipTo1: rawData.cliente11,
+                shipTo2: s[0]?s[0]:'',
+                shipTo3: s[1]?s[1]:'',
+                shipTo4: s[2]?s[2]:'',
+                customer1:rawData.cliente11,
+                customer2:rawData.cliente12,
+                customer3:rawData.cliente13,
+                yourRef:rawData.vsordine,
+                ourRef:'',
+                terms:'',
+                rig:rawData.prodotto1 + ' s.n. ' + rawData.matricola + (m!=''?' (' + m.toString().substring(0,4)+'.'+m.toString().substring(4,8)+'.'+m.toString().substring(8,10)+')':''),
+                items:i
+              }
+              res(info)
+            })
           })
         })
       })  

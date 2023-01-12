@@ -4,10 +4,11 @@ import firebase from 'firebase/app'
 import { ConsuntivoComponent } from 'src/app/comp/util/dialog/consuntivo/consuntivo.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { generate, Observable } from 'rxjs';
 import { NewcustComponent } from 'src/app/comp/customers/newcust/newcust.component';
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
 import { environment } from 'src/environments/environment';
+import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
 
 @Component({
   selector: 'episjob-sjdialog',
@@ -52,11 +53,15 @@ export class SjdialogComponent implements OnInit {
       } else {
         this.bal.generateBalance(this.data)
         .then((result)=>{
-          let info:any={
-            type:'_preview',
-            info:result
-          }
-          this.http.post(environment.url+'consuntivo',info,{responseType:'arraybuffer'}).subscribe(o=>{
+          let data:any={}
+          data.info = result
+          data.type=''
+          //let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:result})
+          let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Genereting Balance'}})
+          setTimeout(() => {
+            dia.close
+          }, 10000);
+          this.http.post(environment.url + 'consuntivo',data,{responseType:'arraybuffer'}).subscribe((o:any)=>{
             if(o){
               const blob = new Blob([o], { type: 'application/pdf' });
               const href = document.createElement('a')
@@ -68,20 +73,14 @@ export class SjdialogComponent implements OnInit {
               setTimeout(() => {
                 window.URL.revokeObjectURL(url)
                 document.body.removeChild(href)
+                dia.close()
               }, 1)
+            }else {
+              dia.close()
             }
           })
-          return
-          firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).set({result})
-          .then(()=>{
-            firebase.database().ref('Saved').child(this.data.matricola).child(this.data.path).child('balance').set(1)
-            .then(()=>{
-              this.data.balance=1
-              sub.next('ok')
-            })
-          })
         })
-      }    
+      }
     }).subscribe(res=>{
       console.log(res)
     })
