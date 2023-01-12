@@ -201,7 +201,7 @@ export class GetBalanceDataService {
           check++
         }
         if(km){
-          items[check]={item: 'KILOMETRI',qty:km}
+          items[check]={item: 'CHILOMETRI',qty:km}
           check++
         }
         if(off){

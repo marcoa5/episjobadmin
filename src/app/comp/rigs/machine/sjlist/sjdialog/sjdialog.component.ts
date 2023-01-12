@@ -57,24 +57,15 @@ export class SjdialogComponent implements OnInit {
           data.info = result
           data.type=''
           //let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:result})
-          let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Genereting Balance'}})
+          let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Creating Balance...'}})
           setTimeout(() => {
             dia.close
           }, 10000);
           this.http.post(environment.url + 'consuntivo',data,{responseType:'arraybuffer'}).subscribe((o:any)=>{
             if(o){
               const blob = new Blob([o], { type: 'application/pdf' });
-              const href = document.createElement('a')
-              document.body.appendChild(href)
-              const url= window.URL.createObjectURL(blob)
-              href.href=url
-              href.download= 'test.pdf'
-              href.click()
-              setTimeout(() => {
-                window.URL.revokeObjectURL(url)
-                document.body.removeChild(href)
-                dia.close()
-              }, 1)
+              let w = window.open(URL.createObjectURL(blob),'_blank')
+              dia.close()
             }else {
               dia.close()
             }

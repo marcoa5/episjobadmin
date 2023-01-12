@@ -382,17 +382,8 @@ export class SjhomeComponent implements OnInit {
           console.log(typeof o,o)
           if(o){
             const blob = new Blob([o], { type: 'application/pdf' });
-            const href = document.createElement('a')
-            document.body.appendChild(href)
-            const url= window.URL.createObjectURL(blob)
-            href.href=url
-            href.download= moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss') + ' - ' + file.cliente11 + ' - ' + file.prodotto1 + ' - ' + file.matricola + '.pdf'
-            href.click()
+            let w = window.open(URL.createObjectURL(blob),'_blank')
             dia.close()
-            setTimeout(() => {
-              window.URL.revokeObjectURL(url)
-              document.body.removeChild(href)
-            }, 1)
           } else {
             dia.close()
           }
