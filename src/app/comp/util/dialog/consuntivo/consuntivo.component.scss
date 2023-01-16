@@ -1,0 +1,29 @@
+
+.cont{
+    display: grid;
+    gap:15px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+    "a1 a2 a3 ."
+    "a4 a8 . ."
+    "a5 a9 . ."
+    "a6 a10 . ."
+    "a7 . . ."
+    "a11 a12 a13 a14";
+}
+
+.lines{
+    display: grid;
+    gap:15px;
+    grid-template-rows: auto;
+    grid-template-columns: 3fr 6fr 2fr 1fr 1fr 1fr;
+}
+
+.center{
+    text-align: center;
+}
+
+mat-form-field{
+    width:100%;
+    min-width: 10px;
+}

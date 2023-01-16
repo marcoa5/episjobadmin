@@ -234,7 +234,7 @@ export class GetBalanceDataService {
                 customer1:rawData.cliente11,
                 customer2:rawData.cliente12,
                 customer3:rawData.cliente13,
-                yourRef:rawData.vsordine,
+                yourRef:rawData.vsordine?rawData.vsordine:'',
                 ourRef:'',
                 terms:'',
                 rig:rawData.prodotto1 + ' s.n. ' + rawData.matricola + (m!=''?' (' + m.toString().substring(0,4)+'.'+m.toString().substring(4,8)+'.'+m.toString().substring(8,10)+')':''),

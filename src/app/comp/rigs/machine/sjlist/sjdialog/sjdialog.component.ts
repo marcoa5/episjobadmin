@@ -56,8 +56,8 @@ export class SjdialogComponent implements OnInit {
           let data:any={}
           data.info = result
           data.type=''
-          //let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:result})
-          let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Creating Balance...'}})
+          let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:result})
+          /*let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Creating Balance...'}})
           setTimeout(() => {
             dia.close
           }, 10000);
@@ -69,7 +69,7 @@ export class SjdialogComponent implements OnInit {
             }else {
               dia.close()
             }
-          })
+          })*/
         })
       }
     }).subscribe(res=>{
