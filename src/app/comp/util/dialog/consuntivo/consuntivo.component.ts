@@ -1,8 +1,10 @@
+import { summaryFileName } from '@angular/compiler/src/aot/util';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { machineLearning } from 'firebase-admin';
 import firebase from 'firebase/app';
+import { Observable } from 'rxjs';
 import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { ImportpartsComponent } from '../importparts/importparts.component';
@@ -70,15 +72,22 @@ export class ConsuntivoComponent implements OnInit {
     this.dialogRef.close(this.mask.value)
   }
 
-  checkPrice(e:any, o:number,auto:boolean){
+  checkPrice(e:any, name:string){
     let val:string=e.target.value
     if(val.length>7){
       firebase.database().ref('PSDItems').child(this.quarter.getQ(new Date)).child(val).once('value',a=>{
         if(a.val()!=null) {
-          if(!auto) this.mask.controls['it'+o].setValue(a.val().desc)
-          this.mask.controls['llp'+o].setValue(a.val().llp)
+          this.mask.controls['_ite'+name.substring(4,6)].setValue(a.val().desc)
+          this.mask.controls['_llp'+name.substring(4,6)].setValue(a.val().llp)
+        }
+        else{
+          this.mask.controls['_ite'+name.substring(4,6)].setValue('')
+          this.mask.controls['_llp'+name.substring(4,6)].setValue('')
         }
       })
+    } else {
+        this.mask.controls['_ite'+name.substring(4,6)].setValue('')
+        this.mask.controls['_llp'+name.substring(4,6)].setValue('')
     }
   }
 
@@ -121,16 +130,30 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   addParts(list:string[],start:number){
-    let index:number=0
-    let length:number=list.length
-    let ind:number=0
+    let index:number=start
     list.forEach((line,i)=>{
       let it:string[]=line.split('\t')
-      index=start+i
-      this.mask.controls['_pnr'+index].setValue(it[0])
-      this.mask.controls['_ite'+index].setValue(it[1])
-      this.mask.controls['_qty'+index].setValue(it[2])
-      ind++
+      this.getPrice(it[0],it[1],it[2],index).subscribe((a:any)=>{
+        this.mask.controls['_pnr'+a.id].setValue(a._pnr)
+        this.mask.controls['_ite'+a.id].setValue(a._ite)
+        this.mask.controls['_qty'+a.id].setValue(a._qty)
+        this.mask.controls['_llp'+a.id].setValue(a._llp)
+
+      })
+      
+      index++
+    })
+  }
+
+  getPrice(sn:any,desc:any,qty:any,index:any){
+    return new Observable(sub=>{
+      firebase.database().ref('PSDItems').child(this.getQ.getQ(new Date())).child(sn).child('llp').once('value',a=>{
+        if(a.val()!=null) {
+          sub.next({_pnr:sn,_ite:desc,_qty:qty,_llp:a.val(),id:index})
+        } else {
+          sub.next({_pnr:sn,_ite:desc,_qty:qty,_llp:'',id:index})
+        }
+      })
     })
   }
 }

@@ -12,7 +12,7 @@
         <div class="lines" >
             <mat-form-field floatLabel="always" *ngFor="let i of items; let o = index">
                 <mat-label>{{i.name.substring(1,100)}}</mat-label>
-                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, o,false); inputData()">
+                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, i.name); inputData()">
             </mat-form-field>
         </div >
         
