@@ -5,34 +5,14 @@
         <div class="cont">
             <mat-form-field floatLabel="always" *ngFor="let d of con" [class]="d.row" [ngStyle]="{'grid-area':d.row}">
                 <mat-label>{{d.name}}</mat-label>
-                <input matInput [formControlName]="d.name" type="text" autocomplete="off">
+                <input matInput [formControlName]="d.name" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>  
         </div>
         <h4>Quotation Lines</h4>
-        <div class="lines" *ngFor="let i of it; let o = index">
-            <mat-form-field floatLabel="always">
-                <mat-label>p/n</mat-label>
-                <input matInput [formControlName]="'pn' + o" type="text" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field floatLabel="always">
-                <mat-label>Desc</mat-label>
-                <input matInput [formControlName]="'it' + o" type="text" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field floatLabel="always">
-                <mat-label>LLP</mat-label>
-                <input matInput [formControlName]="'llp' + o" type="text" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field floatLabel="always">
-                <mat-label>Qty</mat-label>
-                <input matInput [formControlName]="'qty' + o" type="text" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field floatLabel="always">
-                <mat-label>Discount</mat-label>
-                <input matInput [formControlName]="'disc' + o" type="text" autocomplete="off">
-            </mat-form-field>
-            <mat-form-field floatLabel="always">
-                <mat-label>Transport</mat-label>
-                <input matInput [formControlName]="'tra' + o" type="text" autocomplete="off">
+        <div class="lines" >
+            <mat-form-field floatLabel="always" *ngFor="let i of items; let o = index">
+                <mat-label>{{i.name.substring(1,100)}}</mat-label>
+                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, o); inputData()">
             </mat-form-field>
         </div >
         

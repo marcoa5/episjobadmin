@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app'
 import { ConsuntivoComponent } from 'src/app/comp/util/dialog/consuntivo/consuntivo.component';
@@ -20,7 +20,6 @@ export class SjdialogComponent implements OnInit {
   constructor(private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
-    
   }
 
   onNoClick(){
@@ -37,49 +36,46 @@ export class SjdialogComponent implements OnInit {
     return this.auth.acc(a)
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<500) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   balance(){
-    /*
-    
-    let dia = this.dialog.open(ConsuntivoComponent,{disableClose:true,data:{}})*/
+    let wait = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Openining Balance...'}})
     new Observable((sub)=>{
-      if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') {
-        firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
-          if(info.val()!=null){
-            sub.next(info.val())
-          } else {
-            sub.next('')
+      firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
+        if(info.val()!=null){
+          sub.next(info.val())
+          console.log('existing')
+        } else {
+          if(this.data!=undefined){
+            this.bal.generateBalance(this.data)
+            .then((result)=>{
+              sub.next(result)
+              console.log('new')
+            })
           }
-        })
-      } else {
-        this.bal.generateBalance(this.data)
-        .then((result)=>{
-          let data:any={}
-          data.info = result
-          data.type=''
-          let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:result})
-          /*let dia = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Creating Balance...'}})
-          setTimeout(() => {
-            dia.close
-          }, 10000);
-          this.http.post(environment.url + 'consuntivo',data,{responseType:'arraybuffer'}).subscribe((o:any)=>{
-            if(o){
-              const blob = new Blob([o], { type: 'application/pdf' });
-              let w = window.open(URL.createObjectURL(blob),'_blank')
-              dia.close()
-            }else {
-              dia.close()
-            }
-          })*/
-        })
-      }
-    }).subscribe(res=>{
-      console.log(res)
+        }
+      })
+    })
+    .subscribe(res=>{
+      wait.close()
+      let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:{data:res,sn:this.data.matricola,path:this.data.path}})
     })
   }
 
   getBalance(){
-    if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') return 'Edit Balance'
-    return 'Generate Balance'
+    if(this.onResize()){
+      return 'Balance'
+    } else {
+      if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') return 'Edit Balance'
+      return 'Generate Balance' 
+    }
   }
 
 }

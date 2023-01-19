@@ -61,7 +61,7 @@ export class SjlistComponent implements OnInit {
   }
 
   open(n:number){
-    const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data: this._list[n]})
+    const dialogSJ= this.dialog.open(SjdialogComponent, {panelClass: 'sj-dialog', data:this._list[n]})
     dialogSJ.afterClosed().subscribe(a=>{
     })
   }
@@ -73,7 +73,12 @@ export class SjlistComponent implements OnInit {
       if(g.val()!=null) {
         const dia = this.dialog.open(DeldialogComponent, {data:{name:'Doc nr', desc:'SJ nr. ' + a.docbpcs + ' - ' + a.data11}})
         dia.afterClosed().subscribe(res=>{
-          if(res) firebase.database().ref('Saved').child(a.matricola).child(a.path).remove()
+          if(res) {
+            firebase.database().ref('Saved').child(a.matricola).child(a.path).remove()
+            .then(()=>{
+              firebase.database().ref('Balance').child(a.matricola).child(a.path).remove()
+            })
+          }
         })
       }
     })
