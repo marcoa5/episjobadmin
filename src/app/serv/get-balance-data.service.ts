@@ -159,116 +159,116 @@ export class GetBalanceDataService {
         }
         let check: number = 1
         if (mstdov) {
-          items['_it' + check] = 'MANODOPERA STANDARD ORDINARIA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA VIAGGIO'
           items['_qty' + check] = mstdov
           items['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
           check++
         }
         if (mstdsv) {
-          items['_it' + check] = 'MANODOPERA STANDARD STRAORDINARIA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA VIAGGIO'
           items['_qty' + check] = mstdsv
           items['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
           check++
         }
         if (mstdol) {
-          items['_it' + check] = 'MANODOPERA STANDARD ORDINARIA LAVORO'
+          items['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA LAVORO'
           items['_qty' + check] = mstdol
           items['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
           check++
         }
         if (mstdsl) {
-          items['_it' + check] = 'MANODOPERA STANDARD STRAORDINARIA LAVORO'
+          items['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA LAVORO'
           items['_qty' + check] = mstdsl
           items['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
           check++
         }
         if (mspeov) {
-          items['_it' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA VIAGGIO'
           items['_qty' + check] = mspeov
           items['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
           check++
         }
         if (mspesv) {
-          items['_it' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA VIAGGIO'
           items['_qty' + check] = mspesv
           items['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
           check++
         }
         if (mspeol) {
-          items['_it' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA LAVORO'
+          items['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA LAVORO'
           items['_qty' + check] = mspeol
           items['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
           check++
         }
         if (mspesl) {
-          items['_it' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA LAVORO'
+          items['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA LAVORO'
           items['_qty' + check] = mspesl
           items['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
           check++
         }
         if (mnotv) {
-          items['_it' + check] = 'MANODOPERA NOTTURNA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA NOTTURNA VIAGGIO'
           items['_qty' + check] = mnotv
           check++
         }
         if (mnotl) {
-          items['_it' + check] = 'MANODOPERA NOTTURNA LAVORO'
+          items['_ite' + check] = 'MANODOPERA NOTTURNA LAVORO'
           items['_qty' + check] = mnotl
           items['_llp' + check] = this.actualFees.mnt?parseFloat(this.actualFees.mnt):''
           check++
         }
         if (mfv) {
-          items['_it' + check] = 'MANODOPERA FESTIVA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA FESTIVA VIAGGIO'
           items['_qty' + check] = mfv
           items['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
           check++
         }
         if (mfl) {
-          items['_it' + check] = 'MANODOPERA FESTIVA LAVORO'
+          items['_ite' + check] = 'MANODOPERA FESTIVA LAVORO'
           items['_qty' + check] = mfl
           items['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
 
           check++
         }
         if (mfnotv) {
-          items['_it' + check] = 'MANODOPERA FESTIVA NOTTURNA VIAGGIO'
+          items['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA VIAGGIO'
           items['_qty' + check] = mfnotv
           items['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
           check++
         }
         if (mfnotl) {
-          items['_it' + check] = 'MANODOPERA FESTIVA NOTTURNA LAVORO'
+          items['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA LAVORO'
           items['_qty' + check] = mfnotl
           items['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
 
           check++
         }
         if (spv) {
-          items['_it' + check] = 'SPESE VIAGGIO'
+          items['_ite' + check] = 'SPESE VIAGGIO'
           items['_qty' + check] = 1
           items['_llp' + check] = spv
           check++
         }
         if (km) {
-          items['_it' + check] = 'CHILOMETRI'
+          items['_ite' + check] = 'CHILOMETRI'
           items['_qty' + check] = km
           items['_llp' + check] = this.actualFees.km?parseFloat(this.actualFees.km):''
           check++
         }
         if (off) {
-          items['_it' + check] = 'MANODOPERA OFFICINA ORDINARIA'
+          items['_ite' + check] = 'MANODOPERA OFFICINA ORDINARIA'
           items['_qty' + check] = off
           items['_llp' + check] = this.actualFees.off?parseFloat(this.actualFees.off):''
           check++
         }
         if (ofs) {
-          items['_it' + check] = 'MANODOPERA OFFICINA STRAORDINARIA'
+          items['_ite' + check] = 'MANODOPERA OFFICINA STRAORDINARIA'
           items['_qty' + check] = ofs
           items['_llp' + check] = this.actualFees.ofs?parseFloat(this.actualFees.ofs):''
           check++
         }
         /*for (let cr = check; cr <= check; cr++) {
-          items['_it' + cr] = 'DRIVER'
+          items['_ite' + cr] = 'DRIVER'
           items['_qty' + cr] = 3,
             items['_llp' + cr] = 121.34
           items['_pn' + cr] = "3115158200"

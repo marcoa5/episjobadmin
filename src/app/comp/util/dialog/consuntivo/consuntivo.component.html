@@ -12,7 +12,7 @@
         <div class="lines" >
             <mat-form-field floatLabel="always" *ngFor="let i of items; let o = index">
                 <mat-label>{{i.name.substring(1,100)}}</mat-label>
-                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, o); inputData()">
+                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, o,false); inputData()">
             </mat-form-field>
         </div >
         
@@ -21,6 +21,6 @@
 </div>
 
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary"  (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary"  (click)="loadParts()">Load Parts</button>
     <button mat-raised-button color="primary" (click)="send()">Ok</button>
 </div>

@@ -523,8 +523,8 @@ export class SjComponent implements OnInit {
           cantiere1: this.rigForm.controls.site.value,
           firmacc1: this.custSign,
           firmatt1: this.techSign,
-          rappl1: this.reportForm.controls.report.value,
-          oss1: this.reportForm.controls.oss.value,
+          rappl1: this.reportForm.controls.report.value.toUpperCase(),
+          oss1: this.reportForm.controls.oss.value.toUpperCase(),
           orem1: this.rigForm.controls.engh.value>0? this.rigForm.controls.engh.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
           perc11: this.rigForm.controls.perc1h.value>0?this.rigForm.controls.perc1h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
           perc21: this.rigForm.controls.perc2h.value>0?this.rigForm.controls.perc2h.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."):'',
@@ -731,7 +731,7 @@ export class SjComponent implements OnInit {
   }
 
   maiusc(a:string){
-    this.reportForm.controls[a].setValue(this.reportForm.controls[a].value.toUpperCase())
+    //this.reportForm.controls[a].setValue(this.reportForm.controls[a].value.toUpperCase())
   }
 
   chW(){
