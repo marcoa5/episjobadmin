@@ -4,23 +4,75 @@
         <h4>Machine and Customer information</h4>
         <div class="cont">
             <mat-form-field floatLabel="always" *ngFor="let d of con" [class]="d.row" [ngStyle]="{'grid-area':d.row}">
-                <mat-label>{{d.name}}</mat-label>
+                <mat-label>{{d.name.substring(4,100)}}</mat-label>
                 <input matInput [formControlName]="d.name" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>  
         </div>
-        <h4>Quotation Lines</h4>
-        <div class="lines" >
-            <mat-form-field floatLabel="always" *ngFor="let i of items; let o = index">
-                <mat-label>{{i.name.substring(1,100)}}</mat-label>
-                <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, i.name); inputData()">
+        <h4>Terms and Conditions</h4>
+        <div class="conditions">
+            <mat-form-field floatLabel="always">
+                <mat-label>Parts Discount</mat-label>
+                <input matInput formControlName="__psdDiscount" type="text" autocomplete="off">
             </mat-form-field>
-        </div >
+            <mat-form-field floatLabel="always">
+                <mat-label>RDT Discount</mat-label>
+                <input matInput formControlName="__rdtDiscount" type="text" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Transport type</mat-label>
+                <mat-select formControlName="__type" (selectionChange)="inputData()">
+                    <mat-option value="Air">Air</mat-option>
+                    <mat-option value="Truck">Truck</mat-option>
+                  </mat-select>
+            </mat-form-field>
+            <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value=='Air'?'inline':'none'}">
+                <mat-label>Air Transport (fix)</mat-label>
+                <input matInput formControlName="__transAirF" type="text" autocomplete="off">
+            </mat-form-field> 
+            <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value=='Air'?'inline':'none'}">
+                <mat-label>Air Transport (%)</mat-label>
+                <input matInput formControlName="__transAirP" type="text" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value!='Air'?'inline':'none'}">
+                <mat-label>Truck Transport (fix)</mat-label>
+                <input matInput formControlName="__transTruckF" type="text" autocomplete="off">
+            </mat-form-field> 
+            <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value!='Air'?'inline':'none'}">
+                <mat-label>Truck Transport (%)</mat-label>
+                <input matInput formControlName="__transTruckP" type="text" autocomplete="off">
+            </mat-form-field>
+        </div>
+        <h4>Quotation Lines</h4>
+        <div class="main">
+            <div class="select">
+                <mat-form-field  floatLabel="always" *ngFor="let c of checks">
+                    <mat-label>RDT</mat-label>
+                    <input matInput hidden="true">
+                    <mat-checkbox  [formControlName]="'__RDT' + c" (change)="inputData()"></mat-checkbox>
+                </mat-form-field>
+                
+            </div>
+            <div class="lines">
+                <mat-form-field floatLabel="always" *ngFor="let i of items; let o = index">
+                    <mat-label>{{i.label}}</mat-label>
+                    <input matInput [formControlName]="i.name" type="text" autocomplete="off" (input)="checkPrice($event, i.name)">
+                </mat-form-field>     
+            </div >
+
+            <div class="buttons">
+                <button mat-raised-button (click)="delete(b)" *ngFor="let b of buttons" matTooltip="clear row">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
         
     </form>
         
 </div>
 
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary"  (click)="loadParts()">Load Parts</button>
-    <button mat-raised-button color="primary" (click)="send()">Ok</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="reset()">Reset</button>
+    <button mat-raised-button color="primary" (click)="loadParts()">Load Parts</button>
+    <button mat-raised-button color="primary" (click)="send()">Generate PDF</button>
 </div>

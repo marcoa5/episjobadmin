@@ -37,7 +37,7 @@ export class ContractshomeComponent implements OnInit {
           }, 1);
         }
       }),
-      this.auth._contracts.subscribe(e=>{
+      /*this.auth._contracts.subscribe(e=>{
         if(e.length>0) {
           this.contractsSpin=false
           this.contractList=e.slice()
@@ -53,8 +53,30 @@ export class ContractshomeComponent implements OnInit {
           this.archivedSpin=false
         }
       })
+    )*/
     )
-    //this.loadArchived()
+    firebase.database().ref('Contracts').child('active').on('value',a=>{
+      if(a.val()){
+        this.contractsSpin=false
+        let leng:number=0
+        let ch:number=0
+        this.contractList=[]
+        a.forEach(b=>{
+          b.forEach(c=>{
+            leng+=Object.keys(c.val()).length
+            c.forEach(d=>{
+              let g=d.val()
+              let da = moment(new Date(d.val().end))
+              let today = moment(new Date())
+              g.daysleft=da.diff(today,'days')
+              this.contractList.push(g)
+              ch++
+            })
+          })
+        })
+      }
+    })
+    this.loadArchived()
   }
 
   ngOnDestroy(){
@@ -95,7 +117,7 @@ export class ContractshomeComponent implements OnInit {
     })
   }
 
-  /*loadArchived(){
+  loadArchived(){
     firebase.database().ref('Contracts').child('archived').on('value',a=>{
       if(a.val()) {
         let leng:number=Object.values(a.val()).length
@@ -116,7 +138,7 @@ export class ContractshomeComponent implements OnInit {
         this.archivedSpin=false
       }
     })
-  }*/
+  }
 
   chDate(a:any){
     let da = moment(new Date(a))

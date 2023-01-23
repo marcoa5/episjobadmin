@@ -46,7 +46,7 @@ export class SjdialogComponent implements OnInit {
   }
 
   balance(){
-    let wait = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Openining Balance...'}})
+    let wait = this.dialog.open(GenericComponent,{disableClose:true,data:{msg:'Opening Balance...'}})
     new Observable((sub)=>{
       firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
         if(info.val()!=null){
@@ -65,7 +65,7 @@ export class SjdialogComponent implements OnInit {
     })
     .subscribe(res=>{
       wait.close()
-      let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, data:{data:res,sn:this.data.matricola,path:this.data.path}})
+      let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, panelClass:'consuntivo', data:{data:res,sn:this.data.matricola,path:this.data.path}})
     })
   }
 

@@ -6,28 +6,96 @@ import { Observable } from 'rxjs';
 })
 export class GetBalanceDataService {
   actualFees: any = {}
+  actualDiscount:any={}
   constructor() { }
 
   getFees(rawData: any) {
     return new Promise((res, rej) => {
       firebase.database().ref('Contracts').child('active').child(rawData.matricola).once('value', a => {
-        a.forEach(b => {
-          b.forEach(c => {
-            if (c.val().fees != null) {
-              this.actualFees = c.val().fees
-              res(c.val().fees)
-            } else {
-              res('')
+        if(a.val()!=null){
+          a.forEach(b => {
+            if(b.val()!=null){
+              b.forEach(c => {
+                if (c.val().fees != null) {
+                  this.actualFees = c.val().fees
+                  res(c.val().fees)
+                } else {
+                  this.getStdFees().subscribe(re=>{
+                    this.actualFees = re
+                    res(re)
+                  })
+                }
+              })
+            } else{
+              this.getStdFees().subscribe(re=>{
+                this.actualFees = re
+                res(re)
+              })
             }
           })
-        })
+        } else{
+          this.getStdFees().subscribe(re=>{
+            this.actualFees = re
+            res(re)
+          })
+        }
+      })
+    })
+  }
+
+  getStdFees(){
+    return new Observable(sub=>{
+      firebase.database().ref('Contracts').child('stdFees').once('value',a=>{
+        if(a.val()!=null) sub.next(a.val())
+      })
+    })
+  }
+
+  getDiscount(rawData:any){
+    return new Promise((res, rej) => {
+      firebase.database().ref('Contracts').child('active').child(rawData.matricola).once('value', a => {
+        if(a.val()!=null){
+          a.forEach(b => {
+            if(b.val()!=null){
+              b.forEach(c => {
+                if (c.val().discounts != null) {
+                  this.actualDiscount = c.val().discounts
+                  res(c.val().discounts)
+                } else {
+                  this.getStdDiscount().subscribe(re=>{
+                    this.actualDiscount = re
+                    res(re)
+                  })
+                }
+              })
+            } else{
+              this.getStdDiscount().subscribe(re=>{
+                this.actualDiscount = re
+                res(re)
+              })
+            }
+          })
+        } else{
+          this.getStdDiscount().subscribe(re=>{
+            this.actualDiscount = re
+            res(re)
+          })
+        }
+      })
+    })
+  }
+
+  getStdDiscount(){
+    return new Observable(sub=>{
+      firebase.database().ref('Contracts').child('stdDiscount').once('value',a=>{
+        if(a.val()!=null) sub.next(a.val())
       })
     })
   }
 
   async generateBalance(rawData: any) {
     await this.getFees(rawData)
-
+    await this.getDiscount(rawData)
     return new Promise((res, rej) => {
       let custC = new Observable(sub => {
         firebase.database().ref('MOL').child(rawData.matricola).once('value').then(a => {
@@ -245,8 +313,8 @@ export class GetBalanceDataService {
         }
         if (spv) {
           items['_ite' + check] = 'SPESE VIAGGIO'
-          items['_qty' + check] = 1
           items['_llp' + check] = spv
+          items['_qty' + check] = 1
           check++
         }
         if (km) {
@@ -281,22 +349,34 @@ export class GetBalanceDataService {
           if (s != '') s = s.split(' - ')
           items.subscribe((i: any) => {
             macItNr.subscribe((m: any) => {
-              console.log(this.actualFees)
+              let splitAir = this.actualDiscount['air transport'].split('% + ')
+              let transAirP:number = parseFloat(splitAir[0])
+              let transAirF:number = parseFloat(splitAir[1])
+              let splitTruck = this.actualDiscount['truck transport'].split('% + ')
+              let transTruckP:number = parseFloat(splitTruck[0])
+              let transTruckF:number = parseFloat(splitTruck[1])
               let info: any = {
-                custCode: r,
-                data: rawData.data11,
-                docBPCS: rawData.docbpcs,
-                shipTo1: rawData.cliente11,
-                shipTo2: s[0] ? s[0] : '',
-                shipTo3: s[1] ? s[1] : '',
-                shipTo4: s[2] ? s[2] : '',
-                customer1: rawData.cliente11,
-                customer2: rawData.cliente12,
-                customer3: rawData.cliente13,
-                yourRef: rawData.vsordine ? rawData.vsordine : '',
-                ourRef: '',
-                terms: '',
-                rig: rawData.prodotto1 + ' s.n. ' + rawData.matricola + (m != '' ? ' (' + m.toString().substring(0, 4) + '.' + m.toString().substring(4, 8) + '.' + m.toString().substring(8, 10) + ')' : ''),
+                a100custCode: r,
+                a110data: rawData.data11,
+                a120docBPCS: rawData.docbpcs,
+                a130shipTo1: rawData.cliente11,
+                a140shipTo2: s[0] ? s[0] : '',
+                a150shipTo3: s[1] ? s[1] : '',
+                a160shipTo4: s[2] ? s[2] : '',
+                a170customer1: rawData.cliente11,
+                a180customer2: rawData.cliente12,
+                a190customer3: rawData.cliente13,
+                a200yourRef: rawData.vsordine ? rawData.vsordine : '',
+                a210ourRef: '',
+                a220terms: '',
+                a230rig: rawData.prodotto1 + ' s.n. ' + rawData.matricola + (m != '' ? ' (' + m.toString().substring(0, 4) + '.' + m.toString().substring(4, 8) + '.' + m.toString().substring(8, 10) + ')' : ''),
+                __psdDiscount:this.actualDiscount['PSD Discount']?this.actualDiscount['PSD Discount']:'0',
+                __rdtDiscount:this.actualDiscount['RDT Discount']?this.actualDiscount['RDT Discount']:'0',
+                __transAirF: transAirF,
+                __transAirP: transAirP,
+                __transTruckF: transTruckF,
+                __transTruckP: transTruckP,
+                __type:'Air',
               }
               Object.keys(i).forEach(it => {
                 info[it] = i[it]
