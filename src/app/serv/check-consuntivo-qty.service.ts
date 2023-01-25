@@ -12,7 +12,11 @@ export class CheckConsuntivoQtyService {
       for(let i =0;i<21;i++){
         const llp = fg.get('_llp'+i)?.value
         const qty = fg.get('_qty'+i)?.value
-        if((llp>0 && (qty<1 || qty==''))||((llp<=0 || llp=='') && qty>0)) {
+        if(llp=='' && qty=='') {
+          return null
+        }
+        if(((llp!='' && llp>0) && (qty<1 || qty==''))||((llp<=0 || llp=='') && (qty=='' && qty>0))) {
+          console.log(llp,qty)
           if(llp=='' || llp<=0) fg.get('_llp'+i)?.setErrors({qtyMismath:true})
           if(qty=='' || qty<=0) fg.get('_qty'+i)?.setErrors({qtyMismath:true})
           return {qtyMismath:true}
