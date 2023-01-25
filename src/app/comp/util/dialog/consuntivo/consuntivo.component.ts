@@ -5,6 +5,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors,
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { machineLearning } from 'firebase-admin';
 import firebase from 'firebase/app';
+import * as moment from 'moment-timezone';
 import { Observable } from 'rxjs';
 import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service';
 import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
@@ -99,7 +100,11 @@ export class ConsuntivoComponent implements OnInit {
         /**/let downloadURL=URL.createObjectURL(blob)
         var link = document.createElement('a')
         link.href = downloadURL
-        link.download = this.mask.controls.a230rig.value + ' - ' + this.mask.controls.a170customer1.value + ".pdf"
+        let date = this.mask.controls.a110data.value
+        let d = date.substring(0,2)
+        let m = date.substring(3,5)
+        let y = date.substring(6,10)
+        link.download = `${this.mask.controls.a120docBPCS.value} - ${y}${m}${d} - ${this.mask.controls.a230rig.value} - ${this.mask.controls.a170customer1.value}.pdf`
         link.click()
         dia.close()
       } else {
