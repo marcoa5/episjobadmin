@@ -6,21 +6,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { machineLearning } from 'firebase-admin';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
+import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service';
 import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { environment } from 'src/environments/environment';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { GenericComponent } from '../generic/generic.component';
 import { ImportpartsComponent } from '../importparts/importparts.component';
-
-
-/*const checkQ: ValidatorFn = (fg: FormGroup, i:number) => {
-  const start = fg.get('rangeStart').value;
-  const end = fg.get('rangeEnd').value;
- return start !== null && end !== null && start < end 
-   ? null 
-   : { range: true };
-}*/
 
 @Component({
   selector: 'episjob-consuntivo',
@@ -37,8 +29,8 @@ export class ConsuntivoComponent implements OnInit {
   selectedType:any
   mask!:FormGroup
   buttons:any[]=[]
-  constructor(private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
-    this.mask= fb.group({})
+  constructor(private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
+    this.mask=fb.group({},{validators:check.checkQ()})
   }
 
   ngOnInit(): void {
@@ -51,15 +43,16 @@ export class ConsuntivoComponent implements OnInit {
     }
     this.keys= Object.keys(this.data.data)    
     let index:number=1
+    let decimal=/^-?\d*[.,]?\d{0,2}$/
     for(let r=1;r<=20;r++){
       this.items.push({name: '_pnr'+r,row:'r'+r, col:'c'+1,val: '', label:'p/n'})
       this.mask.addControl('_pnr'+r,new FormControl(''))
       this.items.push({name: '_ite'+r,row:'r'+r, col:'c'+2,val: '', label:'Description'})
       this.mask.addControl('_ite'+r,new FormControl(''))
       this.items.push({name: '_llp'+r,row:'r'+r, col:'c'+3,val: '', label:'List Price'})
-      this.mask.addControl('_llp'+r,new FormControl(''))
+      this.mask.addControl('_llp'+r,new FormControl('', Validators.pattern(decimal)))
       this.items.push({name: '_qty'+r,row:'r'+r, col:'c'+4,val: '', label:'Qty'})
-      this.mask.addControl('_qty'+r,new FormControl(''))  ////HERE
+      this.mask.addControl('_qty'+r,new FormControl('', [Validators.pattern(decimal)]))  ////HERE
     }
     this.keys.forEach(k=>{
       if(k.substring(0,2)=='__'){
@@ -102,7 +95,12 @@ export class ConsuntivoComponent implements OnInit {
     this.http.post(environment.url + 'consuntivo',this.mask.value,{responseType:'arraybuffer'}).subscribe((o:any)=>{
       if(o){
         const blob = new Blob([o], { type: 'application/pdf' });
-        let w = window.open(URL.createObjectURL(blob),'_blank')
+        //let w = window.open(URL.createObjectURL(blob),'_blank')
+        let downloadURL=URL.createObjectURL(blob)
+        var link = document.createElement('a')
+        link.href = downloadURL
+        link.download = this.mask.controls.a230rig.value + ' - ' + this.mask.controls.a170customer1.value + ".pdf"
+        link.click()
         dia.close()
       } else {
         dia.close()

@@ -74,5 +74,5 @@
     <button mat-raised-button color="primary" (click)="onNoClick()">Cancel</button>
     <button mat-raised-button color="primary" (click)="reset()">Reset</button>
     <button mat-raised-button color="primary" (click)="loadParts()">Load Parts</button>
-    <button mat-raised-button color="primary" (click)="send()">Generate PDF</button>
+    <button mat-raised-button color="primary" [disabled]="mask.invalid" (click)="send()">Generate PDF</button>
 </div>
