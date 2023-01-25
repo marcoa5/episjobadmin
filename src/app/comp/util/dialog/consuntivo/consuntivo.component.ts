@@ -95,12 +95,12 @@ export class ConsuntivoComponent implements OnInit {
     this.http.post(environment.url + 'consuntivo',this.mask.value,{responseType:'arraybuffer'}).subscribe((o:any)=>{
       if(o){
         const blob = new Blob([o], { type: 'application/pdf' });
-        let w = window.open(URL.createObjectURL(blob),'_blank')
-        /*let downloadURL=URL.createObjectURL(blob)
+        //let w = window.open(URL.createObjectURL(blob),'_blank')
+        /**/let downloadURL=URL.createObjectURL(blob)
         var link = document.createElement('a')
         link.href = downloadURL
         link.download = this.mask.controls.a230rig.value + ' - ' + this.mask.controls.a170customer1.value + ".pdf"
-        link.click()*/
+        link.click()
         dia.close()
       } else {
         dia.close()
