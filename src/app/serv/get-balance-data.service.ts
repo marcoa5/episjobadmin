@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import firebase from 'firebase/app'
+import * as moment from 'moment';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -357,7 +358,7 @@ export class GetBalanceDataService {
               let transTruckF:number = parseFloat(splitTruck[1])
               let info: any = {
                 a100custCode: r,
-                a110data: rawData.data11,
+                a110data: moment(new Date()).format('DD/MM/YYYY'),
                 a120docBPCS: rawData.docbpcs,
                 a130shipTo1: rawData.cliente11,
                 a140shipTo2: s[0] ? s[0] : '',
