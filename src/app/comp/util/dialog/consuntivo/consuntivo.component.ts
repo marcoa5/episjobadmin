@@ -1,14 +1,26 @@
+import { HttpClient } from '@angular/common/http';
 import { summaryFileName } from '@angular/compiler/src/aot/util';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { machineLearning } from 'firebase-admin';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { environment } from 'src/environments/environment';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { GenericComponent } from '../generic/generic.component';
 import { ImportpartsComponent } from '../importparts/importparts.component';
+
+
+/*const checkQ: ValidatorFn = (fg: FormGroup, i:number) => {
+  const start = fg.get('rangeStart').value;
+  const end = fg.get('rangeEnd').value;
+ return start !== null && end !== null && start < end 
+   ? null 
+   : { range: true };
+}*/
 
 @Component({
   selector: 'episjob-consuntivo',
@@ -25,7 +37,7 @@ export class ConsuntivoComponent implements OnInit {
   selectedType:any
   mask!:FormGroup
   buttons:any[]=[]
-  constructor(private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
+  constructor(private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask= fb.group({})
   }
 
@@ -47,11 +59,7 @@ export class ConsuntivoComponent implements OnInit {
       this.items.push({name: '_llp'+r,row:'r'+r, col:'c'+3,val: '', label:'List Price'})
       this.mask.addControl('_llp'+r,new FormControl(''))
       this.items.push({name: '_qty'+r,row:'r'+r, col:'c'+4,val: '', label:'Qty'})
-      this.mask.addControl('_qty'+r,new FormControl(''))
-      /*this.items.push({name: '_dis'+r,row:'r'+r, col:'c'+5,val: ''})
-      this.mask.addControl('_dis'+r,new FormControl(''))
-      this.items.push({name: '_tra'+r,row:'r'+r, col:'c'+6,val: ''})
-      this.mask.addControl('_tra'+r,new FormControl(''))*/
+      this.mask.addControl('_qty'+r,new FormControl(''))  ////HERE
     }
     this.keys.forEach(k=>{
       if(k.substring(0,2)=='__'){
@@ -87,6 +95,19 @@ export class ConsuntivoComponent implements OnInit {
 
 
   send(){
+    let dia=this.dialog.open(GenericComponent,{data:{msg:'Generating pdf...'}})
+    setTimeout(() => {
+      dia.close()
+    }, 10000);
+    this.http.post(environment.url + 'consuntivo',this.mask.value,{responseType:'arraybuffer'}).subscribe((o:any)=>{
+      if(o){
+        const blob = new Blob([o], { type: 'application/pdf' });
+        let w = window.open(URL.createObjectURL(blob),'_blank')
+        dia.close()
+      } else {
+        dia.close()
+      }
+    })
     this.dialogRef.close(this.mask.value)
   }
 
@@ -238,5 +259,5 @@ export class ConsuntivoComponent implements OnInit {
     }
   
   }
-
+  
 }

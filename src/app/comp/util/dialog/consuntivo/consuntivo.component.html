@@ -12,11 +12,11 @@
         <div class="conditions">
             <mat-form-field floatLabel="always">
                 <mat-label>Parts Discount</mat-label>
-                <input matInput formControlName="__psdDiscount" type="text" autocomplete="off">
+                <input matInput formControlName="__psdDiscount" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>
             <mat-form-field floatLabel="always">
                 <mat-label>RDT Discount</mat-label>
-                <input matInput formControlName="__rdtDiscount" type="text" autocomplete="off">
+                <input matInput formControlName="__rdtDiscount" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>
             <mat-form-field>
                 <mat-label>Transport type</mat-label>
@@ -27,19 +27,19 @@
             </mat-form-field>
             <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value=='Air'?'inline':'none'}">
                 <mat-label>Air Transport (fix)</mat-label>
-                <input matInput formControlName="__transAirF" type="text" autocomplete="off">
+                <input matInput formControlName="__transAirF" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field> 
             <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value=='Air'?'inline':'none'}">
                 <mat-label>Air Transport (%)</mat-label>
-                <input matInput formControlName="__transAirP" type="text" autocomplete="off">
+                <input matInput formControlName="__transAirP" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>
             <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value!='Air'?'inline':'none'}">
                 <mat-label>Truck Transport (fix)</mat-label>
-                <input matInput formControlName="__transTruckF" type="text" autocomplete="off">
+                <input matInput formControlName="__transTruckF" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field> 
             <mat-form-field floatLabel="always" [ngStyle]="{'display':mask.controls.__type.value!='Air'?'inline':'none'}">
                 <mat-label>Truck Transport (%)</mat-label>
-                <input matInput formControlName="__transTruckP" type="text" autocomplete="off">
+                <input matInput formControlName="__transTruckP" type="text" autocomplete="off" (input)="inputData()">
             </mat-form-field>
         </div>
         <h4>Quotation Lines</h4>
