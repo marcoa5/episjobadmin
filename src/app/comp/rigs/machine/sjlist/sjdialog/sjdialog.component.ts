@@ -4,10 +4,8 @@ import firebase from 'firebase/app'
 import { ConsuntivoComponent } from 'src/app/comp/util/dialog/consuntivo/consuntivo.component';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { HttpClient } from '@angular/common/http'
-import { generate, Observable } from 'rxjs';
-import { NewcustComponent } from 'src/app/comp/customers/newcust/newcust.component';
+import {  Observable } from 'rxjs';
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
-import { environment } from 'src/environments/environment';
 import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
 import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 
@@ -19,10 +17,12 @@ import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 export class SjdialogComponent implements OnInit {
   dataBalance:any
   balanceExists:boolean=false
+  large:boolean=false
   constructor(private sendBalance:SendbalanceService, private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
     this.checkBalance()
+    this.onResize()
   }
 
   onNoClick(){
@@ -41,10 +41,10 @@ export class SjdialogComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    if(window.innerWidth<500) {
-      return true
+    if(window.innerWidth<700) {
+      this.large=false
     } else {
-      return false
+      this.large=true
     }
   }
 
@@ -70,18 +70,8 @@ export class SjdialogComponent implements OnInit {
       wait.close()
       res.___path=this.data.path
       res.___sn=this.data.matricola
-      console.log(res)
       let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, panelClass:'consuntivo', data:{data:res}})
     })
-  }
-
-  getBalance(){
-    if(this.onResize()){
-      return 'Balance'
-    } else {
-      if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') return 'Edit Balance'
-      return 'Generate Balance' 
-    }
   }
 
   checkBalance(){

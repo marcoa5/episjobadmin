@@ -1,19 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { summaryFileName } from '@angular/compiler/src/aot/util';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { machineLearning } from 'firebase-admin';
 import firebase from 'firebase/app';
-import * as moment from 'moment-timezone';
 import { Observable } from 'rxjs';
-import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service';
-import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
+import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service'
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { SendbalanceService } from 'src/app/serv/sendbalance.service';
-import { environment } from 'src/environments/environment';
 import { ConfirmComponent } from '../confirm/confirm.component';
-import { GenericComponent } from '../generic/generic.component';
 import { ImportpartsComponent } from '../importparts/importparts.component';
 
 @Component({

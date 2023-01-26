@@ -9,9 +9,9 @@
         <h4>{{data.cantiere1}}</h4>
         <h4>Actions:</h4>  
         <div class="butCont">
-            <button mat-raised-button color="primary" (click)="download(data.filename)">Dowload SJ</button>
-            <button mat-raised-button color="primary" *ngIf="chPos('AdminRights')" (click)="balance()">Edit Balance</button>  
-            <button mat-raised-button color="primary" *ngIf="chPos('AdminRights') && balanceExists" (click)="downloadBalance()">Download Balance</button>  
+            <button mat-raised-button color="primary" (click)="download(data.filename)" matTooltip="Download Service Job">Dowload SJ</button>
+            <button mat-raised-button color="primary" *ngIf="chPos('AdminRights') && large" (click)="balance()" matTooltip="Edit Balance">Edit Balance</button>  
+            <button mat-raised-button color="primary" *ngIf="chPos('AdminRights') && balanceExists" (click)="downloadBalance()" matTooltip="Download Balance">{{large?'Download Balance':'DL Balance'}}</button>  
         </div>
     </div>
     <div class="reportCont">

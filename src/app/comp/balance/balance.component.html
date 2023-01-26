@@ -2,21 +2,27 @@
 <div class="cont" episjobCont *ngIf="allow && !allSpin">
     <div class="cardCont">
         <div *ngFor="let b of balanceList | balancefilter: filtro" class="card" [class.mat-elevation-z2]="true">
-            <p>SJ nr: {{b.a120docBPCS}}</p>
-            <p>{{b.a170customer1}}</p>
-            <p>{{b.___sn}}</p>
-            <div class="action">
-                <mat-icon (click)="edit(b)" matTooltip="Edit Balance">edit</mat-icon>    
-                <mat-icon (click)="pdf(b)" matTooltip="Export PDF">picture_as_pdf</mat-icon>
-            </div>
-            
+            <div class="title">
+                <div class="text">SJ nr: {{b.a120docBPCS}}</div>
+            </div> 
+            <div class="content">
+                <div class="text">{{b.a170customer1}}</div>
+                <div class="text">{{b.___sn}}</div>
+                <div class="action">
+                    <mat-icon *ngIf="large" (click)="edit(b)" matTooltip="Edit Balance">edit</mat-icon>    
+                    <mat-icon (click)="pdf(b)" matTooltip="Export PDF">picture_as_pdf</mat-icon>
+                    <mat-icon (click)="delete(b)" matTooltip="Delete Balance">delete</mat-icon>
+                </div>
+            </div>  
         </div>  
     </div>
     
 </div>
 <div class="cont" episjobCont *ngIf="!allow && !allSpin">
-    <p>Restricted area</p>
+    <div>Restricted area</div>
 </div>
 <div class="cont" episjobCont *ngIf="allSpin">
     <episjob-spin></episjob-spin>
 </div>
+
+<episjob-editdelbut [balance]="true" (addBal)="addBalance()"></episjob-editdelbut>

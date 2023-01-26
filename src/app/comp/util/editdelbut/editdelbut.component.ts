@@ -42,6 +42,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() valore:string=''
   @Input() addP:boolean=false
   @Input() parts:boolean=false
+  @Input() balance:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -53,6 +54,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() expCon=new EventEmitter()
   @Output() addCon=new EventEmitter()
   @Output() newPriceL=new EventEmitter()
+  @Output() addBal=new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -181,5 +183,9 @@ export class EditdelbutComponent implements OnInit {
 
   addPriceList(){
     this.newPriceL.emit('')
+  }
+
+  addBalance(){
+    this.addBal.emit('blanace')
   }
 }

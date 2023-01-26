@@ -176,7 +176,8 @@ import { NewpricelistComponent } from './comp/pricing/newpricelist/newpricelist.
 import { ConsuntivoComponent } from './comp/util/dialog/consuntivo/consuntivo.component';
 import { ConfirmComponent } from './comp/util/dialog/confirm/confirm.component';
 import { BalanceComponent } from './comp/balance/balance.component';
-import { BalancefilterPipe } from './pipe/balancefilter.pipe'
+import { BalancefilterPipe } from './pipe/balancefilter.pipe';
+import { BalancefromsjComponent } from './comp/util/dialog/balancefromsj/balancefromsj.component'
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -333,7 +334,8 @@ export const MY_FORMATS = {
     ConsuntivoComponent,
     ConfirmComponent,
     BalanceComponent,
-    BalancefilterPipe
+    BalancefilterPipe,
+    BalancefromsjComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
