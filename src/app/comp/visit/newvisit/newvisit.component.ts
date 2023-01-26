@@ -18,6 +18,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { NewdataComponent } from '../../util/dialog/newdata/newdata.component';
 import { MatStepper } from '@angular/material/stepper';
 import { CheckwidthService } from 'src/app/serv/checkwidth.service';
+import { environment } from 'src/environments/environment';
 
 export interface customer{
   id: string|undefined,
@@ -252,6 +253,7 @@ export class NewvisitComponent implements OnInit {
         if(a){
           firebase.database().ref('CustomerC').child(newCustomer.id!).set(newCustomer)
           .then(()=>{
+            firebase.database().ref('Updates').child('Custupd').set(moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss'))
             this.customers.push(newCustomer)
             this.customers.sort((a:any,b:any)=>{
               if(a.c1>b.c1) return 1
