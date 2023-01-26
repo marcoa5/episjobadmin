@@ -1,4 +1,4 @@
-  <episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
+<episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
 <div *ngIf="allow && !allSpin" episjobCont>
   <div [ngClass]="{'panel':searchEmpty,'panelShort':!searchEmpty}"></div>
   <div *ngIf="start>-1" class="el">

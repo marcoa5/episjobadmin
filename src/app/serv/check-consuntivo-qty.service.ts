@@ -16,7 +16,6 @@ export class CheckConsuntivoQtyService {
           return null
         }
         if(((llp!='' && llp>0) && (qty<1 || qty==''))||((llp<=0 || llp=='') && (qty=='' && qty>0))) {
-          console.log(llp,qty)
           if(llp=='' || llp<=0) fg.get('_llp'+i)?.setErrors({qtyMismath:true})
           if(qty=='' || qty<=0) fg.get('_qty'+i)?.setErrors({qtyMismath:true})
           return {qtyMismath:true}

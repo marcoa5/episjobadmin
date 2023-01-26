@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service';
 import { GetPotYearService } from 'src/app/serv/get-pot-year.service';
 import { GetquarterService } from 'src/app/serv/getquarter.service';
+import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 import { environment } from 'src/environments/environment';
 import { ConfirmComponent } from '../confirm/confirm.component';
 import { GenericComponent } from '../generic/generic.component';
@@ -30,7 +31,7 @@ export class ConsuntivoComponent implements OnInit {
   selectedType:any
   mask!:FormGroup
   buttons:any[]=[]
-  constructor(private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
+  constructor(private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask=fb.group({},{validators:check.checkQ()})
   }
 
@@ -56,7 +57,8 @@ export class ConsuntivoComponent implements OnInit {
       this.mask.addControl('_qty'+r,new FormControl('', [Validators.pattern(decimal)]))  ////HERE
     }
     this.keys.forEach(k=>{
-      if(k.substring(0,2)=='__'){
+      if(k.substring(0,2)=='___'){
+      }else if(k.substring(0,2)=='__'){
         if(k.substring(0,5)=='__RDT'){
           this.mask.controls[k].setValue(this.data.data[k])
         } else {
@@ -87,33 +89,11 @@ export class ConsuntivoComponent implements OnInit {
     this.dialogRef.close()
   }
 
-
   send(){
-    let dia=this.dialog.open(GenericComponent,{data:{msg:'Generating pdf...'}})
-    setTimeout(() => {
-      dia.close()
-    }, 10000);
-    this.http.post(environment.url + 'consuntivo',this.mask.value,{responseType:'arraybuffer'}).subscribe((o:any)=>{
-      if(o){
-        const blob = new Blob([o], { type: 'application/pdf' });
-        //let w = window.open(URL.createObjectURL(blob),'_blank')
-        /**/let downloadURL=URL.createObjectURL(blob)
-        var link = document.createElement('a')
-        link.href = downloadURL
-        let date = this.mask.controls.a110data.value
-        let d = date.substring(0,2)
-        let m = date.substring(3,5)
-        let y = date.substring(6,10)
-        link.download = `${this.mask.controls.a120docBPCS.value} - ${y}${m}${d} - ${this.mask.controls.a230rig.value} - ${this.mask.controls.a170customer1.value}.pdf`
-        link.click()
-        dia.close()
-      } else {
-        dia.close()
-      }
-    })
+    this.sendbalance.send(this.mask.value)
     this.dialogRef.close(this.mask.value)
   }
-
+  
   checkPrice(e:any, name:string){
     if(name.substring(0,4)=='_pnr'){
       let val:string=e.target.value
@@ -142,7 +122,9 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   inputData(){
-    firebase.database().ref('Balance').child(this.data.sn).child(this.data.path).set(this.mask.value)
+    let path:string=this.data.data.___path
+    let sn:string=this.data.data.___sn
+    firebase.database().ref('Balance').child(sn).child(path).set(this.mask.value)
   }
 
   loadParts(){
@@ -242,13 +224,16 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   reset(){
+    let path:string=this.data.path?this.data.path:this.data.data.___path
+    let sn:string=this.data.sn?this.data.sn:this.data.data.___sn
     let dia = this.dialog.open(ConfirmComponent, {data:{msg: 'Clear data?', title: 'Clear'}})
     dia.afterClosed().subscribe(res=>{
       if(res){
         console.log(res)
-        firebase.database().ref('Balance').child(this.data.sn).child(this.data.path).remove()
+        firebase.database().ref('Balance').child(sn).child(path).remove()
         .then(()=>{
           location.reload()
+          this.dialogRef.close()
         })
       }
     })

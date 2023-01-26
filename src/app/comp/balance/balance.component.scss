@@ -1,0 +1,33 @@
+@import '../../../epi.scss';
+
+.cardCont{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+    gap:15px;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    padding: 10px;
+    border-radius: 5%;
+    overflow:hidden;
+}
+
+.action{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+p{
+    text-align:center;
+}
+
+mat-icon{
+    cursor: pointer;
+}

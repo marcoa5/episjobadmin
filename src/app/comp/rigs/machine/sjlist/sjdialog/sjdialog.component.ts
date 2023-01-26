@@ -9,6 +9,7 @@ import { NewcustComponent } from 'src/app/comp/customers/newcust/newcust.compone
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
 import { environment } from 'src/environments/environment';
 import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.component';
+import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 
 @Component({
   selector: 'episjob-sjdialog',
@@ -17,9 +18,11 @@ import { GenericComponent } from 'src/app/comp/util/dialog/generic/generic.compo
 })
 export class SjdialogComponent implements OnInit {
   dataBalance:any
-  constructor(private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+  balanceExists:boolean=false
+  constructor(private sendBalance:SendbalanceService, private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
+    this.checkBalance()
   }
 
   onNoClick(){
@@ -63,9 +66,12 @@ export class SjdialogComponent implements OnInit {
         }
       })
     })
-    .subscribe(res=>{
+    .subscribe((res:any)=>{
       wait.close()
-      let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, panelClass:'consuntivo', data:{data:res,sn:this.data.matricola,path:this.data.path}})
+      res.___path=this.data.path
+      res.___sn=this.data.matricola
+      console.log(res)
+      let dia = this.dialog.open(ConsuntivoComponent, {disableClose:true, panelClass:'consuntivo', data:{data:res}})
     })
   }
 
@@ -76,6 +82,19 @@ export class SjdialogComponent implements OnInit {
       if(this.data.balance!=undefined && this.data.balance!=null && this.data.balance!='') return 'Edit Balance'
       return 'Generate Balance' 
     }
+  }
+
+  checkBalance(){
+    firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
+      if(info.val()!=null) this.balanceExists=true
+    })
+  }
+  downloadBalance(){
+    firebase.database().ref('Balance').child(this.data.matricola).child(this.data.path).once('value',info=>{
+      if(info.val()!=null) {
+        this.sendBalance.send(info.val())
+      }
+    })
   }
 
 }

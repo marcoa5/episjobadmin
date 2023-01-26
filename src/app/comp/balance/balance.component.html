@@ -1,0 +1,22 @@
+<episjob-navbar title="Balance" (filter)="filter($event)"></episjob-navbar>
+<div class="cont" episjobCont *ngIf="allow && !allSpin">
+    <div class="cardCont">
+        <div *ngFor="let b of balanceList | balancefilter: filtro" class="card" [class.mat-elevation-z2]="true">
+            <p>SJ nr: {{b.a120docBPCS}}</p>
+            <p>{{b.a170customer1}}</p>
+            <p>{{b.___sn}}</p>
+            <div class="action">
+                <mat-icon (click)="edit(b)" matTooltip="Edit Balance">edit</mat-icon>    
+                <mat-icon (click)="pdf(b)" matTooltip="Export PDF">picture_as_pdf</mat-icon>
+            </div>
+            
+        </div>  
+    </div>
+    
+</div>
+<div class="cont" episjobCont *ngIf="!allow && !allSpin">
+    <p>Restricted area</p>
+</div>
+<div class="cont" episjobCont *ngIf="allSpin">
+    <episjob-spin></episjob-spin>
+</div>
