@@ -21,6 +21,7 @@ export class BalanceComponent implements OnInit {
   allow:boolean=true
   allSpin:boolean=true
   large:boolean=false
+  rigs:any[]=[]
   balanceList:any[]=[]
   constructor(private balance:GetBalanceDataService,  private sendBalance:SendbalanceService, private auth:AuthServiceService, private dialog:MatDialog) { }
 
@@ -32,9 +33,14 @@ export class BalanceComponent implements OnInit {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.allow=this.auth.allow('TechAdmin',a.Pos)
+      }),
+      this.auth._fleet.subscribe(a=>{
+        if(a) {
+          this.rigs=a
+          this.loadBalance()
+        }
       })
     )
-    this.loadBalance()
   }
 
   loadBalance(){
@@ -44,7 +50,10 @@ export class BalanceComponent implements OnInit {
         a.forEach(b=>{
           if(b.val()!=null){
             b.forEach(c=>{
+              let index:number=this.rigs.map(a=>{return a.sn}).indexOf(b.key)
               let temp:any=c.val()
+              console.log(c.val())
+              temp.___model=this.rigs[index].model
               temp.___sn=b.key
               temp.___path=c.key
               this.balanceList.push(temp)
