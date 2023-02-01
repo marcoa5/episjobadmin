@@ -29,6 +29,7 @@ export interface hrsLabel {
   value: any
   click: any
   url: any
+  miniIco?: any
 }
    
 export interface output {
@@ -153,21 +154,26 @@ export class MachineComponent implements OnInit {
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
         this._rigLabels=[
-          {value:this.valore, lab:'Serial Nr.',click:'',url:''},
-          {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':''},
+          {value:this.valore, lab:'Serial Nr.',click:'',url:'', miniIco:'tag'},
+          {value:this.customer, lab:'Customer',click: (this.pos!='sales')? this.id:'',url: this.pos!='sales'?'cliente':'', miniIco:'person'},
         ]
-        if(this.site!='') this._rigLabels.push({value:this.site, lab:'Site',click:'',url:''})
-        if(this.in) this._rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:''})
+        if(this.site!='') this._rigLabels.push({value:this.site, lab:'Site',click:'',url:'', miniIco:'location_on'})
+        if(this.in) this._rigLabels.splice(1,0,{value: this.in, lab:'Part Nr.',click:'', url:'', miniIco:'tag'})
         
         if(this.data[0] && this.data[0].y=='c' && this.data[0]!=undefined) {
-          this._rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:''})
+          this._rigLabels.push({value:moment(this.data[0].x).format("DD/MM/YYYY"), lab:'Commissioning Date',click:'',url:'', miniIco:'event'})
           this.showAdd=false
         }
         if(this.pos!='customer'){
           this.shipToInfo().then((b:any)=>{
             if(Object.keys(b).length>0){
               Object.keys(b).forEach(a=>{
-                this._rigLabels.push({lab: a, value:b[a],click:'',url:''})
+                console.log(a)
+                if(a.substring(0,9)=='Ship To c') {
+                  this._rigLabels.push({lab: a, value:b[a],click:'',url:'', miniIco:'person'})
+                } else if(a=='Ship To Address') {
+                  this._rigLabels.push({lab: a, value:b[a],click:'',url:'', miniIco:'map'})
+                }
                 this.rigLabels=this._rigLabels
               })
             } else{
@@ -193,7 +199,8 @@ export class MachineComponent implements OnInit {
         value:moment(this.data[this.data.length-1].x).format('DD/MM/YYYY'),
         lab: 'Last Read',
         click:'',
-        url:''
+        url:'',
+        miniIco: 'timer'
       })
     } 
   }
@@ -271,10 +278,10 @@ export class MachineComponent implements OnInit {
       this.avgHrs()
       if (this.data.length>0){
         this.hrsLabels=[  
-          {value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
-          {value:this.impAvg && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
-          {value:this.impAvg && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
-          {value:this.impAvg && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
+          {miniIco:'timer', value:this.engAvg!=''?`${this.th(this.data[this.data.length-1].y)} ${this.engAvg}`:this.th(this.data[this.data.length-1].y),lab: 'Engine Hrs',click:'',url:''},
+          {miniIco:'timer', value:this.impAvg && (this.impAvg[1]==1||this.impAvg[1]==2||this.impAvg[1]==3)?`${this.th(this.data[this.data.length-1].y1)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y1),lab: 'Percussion 1',click:'',url:''},
+          {miniIco:'timer', value:this.impAvg && (this.impAvg[1]==3||this.impAvg[1]==2)?`${this.th(this.data[this.data.length-1].y2)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y2),lab: 'Percussion 2',click:'',url:''},
+          {miniIco:'timer', value:this.impAvg && this.impAvg[1]==3?`${this.th(this.data[this.data.length-1].y3)} ${this.impAvg[0]}`:this.th(this.data[this.data.length-1].y3),lab: 'Percussion 3',click:'',url:''}
         ]  
       }
       this.lastRead()

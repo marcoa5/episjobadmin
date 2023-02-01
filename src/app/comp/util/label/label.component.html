@@ -8,7 +8,7 @@
 </div>-->
 <div [ngClass]="{'txtcontFill':fillfit=='fill','txtcontFit':fillfit=='fit'}">
     <mat-form-field *ngFor="let h of valuesN | labFilter" (click)="open(h.click, h.url)" [ngStyle]="{'cursor':h.click =='' ? 'default' : 'pointer' }">
-        <mat-label>{{h.lab}}</mat-label>
+        <mat-label><span *ngIf="h.miniIco"><mat-icon>{{h.miniIco}}</mat-icon></span> {{h.lab}}</mat-label>
         <input matInput type="text" [value]="h.value" readonly>
     </mat-form-field> 
 </div>
