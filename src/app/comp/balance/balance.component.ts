@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import firebase from 'firebase/app'
 import { SendbalanceService } from 'src/app/serv/sendbalance.service';
@@ -10,6 +10,7 @@ import { BalancefromsjComponent } from '../util/dialog/balancefromsj/balancefrom
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
 import { sanitizeIdentifier } from '@angular/compiler';
+import { NotifService } from 'src/app/serv/notif.service';
 @Component({
   selector: 'episjob-balance',
   templateUrl: './balance.component.html',
@@ -23,7 +24,8 @@ export class BalanceComponent implements OnInit {
   large:boolean=false
   rigs:any[]=[]
   balanceList:any[]=[]
-  constructor(private balance:GetBalanceDataService,  private sendBalance:SendbalanceService, private auth:AuthServiceService, private dialog:MatDialog) { }
+  uName: string=''
+  constructor(private notif:NotifService, private balance:GetBalanceDataService,  private sendBalance:SendbalanceService, private auth:AuthServiceService, private dialog:MatDialog) { }
 
   ngOnInit(): void {
     this.onResize()
@@ -33,6 +35,7 @@ export class BalanceComponent implements OnInit {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.allow=this.auth.allow('TechAdmin',a.Pos)
+        this.uName=a.Nome + ' ' + a.Cognome
       }),
       this.auth._fleet.subscribe(a=>{
         if(a) {
@@ -52,7 +55,6 @@ export class BalanceComponent implements OnInit {
             b.forEach(c=>{
               let index:number=this.rigs.map(a=>{return a.sn}).indexOf(b.key)
               let temp:any=c.val()
-              console.log(c.val())
               temp.___model=this.rigs[index].model
               temp.___sn=b.key
               temp.___path=c.key
@@ -126,4 +128,8 @@ export class BalanceComponent implements OnInit {
     })
   }
 
+  
+
 }
+
+

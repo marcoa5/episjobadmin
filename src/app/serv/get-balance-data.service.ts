@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/app'
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { NotifService } from './notif.service';
 @Injectable({
   providedIn: 'root'
 })
 export class GetBalanceDataService {
   actualFees: any = {}
   actualDiscount:any={}
-  constructor() { }
+  constructor(private notif:NotifService) { }
 
   getFees(rawData: any) {
     return new Promise((res, rej) => {
@@ -382,6 +383,9 @@ export class GetBalanceDataService {
               Object.keys(i).forEach(it => {
                 info[it] = i[it]
               })
+              this.loadUserIds().subscribe((users:any)=>{
+                this.notif.newNotification(users,'New Balance', `New Balance for ${rawData.prodotto1} - ${rawData.matricola} (${rawData.cliente11})`,'','_newbalance','balance,{}')
+              })
               res(info)
             })
           })
@@ -390,4 +394,19 @@ export class GetBalanceDataService {
     })
   }
 
+  loadUserIds(){
+    let users:any[]=[]
+    return new Observable(sub=>{
+      firebase.database().ref('Users').once('value',a=>{
+        a.forEach(b=>{
+          if(b.val().Pos=='SU' && b.val()._newbalance=='1'){
+            if(b.key) users.push(b.key)
+          }
+        })
+      })
+      .then(()=>{
+        sub.next(users)
+      })
+    })
+  }
 }

@@ -48,7 +48,7 @@ export class CertiqHrsService {
                 })
               })
               .then(()=>{
-                this.notification.newNotification(users,'Certiq update','Running hours updated from Certiq','','_certiq','./rigs,{}')
+                this.notification.newNotification(users,'Certiq update','Running hours updated from Certiq','','_certiq','/rigs,{}')
                 res(list)
               })
             })

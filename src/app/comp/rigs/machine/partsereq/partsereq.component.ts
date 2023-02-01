@@ -36,7 +36,8 @@ export class PartsereqComponent implements OnInit {
       let params = new HttpParams()
       .set('child',this.getH.getQ(a.date))
       .set("parts",partArr.toString())
-      this.http.get(url + 'psdllp',{params:params}).subscribe(gt=>{
+      this.http.get(url + 'psdllp',{params:params})
+      .subscribe(gt=>{
         let total:any=0
         a.Parts.forEach((fr:any)=>{
           let index = Object.values(gt).map(y=>{return y.pn}).indexOf(fr.pn)
@@ -45,10 +46,9 @@ export class PartsereqComponent implements OnInit {
             fr.tot=Math.round(fr.llp * fr.qty*100)/100
             total+=fr.tot
           }
-        })
+        }),
         a.Parts['totAmount']=parseFloat(total)
       })
-      //a.date = moment(a.date).format('DD/MM/YY')
       return a
     })
     .sort((a: any, b: any) => {

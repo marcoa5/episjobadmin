@@ -36,6 +36,7 @@ export class AppComponent {
   Visit:any
   Newrig:any
   Certiq:any
+  Balance:any
   not:number=0
   spin:boolean=true
   chName:boolean=false
@@ -81,6 +82,7 @@ export class AppComponent {
           this.pos=a.Pos
           this.Newrig=a._newrig
           this.Certiq=a._certiq
+          this.Balance=a._newbalance
           firebase.database().ref('Notif').child(this.userId).on('value',a=>{
             this.not=0
             a.forEach(b=>{
@@ -153,7 +155,8 @@ export class AppComponent {
       SJ: this.SJ,
       Visit: this.Visit,
       Newrig: this.Newrig,
-      Certiq:this.Certiq
+      Certiq:this.Certiq,
+      Balance:this.Balance
     }
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
