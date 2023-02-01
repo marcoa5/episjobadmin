@@ -1,4 +1,4 @@
-<episjob-h2 data="Archive" icon="class" [showSearch]="true" padtop=0 (filter)="filter($event)"></episjob-h2>    
+<episjob-h2 [data]="'Archive (' + sortedData.length + ')'" icon="class" [showSearch]="true" padtop=0 (filter)="filter($event)"></episjob-h2>    
 <table *ngIf="sortedData.length>0" mat-table [dataSource]="sortedData" matSort (matSortChange)="sortData($event)" class="mat-elevation-z2">
     <ng-container matColumnDef="sn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> s/n </th>

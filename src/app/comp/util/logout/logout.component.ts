@@ -49,6 +49,10 @@ export class LogoutComponent implements OnInit {
   }
 
   clearCache():void{
-    localStorage.clear()
+    let user:any=localStorage.getItem('user')
+    if(user) {
+      localStorage.clear()
+      localStorage.setItem('user',user)
+    }
   }
 }

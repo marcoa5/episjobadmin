@@ -9,40 +9,48 @@
 .card{
     height: 150px;
     background-color: rgb(245,245,245);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: [first] 6fr [limit] 1fr [last];
+    grid-template-rows: [start] 1fr [limit] 4fr [end];
     border-radius: 10px;
     overflow:hidden;
 }
 
 .title{
+    grid-column: first / last;
+    grid-row: start / limit;
     background-color: $dark-text;
     color: $light-text;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    width:100%;
 }
 
 .content{
-    height: 100%;
+    grid-column: first / limit;
+    grid-row: limit / end;
     display: grid;
-    grid-template-rows: 3fr 2fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr;
     align-items: center;
     color: $dark-text;
     gap:5px;
 }
 
 .content, .title{
-    padding: 5px 15px 10px 15px;
+    padding: 5px 15px;
     width:90%;
 }
 
 .action{
+    grid-column: limit / last;
+    grid-row: limit / end;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-evenly;
+    align-items: center;
+    border-left: 1px dotted grey;
+    color: $dark-text;
 }
 
 p{
@@ -59,4 +67,6 @@ mat-icon:hover{
 
 .text{
     text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
 }
