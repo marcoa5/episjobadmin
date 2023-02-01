@@ -69,7 +69,7 @@ export class HomeComponent implements OnInit {
       icon:'receipt_long', 
       route:'balance', 
       dis:false, 
-      auth:['SU','adminS','','']
+      auth:['SU','admin','adminS','']
     },
     {
       id:'Visit',

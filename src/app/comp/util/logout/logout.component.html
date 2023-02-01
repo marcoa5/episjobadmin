@@ -1,12 +1,12 @@
-<div  *ngIf="chPos('InternalRights')" class="divid">
+<div  *ngIf="chPos('InternalRights') && chPos('AdminRights')" class="divid">
     <div>
         <h2>Notifications</h2>
         <div class="ch">
-            <div><mat-checkbox class="cb" [checked]="SJ>0" (change)="mod($event, '_sj')">SJ Notifications</mat-checkbox></div>
-            <div><mat-checkbox class="cb" [checked]="Visit>0" (change)="mod($event, '_visit')">Visit Notifications</mat-checkbox></div>
-            <div><mat-checkbox class="cb" [checked]="Newrig>0" (change)="mod($event, '_newrig')">Rig Data Notifications</mat-checkbox></div>
-            <div><mat-checkbox class="cb" [checked]="Certiq>0" (change)="mod($event, '_certiq')">Certiq Updates</mat-checkbox></div>
-            <div><mat-checkbox class="cb" [checked]="Balance>0" (change)="mod($event, '_newbalance')">Balance Notifications</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="SJ>0" (change)="mod($event, '_sj')">SJ Notifications</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Visit>0" (change)="mod($event, '_visit')">Visit Notifications</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Newrig>0" (change)="mod($event, '_newrig')">Rig Data Notifications</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('SURights')" class="cb" [checked]="Certiq>0" (change)="mod($event, '_certiq')">Certiq Updates</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Balance>0" (change)="mod($event, '_newbalance')">Balance Notifications</mat-checkbox></div>
         </div>
     </div>
     <mat-divider></mat-divider>
