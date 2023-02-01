@@ -1,8 +1,8 @@
-<div 
-class="cont" [class.cont1]="showMol || showDL || showAdd || showSort || (addSubEq && chPos('SURights')) || (addGeneral && chPos('AdminRights'))" [class.cont2]="(showSearch && !showChBox) || showLimit" [class.cont3]="showSearch && showChBox" [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
+<div class="cont"  [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
     <mat-icon *ngIf="icon!=''" (click)="download()">{{icon}}</mat-icon>
     <h2>{{data}}</h2>
-    <div class="actions">
+    <div class="spacer"></div>
+    <div class="actions" *ngIf="hideButton<2">
         <label class="container" *ngIf="showChBox">{{width()?'Only SA' : 'SA'}}
             <input type="checkbox" class="cb" #chec (change)="ch($event)">
             <span class="checkmark"></span>
@@ -24,5 +24,6 @@ class="cont" [class.cont1]="showMol || showDL || showAdd || showSort || (addSubE
             <mat-icon *ngIf="showSort" matSuffix matTooltip="Ascending/Descending" matTooltipPosition="below" (click)="sortData()">import_export</mat-icon>
         </div>  
     </div>
-    
+    <mat-icon *ngIf="hideButton==1" (click)="hideContent()" matTooltip="Collapse content">expand_less</mat-icon>
+    <mat-icon *ngIf="hideButton==2" (click)="hideContent()" matTooltip="Expand content">expand_more</mat-icon>
 </div>

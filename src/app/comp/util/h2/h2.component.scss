@@ -32,10 +32,9 @@ mat-icon{
 
 .cont{
     color: $light-text;
-    display: grid;
+    display: flex;
     align-items: center;
-    grid-template-columns: 45px 6fr;
-    grid-template-rows: 1fr;
+    gap:15px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-bottom: 15px;
@@ -43,6 +42,10 @@ mat-icon{
     background-color: $dark-text;
     overflow: hidden;
     //background-color: rgb(200, 200, 200);
+}
+
+.spacer{
+  flex-grow: 1;
 }
 
 .cont1{

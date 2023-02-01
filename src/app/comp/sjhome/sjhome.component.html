@@ -3,7 +3,7 @@
 <div episjobCont  *ngIf="!allow">Restricted Area</div>
 <div id="test"></div>
 <div episjobCont episjobContMaxWidth="1500" *ngIf="allow"> 
-    <episjob-h2 data="Actions" icon="rocket_launch" padtop=0></episjob-h2>
+    <episjob-h2 data="Actions" icon="rocket_launch" padtop=0 ></episjob-h2>
     <div class="butCont">
         <button mat-raised-button color="primary" (click)="go()">{{chW()? 'Start new request':'New'}}</button>
         <button mat-raised-button color="primary" [disabled]="sjId==''" (click)="open(sjId)">Open</button>
@@ -13,12 +13,12 @@
     </div>
     <episjob-spin *ngIf="spin && list1.length==0"></episjob-spin>
     <div *ngIf="!spin && list1.length>0">
-        <episjob-h2 icon=mark_email_read data="Drafts"></episjob-h2>
-        <episjob-jobslist [list]="list1"  (select)="select($event, 'draft')" (directopen)="open($event)"></episjob-jobslist>
+        <episjob-h2 [hideButton]="hideDraft" (hide)="hideShowDraft()" icon=mark_email_read data="Drafts"></episjob-h2>
+        <episjob-jobslist [list]="list1" *ngIf="hideDraft<2" (select)="select($event, 'draft')" (directopen)="open($event)"></episjob-jobslist>
     </div>
     <episjob-spin *ngIf="spin && listSent.length==0 && chPos('SURights')"></episjob-spin>
     <div *ngIf="!spin && listSent.length>0">
-        <episjob-h2 icon=approval data="Sent for approval"></episjob-h2>
-        <episjob-jobslist [alreadySent]=true [list]="listSent" (select)="select($event, 'sent')" (directopen)="open($event)"></episjob-jobslist>
+        <episjob-h2 [hideButton]="hideSent" icon=approval data="Sent for approval" (hide)="hideShowSent()"></episjob-h2>
+        <episjob-jobslist *ngIf="hideSent<2" [alreadySent]=true [list]="listSent" (select)="select($event, 'sent')" (directopen)="open($event)"></episjob-jobslist>
     </div>
 </div>

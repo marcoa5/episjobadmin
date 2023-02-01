@@ -33,6 +33,7 @@ export class ContractsComponent implements OnInit {
   pos:string=''
   allow:boolean=false
   allSpin:boolean=true
+  hide:number=1
   @Input() contractList:cont[]=[]
   sortedData:cont[]=[]
 
@@ -203,6 +204,15 @@ export class ContractsComponent implements OnInit {
         })
       }
     })
+  }
+
+  hideShow(){
+    if(this.hide==1) {
+      this.hide=2
+    }else if(this.hide==2) {
+      this.hide=1
+    }
+    this.filter('')
   }
 }
 

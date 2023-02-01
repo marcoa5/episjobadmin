@@ -14,6 +14,7 @@ import firebase from 'firebase/app'
 export class ArchivedcontractsComponent implements OnInit {
   sortedData:any[]=[]
   displayedColumns:string[]=[]
+  hide:number=1
   @Input() archivedList:any[]=[]
   constructor(private router:Router, private dialog:MatDialog) { }
 
@@ -97,6 +98,14 @@ export class ArchivedcontractsComponent implements OnInit {
         }
       })   
     } 
+  }
+
+  hideShow(){
+    if(this.hide==1){
+      this.hide=2
+    } else if(this.hide==2) {
+      this.hide=1
+    }
   }
 }
 

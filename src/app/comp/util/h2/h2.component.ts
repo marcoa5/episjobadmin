@@ -23,6 +23,7 @@ export class H2Component implements OnInit {
   @Input() addGeneral:boolean=false
   @Input() showChBox:boolean=false
   @Input() dlTooltip:string = 'Copy Data'
+  @Input() hideButton:number = 0
   @Output() addCD = new EventEmitter()
   @Output() mol = new EventEmitter()
   @Output() copy = new EventEmitter()
@@ -33,6 +34,7 @@ export class H2Component implements OnInit {
   @Output() down=new EventEmitter()
   @Output() checkBox=new EventEmitter()
   @Output() addGen=new EventEmitter()
+  @Output() hide=new EventEmitter()
   @ViewChild('chec') chec!:ElementRef
   subsList:Subscription[]=[]
   pos:string=''
@@ -98,5 +100,9 @@ export class H2Component implements OnInit {
 
   chPos(a:string){
     return this.auth.acc(a)
+  }
+
+  hideContent(){
+    this.hide.emit('hide')
   }
 }

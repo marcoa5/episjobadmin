@@ -37,6 +37,8 @@ export class SjhomeComponent implements OnInit {
   rigs:any[]=[]
   customers:any[]=[]
   tech:any[]=[]
+  hideDraft:number=1
+  hideSent:number=1
   constructor(private sendSJ:SendSJService ,private auth: AuthServiceService, private router:Router, private dialog: MatDialog, private http: HttpClient, private _snackBar: MatSnackBar) { }
 
   async ngOnInit() {
@@ -476,5 +478,21 @@ export class SjhomeComponent implements OnInit {
 
   chPos(a:string){
     return this.auth.acc(a)
+  }
+
+  hideShowDraft(){
+    if(this.hideDraft==1){
+      this.hideDraft=2
+    } else if(this.hideDraft==2){
+      this.hideDraft=1
+    }
+  }
+
+  hideShowSent(){
+    if(this.hideSent==1){
+      this.hideSent=2
+    } else if(this.hideSent==2){
+      this.hideSent=1
+    }
   }
 }

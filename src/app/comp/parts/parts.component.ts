@@ -36,6 +36,7 @@ export class PartsComponent implements OnInit {
   search:string=''
   spin:boolean=false
   showSent:boolean=false
+  hideSent:number=2
   subsList:Subscription[]=[]
 
 
@@ -259,5 +260,14 @@ export class PartsComponent implements OnInit {
       }
       this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
     })    
+  }
+
+  hideShowSent(){
+    if(this.hideSent==1){
+      this.hideSent=2
+    } else if(this.hideSent==2){
+      this.hideSent=1
+    }
+    this.sea('')
   }
 }
