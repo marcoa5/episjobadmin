@@ -14,6 +14,7 @@ export class LogoutComponent implements OnInit {
   Visit:any|undefined
   Newrig:any|undefined
   Certiq:any|undefined
+  Contact:any|undefined
   Balance:any|undefined
   id:string=''
   version:string=''
@@ -28,6 +29,7 @@ export class LogoutComponent implements OnInit {
     this.Newrig=this.data.Newrig
     this.Certiq=this.data.Certiq
     this.Balance=this.data.Balance
+    this.Contact=this.data.Contact
   }
 
   mod(e:any, b:string){

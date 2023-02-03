@@ -7,6 +7,7 @@
             <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Newrig>0" (change)="mod($event, '_newrig')">Rig Data Notifications</mat-checkbox></div>
             <div><mat-checkbox *ngIf="chPos('SURights')" class="cb" [checked]="Certiq>0" (change)="mod($event, '_certiq')">Certiq Updates</mat-checkbox></div>
             <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Balance>0" (change)="mod($event, '_newbalance')">Balance Notifications</mat-checkbox></div>
+            <div><mat-checkbox *ngIf="chPos('AdminRights')" class="cb" [checked]="Contact>0" (change)="mod($event, '_newcont')">Contact Notifications</mat-checkbox></div>
         </div>
     </div>
     <mat-divider></mat-divider>

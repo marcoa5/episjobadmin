@@ -10,6 +10,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { TechniciansComponent } from 'src/app/comp/technicians/technicians.component';
 import { of, Subscription } from 'rxjs';
 import { AlertComponent } from '../alert/alert.component';
+import { NotifService } from 'src/app/serv/notif.service';
 
 export interface co{
   id: string
@@ -29,8 +30,10 @@ export class NewcontactComponent implements OnInit {
   comp:any[]=[]
   contId:string=''
   rigs:any[]=[]
+  inv:boolean=false
+  nome:string=''
   subsList:Subscription[]=[]
-  constructor(private auth:AuthServiceService, private makeid:MakeidService, public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
+  constructor(private notif: NotifService, private auth:AuthServiceService, private makeid:MakeidService, public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
     this.id=data.id? data.id: data.info.id
     this.newCont=fb.group({
       id:[''],
@@ -43,9 +46,17 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newCont.valueChanges.subscribe(val=>{
+      if(val.name==this.data.info.name && val.surname==this.data.info.surname && val.phone==this.data.info.phone && val.pos==this.data.info.pos && val.mail==this.data.info.mail) {
+        this.inv=true
+      }else{
+        this.inv=false
+      }
+    })
     this.newCont.controls.id.disable()
     this.subsList.push(
-      this.auth._fleet.subscribe(a=>{if(a) this.rigs=a})
+      this.auth._fleet.subscribe(a=>{if(a) this.rigs=a}),
+      this.auth._userData.subscribe(a=>{if(a){ this.nome =a.Nome + ' ' + a.Cognome}})
     )
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name + ' ' + this.data.info.surname
@@ -98,10 +109,27 @@ export class NewcontactComponent implements OnInit {
       }else{
         firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
         .then(()=>{
+          this.sendNot(dat)
           this.dialogRef.close('created')
           this.auth.getContact()
         })
       }
+    })
+  }
+
+  sendNot(info:any){
+    let users:string[]=[]
+    firebase.database().ref('Users').once('value',a=>{
+      a.forEach(b=>{
+        if((b.val().Pos=='SU' || b.val().Pos=='Admin' || b.val().Pos=='AdminS') && b.val()._newcont=='1'){
+          if(b.key) users.push(b.key)
+        }
+      })
+    })
+    .then(()=>{
+      let str= 'New Contact added/updated'
+      let text:string='Contact "' + info.name + ' ' + info.surname + '"' + (this.data.type=='new'?' added':' updated') + ' by '+ this.nome
+      this.notif.newNotification(users,str,text ,'','_newcont', '/contacts,{}')
     })
   }
 

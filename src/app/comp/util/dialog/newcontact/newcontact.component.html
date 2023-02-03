@@ -38,7 +38,7 @@
     <button mat-raised-button color="primary" (click)="delete()" *ngIf="data.type!='new'">Delete</button>
     <button 
         mat-raised-button color="primary"
-        [disabled]="newCont.invalid"
+        [disabled]="newCont.invalid || inv"
         (click)="addContact()">
         {{data.type=='new'? 'Add' : 'Update'}}
     </button>

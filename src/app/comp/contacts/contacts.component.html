@@ -1,6 +1,6 @@
 <episjob-navbar title="Contact List" [hide]="false" (filter)="filter($event)"></episjob-navbar>
 <div episjobConttop *ngIf="allow && !allSpin">
-    <div class="panel"></div>
+    <div class="panel" [class.mat-elevation-z6]="true"></div>
     <div class="butCont">
         <mat-button-toggle-group [(ngModel)]="val" value="name,1" (click)="sortList(val)">
             <mat-button-toggle value="name,1"><mat-icon>arrow_drop_up</mat-icon>Name</mat-button-toggle>
