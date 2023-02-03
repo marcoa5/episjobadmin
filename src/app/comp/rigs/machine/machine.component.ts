@@ -168,7 +168,6 @@ export class MachineComponent implements OnInit {
           this.shipToInfo().then((b:any)=>{
             if(Object.keys(b).length>0){
               Object.keys(b).forEach(a=>{
-                console.log(a)
                 if(a.substring(0,9)=='Ship To c') {
                   this._rigLabels.push({lab: a, value:b[a],click:'',url:'', miniIco:'person'})
                 } else if(a=='Ship To Address') {

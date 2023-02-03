@@ -178,6 +178,8 @@ import { ConfirmComponent } from './comp/util/dialog/confirm/confirm.component';
 import { BalanceComponent } from './comp/balance/balance.component';
 import { BalancefilterPipe } from './pipe/balancefilter.pipe';
 import { BalancefromsjComponent } from './comp/util/dialog/balancefromsj/balancefromsj.component'
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { ConttopDirective } from './dir/conttop.directive';
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -335,11 +337,12 @@ export const MY_FORMATS = {
     ConfirmComponent,
     BalanceComponent,
     BalancefilterPipe,
-    BalancefromsjComponent
+    BalancefromsjComponent,
+    ConttopDirective
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,
-    AppRoutingModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
+    AppRoutingModule, MatButtonToggleModule, FlexLayoutModule, MatProgressSpinnerModule, MatFormFieldModule, MatInputModule, MatExpansionModule, MatCheckboxModule, MatStepperModule, MatRadioModule, MatChipsModule,
     BrowserAnimationsModule,MatToolbarModule, MatIconModule, ClipboardModule, MatButtonModule, DragDropModule, MatCardModule, MatAutocompleteModule, MatDialogModule, HttpClientModule, MatNativeDateModule, MatSnackBarModule, SignaturePadModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],

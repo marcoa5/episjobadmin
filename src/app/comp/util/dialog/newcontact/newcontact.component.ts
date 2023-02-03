@@ -48,10 +48,17 @@ export class NewcontactComponent implements OnInit {
       this.auth._fleet.subscribe(a=>{if(a) this.rigs=a})
     )
     if(this.data.info!=undefined || this.data.info!=null){
-      this.oldName=this.data.info.name
+      this.oldName=this.data.info.name + ' ' + this.data.info.surname
       this.newCont.controls.id.setValue(this.data.info.id)
-      this.newCont.controls.name.setValue(this.data.info.name)
-      this.newCont.controls.surname.setValue(this.data.info.surname)
+      if(this.data.info.name.indexOf(' ')>0) {
+        let temp = this.data.info.name.split(' ')
+        this.newCont.controls.name.setValue(temp[0])
+        this.newCont.controls.surname.setValue(temp[1])
+      } else {
+        this.newCont.controls.name.setValue(this.data.info.name)
+        this.newCont.controls.surname.setValue(this.data.info.surname)
+      }
+      
       this.newCont.controls.pos.setValue(this.data.info.pos)
       this.newCont.controls.phone.setValue(this.data.info.phone)
       this.newCont.controls.mail.setValue(this.data.info.mail)
@@ -70,8 +77,8 @@ export class NewcontactComponent implements OnInit {
   addContact(){
     if(this.data.type=='new') this.contId=this.makeid.makeId(5)
     let dat={
-      name: this.newCont.controls.name.value,
-      surname: this.newCont.controls.surname.value,
+      name: this.newCont.controls.name.value.trim(),
+      surname: this.newCont.controls.surname.value.trim(),
       pos: this.newCont.controls.pos.value,
       phone: this.newCont.controls.phone.value,
       mail: this.newCont.controls.mail.value,

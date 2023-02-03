@@ -4,9 +4,13 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px;
-    margin-right: 60px;
 }
 
+button{
+    max-height: 35px;
+    max-width: 200px;
+    width:100%;
+}
 .card{
     cursor: pointer;
     color: $dark-text;
@@ -57,7 +61,7 @@ mat-icon{
 .right{
     border:1px dashed $dark-text;
     position: fixed;
-    width: 60px;
+    width: 65px;
     height: calc(100vh - 102px);
     top:100px;
     right:0;
@@ -67,6 +71,29 @@ mat-icon{
     overflow-y: scroll;
 }
 
-button{
-    max-width: 20px;
+.butCont{
+    position: sticky;
+    top:110px;
+    background-color: white;
+    width:100% ;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    z-index: 2;
+    height: 50px;
+}
+
+mat-button-toggle-group{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    max-height: 40px;
+}
+
+.panel{
+    width:100%;
+    position: fixed;
+    height: 135px;
+    background-color: white;
+    z-index: 2;
+    top:0;left:0;
 }

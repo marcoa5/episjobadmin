@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router'
-import { auth } from 'firebase-admin';
 import firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
@@ -21,16 +20,29 @@ export class ContactsComponent implements OnInit {
   customers:any[]=[]
   alfaLow:string[]=[]
   alfaUp:string[]=[]
+  sortBut:boolean=true
+  sortBy:string='name'
+  val:any
   subsList:Subscription[]=[]
 
   constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService, private makeid: MakeidService) { 
     auth.getContact()
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if(window.innerWidth<700){
+      this.sortBut=false
+      this.sortList(this.sortBy+',1')
+    }else{
+      this.sortBut=true
+    }
+  }
+
   ngOnInit(): void {
+    this.onResize()
     this.alfaLow='abcdefghijklmnopqrstuvwxyz'.split('')
     this.alfaUp=this.alfaLow.map(l=>l.toUpperCase())
-    console.log(this.alfaLow,this.alfaUp)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos
@@ -39,11 +51,8 @@ export class ContactsComponent implements OnInit {
         }, 1);
       }),
       this.auth._contacts.subscribe((a:any[])=>{
-        this.contacts=a.sort((b:any,c:any)=>{
-          if(b.name>c.name) return 1
-          if(b.name<c.name) return -1
-          return 0
-        })
+        this.contacts=a
+        this.sortList(this.sortBy+',1')
         if(a.length>0){
           a.forEach(e => {
             firebase.database().ref('CustomerC').child(e.id).once('value',b=>{
@@ -75,6 +84,17 @@ export class ContactsComponent implements OnInit {
           this.filtro=old
         }, 0.1);
       }
+    })
+  }
+
+  sortList(value:any){
+    let by:string =value.split(',')[0]
+    let val:number =parseInt(value.split(',')[1])
+    this.sortBy=by
+    this.contacts.sort((b:any,c:any)=>{
+      if(b[by].toLowerCase()>c[by].toLowerCase()) return val
+      if(b[by].toLowerCase()<c[by].toLowerCase()) return -val
+      return 0
     })
   }
   

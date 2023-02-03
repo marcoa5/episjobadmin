@@ -8,7 +8,7 @@
             <p *ngIf="data.shipTo.address && data.shipTo.address!=''">{{data.shipTo.address}}</p>
             <h4>Contacts:</h4>
             <div *ngFor="let c of data.shipTo.cont">
-                <p>{{c.name}} ({{c.mail}})</p>
+                <p>{{c.name}} {{c.surname?c.surname:''}} ({{c.mail}})</p>
             </div>
             <p *ngIf="data.shipTo.name">{{data.shipTo.name}} ({{data.shipTo.email}})</p>
         </div>
