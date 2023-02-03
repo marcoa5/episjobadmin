@@ -2,6 +2,7 @@
 
 
 <div episjobCont (window:resize)="onResize()" *ngIf="allow && !allSpin">
+    <div class="panel"></div>
     <div class="he">
         <episjob-h2 icon="file_download" [data]="'Certiq Report'" [padtop]="0" (down)="certiq()" [showChBox]="info.length>1" (checkBox)="filt=!filt;filtra(strSea);" [showSearch]="info.length>1" (filter)="filtra($event)"></episjob-h2>
     </div>

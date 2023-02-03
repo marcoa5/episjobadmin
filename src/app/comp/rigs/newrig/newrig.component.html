@@ -39,7 +39,7 @@
                 <mat-chip-list selectable multiple>
                     <mat-spinner diameter=20 *ngIf="spin" color="accent" class="spin"></mat-spinner>
                     <mat-chip #c="matChip" *ngFor="let e of custCon" [value]="e" (click)="select(c, e)" [selected]=chSel(c,e)>
-                        {{e.name}}
+                        {{e.name}} {{e.surname?e.surname:''}}
                     </mat-chip>
                     <mat-chip (click)="addCon()"><mat-icon>control_point</mat-icon>Add new Contact</mat-chip>
                 </mat-chip-list>

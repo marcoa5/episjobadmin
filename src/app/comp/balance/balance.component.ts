@@ -11,6 +11,7 @@ import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
 import { sanitizeIdentifier } from '@angular/compiler';
 import { NotifService } from 'src/app/serv/notif.service';
+import * as moment from 'moment';
 @Component({
   selector: 'episjob-balance',
   templateUrl: './balance.component.html',
@@ -55,17 +56,29 @@ export class BalanceComponent implements OnInit {
             b.forEach(c=>{
               let index:number=this.rigs.map(a=>{return a.sn}).indexOf(b.key)
               let temp:any=c.val()
+              temp.dateNew=moment(this.transformDate(c.val().a110data)).format('YYYYMMDD')
               temp.___model=this.rigs[index].model
               temp.___sn=b.key
               temp.___path=c.key
               this.balanceList.push(temp)
-              this.balanceList.reverse()
-              this.allSpin=false
+              this.balanceList.sort((b:any,c:any)=>{
+                if(b.dateNew>c.dateNew) return -1
+                if(b.dateNew<c.dateNew) return 1
+                return 0
+              })
             })
           }
         })
+        this.allSpin=false
       }
     })
+  }
+
+  transformDate(date:string):Date{
+    let day:number = parseInt(date.substring(0,2))
+    let mon:number = parseInt(date.substring(3,5))
+    let yea:number = parseInt(date.substring(6,10))
+    return new Date(yea,mon-1,day)
   }
 
   ngOnDestroy(){

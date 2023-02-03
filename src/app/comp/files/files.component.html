@@ -1,6 +1,6 @@
-<episjob-navbar [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
+<episjob-navbar [hide]="false" [title]="'File list'" (filter)="filter($event)"></episjob-navbar>
 <div *ngIf="allow && !allSpin" episjobCont>
-  <div [ngClass]="{'panel':searchEmpty,'panelShort':!searchEmpty}"></div>
+  <div class="panel"></div>
   <div *ngIf="start>-1" class="el">
     <episjob-spin *ngIf="start<0"></episjob-spin>
       <episjob-h2 padtop=0 icon="description" data="Service Jobs list" [showDL]="true" [dlTooltip]="'Download survey results'" (copy)="survey($event)"></episjob-h2>

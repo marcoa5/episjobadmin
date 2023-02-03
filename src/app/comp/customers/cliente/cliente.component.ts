@@ -77,7 +77,8 @@ export class ClienteComponent implements OnInit {
             this.infoLabels =[
               {value:this.cust1,lab:'Customer Name',click:'', url:''},
               {value:this.cust2,lab:'Address 1',click:'', url:''},
-              {value:this.cust3,lab:'Address 2',click:'', url:''}
+              {value:this.cust3,lab:'Address 2',click:'', url:''},
+              {value:this.id,lab:'id',click:'', url:''},
             ]
           }
         }
@@ -178,7 +179,7 @@ export class ClienteComponent implements OnInit {
       if(a.val()!=null){
         a.forEach(b=>{
           this.infoContacts.push(
-            {value: b.val().name, lab:b.val().pos,click:{custId: this.id, contId: b.val().contId, name: b.val().name, pos: b.val().pos, phone: b.val().phone, mail: b.val().mail}, url:'contact'}
+            {value: b.val().name + ' ' + (b.val().surname?b.val().surname:''), lab:b.val().pos,click:{custId: this.id, contId: b.val().contId, name: b.val().name,surname:b.val().surname, pos: b.val().pos, phone: b.val().phone, mail: b.val().mail}, url:'contact'}
           )
         })
       }

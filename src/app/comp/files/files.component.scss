@@ -5,6 +5,7 @@
     display: grid;
     gap: 15px;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    overflow: hidden;
 }
 
 .file{
@@ -31,22 +32,16 @@
     position: sticky;
     top:120px;
     z-index: 2;
-}
-
-.panel, .panelShort{
     background-color: white;
-    position: fixed;
-    top: 0; left:-10px;
-    width:200%; 
-    z-index: 1;
 }
 
 .panel{
-    height: 253px;
-}
-
-.panelShort{
-    height: 165px;
+    background-color: white;
+    position: fixed;
+    top: 0; left:0;
+    width:100%; 
+    height: 120px;
+    z-index: 1;
 }
 
 .topCont{

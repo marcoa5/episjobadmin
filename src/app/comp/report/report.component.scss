@@ -50,6 +50,7 @@
     position: sticky;
     top: 182px;
     padding: 6px 0;
+    z-index: 3;
 }
 
 .backWhite{
@@ -58,7 +59,7 @@
     width:100%;
     height:233px;
     top:0; left:0;
-    z-index: 0;
+    z-index: 1;
 }
 
 .contT th:first-child{
@@ -147,6 +148,9 @@ mat-icon{
 
 @media only screen and (max-width: 1200px)  {
 
+.backWhite{
+    height: 162px;
+}
 .contT, thead, tbody, th, td, tr { 
     display: block; 
 }
@@ -211,3 +215,4 @@ mat-icon{
 .contT td:nth-of-type(10):before { content: "Service Step"; }
 .contT td:nth-of-type(11):before { content: "Next Service In"; }
 }
+

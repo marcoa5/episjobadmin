@@ -4,6 +4,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 15px;
+    margin-right: 60px;
 }
 
 .card{
@@ -51,4 +52,21 @@ mat-icon{
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.right{
+    border:1px dashed $dark-text;
+    position: fixed;
+    width: 60px;
+    height: calc(100vh - 102px);
+    top:100px;
+    right:0;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap:2px;
+    overflow-y: scroll;
+}
+
+button{
+    max-width: 20px;
 }

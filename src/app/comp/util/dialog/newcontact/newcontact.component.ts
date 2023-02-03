@@ -33,7 +33,9 @@ export class NewcontactComponent implements OnInit {
   constructor(private auth:AuthServiceService, private makeid:MakeidService, public dialogRef: MatDialogRef<NewcontactComponent>, @Inject(MAT_DIALOG_DATA) public data: any,public fb: FormBuilder, public dialog: MatDialog) {
     this.id=data.id? data.id: data.info.id
     this.newCont=fb.group({
+      id:[''],
       name: ['',Validators.required],
+      surname: ['',Validators.required],
       pos: ['',Validators.required],
       phone: ['',[Validators.required, Validators.pattern]],
       mail: ['',[Validators.required, Validators.email]],
@@ -41,13 +43,15 @@ export class NewcontactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.data)
+    this.newCont.controls.id.disable()
     this.subsList.push(
       this.auth._fleet.subscribe(a=>{if(a) this.rigs=a})
     )
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name
+      this.newCont.controls.id.setValue(this.data.info.id)
       this.newCont.controls.name.setValue(this.data.info.name)
+      this.newCont.controls.surname.setValue(this.data.info.surname)
       this.newCont.controls.pos.setValue(this.data.info.pos)
       this.newCont.controls.phone.setValue(this.data.info.phone)
       this.newCont.controls.mail.setValue(this.data.info.mail)
@@ -67,6 +71,7 @@ export class NewcontactComponent implements OnInit {
     if(this.data.type=='new') this.contId=this.makeid.makeId(5)
     let dat={
       name: this.newCont.controls.name.value,
+      surname: this.newCont.controls.surname.value,
       pos: this.newCont.controls.pos.value,
       phone: this.newCont.controls.phone.value,
       mail: this.newCont.controls.mail.value,
@@ -74,14 +79,15 @@ export class NewcontactComponent implements OnInit {
       contId: this.contId
     }
     let check:boolean=false
+    
     firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
       a.forEach(b=>{
-        if(b.val().name==dat.name) check =true
+        if(b.val().name==dat.name && b.val().surname==dat.surname) check =true
       })
     })
     .then(()=>{
-      if(check && this.data.typ=='new'){
-        const al = this.dialog.open(AlertComponent, {data: dat.name})
+      if(check && this.data.type=='new'){
+        const al = this.dialog.open(AlertComponent, {data: dat.name + ' ' + dat.surname})
       }else{
         firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
         .then(()=>{
@@ -118,6 +124,10 @@ export class NewcontactComponent implements OnInit {
         .catch(err=>{console.log('Unable to delete, ' + err)})
       }
     })
+  }
+
+  chPos(pos:string):boolean{
+    return this.auth.acc(pos)
   }
 
 }

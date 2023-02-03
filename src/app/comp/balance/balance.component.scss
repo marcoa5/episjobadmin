@@ -25,6 +25,7 @@
     align-items: center;
     justify-content: flex-start;
     width:100%;
+    min-width: 100%;
 }
 
 .content{
@@ -49,7 +50,7 @@
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    border-left: 1px dotted grey;
+    border-left: 1px dashed $dark-text;
     color: $dark-text;
 }
 

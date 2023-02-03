@@ -232,7 +232,7 @@ export class NewrigComponent implements OnInit {
         if(a.val()!=null){
           this.custCon=[]
           a.forEach(b=>{
-            this.custCon.push({name: b.val().name, mail: b.val().mail, contId:b.val().contId})
+            this.custCon.push({name: b.val().name,surname: b.val().surname, mail: b.val().mail, contId:b.val().contId})
           })
           this.spin=false
         } else {

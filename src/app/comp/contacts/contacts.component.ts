@@ -19,6 +19,8 @@ export class ContactsComponent implements OnInit {
   allow:boolean=false
   allSpin:boolean=true
   customers:any[]=[]
+  alfaLow:string[]=[]
+  alfaUp:string[]=[]
   subsList:Subscription[]=[]
 
   constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService, private makeid: MakeidService) { 
@@ -26,6 +28,9 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.alfaLow='abcdefghijklmnopqrstuvwxyz'.split('')
+    this.alfaUp=this.alfaLow.map(l=>l.toUpperCase())
+    console.log(this.alfaLow,this.alfaUp)
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.pos=a.Pos

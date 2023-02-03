@@ -465,7 +465,7 @@ export class NewvisitComponent implements OnInit {
     firebase.database().ref('CustContacts').child(a).on('value',a=>{
       this.custAtt=[]
       a.forEach(b=>{
-        this.custAtt.push(b.val().name)
+        this.custAtt.push(b.val().name + ' ' + (b.val().surname?b.val().surname:''))
       })
     })
   }
@@ -481,13 +481,11 @@ export class NewvisitComponent implements OnInit {
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
     const dialogRef = this.dialog.open(NewcontactComponent, {
+      disableClose:true,
       data: {id: this.cId[0].id, type: 'new'}
     });
-
     dialogRef.afterClosed().subscribe(result => {
-
       if(result!=undefined) {
-        //this.newCont.emit(result)
         this.cuId(this.cId[0].id!)
       }
     })
