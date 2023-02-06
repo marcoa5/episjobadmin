@@ -878,7 +878,7 @@ export class MachineComponent implements OnInit {
           data['Ship To Address']=a.val().address
           if(a.val().cont){
             Object.values(a.val().cont).forEach((b:any,i)=>{
-              data['Ship To contact #' + (i*1+1)]=b.name
+              data['Ship To contact #' + (i*1+1)]=b.name + (b.surname?(' ' + b.surname):'')
             })
           }
           if(a.val().cig) data.CIG=a.val().cig

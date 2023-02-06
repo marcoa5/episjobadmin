@@ -61,15 +61,8 @@ export class NewcontactComponent implements OnInit {
     if(this.data.info!=undefined || this.data.info!=null){
       this.oldName=this.data.info.name + ' ' + this.data.info.surname
       this.newCont.controls.id.setValue(this.data.info.id)
-      if(this.data.info.name.indexOf(' ')>0) {
-        let temp = this.data.info.name.split(' ')
-        this.newCont.controls.name.setValue(temp[0])
-        this.newCont.controls.surname.setValue(temp[1])
-      } else {
-        this.newCont.controls.name.setValue(this.data.info.name)
-        this.newCont.controls.surname.setValue(this.data.info.surname)
-      }
-      
+      this.newCont.controls.name.setValue(this.data.info.name)
+      this.newCont.controls.surname.setValue(this.data.info.surname)      
       this.newCont.controls.pos.setValue(this.data.info.pos)
       this.newCont.controls.phone.setValue(this.data.info.phone)
       this.newCont.controls.mail.setValue(this.data.info.mail)
