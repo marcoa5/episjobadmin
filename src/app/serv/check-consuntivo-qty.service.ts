@@ -15,7 +15,7 @@ export class CheckConsuntivoQtyService {
         if(llp=='' && qty=='') {
           return null
         }
-        if(((llp!='' && llp>0) && (qty<1 || qty==''))||((llp<=0 || llp=='') && (qty=='' && qty>0))) {
+        if(((llp!='' && llp>0) && (qty<0.1 || qty==''))||((llp<=0 || llp=='') && (qty=='' && qty>0))) {
           if(llp=='' || llp<=0) fg.get('_llp'+i)?.setErrors({qtyMismath:true})
           if(qty=='' || qty<=0) fg.get('_qty'+i)?.setErrors({qtyMismath:true})
           return {qtyMismath:true}
