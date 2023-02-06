@@ -56,14 +56,14 @@ export class BalanceComponent implements OnInit {
             b.forEach(c=>{
               let index:number=this.rigs.map(a=>{return a.sn}).indexOf(b.key)
               let temp:any=c.val()
-              temp.dateNew=moment(this.transformDate(c.val().a110data)).format('YYYYMMDD')
+              temp.___dateNew=moment(this.transformDate(c.val().a110data)).format('YYYYMMDD')
               temp.___model=this.rigs[index].model
               temp.___sn=b.key
               temp.___path=c.key
               this.balanceList.push(temp)
               this.balanceList.sort((b:any,c:any)=>{
-                if(b.dateNew>c.dateNew) return -1
-                if(b.dateNew<c.dateNew) return 1
+                if(b.___dateNew>c.___dateNew) return -1
+                if(b.___dateNew<c.___dateNew) return 1
                 return 0
               })
             })
