@@ -5,7 +5,10 @@
     <button mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportFleet" (click)="exportDetails()" matTooltip="Export fleet data with hours details">
         <mat-icon>browser_updated</mat-icon>
     </button>  
-    <button mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('SURights')" (click)="new()">
+    <button mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('SURights') && fun" (click)="new()">
+        <mat-icon>add</mat-icon>
+    </button>
+    <button mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allowContact && chPos('InternalRights') && (addNewContact || addNewQuote)" (click)="newEvent()" [matTooltip]="'Add new ' + func">
         <mat-icon>add</mat-icon>
     </button>
 </div>

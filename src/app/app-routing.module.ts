@@ -28,6 +28,7 @@ import { WorkshophomeComponent } from './comp/workshophome/workshophome.componen
 import { ContractshomeComponent } from './comp/contractshome/contractshome.component';
 import { PricingComponent } from './comp/pricing/pricing.component';
 import { BalanceComponent } from './comp/balance/balance.component';
+import { QuotesComponent } from './comp/quotes/quotes.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -57,7 +58,8 @@ const routes: Routes = [
   {path: 'workshop', component:WorkshophomeComponent},
   {path: 'partrequest', component:RequestlistComponent},
   {path: 'pricing', component:PricingComponent},
-  {path: 'balance', component:BalanceComponent}
+  {path: 'balance', component:BalanceComponent},
+  {path: 'quotes', component:QuotesComponent},
 ];
 
 @NgModule({

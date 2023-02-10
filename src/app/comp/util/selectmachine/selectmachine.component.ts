@@ -82,6 +82,18 @@ export class SelectmachineComponent implements OnInit {
           if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
           return false
         }) 
+        if(this.rigs.length==0 && this.inputData.controls.sn.value==this.rigs[0].sn){
+          let a:any = this.rigs[0]
+          this.inputData.controls.model.setValue(a.model)
+          this.inputData.controls.customer.setValue(a.customer)
+          this.inputData.controls.custCode.setValue(a.custid)
+          this.info.emit(a)
+        } else {
+          this.inputData.controls.model.setValue('')
+          this.inputData.controls.customer.setValue('')
+          this.inputData.controls.custCode.setValue('')
+          this.info.emit('')
+        }
         res('')
       } else {
         this.rigs= this._rigs

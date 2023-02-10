@@ -5,11 +5,9 @@ import firebase from 'firebase/app';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { GetquarterService } from './getquarter.service';
-import { promise } from 'protractor';
 import { SelectrangedialogComponent } from '../comp/util/dialog/selectrangedialog/selectrangedialog.component';
 import * as moment from 'moment';
 import { Clipboard } from '@angular/cdk/clipboard';
-import { blockParams } from 'handlebars';
 @Injectable({
   providedIn: 'root'
 })

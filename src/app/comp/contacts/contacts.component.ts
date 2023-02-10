@@ -5,7 +5,9 @@ import firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
+import { CustomersComponent } from '../customers/customers.component';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
+import { SelectcustomerComponent } from './selectcustomer/selectcustomer.component';
 @Component({
   selector: 'episjob-contacts',
   templateUrl: './contacts.component.html',
@@ -49,6 +51,9 @@ export class ContactsComponent implements OnInit {
         setTimeout(() => {
           this.allow=this.auth.allow('Internal',this.pos)
         }, 1);
+      }),
+      this.auth._customers.subscribe(a=>{
+        if(a) this.customers=a
       }),
       this.auth._contacts.subscribe((a:any[])=>{
         this.contacts=a
@@ -96,6 +101,17 @@ export class ContactsComponent implements OnInit {
       if(b[by].toLowerCase()<c[by].toLowerCase()) return -val
       return 0
     })
+  }
+
+  addNew(e:any){
+    let dia=this.dialog.open(SelectcustomerComponent,{panelClass: 'custselect', data:''})
+    dia.afterClosed().subscribe(res=>{
+      if(res){
+        let info:any = this.customers[this.customers.map(a=>{return a.id}).indexOf(res)]
+        let d = this.dialog.open(NewcontactComponent, {data: {id: info.id, type: 'new'}})
+      }
+    })
+    
   }
   
 }

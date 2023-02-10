@@ -1,0 +1,29 @@
+<form [formGroup]="inputData" class="req">
+    <h4>Select customer</h4>
+    <mat-form-field  class="search hid">
+        <input matInput #sea type="text" autocomplete="off" formControlName="id">
+        <mat-label>IDr</mat-label>
+    </mat-form-field>
+    <mat-form-field  class="search">
+        <input matInput #sea type="text" autocomplete="off" formControlName="c1" (input)="filter()" [readonly]="infoInput || readOnly">
+        <mat-label>Search Customer Name or Address</mat-label>
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <!--<div class="info">
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="c2" [readonly]="true">
+            <mat-label>Address 1</mat-label>
+        </mat-form-field>
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="c3" [readonly]="true">
+            <mat-label>Address 2</mat-label>
+        </mat-form-field>  
+    </div>-->
+    <div class="list" *ngIf="chStr">
+        <div *ngFor="let c of customers" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(c)">
+            <p class="text t1 sm">{{c.c1}}</p>
+            <p class="text sm">{{c.c2}}</p>
+            <p class="text">{{c.c3}}</p>
+        </div>
+    </div>  
+</form>
