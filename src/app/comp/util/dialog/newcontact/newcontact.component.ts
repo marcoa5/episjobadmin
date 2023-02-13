@@ -47,7 +47,7 @@ export class NewcontactComponent implements OnInit {
 
   ngOnInit(): void {
     this.newCont.valueChanges.subscribe(val=>{
-      if(val.name==this.data.info.name && val.surname==this.data.info.surname && val.phone==this.data.info.phone && val.pos==this.data.info.pos && val.mail==this.data.info.mail) {
+      if(val.name && val.name==this.data.info.name && val.surname==this.data.info.surname && val.phone==this.data.info.phone && val.pos==this.data.info.pos && val.mail==this.data.info.mail) {
         this.inv=true
       }else{
         this.inv=false

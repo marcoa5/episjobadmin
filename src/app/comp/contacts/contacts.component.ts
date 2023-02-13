@@ -7,6 +7,7 @@ import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
 import { CustomersComponent } from '../customers/customers.component';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
+import { NewcontactcustomerselectionComponent } from './newcontactcustomerselection/newcontactcustomerselection.component';
 import { SelectcustomerComponent } from './selectcustomer/selectcustomer.component';
 @Component({
   selector: 'episjob-contacts',
@@ -104,7 +105,7 @@ export class ContactsComponent implements OnInit {
   }
 
   addNew(e:any){
-    let dia=this.dialog.open(SelectcustomerComponent,{panelClass: 'custselect', data:''})
+    let dia=this.dialog.open(NewcontactcustomerselectionComponent,{panelClass: 'custselect', data:''})
     dia.afterClosed().subscribe(res=>{
       if(res){
         let info:any = this.customers[this.customers.map(a=>{return a.id}).indexOf(res)]
