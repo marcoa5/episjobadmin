@@ -180,9 +180,10 @@ import { BalancefilterPipe } from './pipe/balancefilter.pipe';
 import { BalancefromsjComponent } from './comp/util/dialog/balancefromsj/balancefromsj.component'
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ConttopDirective } from './dir/conttop.directive';
-import { SelectcustomerComponent } from './comp/contacts/selectcustomer/selectcustomer.component';
+import { SelectcustomerComponent } from './comp/util/selectcustomer/selectcustomer.component';
 import { QuotesComponent } from './comp/quotes/quotes.component';
 import { NewcontactcustomerselectionComponent } from './comp/contacts/newcontactcustomerselection/newcontactcustomerselection.component';
+import { NewquoteComponent } from './comp/quotes/newquote/newquote.component';
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -344,7 +345,8 @@ export const MY_FORMATS = {
     ConttopDirective,
     SelectcustomerComponent,
     QuotesComponent,
-    NewcontactcustomerselectionComponent
+    NewcontactcustomerselectionComponent,
+    NewquoteComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { SelectcustomerComponent } from '../contacts/selectcustomer/selectcustomer.component';
-import { SelectmachineComponent } from '../util/selectmachine/selectmachine.component';
+import { NewquoteComponent } from './newquote/newquote.component';
 
 @Component({
   selector: 'episjob-quotes',
@@ -28,7 +27,11 @@ export class QuotesComponent implements OnInit {
   }
 
   addNew(){
-    this.dialog.open(SelectmachineComponent)
+    let d = this.dialog.open(NewquoteComponent, {panelClass: 'custselect'})
+    d.afterClosed().subscribe(res=>{
+      console.log(res)
+      alert('Under Construction')
+    })
   }
 
 }

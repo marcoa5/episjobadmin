@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./newcontactcustomerselection.component.scss']
 })
 export class NewcontactcustomerselectionComponent implements OnInit {
-  id:string=''
+  customer:any
   constructor(private dialogRef:MatDialogRef<NewcontactcustomerselectionComponent>, @Inject(MAT_DIALOG_DATA) public data:any ) { }
 
   ngOnInit(): void {
@@ -18,8 +18,7 @@ export class NewcontactcustomerselectionComponent implements OnInit {
   }
 
   newId(e:any){
-    this.id=e.id
-    console.log(this.id)
+    this.customer=e
   }
 
 }

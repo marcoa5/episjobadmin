@@ -1,8 +1,8 @@
-<div mat-dialog-title>Select</div>
+<div mat-dialog-title>Customer Name</div>
 <div mat-dialog-content>
     <episjob-selectcustomer (info)="newId($event)"></episjob-selectcustomer>
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>
-    <button mat-raised-button color="primary" [disabled]="id==undefined" [mat-dialog-close]="id">OK</button>
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="customer=='' || customer==undefined" [mat-dialog-close]="customer">Proceed</button>
 </div>

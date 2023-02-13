@@ -8,7 +8,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { CustomersComponent } from '../customers/customers.component';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
 import { NewcontactcustomerselectionComponent } from './newcontactcustomerselection/newcontactcustomerselection.component';
-import { SelectcustomerComponent } from './selectcustomer/selectcustomer.component';
+import { SelectcustomerComponent } from '../util/selectcustomer/selectcustomer.component';
 @Component({
   selector: 'episjob-contacts',
   templateUrl: './contacts.component.html',
@@ -57,6 +57,7 @@ export class ContactsComponent implements OnInit {
         if(a) this.customers=a
       }),
       this.auth._contacts.subscribe((a:any[])=>{
+        console.log(a)
         this.contacts=a
         this.sortList(this.sortBy+',1')
         if(a.length>0){
@@ -108,7 +109,7 @@ export class ContactsComponent implements OnInit {
     let dia=this.dialog.open(NewcontactcustomerselectionComponent,{panelClass: 'custselect', data:''})
     dia.afterClosed().subscribe(res=>{
       if(res){
-        let info:any = this.customers[this.customers.map(a=>{return a.id}).indexOf(res)]
+        let info:any = this.customers[this.customers.map(a=>{return a.id}).indexOf(res.id)]
         let d = this.dialog.open(NewcontactComponent, {data: {id: info.id, type: 'new'}})
       }
     })
