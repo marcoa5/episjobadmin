@@ -57,7 +57,6 @@ export class ContactsComponent implements OnInit {
         if(a) this.customers=a
       }),
       this.auth._contacts.subscribe((a:any[])=>{
-        console.log(a)
         this.contacts=a
         this.sortList(this.sortBy+',1')
         if(a.length>0){

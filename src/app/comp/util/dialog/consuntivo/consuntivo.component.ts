@@ -116,9 +116,15 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   inputData(){
-    let path:string=this.data.data.___path
     let sn:string=this.data.data.___sn
-    firebase.database().ref('Balance').child(sn).child(path).set(this.mask.value)
+    if(this.data.data.___path){
+      let path:string=this.data.data.___path
+      
+      firebase.database().ref('Balance').child(sn).child(path).set(this.mask.value)
+    } else {
+      firebase.database().ref('Quote').child(sn).child('test').set(this.mask.value)
+    }
+    
   }
 
   loadParts(){

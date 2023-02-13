@@ -150,200 +150,200 @@ export class GetBalanceDataService {
         let spv: number = 0
         let off: number = 0
         let ofs: number = 0
-        let items: any = {}
+        let itemsData: any = {}
         for (let i = 1; i <= 7; i++) {
           if (rawData['dat' + i + '1'] != '' && rawData['dat' + i + '2'] != '' && rawData['dat' + i + '3'] != '') {
             if (rawData['spov' + i + '1'] != '') {
               mspeov += parseFloat(rawData['spov' + i + '1'])
-              //if(mspeov>0) items['mspeov']=mspeov
+              //if(mspeov>0) itemsData['mspeov']=mspeov
             }
             if (rawData['spol' + i + '1'] != '') {
               mspeol += parseFloat(rawData['spol' + i + '1'])
-              //if(mspeol>0) items['mspeol']=mspeol
+              //if(mspeol>0) itemsData['mspeol']=mspeol
             }
             if (rawData['spsv' + i + '1'] != '') {
               mspesv += parseFloat(rawData['spsv' + i + '1'])
-              //if(mspesv>0) items['mspesv']=mspesv
+              //if(mspesv>0) itemsData['mspesv']=mspesv
             }
             if (rawData['spll' + i + '1'] != '') {
               mspesl += parseFloat(rawData['spll' + i + '1'])
-              //if(mspesl>0) items['mspesl']=mspesl
+              //if(mspesl>0) itemsData['mspesl']=mspesl
             }
             if (rawData['stdv' + i + '1'] != '') {
               mstdov += parseFloat(rawData['stdv' + i + '1'])
-              //if(mstdov>0) items['mstdov']=mstdov
+              //if(mstdov>0) itemsData['mstdov']=mstdov
             }
             if (rawData['stdl' + i + '1'] != '') {
               mstdol += parseFloat(rawData['stdl' + i + '1'])
-              //if(mstdol>0) items['mstdol']=mstdol
+              //if(mstdol>0) itemsData['mstdol']=mstdol
             }
             if (rawData['strv' + i + '1'] != '') {
               mstdsv += parseFloat(rawData['strv' + i + '1'])
-              //if(mstdsv>0) items['mstdsv']=mstdsv
+              //if(mstdsv>0) itemsData['mstdsv']=mstdsv
             }
             if (rawData['strl' + i + '1'] != '') {
               mstdsl += parseFloat(rawData['strl' + i + '1'])
-              //if(mstdsl>0) items['mstdsl']=mstdsl
+              //if(mstdsl>0) itemsData['mstdsl']=mstdsl
             }
             if (rawData['mntv' + i + '1'] != '') {
               mnotv += parseFloat(rawData['mntv' + i + '1'])
-              //if(mnotv>0) items['mnotv']=mnotv
+              //if(mnotv>0) itemsData['mnotv']=mnotv
             }
             if (rawData['mntl' + i + '1'] != '') {
               mnotl += parseFloat(rawData['mntl' + i + '1'])
-              //if(mnotl>0) items['mnotl']=mnotl
+              //if(mnotl>0) itemsData['mnotl']=mnotl
             }
             if (rawData['mfv' + i + '1'] != '' && rawData['mfv' + i + '1'] != undefined) {
               mfv += parseFloat(rawData['mfv' + i + '1'])
-              //if(mfv>0) items['mfv']=mfv
+              //if(mfv>0) itemsData['mfv']=mfv
             }
             if (rawData['mfl' + i + '1'] != '') {
               mfl += parseFloat(rawData['mfl' + i + '1'])
-              //if(mfl>0) items['mfl']=mfl
+              //if(mfl>0) itemsData['mfl']=mfl
             }
             if (rawData['mnfv' + i + '1'] != '') {
               mfnotv += parseFloat(rawData['mnfv' + i + '1'])
-              //if(mfnotv>0) items['mfnotv']=mfnotv
+              //if(mfnotv>0) itemsData['mfnotv']=mfnotv
             }
             if (rawData['mnfl' + i + '1'] != '') {
               mfnotl += parseFloat(rawData['mnfl' + i + '1'])
-              //if(mfnotl>0) items['mfnotl']=mfnotl
+              //if(mfnotl>0) itemsData['mfnotl']=mfnotl
             }
             if (rawData['km' + i + '1'] != '') {
               km += parseFloat(rawData['km' + i + '1'])
-              //if(km>0) items['km']=km
+              //if(km>0) itemsData['km']=km
             }
             if (rawData['spv' + i + '1'] != '') {
               spv += parseFloat(rawData['spv' + i + '1'])
-              //if(spv>0) items['spv']=spv
+              //if(spv>0) itemsData['spv']=spv
             }
             if (rawData['off' + i + '1'] != '') {
               off += parseFloat(rawData['off' + i + '1'])
-              //if(off>0) items['off']=off
+              //if(off>0) itemsData['off']=off
             }
             if (rawData['ofs' + i + '1'] != '') {
               ofs += parseFloat(rawData['ofs' + i + '1'])
-              //if(ofs>0) items['ofs']=ofs
+              //if(ofs>0) itemsData['ofs']=ofs
             }
           }
         }
         let check: number = 1
         if (mstdov) {
-          items['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA VIAGGIO'
-          items['_qty' + check] = mstdov
-          items['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
+          itemsData['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA VIAGGIO'
+          itemsData['_qty' + check] = mstdov
+          itemsData['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
           check++
         }
         if (mstdsv) {
-          items['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA VIAGGIO'
-          items['_qty' + check] = mstdsv
-          items['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
+          itemsData['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA VIAGGIO'
+          itemsData['_qty' + check] = mstdsv
+          itemsData['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
           check++
         }
         if (mstdol) {
-          items['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA LAVORO'
-          items['_qty' + check] = mstdol
-          items['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
+          itemsData['_ite' + check] = 'MANODOPERA STANDARD ORDINARIA LAVORO'
+          itemsData['_qty' + check] = mstdol
+          itemsData['_llp' + check] = this.actualFees.std?parseFloat(this.actualFees.std):''
           check++
         }
         if (mstdsl) {
-          items['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA LAVORO'
-          items['_qty' + check] = mstdsl
-          items['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
+          itemsData['_ite' + check] = 'MANODOPERA STANDARD STRAORDINARIA LAVORO'
+          itemsData['_qty' + check] = mstdsl
+          itemsData['_llp' + check] = this.actualFees.str?parseFloat(this.actualFees.str):''
           check++
         }
         if (mspeov) {
-          items['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA VIAGGIO'
-          items['_qty' + check] = mspeov
-          items['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
+          itemsData['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA VIAGGIO'
+          itemsData['_qty' + check] = mspeov
+          itemsData['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
           check++
         }
         if (mspesv) {
-          items['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA VIAGGIO'
-          items['_qty' + check] = mspesv
-          items['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
+          itemsData['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA VIAGGIO'
+          itemsData['_qty' + check] = mspesv
+          itemsData['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
           check++
         }
         if (mspeol) {
-          items['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA LAVORO'
-          items['_qty' + check] = mspeol
-          items['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
+          itemsData['_ite' + check] = 'MANODOPERA SPECIALISTICA ORDINARIA LAVORO'
+          itemsData['_qty' + check] = mspeol
+          itemsData['_llp' + check] = this.actualFees.spo?parseFloat(this.actualFees.spo):''
           check++
         }
         if (mspesl) {
-          items['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA LAVORO'
-          items['_qty' + check] = mspesl
-          items['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
+          itemsData['_ite' + check] = 'MANODOPERA SPECIALISTICA STRAORDINARIA LAVORO'
+          itemsData['_qty' + check] = mspesl
+          itemsData['_llp' + check] = this.actualFees.sps?parseFloat(this.actualFees.sps):''
           check++
         }
         if (mnotv) {
-          items['_ite' + check] = 'MANODOPERA NOTTURNA VIAGGIO'
-          items['_qty' + check] = mnotv
+          itemsData['_ite' + check] = 'MANODOPERA NOTTURNA VIAGGIO'
+          itemsData['_qty' + check] = mnotv
           check++
         }
         if (mnotl) {
-          items['_ite' + check] = 'MANODOPERA NOTTURNA LAVORO'
-          items['_qty' + check] = mnotl
-          items['_llp' + check] = this.actualFees.mnt?parseFloat(this.actualFees.mnt):''
+          itemsData['_ite' + check] = 'MANODOPERA NOTTURNA LAVORO'
+          itemsData['_qty' + check] = mnotl
+          itemsData['_llp' + check] = this.actualFees.mnt?parseFloat(this.actualFees.mnt):''
           check++
         }
         if (mfv) {
-          items['_ite' + check] = 'MANODOPERA FESTIVA VIAGGIO'
-          items['_qty' + check] = mfv
-          items['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
+          itemsData['_ite' + check] = 'MANODOPERA FESTIVA VIAGGIO'
+          itemsData['_qty' + check] = mfv
+          itemsData['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
           check++
         }
         if (mfl) {
-          items['_ite' + check] = 'MANODOPERA FESTIVA LAVORO'
-          items['_qty' + check] = mfl
-          items['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
+          itemsData['_ite' + check] = 'MANODOPERA FESTIVA LAVORO'
+          itemsData['_qty' + check] = mfl
+          itemsData['_llp' + check] = this.actualFees.mf?parseFloat(this.actualFees.mf):''
 
           check++
         }
         if (mfnotv) {
-          items['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA VIAGGIO'
-          items['_qty' + check] = mfnotv
-          items['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
+          itemsData['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA VIAGGIO'
+          itemsData['_qty' + check] = mfnotv
+          itemsData['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
           check++
         }
         if (mfnotl) {
-          items['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA LAVORO'
-          items['_qty' + check] = mfnotl
-          items['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
+          itemsData['_ite' + check] = 'MANODOPERA FESTIVA NOTTURNA LAVORO'
+          itemsData['_qty' + check] = mfnotl
+          itemsData['_llp' + check] = this.actualFees.mnf?parseFloat(this.actualFees.mnf):''
 
           check++
         }
         if (spv) {
-          items['_ite' + check] = 'SPESE VIAGGIO'
-          items['_llp' + check] = spv
-          items['_qty' + check] = 1
+          itemsData['_ite' + check] = 'SPESE VIAGGIO'
+          itemsData['_llp' + check] = spv
+          itemsData['_qty' + check] = 1
           check++
         }
         if (km) {
-          items['_ite' + check] = 'CHILOMETRI'
-          items['_qty' + check] = km
-          items['_llp' + check] = this.actualFees.km?parseFloat(this.actualFees.km):''
+          itemsData['_ite' + check] = 'CHILOMETRI'
+          itemsData['_qty' + check] = km
+          itemsData['_llp' + check] = this.actualFees.km?parseFloat(this.actualFees.km):''
           check++
         }
         if (off) {
-          items['_ite' + check] = 'MANODOPERA OFFICINA ORDINARIA'
-          items['_qty' + check] = off
-          items['_llp' + check] = this.actualFees.off?parseFloat(this.actualFees.off):''
+          itemsData['_ite' + check] = 'MANODOPERA OFFICINA ORDINARIA'
+          itemsData['_qty' + check] = off
+          itemsData['_llp' + check] = this.actualFees.off?parseFloat(this.actualFees.off):''
           check++
         }
         if (ofs) {
-          items['_ite' + check] = 'MANODOPERA OFFICINA STRAORDINARIA'
-          items['_qty' + check] = ofs
-          items['_llp' + check] = this.actualFees.ofs?parseFloat(this.actualFees.ofs):''
+          itemsData['_ite' + check] = 'MANODOPERA OFFICINA STRAORDINARIA'
+          itemsData['_qty' + check] = ofs
+          itemsData['_llp' + check] = this.actualFees.ofs?parseFloat(this.actualFees.ofs):''
           check++
         }
         /*for (let cr = check; cr <= check; cr++) {
-          items['_ite' + cr] = 'DRIVER'
-          items['_qty' + cr] = 3,
-            items['_llp' + cr] = 121.34
-          items['_pn' + cr] = "3115158200"
+          itemsData['_ite' + cr] = 'DRIVER'
+          itemsData['_qty' + cr] = 3,
+            itemsData['_llp' + cr] = 121.34
+          itemsData['_pn' + cr] = "3115158200"
         }*/
-        sub.next(items)
+        sub.next(itemsData)
       })
 
       custC.subscribe((r: any) => {
@@ -399,7 +399,7 @@ export class GetBalanceDataService {
     return new Observable(sub=>{
       firebase.database().ref('Users').once('value',a=>{
         a.forEach(b=>{
-          if(b.val().Pos=='SU' && b.val()._newbalance=='1'){
+          if((b.val().Pos=='SU' || b.val().Pos=='admin' || b.val().Pos=='adminS') && b.val()._newquotes=='1'){
             if(b.key) users.push(b.key)
           }
         })
