@@ -618,12 +618,13 @@ export class SjComponent implements OnInit {
           fileName: `${moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
         }
         this.file.info=info
-        if(this.sjType=='s') {
+        if(this.file.sjid.substring(0,3)=='sjs') {
           firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
+          .then(()=>resp(''))
         } else{
           localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+          resp('')
         }
-        resp('')
       })
     })
   }
@@ -688,13 +689,12 @@ export class SjComponent implements OnInit {
     let g:string = this.rigForm.controls.sid.value
     if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
     await this.saveData(true,g)
-      this.sendSJ.send(g,this.file)
-      .then(()=>{this.router.navigate(['sj'])})
-      .catch(err=>{
-        console.log(err)
-        this.router.navigate(['sj'])
-      })
-    //})
+    this.sendSJ.send(g,this.file)
+    .then(()=>{this.router.navigate(['sj'])})
+    .catch(err=>{
+      console.log(err)
+      this.router.navigate(['sj'])
+    })
   }
 
   getList(e:any){
