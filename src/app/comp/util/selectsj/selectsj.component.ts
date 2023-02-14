@@ -105,7 +105,7 @@ export class SelectsjComponent implements OnInit {
           this.inputData.controls.search.setValue(a.doc)
           this.inputData.controls.customer.setValue(a.customer)
           this.inputData.controls.sn.setValue(a.sn)
-          this.inputData.controls.model.setValue(this.rigs[this.rigs.map(a=>{return a.sn}).indexOf(a.sn)].model)
+          this.inputData.controls.model.setValue(this.rigs[this.rigs.map(a=>{return a.sn.toLowerCase()}).indexOf(a.sn.toLowerCase())].model)
           this.selection=true
           this.info.emit(a)
         } else {
@@ -128,7 +128,7 @@ export class SelectsjComponent implements OnInit {
     this.inputData.controls.search.setValue(a.doc)
     this.inputData.controls.customer.setValue(a.customer)
     this.inputData.controls.sn.setValue(a.sn)
-    this.inputData.controls.model.setValue(this.rigs[this.rigs.map(a=>{return a.sn}).indexOf(a.sn)].model)
+    this.inputData.controls.model.setValue(this.rigs[this.rigs.map(a=>{return a.sn.toLowerCase()}).indexOf(a.sn.toLowerCase())].model)
     this.selection=true
     this.info.emit(a)
   }
