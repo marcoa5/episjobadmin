@@ -20,6 +20,8 @@ export class SelectcustomerComponent implements OnInit {
   customers:any[]=[]
   readOnly:boolean=false
   serial:string=''
+  selection:boolean=false
+  @Input() detailedInfo:boolean=false
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
@@ -69,15 +71,17 @@ export class SelectcustomerComponent implements OnInit {
           if(a.c1.toLowerCase().includes(f.toLowerCase()) || a.c2.toLowerCase().includes(f.toLowerCase()) || a.c3.toLowerCase().includes(f.toLowerCase())) return true
           return false
         })
-        if(this.customers.length==1 && this.customers[0].c1==f) {
+        if(this.customers.length==1 && this.customers[0].c1.toLowerCase()==f.toLowerCase()) {
           this.inputData.controls.id.setValue(this.customers[0].id)
           this.inputData.controls.c2.setValue(this.customers[0].c2)
           this.inputData.controls.c3.setValue(this.customers[0].c3)
+          this.selection=true
           this.info.emit(this.customers[0])
         } else {
           this.inputData.controls.id.setValue('')
           this.inputData.controls.c2.setValue('')
           this.inputData.controls.c3.setValue('')
+          this.selection=false
           this.info.emit('')
         }
         res('')
@@ -99,6 +103,7 @@ export class SelectcustomerComponent implements OnInit {
     this.inputData.controls.c1.setValue(a.c1)
     this.inputData.controls.c2.setValue(a.c2)
     this.inputData.controls.c3.setValue(a.c3)
+    this.selection=true
     this.info.emit(a)
   }
 

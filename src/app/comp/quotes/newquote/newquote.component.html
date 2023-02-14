@@ -1,6 +1,6 @@
 <div mat-dialog-title>Machine</div>
 <div mat-dialog-content>
-    <episjob-selectmachine (info)="newRig($event)"></episjob-selectmachine>
+    <episjob-selectmachine [detailedInfo]="true" (info)="newRig($event)"></episjob-selectmachine>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>

@@ -32,7 +32,8 @@ mat-icon{
 
 .cont{
     color: $light-text;
-    display: flex;
+    display: grid;
+    grid-template-columns: 24px auto 2fr 24px;
     align-items: center;
     gap:15px;
     border-top-left-radius: 10px;
@@ -44,9 +45,6 @@ mat-icon{
     //background-color: rgb(200, 200, 200);
 }
 
-.spacer{
-  flex-grow: 1;
-}
 
 .cont1{
     grid-template-columns: 45px 6fr 100px;
@@ -153,3 +151,8 @@ input{
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
   }
+
+  .hid{
+    visibility: hidden;
+  }
+ 

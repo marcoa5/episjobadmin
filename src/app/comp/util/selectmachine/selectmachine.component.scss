@@ -151,3 +151,16 @@ input[type="file"] {
 .add{
     cursor: pointer;
 }
+
+.info{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:15px;
+}
+
+@media screen and (max-width:475px) {
+    .info{
+        grid-template-columns: 1fr;
+        gap:0;
+    }
+}

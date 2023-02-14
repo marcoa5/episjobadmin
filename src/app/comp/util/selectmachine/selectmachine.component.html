@@ -9,7 +9,7 @@
         <mat-label>Search s/n, model or customer</mat-label>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <div class="list" *ngIf="chStr">
+    <div class="list" *ngIf="!selection">
         <div *ngFor="let r of rigs" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(r)">
             <p class="text t1 sm">{{r.sn}}</p>
             <p class="text sm">{{r.model}}</p>
@@ -17,4 +17,18 @@
             <p class="text">{{r.customer}}</p>
         </div>
     </div>  
+    <div class="info" *ngIf="selection && detailedInfo">
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="model" [readonly]="true">
+            <mat-label>Model</mat-label>
+        </mat-form-field>
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="customer" [readonly]="true">
+            <mat-label>Customer</mat-label>
+        </mat-form-field>  
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="site" [readonly]="true">
+            <mat-label>Site</mat-label>
+        </mat-form-field> 
+    </div>
 </form>

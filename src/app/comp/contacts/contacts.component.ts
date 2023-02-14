@@ -25,6 +25,8 @@ export class ContactsComponent implements OnInit {
   alfaUp:string[]=[]
   sortBut:boolean=true
   sortBy:string='name'
+  nameAsc:boolean=true
+  surnameAsc:boolean=true
   val:any
   subsList:Subscription[]=[]
 
@@ -36,7 +38,7 @@ export class ContactsComponent implements OnInit {
   onResize() {
     if(window.innerWidth<700){
       this.sortBut=false
-      this.sortList(this.sortBy+',1')
+      this.sortList(this.sortBy)
     }else{
       this.sortBut=true
     }
@@ -58,7 +60,7 @@ export class ContactsComponent implements OnInit {
       }),
       this.auth._contacts.subscribe((a:any[])=>{
         this.contacts=a
-        this.sortList(this.sortBy+',1')
+        this.sortList(this.sortBy)
         if(a.length>0){
           a.forEach(e => {
             firebase.database().ref('CustomerC').child(e.id).once('value',b=>{
@@ -81,7 +83,6 @@ export class ContactsComponent implements OnInit {
 
   go(c:any){
     const dialogRef = this.dialog.open(NewcontactComponent, {data: {info:c}})
-
     dialogRef.afterClosed().subscribe(result => {
       if(result!=undefined) {
         let old=this.filtro
@@ -94,12 +95,21 @@ export class ContactsComponent implements OnInit {
   }
 
   sortList(value:any){
-    let by:string =value.split(',')[0]
-    let val:number =parseInt(value.split(',')[1])
-    this.sortBy=by
+    if(value=='name') this.nameAsc=!this.nameAsc
+    if(value=='surname') this.surnameAsc=!this.surnameAsc
+    this.sortBy=value
+    let val:number=0
+    switch(value){
+      case 'name':
+        this.nameAsc?val=1:val=-1
+        break
+      case 'surname':
+        this.surnameAsc?val=1:val=-1
+        break
+    }
     this.contacts.sort((b:any,c:any)=>{
-      if(b[by].toLowerCase()>c[by].toLowerCase()) return val
-      if(b[by].toLowerCase()<c[by].toLowerCase()) return -val
+      if(b[value].toLowerCase()>c[value].toLowerCase()) return val
+      if(b[value].toLowerCase()<c[value].toLowerCase()) return -val
       return 0
     })
   }

@@ -21,6 +21,8 @@ export class SelectmachineComponent implements OnInit {
   rigs:any[]=[]
   readOnly:boolean=false
   serial:string=''
+  selection:boolean=false
+  @Input() detailedInfo=true
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
@@ -35,6 +37,7 @@ export class SelectmachineComponent implements OnInit {
       model:['', Validators.required],
       customer:['', Validators.required],
       custCode:['', Validators.required],
+      site:['', Validators.required],
       type:['', Validators.required],
       start:['', Validators.required],
       end:['', Validators.required]
@@ -82,16 +85,25 @@ export class SelectmachineComponent implements OnInit {
           if(a.sn.toLowerCase().includes(f.toLowerCase()) || a.model.toLowerCase().includes(f.toLowerCase()) || a.customer.toLowerCase().includes(f.toLowerCase())) return true
           return false
         }) 
-        if(this.rigs.length==0 && this.inputData.controls.sn.value==this.rigs[0].sn){
+        if(this.rigs.length==1 && this.inputData.controls.sn.value.toLowerCase()==this.rigs[0].sn.toLowerCase()){
           let a:any = this.rigs[0]
+          this.details=[
+            {value: a.sn, lab: 'Serial nr.', click:'', url:''},
+            {value: a.model, lab: 'Model', click:'', url:''},
+            {value: a.customer, lab: 'Customer', click:'', url:''},
+          ]
           this.inputData.controls.model.setValue(a.model)
           this.inputData.controls.customer.setValue(a.customer)
           this.inputData.controls.custCode.setValue(a.custid)
+          this.inputData.controls.site.setValue(a.site)
+          this.selection=true
           this.info.emit(a)
         } else {
           this.inputData.controls.model.setValue('')
           this.inputData.controls.customer.setValue('')
           this.inputData.controls.custCode.setValue('')
+          this.inputData.controls.site.setValue('')
+          this.selection=false
           this.info.emit('')
         }
         res('')
@@ -104,6 +116,7 @@ export class SelectmachineComponent implements OnInit {
 
   sel(a:any){
     this.chStr=false
+    console.log(a)
     this.details=[
       {value: a.sn, lab: 'Serial nr.', click:'', url:''},
       {value: a.model, lab: 'Model', click:'', url:''},
@@ -113,6 +126,8 @@ export class SelectmachineComponent implements OnInit {
     this.inputData.controls.model.setValue(a.model)
     this.inputData.controls.customer.setValue(a.customer)
     this.inputData.controls.custCode.setValue(a.custid)
+    this.inputData.controls.site.setValue(a.site)
+    this.selection=true
     this.info.emit(a)
   }
 

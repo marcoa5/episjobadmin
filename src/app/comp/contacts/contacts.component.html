@@ -2,21 +2,20 @@
 <div episjobConttop *ngIf="allow && !allSpin">
     <div class="panel" [class.mat-elevation-z6]="true"></div>
     <div class="butCont">
+        <p>Sort by:</p>
         <mat-button-toggle-group [(ngModel)]="val" value="name,1" (click)="sortList(val)">
-            <mat-button-toggle value="name,1"><mat-icon>arrow_drop_up</mat-icon>Name</mat-button-toggle>
-            <mat-button-toggle value="name,-1"><mat-icon>arrow_drop_down</mat-icon>Name</mat-button-toggle>
-            <mat-button-toggle value="surname,1"><mat-icon>arrow_drop_up</mat-icon>Surame</mat-button-toggle>
-            <mat-button-toggle value="surname,-1"><mat-icon>arrow_drop_down</mat-icon>Surname</mat-button-toggle>
+            <mat-button-toggle value="name">
+                <mat-icon *ngIf="nameAsc">arrow_drop_up</mat-icon>
+                <mat-icon *ngIf="!nameAsc">arrow_drop_down</mat-icon>
+                Name
+            </mat-button-toggle>
+            <mat-button-toggle value="surname">
+                <mat-icon *ngIf="surnameAsc">arrow_drop_up</mat-icon>
+                <mat-icon *ngIf="!surnameAsc">arrow_drop_down</mat-icon>
+                Surame
+            </mat-button-toggle>
         </mat-button-toggle-group>   
     </div>
-    
-
-    <!--<div class="butCont" *ngIf="sortBut">
-        <button mat-raised-button color="secondary" (click)="sortList('name',1)"><mat-icon>arrow_drop_up</mat-icon>Name</button>
-        <button mat-raised-button color="secondary" (click)="sortList('name',-1)"><mat-icon>arrow_drop_down</mat-icon>Name</button>
-        <button mat-raised-button color="secondary" (click)="sortList('surname',1)"><mat-icon>arrow_drop_up</mat-icon>Surname</button>
-        <button mat-raised-button color="secondary" (click)="sortList('surname',-1)"><mat-icon>arrow_drop_down</mat-icon>Surname</button>
-    </div>-->
     <div class="cont">
         <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [id]="sortBy=='name'?c.name:c.surname" [class.mat-elevation-z1]="true">
             <div class="head" (click)=go(c)>

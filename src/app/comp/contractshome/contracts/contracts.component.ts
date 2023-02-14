@@ -41,7 +41,7 @@ export class ContractsComponent implements OnInit {
   subsList:Subscription[]=[]
   constructor(private attach:AttachService, private excel:ExcelService, private router:Router, private auth:AuthServiceService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {3
+  ngOnInit(): void {
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         if(a) {
@@ -64,6 +64,7 @@ export class ContractsComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
+    console.log(window.innerWidth)
     if(window.innerWidth<800) {
       this.displayedColumns=['sn','type','attachment','edit','delete']
     } else {

@@ -9,7 +9,7 @@
         <mat-label>Search Customer Name or Address</mat-label>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <!--<div class="info">
+    <div class="info" *ngIf="selection && detailedInfo">
         <mat-form-field >
             <input matInput type="text" autocomplete="off" formControlName="c2" [readonly]="true">
             <mat-label>Address 1</mat-label>
@@ -18,8 +18,8 @@
             <input matInput type="text" autocomplete="off" formControlName="c3" [readonly]="true">
             <mat-label>Address 2</mat-label>
         </mat-form-field>  
-    </div>-->
-    <div class="list" *ngIf="chStr">
+    </div>
+    <div class="list" *ngIf="!selection">
         <div *ngFor="let c of customers" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(c)">
             <p class="text t1 sm">{{c.c1}}</p>
             <p class="text sm">{{c.c2}}</p>
