@@ -21,8 +21,8 @@
     </div>
     <div class="list" *ngIf="!selection">
         <div *ngFor="let c of customers" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(c)">
-            <p class="text t1 sm">{{c.c1}}</p>
-            <p class="text sm">{{c.c2}}</p>
+            <p class="text t1">{{c.c1}}</p>
+            <p class="text">{{c.c2}}</p>
             <p class="text">{{c.c3}}</p>
         </div>
     </div>  

@@ -1,31 +1,11 @@
 <div mat-dialog-title>
-    Select SJ
+    Service Job Selection
 </div>
-<div class="search" *ngIf="!spin">
-    <form [formGroup]="form">
-        <mat-form-field floatLabel="always">
-            <mat-label>Search</mat-label>
-            <input matInput formControlName="search" type="text" autocomplete="off" (input)="search($event)">
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-</form>
-    
-</div>
+
 <div class="main" mat-dialog-content>
-    <div class="spinCont" *ngIf="spin">
-        <mat-spinner style="zoom: .2;" ></mat-spinner>
-    </div>
-    
-    <div class="content" *ngIf="!spin">
-        <mat-list>
-            <mat-list-item *ngFor="let l of list; let i = index" (click)="select(l.sn, l.path)" [ngClass]="{'selected':l.sel==1}">
-              <mat-icon mat-list-icon >receipt_long</mat-icon>
-              <div mat-line>{{l.doc}} - {{l.sn}} - {{l.customer}} - {{l.path}}</div>
-            </mat-list-item>
-          </mat-list>
-    </div>
+    <episjob-selectsj [detailedInfo]="true" (info)="newId($event)"></episjob-selectsj>
 </div>
 <div mat-dialog-actions align="end">
     <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-    <button mat-raised-button color="primary" (click)="selected()" [disabled]="!sel">OK</button>
+    <button mat-raised-button color="primary" (click)="selected()" [disabled]="!sel && sel!={}">OK</button>
 </div>

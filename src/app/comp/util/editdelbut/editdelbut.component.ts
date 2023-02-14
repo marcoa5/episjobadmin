@@ -165,6 +165,11 @@ export class EditdelbutComponent implements OnInit {
     return this.auth.acc(a)
   }
 
+  chPosBal(a:string){
+    console.log(a)
+    return this.auth.acc(a)
+  }
+
   hrsPartReq(){
     this.addParts.emit('')
   }

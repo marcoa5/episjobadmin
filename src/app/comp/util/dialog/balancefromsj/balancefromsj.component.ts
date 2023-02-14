@@ -12,7 +12,7 @@ export class BalancefromsjComponent implements OnInit {
   _list:any[]=[]
   list:any[]=[]
   spin:boolean=false
-  sel:boolean=false
+  sel:any=undefined
   form!:FormGroup
   constructor(private dialog:MatDialog, private dialogRef:MatDialogRef<BalancefromsjComponent>, @Inject(MAT_DIALOG_DATA) public data:any, private fb: FormBuilder) {
     this.form = this.fb.group({
@@ -80,20 +80,15 @@ export class BalancefromsjComponent implements OnInit {
   
   }
 
-  selected(){
-    this._list.forEach(l=>{
-      if(l.sel==1) this.dialogRef.close(l)
-    })
+  newId(e:any){
+    if(e && e!=''){
+      this.sel=e
+    } else {
+      this.sel = undefined
+    }
   }
 
-  search(e:any){
-    let filter:string = e.target.value
-    
-    this.list=this._list.filter(l=>{
-      if(l.doc.toLowerCase().includes(filter.toLowerCase()) ||l.sn.toLowerCase().includes(filter.toLowerCase()) || l.customer.toLowerCase().includes(filter.toLowerCase())){
-        return l
-      }
-      return null
-    }) 
+  selected(){
+    this.dialogRef.close(this.sel)
   }
 }

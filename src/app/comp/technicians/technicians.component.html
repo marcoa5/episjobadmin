@@ -1,5 +1,5 @@
 <episjob-navbar [title]="'Technicians list'" (filter)="filter($event)" [cerca]="false"></episjob-navbar>
-<div *ngIf="allow && !allSpin" episjobCont episjobContMaxWidth="1000">
+<div *ngIf="allow && !allSpin" episjobCont episjobContMaxWidth="3500">
     <episjob-addbut [fun]="'newtech'"></episjob-addbut>
     <episjob-spin *ngIf="tech.length==0"></episjob-spin>
     <div class="mainCont" *ngIf="tech.length>0">

@@ -27,24 +27,7 @@
     align-items: center;
 }
 
-@media screen and (max-width: 400px) {
-    .line{
-        max-height: none;
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-    }    
-    .line:nth-child(odd) {
-        background-color: rgb(245,245,245);
-    }
-    .t1{
-        font-weight: 600;
-    }
-    .med{
-        display: none;
-    }
-}
-
-@media screen and (max-width: 650px) and (min-width:401px) {
+@media screen and (max-width: 850px) {
     .line{
         max-height: none;
         grid-template-columns: 1fr;

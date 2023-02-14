@@ -165,7 +165,7 @@ export class ContractshomeComponent implements OnInit {
           let newK=Object.keys(item.discounts)
           newK.forEach(a=>{
             let newVal:any=Object.values(item.discounts)[newK.indexOf(a)]
-            if(a.substring(0,3)=='RDT' || a.substring(0,3)=='PSD') newVal=parseInt(newVal.toString())
+            if((a.substring(0,3)=='RDT' || a.substring(0,3)=='PSD') && !isNaN(parseInt(newVal.toString()))) newVal=parseInt(newVal.toString())
             temp['disc_'+a]= newVal
           })
         }

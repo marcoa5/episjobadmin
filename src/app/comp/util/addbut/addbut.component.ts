@@ -17,10 +17,12 @@ export class AddbutComponent implements OnInit {
   @Input() fun:string|undefined
   @Input() addNewContact:boolean=false
   @Input() addNewQuote:boolean=false
+  @Input() addNewBalance:boolean=false
   @Output() exp=new EventEmitter()
   @Output() expDet=new EventEmitter()
   @Output() newCon = new EventEmitter()
   @Output() newQuote= new EventEmitter()
+  @Output() newBalance=new EventEmitter()
 
   func:string=''
   constructor(private router: Router, private auth: AuthServiceService) {}
@@ -56,6 +58,7 @@ export class AddbutComponent implements OnInit {
   newEvent(){
     if(this.addNewContact) this.newCon.emit('new')
     if(this.addNewQuote) this.newQuote.emit('new')
+    if(this.addNewBalance) this.newBalance.emit('new')
 
   }
 }

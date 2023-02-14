@@ -116,7 +116,6 @@ export class SelectmachineComponent implements OnInit {
 
   sel(a:any){
     this.chStr=false
-    console.log(a)
     this.details=[
       {value: a.sn, lab: 'Serial nr.', click:'', url:''},
       {value: a.model, lab: 'Model', click:'', url:''},

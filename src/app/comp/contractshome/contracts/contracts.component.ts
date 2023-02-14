@@ -64,7 +64,6 @@ export class ContractsComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log(window.innerWidth)
     if(window.innerWidth<800) {
       this.displayedColumns=['sn','type','attachment','edit','delete']
     } else {

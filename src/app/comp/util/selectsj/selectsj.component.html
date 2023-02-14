@@ -1,0 +1,35 @@
+<episjob-spin *ngIf="sj.length==0 && spin" [padtop]="0"></episjob-spin>
+<form [formGroup]="inputData" class="req" *ngIf="sj.length>0 || !spin">
+    <h4>Select SJ</h4>
+    <mat-form-field  class="search hid">
+        <input matInput #sea type="text" autocomplete="off" formControlName="id">
+        <mat-label>IDr</mat-label>
+    </mat-form-field>
+    <mat-form-field  class="search" floatLabel="always">
+        <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()" [readonly]="infoInput || readOnly">
+        <mat-label>Search Service Job</mat-label>
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <div class="list" *ngIf="!selection">
+        <div *ngFor="let s of sj" [ngStyle]="{'cursor':1==1? 'pointer':'arrow'}" class="line" (click)="sel(s)">
+            <p class="text t1">{{s.doc}}</p>
+            <p class="text">{{s.sn}}</p>
+            <p class="text">{{s.customer}}</p>
+        </div>
+    </div>  
+    <div class="info" *ngIf="selection && detailedInfo">
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="sn" [readonly]="true">
+            <mat-label>Serial
+            </mat-label>
+        </mat-form-field> 
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="model" [readonly]="true">
+            <mat-label>Model</mat-label>
+        </mat-form-field> 
+        <mat-form-field >
+            <input matInput type="text" autocomplete="off" formControlName="customer" [readonly]="true">
+            <mat-label>Customer</mat-label>
+        </mat-form-field> 
+    </div>
+</form>

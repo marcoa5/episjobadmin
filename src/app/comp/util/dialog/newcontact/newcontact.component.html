@@ -1,7 +1,7 @@
 <div mat-dialog-title>{{(data.type=='new'? 'Add' : 'Edit') + ' contact'}}</div>
 <div mat-dialog-content>
     <form [formGroup]="newCont" class="cont">
-        <mat-form-field  floatLabel="always" *ngIf="chPos('SURights')">
+        <mat-form-field  floatLabel="always" *ngIf="chPos('SURights') && newCont.controls.id.value!=''">
             <mat-label>ID</mat-label>
             <input matInput type="text" formControlName="id" autocomplete="off">
         </mat-form-field>
