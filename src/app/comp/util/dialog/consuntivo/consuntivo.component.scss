@@ -39,6 +39,12 @@
     padding-right: 15px;
 }
 
+.butCont{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap:10px;
+}
+
 button{
     max-height: 50px;
 }

@@ -76,7 +76,7 @@ export class SelectcustomerComponent implements OnInit {
           this.inputData.controls.c2.setValue(this.customers[0].c2)
           this.inputData.controls.c3.setValue(this.customers[0].c3)
           this.selection=true
-          this.info.emit(this.customers[0])
+          this.sel(this.customers[0])
         } else {
           this.inputData.controls.id.setValue('')
           this.inputData.controls.c2.setValue('')
@@ -88,7 +88,6 @@ export class SelectcustomerComponent implements OnInit {
       } else {
         this.customers= this._customers
       }
-      this.info.emit('')
     })
   }
 

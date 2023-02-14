@@ -81,7 +81,7 @@ export class RequestlistComponent implements OnInit {
 
   ngOnDestroy(){
     if(this.mod) {
-      const dia = this.dialog.open(SavedialogComponent,{data:'',disableClose:true})
+      const dia = this.dialog.open(SavedialogComponent,{data:'Save updated data as new draft?',disableClose:true})
       dia.afterClosed().subscribe(a=>{if(a) this.saveList()})
       this.subsList.forEach(a=>{a.unsubscribe()})
     }

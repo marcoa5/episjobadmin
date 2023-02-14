@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app';
 import { Observable } from 'rxjs';
@@ -8,7 +9,9 @@ import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.ser
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 import { ConfirmComponent } from '../confirm/confirm.component';
+import { GenericComponent } from '../generic/generic.component';
 import { ImportpartsComponent } from '../importparts/importparts.component';
+import { SavedialogComponent } from '../savedialog/savedialog.component';
 
 @Component({
   selector: 'episjob-consuntivo',
@@ -25,8 +28,14 @@ export class ConsuntivoComponent implements OnInit {
   selectedType:any
   mask!:FormGroup
   buttons:any[]=[]
+  originalData:any={}
+  change:boolean=false
   constructor(private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask=fb.group({},{validators:check.checkQ()})
+  }
+
+  ngOnDestroy(){
+    
   }
 
   ngOnInit(): void {
@@ -77,10 +86,28 @@ export class ConsuntivoComponent implements OnInit {
       }
     })
     this.inputData()
+    this.mask.valueChanges.subscribe(val=>{
+      if(val) {
+        let check:boolean=false
+        Object.values(this.originalData).forEach((i, index)=>{
+          if(i!=Object.values(this.mask.value)[index]) check=true
+        })
+        this.change=check
+      }
+    })
+    this.originalData = this.mask.value
   }
 
   onNoClick(){
-    this.dialogRef.close()
+    if(this.change) {
+      const dia = this.dialog.open(SavedialogComponent,{data:'Data has been updated, save changes?',disableClose:true})
+      dia.afterClosed().subscribe(a=>{
+        if(a) this.inputData()
+        this.dialogRef.close()
+      })
+    } else {
+      this.dialogRef.close()
+    }
   }
 
   send(){
@@ -96,36 +123,43 @@ export class ConsuntivoComponent implements OnInit {
           if(a.val()!=null) {
             this.mask.controls['_ite'+name.substring(4,6)].setValue(a.val().desc)
             this.mask.controls['_llp'+name.substring(4,6)].setValue(a.val().llp)
-            this.inputData()
+            //this.inputData()
           }
           else{
             this.mask.controls['_ite'+name.substring(4,6)].setValue('')
             this.mask.controls['_llp'+name.substring(4,6)].setValue('')
             this.mask.controls['_qty'+name.substring(4,6)].setValue('')
-            this.inputData()
+            //this.inputData()
           }
         })
       } else {
           this.mask.controls['_ite'+name.substring(4,6)].setValue('')
           this.mask.controls['_llp'+name.substring(4,6)].setValue('')
           this.mask.controls['_qty'+name.substring(4,6)].setValue('')
-          this.inputData()
+          //this.inputData()
       }
     }
-    this.inputData()
+    //this.inputData()
+  }
+
+  save(){
+    let f = this.dialog.open(SavedialogComponent, {data:'Save data?'})
+    f.afterClosed().subscribe(res=>{
+      if(res) this.inputData()
+    })
   }
 
   inputData(){
     let sn:string=this.data.data.___sn
     if(this.data.data.___path){
       let path:string=this.data.data.___path
-      
       firebase.database().ref('Balance').child(sn).child(path).set(this.mask.value)
     } else {
       firebase.database().ref('Quote').child(sn).child('test').set(this.mask.value)
     }
-    
-  }
+    this.originalData=this.mask.value
+    this.change=false
+}
 
   loadParts(){
     let maxLines:number=20
@@ -155,7 +189,7 @@ export class ConsuntivoComponent implements OnInit {
           }else{
             this.addParts(ll,max+1)
             .then(()=>{
-              this.inputData()
+              //this.inputData()
             }) 
           }
         }
@@ -218,7 +252,7 @@ export class ConsuntivoComponent implements OnInit {
             this.mask.controls['_tra'+i].setValue('')*/
           }
         }
-        this.inputData()
+        //this.inputData()
       }
     })
   }

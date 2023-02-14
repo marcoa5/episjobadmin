@@ -1,0 +1,23 @@
+@import '../../../../epi.scss';
+
+.spinCont{
+    width:100%;
+    display: flex;
+    justify-content: center;
+}
+
+mat-list-item{
+    cursor: pointer;
+}
+
+.main{
+    max-height: 60vh;
+}
+
+.selected{
+    background-color: $light-text;
+}
+
+.serach{
+    position:sticky;
+}

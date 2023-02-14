@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SpinComponent implements OnInit {
   @Input() padtop:number=100
+  @Input() scale:number=1
   constructor() { }
 
   ngOnInit(): void {

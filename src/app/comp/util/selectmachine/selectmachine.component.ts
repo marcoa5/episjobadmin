@@ -22,7 +22,7 @@ export class SelectmachineComponent implements OnInit {
   readOnly:boolean=false
   serial:string=''
   selection:boolean=false
-  @Input() detailedInfo=true
+  @Input() detailedInfo=false
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
@@ -110,7 +110,6 @@ export class SelectmachineComponent implements OnInit {
       } else {
         this.rigs= this._rigs
       }
-      this.info.emit(undefined)
     })
   }
 

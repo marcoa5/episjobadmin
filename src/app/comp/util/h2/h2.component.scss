@@ -30,10 +30,9 @@ mat-icon{
   gap:15px;
 }
 
-.cont{
+.cont, .cont1{
     color: $light-text;
     display: grid;
-    grid-template-columns: 24px auto 2fr 24px;
     align-items: center;
     gap:15px;
     border-top-left-radius: 10px;
@@ -45,17 +44,12 @@ mat-icon{
     //background-color: rgb(200, 200, 200);
 }
 
+.cont{
+  grid-template-columns: 24px auto 2fr 24px;
+}
 
 .cont1{
-    grid-template-columns: 45px 6fr 100px;
-}
-
-.cont2{
-    grid-template-columns: 45px 6fr 6fr;
-}
-
-.cont3{
-    grid-template-columns: 45px 6fr 3fr 3fr;
+  grid-template-columns: 24px auto 2fr;
 }
 
 input{

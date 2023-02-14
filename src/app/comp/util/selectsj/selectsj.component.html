@@ -1,4 +1,4 @@
-<episjob-spin *ngIf="sj.length==0 && spin" [padtop]="0"></episjob-spin>
+<episjob-spin *ngIf="sj.length==0 && spin" [scale]="0.3" [padtop]="0"></episjob-spin>
 <form [formGroup]="inputData" class="req" *ngIf="sj.length>0 || !spin">
     <h4>Select SJ</h4>
     <mat-form-field  class="search hid">
@@ -6,7 +6,7 @@
         <mat-label>IDr</mat-label>
     </mat-form-field>
     <mat-form-field  class="search" floatLabel="always">
-        <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()" [readonly]="infoInput || readOnly">
+        <input matInput #sea type="text" autocomplete="off" formControlName="search" (input)="filter()" [readonly]="infoInput || readOnly" autofocus>
         <mat-label>Search Service Job</mat-label>
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>

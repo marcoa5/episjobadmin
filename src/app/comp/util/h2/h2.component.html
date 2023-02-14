@@ -1,4 +1,4 @@
-<div class="cont"  [ngStyle]="{'margin-top':padtop + 'px'}" [class.mat-elevation-z2]="true">
+<div [ngStyle]="{'margin-top':padtop + 'px'}" [ngClass]="{'cont':(hideButton==1 || hideButton==2), 'cont1':(hideButton!=1 && hideButton!=2)}" [class.mat-elevation-z2]="true">
     <mat-icon class="ico" *ngIf="icon!=''" (click)="download()">{{icon}}</mat-icon>
     <h2 class="title">{{data}}</h2>
     <div class="actions" [ngStyle]="{'Visibility': hideButton<2?true:false}" >

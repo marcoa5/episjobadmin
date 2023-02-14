@@ -6,7 +6,7 @@ import { SendbalanceService } from 'src/app/serv/sendbalance.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConsuntivoComponent } from '../util/dialog/consuntivo/consuntivo.component';
 import { DeldialogComponent } from '../util/dialog/deldialog/deldialog.component';
-import { BalancefromsjComponent } from '../util/dialog/balancefromsj/balancefromsj.component';
+import { BalancefromsjComponent } from './balancefromsj/balancefromsj.component';
 import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { GetBalanceDataService } from 'src/app/serv/get-balance-data.service';
 import { sanitizeIdentifier } from '@angular/compiler';

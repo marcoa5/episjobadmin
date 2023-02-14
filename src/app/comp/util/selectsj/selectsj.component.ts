@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import firebase from 'firebase/app'
 import { Subscription } from 'rxjs'
@@ -24,7 +24,7 @@ export class SelectsjComponent implements OnInit {
   serial:string=''
   selection:boolean=false
   rigs:any[]=[]
-  @Input() detailedInfo=true
+  @Input() detailedInfo=false
   @Output() info=new EventEmitter()
   subsList:Subscription[]=[]
 
@@ -76,7 +76,6 @@ export class SelectsjComponent implements OnInit {
   }
 
   ngAfterViewInit(){
-    
   }
 
   ngOnDestroy(){
@@ -119,7 +118,6 @@ export class SelectsjComponent implements OnInit {
       } else {
         this.sj= this._sj
       }
-      this.info.emit(undefined)
     })
   }
 

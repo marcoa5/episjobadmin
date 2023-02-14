@@ -177,7 +177,7 @@ import { ConsuntivoComponent } from './comp/util/dialog/consuntivo/consuntivo.co
 import { ConfirmComponent } from './comp/util/dialog/confirm/confirm.component';
 import { BalanceComponent } from './comp/balance/balance.component';
 import { BalancefilterPipe } from './pipe/balancefilter.pipe';
-import { BalancefromsjComponent } from './comp/util/dialog/balancefromsj/balancefromsj.component'
+import { BalancefromsjComponent } from './comp/balance/balancefromsj/balancefromsj.component'
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ConttopDirective } from './dir/conttop.directive';
 import { SelectcustomerComponent } from './comp/util/selectcustomer/selectcustomer.component';
