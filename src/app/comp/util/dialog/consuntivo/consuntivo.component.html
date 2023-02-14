@@ -45,7 +45,7 @@
         <h4>Quotation Lines</h4>
         <div class="main">
             <div class="select">
-                <mat-form-field  floatLabel="always" *ngFor="let c of checks">
+                <mat-form-field  floatLabel="always" *ngFor="let c of checks; let i=index">
                     <mat-label>RDT</mat-label>
                     <input matInput hidden="true">
                     <mat-checkbox  [formControlName]="'__RDT' + c"></mat-checkbox>

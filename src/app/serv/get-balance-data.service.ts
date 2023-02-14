@@ -399,7 +399,7 @@ export class GetBalanceDataService {
     return new Observable(sub=>{
       firebase.database().ref('Users').once('value',a=>{
         a.forEach(b=>{
-          if((b.val().Pos=='SU' || b.val().Pos=='admin' || b.val().Pos=='adminS') && b.val()._newquotes=='1'){
+          if((b.val().Pos=='SU' || b.val().Pos=='admin' || b.val().Pos=='adminS') && b.val()._newbalance=='1'){
             if(b.key) users.push(b.key)
           }
         })

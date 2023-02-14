@@ -111,8 +111,13 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   send(){
-    this.sendbalance.send(this.mask.value)
-    this.dialogRef.close(this.mask.value)
+    if(this.change) {
+      this.save(true, 'Data has been updated, before to proceed please save data')
+    } else {
+      this.sendbalance.send(this.mask.value)
+      this.dialogRef.close(this.mask.value)
+    }
+    
   }
   
   checkPrice(e:any, name:string){
@@ -142,10 +147,16 @@ export class ConsuntivoComponent implements OnInit {
     //this.inputData()
   }
 
-  save(){
-    let f = this.dialog.open(SavedialogComponent, {data:'Save data?'})
+  save(pdf?:boolean, text?:string){
+    let f = this.dialog.open(SavedialogComponent, {data:text?text:'Save data?'})
     f.afterClosed().subscribe(res=>{
-      if(res) this.inputData()
+      if(res) {
+        this.inputData()
+        if(pdf){
+          this.sendbalance.send(this.mask.value)
+          this.dialogRef.close(this.mask.value)
+        }
+      }
     })
   }
 
