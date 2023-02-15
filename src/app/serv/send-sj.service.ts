@@ -26,10 +26,11 @@ export class SendSJService {
           res('')
         },
         error=>{
+          //localStorage.setItem(id,JSON.stringify(data))
           console.log('ERRORE: '+ error.message)
           this._snackBar.open('Unable to send mail','',{duration:8000})
           d.close()
-          res('')
+          rej('')
         }
       )
     })

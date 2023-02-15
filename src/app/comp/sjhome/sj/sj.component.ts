@@ -605,12 +605,6 @@ export class SjComponent implements OnInit {
         let n_d = new Date(y,m,d)
         h.data_new=moment(n_d).format('YYYY-MM-DD')
         h.lastM = moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')
-        if(last) {
-          let tempId:string = this.rigForm.controls.sid.value
-          h.sjid=tempId
-          h.status='deleted'
-          localStorage.setItem(tempId, JSON.stringify(h))
-        }
         h.sjid=newId?newId:this.rigForm.controls.sid.value
         this.file=h
         let info:any={
@@ -618,11 +612,11 @@ export class SjComponent implements OnInit {
           fileName: `${moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
         }
         this.file.info=info
-        if(this.file.sjid.substring(0,3)=='sjs') {
+        if(this.sjType=='s') {
           firebase.database().ref('sjDraft').child('sent').child(this.file.sjid).set(this.file)
           .then(()=>resp(''))
         } else{
-          localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
+          if(this.file.sjid.substring(0,3)=='sjd') localStorage.setItem(this.file.sjid, JSON.stringify(this.file))
           resp('')
         }
       })
@@ -685,12 +679,29 @@ export class SjComponent implements OnInit {
   }
 
   async send(){
-    localStorage.getItem(this.rigForm.controls.sid.value)
-    let g:string = this.rigForm.controls.sid.value
-    if(g.split('')[2]!='s') g='sjsent' + this.id.makeId(5)
-    await this.saveData(true,g)
-    this.sendSJ.send(g,this.file)
-    .then(()=>{this.router.navigate(['sj'])})
+    let oldId:string = this.rigForm.controls.sid.value
+    localStorage.getItem(oldId)
+    let newId:string = ''
+    if(oldId.split('')[2]!='s') newId='sjsent' + this.id.makeId(5)
+    await this.saveData(true,newId)
+    this.sendSJ.send(newId,this.file)
+    .then(()=>{
+      firebase.database().ref('sjDraft').child('sent').child(newId).set(this.file)
+      .then(()=>{
+        let draftToDelete:any = JSON.parse(localStorage.getItem(oldId)!)
+        draftToDelete.status='deleted'
+        localStorage.setItem(oldId, JSON.stringify(draftToDelete))
+      })
+      .finally(()=>{
+        setTimeout(() => {
+          this.router.navigate(['sj'])
+        }, 100);
+      })
+      
+      
+      
+      
+    })
     .catch(err=>{
       console.log(err)
       this.router.navigate(['sj'])
