@@ -18,6 +18,8 @@ import * as moment from 'moment';
 import 'moment-timezone'
 import { environment } from 'src/environments/environment';
 import { Observable, fromEvent} from 'rxjs'
+import { Location } from '@angular/common'
+import { ConfirmComponent } from '../../util/dialog/confirm/confirm.component';
 
 @Component({
   selector: 'episjob-newrig',
@@ -58,7 +60,7 @@ export class NewrigComponent implements OnInit {
   disableChanges:boolean=true
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private makeId: MakeidService, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
+  constructor(private location: Location, private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private makeId: MakeidService, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
     this.newR = fb.group({
       sn:['', [Validators.required]],
       model:['', [Validators.required]],
@@ -439,6 +441,17 @@ export class NewrigComponent implements OnInit {
     
     if(a=='xx') {
     } 
+  }
+
+  back(){
+    let d =this.dialog.open(ConfirmComponent,{data:{title:'Unsaved Data', msg:'The form contains unsaved data, proceed?'}})
+    d.afterClosed().subscribe(res=>{
+      if(res) {
+        this.location.back()
+      }
+      d.close()
+    })
+    
   }
 }
 

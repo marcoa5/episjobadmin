@@ -52,3 +52,15 @@
     margin: 7px 10px 0 5px;
     //height:52px;
 }
+
+.b{
+    width:100%;
+    max-width: 150px;
+}
+
+.butCont{
+    width:100%;
+    display: flex;
+    justify-content: flex-end;
+    gap:15px;
+}
