@@ -7,7 +7,7 @@
         </ng-container>
         <ng-container matColumnDef="Author">
             <th mat-header-cell *matHeaderCellDef class="center" mat-sort-header> Author </th>
-            <td mat-cell *matCellDef="let a" class="center" (click)="open(a)"> {{a.orig}} </td>
+            <td mat-cell *matCellDef="let a" class="left" (click)="open(a)"> {{a.orig}} </td>
         </ng-container>             
         <ng-container matColumnDef="Amount">
           <th mat-header-cell *matHeaderCellDef class="right" mat-sort-header> Amount </th>

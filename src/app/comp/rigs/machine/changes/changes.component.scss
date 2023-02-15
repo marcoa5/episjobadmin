@@ -1,0 +1,28 @@
+@import '../../../../../epi.scss';
+
+table{
+    width: 100%;
+}
+td{
+    cursor: pointer;
+}
+
+.center{
+    text-align: center;
+}
+
+.cur{
+    cursor: pointer;
+}
+
+td, th{
+    text-align: center;
+}
+
+td:first-child,th:first-child{
+    text-align: left;
+}
+
+.left{
+    text-align: left;
+}

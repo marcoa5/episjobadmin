@@ -697,10 +697,6 @@ export class SjComponent implements OnInit {
           this.router.navigate(['sj'])
         }, 100);
       })
-      
-      
-      
-      
     })
     .catch(err=>{
       console.log(err)

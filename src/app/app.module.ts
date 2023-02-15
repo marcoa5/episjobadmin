@@ -185,6 +185,8 @@ import { QuotesComponent } from './comp/quotes/quotes.component';
 import { NewcontactcustomerselectionComponent } from './comp/contacts/newcontactcustomerselection/newcontactcustomerselection.component';
 import { NewquoteComponent } from './comp/quotes/newquote/newquote.component';
 import { SelectsjComponent } from './comp/util/selectsj/selectsj.component';
+import { ChangesComponent } from './comp/rigs/machine/changes/changes.component';
+import { ChangeDetailComponent } from './comp/rigs/machine/changes/change-detail/change-detail.component';
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -348,7 +350,9 @@ export const MY_FORMATS = {
     QuotesComponent,
     NewcontactcustomerselectionComponent,
     NewquoteComponent,
-    SelectsjComponent
+    SelectsjComponent,
+    ChangesComponent,
+    ChangeDetailComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

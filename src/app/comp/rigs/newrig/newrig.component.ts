@@ -17,6 +17,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import * as moment from 'moment';
 import 'moment-timezone'
 import { environment } from 'src/environments/environment';
+import { Observable, fromEvent} from 'rxjs'
 
 @Component({
   selector: 'episjob-newrig',
@@ -47,6 +48,14 @@ export class NewrigComponent implements OnInit {
   addr:any[]=[]
   addV:any
   cId:string=''
+  oldRigData:any
+  oldShipToData:any
+  oldCategData:any
+  newCategData:any
+  changes:any={}
+  when:Date = new Date()
+  readonly:boolean=false
+  disableChanges:boolean=true
   subsList:Subscription[]=[]
 
   constructor(private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private makeId: MakeidService, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
@@ -66,7 +75,13 @@ export class NewrigComponent implements OnInit {
     })
   }
 
+  track(){
+    this.checkChanges().then(val=>{if(val) {this.disableChanges=false}else{this.disableChanges=true}})
+  }
+
   ngOnInit(): void {
+    fromEvent(window,'click').subscribe(()=>{this.track()})
+    fromEvent(document,'keyup').subscribe(()=>{this.track()})
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.uId=a.uid
@@ -98,6 +113,7 @@ export class NewrigComponent implements OnInit {
           customer:[this.rigs[i].custid,[Validators.required]],
           in: [this.rigs[i].in]
         })
+        this.oldRigData=this.newR.value
         this.getCustInfo()
         .then(()=>{
           firebase.database().ref('shipTo').child(this.serial).once('value',a=>{
@@ -116,13 +132,20 @@ export class NewrigComponent implements OnInit {
                   add: a.val().address
                 })
               }
+              this.oldShipToData= this.shipTo.value
+              let temp:string[]=[]
+              Object.values(this.conList).forEach((c:any)=>{temp.push(c.name + (c.surname?(' '+c.surname):''))})
+              this.oldShipToData.conList = temp
             }
           }) 
         })
-        this.newR.controls['sn'].disable()
+        //this.newR.controls['sn'].disable()
+        this.readonly=true
         firebase.database().ref('Categ').child(this.serial).once('value',g=>{
           this.rigCat=[g.val()]
           if(this.rigCat.length>0) this.child=1
+          this.oldCategData=this.rigCat[0]
+          delete this.oldCategData.sn
         })
       } else {
         this.rou=['rigs']
@@ -149,7 +172,77 @@ export class NewrigComponent implements OnInit {
     return g
   }
 
+  chDiff(oldData:any,newData:any){
+    return new Promise((res,rej)=>{
+      if(oldData){
+        try{
+          let o = Object.values(oldData)
+          let n:any = Object.values(newData)
+          let len:number = o.length
+          let index:number=0
+          o.forEach((d:any,i:number)=>{
+            if(!Array.isArray(d)){
+              if(d!=n[i]) {
+                this.changes[Object.keys(oldData)[i]]={old: d,new:n[i]}
+              } else {
+                delete this.changes[Object.keys(oldData)[i]]
+              }
+            } else {
+              if(d.sort().toString()!=n[i].sort().toString()){
+                this.changes[Object.keys(oldData)[i]]={old: d,new:n[i]}
+              } else {
+                delete this.changes[Object.keys(oldData)[i]]
+              }
+            }
+            index++
+            if(index==len) res('')
+          })
+        } catch{res('')}
+      } else {
+        res('')
+      }  
+    })
+    
+    //return same
+  }
+
+  checkChanges(){
+    let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
+    return new Promise((res,rej)=>{
+      let newShipTo=this.shipTo.value
+      let temp:string[]=[]
+      Object.values(this.conList).forEach((c:any)=>{temp.push(c.name + (c.surname?(' ' + c.surname):''))})
+      newShipTo.conList = temp
+      if(this.oldCategData || this.oldRigData || this.oldShipToData){
+        Promise.all([this.chDiff(this.oldRigData,this.newR.value),this.chDiff(this.oldShipToData,newShipTo),this.chDiff(this.oldCategData,this.newCategData)])
+        .then(()=>{
+          let temp:any={}
+          if(Object.keys(this.changes).length>0) {
+            res(this.changes)
+          } else {
+            try{delete temp[this.newR.controls.sn.value][dateLong]}catch{}
+            res(undefined)
+          }
+        })
+      } else {
+        res({newMachine:true})
+      }
+    })
+  }
+
+
+
   add(a:any,b:FormGroup, c:FormGroup){
+    this.checkChanges().then(a=>{
+      console.log(a)
+      let temp:any={}
+      let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
+      temp = a
+      temp.author = this.uName
+      temp.timeStamp = moment.tz(this.when,environment.zone).format('YYYYMMDDHHmmss')
+      console.log(temp)
+      firebase.database().ref('FleetChanges').child(this.newR.controls.sn.value).child(dateLong).set(temp)
+    })
     let g:string[] = [
       b.get('sn')?.value,
       b.get('model')?.value,
@@ -222,12 +315,13 @@ export class NewrigComponent implements OnInit {
   }
 
   getCustInfo(){
+    this.track()
     this.addr=[]
     return new Promise((res,rej)=>{
       this.conList={}
-      this.shipTo.controls.address.setValue(null)
-      this.shipTo.controls.cig.setValue(null)
-      this.shipTo.controls.cup.setValue(null)
+      this.shipTo.controls.address.setValue('')
+      this.shipTo.controls.cig.setValue('')
+      this.shipTo.controls.cup.setValue('')
       firebase.database().ref('CustContacts').child(this.custId).on('value',a=>{
         if(a.val()!=null){
           this.custCon=[]
@@ -291,6 +385,11 @@ export class NewrigComponent implements OnInit {
   }
   
   getData(e:any){
+    this.newCategData={}
+    this.newCategData.div=e.value.div
+    this.newCategData.fam=e.value.fam
+    this.newCategData.segment=e.value.segm
+    this.newCategData.subCat=e.value.subC
     this.childAdd['div']=e.value.div
     this.childAdd['fam']=e.value.fam
     this.childAdd['segment']=e.value.segm
@@ -304,6 +403,7 @@ export class NewrigComponent implements OnInit {
     } else {
       delete this.conList[b.contId]
     }
+    this.track()
     this.checkCon()
   }
 
@@ -329,12 +429,14 @@ export class NewrigComponent implements OnInit {
   checkCon(){
     let a= this.conList
     let b = this.shipTo.controls.address.value
-    if(Object.values(a)[0]==null && (b==null || b=='')) return true
-    if(Object.values(a)[0]==null || (b==null || b=='')) return false
-    return true
+    
+    if((Object.values(a)[0]==null || Object.values(a)[0]==undefined) && (b!=null && b!='')) return true
+    if((Object.values(a)[0]!=null && Object.values(a)[0]!=undefined) && (b==null || b=='')) return true
+    return false
   }
 
   onCh(a:any){
+    
     if(a=='xx') {
     } 
   }

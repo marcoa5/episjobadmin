@@ -1,0 +1,22 @@
+<div mat-dialog-title>Data</div>
+<div mat-dialog-content class="cont">
+    <div>Old Value:</div>
+    <div>
+        <strong>{{data.val.old}}</strong>
+    </div>
+    <div>New Value:</div>
+    <div>
+        <strong>{{data.val.new}}</strong>
+    </div>
+    <div>Modified by:</div>
+    <div>
+        <strong>{{data.author}}</strong>
+    </div> 
+    <div>on:</div> <div>
+        <strong>{{data.timeT}}</strong>
+    </div>
+</div>
+<div mat-dialog-actions align="end">
+    <!--<button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>No</button>-->
+    <button mat-raised-button color="primary" [mat-dialog-close]="'closed'">OK</button>
+</div>

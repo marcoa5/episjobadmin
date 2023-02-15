@@ -23,6 +23,7 @@ import { MakeidService } from 'src/app/serv/makeid.service';
 import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
 import { SumWsHrsService } from 'src/app/serv/sum-ws-hrs.service';
+import { environment } from 'src/environments/environment';
 
 export interface hrsLabel {
   lab: string
@@ -96,6 +97,7 @@ export class MachineComponent implements OnInit {
   partReqList:any[]=[]
   contract:any[]=[]
   files:any[]=[]
+  changes:any[]=[]
   info:any={}
   userId:string=''
   subsList:Subscription[]=[]
@@ -150,6 +152,7 @@ export class MachineComponent implements OnInit {
       this.loadSubEquipment()
       this.loadContract()
       this.loadWsFiles()
+      this.loadChanges()
       this.loadData()
       .then(()=>{
         if(this.data[0]) this.inizio=this.data[0].x
@@ -966,6 +969,29 @@ export class MachineComponent implements OnInit {
     })
     .catch(err=>{console.log(err)})
     
+  }
+
+  loadChanges(){
+    let ris:any[]=[]
+    firebase.database().ref('FleetChanges').child(this.valore).once('value',a=>{ 
+      if(a.val()){
+        a.forEach(b=>{
+          if(b.val()){
+            b.forEach(c=>{
+              if(c.key!='author' && c.key!='timeStamp') {
+                let s= b.val().timeStamp.match(/.{1,2}/g) ?? []
+                let st =`${s[0]}${s[1]}-${s[2]}-${s[3]} ${s[4]}:${s[5]}:${s[6]}`
+                let time = moment.tz(st, environment.zone).format("DD/MM/YYYY HH:mm:ss")
+                ris.push({author:b.val().author, time:b.val().timeStamp,timeT:time, key:c.key,val:c.val()})
+              }
+            })
+          }
+        })
+      }
+    })
+    .then(()=>{
+      this.changes=ris.slice().reverse()
+    })
   }
 
   addP(){

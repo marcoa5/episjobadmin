@@ -1,0 +1,28 @@
+<div episjobMachinecont *ngIf="_list.length>0" [class.mat-elevation-z2]="true">
+    <div episjobTablecont>
+        <table mat-table [dataSource]="_list" matSort (matSortChange)="sortData($event)">
+            <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef class="cur" mat-sort-header> Time </th>
+                <td mat-cell class="left" *matCellDef="let a; let i = index" (click)="open(a)"> {{a.timeT}} </td>
+            </ng-container>
+            <ng-container matColumnDef="author" >
+                <th mat-header-cell *matHeaderCellDef class="cur" mat-sort-header> Author </th>
+                <td mat-cell class="left" *matCellDef="let a; let i = index" (click)="open(a)"> {{a.author}} </td>
+            </ng-container>
+            <ng-container matColumnDef="key">
+                <th mat-header-cell *matHeaderCellDef class="cur" mat-sort-header> Key </th>
+                <td mat-cell class="left" *matCellDef="let a; let i = index" (click)="open(a)"> {{a.key}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <mat-paginator 
+        [disabled]="list.length<6"
+        [length]="list.length"
+        [pageSize]="5"
+        [pageSizeOptions]="list.length>20? [5,10,20,list.length]: (list.length>10?[5,10,list.length]:[5,list.length])"
+        (page)="split($event)">
+    </mat-paginator>
+</div>
+    
