@@ -990,7 +990,27 @@ export class MachineComponent implements OnInit {
       }
     })
     .then(()=>{
-      this.changes=ris.slice().reverse()
+      firebase.database().ref('SubEquipment').child(this.valore).once('value',a=>{
+        a.forEach(b=>{
+          b.forEach(c=>{
+            if(c.key!.substring(0,8)=='modified') {
+              let t=c.key!.substring(12,1000)
+              let s= t.match(/.{1,2}/g) ?? []
+              let st =`${s[0]}${s[1]}-${s[2]}-${s[3]} ${s[4]}:${s[5]}:${s[6]}`
+              let time = moment.tz(st, environment.zone).format("DD/MM/YYYY HH:mm:ss")
+              ris.push({author:c.val().by, time:t,timeT:time, key:b.val().cat + ' - ' + c.val().item,val:{old:c.val().oldValue,new:c.val().newValue}})
+            }
+          })
+        })
+      })
+      .then(()=>{
+        this.changes=ris.slice().sort((a:any,b:any)=>{
+          if(a.time>b.time) return -1
+          if(a.time<b.time) return 1
+          return 0
+        })
+      })
+      
     })
   }
 
