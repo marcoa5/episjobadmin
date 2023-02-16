@@ -181,7 +181,7 @@ export class FilesComponent implements OnInit {
               document.body.appendChild(href)
               const url= window.URL.createObjectURL(blob)
               href.href=url
-              href.download= n.name + '.pdf'
+              href.download= n.name
               href.click()
               setTimeout(() => {
                 window.URL.revokeObjectURL(url)
