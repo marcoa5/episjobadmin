@@ -235,11 +235,10 @@ export class NewrigComponent implements OnInit {
 
 
   add(a:any,b:FormGroup, c:FormGroup){
-    this.checkChanges().then(a=>{
-      console.log(a)
+    this.checkChanges().then(ap=>{
       let temp:any={}
       let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
-      temp = a
+      temp = ap
       temp.author = this.uName
       temp.timeStamp = moment.tz(this.when,environment.zone).format('YYYYMMDDHHmmss')
       console.log(temp)
