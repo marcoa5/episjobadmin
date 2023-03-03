@@ -609,7 +609,7 @@ export class SjComponent implements OnInit {
         this.file=h
         let info:any={
           subject: "Scheda Lavoro - " + this.file.data11 + " - " + this.file.cliente11 + " - " + this.file.prodotto1 + " - " + this.file.matricola,
-          fileName: `${moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}`
+          fileName: `${moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss')} - ${this.file.cliente11} - ${this.file.prodotto1} - ${this.file.matricola}_${this.id.makeId(4)}`
         }
         this.file.info=info
         if(this.sjType=='s') {

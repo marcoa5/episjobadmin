@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
 import { Observable, fromEvent} from 'rxjs'
 import { Location } from '@angular/common'
 import { ConfirmComponent } from '../../util/dialog/confirm/confirm.component';
+import { NewdataComponent } from '../../util/dialog/newdata/newdata.component';
 
 @Component({
   selector: 'episjob-newrig',
@@ -82,8 +83,8 @@ export class NewrigComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    fromEvent(window,'click').subscribe(()=>{this.track()})
-    fromEvent(document,'keyup').subscribe(()=>{this.track()})
+    this.subsList.push(fromEvent(window,'click').subscribe(()=>{this.track()}))
+    this.subsList.push(fromEvent(document,'keyup').subscribe(()=>{this.track()}))
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.uId=a.uid
@@ -99,7 +100,6 @@ export class NewrigComponent implements OnInit {
     this.subsList.push(this.auth._customers.subscribe(a=>this.customers=a))
     this.subsList.push(this.auth._fleet.subscribe(a=>{this.rigs=a}))
     this.allow=this.auth.allow('SU',this.pos)
-  
     this.route.params.subscribe(a=>{
       this.serial= a.name
       if(this.serial!=undefined) {
@@ -176,10 +176,13 @@ export class NewrigComponent implements OnInit {
 
   chDiff(oldData:any,newData:any){
     return new Promise((res,rej)=>{
-      if(oldData){
+      console.log(oldData,newData)
+      //if(oldData){
         try{
-          let o = Object.values(oldData)
-          let n:any = Object.values(newData)
+          let o = Object.values(oldData).sort()
+          let n:any = Object.values(newData).sort()
+          let ok = Object.keys(oldData).sort()
+          let nk = Object.keys(newData).sort()
           let len:number = o.length
           let index:number=0
           o.forEach((d:any,i:number)=>{
@@ -197,12 +200,10 @@ export class NewrigComponent implements OnInit {
               }
             }
             index++
-            if(index==len) res('')
+            if(index==len) {res('')}
           })
         } catch{res('')}
-      } else {
-        res('')
-      }  
+      //} else {res('')}  
     })
     
     //return same
@@ -232,18 +233,8 @@ export class NewrigComponent implements OnInit {
     })
   }
 
-
-
   add(a:any,b:FormGroup, c:FormGroup){
-    this.checkChanges().then(ap=>{
-      let temp:any={}
-      let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
-      temp = ap
-      temp.author = this.uName
-      temp.timeStamp = moment.tz(this.when,environment.zone).format('YYYYMMDDHHmmss')
-      console.log(temp)
-      firebase.database().ref('FleetChanges').child(this.newR.controls.sn.value).child(dateLong).set(temp)
-    })
+    
     let g:string[] = [
       b.get('sn')?.value,
       b.get('model')?.value,
@@ -254,6 +245,15 @@ export class NewrigComponent implements OnInit {
       if(f.id==g[3]) g[5]=(f.c1)
     })
     if(a=='addr' && this.allow){
+      this.checkChanges().then(ap=>{
+        let temp:any={}
+        let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
+        temp = ap
+        temp.author = this.uName
+        temp.timeStamp = moment.tz(this.when,environment.zone).format('YYYYMMDDHHmmss')
+        console.log(temp)
+        firebase.database().ref('FleetChanges').child(this.newR.controls.sn.value).child(dateLong).set(temp)
+      })
       firebase.database().ref('MOL').child(g[0].toUpperCase()).set({
         custid: g[3],
         customer: g[5].toUpperCase(),
@@ -288,6 +288,15 @@ export class NewrigComponent implements OnInit {
       // ADD check per modifica matricola
       dialogRef.afterClosed().subscribe(result => {
         if(result) {
+          this.checkChanges().then(ap=>{
+            let temp:any={}
+            let dateLong:string=moment.tz(this.when,environment.zone).format('YYYY-MM-DD - HH:mm:ss')
+            temp = ap
+            temp.author = this.uName
+            temp.timeStamp = moment.tz(this.when,environment.zone).format('YYYYMMDDHHmmss')
+            console.log(temp)
+            firebase.database().ref('FleetChanges').child(this.newR.controls.sn.value).child(dateLong).set(temp)
+          })
           firebase.database().ref('MOL').child(this.serial).set({
             customer: g[5].toUpperCase(),
             custid: g[3],

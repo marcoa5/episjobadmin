@@ -21,6 +21,7 @@ export class SjdialogComponent implements OnInit {
   constructor(private sendBalance:SendbalanceService, private bal:GetBalanceDataService, private http:HttpClient, private dialog:MatDialog, private auth:AuthServiceService, public dialogRef: MatDialogRef<SjdialogComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(): void {
+    console.log(this.data)
     this.checkBalance()
     this.onResize()
   }
