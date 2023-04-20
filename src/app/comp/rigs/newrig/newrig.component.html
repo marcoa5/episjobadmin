@@ -79,7 +79,7 @@
         </form>
         <div class="butCont" align="end">
             <button class="b" mat-raised-button color="primary" (click)="back()">Cancel</button>
-            <button class="b" mat-raised-button [disabled]="newR.invalid || segment || checkCon() ||disableChanges" (click)="add(addUpd? 'addr':'updr', newR, shipTo)" color="primary">{{addUpd? 'Add':'Update'}}</button>
+            <button class="b" mat-raised-button [disabled]="newR.invalid || segment || checkCon()" (click)="add(addUpd? 'addr':'updr', newR, shipTo)" color="primary">{{addUpd? 'Add':'Update'}}</button>
         </div>
     </div>
 </div>

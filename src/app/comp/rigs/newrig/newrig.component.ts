@@ -58,7 +58,7 @@ export class NewrigComponent implements OnInit {
   changes:any={}
   when:Date = new Date()
   readonly:boolean=false
-  disableChanges:boolean=true
+  //disableChanges:boolean=true
   subsList:Subscription[]=[]
 
   constructor(private location: Location, private auth: AuthServiceService, public notif: NotifService, private fb:FormBuilder, private makeId: MakeidService, private route:ActivatedRoute, private dialog: MatDialog, private router:Router) { 
@@ -78,13 +78,11 @@ export class NewrigComponent implements OnInit {
     })
   }
 
-  track(){
-    this.checkChanges().then(val=>{if(val) {this.disableChanges=false}else{this.disableChanges=true}})
-  }
+  //track(){this.checkChanges().then(val=>{if(val) {this.disableChanges=false}else{this.disableChanges=true}})}
 
   ngOnInit(): void {
-    this.subsList.push(fromEvent(window,'click').subscribe(()=>{this.track()}))
-    this.subsList.push(fromEvent(document,'keyup').subscribe(()=>{this.track()}))
+    //this.subsList.push(fromEvent(window,'click').subscribe(()=>{this.track()}))
+    //this.subsList.push(fromEvent(document,'keyup').subscribe(()=>{this.track()}))
     this.subsList.push(
       this.auth._userData.subscribe(a=>{
         this.uId=a.uid
@@ -325,7 +323,7 @@ export class NewrigComponent implements OnInit {
   }
 
   getCustInfo(){
-    this.track()
+    //this.track()
     this.addr=[]
     return new Promise((res,rej)=>{
       this.conList={}
@@ -413,7 +411,7 @@ export class NewrigComponent implements OnInit {
     } else {
       delete this.conList[b.contId]
     }
-    this.track()
+    //this.track()
     this.checkCon()
   }
 
