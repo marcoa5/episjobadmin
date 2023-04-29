@@ -1,0 +1,131 @@
+{
+  "configVersion": 1,
+  "timestamp": 1682754697264,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/blank.png",
+        "/favicon.ico",
+        "/firebase-messaging-sw.js",
+        "/index.html",
+        "/main.8808bfb7066a4997a620.js",
+        "/manifest.webmanifest",
+        "/polyfills.417612bdb82217a81c4b.js",
+        "/runtime.7b63b9fd40098a2e8207.js",
+        "/styles.758223bc1cf4fb7cd659.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/apple-touch-icon.png",
+        "/assets/Rigs/Bolting.png",
+        "/assets/Rigs/Charger.png",
+        "/assets/Rigs/Continuous Loader.png",
+        "/assets/Rigs/Coprod.png",
+        "/assets/Rigs/Crusher.png",
+        "/assets/Rigs/DSI.png",
+        "/assets/Rigs/DTH.png",
+        "/assets/Rigs/Face Drilling.png",
+        "/assets/Rigs/Loader.png",
+        "/assets/Rigs/Locomotive.png",
+        "/assets/Rigs/Pneumatic TH.png",
+        "/assets/Rigs/Production Drilling.png",
+        "/assets/Rigs/RBM.png",
+        "/assets/Rigs/Screener.png",
+        "/assets/Rigs/TH.png",
+        "/assets/Rigs/Truck.png",
+        "/assets/Rigs/Underground Exploration.png",
+        "/assets/icons/Logo.svg",
+        "/assets/icons/Logo_cut_grey.png",
+        "/assets/icons/Logo_full_grey.png",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/icons/logo.png",
+        "/assets/icons/logo_grey.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/apple-touch-icon.png": "db8f84769810f3df818b2ce9a03f8110cfe4d3fc",
+    "/assets/Rigs/Bolting.png": "53e0ccc2bafa4331cce0c558058b823ccbdff9fc",
+    "/assets/Rigs/Charger.png": "8d80f5441552c250b6214d09f537be347b8b678e",
+    "/assets/Rigs/Continuous Loader.png": "e637d46bcc6ac7badf768291ae84d46d54567096",
+    "/assets/Rigs/Coprod.png": "b131d956d91a7a2d490dfb72f9553f9c73bc7f27",
+    "/assets/Rigs/Crusher.png": "cfcd6e32ecddb29b331e2852f687f92b42d2ea87",
+    "/assets/Rigs/DSI.png": "fe6418d683eb2c54fc006e4e9527546b3be1b539",
+    "/assets/Rigs/DTH.png": "b131d956d91a7a2d490dfb72f9553f9c73bc7f27",
+    "/assets/Rigs/Face Drilling.png": "debe752226643fbe2f3be74e54e09cda2e3a4d22",
+    "/assets/Rigs/Loader.png": "0d15306324c0c149c2148d8b0d63ff4655e38063",
+    "/assets/Rigs/Locomotive.png": "343222ae0fc51a32f34345062bcac3190e4ee499",
+    "/assets/Rigs/Pneumatic TH.png": "bae18958690869465654db90a02ceb356dc02889",
+    "/assets/Rigs/Production Drilling.png": "cc7fab81033bac2a399371b44c6465878154786b",
+    "/assets/Rigs/RBM.png": "296769dfe7488f9dcd1dc04731bd32b61a2de1ee",
+    "/assets/Rigs/Screener.png": "df8ba3dc49fc3d56220ffe3789659000926af015",
+    "/assets/Rigs/TH.png": "b131d956d91a7a2d490dfb72f9553f9c73bc7f27",
+    "/assets/Rigs/Truck.png": "48813ab2fd26b9d6a7ef438512ac46dbe642c03c",
+    "/assets/Rigs/Underground Exploration.png": "a47250ea004fb200045eb5d204c8ccc9af27f02c",
+    "/assets/blank.png": "6896c4b6c725c8dbbf7de76eca91a71757439f41",
+    "/assets/icons/Logo.svg": "909e9c1e5c5d5dd198e6adbc8b88c54ceef93ea5",
+    "/assets/icons/Logo_cut_grey.png": "c12c461daa4dde57b125e5ee9a1b42c6faa1d461",
+    "/assets/icons/Logo_full_grey.png": "84d193d0f0c9d5eb6098321aa0c8d199f1cf3686",
+    "/assets/icons/icon-128x128.png": "564126da3d0c7c85ac3fb462e0ee03a1cc4b95bf",
+    "/assets/icons/icon-144x144.png": "e38d25920e576d2147aff79fb8f60c9e42208f3a",
+    "/assets/icons/icon-152x152.png": "c3fb5e95478b7748f024adbe02a031485d6a72ff",
+    "/assets/icons/icon-192x192.png": "32ef646a29a1f300b45ca46875db069a4bf7c433",
+    "/assets/icons/icon-384x384.png": "5863a98d6558c9da5862545cd7e8204fce1911a6",
+    "/assets/icons/icon-512x512.png": "ec0a0b1ba7180eb743d9e2646002c953ffdbbf96",
+    "/assets/icons/icon-72x72.png": "c2dc118fbf13381817d267fe94ad1f5ccbe6ab5b",
+    "/assets/icons/icon-96x96.png": "78d8cd1b77c4fa030aa3f523fdd7ebb2bf8b6b18",
+    "/assets/icons/logo.png": "f86be44662e336383a9bbef3e8fbfa7e2ea31a24",
+    "/assets/icons/logo_grey.png": "31a9bda7d1427bf84d081fe2cf28374f86cb3096",
+    "/favicon.ico": "dbb83986aa24f4f25c0c38242cbcf6abb7f7d1af",
+    "/firebase-messaging-sw.js": "d16cf419b3ad2fe8275e3640429f402adde6a0a9",
+    "/index.html": "c5e38c98c2136c519bb85b597e5eabe596d96efc",
+    "/main.8808bfb7066a4997a620.js": "f31383b5d95e7f884a1cb333236af86afe24a25f",
+    "/manifest.webmanifest": "548873a2e4eb1d3ae2ce8ef8f27c19c2cc9296b6",
+    "/polyfills.417612bdb82217a81c4b.js": "7a1f0d316ed2d8f78ba864126a896ddf873451c9",
+    "/runtime.7b63b9fd40098a2e8207.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/styles.758223bc1cf4fb7cd659.css": "4db6110e0e655b77f9bbafe700a15822779378f0"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
