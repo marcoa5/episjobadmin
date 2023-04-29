@@ -3,7 +3,7 @@
     <episjob-label [values]="val" fillfit="fit"></episjob-label>
     <mat-form-field  class="data">
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="giorno" autocomplete="off" (dateInput)="chDate($event)">
+        <input matInput [matDatepicker]="picker" [(ngModel)]="giorno" autocomplete="off" (dateInput)="chDate($event)" style="min-width:0">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker [touchUi]="chW()" #picker></mat-datepicker>
     </mat-form-field>
@@ -24,7 +24,7 @@
     
 </div>
 
-<div mat-dialog-actions align="end">
-    <button mat-raised-button (click)="del()" color="primary"><mat-icon>delete</mat-icon>Delete Visit</button>
-    <button mat-raised-button color="primary" cdkFocusInitial (click)="onNoClick()">ok</button>
+<div mat-dialog-actions align="end" class="bc">
+    <button mat-raised-button (click)="del()" color="primary"><mat-icon>delete</mat-icon><span *nfIg="hide">Delete Visit</span></button>
+    <button mat-raised-button color="primary" cdkFocusInitial (click)="onNoClick()">Close</button>
 </div>

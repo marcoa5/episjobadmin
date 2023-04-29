@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogConfig, MatDialog } from '@angular/material/dialog'
 import { DeldialogComponent } from '../deldialog/deldialog.component'
 import firebase from 'firebase/app'
@@ -21,11 +21,18 @@ export class VisitdetailsComponent implements OnInit {
   day:string=''
   giorno!:Date
   dayNew!:Date
+  hide:boolean=true
   constructor(private ch:CheckwidthService, public dialogRef: MatDialogRef<VisitdetailsComponent>, @Inject(MAT_DIALOG_DATA) public data: any, public dialog:MatDialog) { 
     
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    if (window.innerWidth<500) {this.hide=true}else{this.hide=false}
+  }
+
   ngOnInit(): void {
+    this.onResize()
     if(this.data.epiAtt) this.attList = this.data.epiAtt.map((a:any)=>{
       return a.name
     })
