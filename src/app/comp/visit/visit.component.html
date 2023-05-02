@@ -8,5 +8,6 @@
 
 
 </div>  
+<episjob-editdelbut [visitreport]="true" (dlVisitRep)="downloadReport()"></episjob-editdelbut>
 <div episjobCont *ngIf="!allow && !allSpin">Restricted Area</div>
 <episjob-spin *ngIf="allSpin"></episjob-spin>

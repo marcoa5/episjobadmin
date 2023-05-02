@@ -4,6 +4,9 @@ import firebase from 'firebase/app'
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
+import { ExcelService } from 'src/app/serv/excelexport.service';
+import { GetvisitreportService } from 'src/app/serv/getvisitreport.service';
+import * as XLSX from 'xlsx-js-style'
 //import 'firebase/database'
 //import 'firebase/auth'
 
@@ -21,7 +24,7 @@ export class VisitComponent implements OnInit {
   allow:boolean=false
   subsList:Subscription[]=[]
 
-  constructor(private route:ActivatedRoute, private auth: AuthServiceService) {}
+  constructor(private excel:ExcelService,private route:ActivatedRoute, private auth: AuthServiceService, private report:GetvisitreportService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(a=>{
@@ -60,5 +63,76 @@ export class VisitComponent implements OnInit {
     }
     
     
+  }
+
+  downloadReport(){
+    this.report.loadReportData()
+    .then((res:any)=>{
+      let resLen:number=res.length
+      let resIndex:number=0
+      new Promise(ret=>{
+        res.forEach((r:any)=>{
+          r.date=new Date(r.date)
+          r.Date = r.date
+          r.Author = r.sam
+          r.CustomerName = r.c1
+          r.Place = r.place
+          if(r.cusAtt) r.cusAtt=r.cusAtt.toString()
+          r.CustomerAttendees=r.cusAtt
+          delete r.cusAtt
+          delete r.date
+          delete r.place
+          delete r.sam
+          //delete r.notes
+          delete r.c1
+          delete r.cuId
+          delete r.c2
+          delete r.c3
+          new Promise(rf=>{
+            if(r.epiAtt) {
+              let epi:string=''
+              let len=r.epiAtt.length
+              let index:number=0
+              new Promise(res=>{
+                r.epiAtt.forEach((e:any)=>{
+                  epi+=(epi==''?'':',')+e.name
+                  index++
+                  if(index==len) res('')
+                })
+              })
+              .then(()=>{
+                r.OtherEpirocAttendees=epi
+                delete r.epiAtt
+                rf('')
+              })
+            } else {
+              r.OtherEpirocAttendees=''
+              rf('')
+            }
+          })
+          .then(()=>{
+            r.Notes = r.notes
+            delete r.notes
+            resIndex++
+            if(resIndex==resLen)  ret('')
+          })
+          
+        })
+      })
+      .then(()=>{
+        let name='Visit Report'
+        let cols:string[]=['Date']
+        let colWidth:any[]=[120,150,150,150,150,150,2000]
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(res)
+        let range=XLSX.utils.decode_range(worksheet['!ref']!)
+        let Sheets:any={}
+        Sheets[name]=worksheet
+        const workbook: XLSX.WorkBook = { 
+          Sheets, 
+          SheetNames: [name] 
+        }
+        this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+      })    
+    })
   }
 }

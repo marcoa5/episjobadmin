@@ -25,6 +25,7 @@ import { environment } from 'src/environments/environment';
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() visitreport:boolean=false
   @Input() editItem:boolean = true
   @Input() deleteItem:boolean=true
   @Input() pricelist:boolean = false
@@ -55,6 +56,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() addCon=new EventEmitter()
   @Output() newPriceL=new EventEmitter()
   @Output() addBal=new EventEmitter()
+  @Output() dlVisitRep=new EventEmitter()
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -68,6 +70,10 @@ export class EditdelbutComponent implements OnInit {
 
   ngOnDestroy(){
     this.subsList.forEach(a=>{a.unsubscribe()})
+  }
+
+  downloadVisitReport(){
+    this.dlVisitRep.emit('')
   }
 
   openDialog(): void {
