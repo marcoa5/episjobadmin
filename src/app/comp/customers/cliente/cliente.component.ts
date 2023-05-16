@@ -6,7 +6,7 @@ import 'firebase/auth'
 import 'firebase/database'
 import { GetPotYearService } from '../../../serv/get-pot-year.service'
 import { Clipboard } from '@angular/cdk/clipboard'
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
@@ -17,6 +17,7 @@ import * as XLSX from 'xlsx-js-style'
 import { GenericComponent } from '../../util/dialog/generic/generic.component';
 import { ExcelService } from 'src/app/serv/excelexport.service';
 import { MessageComponent } from '../../util/dialog/message/message.component';
+import { VisitdetailsComponent } from '../../util/dialog/visitdetails/visitdetails.component';
 
 export interface rigsLabel {
   lab: string
@@ -159,6 +160,10 @@ export class ClienteComponent implements OnInit {
                     if(d.val().cuId==this.id && ((this.auth.acc('CustomerGetVisit')) || (this.auth.acc('CustomerGetVisitSales') && this.userId == c.key?.toString().substring(0,28)))){
                       let gty = d.val()
                       gty['url']= b.key+'/'+c.key + '/' + d.key
+                      gty['value']= d.val().date
+                      gty['lab']= d.val().sam
+                      gty['url']= 'visit'
+                      gty['click']= true
                       this.listV.push(gty)
                       this.listV.reverse()
                     }
@@ -170,6 +175,10 @@ export class ClienteComponent implements OnInit {
         })
       }
     })
+  }
+
+  openVisit(e:any){
+    this.dialog.open(VisitdetailsComponent, {data: e});
   }
 
   updateContacts(){

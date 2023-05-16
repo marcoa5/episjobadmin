@@ -14,6 +14,7 @@ export class LabelComponent implements OnInit {
   @Input() values:any[]=[]
   @Input() fillfit:string='fill'
   @Output() newCont=new EventEmitter()
+  @Output() visitDetails = new EventEmitter()
   valuesN:any[]=[]
   ngOnInit(): void {
     this.valuesN=this.values
@@ -23,7 +24,7 @@ export class LabelComponent implements OnInit {
     this.valuesN=this.values
   }
 
-  open(a:any, b:string){
+  open(a:any, b:string, c?:any){
     if(a && b=='machine') this.router.navigate(['/' + b,{sn:a}])
     if(a && b=='cliente') this.router.navigate(['/' + b,{id:a}])
     if(a && b=='contact') {
@@ -39,6 +40,9 @@ export class LabelComponent implements OnInit {
           this.newCont.emit(result)
         }
       })
+    }
+    if(a && b=='visit'){
+      this.visitDetails.emit(c)
     }
   }
 

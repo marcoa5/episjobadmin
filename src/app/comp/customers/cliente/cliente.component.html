@@ -34,7 +34,8 @@
 
     <div class="item5" *ngIf="chPos('SalesRights') && listV.length>0">
         <episjob-h2 padtop=0 icon="event_available" data="Visits"></episjob-h2> 
-        <episjob-visits [list]="listV"></episjob-visits> 
+        <!--<episjob-visits [list]="listV"></episjob-visits>-->
+        <episjob-label [values]="listV" (visitDetails)="openVisit($event)"></episjob-label> 
     </div>
 </div>
 

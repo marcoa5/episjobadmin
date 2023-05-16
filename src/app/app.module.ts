@@ -94,7 +94,6 @@ import { VisitlistComponent } from './comp/visit/visitlist/visitlist.component'
 import { SaveaccountComponent } from './comp/util/dialog/saveaccount/saveaccount.component';
 import { CalComponent } from './comp/visit/cal/cal.component';
 import { VisitdetailsComponent } from './comp/util/dialog/visitdetails/visitdetails.component';
-import { VisitsComponent } from './comp/customers/cliente/visits/visits.component';
 import { NewcontactComponent } from './comp/util/dialog/newcontact/newcontact.component';
 import { PartsComponent } from './comp/parts/parts.component';
 import { NewpartsrequestComponent } from './comp/parts/newpartsrequest/newpartsrequest.component';
@@ -267,7 +266,6 @@ export const MY_FORMATS = {
     SaveaccountComponent,
     CalComponent,
     VisitdetailsComponent,
-    VisitsComponent,
     NewcontactComponent,
     PartsComponent,
     NewpartsrequestComponent,
