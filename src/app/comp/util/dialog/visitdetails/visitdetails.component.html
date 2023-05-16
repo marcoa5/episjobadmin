@@ -25,6 +25,6 @@
 </div>
 
 <div mat-dialog-actions align="end" class="bc">
-    <button mat-raised-button (click)="del()" color="primary"><mat-icon>delete</mat-icon><span *nfIg="hide">Delete Visit</span></button>
+    <button mat-raised-button (click)="del()" color="primary"><mat-icon>delete</mat-icon><span *ngIf="hide">Delete Visit</span></button>
     <button mat-raised-button color="primary" cdkFocusInitial (click)="onNoClick()">Close</button>
 </div>

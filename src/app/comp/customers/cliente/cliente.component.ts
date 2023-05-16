@@ -147,30 +147,29 @@ export class ClienteComponent implements OnInit {
 
   getVisits(){
     let ref=firebase.database().ref('CustVisit')
-        ref.on('value',a=>{
-        this.listV=[]
-          if(a.val()!=null) {
-            a.forEach(b=>{
-              if(b.val()!=null){
-                b.forEach(c=>{
-                  if(c.val()!=null){
-                    c.forEach(d=>{
-                      if(d.val()!=null){
-                        if(d.val().cuId==this.id && ((this.auth.acc('CustomerGetVisit')) || (this.auth.acc('CustomerGetVisitSales') && this.userId == c.key?.toString().substring(0,28)))){
-                          let gty = d.val()
-                          gty['url']= b.key+'/'+c.key + '/' + d.key
-                          this.listV.push(gty)
-                          this.listV.reverse()
-                        }
-                      }
-                    })
+    ref.on('value',a=>{
+    this.listV=[]
+      if(a.val()!=null) {
+        a.forEach(b=>{
+          if(b.val()!=null){
+            b.forEach(c=>{
+              if(c.val()!=null){
+                c.forEach(d=>{
+                  if(d.val()!=null){
+                    if(d.val().cuId==this.id && ((this.auth.acc('CustomerGetVisit')) || (this.auth.acc('CustomerGetVisitSales') && this.userId == c.key?.toString().substring(0,28)))){
+                      let gty = d.val()
+                      gty['url']= b.key+'/'+c.key + '/' + d.key
+                      this.listV.push(gty)
+                      this.listV.reverse()
+                    }
                   }
                 })
               }
             })
           }
-          
         })
+      }
+    })
   }
 
   updateContacts(){

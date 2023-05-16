@@ -684,7 +684,7 @@ export class AuthServiceService {
     let pos:string=this.epiUser.Pos
     switch(pos){
       case('SU'):
-        if(['AdminRights','TechRights','SalesRights','AdminTechRights','SURights','InternalRights','AdminSalesRights','Workshop'].includes(position)) return true
+        if(['AdminRights','TechRights','SalesRights','AdminTechRights','SURights','InternalRights','AdminSalesRights','Workshop','CustomerGetVisit'].includes(position)) return true
         return false
         break
       case('admin'):
@@ -700,7 +700,7 @@ export class AuthServiceService {
         return false
         break
       case('sales'):
-        if(['SalesRights','CustomerGetFleet','CustomerGetVisitSales','MachinePermissions','InternalRights','Salesman'].includes(position)) return true
+        if(['SalesRights','CustomerGetFleet','CustomerGetVisitSales','MachinePermissions','InternalRights','Salesman','CustomerGetVisit'].includes(position)) return true
         return false
         break
       case('customer'):
