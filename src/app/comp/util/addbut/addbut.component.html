@@ -1,4 +1,7 @@
 <div cdkDrag class="cont">
+    <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportPot" (click)="exportPotential()" matTooltip="Export Potential data">
+        <mat-icon>download</mat-icon>
+    </button>  
     <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportFleet" (click)="export()" matTooltip="Export fleet data without hours details">
         <mat-icon>download</mat-icon>
     </button>  

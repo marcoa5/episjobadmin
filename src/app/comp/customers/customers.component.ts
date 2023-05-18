@@ -7,6 +7,9 @@ import 'firebase/database'
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { Subscription } from 'rxjs';
 import { Clipboard } from '@angular/cdk/clipboard'
+import { ExportPotentialService } from 'src/app/serv/export-potential.service';
+import * as XLSX from 'xlsx-js-style'
+import { ExcelService } from 'src/app/serv/excelexport.service';
 
 @Component({
   selector: 'episjob-customers',
@@ -23,7 +26,7 @@ export class CustomersComponent implements OnInit {
   rigSn:string[]=[]
   subsList:Subscription[]=[]
 
-  constructor(public router: Router, public bak:BackService, private auth: AuthServiceService, private clip: Clipboard) {
+  constructor(private ePot: ExportPotentialService,public router: Router, public bak:BackService, private auth: AuthServiceService, private clip: Clipboard, private excel:ExcelService) {
     
   }
 
@@ -62,5 +65,21 @@ export class CustomersComponent implements OnInit {
     this.filtro=a
   }  
 
+  exportPot(){
+    this.ePot.export().then((val:any)=>{
+      let name='Potential'
+      let cols:string[]=['']
+      let colWidth:any[]=[180,250,60,60,60,60,60,60,60,60]
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(val)
+      let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      let Sheets:any={}
+      Sheets[name]=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: [name] 
+      }
+      this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+    })
+  }
   
 }

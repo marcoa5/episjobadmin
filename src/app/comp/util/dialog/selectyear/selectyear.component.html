@@ -1,0 +1,17 @@
+<div mat-dialog-title>{{data.title}}</div>
+<div mat-dialog-content>
+    <form [formGroup]="year">
+        <mat-form-field>
+            <mat-label>Select year</mat-label>
+            <mat-select formControlName="ye">
+                <mat-option *ngFor="let y of data.years" [value]="y">
+                {{y}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>    
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="year.controls.ye.value">Proceed</button>
+</div>

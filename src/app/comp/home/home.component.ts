@@ -70,14 +70,14 @@ export class HomeComponent implements OnInit {
       route:'balance', 
       dis:false, 
       auth:['SU','admin','adminS','']
-    },
+    },/*
     {
       id:'Quotes',
       icon:'calculate', 
       route:'quotes', 
       dis:false, 
       auth:['SU','admin','adminS','']
-    },
+    },*/
     {
       id:'Visit',
       icon:'recent_actors', 
