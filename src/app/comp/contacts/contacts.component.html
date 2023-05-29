@@ -20,7 +20,7 @@
         <div episjobElevation *ngFor="let c of contacts | contactfilter: filtro" class="card" [id]="sortBy=='name'?c.name:c.surname" [class.mat-elevation-z1]="true">
             <div class="head" (click)=go(c)>
                 <!--<mat-icon class="ico">people</mat-icon>-->
-                <div class="textH">{{c.name.toUpperCase()}} {{c.surname?c.surname.toUpperCase():'err'}}</div> 
+                <div class="textH">{{c.name}} {{c.surname?c.surname:'err'}}</div> 
             </div>
             <div class="body">
                 <mat-icon class="ico" (click)=go(c)>factory</mat-icon>
@@ -40,6 +40,6 @@
     </div>
     <div episjobCont *ngIf="!allow">Restricted area</div>
 </div>
-<episjob-addbut [addNewContact]="true" (newCon)="addNew($event)"></episjob-addbut>
+<episjob-addbut [addNewContact]="true" (newCon)="addNew($event)" [exportCon]="true" (eCon)="exportContacts()"></episjob-addbut>
 <div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>
 <episjob-spin *ngIf="allSpin"></episjob-spin>

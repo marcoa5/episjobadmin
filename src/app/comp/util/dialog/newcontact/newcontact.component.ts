@@ -78,36 +78,66 @@ export class NewcontactComponent implements OnInit {
     this.dialogRef.close()
   }
 
-  addContact(){
-    if(this.data.type=='new') this.contId=this.makeid.makeId(5)
-    let n1 = this.newCont.controls.name.value.trim()
-    let dat={
-      name: n1.substring(0,1).toUpperCase() + n1.substring(0,1).toLowerCase(),
-      surname: this.newCont.controls.surname.value.trim(),
-      pos: this.newCont.controls.pos.value,
-      phone: this.newCont.controls.phone.value,
-      mail: this.newCont.controls.mail.value,
-      custId:this.id,
-      contId: this.contId
-    }
-    let check:boolean=false
-    
-    firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
-      a.forEach(b=>{
-        if(b.val().name==dat.name && b.val().surname==dat.surname) check =true
+  capitalize(str:string){
+    let output:string=''
+    return new Promise(res=>{
+      let n1:string[] = str.trim().split(' ')
+      let length:number=n1.length
+      let index:number=0
+      n1.forEach(n=>{
+        if(output!='') output+= ' '
+        output+=n.charAt(0).toUpperCase() + n.slice(1).toLowerCase()
+        index++
+        if(index==length) res(output)
       })
     })
-    .then(()=>{
-      if(check && this.data.type=='new'){
-        const al = this.dialog.open(AlertComponent, {data: dat.name + ' ' + dat.surname})
-      }else{
-        firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
-        .then(()=>{
-          this.sendNot(dat)
-          this.dialogRef.close('created')
-          this.auth.getContact()
+  }
+
+  async addContact(){
+    if(this.data.type=='new') this.contId=this.makeid.makeId(5)
+    let name:string=''
+    let surname:string=''
+    let pos:string=''
+
+    this.capitalize(this.newCont.controls.name.value)
+    .then((n:any)=>{
+      name=n.toString()
+      this.capitalize(this.newCont.controls.surname.value)
+      .then((s:any)=>{
+        surname=s.toString()
+        this.capitalize(this.newCont.controls.pos.value)
+        .then((p:any)=>{
+          pos=p.toString()
+
+          let dat={
+            name: name,
+            surname: surname,
+            pos: pos,
+            phone: this.newCont.controls.phone.value,
+            mail: this.newCont.controls.mail.value,
+            custId:this.id,
+            contId: this.contId
+          }
+          let check:boolean=false
+          firebase.database().ref('CustContacts').child(this.id).once('value',a=>{
+            a.forEach(b=>{
+              if(b.val().name==dat.name && b.val().surname==dat.surname) check =true
+            })
+          })
+          .then(()=>{
+            if(check && this.data.type=='new'){
+              const al = this.dialog.open(AlertComponent, {data: dat.name + ' ' + dat.surname})
+            }else{
+              firebase.database().ref('CustContacts').child(this.id).child(dat.contId).set(dat)
+              .then(()=>{
+                this.sendNot(dat)
+                this.dialogRef.close('created')
+                this.auth.getContact()
+              })
+            }
+          })
         })
-      }
+      })
     })
   }
 

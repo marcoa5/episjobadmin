@@ -5,10 +5,13 @@ import firebase from 'firebase/app'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
 import { MakeidService } from 'src/app/serv/makeid.service';
-import { CustomersComponent } from '../customers/customers.component';
 import { NewcontactComponent } from '../util/dialog/newcontact/newcontact.component';
 import { NewcontactcustomerselectionComponent } from './newcontactcustomerselection/newcontactcustomerselection.component';
-import { SelectcustomerComponent } from '../util/selectcustomer/selectcustomer.component';
+import { ExportContactsService } from 'src/app/serv/export-contacts.service';
+import { ExcelService } from 'src/app/serv/excelexport.service'
+import * as XLSX from 'xlsx-js-style'
+import { GenericComponent } from '../util/dialog/generic/generic.component';
+import { MessageComponent } from '../util/dialog/message/message.component';
 @Component({
   selector: 'episjob-contacts',
   templateUrl: './contacts.component.html',
@@ -30,7 +33,7 @@ export class ContactsComponent implements OnInit {
   val:any
   subsList:Subscription[]=[]
 
-  constructor(public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService, private makeid: MakeidService) { 
+  constructor(private excel:ExcelService, private eCon:ExportContactsService, public dialog: MatDialog, public route: ActivatedRoute, public auth: AuthServiceService, private makeid: MakeidService) { 
     auth.getContact()
   }
 
@@ -123,6 +126,34 @@ export class ContactsComponent implements OnInit {
       }
     })
     
+  }
+
+  exportContacts(){
+    const d = this.dialog.open(GenericComponent, {disableClose:true,data:{msg:'Collecting data'}})
+    setTimeout(() => {
+      d.close()
+    }, 10000);
+    this.eCon.export(this.customers)
+    .then((list:any)=>{
+      if(list==''){
+        d.close()
+        this.dialog.open(MessageComponent, {data:{title:'Error',msg:'No data'}})
+      } else {
+        let name='Contacts Report'
+        let cols:string[]=['']
+        let colWidth:any[]=[120,120,150,150,150,150,150,150]
+        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(list)
+        let range=XLSX.utils.decode_range(worksheet['!ref']!)
+        let Sheets:any={}
+        Sheets[name]=worksheet
+        const workbook: XLSX.WorkBook = { 
+          Sheets, 
+          SheetNames: [name] 
+        }
+        this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+        d.close()
+      }
+    })
   }
   
 }
