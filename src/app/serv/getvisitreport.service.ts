@@ -21,23 +21,27 @@ export class GetvisitreportService {
       }, 10000);
       const dii = this.dialog.open(SelectrangedialogComponent,{disableClose:true,data:''})
       dii.afterClosed().subscribe(rex=>{
-        let start=moment(rex[0]).add(-1,'days').format('YYYYMMDD')
-        let end=moment(rex[1]).add(1,'days').format('YYYYMMDD')
-        firebase.database().ref('CustVisit').orderByKey().startAfter(start).endBefore(end).once('value',a=>{
-          if(a.val()!=null) {
-            a.forEach(b=>{
-              b.forEach(c=>{
-                c.forEach(d=>{
-                  result.push(d.val())
+        if(rex) {
+          let start=moment(rex[0]).add(-1,'days').format('YYYYMMDD')
+          let end=moment(rex[1]).add(1,'days').format('YYYYMMDD')
+          firebase.database().ref('CustVisit').orderByKey().startAfter(start).endBefore(end).once('value',a=>{
+            if(a.val()!=null) {
+              a.forEach(b=>{
+                b.forEach(c=>{
+                  c.forEach(d=>{
+                    result.push(d.val())
+                  })
                 })
               })
-            })
-          }
-        })
-        .then(()=>{
-          res(result)
+            }
+          })
+          .then(()=>{
+            res(result)
+            d.close()
+          })
+        } else {
           d.close()
-        })
+        }
       })
     })
   }

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import firebase from 'firebase/app'
 import { SelectyearComponent } from '../comp/util/dialog/selectyear/selectyear.component';
+import { GenericComponent } from '../comp/util/dialog/generic/generic.component';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +52,10 @@ export class ExportPotentialService {
   getData(values:any, year:any){
     let pot:any[]=[]
     return new Promise(res=>{
+      const d = this.dialog.open(GenericComponent, {disableClose:true, data:{msg:'Collecting info'}})
+      setTimeout(() => {
+        d.close
+      }, 10000);
       firebase.database().ref('Potential').once('value',a=>{
         if(a.val()!=null) {
           a.forEach(b=>{
@@ -76,7 +81,10 @@ export class ExportPotentialService {
           })
         }
       })
-      .then(()=>res(pot))
+      .then(()=>{
+        d.close()
+        res(pot)
+      })
     })
   }
 }

@@ -36,7 +36,9 @@ export class CalComponent implements OnInit {
 
   start(){
     this.days(new Date(this.day))
-    .then(a=>this.getVisits(a))
+    .then(a=>{
+      this.getVisits(a)
+    })
   }
 
   days(d:Date){
@@ -55,7 +57,7 @@ export class CalComponent implements OnInit {
       for(let z=this.month.length+1;z<43;z++){
         this.month.push({n:'', d:'', full: '', visit:''})
         if(this.month.length==42) res([m+1,a])
-    }
+      } 
     })
   }
 
@@ -94,10 +96,10 @@ export class CalComponent implements OnInit {
     this.days(new Date(this.day)).then(a=>this.getVisits(a))
   }
 
-  getVisits(a:any){
+  getVisits(al:any){
     this.visits=[]
-    let i = moment(new Date(a[1],a[0]-1,1)).format('YYYYMMDD')
-    let f= moment(new Date(a[1],a[0],0)).format('YYYYMMDD')
+    let i = moment(new Date(al[1],al[0]-1,1)).format('YYYYMMDD')
+    let f= moment(new Date(al[1],al[0],0)).format('YYYYMMDD')
     firebase.database().ref('CustVisit').orderByKey().startAt(i).endAt(f).once('value',a=>{
       if(a!=null){
         a.forEach(b=>{
@@ -105,12 +107,16 @@ export class CalComponent implements OnInit {
           let mese = b.key?.substring(4,6)
           let giorno = b.key?.substring(6,8)
           let nuovo = `${anno}-${mese}-${giorno}`
-          let id= Object.keys(b.val()).toString().substring(0,28)
-          if(this.auth.acc('AdminSalesRights') || (this.auth.acc('Salesman') && id==this.userId)) {
-            this.month.forEach(gt=>{
-              if(moment(gt.full).format('YYYY-MM-DD')==nuovo) gt.visit='1'
-            })
-          }
+          Object.keys(b.val()).forEach(k=>{
+            let id:string=k.substring(0,28)
+            if(this.auth.acc('AdminSalesRights') || (this.auth.acc('Salesman') && id==this.userId)) {
+              this.month.forEach(gt=>{
+                if(moment(gt.full).format('YYYY-MM-DD')==nuovo) gt.visit='1'
+              })
+            }
+          })
+          
+          
         })
       }
     })
