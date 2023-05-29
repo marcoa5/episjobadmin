@@ -4,12 +4,15 @@ import * as moment from 'moment';
 import * as XLSX from 'xlsx-js-style'
 import 'moment-timezone'
 import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericComponent } from '../comp/util/dialog/generic/generic.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 @Injectable()
 export class ExcelService {
-constructor() { }
+constructor(private dialog:MatDialog) { }
+
 public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsToBeCentered:string[],columnsWidth:number[]): void {
   workbook.SheetNames.forEach(a=>{
     let worksheet:XLSX.WorkSheet=workbook.Sheets[a]
@@ -68,8 +71,9 @@ public exportAsExcelFile(workbook:XLSX.WorkBook, excelFileName: string, columnsT
     }
   })
   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' })
-  this.saveAsExcelFile(excelBuffer, excelFileName);
+  this.saveAsExcelFile(excelBuffer, excelFileName)
 }
+
 private saveAsExcelFile(buffer: any, fileName: string): void {
    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
    FileSaver.saveAs(data, fileName + '_'+ moment.tz(new Date(),environment.zone).format('YYYYMMDDHHmmss') + EXCEL_EXTENSION);

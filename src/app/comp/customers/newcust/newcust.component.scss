@@ -1,5 +1,22 @@
 .formCont{
     display: grid;
     gap:15px;
-    grid-template-columns: repeat(auto-fit,minmax(250px, 1fr));
+}
+
+@media screen and (min-width:950px){
+    .formCont{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width:949px){
+    .formCont{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width:475px){
+    .formCont{
+        grid-template-columns: 1fr;
+    }
 }

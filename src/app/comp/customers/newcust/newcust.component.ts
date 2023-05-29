@@ -20,6 +20,7 @@ export interface cl {
   c2: string
   c3: string
   id: string
+  code:string
 }
 
 @Component({
@@ -32,8 +33,10 @@ export class NewcustComponent implements OnInit {
   newC:FormGroup;
   addUpd:boolean=true
   origin:string[]=[]
+  or:any={}
   pos:string=''
   rou:any[]=[]
+  checkChanges:boolean=true
   customers:any[]=[]
   allow:boolean=false
   subsList:Subscription[]=[]
@@ -42,6 +45,7 @@ export class NewcustComponent implements OnInit {
       name:['',[Validators.required]],
       address1: ['',[Validators.required]],
       address2: ['',[Validators.required]],
+      code:['']
     })
     this.auth._userData.subscribe(a=>{
       this.pos=a.Pos
@@ -60,16 +64,29 @@ export class NewcustComponent implements OnInit {
     )
     this.route.params.subscribe(a=>{
       if(a.id && a.c1 && a.c2 && a.c3) {
-        this.origin=[a.id,a.c1,a.c2,a.c3]
+        this.or=a
+        this.origin=[a.id,a.c1,a.c2,a.c3,a.code]
         this.newC = this.fb.group({
           name:[a.c1,[Validators.required]],
           address1: [a.c2,[Validators.required]],
           address2: [a.c3,[Validators.required]],
+          code: [a.code],
         })
         this.addUpd=false
         this.rou=['cliente',{id: a.id}]
       } else {
         this.rou=['customers']
+      }
+    })
+    this.newC.valueChanges.subscribe(t=>{
+      let ch1:boolean=t.address1==this.or.c2
+      let ch2:boolean=t.address2==this.or.c3
+      let ch3:boolean=t.code==this.or.code
+      let ch4:boolean=t.name==this.or.c1
+      if(ch1&&ch2&&ch3&&ch4) {
+        this.checkChanges=true
+      } else {
+        this.checkChanges=false
       }
     })
   }
@@ -83,6 +100,7 @@ export class NewcustComponent implements OnInit {
       c1: a.get('name')?.value.toUpperCase(),
       c2: a.get('address1')?.value.toUpperCase(),
       c3: a.get('address2')?.value.toUpperCase(),
+      code: a.get('code')?.value.toUpperCase(),
       id: this.origin[0]!=''? this.origin[0] : this.makeId.makeId(10)
     }
     if(e=='updc' && this.allow){
@@ -133,4 +151,5 @@ export class NewcustComponent implements OnInit {
   back(){
     this.location.back()
   }
+
 }

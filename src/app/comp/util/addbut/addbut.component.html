@@ -1,12 +1,15 @@
 <div cdkDrag class="cont">
     <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportPot" (click)="exportPotential()" matTooltip="Export Potential data">
-        <mat-icon>download</mat-icon>
+        <mat-icon>score</mat-icon>
     </button>  
     <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportCon" (click)="exportContact()" matTooltip="Export Contacts data">
         <mat-icon>download</mat-icon>
-    </button>  
+    </button>
+    <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportCust" (click)="exportCustomer()" matTooltip="Export Customers data">
+        <mat-icon>badge</mat-icon>
+    </button> 
     <button  mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportFleet" (click)="export()" matTooltip="Export fleet data without hours details">
-        <mat-icon>download</mat-icon>
+        <mat-icon>cloud_download</mat-icon>
     </button>  
     <button mat-fab color="primary" [class.mat-elevation-z8]="true" *ngIf="allow && chPos('AdminRights') && exportFleet" (click)="exportDetails()" matTooltip="Export fleet data with hours details">
         <mat-icon>browser_updated</mat-icon>

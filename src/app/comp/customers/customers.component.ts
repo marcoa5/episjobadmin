@@ -81,5 +81,39 @@ export class CustomersComponent implements OnInit {
       this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
     })
   }
+
+  exportCustomers(){
+    new Promise(res=>{
+      let newList:any[]=[]
+      let length:number=this.customers.length
+      let index:number=0
+      this.customers.forEach(c=>{
+        let temp:any={
+          CustomerName: c.c1,
+          CustomerAddress1: c.c2,
+          CustomerAddress2: c.c3,
+          BPCScode:c.code,
+          CustomerId:c.id
+        }
+        newList.push(temp)
+        index++
+        if(index==length) res(newList)
+      })
+    })
+    .then((list:any)=>{
+      let name='Customers'
+      let cols:string[]=['BPCScode','CustomerId']
+      let colWidth:any[]=[250,250,250,150,150]
+      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(list)
+      let range=XLSX.utils.decode_range(worksheet['!ref']!)
+      let Sheets:any={}
+      Sheets[name]=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: [name] 
+      }
+      this.excel.exportAsExcelFile(workbook,name,cols,colWidth)
+    })
+  }
   
 }

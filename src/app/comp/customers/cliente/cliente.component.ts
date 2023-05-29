@@ -40,6 +40,7 @@ export class ClienteComponent implements OnInit {
   customersI:any
   cust2: string|undefined
   cust3: string|undefined
+  code:string|undefined
   custrig:any[]|undefined
   infoLabels:rigsLabel[]=[]
   _rigsLabels:rigsLabel[]=[]
@@ -75,11 +76,13 @@ export class ClienteComponent implements OnInit {
             this.cust1=this.customersI[this.id].c1
             this.cust2=this.customersI[this.id].c2
             this.cust3=this.customersI[this.id].c3
+            this.code=this.customersI[this.id].code
             this.infoLabels =[
               {value:this.cust1,lab:'Customer Name',click:'', url:''},
               {value:this.cust2,lab:'Address 1',click:'', url:''},
               {value:this.cust3,lab:'Address 2',click:'', url:''},
-              {value:this.id,lab:'id',click:'', url:''},
+              {value:this.id,lab:'Customer Id',click:'', url:''},
+              {value:this.code,lab:'BPCS Code',click:'', url:''},
             ]
           }
         }
@@ -200,7 +203,7 @@ export class ClienteComponent implements OnInit {
   }
 
   go(e:any){
-    if(e=='edit') this.router.navigate(['newc',{id:this.id,c1:this.cust1,c2:this.cust2,c3:this.cust3}])
+    if(e=='edit') this.router.navigate(['newc',{id:this.id,c1:this.cust1,c2:this.cust2,c3:this.cust3,code:this.code?this.code:''}])
     if(e=='contact') this.router.navigate(['contact', {id:'new', custId: this.id}])
   }
 

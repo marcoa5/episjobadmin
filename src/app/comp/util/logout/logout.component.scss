@@ -9,6 +9,13 @@
     gap:0 15px;
 }
 
+@media screen and (max-width: 520px) {
+    .ch{
+        grid-template-columns: 1fr;
+    }
+    
+}
+
 .cb{
     margin: 0;
     padding: 0;
@@ -31,4 +38,8 @@ mat-divider{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap:10px;
+}
+
+.hii{
+    overflow-x: hidden;
 }

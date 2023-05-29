@@ -14,6 +14,7 @@ export class AddbutComponent implements OnInit {
   allow:boolean=false
   allowContact:boolean=false
   @Input() exportCon:boolean=false
+  @Input() exportCust:boolean=false
   @Input() exportFleet:boolean=false
   @Input() exportPot:boolean=false
   @Input() fun:string|undefined
@@ -27,6 +28,7 @@ export class AddbutComponent implements OnInit {
   @Output() newBalance=new EventEmitter()
   @Output() ePot=new EventEmitter()
   @Output() eCon=new EventEmitter()
+  @Output() eCus=new EventEmitter()
 
   func:string=''
   constructor(private router: Router, private auth: AuthServiceService) {}
@@ -72,5 +74,9 @@ export class AddbutComponent implements OnInit {
 
   exportContact(){
     this.eCon.emit('ok')
+  }
+
+  exportCustomer(){
+    this.eCus.emit('ok')
   }
 }
