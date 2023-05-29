@@ -8,7 +8,7 @@ export class CustfilterPipe implements PipeTransform {
   transform(items: any[], filter: string) {
     if(!items || !filter || filter=='') return items
     return items.filter(i=>{
-      if(i.c1.toLowerCase().includes(filter.toLowerCase())){
+      if(i.c1.toLowerCase().includes(filter.toLowerCase()) || i.c2.toLowerCase().includes(filter.toLowerCase())|| i.c3.toLowerCase().includes(filter.toLowerCase())|| i.id.toLowerCase().includes(filter.toLowerCase())){
         return i.c1
       }
       return false

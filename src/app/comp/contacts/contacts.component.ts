@@ -139,9 +139,9 @@ export class ContactsComponent implements OnInit {
         d.close()
         this.dialog.open(MessageComponent, {data:{title:'Error',msg:'No data'}})
       } else {
-        let name='Contacts Report'
-        let cols:string[]=['']
-        let colWidth:any[]=[120,120,150,150,150,150,150,150]
+        let name='Contacts List'
+        let cols:string[]=['Id','CustomerId','Phone']
+        let colWidth:any[]=[120,120,120,220,150,220,150,220]
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(list)
         let range=XLSX.utils.decode_range(worksheet['!ref']!)
         let Sheets:any={}

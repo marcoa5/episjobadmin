@@ -20,10 +20,16 @@ export class ExportContactsService {
         if(a.val()!=null) {
           a.forEach(b=>{
             b.forEach(c=>{
-              let customer:any={}
-              customer=c.val()
-              let ind:number=custList.map(cu=>{return cu.id}).indexOf(customer.custId)
-              customer.custName= custList[ind].c1
+              let customer:any={
+                Id:c.val().contId,
+                Name: c.val().name,
+                Surname: c.val().surname,
+                Position: c.val().pos,
+                Phone: c.val().phone,
+                Mail: c.val().mail,
+                CustomerId:c.val().custId,
+                CustomerName:custList[custList.map(cu=>{return cu.id}).indexOf(c.val().custId)].c1
+              }
               lis.push(customer)
             })
           })
