@@ -80,8 +80,9 @@ export class NewcontactComponent implements OnInit {
 
   addContact(){
     if(this.data.type=='new') this.contId=this.makeid.makeId(5)
+    let n1 = this.newCont.controls.name.value.trim()
     let dat={
-      name: this.newCont.controls.name.value.trim(),
+      name: n1.substring(0,1).toUpperCase() + n1.substring(0,1).toLowerCase(),
       surname: this.newCont.controls.surname.value.trim(),
       pos: this.newCont.controls.pos.value,
       phone: this.newCont.controls.phone.value,
