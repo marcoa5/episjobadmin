@@ -65,15 +65,22 @@ export class ContactsComponent implements OnInit {
         this.contacts=a
         this.sortList(this.sortBy)
         if(a.length>0){
+          let length:number=a.length
+          let index:number=0
           a.forEach(e => {
             firebase.database().ref('CustomerC').child(e.id).once('value',b=>{
               e['company'] = b.val().c1
+            }).then(()=>{
+              index++
+              if(index==length) this.allSpin=false
             })
           });
         }
+        setTimeout(() => {
+          this.allSpin=false
+        }, 10000);
       })
     )
-    this.allSpin=false
   }
 
   ngOnDestroy(){

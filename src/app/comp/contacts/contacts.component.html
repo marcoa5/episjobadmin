@@ -40,6 +40,6 @@
     </div>
     <div episjobCont *ngIf="!allow">Restricted area</div>
 </div>
-<episjob-addbut [addNewContact]="true" (newCon)="addNew($event)" [exportCon]="true" (eCon)="exportContacts()"></episjob-addbut>
+<episjob-editdelbut [newConta]="true" (newCon)="addNew($event)" (eCon)="exportContacts()"></episjob-editdelbut>
 <div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>
 <episjob-spin *ngIf="allSpin"></episjob-spin>

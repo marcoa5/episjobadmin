@@ -25,6 +25,10 @@ import { environment } from 'src/environments/environment';
 })
 export class EditdelbutComponent implements OnInit {
   pos:string|undefined
+  @Input() tech:boolean=false
+  @Input() user:boolean=false
+  @Input() newConta:boolean=false
+  @Input() newBal:boolean=false
   @Input() visitreport:boolean=false
   @Input() editItem:boolean = true
   @Input() deleteItem:boolean=true
@@ -43,7 +47,9 @@ export class EditdelbutComponent implements OnInit {
   @Input() valore:string=''
   @Input() addP:boolean=false
   @Input() parts:boolean=false
+  @Input() rigsAction:boolean=false
   @Input() balance:boolean=false
+  @Input() custAction:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -57,6 +63,14 @@ export class EditdelbutComponent implements OnInit {
   @Output() newPriceL=new EventEmitter()
   @Output() addBal=new EventEmitter()
   @Output() dlVisitRep=new EventEmitter()
+  @Output() expDet=new EventEmitter()
+  @Output() exp=new EventEmitter()
+  @Output() ePot=new EventEmitter()
+  @Output() eCus=new EventEmitter()
+  @Output() newBalance=new EventEmitter()
+  @Output() newCon=new EventEmitter()
+  @Output() eCon=new EventEmitter()
+  
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -198,5 +212,45 @@ export class EditdelbutComponent implements OnInit {
 
   addBalance(){
     this.addBal.emit('blanace')
+  }
+
+  new(){
+    this.router.navigate(['newrig'])
+  }
+
+  exportDetails(){
+    this.expDet.emit()
+  }
+
+  export(){
+    this.exp.emit()
+  }
+
+  exportPotential(){
+    this.ePot.emit('ok')
+  }
+
+  exportCustomer(){
+    this.eCus.emit('ok')
+  }
+
+  newTech(){
+    this.router.navigate(['newtech'])
+  }
+
+  newBala(){
+    this.newBalance.emit('ok')
+  }
+
+  addCont(){
+    this.newCon.emit('ok')
+  }
+
+  addUser(){
+    this.router.navigate(['newuser'])
+  }
+
+  exportCont(){
+    this.eCon.emit('ok')
   }
 }

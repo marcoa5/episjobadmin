@@ -1,8 +1,0 @@
-<div mat-dialog-title>Machine</div>
-<div mat-dialog-content>
-    <episjob-selectmachine [detailedInfo]="true" (info)="newRig($event)"></episjob-selectmachine>
-</div>
-<div mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-    <button mat-raised-button color="primary" [disabled]="rig=='' || rig==undefined" [mat-dialog-close]="rig">Proceed</button>
-</div>

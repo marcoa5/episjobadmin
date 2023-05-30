@@ -8,7 +8,7 @@
         <h4 class="l2">Position: {{u.pos}}</h4>
         <h4 class="l2">Login: {{u.lastlog? u.lastlog:'n/a'}}</h4>
       </div>
-    <episjob-addbut [fun]="'newuser'"></episjob-addbut>
+    <episjob-editdelbut [user]="true"></episjob-editdelbut>
 
 </div>
 <div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>

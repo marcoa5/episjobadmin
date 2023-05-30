@@ -34,7 +34,6 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { NavbarComponent } from './comp/util/navbar/navbar.component';
 import { LabelComponent } from './comp/util/label/label.component';
 import { NewcustComponent } from './comp/customers/newcust/newcust.component';
-import { AddbutComponent } from './comp/util/addbut/addbut.component';
 import { EditdelbutComponent } from './comp/util/editdelbut/editdelbut.component'
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeldialogComponent } from './comp/util/dialog/deldialog/deldialog.component';
@@ -180,9 +179,7 @@ import { BalancefromsjComponent } from './comp/balance/balancefromsj/balancefrom
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { ConttopDirective } from './dir/conttop.directive';
 import { SelectcustomerComponent } from './comp/util/selectcustomer/selectcustomer.component';
-import { QuotesComponent } from './comp/quotes/quotes.component';
 import { NewcontactcustomerselectionComponent } from './comp/contacts/newcontactcustomerselection/newcontactcustomerselection.component';
-import { NewquoteComponent } from './comp/quotes/newquote/newquote.component';
 import { SelectsjComponent } from './comp/util/selectsj/selectsj.component';
 import { ChangesComponent } from './comp/rigs/machine/changes/changes.component';
 import { ChangeDetailComponent } from './comp/rigs/machine/changes/change-detail/change-detail.component';
@@ -221,7 +218,6 @@ export const MY_FORMATS = {
     NavbarComponent,
     LabelComponent,
     NewcustComponent,
-    AddbutComponent,
     EditdelbutComponent,
     DeldialogComponent,
     H2Component,
@@ -346,9 +342,7 @@ export const MY_FORMATS = {
     BalancefromsjComponent,
     ConttopDirective,
     SelectcustomerComponent,
-    QuotesComponent,
     NewcontactcustomerselectionComponent,
-    NewquoteComponent,
     SelectsjComponent,
     ChangesComponent,
     ChangeDetailComponent,
