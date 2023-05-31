@@ -1,23 +1,28 @@
 <div class="cont" cdkDrag>
     <div class="menuopen">
         <!--RIGS-->
-
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="export()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export fleet data without hours details"><mat-icon>cloud_download</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="exportDetails()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export fleet data with hours details"><mat-icon>browser_updated</mat-icon></button>
-        <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="new()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new rig"><mat-icon>add</mat-icon></button>
+        <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="newRig()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new rig"><mat-icon>add</mat-icon></button>
         
         <!--CUSTOMERS-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="custAction && chPos('AdminRights')" mat-fab color="primary" (click)="exportPotential()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export Potential Data"><mat-icon>score</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="custAction && chPos('AdminRights')" mat-fab color="primary" (click)="exportCustomer()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export Customers List"><mat-icon>badge</mat-icon></button>
+        <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="custAction && chPos('AdminRights')" mat-fab color="primary" (click)="newCust()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new customer"><mat-icon>add</mat-icon></button>
+        
         <!--TECHNICIANS-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="tech && chPos('AdminRights')" mat-fab color="primary" (click)="newTech()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new technician"><mat-icon>add</mat-icon></button>
+        
         <!--BALANCE-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="newBal && chPos('AdminRights')" mat-fab color="primary" (click)="newBala()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new balance"><mat-icon>add</mat-icon></button>
+        
         <!--CONTACT-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="newConta && chPos('AdminRights')" mat-fab color="primary" (click)="exportCont()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export Contacts"><mat-icon>download</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="newConta && chPos('AdminRights')" mat-fab color="primary" (click)="addCont()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new Contact"><mat-icon>add</mat-icon></button>
+        
         <!--USER-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="user && chPos('AdminRights')" mat-fab color="primary" (click)="addUser()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new User"><mat-icon>add</mat-icon></button>        
+        
         <!--OTHERS-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="visitreport && chPos('AdminRights')" mat-fab color="primary" (click)="downloadVisitReport()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Download Visit Report"><mat-icon>supervisor_account</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="pricelist && chPos('SURights')" mat-fab color="primary" (click)="addPriceList()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Import Price List"><mat-icon>text_snippet</mat-icon></button>

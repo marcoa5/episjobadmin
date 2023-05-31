@@ -18,7 +18,7 @@
         </button>
         <button mat-stroked-button class="row cur"  (click)="updateCust()">
             <mat-icon [ngClass]="{'red':!custUptodate,'green':custUptodate}">{{custUptodate==undefined? 'wifi_off':(custUptodate? 'check_circle':'cancel')}}</mat-icon>
-            {{wide?'Customer Local Database: '+customers.length + ' companies':customers.length + ' companies'}}
+            {{wide?'Customer Local Database: '+customers.length + ' customers':customers.length + ' customers'}}
         </button>
     </div>
 </div>

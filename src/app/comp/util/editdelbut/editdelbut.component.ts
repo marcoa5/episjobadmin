@@ -214,8 +214,12 @@ export class EditdelbutComponent implements OnInit {
     this.addBal.emit('blanace')
   }
 
-  new(){
+  newRig(){
     this.router.navigate(['newrig'])
+  }
+
+  newCust(){
+    this.router.navigate(['newc'])
   }
 
   exportDetails(){

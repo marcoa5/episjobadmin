@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
       auth:['SU','admin','adminS','tech','techwsadmin','sales','customer','wsadmin']
     },
     {
-      id:'Companies',
+      id:'Customers',
       icon:'work', 
       route:'customers', 
       auth:['SU','admin','adminS','tech','techwsadmin','sales','customer','wsadmin']
