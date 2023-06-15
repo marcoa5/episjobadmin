@@ -63,12 +63,10 @@ export class VisitlistComponent implements OnInit {
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
-    const dialogRef = this.dialog.open(VisitdetailsComponent, {
-      data: a
-    });
+    const dialogRef = this.dialog.open(VisitdetailsComponent, {panelClass:'consuntivo',data: a});
 
     dialogRef.afterClosed().subscribe(result=>{
-      if(result=='delete' || result=='upd') {
+      if(result=='delete' || result=='upd' || result==undefined) {
         this.refresh.emit('ref')
       } else if(result!='' || result!=undefined) {
         this.refresh.emit(result)
