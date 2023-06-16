@@ -1104,5 +1104,26 @@ export class MachineComponent implements OnInit {
       d.close()
     })
   }
+
+  share(fun:string){
+    if(fun=='w') {
+      let str:string=''
+      this.rigLabels.forEach(a=>{
+        if(a.value) str+=`${a.lab}: ${a.value}\r\n`
+      })
+      str+='\r\n'
+      this.hrsLabels.forEach(a=>{
+        if(a.value) str+=`${a.lab}: ${a.value}\r\n`
+      })
+      console.log(str)
+      let url:string= ''
+      if(/Chrome/i.test(navigator.userAgent)) {
+        url='https://web.whatsapp.com/send?text='+str
+      } else {
+        url='whatsapp://send?text='+str
+      }
+      window.open(url)
+    }
+  }
 }
  

@@ -50,6 +50,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() rigsAction:boolean=false
   @Input() balance:boolean=false
   @Input() custAction:boolean=false
+  @Input() machineShare:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -70,7 +71,8 @@ export class EditdelbutComponent implements OnInit {
   @Output() newBalance=new EventEmitter()
   @Output() newCon=new EventEmitter()
   @Output() eCon=new EventEmitter()
-  
+  @Output() shareW=new EventEmitter()
+
   show:boolean=false
   subsList:Subscription[]=[]
 
@@ -256,5 +258,9 @@ export class EditdelbutComponent implements OnInit {
 
   exportCont(){
     this.eCon.emit('ok')
+  }
+
+  share(){
+    this.shareW.emit('ok')
   }
 }

@@ -1,9 +1,12 @@
-<div class="cont" cdkDrag>
+<div class="cont">
     <div class="menuopen">
         <!--RIGS-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="export()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export fleet data without hours details"><mat-icon>cloud_download</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="exportDetails()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export fleet data with hours details"><mat-icon>browser_updated</mat-icon></button>
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="rigsAction && chPos('AdminRights')" mat-fab color="primary" (click)="newRig()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Add new rig"><mat-icon>add</mat-icon></button>
+        
+        <!--MACHINE-->
+        <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="machineShare" mat-fab color="primary" (click)="share()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Share Details"><mat-icon>share</mat-icon></button>
         
         <!--CUSTOMERS-->
         <button [ngClass]="{'butOpen': show, 'butClosed':!show}" *ngIf="custAction && chPos('AdminRights')" mat-fab color="primary" (click)="exportPotential()" [class.mat-elevation-z8]="show" [class.mat-elevation-z0]="!show" [class.mat-elevation-z0]="!show" matTooltipPosition="left" matTooltip="Export Potential Data"><mat-icon>score</mat-icon></button>
