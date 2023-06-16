@@ -1117,10 +1117,10 @@ export class MachineComponent implements OnInit {
       })
       console.log(str)
       let url:string= ''
-      if(/Chrome/i.test(navigator.userAgent)) {
-        url='https://web.whatsapp.com/send?text='+str
-      } else {
+      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         url='whatsapp://send?text='+str
+      } else {
+        url='https://web.whatsapp.com/send?text='+str
       }
       window.open(url)
     }
