@@ -24,6 +24,7 @@ import { ExcelService } from 'src/app/serv/excelexport.service'
 import * as XLSX from 'xlsx-js-style'
 import { SumWsHrsService } from 'src/app/serv/sum-ws-hrs.service';
 import { environment } from 'src/environments/environment';
+import { MessageComponent } from '../../util/dialog/message/message.component';
 
 export interface hrsLabel {
   lab: string
@@ -1109,20 +1110,14 @@ export class MachineComponent implements OnInit {
     if(fun=='w') {
       let str:string=''
       this.rigLabels.forEach(a=>{
-        if(a.value) str+=`${a.lab}: ${a.value}\r\n`
+        if(a.value) str+=`${a.lab}:\t${a.value}\r\n`
       })
       str+='\r\n'
       this.hrsLabels.forEach(a=>{
-        if(a.value) str+=`${a.lab}: ${a.value}\r\n`
+        if(a.value) str+=`${a.lab}:\t${a.value}\r\n`
       })
-      console.log(str)
-      let url:string= ''
-      if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        url='whatsapp://send?text='+str
-      } else {
-        url='https://web.whatsapp.com/send?text='+str
-      }
-      window.open(url)
+      navigator.clipboard.writeText(str)
+      this.dialog.open(MessageComponent, {data: {title: 'Clipboard', msg:'Data copied'}})
     }
   }
 }
