@@ -64,7 +64,6 @@
                 </div>
             </div>
         </div>
-        <button mat-raised-butto (click)="share('w')">Share</button>
     </div>
     <episjob-editdelbut [sj]="sjList.length>0" [parts]="partReqList.length>0" [valore]="valore" [machine]="true" class="butt" [addP]="true" [machineShare]="true" [addHr]="true" [nome]="valore" [func]="'MOL'" [check]="contr()" (edit)="go($event)" style="z-index: 100;" (addH)="updH($event)" (hrsReport)="reportHrs()" (sjReport)="reportSJ()" (addParts)="addP()" (expParts)="exportParts()" (shareW)="share('w')"></episjob-editdelbut>
 </div>

@@ -329,6 +329,16 @@ export class ClienteComponent implements OnInit {
       }
     })
   }
+
+  share(){
+    let str:string=''
+    this.infoLabels.forEach(i=>{
+      if(i.lab!='Customer Id' && i.lab!='BPCS Code') str+=i.value+'\r\n'
+      if(i.lab=='BPCS Code') str+='BPCS: ' + i.value+'\r\n'
+    })
+    navigator.clipboard.writeText(str)
+    this.dialog.open(MessageComponent,{panelClass:'msgPan',data:{title:'Clipboard',msg:'Data Copied'}})
+  }
 }
 
 function returnQ(){

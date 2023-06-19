@@ -1108,7 +1108,7 @@ export class MachineComponent implements OnInit {
 
   share(fun:string){
     if(fun=='w') {
-      let str:string=''
+      let str:string='Model:\t' + this.model + '\r\n'
       this.rigLabels.forEach(a=>{
         if(a.value) str+=`${a.lab}:\t${a.value}\r\n`
       })
@@ -1117,7 +1117,7 @@ export class MachineComponent implements OnInit {
         if(a.value) str+=`${a.lab}:\t${a.value}\r\n`
       })
       navigator.clipboard.writeText(str)
-      this.dialog.open(MessageComponent, {data: {title: 'Clipboard', msg:'Data copied'}})
+      this.dialog.open(MessageComponent, {panelClass: 'msgPan', data: {title: 'Clipboard', msg:'Data copied'}})
     }
   }
 }

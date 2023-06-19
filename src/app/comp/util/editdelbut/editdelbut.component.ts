@@ -51,6 +51,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() balance:boolean=false
   @Input() custAction:boolean=false
   @Input() machineShare:boolean=false
+  @Input() custShare:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -72,6 +73,7 @@ export class EditdelbutComponent implements OnInit {
   @Output() newCon=new EventEmitter()
   @Output() eCon=new EventEmitter()
   @Output() shareW=new EventEmitter()
+  @Output() shareC=new EventEmitter()
 
   show:boolean=false
   subsList:Subscription[]=[]
@@ -89,6 +91,7 @@ export class EditdelbutComponent implements OnInit {
   }
 
   downloadVisitReport(){
+    this.sh()
     this.dlVisitRep.emit('')
   }
 
@@ -140,6 +143,7 @@ export class EditdelbutComponent implements OnInit {
   }
 
   hrsAdd(){
+    this.sh()
     const dialogconf = new MatDialogConfig();
     dialogconf.disableClose=false;
     dialogconf.autoFocus=false;
@@ -155,14 +159,17 @@ export class EditdelbutComponent implements OnInit {
   }
   
   report(){
+    this.sh()
     this.sjReport.emit('sjReport')
   }
 
   reportHrs(){
+    this.sh()
     this.hrsReport.emit('hrsReport')
   }
 
   reportSJ(){
+    this.sh()
     this.sjReport.emit('hrsReport')
   }
 
@@ -177,10 +184,12 @@ export class EditdelbutComponent implements OnInit {
         const step2 = this.dialog.open(SubeddialogComponent,{data:{cat:a[1],new:true, rigsn:this.valore}})
       }
     })
+    this.sh()
   }
 
   addAdd(){
     this.addA.emit('ok')
+    this.sh()
   }
 
   chPos(a:string){
@@ -188,32 +197,37 @@ export class EditdelbutComponent implements OnInit {
   }
 
   chPosBal(a:string){
-    console.log(a)
     return this.auth.acc(a)
   }
 
   hrsPartReq(){
+    this.sh()
     this.addParts.emit('')
   }
 
   exportParts(){
+    this.sh()
     this.expParts.emit('')
   }
 
   exportContract(){
+    this.sh()
     this.expCon.emit('')
   }
 
   addContract(){
+    this.sh()
     this.addCon.emit('')
   }
 
   addPriceList(){
+    this.sh()
     this.newPriceL.emit('')
   }
 
   addBalance(){
     this.addBal.emit('blanace')
+    this.sh()
   }
 
   newRig(){
@@ -225,18 +239,22 @@ export class EditdelbutComponent implements OnInit {
   }
 
   exportDetails(){
+    this.sh()
     this.expDet.emit()
   }
 
   export(){
+    this.sh()
     this.exp.emit()
   }
 
   exportPotential(){
+    this.sh()
     this.ePot.emit('ok')
   }
 
   exportCustomer(){
+    this.sh()
     this.eCus.emit('ok')
   }
 
@@ -245,11 +263,14 @@ export class EditdelbutComponent implements OnInit {
   }
 
   newBala(){
+    this.sh()
     this.newBalance.emit('ok')
   }
 
   addCont(){
+    this.sh()
     this.newCon.emit('ok')
+    
   }
 
   addUser(){
@@ -257,10 +278,17 @@ export class EditdelbutComponent implements OnInit {
   }
 
   exportCont(){
+    this.sh()
     this.eCon.emit('ok')
   }
 
   share(){
+    this.sh()
     this.shareW.emit('ok')
+  }
+
+  shareCust(){
+    this.sh()
+    this.shareC.emit()
   }
 }
