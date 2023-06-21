@@ -1,6 +1,8 @@
 
 @import '../../../../epi.scss';
-
+:root {
+    --wid: 1100px;
+  }
 
 .back{
     margin-top: 20px;;
@@ -9,6 +11,12 @@
 .cont{
     display: grid;
     gap:15px;
+}
+
+@media screen and (min-width:2300px) {
+    .cont{
+        grid-template-columns: repeat(auto-fit, minmax(900px,1fr));
+    }
 }
 
 .titolo {
@@ -31,3 +39,5 @@
 .cur{
     cursor: pointer;
 }
+
+

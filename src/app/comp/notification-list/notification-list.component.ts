@@ -104,7 +104,7 @@ export class NotificationListComponent implements OnInit {
   }
 
   delete(){
-    let toBeDeleted:any[]=this.selected.slice()
+    let toBeDeleted:any[]=this.selected.slice().reverse()
     this.selected=[]
     toBeDeleted.forEach(a=>{
       firebase.database().ref('Notif').child(this.notif[a].userId).child(this.notif[a].date).remove()

@@ -1,20 +1,20 @@
 <episjob-navbar [backB]="'customers'" [title]="'Customer'" [cerca]="false" [home]="true"></episjob-navbar>
 <!--<episjob-spin *ngIf="cust1==''"></episjob-spin>-->
 
-<div class="cont" episjobCont episjobContMaxWidth="1200" *ngIf="cust1!=''" [ngClass]="{'cont1':(infoContacts.length==0 && listV.length==0), 'cont2':(infoContacts.length==0 && listV.length>0), 'cont3': (infoContacts.length>0 && listV.length==0)}">
-    <div class="item1">
+<div class="cont" episjobCont *ngIf="cust1!=''" [ngClass]="{'cont1':(infoContacts.length==0 && listV.length==0), 'cont2':(infoContacts.length==0 && listV.length>0), 'cont3': (infoContacts.length>0 && listV.length==0)}">
+    <div class="item">
         <episjob-h2 padtop=0 icon="work_outline" [data]="'Info'"></episjob-h2> 
         <episjob-label [values]="infoLabels"></episjob-label>  
     </div>
-    <div class="item2" *ngIf="infoContacts.length>0 && pos!='customer'">
+    <div class="item" *ngIf="infoContacts.length>0 && pos!='customer'">
         <episjob-h2 padtop=0 icon="person" [data]="'Contacts'"></episjob-h2> 
         <episjob-label [values]="infoContacts" *ngIf="infoContacts.length>0" (newCont)="contact($event)"></episjob-label>
     </div>
-    <div class="item3">
+    <div class="item">
         <episjob-h2 padtop=0 icon="precision_manufacturing" *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [data]="'Fleet (' + rigsLabels.length + ' units)'"></episjob-h2> 
         <episjob-label *ngIf="rigsLabels!=undefined && rigsLabels.length>0" [values]="rigsLabels"></episjob-label>
     </div>
-    <div class="item4">
+    <div class="item">
         <episjob-h2 padtop=0 icon="map" *ngIf="address!=undefined && address.length>0" data="ShipTo Addresses"></episjob-h2> 
         <form [formGroup]="add" class="addList">
             <mat-form-field *ngFor="let a of address; let i = index" (click)="open(a.value,a.path)" class="cur">
@@ -23,16 +23,16 @@
             </mat-form-field>
         </form>
     </div>    
-    <div class="item2" *ngIf="chPos('SalesRights')">
+    <div class="item" *ngIf="chPos('SalesRights')">
         <episjob-h2 padtop=0 icon="shopping_cart" data="ShopOnLine"></episjob-h2> 
         <episjob-sol [customerName]="cust1"  [custId]="id"></episjob-sol>
     </div>
-    <div class="item5" *ngIf="chPos('SalesRights')">
+    <div class="item" *ngIf="chPos('SalesRights')">
         <episjob-h2 padtop=0 icon="trending_up" [data]="'Sales Potential ' + anno"></episjob-h2> 
         <episjob-potential [custId]="id"></episjob-potential>
     </div>
 
-    <div class="item5" *ngIf="chPos('SalesRights') && listV.length>0">
+    <div class="item" *ngIf="chPos('SalesRights') && listV.length>0">
         <episjob-h2 padtop=0 icon="event_available" data="Visits"></episjob-h2> 
         <!--<episjob-visits [list]="listV"></episjob-visits>-->
         <episjob-label [values]="listV" (visitDetails)="openVisit($event)"></episjob-label> 
