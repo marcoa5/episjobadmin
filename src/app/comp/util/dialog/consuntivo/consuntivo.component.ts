@@ -30,7 +30,7 @@ export class ConsuntivoComponent implements OnInit {
   buttons:any[]=[]
   originalData:any={}
   change:boolean=false
-  numberOfLines:number=26
+  numberOfLines:number=23
   constructor(private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask=fb.group({},{validators:check.checkQ()})
   }
