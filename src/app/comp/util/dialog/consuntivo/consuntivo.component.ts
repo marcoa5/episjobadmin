@@ -30,6 +30,7 @@ export class ConsuntivoComponent implements OnInit {
   buttons:any[]=[]
   originalData:any={}
   change:boolean=false
+  numberOfLines:number=26
   constructor(private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask=fb.group({},{validators:check.checkQ()})
   }
@@ -39,17 +40,17 @@ export class ConsuntivoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for(let i=1;i<21;i++){
+    for(let i=1;i<(this.numberOfLines+1);i++){
       this.buttons.push(i)
     }
-    for(let i=1;i<21;i++){
+    for(let i=1;i<(this.numberOfLines+1);i++){
       this.checks.push(i)
       this.mask.addControl('__RDT'+i,new FormControl(false))
     }
     this.keys= Object.keys(this.data.data)    
     let index:number=1
     let decimal=/^-?\d*[.,]?\d{0,2}$/
-    for(let r=1;r<=20;r++){
+    for(let r=1;r<(this.numberOfLines+1);r++){
       this.items.push({name: '_pnr'+r,row:'r'+r, col:'c'+1,val: '', label:'p/n'})
       this.mask.addControl('_pnr'+r,new FormControl(''))
       this.items.push({name: '_ite'+r,row:'r'+r, col:'c'+2,val: '', label:'Description'})
@@ -173,7 +174,7 @@ export class ConsuntivoComponent implements OnInit {
 }
 
   loadParts(){
-    let maxLines:number=20
+    let maxLines:number=this.numberOfLines
     let max:number=0
     let k:string[] = Object.keys(this.mask.value)
     let length:number=k.length
