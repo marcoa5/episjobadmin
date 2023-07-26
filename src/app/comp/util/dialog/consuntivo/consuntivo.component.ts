@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { dateInputsHaveChanged } from '@angular/material/datepicker/datepicker-input-base';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import firebase from 'firebase/app';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { CheckConsuntivoQtyService } from 'src/app/serv/check-consuntivo-qty.service'
 import { GetquarterService } from 'src/app/serv/getquarter.service';
 import { SendbalanceService } from 'src/app/serv/sendbalance.service';
@@ -12,6 +12,7 @@ import { ConfirmComponent } from '../confirm/confirm.component';
 import { GenericComponent } from '../generic/generic.component';
 import { ImportpartsComponent } from '../importparts/importparts.component';
 import { SavedialogComponent } from '../savedialog/savedialog.component';
+import { AuthServiceService } from 'src/app/serv/auth-service.service';
 
 @Component({
   selector: 'episjob-consuntivo',
@@ -31,15 +32,22 @@ export class ConsuntivoComponent implements OnInit {
   originalData:any={}
   change:boolean=false
   numberOfLines:number=23
-  constructor(private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
+  name:string|undefined
+  subsList:Subscription[]=[]
+  constructor(private auth:AuthServiceService, private sendbalance:SendbalanceService,  private check: CheckConsuntivoQtyService , private http: HttpClient, private getQ:GetquarterService, private dialog:MatDialog, private fb:FormBuilder, private dialogRef:MatDialogRef<ConsuntivoComponent,any>,@Inject(MAT_DIALOG_DATA) public data:any, private quarter:GetquarterService) {
     this.mask=fb.group({},{validators:check.checkQ()})
   }
 
   ngOnDestroy(){
-    
+    this.subsList.forEach(a=>{a.unsubscribe()})
   }
 
   ngOnInit(): void {
+    this.subsList.push(
+      this.auth._userData.subscribe(a=>{
+        if(a) this.name=a.Nome + ' ' + a.Cognome
+      })
+    )
     for(let i=1;i<(this.numberOfLines+1);i++){
       this.buttons.push(i)
     }
@@ -165,6 +173,8 @@ export class ConsuntivoComponent implements OnInit {
     let sn:string=this.data.data.___sn
     if(this.data.data.___path){
       let path:string=this.data.data.___path
+      let dataInput:any=this.mask.value
+      dataInput['____Author']=this.name
       firebase.database().ref('Balance').child(sn).child(path).set(this.mask.value)
     } else {
       firebase.database().ref('Quote').child(sn).child('test').set(this.mask.value)
