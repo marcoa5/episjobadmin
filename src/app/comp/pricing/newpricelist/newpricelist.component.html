@@ -1,7 +1,7 @@
 <div mat-dialog-title>Add Price List</div>
 <div mat-dialog-content>
     <form [formGroup]="info">
-        <div>Import .txt file with the following format: "pn;desc;llp\r\n"</div>
+        <div>Import .txt file with the following format: "pn;desc;llp" + a return</div>
         <mat-form-field>
             <mat-label>Select Period</mat-label>
             <input matInput type="text" autocomplete="off" formControlName="half">
