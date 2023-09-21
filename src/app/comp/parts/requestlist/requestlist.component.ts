@@ -230,9 +230,8 @@ export class RequestlistComponent implements OnInit {
         this.info['shipTo']=shipTo?shipTo:''
         //if(!this.info.date) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
         this.saveList()
-        console.log(this.info)
         const dialegRef= this.dialog.open(SubmitvisitComponent, {data: this.info})
-        dialegRef.afterClosed().subscribe(res=>{
+        dialegRef.afterClosed().subscribe(async (res)=>{
           if(res!=undefined){
             let params = new HttpParams()
             .set("info",JSON.stringify(this.info))
@@ -241,6 +240,8 @@ export class RequestlistComponent implements OnInit {
             setTimeout(() => {
               wait.close()
             }, 20000)
+
+            await this.getBL(this.info.sn).then(a=>{this.info.div=a})
             this.http.post(url + 'partreq',this.info, {responseType: 'json'}).subscribe((a: any)=>{
               if(a){
                 firebase.database().ref('PartReqSent').child(this.info.sn).child(this.info.reqId).set(this.info)
@@ -258,6 +259,14 @@ export class RequestlistComponent implements OnInit {
         })
       })
     }
+  }
+
+  getBL(sn:string){
+    return new Promise((res,rej)=>{
+      firebase.database().ref('Categ').child(sn).child('div').once('value',a=>{
+        res(a.val())
+      })
+    })
   }
 
   saveList(){
