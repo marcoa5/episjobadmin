@@ -17,10 +17,11 @@ export class SendSJService {
       await this.getInfo(data).then((rex:any)=>{
         if(rex[0]==true && rex[1].split('@')[1]=='feaservice.it'){
           let g = this.dialog.open(EpirocvsfeaComponent,{disableClose:true})
-          g.afterClosed().subscribe(res=>{if(res){
-            data.heading = 'fea'
-            this.sj(id,data).then(()=>{resolve('')})
-          }})
+          g.afterClosed().subscribe(res=>{
+            if(res){
+              data.heading = 'fea'
+              this.sj(id,data).then(()=>{resolve('')})
+            }})
         } else {
           this.sj(id,data).then(()=>{resolve('')})
         }

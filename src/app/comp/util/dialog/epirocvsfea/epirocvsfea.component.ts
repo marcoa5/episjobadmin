@@ -22,5 +22,9 @@ export class EpirocvsfeaComponent implements OnInit {
     this.dialogRef.close('fea')
   }
 
+  onNoClick(){
+    this.dialogRef.close()
+  }
+
 
 }
