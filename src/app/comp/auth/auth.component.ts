@@ -77,6 +77,11 @@ export class AuthComponent implements OnInit {
     }
   }
 
+  type(a:any){
+    this.filtro = a
+    this.filter(this.filtro)
+  }
+
   cl(e:any, a:string, b:string, i:number){
     let g = e.checked? 1 : 0
     this.rigs1[i][b]=g
@@ -84,6 +89,7 @@ export class AuthComponent implements OnInit {
       if(x.sn==a){x[b]=g}
     })
     firebase.database().ref('RigAuth/' + a).child(b).set(g.toString())
+    this.filter(this.filtro)
   }
 
   res(){

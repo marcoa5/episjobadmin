@@ -33,8 +33,8 @@ export const environment = {
 		{name: 'RigScan', val: 'RigScan'},
 		{name: 'Stazione di ricarica', val: 'Stazione di ricarica'},
 	],
-  url: 'http://localhost:3001/iyc/'
-  //url: 'https://episjobreq.herokuapp.com/iyc/'
+  //url: 'http://localhost:3001/iyc/'
+  url: 'https://episjobreq.herokuapp.com/iyc/'
   //url: '/api/'
 };
 

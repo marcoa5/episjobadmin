@@ -1,4 +1,4 @@
-<episjob-navbar [title]="'Authorizations'" (filter)="filter($event)" [hide]="false"></episjob-navbar>
+<episjob-navbar [title]="'Authorizations'" (filter)="type($event)" [hide]="false"></episjob-navbar>
 
 <div *ngIf="allow && !allSpin">
     <episjob-spin  *ngIf="rigs.length==0"></episjob-spin>
