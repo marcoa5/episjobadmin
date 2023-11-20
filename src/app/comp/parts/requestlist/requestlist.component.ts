@@ -35,6 +35,7 @@ export class RequestlistComponent implements OnInit {
   @Output() send=new EventEmitter()
   @Output() list=new EventEmitter()
   @Output() clear= new EventEmitter()
+  custId:string=''
   mod:boolean=false
   info:any
   partList!: MatTableDataSource<el>
@@ -64,6 +65,7 @@ export class RequestlistComponent implements OnInit {
       })
     )
     this.route.params.subscribe(a=>{
+      this.custId=JSON.parse(a.info).CustomerNr
       this.info=JSON.parse(a.info)
       //if(JSON.parse(a.info).new) this.info['date']=moment(new Date()).format('YYYY-MM-DD')
       if(JSON.parse(a.info).Parts) this.partList.data=JSON.parse(a.info).Parts
@@ -219,7 +221,7 @@ export class RequestlistComponent implements OnInit {
       firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
         if(a.val()!=null){
           shipTo={
-            cont: a.val().cont?Object.values(a.val().cont):'',
+            cont: a.val()?Object.values(a.val()):'',
             address: a.val().address?a.val().address:'',
             cig: a.val().cig?a.val().cig:'',
             cup: a.val().cup?a.val().cup:''
@@ -240,7 +242,6 @@ export class RequestlistComponent implements OnInit {
             setTimeout(() => {
               wait.close()
             }, 20000)
-
             await this.getBL(this.info.sn).then(a=>{this.info.div=a})
             this.http.post(url + 'partreq',this.info, {responseType: 'json'}).subscribe((a: any)=>{
               if(a){

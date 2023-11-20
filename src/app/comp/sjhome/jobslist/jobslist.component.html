@@ -23,6 +23,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Del</th>
         <td mat-cell *matCellDef="let e" class="cur" (click)="delete(e)" [ngClass]="{'sel':e.sel==1}"> <mat-icon>delete</mat-icon> </td>
       </ng-container>
+      <ng-container matColumnDef="save">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Save</th>
+        <td mat-cell *matCellDef="let e" [ngClass]="{'sel':e.sel==1}"> <mat-icon class="cur" *ngIf="e.info.heading && e.info.heading=='fea'"  (click)="save(e)">done</mat-icon> </td>
+      </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

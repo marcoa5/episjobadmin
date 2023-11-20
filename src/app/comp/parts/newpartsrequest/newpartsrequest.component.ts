@@ -103,6 +103,7 @@ export class NewpartsrequestComponent implements OnInit {
         {value: a.sn, lab: 'Serial nr.', click:'', url:''},
         {value: a.model, lab: 'Model', click:'', url:''},
         {value: a.customer, lab: 'Customer', click:'', url:''},
+        {value: a.custid, lab: 'CustomerNr', click:'', url:''},
       ]
       firebase.database().ref('SOL').child(a.custid).child('sol').once('value',g=>{
         if(g.val()){
@@ -141,7 +142,7 @@ export class NewpartsrequestComponent implements OnInit {
       b=a.val().Nome + ' ' + a.val().Cognome
     })
     .then(()=>{
-      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0', date:moment(this.date).format('YYYY-MM-DD')})
+      this.dialogRef.close({sn: a[0].value, model: a[1].value, customer: a[2].value,customerNr: a[3].value, type: this.type, origId: this.tech, orig:b, author: this.nome, sel:'0', date:moment(this.date).format('YYYY-MM-DD')})
     })
   }
 

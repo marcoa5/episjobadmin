@@ -185,6 +185,9 @@ import { ChangesComponent } from './comp/rigs/machine/changes/changes.component'
 import { ChangeDetailComponent } from './comp/rigs/machine/changes/change-detail/change-detail.component';
 import { SelectyearComponent } from './comp/util/dialog/selectyear/selectyear.component';
 import { EpirocvsfeaComponent } from './comp/util/dialog/epirocvsfea/epirocvsfea.component';
+import { ApprovedialogComponent } from './comp/sjhome/jobslist/approvedialog/approvedialog.component';
+
+
 const appearance: MatFormFieldDefaultOptions = {
   appearance: 'outline'
 };
@@ -348,7 +351,8 @@ export const MY_FORMATS = {
     ChangesComponent,
     ChangeDetailComponent,
     SelectyearComponent,
-    EpirocvsfeaComponent
+    EpirocvsfeaComponent,
+    ApprovedialogComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

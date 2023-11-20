@@ -1,0 +1,6 @@
+<div mat-dialog-title>Service job to be archived</div>
+<div mat-dialog-content>{{data}} will be archived. Proceed?</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()">No</button>
+    <button mat-raised-button color="primary" (click)="close('yes')">Yes</button>
+</div>

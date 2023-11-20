@@ -15,16 +15,15 @@ export class SendSJService {
   async send(id:string, data:any){
     return new Promise(async (resolve,rej)=>{
       await this.getInfo(data).then((rex:any)=>{
+        console.log(rex)
         if(rex[0]==true && rex[1].split('@')[1]=='feaservice.it'){
-          let g = this.dialog.open(EpirocvsfeaComponent,{disableClose:true})
-          g.afterClosed().subscribe(res=>{
-            if(res){
+          //let g = this.dialog.open(EpirocvsfeaComponent,{disableClose:true})
+          //g.afterClosed().subscribe(res=>{
+            //if(res){
               data.heading = 'fea'
-              this.sj(id,data).then(()=>{resolve('')})
-            }})
-        } else {
-          this.sj(id,data).then(()=>{resolve('')})
+            //}})
         }
+        this.sj(id,data).then(()=>{resolve('')})
       })
     })  
   }
@@ -57,7 +56,7 @@ export class SendSJService {
     let fea:boolean=false
     return new Promise((res,rej)=>{
       firebase.database().ref('RigAuth').child(data.matricola).child('a98').once('value',y=>{
-        if(y.val()!=null) {
+        if(y.val()!=null && y.val()>0) {
           fea=true
         }
         this.getEmail(data.userId).then(mail=>{
