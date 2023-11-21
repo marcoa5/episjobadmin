@@ -220,12 +220,14 @@ export class RequestlistComponent implements OnInit {
       let shipTo:any=''
       firebase.database().ref('shipTo').child(this.info.sn).once('value',a=>{
         if(a.val()!=null){
+          console.log(a.val())
           shipTo={
-            cont: a.val()?Object.values(a.val()):'',
+            cont: a.val()?Object.values(a.val().cont):'',
             address: a.val().address?a.val().address:'',
             cig: a.val().cig?a.val().cig:'',
             cup: a.val().cup?a.val().cup:''
           }
+          console.log(shipTo)
         }
       })
       .then(()=>{
