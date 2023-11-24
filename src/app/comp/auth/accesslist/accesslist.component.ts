@@ -11,14 +11,31 @@ import firebase from 'firebase/app'
 })
 export class AccesslistComponent implements OnInit {
   info!:FormGroup
+  areas:any[]=[]
+  selection:any
   constructor(private dialog:MatDialog, private fb:FormBuilder, public dialogRef: MatDialogRef<AccesslistComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.info=fb.group({
       area:['',Validators.required],
+      sales:[''],
       list: ['',Validators.required]
     })
   }
   
   ngOnInit(): void {
+    let temp:any[]=[]
+    firebase.database().ref('Users').once('value',a=>{
+      if(a.val()!=null){
+        a.forEach(b=>{
+          let r:any=b.val()
+          if(r.Pos=='sales') {
+            temp.push({area:r.Area, name:r.Nome + ' ' + r.Cognome})
+          }
+        })
+      }
+    }).then(()=>{
+      this.areas=temp
+    })
+
   }
 
   onNoClick(){
@@ -72,9 +89,8 @@ export class AccesslistComponent implements OnInit {
     }) 
   }
 
-  checkNr(){
-    let nr:number=this.info.controls.area.value
-    if(nr<1 || nr>90) this.info.controls.area.setErrors({err:'outofrange'})
+  changeArea(){
+    this.info.controls.area.setValue(this.selection)
   }
 
 }

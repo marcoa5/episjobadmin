@@ -1,11 +1,22 @@
 <div mat-dialog-title>Upload s/n list</div>
 <div mat-dialog-content>
     <form [formGroup]="info" class="cont">
-        <mat-form-field>
-            <mat-label>Area</mat-label>
-            <input matInput formControlName="area" autocomplete="off" type="number" min="1" max="90" (input)="checkNr()">
-            <mat-error *ngIf="info.controls.area.hasError('err')">Out of range</mat-error>
-        </mat-form-field>
+        <div class="subCont">
+            <mat-form-field>
+                <mat-label>Sales Representative</mat-label>
+                <mat-select [(value)]="selection" (selectionChange)="changeArea()">
+                    <mat-option *ngFor="let t of areas" [value]="t.area">
+                      {{t.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Area</mat-label>
+                <input matInput formControlName="area" autocomplete="off" type="number" min="1" max="90" readonly>
+                <mat-error *ngIf="info.controls.area.hasError('err')">Out of range</mat-error>
+            </mat-form-field>
+        </div>
+        
         <mat-form-field>
             <mat-label>List</mat-label>
             <textarea matInput formControlName="list" autocomplete="off" rows="10"></textarea>

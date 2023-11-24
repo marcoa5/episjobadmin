@@ -32,7 +32,9 @@ export class PricingComponent implements OnInit {
   newPriceList(){
     let dia = this.dialog.open(NewpricelistComponent, {panelClass:'filedialog'})
     dia.afterClosed().subscribe(res=>{
-      firebase.database().ref('PSDItems').child(res.period).set(res.list)
+      if(res){
+        firebase.database().ref('PSDItems').child(res.period).set(res.list)
+      }
     })
   }
 

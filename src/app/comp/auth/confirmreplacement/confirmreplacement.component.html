@@ -1,6 +1,10 @@
 <div mat-dialog-title>Confirm</div>
-<div mat-dialog-content>Would you like to replace or add the authorizations?</div>
+<div mat-dialog-content>
+    <p>Would you like to replace or add the authorizations?</p>
+    <p>In case of replacement all the actual authorization will be deleted and replaced with the new ones</p>
+</div>
 <div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" [mat-dialog-close]="" >Cancel</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="'rep'" >Replace</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="'add'" >Add</button>
 </div>
