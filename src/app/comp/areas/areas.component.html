@@ -1,0 +1,27 @@
+<episjob-navbar [title]="'Sales Areas'" [cerca]="false" [hide]="false"></episjob-navbar>
+<div episjobConttop episjobContMaxWidth="1000" *ngIf="allow && !allSpin">
+    <episjob-h2 data="Areas" icon="public" padtop=0 ></episjob-h2>
+    <form [formGroup]="area" class="cont" *ngIf="areas.length>0">
+        <div class="group" *ngFor="let a of areas; let i=index">
+
+            <mat-form-field>
+                <mat-label>#Area</mat-label>
+                <input matInput [formControlName]="'id' + (i+1)" type="number" min=1 max=90 (input)="check(i)">
+                <mat-error *ngIf="area.controls['id'+(i+1)].hasError('err')">Out of range</mat-error>
+                <mat-error *ngIf="area.controls['id'+(i+1)].hasError('dupl')">Duplicated</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Sales Representative Name</mat-label>
+                <input matInput type="text" [formControlName]="'val' + (i+1)" readonly>
+            </mat-form-field>
+            <mat-form-field class="hid">
+                <mat-label>userId</mat-label>
+                <input matInput type="text" [formControlName]="'user' + (i+1)" readonly>
+            </mat-form-field>
+            <!--<button class="but" mat-raised-button color="primary"  (click)="delete(i)" [disabled]="i<areas.length-1"><mat-icon>delete</mat-icon></button>-->
+        </div>
+    </form>
+    <button mat-raised-button color="primary" [disabled]="area.invalid || checkArrays()" (click)="update()">Update</button>
+</div>
+
+<div *ngIf="!allow && !allSpin" episjobCont>Restricted Area</div>

@@ -175,3 +175,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 100%;
   height:100%;
 }
+
+.access .mat-dialog-container {
+  width: 90vw!important;
+  max-width: 800px!important;
+}
+.access .mat-form-field-infix {
+  width: 100%;
+}

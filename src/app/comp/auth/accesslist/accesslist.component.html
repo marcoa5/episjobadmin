@@ -1,0 +1,18 @@
+<div mat-dialog-title>Upload s/n list</div>
+<div mat-dialog-content>
+    <form [formGroup]="info" class="cont">
+        <mat-form-field>
+            <mat-label>Area</mat-label>
+            <input matInput formControlName="area" autocomplete="off" type="number" min="1" max="90" (input)="checkNr()">
+            <mat-error *ngIf="info.controls.area.hasError('err')">Out of range</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>List</mat-label>
+            <textarea matInput formControlName="list" autocomplete="off" rows="10"></textarea>
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" (click)="onNoClick()" >Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="info.invalid" (click)="upload()">Upload</button>
+</div>

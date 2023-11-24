@@ -1,0 +1,15 @@
+@import '../../../epi.scss';
+
+.group{
+    display: grid;
+    gap:15px;
+    grid-template-columns: 20% 1fr;
+}
+
+.but{
+    max-height: 55px;
+}
+
+.hid{
+    display: none;
+}

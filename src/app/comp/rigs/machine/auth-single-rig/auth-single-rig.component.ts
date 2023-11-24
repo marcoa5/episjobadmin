@@ -13,16 +13,21 @@ export class AuthSingleRigComponent implements OnInit {
   @Input() sn:string=''
   a:number[]=[0,0,0,0,0]
   minWidth:number = 1100;
-  salesMen=[
-    {name: 'Claudio Cossu', area:1},
-    {name: 'Valentino Rizzieri', area:2},
-    {name: 'Federico Angheben', area:3},
-    {name: 'Antonio Marchiò', area:4},
-    {name: 'Salvatore Di Benedetto', area:5},
-  ]
+  salesMen:any[]=[]
   constructor() { }
 
   ngOnInit(): void {
+    firebase.database().ref('Users').once('value',a=>{
+      let temp:any[]=[]
+      if(a.val()!=null){
+        a.forEach(b=>{
+          let nr:number=b.val().Area
+          if(nr>0 &&  nr<90 && b.val().Pos=='sales') {
+            this.salesMen.push({name:b.val().Nome + ' ' + b.val().Cognome,area:b.val().Area})
+          }
+        })
+      }
+    }).then(()=>{this.sort(this.salesMen)})
     this.largh=window.innerWidth
     firebase.database().ref('RigAuth').child(this.sn).on('value',a=>{
       if(a.val()!=null){
@@ -47,5 +52,13 @@ export class AuthSingleRigComponent implements OnInit {
     this.largh=window.innerWidth
     if(this.largh<600) return 'Authorizations'
     return 'Sales Authorizations'
+  }
+
+  sort(arr:any[]){
+    arr.sort((b:any,c:any)=>{
+      if(b.area>c.area) return 1
+      if(b.area<c.area) return -1
+      return 0
+    })
   }
 }

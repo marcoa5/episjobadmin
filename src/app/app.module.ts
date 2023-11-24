@@ -186,6 +186,9 @@ import { ChangeDetailComponent } from './comp/rigs/machine/changes/change-detail
 import { SelectyearComponent } from './comp/util/dialog/selectyear/selectyear.component';
 import { EpirocvsfeaComponent } from './comp/util/dialog/epirocvsfea/epirocvsfea.component';
 import { ApprovedialogComponent } from './comp/sjhome/jobslist/approvedialog/approvedialog.component';
+import { AreasComponent } from './comp/areas/areas.component';
+import { AccesslistComponent } from './comp/auth/accesslist/accesslist.component';
+import { ConfirmreplacementComponent } from './comp/auth/confirmreplacement/confirmreplacement.component';
 
 
 const appearance: MatFormFieldDefaultOptions = {
@@ -352,7 +355,10 @@ export const MY_FORMATS = {
     ChangeDetailComponent,
     SelectyearComponent,
     EpirocvsfeaComponent,
-    ApprovedialogComponent
+    ApprovedialogComponent,
+    AreasComponent,
+    AccesslistComponent,
+    ConfirmreplacementComponent
   ],
   imports: [
     BrowserModule, FormsModule, MatSidenavModule, MatSortModule, ReactiveFormsModule, MatTableModule,MatSelectModule, MatPaginatorModule, MatDatepickerModule, MatBadgeModule, MatListModule, MatTooltipModule,

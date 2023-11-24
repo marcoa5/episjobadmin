@@ -1,0 +1,8 @@
+@import '../../../../epi.scss';
+
+.cont{
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: auto;
+    gap:15px;
+}

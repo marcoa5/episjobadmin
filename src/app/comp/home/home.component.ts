@@ -142,6 +142,13 @@ export class HomeComponent implements OnInit {
       dis:false, 
       auth:['SU']
     },
+    {
+      id:'SalesAreas',
+      icon:'public', 
+      route:'areas', 
+      dis:false, 
+      auth:['SU']
+    },
   ];
   rigs:any[]=[]
   chOffline:boolean=false

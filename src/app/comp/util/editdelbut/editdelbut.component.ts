@@ -52,6 +52,7 @@ export class EditdelbutComponent implements OnInit {
   @Input() custAction:boolean=false
   @Input() machineShare:boolean=false
   @Input() custShare:boolean=false
+  @Input() authActions:boolean=false
   @Output() edit = new EventEmitter()
   @Output() addH = new EventEmitter()
   @Output() newCont = new EventEmitter()
@@ -74,6 +75,8 @@ export class EditdelbutComponent implements OnInit {
   @Output() eCon=new EventEmitter()
   @Output() shareW=new EventEmitter()
   @Output() shareC=new EventEmitter()
+  @Output() downloadAuth=new EventEmitter()
+  @Output() uploadAuth=new EventEmitter()
 
   show:boolean=false
   subsList:Subscription[]=[]
@@ -290,5 +293,13 @@ export class EditdelbutComponent implements OnInit {
   shareCust(){
     this.sh()
     this.shareC.emit()
+  }
+
+  dlAuth(){
+    this.downloadAuth.emit()
+  }
+
+  ulAuth(){
+    this.uploadAuth.emit()
   }
 }

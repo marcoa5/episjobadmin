@@ -6,7 +6,10 @@ import 'firebase/auth'
 import 'firebase/database'
 import { Subscription } from 'rxjs';
 import { AuthServiceService } from 'src/app/serv/auth-service.service';
-import { ConditionalExpr } from '@angular/compiler';
+import * as XLSX from 'xlsx-js-style'
+import { ExcelService } from 'src/app/serv/excelexport.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AccesslistComponent } from './accesslist/accesslist.component';
 
 @Component({
   selector: 'episjob-auth',
@@ -25,9 +28,10 @@ export class AuthComponent implements OnInit {
   end:number=10
   allow: boolean=false
   allSpin:boolean=true
+  tips:any[]=[]
   subsList:Subscription[]=[]
 
-  constructor(private auth: AuthServiceService, private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private excel:ExcelService, private auth: AuthServiceService, private router: Router, private paginator: MatPaginatorIntl, public route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.paginator.itemsPerPageLabel='#'
@@ -58,6 +62,28 @@ export class AuthComponent implements OnInit {
         }
       })
     )    
+    firebase.database().ref('Users').once('value',a=>{
+      let temp:any[]=[]
+      if(a.val()!=null){
+        a.forEach(b=>{
+          let nr:number=b.val().Area
+          if(nr>0 &&  nr<90 && b.val().Pos=='sales') {
+            temp.push({area:nr,val:b.val().Nome + ' ' + b.val().Cognome})
+          }
+        })
+      }
+      this.sort(temp)
+      temp.push({area:98, val:'FEA Service'},{area:99, val:'IMI Fabi'})
+      this.tips=temp.slice()
+    })
+  }
+
+  sort(arr:any[]){
+    arr.sort((b:any,c:any)=>{
+      if(b.area>c.area) return 1
+      if(b.area<c.area) return -1
+      return 0
+    })
   }
 
   ngOnDestroy(){
@@ -125,5 +151,56 @@ export class AuthComponent implements OnInit {
     this.rigs1=this.rigs.slice(this.start,this.end)
   }
 
+  dlAuth(){
+    let index:any[]=Array.from(Array(98).keys())
+    let dow:any[] = this.rigs.map(r=>{   
+      index.forEach(i=>{
+        if(r['a'+(i+1)]){
+          r['a'+(i+1)]=parseInt(r['a'+(i+1)])
+          if(r['a'+(i+1)]==0) r['a'+(i+1)]=null
+        } else{
+          r['a'+(i+1)]=null
+        }
+      })
+      return r
+    })
+    let dele:any[]=[]
+    for(let o of index){
+      let temp = dow.map(d=>{return d['a'+(o+1)]})
+      if(temp.indexOf(1)<0) dele.push(o+1)
+    }
+    let fine:any[]=[]
+    dele.forEach(d=>{
+      fine=dow.map(f=>{
+        delete f['a'+d]
+        delete f.address
+        delete f.email
+        delete f.name
+        delete f.in
+        delete f.custid
+        return f
+      })
+    })
+    let worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dow);
+      
+      //Center columns
+      let cols:string[]=[]
+
+      let colWidth:any[]=[120,120,120,120,60,120]
+
+      //columns Width
+      
+      let Sheets:any={}
+      Sheets['Access']=worksheet
+      const workbook: XLSX.WorkBook = { 
+        Sheets, 
+        SheetNames: ['Access'] 
+      }
+      this.excel.exportAsExcelFile(workbook,'Access list',cols,colWidth)
+  }
+
+  ulAuth(){
+    let d= this.dialog.open(AccesslistComponent, {panelClass:'access'})
+  }
 
 }
