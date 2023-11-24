@@ -33,8 +33,17 @@ export class AccesslistComponent implements OnInit {
         })
       }
     }).then(()=>{
-      this.areas=temp
+      firebase.database().ref('ExtraAreas').once('value',a=>{
+        if(a.val()!=null){
+          a.forEach(b=>{
+            temp.push({area:b.key,name:b.val()})
+          })
+        }
+      }).then(()=>{
+        this.areas=temp
+      })
     })
+    
 
   }
 
@@ -70,7 +79,7 @@ export class AccesslistComponent implements OnInit {
         }).then(()=>{
           if(lll.length>0){
             lll.forEach(l=>{
-              firebase.database().ref('RigAuth').child(l).child('a3').set('0')
+              firebase.database().ref('RigAuth').child(l).child('a'+area).set('0')
             })
           }
           setTimeout(() => {

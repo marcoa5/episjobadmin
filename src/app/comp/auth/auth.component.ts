@@ -62,8 +62,9 @@ export class AuthComponent implements OnInit {
         }
       })
     )    
+    let temp:any[]=[]
     firebase.database().ref('Users').once('value',a=>{
-      let temp:any[]=[]
+      
       if(a.val()!=null){
         a.forEach(b=>{
           let nr:number=b.val().Area
@@ -72,9 +73,18 @@ export class AuthComponent implements OnInit {
           }
         })
       }
-      this.sort(temp)
-      temp.push({area:98, val:'FEA Service'},{area:99, val:'IMI Fabi'})
-      this.tips=temp.slice()
+    }).then(()=>{
+      firebase.database().ref('ExtraAreas').once('value',a=>{
+        if(a.val()!=null){
+          a.forEach(b=>{
+            temp.push({area:b.key,val:b.val()})
+          })
+        }
+      }).then(()=>{
+        this.sort(temp)
+        //temp.push({area:98, val:'FEA Service'},{area:99, val:'IMI Fabi'})
+        this.tips=temp.slice()
+      })
     })
   }
 
