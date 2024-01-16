@@ -12,6 +12,7 @@ import { GenericComponent } from '../util/dialog/generic/generic.component';
 import { environment } from 'src/environments/environment';
 import { SendSJService } from 'src/app/serv/send-sj.service';
 import 'moment-timezone'
+import { MaxLengthValidator } from '@angular/forms';
 
 @Component({
   selector: 'episjob-sjhome',
@@ -233,20 +234,37 @@ export class SjhomeComponent implements OnInit {
 
   loadSent(n?:number){
     //if((n==undefined || n ==null)) n=10
+    let index:number,len:number
     firebase.database().ref('sjDraft').child('sent').on('value',a=>{
-      this._listSent=[]
-      a.forEach(b=>{
-        if(this.auth.acc('Technician') && this.userId==b.val().authorId) {
-          this._listSent.push(b.val())
-        } else if(this.pos!='tech' && this.pos!='wsadmin'){
-          this._listSent.push(b.val())
-        }
-      })
-      this.listSent=this._listSent.sort((a:any, b:any)=>{
-        if(a.data_new>b.data_new) return -1
-        if(a.data_new<b.data_new) return 1
-        return 0
-      }).slice()
+      if(a.val()!=null){
+        len = Object.keys(a.val()).length
+        index=0
+        new Promise((res)=>{
+          a.forEach(b=>{
+            if(b.key) {
+              let k:string = b.key
+              firebase.database().ref('sjDraft').child('sent').child(k).child('sjid').set(k).then(()=>{
+                index++
+                if(len==index) res('')
+              })
+            }
+          })
+        }).then(()=>{
+          this._listSent=[]
+          a.forEach(b=>{
+            if(this.auth.acc('Technician') && this.userId==b.val().authorId) {
+              this._listSent.push(b.val())
+            } else if(this.pos!='tech' && this.pos!='wsadmin'){
+              this._listSent.push(b.val())
+            }
+          })
+          this.listSent=this._listSent.sort((a:any, b:any)=>{
+            if(a.data_new>b.data_new) return -1
+            if(a.data_new<b.data_new) return 1
+            return 0
+          }).slice()
+        })
+      }
     })   
   }
 
