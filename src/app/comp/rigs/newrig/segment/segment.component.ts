@@ -36,7 +36,7 @@ export class SegmentComponent implements OnInit {
     'Cutting',
     'Drilling',
     'Exploration',
-    'Material Handling',
+    'MaterialHandling',
     'Electrification',
   ]
   segments:string[]=[

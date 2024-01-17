@@ -205,6 +205,12 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  check_Family(){
+    firebase.database().ref('Categ').once('value',a=>{
+      console.log(a.val())
+    })
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     if(window.innerWidth<650) {
