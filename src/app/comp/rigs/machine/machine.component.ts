@@ -190,7 +190,7 @@ export class MachineComponent implements OnInit {
           this.showAdd=true
         }
         //if(a==0) this.filter(new Date(moment(new Date()).subtract(3,'months').format('YYYY-MM-DD')),new Date())
-        if(a==1) this.filter(this.inizio,this.fine)
+        if(a==1) this.filter(this.inizio,this.fine,a)
         this.checkComm()
       })
     }) 
@@ -254,7 +254,7 @@ export class MachineComponent implements OnInit {
     }, 500);
   }
 
-  filter(i:any,f:any){
+  filter(i:any,f:any,a?:any){
     let a1=moment(new Date(i)).format('YYYYMMDD')
     let a2=moment(new Date(f)).format('YYYYMMDD')
     this.datafil = this.data.filter(d=>{
@@ -289,17 +289,18 @@ export class MachineComponent implements OnInit {
       }
       this.lastRead()
     }
-    this.loadServiceJobs(i,f)
+    this.loadServiceJobs(i,f,a)
   }
 
-  loadServiceJobs(i:any, f:any){
+  loadServiceJobs(i:any, f:any,a?:number){
+    console.log(a)
     firebase.database().ref('Saved').child(this.valore).once('value',h=>{
-      let iniz = moment(i).format('YYYYMMDD')
+      /*let iniz = moment(i).format('YYYYMMDD')
       let fine = moment(f).format('YYYYMMDD')
-      if(fine<iniz) fine=(parseInt(iniz)+1).toString()
+      if(fine<iniz) fine=(parseInt(iniz)+1).toString()*/
       this.sjList=[]
       h.forEach(g=>{
-        if(g.key && g.key.substring(0,8)>=iniz && g.key.substring(0,8)<=fine){
+        if(g.key /*&& g.key.substring(0,8)>=iniz && g.key.substring(0,8)<=fine*/){
           let r = g.val()
           r.datafin = g.key.substring(0,4) + '-' + g.key.substring(4,6)+ '-' + g.key.substring(6,8)
           r.path = g.key
