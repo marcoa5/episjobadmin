@@ -1,6 +1,6 @@
 {
   "name": "@ Your Service",
-  "short_name": "@YS",
+  "short_name": "@YourService",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
